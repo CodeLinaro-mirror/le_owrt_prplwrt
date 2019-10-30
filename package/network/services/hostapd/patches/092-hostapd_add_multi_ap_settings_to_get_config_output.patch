@@ -18,11 +18,9 @@ Signed-off-by: Raphaël Mélotte <raphael.melotte@mind.be>
  hostapd/ctrl_iface.c | 46 ++++++++++++++++++++++++++++++++++++++++++++
  1 file changed, 46 insertions(+)
 
-diff --git a/hostapd/ctrl_iface.c b/hostapd/ctrl_iface.c
-index 0f6dfa13d..4845d18b3 100644
 --- a/hostapd/ctrl_iface.c
 +++ b/hostapd/ctrl_iface.c
-@@ -1223,6 +1223,52 @@ static int hostapd_ctrl_iface_get_config(struct hostapd_data *hapd,
+@@ -1223,6 +1223,52 @@ static int hostapd_ctrl_iface_get_config
  			return pos - buf;
  		pos += ret;
  	}
@@ -75,6 +73,3 @@ index 0f6dfa13d..4845d18b3 100644
  #endif /* CONFIG_WPS */
  
  	if (hapd->conf->wpa) {
--- 
-2.17.1
-
