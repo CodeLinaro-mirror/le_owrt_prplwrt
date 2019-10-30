@@ -993,21 +993,19 @@ EOF
 }
 
 wpa_supplicant_run() {
-	local ifname="$1"; shift
+	local ifname="$1"
+	local hostapd_ctrl="$2"
 
 	_wpa_supplicant_common "$ifname"
 
-	/usr/sbin/wpa_supplicant -B -s \
-		${network_bridge:+-b $network_bridge} \
-		-P "/var/run/wpa_supplicant-${ifname}.pid" \
-		-D ${_w_driver:-wext} \
-		-i "$ifname" \
-		-c "$_config" \
-		-C "$_rpath" \
-		"$@"
+	ubus call wpa_supplicant.$phy config_add "{ \
+		\"driver\": \"${_w_driver:-wext}\", \"ctrl\": \"$_rpath\", \
+		\"iface\": \"$ifname\", \"config\": \"$_config\" \
+		${network_bridge:+, \"bridge\": \"$network_bridge\"} \
+		${hostapd_ctrl:+, \"hostapd_ctrl\": \"$hostapd_ctrl\"} \
+		}"
 
 	ret="$?"
-	wireless_add_process "$(cat "/var/run/wpa_supplicant-${ifname}.pid")" /usr/sbin/wpa_supplicant 1
 
 	[ "$ret" != 0 ] && wireless_setup_vif_failed WPA_SUPPLICANT_FAILED
 
@@ -1015,5 +1013,5 @@ wpa_supplicant_run() {
 }
 
 hostapd_common_cleanup() {
-	killall hostapd wpa_supplicant meshd-nl80211
+	killall meshd-nl80211
 }
