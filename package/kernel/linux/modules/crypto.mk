@@ -690,7 +690,7 @@ define KernelPackage/crypto-misc
 	CONFIG_CRYPTO_KHAZAD \
 	CONFIG_CRYPTO_SERPENT \
 	CONFIG_CRYPTO_TEA \
-	CONFIG_CRYPTO_TGR192 \
+	CONFIG_CRYPTO_TGR192@lt5.12 \
 	CONFIG_CRYPTO_TWOFISH \
 	CONFIG_CRYPTO_TWOFISH_COMMON \
 	CONFIG_CRYPTO_TWOFISH_586 \
@@ -703,7 +703,7 @@ define KernelPackage/crypto-misc
 	$(LINUX_DIR)/crypto/cast6_generic.ko \
 	$(LINUX_DIR)/crypto/khazad.ko \
 	$(LINUX_DIR)/crypto/tea.ko \
-	$(LINUX_DIR)/crypto/tgr192.ko \
+	$(LINUX_DIR)/crypto/tgr192.ko@lt5.12 \
 	$(LINUX_DIR)/crypto/twofish_common.ko \
 	$(LINUX_DIR)/crypto/wp512.ko \
 	$(LINUX_DIR)/crypto/twofish_generic.ko \
@@ -711,7 +711,7 @@ define KernelPackage/crypto-misc
 	$(LINUX_DIR)/crypto/blowfish_generic.ko \
 	$(LINUX_DIR)/crypto/serpent_generic.ko
   AUTOLOAD:=$(call AutoLoad,10,anubis camellia_generic cast_common \
-	cast5_generic cast6_generic khazad tea tgr192 twofish_common \
+	cast5_generic cast6_generic khazad tea tgr192@lt5.12 twofish_common \
 	wp512 blowfish_common serpent_generic)
   ifndef CONFIG_TARGET_x86
 	AUTOLOAD+= $(call AutoLoad,10,twofish_generic blowfish_generic)
