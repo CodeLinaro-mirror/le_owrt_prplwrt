@@ -180,8 +180,15 @@ detect_mac80211() {
 			set wireless.default_radio${devidx}.device=radio${devidx}
 			set wireless.default_radio${devidx}.network=lan
 			set wireless.default_radio${devidx}.mode=ap
-			set wireless.default_radio${devidx}.ssid=OpenWrt
+			set wireless.default_radio${devidx}.ssid=prplOS
 			set wireless.default_radio${devidx}.encryption=none
+
+			set wireless.guest_radio${devidx}=wifi-iface
+			set wireless.guest_radio${devidx}.device=radio${devidx}
+			set wireless.guest_radio${devidx}.network=guest
+			set wireless.guest_radio${devidx}.mode=ap
+			set wireless.guest_radio${devidx}.ssid=prplOS-guest
+			set wireless.guest_radio${devidx}.encryption=none
 EOF
 		uci -q commit wireless
 
