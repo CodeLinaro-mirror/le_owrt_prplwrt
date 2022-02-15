@@ -31,6 +31,7 @@ packages:
   - mod-dmstats
   - mod-vlan-ioctl
   - mod-sahtrace
+  - multisettings
   - netdev-plugin
   - netmodel
   - obuspa

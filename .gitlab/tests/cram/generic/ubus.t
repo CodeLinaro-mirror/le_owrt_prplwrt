@@ -96,6 +96,8 @@ Check that ubus has expected datamodels available:
   Users.Role
   Users.SupportedShell
   Users.User
+  X_PRPL-COM_MultiSettings
+  X_PRPL-COM_MultiSettings.Profile
   X_PRPL-COM_PersistentConfiguration
   X_PRPL-COM_PersistentConfiguration.Config
   X_PRPL-COM_PersistentConfiguration.Config.Security
