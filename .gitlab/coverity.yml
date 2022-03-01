@@ -46,6 +46,8 @@
       amx-fcgi
       amxo-cg
       amxrt
+      cthulhu
+      cthulhu-lxc
       deviceinfo-manager
       dhcpv4-manager
       dhcpv6s-manager
@@ -90,8 +92,12 @@
       netmodel-ip
       pcm-manager
       prplmesh
+      rlyeh
       routing-manager
       time-manager
+      timingila
+      timingila-cthulhu
+      timingila-rlyeh
       tr181-bridging
       tr181-device
       tr181-dhcpv4client
