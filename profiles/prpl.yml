@@ -4,17 +4,21 @@ feeds:
   - name: feed_prpl
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-prpl.git
     tracking_branch: prplwrt-19.07
-    revision: ddf04197e741f6c55f459a2851231aaef7807e93
+    revision: b365bde9dee47738d170575e02a9d7527ccef4a6
 
 additional_packages:
   - feed: packages
     packages:
       - chrony
+      - libnl-core
+      - libnl-route
       - syslog-ng
 
 packages:
   - acl-manager
   - amx-cli
+  - cthulhu
+  - cthulhu-lxc
   - deviceinfo-manager
   - dhcpv4-manager
   - dhcpv6s-manager
@@ -37,8 +41,12 @@ packages:
   - owsd
   - pcm-manager
   - prplmesh
+  - rlyeh
   - routing-manager
   - time-manager
+  - timingila
+  - timingila-cthulhu
+  - timingila-rlyeh
   - tr181-bridging
   - tr181-device
   - tr181-dhcpv4client
