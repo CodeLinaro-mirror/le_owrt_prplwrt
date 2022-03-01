@@ -11,7 +11,6 @@ Check that ubus has all expected services available:
   dnsmasq
   file
   iwinfo
-  log
   luci
   luci-rpc
   network
@@ -176,7 +175,7 @@ Check that we've correct hostname and release info:
   prplOS
   OpenWrt
 
-Check that log service is running:
+Check that netifd service is running:
 
-  $ R "ubus -S call service list | jsonfilter -e '@.log.instances.instance1.running'"
+  $ R "ubus -S call service list | jsonfilter -e '@.network.instances.instance1.running'"
   true

@@ -10,6 +10,7 @@ additional_packages:
   - feed: packages
     packages:
       - chrony
+      - syslog-ng
 
 packages:
   - acl-manager
@@ -55,3 +56,4 @@ diffconfig: |
           CONFIG_PACKAGE_ip-full=y
           CONFIG_PACKAGE_ip-bridge=y
           # CONFIG_PACKAGE_firewall is not set
+          # CONFIG_PACKAGE_logd is not set

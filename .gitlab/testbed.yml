@@ -59,8 +59,7 @@
       done
 
     - ssh-keyscan $TARGET_LAN_IP >> ~/.ssh/known_hosts 2> /dev/null
-    - ssh root@$TARGET_LAN_IP logread > logread-$LABGRID_TARGET.txt
-    - ssh root@$TARGET_LAN_IP "uci set system.@system[0].log_size='512'; uci commit system; /etc/init.d/log restart"
+    - ssh root@$TARGET_LAN_IP "cat /var/log/messages" > syslog-$LABGRID_TARGET.txt 2> /dev/null || true
     - ssh root@$TARGET_LAN_IP "ubus call system board" | tee system-$LABGRID_TARGET.json
 
   script:
@@ -88,7 +87,7 @@
       ssh root@$TARGET_LAN_IP exit && {
         ssh root@$TARGET_LAN_IP ps > processes-$LABGRID_TARGET.txt
         ssh root@$TARGET_LAN_IP dmesg > dmesg-$LABGRID_TARGET.txt
-        ssh root@$TARGET_LAN_IP logread >> logread-$LABGRID_TARGET.txt
+        ssh root@$TARGET_LAN_IP "cat /var/log/messages" > syslog-$LABGRID_TARGET.txt
         ssh root@$TARGET_LAN_IP opkg list > opkg_list-$LABGRID_TARGET.txt
         scp -r root@${TARGET_LAN_IP}:/etc etc > /dev/null
         scp -r root@${TARGET_LAN_IP}:/tmp/beerocks/logs prplmesh_beerocks_logs > /dev/null
@@ -113,7 +112,7 @@
       - prplmesh_beerocks_logs
       - processes-$LABGRID_TARGET.txt
       - dmesg-$LABGRID_TARGET.txt
-      - logread-$LABGRID_TARGET.txt
+      - syslog-$LABGRID_TARGET.txt
       - system-$LABGRID_TARGET.json
       - console_$LABGRID_TARGET.txt
       - cram-result-$LABGRID_TARGET.txt
