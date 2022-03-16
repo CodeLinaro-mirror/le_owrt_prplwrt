@@ -227,7 +227,7 @@ targets:
         prompt: '=> '
         init_commands:
           - setenv bootargs earlyprintk console=ttyS0,115200
-          - setenv set_blkcnt 'setexpr blkcnt ${filesize} + 0x1ff && setexpr blkcnt ${blkcnt} / 0x200'
+          - setenv set_blkcnt 'setexpr blkcnt ${filesize} + 0x7ffff && setexpr blkcnt ${blkcnt} / 0x80000 && setexpr blkcnt ${blkcnt} * 0x400'
           - dhcp ${kernel_addr_r} openwrt-mvebu-cortexa9-cznic_turris-omnia-sysupgrade.img
         boot_command: run set_blkcnt && mmc dev 0 0 && mmc erase 0 ${blkcnt} && mmc write ${kernel_addr_r} 0 ${blkcnt} && run bootcmd
       UBootStrategy: {}
