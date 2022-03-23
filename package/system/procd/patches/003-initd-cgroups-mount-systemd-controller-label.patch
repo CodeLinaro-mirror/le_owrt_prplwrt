@@ -1,0 +1,18 @@
+Index: procd-2020-04-19-d200b70e/initd/early.c
+===================================================================
+--- procd-2020-04-19-d200b70e.orig/initd/early.c
++++ procd-2020-04-19-d200b70e/initd/early.c
+@@ -115,6 +115,13 @@ early_mounts(void)
+ 		mount("cgroup", PATH_CGROUP, "tmpfs", MS_NODEV | MS_NOEXEC | MS_NOSUID, "size=512K");
+ 		mount_cgroup_controllers();
+ 		init_cpuset();
++		// mount systemd cgroup label (for compatibility with systemd based containers)
++		if( mkdir(PATH_CGROUP "/systemd", 0777) ){
++			ERROR("Could not create " PATH_CGROUP "/systemd");
++		}else{
++			mount("cgroup", PATH_CGROUP "/systemd", "cgroup", MS_NOATIME | MS_NODEV | MS_NOEXEC | MS_NOSUID, "none,name=systemd");
++			LOG("Mounted " PATH_CGROUP "/systemd");
++		}
+ 		mount("tmpfs", "/dev", "tmpfs", MS_NOATIME | MS_NOSUID, "mode=0755,size=512K");
+ 		ignore(symlink("/tmp/shm", "/dev/shm"));
+ 		mkdir("/dev/pts", 0755);
