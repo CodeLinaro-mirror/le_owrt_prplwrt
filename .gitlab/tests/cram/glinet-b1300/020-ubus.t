@@ -103,6 +103,7 @@ Check that NetDev.Link provides expected output:
   eth0
   eth1
   lo
+  veth_gene_0
   wlan0
   wlan1
 
