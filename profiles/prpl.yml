@@ -4,7 +4,7 @@ feeds:
   - name: feed_prpl
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-prpl.git
     tracking_branch: prplwrt-19.07
-    revision: 0cffbb1dc7db9f8d61fd9f5fedfd517225b6b0df
+    revision: 6ecb08cdbcb22c5871b9451236e13c39af2c6748
 
 additional_packages:
   - feed: packages
@@ -24,6 +24,7 @@ packages:
   - dhcpv6s-manager
   - ethernet-manager
   - ip-manager
+  - iptables-mod-ipopt
   - libdhcpoptions
   - libfwinterface
   - libfwrules
@@ -62,6 +63,7 @@ packages:
   - mod-ba-cli
   - mod-dmext
   - mod-dmstats
+  - mod-qos-tc
   - mod-vlan-ioctl
   - mod-sahtrace
   - multisettings
@@ -83,6 +85,7 @@ packages:
   - tr181-dhcpv4client
   - tr181-dhcpv6client
   - tr181-firewall
+  - tr181-qos
   - tr181-usermanagement
   - u80211d
   - umdns
