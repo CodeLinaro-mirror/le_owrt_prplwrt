@@ -81,6 +81,13 @@ Check that ubus has expected datamodels available:
   NetDev.Link
   NetModel
   NetModel.Intf
+  QoS
+  QoS.Classification
+  QoS.Node
+  QoS.Queue
+  QoS.QueueStats
+  QoS.Scheduler
+  QoS.Shaper
   Rlyeh
   Rlyeh.Images
   Routing
