@@ -26,16 +26,16 @@ stages:
   - cdrouter
   - coverity
 
-build test intel_mips prpl webui:
+build test intel_mips prpl:
   extends: .build test config
 
-build test ipq40xx prpl webui:
+build test ipq40xx prpl:
   extends: .build test config
 
-build test mvebu prpl webui:
+build test mvebu prpl:
   extends: .build test config
 
-coverity scan ipq40xx prpl webui:
+coverity scan ipq40xx prpl:
   extends: .coverity scan config
   variables:
     CI_COVERITY_COMPILER_TEMPLATE_LIST: >
@@ -44,22 +44,22 @@ coverity scan ipq40xx prpl webui:
 
 run test NEC WX3000HP with system on NAND:
   dependencies:
-    - build test intel_mips prpl webui
+    - build test intel_mips prpl
   extends: .nec-wx3000hp testbed
 
 run test Gl.iNet B1300 with system on initramfs:
   dependencies:
-    - build test ipq40xx prpl webui
+    - build test ipq40xx prpl
   extends: .glinet-b1300 testbed
 
 run test Turris Omnia with system on initramfs:
   dependencies:
-    - build test mvebu prpl webui
+    - build test mvebu prpl
   extends: .turris-omnia testbed
 
 CDRouter CDRouter-Top-100 package on NEC WX3000HP with system on NAND:
   dependencies:
-    - build test intel_mips prpl webui
+    - build test intel_mips prpl
   extends:
     - .nec-wx3000hp testbed
     - .cdrouter
@@ -68,14 +68,14 @@ CDRouter CDRouter-Top-100 package on NEC WX3000HP with system on NAND:
 
 CDRouter CDRouter-Top-100 package on Gl.iNet B1300 with system on initramfs:
   dependencies:
-    - build test ipq40xx prpl webui
+    - build test ipq40xx prpl
   extends:
     - .glinet-b1300 testbed
     - .cdrouter
 
 CDRouter CDRouter-Top-100 package on Turris Omnia with system on initramfs:
   dependencies:
-    - build test mvebu prpl webui
+    - build test mvebu prpl
   extends:
     - .turris-omnia testbed
     - .cdrouter

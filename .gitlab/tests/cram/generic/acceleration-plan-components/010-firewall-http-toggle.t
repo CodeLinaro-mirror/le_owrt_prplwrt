@@ -2,9 +2,10 @@ Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
-Check that HTTP from LAN is allowed:
+Check that HTTP from LAN is allowed by default:
 
-  $ curl --silent --output /dev/null --max-time 2 http://$TARGET_LAN_IP
+  $ R "iptables -L INPUT_Services -v -n | grep 'br-lan.*dpt:80'"
+    * ACCEPT     tcp  --  br-lan *       0.0.0.0/0            0.0.0.0/0            tcp dpt:80 (glob)
 
 Disable firewall rule for HTTP access from LAN:
 
@@ -12,13 +13,14 @@ Disable firewall rule for HTTP access from LAN:
 
 Check that HTTP from LAN is forbidden:
 
-  $ curl --silent --output /dev/null --max-time 2 http://$TARGET_LAN_IP
-  [28]
+  $ R "iptables -L INPUT_Services -v -n | grep 'br-lan.*dpt:80'"
+  [1]
 
 Enable firewall rule for HTTP access from LAN:
 
   $ script --command "ssh -t root@$TARGET_LAN_IP ubus-cli Firewall.X_Prpl_Service.http.Enable=1" > /dev/null; sleep .5
 
-Check that HTTP from LAN is allowed:
+Check that HTTP from LAN is allowed again:
 
-  $ curl --silent --output /dev/null --max-time 2 http://$TARGET_LAN_IP
+  $ R "iptables -L INPUT_Services -v -n | grep 'br-lan.*dpt:80'"
+    * ACCEPT     tcp  --  br-lan *       0.0.0.0/0            0.0.0.0/0            tcp dpt:80 (glob)

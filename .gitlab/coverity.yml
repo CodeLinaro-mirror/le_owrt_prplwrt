@@ -46,7 +46,6 @@
       amx-fcgi
       amxo-cg
       amxrt
-      bbfd
       deviceinfo-manager
       dhcpv4-manager
       dhcpv6s-manager
@@ -89,7 +88,6 @@
       netdev-plugin
       netmodel
       netmodel-ip
-      obuspa
       pcm-manager
       prplmesh
       routing-manager
@@ -102,7 +100,6 @@
       tr181-qos
       tr181-routeradvertisement
       tr181-usermanagement
-      ucwmp
       umdns
       uriparser
       wan-autosensing
