@@ -7,9 +7,6 @@ Check that ubus has all expected services available:
   $ R "ubus list | grep -v '^[[:upper:]]'"
   dhcp
   dnsmasq
-  file
-  iwinfo
-  luci
   luci-rpc
   network
   network.device
@@ -20,12 +17,9 @@ Check that ubus has all expected services available:
   network.interface.wan
   network.interface.wan6
   network.wireless
-  prplmesh
-  rpc-sys
   service
   session
   system
-  topology
   uci
   umdns
 
