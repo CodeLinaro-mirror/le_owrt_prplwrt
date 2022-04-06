@@ -15,7 +15,6 @@ additional_packages:
 packages:
   - acl-manager
   - amx-cli
-  - bbfd
   - deviceinfo-manager
   - dhcpv4-manager
   - dhcpv6s-manager
@@ -34,7 +33,6 @@ packages:
   - multisettings
   - netdev-plugin
   - netmodel
-  - obuspa
   - odl-generator
   - owsd
   - pcm-manager
@@ -48,7 +46,6 @@ packages:
   - tr181-firewall
   - tr181-usermanagement
   - u80211d
-  - ucwmp
   - umdns
   - wan-manager
 

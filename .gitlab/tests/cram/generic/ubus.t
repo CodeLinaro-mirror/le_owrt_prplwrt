@@ -5,8 +5,6 @@ Create R alias:
 Check that ubus has all expected services available:
 
   $ R "ubus list | grep -v '^[[:upper:]]'"
-  bbfd
-  bbfd.raw
   dhcp
   dnsmasq
   file
