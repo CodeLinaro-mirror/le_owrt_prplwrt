@@ -73,6 +73,7 @@ packages:
   - prplmesh
   - rlyeh
   - routing-manager
+  - tc
   - time-manager
   - timingila
   - timingila-cthulhu
