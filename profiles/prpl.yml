@@ -4,7 +4,7 @@ feeds:
   - name: feed_prpl
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-prpl.git
     tracking_branch: prplwrt-19.07
-    revision: b365bde9dee47738d170575e02a9d7527ccef4a6
+    revision: 0cffbb1dc7db9f8d61fd9f5fedfd517225b6b0df
 
 additional_packages:
   - feed: packages
@@ -28,6 +28,36 @@ packages:
   - libfwinterface
   - libfwrules
   - libnetmodel
+  - lxc4
+  - lxc4-attach
+  - lxc4-auto
+  - lxc4-autostart
+  - lxc4-cgroup
+  - lxc4-checkconfig
+  - lxc4-common
+  - lxc4-config
+  - lxc4-configs
+  - lxc4-console
+  - lxc4-copy
+  - lxc4-create
+  - lxc4-destroy
+  - lxc4-device
+  - lxc4-execute
+  - lxc4-freeze
+  - lxc4-hooks
+  - lxc4-info
+  - lxc4-ls
+  - lxc4-monitor
+  - lxc4-start
+  - lxc4-stop
+  - lxc4-templates
+  - lxc4-top
+  - lxc4-unfreeze
+  - lxc4-unprivileged
+  - lxc4-unshare
+  - lxc4-user-nic
+  - lxc4-usernsexec
+  - lxc4-wait
   - mod-amxb-ubus
   - mod-ba-cli
   - mod-dmext
@@ -64,42 +94,6 @@ diffconfig: |
           # CONFIG_PACKAGE_firewall is not set
           # CONFIG_PACKAGE_logd is not set
           # lxc options for LCM
-          CONFIG_PACKAGE_liblxc=y
-          # CONFIG_PACKAGE_rpcd-mod-lxc is not set
-          # CONFIG_PACKAGE_luci-app-lxc is not set
-          CONFIG_PACKAGE_lxc4=y
-          CONFIG_PACKAGE_lxc4-attach=y
-          CONFIG_PACKAGE_lxc4-auto=y
-          CONFIG_PACKAGE_lxc4-autostart=y
-          CONFIG_PACKAGE_lxc4-cgroup=y
-          CONFIG_PACKAGE_lxc4-checkconfig=y
-          CONFIG_PACKAGE_lxc4-common=y
-          CONFIG_PACKAGE_lxc4-config=y
-          CONFIG_PACKAGE_lxc4-configs=y
-          CONFIG_PACKAGE_lxc4-console=y
-          CONFIG_PACKAGE_lxc4-copy=y
-          CONFIG_PACKAGE_lxc4-create=y
-          CONFIG_PACKAGE_lxc4-destroy=y
-          CONFIG_PACKAGE_lxc4-device=y
-          CONFIG_PACKAGE_lxc4-execute=y
-          CONFIG_PACKAGE_lxc4-freeze=y
-          CONFIG_PACKAGE_lxc4-hooks=y
-          CONFIG_PACKAGE_lxc4-info=y
-          # CONFIG_PACKAGE_lxc4-init is not set
-          CONFIG_PACKAGE_lxc4-ls=y
-          CONFIG_PACKAGE_lxc4-monitor=y
-          # CONFIG_PACKAGE_lxc4-monitord is not set
-          # CONFIG_PACKAGE_lxc4-snapshot is not set
-          CONFIG_PACKAGE_lxc4-start=y
-          CONFIG_PACKAGE_lxc4-stop=y
-          CONFIG_PACKAGE_lxc4-templates=y
-          CONFIG_PACKAGE_lxc4-top=y
-          CONFIG_PACKAGE_lxc4-unfreeze=y
-          CONFIG_PACKAGE_lxc4-unprivileged=y
-          CONFIG_PACKAGE_lxc4-unshare=y
-          CONFIG_PACKAGE_lxc4-user-nic=y
-          CONFIG_PACKAGE_lxc4-usernsexec=y
-          CONFIG_PACKAGE_lxc4-wait=y
           CONFIG_SAH_SERVICES_CTHULHU_INIT_CONTAINER_BACKEND=y
           CONFIG_SAH_SERVICES_CTHULHU_CONTAINER_BACKEND="/usr/lib/cthulhu-lxc/cthulhu-lxc.so"
           CONFIG_SAH_SERVICES_TIMINGILA_INIT_ADAPTERS=y
@@ -143,5 +137,3 @@ diffconfig: |
           CONFIG_KERNEL_SECCOMP_FILTER=y
           CONFIG_KERNEL_USER_NS=y
           CONFIG_KERNEL_UTS_NS=y
-          CONFIG_PACKAGE_kmod-veth=y
-          CONFIG_PACKAGE_kmod-fs-ext4=y
