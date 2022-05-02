@@ -63,7 +63,7 @@ Update to prplOS container v2:
 
 Check that prplOS container v2 is running:
 
-  $ sleep 20
+  $ sleep 30
 
   $ R "ubus -S call Cthulhu.Container.Instances.2 _get | jsonfilter -e @[*].Status -e @[*].Bundle -e @[*].BundleVersion -e @[*].ContainerId -e @[*].Alias | sort"
   Running
