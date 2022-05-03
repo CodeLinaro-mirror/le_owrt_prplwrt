@@ -6,6 +6,7 @@
       when: never
     - when: always
   variables:
+    DUT_WAN_INTERFACE: eth1
     TESTBED_MNG_INTERFACE: enp1s0
     TESTBED_LAN_INTERFACE: enp2s0
     TESTBED_WAN_INTERFACE: enp3s0
