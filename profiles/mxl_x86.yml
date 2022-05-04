@@ -7,9 +7,9 @@ external_target: True
 description: Build images for the Maxlinear x86 devices - URX
 feeds:
   - name: feed_mxl
-    uri: ssh://git@ilbitbucket.phoenix.local:29418/sw_ugw/prplos_feed_mxl.git
-    tracking_branch: master
-    revision: a3b0aa053d4fd0e3c3a375fe7337031e91287f42
+    uri: ssh://git@designcentersw.maxlinear.com:29418/source/urx-prplos_feed_mxl.git
+    tracking_branch: URX_851_PRPLOS
+    revision: 6cf78529f5d339a962716f8202cbb951f6d3520f
 
 packages:
   - kmod-intel_eth_drv
@@ -52,11 +52,9 @@ packages:
 
 diffconfig: |
   CONFIG_DEVEL=y
-  CONFIG_KERNEL_GIT_CLONE_URI="ssh://git@gts-intel.phoenix.local:29418/sw_ugw/linux.git"
+  CONFIG_KERNEL_GIT_CLONE_URI="ssh://git@designcentersw.maxlinear.com:29418/source/urx-linux.git"
   CONFIG_KERNEL_GIT_DEPTH=""
-  CONFIG_KERNEL_GIT_REF="prplos"
-  CONFIG_UGW_PKG_SOURCE_URL="ssh://git@ilbitbucket.phoenix.local:29418"
-  CONFIG_LOCALMIRROR="http://mts-chd.phoenix.local/~wlnsw/dist/;file:///nfs/site/proj/chdsw_ci/telco/dist"
+  CONFIG_KERNEL_GIT_REF="URX_851_PRPLOS_1.0.0"
   CONFIG_TOOLCHAINOPTS=y
   CONFIG_GCC_USE_VERSION_8=y
   CONFIG_TARGET_OPTIONS=y
