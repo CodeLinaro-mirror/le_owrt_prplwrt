@@ -4,7 +4,7 @@ feeds:
   - name: feed_prpl
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-prpl.git
     tracking_branch: prplos
-    revision: 6ecb08cdbcb22c5871b9451236e13c39af2c6748
+    revision: 45eb3c08d5b01024af87a36b5ce61c53630bbb78
 
 additional_packages:
   - feed: packages
@@ -12,6 +12,10 @@ additional_packages:
       - chrony
       - libnl-core
       - libnl-route
+      - lighttpd
+      - lighttpd-mod-fastcgi
+      - lighttpd-mod-auth
+      - lighttpd-mod-authn_file
       - syslog-ng
 
 packages:
@@ -86,6 +90,7 @@ packages:
   - tr181-dhcpv6client
   - tr181-firewall
   - tr181-qos
+  - tr181-rest-api
   - tr181-usermanagement
   - u80211d
   - umdns
