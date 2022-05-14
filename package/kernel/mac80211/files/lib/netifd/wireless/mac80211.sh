@@ -436,6 +436,9 @@ mac80211_hostapd_setup_base() {
 			append base_cfg "he_oper_centr_freq_seg0_idx=$vht_center_seg0" "$N"
 		}
 
+		set_default he_bss_color 128
+		append base_cfg "he_bss_color=$he_bss_color" "$N"
+
 		mac80211_add_he_capabilities \
 			he_su_beamformer:${he_phy_cap:6:2}:0x80:$he_su_beamformer \
 			he_su_beamformee:${he_phy_cap:8:2}:0x1:$he_su_beamformee \
