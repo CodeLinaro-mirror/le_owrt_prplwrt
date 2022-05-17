@@ -21,6 +21,7 @@ boot() {
 	[ -f /proc/mounts ] || /sbin/mount_root
 	[ -f /proc/jffs2_bbc ] && echo "S" > /proc/jffs2_bbc
 	[ -f /proc/net/vlan/config ] && vconfig set_name_type DEV_PLUS_VID_NO_PAD
+	echo 4 > /proc/sys/kernel/printk
 
 	mkdir -p /var/run
 	mkdir -p /var/log
