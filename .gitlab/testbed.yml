@@ -36,9 +36,9 @@
     - chmod 644 ~/.ssh/known_hosts
 
     - >
-      if [ -n "$TFTP_IMAGE_DOWNLOAD_URL" ]; then
-        echo "Downloading firmware image from $TFTP_IMAGE_DOWNLOAD_URL"
-        curl "$TFTP_IMAGE_DOWNLOAD_URL" > "$TESTBED_TFTP_PATH/$TFTP_IMAGE_FILENAME"
+      if [ -n "$IMAGE_URL" ]; then
+        echo "Downloading firmware image from $IMAGE_URL"
+        curl "$IMAGE_URL" > "$TESTBED_TFTP_PATH/$TFTP_IMAGE_FILENAME"
       else
         echo "Using firmware image $TFTP_IMAGE_PATH/$TFTP_IMAGE_FILENAME"
         cp "$TFTP_IMAGE_PATH/$TFTP_IMAGE_FILENAME" "$TESTBED_TFTP_PATH"
