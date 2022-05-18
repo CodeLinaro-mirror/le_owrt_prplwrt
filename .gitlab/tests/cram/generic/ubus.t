@@ -30,13 +30,6 @@ Check that ubus has expected datamodels available:
   ACLManager.Role
   Bridging
   Bridging.Bridge
-  Cthulhu
-  Cthulhu.Config
-  Cthulhu.Container
-  Cthulhu.Container.Instances
-  Cthulhu.Information
-  Cthulhu.Sandbox
-  Cthulhu.Sandbox.Instances
   DHCPv4
   DHCPv4.Client
   DHCPv4.Server
@@ -88,22 +81,15 @@ Check that ubus has expected datamodels available:
   QoS.QueueStats
   QoS.Scheduler
   QoS.Shaper
-  Rlyeh
-  Rlyeh.Images
   Routing
   Routing.RIP
   Routing.RIP.InterfaceSetting
   Routing.RouteInformation
   Routing.RouteInformation.InterfaceSetting
   Routing.Router
-  SoftwareModules
-  SoftwareModules.DeploymentUnit
-  SoftwareModules.ExecEnv
-  SoftwareModules.ExecutionUnit
   Time
   Time.X_PRPL_TimeServer
   Time.X_PRPL_TimeServer.Intf
-  Timingila
   Users
   Users.Group
   Users.Role
