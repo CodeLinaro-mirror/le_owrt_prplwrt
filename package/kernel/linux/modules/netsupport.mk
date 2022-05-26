@@ -772,6 +772,58 @@ endef
 $(eval $(call KernelPackage,sched-core))
 
 
+define KernelPackage/sched-act-extra
+  SUBMENU:=$(NETWORK_SUPPORT_MENU)
+  TITLE:=Extra traffic modifiers
+  DEPENDS:=+kmod-sched-core +kmod-sched-act-vlan
+  KCONFIG:=CONFIG_NET_ACT_GACT
+  FILES:=$(LINUX_DIR)/net/sched/act_gact.ko
+  AUTOLOAD:=$(call AutoProbe, act_gact)
+endef
+
+define KernelPackage/sched-act-extra/description
+ Core kernel flower actions for IP traffic
+endef
+
+$(eval $(call KernelPackage,sched-act-extra))
+
+
+define KernelPackage/sched-drr
+  SUBMENU:=$(NETWORK_SUPPORT_MENU)
+  TITLE:=DRR algorithm for Queue Configuration
+  DEPENDS:=+kmod-sched-core
+ KCONFIG:= \
+        CONFIG_NET_SCH_DRR
+  FILES:= \
+	$(LINUX_DIR)/net/sched/sch_drr.ko
+  AUTOLOAD:=$(call AutoProbe, sch_drr)
+endef
+
+define KernelPackage/sched-drr/description
+ DRR algorithm Configuration
+endef
+
+$(eval $(call KernelPackage,sched-drr))
+
+
+define KernelPackage/sched-prio
+  SUBMENU:=$(NETWORK_SUPPORT_MENU)
+  TITLE:=prio algorithm for Queue Configuration
+  DEPENDS:=+kmod-sched-core
+ KCONFIG:= \
+        CONFIG_NET_SCH_PRIO
+  FILES:= \
+	$(LINUX_DIR)/net/sched/sch_prio.ko
+  AUTOLOAD:=$(call AutoProbe, sch_prio)
+endef
+
+define KernelPackage/sched-prio/description
+ PRIO algorithm Configuration
+endef
+
+$(eval $(call KernelPackage,sched-prio))
+
+
 define KernelPackage/sched-flower
   SUBMENU:=$(NETWORK_SUPPORT_MENU)
   TITLE:=Flower traffic classifier
@@ -877,6 +929,25 @@ endef
 
 $(eval $(call KernelPackage,bpf-test))
 
+define KernelPackage/sched-act-colmark
+  SUBMENU:=$(NETWORK_SUPPORT_MENU)
+  TITLE:=Color marking
+  DEPENDS:=+kmod-sched-core
+  KCONFIG:=CONFIG_NET_ACT_COLMARK
+  FILES:=$(LINUX_DIR)/net/sched/act_colmark.ko
+  AUTOLOAD:=$(call AutoProbe, act_colmark)
+endef
+
+define KernelPackage/sched-act-colmark/description
+ Allows to configure rules to color mark packets.
+endef
+
+$(eval $(call KernelPackage,sched-act-colmark))
+
+
+SCHED_MODULES_EXTRA = sch_codel sch_dsmark sch_fifo sch_gred sch_multiq sch_red sch_sfq sch_teql sch_fw sch_pie \
+	act_police act_ipt act_pedit act_simple act_csum em_cmp em_nbyte em_meta em_text
+SCHED_FILES_EXTRA = $(patsubst %,$(LINUX_DIR)/net/sched/%.ko,$(filter $(SCHED_MODULES_EXTRA),$(SCHED_MODULES)))
 
 define KernelPackage/sched
   SUBMENU:=$(NETWORK_SUPPORT_MENU)
@@ -888,14 +959,12 @@ define KernelPackage/sched
 	CONFIG_NET_SCH_FIFO \
 	CONFIG_NET_SCH_GRED \
 	CONFIG_NET_SCH_MULTIQ \
-	CONFIG_NET_SCH_PRIO \
 	CONFIG_NET_SCH_RED \
 	CONFIG_NET_SCH_SFQ \
 	CONFIG_NET_SCH_TEQL \
 	CONFIG_NET_SCH_FQ \
 	CONFIG_NET_SCH_PIE \
 	CONFIG_NET_ACT_POLICE \
-	CONFIG_NET_ACT_GACT \
 	CONFIG_NET_ACT_IPT \
 	CONFIG_NET_ACT_PEDIT \
 	CONFIG_NET_ACT_SIMP \
