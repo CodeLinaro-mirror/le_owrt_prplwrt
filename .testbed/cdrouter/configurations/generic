@@ -2292,18 +2292,18 @@ SECTION "CDRouter Storage Add-On" {
 
 SECTION "CDRouter TR-069 Add-On" {
 
-    # testvar supportsCWMP                     no
+    testvar supportsCWMP                     yes
 
     SECTION "Basic ACS Configuration" {
 
         # testvar acsIp                            6.0.0.1
         # testvar acsPort                          80
-        # testvar acsDomain                        acs.cdroutertest.com
+        testvar acsDomain                          acs-download.qacafe.com
         # testvar acsTransport                     http
         # testvar acsAuth                          digest
         # testvar acsDigestQopAuth                 yes
         # testvar acsInterface                     wan
-        # testvar acsDiscoveryUrl                  http://acs.cdroutertest.com:80/
+        testvar acsDiscoveryUrl                    http://acs-download.qacafe.com:80/
         # testvar acsWaitForInform                 120
         # testvar acsSkipInitialInform             no
         # testvar acsCpeConnReqURL                 http://192.168.200.2:80/cwmp
@@ -2311,10 +2311,10 @@ SECTION "CDRouter TR-069 Add-On" {
         # testvar acsDeviceDiscovery               no
         # testvar acsConfigurePeriodicInform       yes
         # testvar tr69InitiateConnection           yes
-        # testvar acsDefaultUser                   qacafe
-        # testvar acsDefaultPassword               qacafe123
-        # testvar acsCpeDefaultUser                qacafe
-        # testvar acsCpeDefaultPassword            qacafe123
+        testvar acsDefaultUser                     cdrouter
+        testvar acsDefaultPassword                 cdrouter
+        testvar acsCpeDefaultUser                  acs
+        testvar acsCpeDefaultPassword              acs
         # testvar acsFileServerUser                file_server_user
         # testvar acsFileServerPassword            file_server_password
 
