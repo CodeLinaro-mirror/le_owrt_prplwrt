@@ -33,6 +33,11 @@
         echo "Using firmware image $TFTP_IMAGE_PATH/$TFTP_IMAGE_FILENAME"
         cp "$TFTP_IMAGE_PATH/$TFTP_IMAGE_FILENAME" "$TESTBED_TFTP_PATH"
       fi
+    - >
+      if [ -n "$TFTP_IMAGE_UNPACK_COMMAND" ]; then
+        echo "Running $TFTP_IMAGE_UNPACK_COMMAND"
+        eval "$TFTP_IMAGE_UNPACK_COMMAND"
+      fi
     - .gitlab/scripts/testbed-device.py --target $LABGRID_TARGET boot_into shell
     - sudo ip link set $TESTBED_WAN_INTERFACE down 2> /dev/null
     - >
