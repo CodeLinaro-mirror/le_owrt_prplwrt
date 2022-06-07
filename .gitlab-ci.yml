@@ -70,3 +70,31 @@ CDRouter CDRouter-Top-100 package on Turris Omnia with system on initramfs:
   extends:
     - .turris-omnia testbed
     - .cdrouter
+
+CDRouter CDRouter-TR-069 package on NEC WX3000HP with system on NAND:
+  dependencies:
+    - build test intel_mips prpl
+  extends:
+    - .nec-wx3000hp testbed
+    - .cdrouter
+
+CDRouter CDRouter-TR-069 package on Gl.iNet B1300 with system on NOR:
+  dependencies:
+    - build test ipq40xx prpl
+  extends:
+    - .glinet-b1300 testbed
+    - .cdrouter
+  variables:
+    LABGRID_TARGET: glinet-b1300-nor
+    TFTP_IMAGE_FILENAME: openwrt-ipq40xx-generic-glinet_gl-b1300-squashfs-sysupgrade.bin
+
+CDRouter CDRouter-TR-069 package on Turris Omnia with system on eMMC:
+  dependencies:
+    - build test mvebu prpl
+  extends:
+    - .turris-omnia testbed
+    - .cdrouter
+  variables:
+    LABGRID_TARGET: turris-omnia-emmc
+    TFTP_IMAGE_FILENAME: openwrt-mvebu-cortexa9-cznic_turris-omnia-sysupgrade.img.gz
+    TFTP_IMAGE_UNPACK_COMMAND: "gunzip --force $TESTBED_TFTP_PATH/$TFTP_IMAGE_FILENAME || true"
