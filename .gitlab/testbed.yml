@@ -38,7 +38,7 @@
     - >
       if [ -n "$TFTP_IMAGE_DOWNLOAD_URL" ]; then
         echo "Downloading firmware image from $TFTP_IMAGE_DOWNLOAD_URL"
-        curl "$TFTP_IMAGE_DOWNLOAD_URL" > "$TESTBED_TFTP_PATH/$TFTP_IMAGE_FILENAME"
+        curl --fail "$TFTP_IMAGE_DOWNLOAD_URL" > "$TESTBED_TFTP_PATH/$TFTP_IMAGE_FILENAME"
       else
         echo "Using firmware image $TFTP_IMAGE_PATH/$TFTP_IMAGE_FILENAME"
         cp "$TFTP_IMAGE_PATH/$TFTP_IMAGE_FILENAME" "$TESTBED_TFTP_PATH"
