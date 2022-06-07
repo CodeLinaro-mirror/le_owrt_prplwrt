@@ -4,7 +4,8 @@
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
       when: never
-    - when: always
+    - if: '$CI_COMMIT_BRANCH == $CI_DESIGNATED_BRANCH'
+    - when: manual
   variables:
     TEST_CONFIG: generic
     DUT_SLEEP_AFTER_BOOT: 20
