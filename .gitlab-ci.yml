@@ -43,22 +43,22 @@ coverity scan ipq40xx prpl:
       arm-openwrt-linux-muslgnueabi-gcc
 
 run test NEC WX3000HP with system on NAND:
-  dependencies:
+  needs:
     - build test intel_mips prpl
   extends: .nec-wx3000hp testbed
 
 run test Gl.iNet B1300 with system on initramfs:
-  dependencies:
+  needs:
     - build test ipq40xx prpl
   extends: .glinet-b1300 testbed
 
 run test Turris Omnia with system on initramfs:
-  dependencies:
+  needs:
     - build test mvebu prpl
   extends: .turris-omnia testbed
 
 CDRouter CDRouter-Top-100 package on NEC WX3000HP with system on NAND:
-  dependencies:
+  needs:
     - build test intel_mips prpl
   extends:
     - .nec-wx3000hp testbed
@@ -67,14 +67,14 @@ CDRouter CDRouter-Top-100 package on NEC WX3000HP with system on NAND:
     LABGRID_TARGET: "$DUT_BOARD-firstboot"
 
 CDRouter CDRouter-Top-100 package on Gl.iNet B1300 with system on initramfs:
-  dependencies:
+  needs:
     - build test ipq40xx prpl
   extends:
     - .glinet-b1300 testbed
     - .cdrouter
 
 CDRouter CDRouter-Top-100 package on Turris Omnia with system on initramfs:
-  dependencies:
+  needs:
     - build test mvebu prpl
   extends:
     - .turris-omnia testbed
