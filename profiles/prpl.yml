@@ -95,6 +95,9 @@ packages:
   - u80211d
   - umdns
   - wan-manager
+  - libswla
+  - libswlc
+  - pwhm
 
 diffconfig: |
           CONFIG_PACKAGE_rpcd-mod-luci=y
@@ -146,3 +149,7 @@ diffconfig: |
           CONFIG_KERNEL_SECCOMP_FILTER=y
           CONFIG_KERNEL_USER_NS=y
           CONFIG_KERNEL_UTS_NS=y
+          CONFIG_SAH_WPS_IE_SERIAL_DEFAULT=y
+          # CONFIG_SAH_WPS_IE_SERIAL_FT_REQ is not set
+          # CONFIG_SAH_WPS_IE_RANDOM_SERIAL is not set
+          CONFIG_SAH_WLD_INIT_SCRIPT="prplmesh_whm"
