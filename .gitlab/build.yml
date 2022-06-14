@@ -25,8 +25,8 @@
     - cat .config
     - make defconfig | tee --append logs/build.log
 
-    - make -j $(nproc) tools/tar/compile || make -j1 V=s tools/tar/compile 2>&1 | tee --append logs/build.log
-    - make -j $(nproc) download check FIXUP=1 || make -j1 V=s download check FIXUP=1 2>&1 | tee --append logs/build.log
+    - make -j $(nproc) tools/tar/compile 2>&1 | tee --append logs/build.log
+    - make -j $(nproc) download check FIXUP=1 2>&1 | tee --append logs/build.log
 
     - >
       git diff-index --exit-code HEAD || {
@@ -48,7 +48,7 @@
         popd > /dev/null
       done
 
-    - make -j $(nproc) || make -j1 V=s 2>&1 | tee --append logs/build.log
+    - make -j $(nproc) 2>&1 | tee --append logs/build.log
     - rm .build_failed
 
   after_script:
