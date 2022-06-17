@@ -102,6 +102,8 @@ diffconfig: |
           CONFIG_PACKAGE_ip-bridge=y
           # CONFIG_PACKAGE_firewall is not set
           # CONFIG_PACKAGE_logd is not set
+          # enable pwhm backend
+          CONFIG_USE_PRPLMESH_WHM=y
           # lxc options for LCM
           CONFIG_SAH_SERVICES_CTHULHU_INIT_CONTAINER_BACKEND=y
           CONFIG_SAH_SERVICES_CTHULHU_CONTAINER_BACKEND="/usr/lib/cthulhu-lxc/cthulhu-lxc.so"
