@@ -1,0 +1,80 @@
+From 4db86038b827bd160fb95bfb7f2c91191d96c7c0 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Rapha=C3=ABl=20M=C3=A9lotte?= <raphael.melotte@mind.be>
+Date: Wed, 2 Dec 2020 17:51:45 +0100
+Subject: [PATCH] hostapd: Add multi_ap settings to get_config() output
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Since a running hostapd is not necessarily using the settings that are
+in the configuration file (if they were changed at runtime, or the file
+was changed but not reloaded, etc.), being able to get their value at
+runtime can be useful (to know if they have to be updated for example).
+
+If multi_ap is set, also print the SSID and passphrase (or PSK).
+
+Signed-off-by: Raphaël Mélotte <raphael.melotte@mind.be>
+---
+ hostapd/ctrl_iface.c | 46 ++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 46 insertions(+)
+
+diff --git a/hostapd/ctrl_iface.c b/hostapd/ctrl_iface.c
+index 0f6dfa13d..4845d18b3 100644
+--- a/hostapd/ctrl_iface.c
++++ b/hostapd/ctrl_iface.c
+@@ -1223,6 +1223,52 @@ static int hostapd_ctrl_iface_get_config(struct hostapd_data *hapd,
+ 			return pos - buf;
+ 		pos += ret;
+ 	}
++
++	if (hapd->conf->multi_ap) {
++		struct hostapd_ssid *ssid = &hapd->conf->multi_ap_backhaul_ssid;
++
++		ret = os_snprintf(pos, end - pos, "multi_ap=%d\n",
++				  hapd->conf->multi_ap);
++		if (os_snprintf_error(end - pos, ret))
++			return pos - buf;
++		pos += ret;
++
++		if (ssid->ssid) {
++			ret = os_snprintf(pos, end - pos,
++					  "multi_ap_backhaul_ssid=%s\n",
++					  wpa_ssid_txt(ssid->ssid,
++						       ssid->ssid_len));
++			if (os_snprintf_error(end - pos, ret))
++				return pos - buf;
++			pos += ret;
++		}
++
++		if (hapd->conf->wps_state && hapd->conf->wpa &&
++			ssid->wpa_passphrase) {
++			ret = os_snprintf(pos, end - pos,
++					  "multi_ap_backhaul_wpa_passphrase=%s\n",
++					  ssid->wpa_passphrase);
++			if (os_snprintf_error(end - pos, ret))
++				return pos - buf;
++			pos += ret;
++		}
++
++		if (hapd->conf->wps_state && hapd->conf->wpa &&
++		    ssid->wpa_psk &&
++		    ssid->wpa_psk->group) {
++			char hex[PMK_LEN * 2 + 1];
++
++			wpa_snprintf_hex(hex, sizeof(hex), ssid->wpa_psk->psk,
++					 PMK_LEN);
++			ret = os_snprintf(pos, end - pos,
++					  "multi_ap_backhaul_wpa_psk=%s\n",
++					  hex);
++			forced_memzero(hex, sizeof(hex));
++			if (os_snprintf_error(end - pos, ret))
++				return pos - buf;
++			pos += ret;
++		}
++	}
+ #endif /* CONFIG_WPS */
+ 
+ 	if (hapd->conf->wpa) {
+-- 
+2.17.1
+
