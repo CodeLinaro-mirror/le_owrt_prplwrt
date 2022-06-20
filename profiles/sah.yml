@@ -2,7 +2,7 @@ feeds:
   - name: ambiorix
     uri: https://gitlab.com/soft.at.home/buildsystems/openwrt/feed_amx.git
     tracking_branch: master
-    revision: b6c4b87e3faa50dec714498717a29f8b8392609d
+    revision: 8f5c9b7e6f8185c31a68c1a3f162cab14fb0cbac
 
 packages:
   - libamxb
