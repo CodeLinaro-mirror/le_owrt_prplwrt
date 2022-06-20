@@ -3,8 +3,8 @@ description: Add the prpl features
 feeds:
   - name: feed_prpl
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-prpl.git
-    tracking_branch: dev_prplos_introduce_pwhm
-    revision: 851bee6720f2e7691e01c7665790c995293e9662
+    tracking_branch: dev_test_pwhm
+    revision: c36d6e6b4c71bbe7f374e46f6217ba42d9668007
 
 additional_packages:
   - feed: packages
