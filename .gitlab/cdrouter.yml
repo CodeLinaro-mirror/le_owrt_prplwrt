@@ -83,7 +83,8 @@
       test -f *-logdir.tgz &&
       mkdir -p cdrouter-results &&
       tar xf *-logdir.tgz --strip-components=1 --directory=cdrouter-results &&
-      cat cdrouter-results/final.txt
+      cat cdrouter-results/final.txt &&
+      .gitlab/scripts/cdrouter-pretty-failures.awk cdrouter-results/*.txt
 
     - eval $(ssh-agent -s)
     - echo "$TESTBED_SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
