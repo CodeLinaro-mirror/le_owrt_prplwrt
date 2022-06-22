@@ -70,6 +70,12 @@ Check that ubus has expected datamodels available:
   IP
   IP.ActivePort
   IP.Interface
+  ManagementServer
+  ManagementServer.ConnRequest
+  ManagementServer.InternalSettings
+  ManagementServer.State
+  ManagementServer.Stats
+  ManagementServer.Subscription
   NAT
   NAT.InterfaceSetting
   NAT.PortMapping
