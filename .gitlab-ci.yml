@@ -11,4 +11,5 @@ stages:
   - run
 
 run test Gl.iNet B1300 with system on initramfs:
+  when: manual
   extends: .glinet-b1300 testbed
