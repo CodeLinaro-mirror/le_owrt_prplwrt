@@ -12,7 +12,7 @@ Get initial state of bridges:
 Add eth1 to the Guest bridge:
 
   $ printf ' \
-  > ubus-cli Bridging.Bridge.guest.Port.+{Name="eth1", Alias="ETH1"}\n
+  > ubus-cli Bridging.Bridge.guest.Port.+{Name="eth1", Alias="ETH1", LowerLayers="Device.Ethernet.Interface.1."}\n
   > ubus-cli Bridging.Bridge.guest.Port.ETH1.Enable=1\n
   > ' > /tmp/run
   $ script --command "ssh -t root@$TARGET_LAN_IP '$(cat /tmp/run)'" > /dev/null
