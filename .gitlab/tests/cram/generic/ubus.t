@@ -38,6 +38,11 @@ Check that ubus has expected datamodels available:
   DHCPv6.Client
   DHCPv6.Server
   DHCPv6.Server.Pool
+  DNS
+  DNS.Client
+  DNS.Client.Server
+  DNS.Relay
+  DNS.Relay.Forwarding
   Device
   Device.InterfaceStack
   DeviceInfo
@@ -45,6 +50,8 @@ Check that ubus has expected datamodels available:
   DeviceInfo.FirmwareImage
   DeviceInfo.Location
   DeviceInfo.MemoryStatus
+  DeviceInfo.ProcessStatus
+  DeviceInfo.ProcessStatus.Process
   DeviceInfo.Processor
   DeviceInfo.VendorConfigFile
   DeviceInfo.VendorLogFile
@@ -55,25 +62,32 @@ Check that ubus has expected datamodels available:
   Firewall
   Firewall.Chain
   Firewall.Level
-  Firewall.X_Prpl_DMZ
-  Firewall.X_Prpl_Pinhole
-  Firewall.X_Prpl_Policy
-  Firewall.X_Prpl_PortTrigger
-  Firewall.X_Prpl_Service
+  Firewall.X_PRPL-COM_DMZ
+  Firewall.X_PRPL-COM_Pinhole
+  Firewall.X_PRPL-COM_Policy
+  Firewall.X_PRPL-COM_PortTrigger
+  Firewall.X_PRPL-COM_Service
   IP
   IP.ActivePort
   IP.Interface
+  Logical
+  Logical.Interface
   NAT
   NAT.InterfaceSetting
   NAT.PortMapping
+  NeighborDiscovery
+  NeighborDiscovery.InterfaceSetting
   NetDev
   NetDev.ConversionTable
   NetDev.ConversionTable.Protocol
   NetDev.ConversionTable.Scope
   NetDev.ConversionTable.Table
   NetDev.Link
+  NetDev.Stats
   NetModel
   NetModel.Intf
+  PPP
+  PPP.Interface
   QoS
   QoS.Classification
   QoS.Node
@@ -81,6 +95,8 @@ Check that ubus has expected datamodels available:
   QoS.QueueStats
   QoS.Scheduler
   QoS.Shaper
+  RouterAdvertisement
+  RouterAdvertisement.InterfaceSetting
   Routing
   Routing.RIP
   Routing.RIP.InterfaceSetting
@@ -88,8 +104,8 @@ Check that ubus has expected datamodels available:
   Routing.RouteInformation.InterfaceSetting
   Routing.Router
   Time
-  Time.X_PRPL_TimeServer
-  Time.X_PRPL_TimeServer.Intf
+  Time.X_PRPL-COM_TimeServer
+  Time.X_PRPL-COM_TimeServer.Intf
   Users
   Users.Group
   Users.Role
@@ -101,28 +117,38 @@ Check that ubus has expected datamodels available:
   X_PRPL-COM_PersistentConfiguration.Config
   X_PRPL-COM_PersistentConfiguration.Config.Security
   X_PRPL-COM_PersistentConfiguration.Service
-  X_PRPL_WANManager
-  X_PRPL_WANManager.WAN
+  X_PRPL-COM_WANAutoSensing
+  X_PRPL-COM_WANAutoSensing.Config
+  X_PRPL-COM_WANAutoSensing.Detect
+  X_PRPL-COM_WANManager
+  X_PRPL-COM_WANManager.WAN
 
 Check that we've correct bridge aliases:
 
   $ R "ubus call Bridging _get \"{'rel_path':'Bridge.*.Alias'}\" | jsonfilter -e @[*].Alias | sort"
   guest
   lan
+  lcm
 
 Check that we've correct DHCP pool settings:
 
   $ R "ubus call DHCPv4.Server.Pool _get \"{'rel_path':'*'}\" | grep -E '(Alias|MinAddres|MaxAddress|Enable|Servers|Status)' | sort"
   \t\t"Alias": "guest", (esc)
   \t\t"Alias": "lan", (esc)
+  \t\t"Alias": "lcm", (esc)
   \t\t"DNSServers": "192.168.1.1", (esc)
   \t\t"DNSServers": "192.168.2.1", (esc)
+  \t\t"DNSServers": "192.168.5.1", (esc)
+  \t\t"Enable": true, (esc)
   \t\t"Enable": true, (esc)
   \t\t"Enable": true, (esc)
   \t\t"MaxAddress": "192.168.1.249", (esc)
   \t\t"MaxAddress": "192.168.2.249", (esc)
+  \t\t"MaxAddress": "192.168.5.249", (esc)
   \t\t"MinAddress": "192.168.1.100", (esc)
   \t\t"MinAddress": "192.168.2.100", (esc)
+  \t\t"MinAddress": "192.168.5.100", (esc)
+  \t\t"Status": "Enabled", (esc)
   \t\t"Status": "Enabled", (esc)
   \t\t"Status": "Enabled", (esc)
 
@@ -169,6 +195,8 @@ Check that Users.Role component has expected setup:
   admin-role
   guest
   guest-role
+  webui
+  webui-role
 
 Check that we've correct hostname and release info:
 
