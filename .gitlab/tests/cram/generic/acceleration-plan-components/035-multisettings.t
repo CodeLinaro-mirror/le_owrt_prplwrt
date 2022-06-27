@@ -2,6 +2,15 @@ Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
+Add testing service:
+
+  $ scp -r $TESTDIR/035-multisettings/* root@${TARGET_LAN_IP}:/
+
+Restart multisettings service and start testing service:
+
+  $ R "/etc/init.d/testing start 2> /dev/null"
+  $ R "/etc/init.d/multisettings restart 2> /dev/null"
+
 Add testing profiles and triggers:
 
   $ printf "\
@@ -22,15 +31,6 @@ Add testing profiles and triggers:
   > ubus-cli X_PRPL-COM_MultiSettings.Profile.usa-profile.Trigger.country-usa.RightMember='US'
   > " > /tmp/cram
   $ script --command "ssh -t root@$TARGET_LAN_IP '$(cat /tmp/cram)'" > /dev/null
-
-Add testing service:
-
-  $ scp -r $TESTDIR/035-multisettings/* root@${TARGET_LAN_IP}:/
-
-Restart multisettings service and start testing service:
-
-  $ R "/etc/init.d/testing start 2> /dev/null"
-  $ R "/etc/init.d/multisettings restart 2> /dev/null"
 
 Check that there is no profile currently selected:
 
