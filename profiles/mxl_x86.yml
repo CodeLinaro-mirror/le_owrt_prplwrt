@@ -1,0 +1,71 @@
+---
+profiles:
+  - LGM_UGW
+target: intel_x86
+subtarget: lgm
+external_target: True
+description: Build images for the Maxlinear x86 devices - URX
+             This target requires sources from MaxLinear, that are accessible via
+             designcentersw.maxlinear.com.
+             For reference boards, source code access and reporting issues,
+             please contact dbarr@maxlinear.com.
+feeds:
+  - name: feed_mxl
+    uri: ssh://git@designcentersw.maxlinear.com:29418/source/urx-prplos_feed_mxl.git
+    tracking_branch: URX_851_PRPLOS
+    revision: 6cf78529f5d339a962716f8202cbb951f6d3520f
+
+packages:
+  - kmod-intel_eth_drv
+  - kmod-gwdpa-dpm
+  - kmod-pp_net_adapter
+  - kmod-packet_learn
+  - ppv4-firmware-lgm
+  - kmod-intel_ppv4_fw_lgm
+  - kmod-ppv4
+  - kmod-p34x_phy_fwdl
+  - ltq-gphy-fw-lgm
+  - netifd-ugw
+  - dwpal_6x-uci
+  - iwlwav-base-files
+  - iwlwav-hostap-uci
+  - iwlwav-iw
+  - iwlwav-tools
+  - iwlwav-firmware
+  - iwinfo
+  - ltq-wlan-wave_6x-uci
+  - safeclibs3
+  - swpal_6x-uci
+  - e2fsprogs
+  - kmod-directconnect-dp
+  - kmod-ppa-drv
+  - kmod-ppa-drv-accel
+  - kmod-ppa-drv-gre
+  - kmod-ppa-drv-lgm
+  - kmod-ppa-drv-stack-al
+  - ppacmd
+  - kmod-intel_vpn
+  - kmod-intel_lgm_toe
+  - kmod-ipsec4
+  - kmod-ipsec6
+  - kmod-ipsec
+  - kmod-eip197
+  - vpn-firmware-lgm
+  - kmod-ipsec4-offload
+  - kmod-ipsec6-offload
+
+diffconfig: |
+  CONFIG_DEVEL=y
+  CONFIG_KERNEL_GIT_CLONE_URI="ssh://git@designcentersw.maxlinear.com:29418/source/urx-linux.git"
+  CONFIG_KERNEL_GIT_MIRROR_HASH="63cb224cc7f06172365fe7677ed07b6c7d8e82aff2f28d1aa1f2f863e5d9be19"
+  CONFIG_KERNEL_GIT_DEPTH=""
+  CONFIG_KERNEL_GIT_REF="URX_851_PRPLOS_1.0.0"
+  CONFIG_TOOLCHAINOPTS=y
+  CONFIG_GCC_USE_VERSION_8=y
+  CONFIG_TARGET_OPTIONS=y
+  CONFIG_TARGET_OPTIMIZATION="-m64 -march=silvermont -mtune=intel -msse3 -mfpmath=sse -O2 -pipe -mindirect-branch=keep -mfunction-return=keep"
+  CONFIG_TARGET_MULTI_PROFILE=y
+  CONFIG_TARGET_PER_DEVICE_ROOTFS=y
+  CONFIG_TARGET_DEVICE_intel_x86_lgm_DEVICE_LGM_UGW=y
+  CONFIG_INTEL_X86_ALT_SUBTARGET_CONFIG="b0"
+  CONFIG_BUILD_LOG=y
