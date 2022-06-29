@@ -1194,7 +1194,7 @@ SECTION "CDRouter IKE Add-On" {
 
 SECTION "CDRouter IPv6 Add-On" {
 
-    # testvar supportsIPv6                     no
+    testvar supportsIPv6                     yes
 
     SECTION "IPv6 WAN" {
 
