@@ -17,6 +17,8 @@ PKG_MAINTAINER:=Dominick Grift <dominick.grift@defensec.nl>
 PKG_CPE_ID:=cpe:/a:defensec:selinux-policy
 PKG_LICENSE:=Unlicense
 PKG_LICENSE_FILES:=LICENSE
+LOCAL_SRC:=$(TOPDIR)/owrt-qti-sepolicy
+
 
 include $(INCLUDE_DIR)/package.mk
 
@@ -31,6 +33,13 @@ endef
 define Package/selinux-policy/description
 	Basic SELinux Security Policy designed specifically for
 	OpenWrt and written in Common Intermediate Language.
+endef
+
+define Build/Configure
+	mkdir -p $(PKG_BUILD_DIR)/src/qti
+	$(CP) $(LOCAL_SRC)/cil/file/execfile/*.cil $(PKG_BUILD_DIR)/src/
+	$(CP) $(LOCAL_SRC)/cil/dev/nodedev/*.cil   $(PKG_BUILD_DIR)/src/
+	$(CP) $(LOCAL_SRC)/cil/file/execfile/test/*.cil $(PKG_BUILD_DIR)/src/
 endef
 
 define Build/Compile
