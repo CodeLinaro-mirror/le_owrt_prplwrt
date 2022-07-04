@@ -80,6 +80,40 @@ CDRouter CDRouter-Top-100 package on Turris Omnia with system on initramfs:
     - .turris-omnia testbed
     - .cdrouter
 
+CDRouter CDRouter-Top-100 package on NEC WX3000HP with system on NAND and PPPoE on WAN:
+  needs:
+    - build test intel_mips prpl
+  extends:
+    - .nec-wx3000hp testbed
+    - .cdrouter
+  variables:
+    LABGRID_TARGET: "$DUT_BOARD-firstboot"
+    CDROUTER_TEST_CONFIG: ppp
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-enable-pppoe.sh
+
+CDRouter CDRouter-Top-100 package on Gl.iNet B1300 with system on initramfs and PPPoE on WAN:
+  needs:
+    - build test ipq40xx prpl
+  extends:
+    - .glinet-b1300 testbed
+    - .cdrouter
+  variables:
+    CDROUTER_TEST_CONFIG: ppp
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-enable-pppoe.sh
+
+CDRouter CDRouter-Top-100 package on Turris Omnia with system on initramfs and PPPoE on WAN:
+  needs:
+    - build test mvebu prpl
+  extends:
+    - .turris-omnia testbed
+    - .cdrouter
+  variables:
+    CDROUTER_TEST_CONFIG: ppp
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-enable-pppoe.sh
+
 CDRouter CDRouter-IPv6-Top-100 package on NEC WX3000HP with system on NAND:
   needs:
     - build test intel_mips prpl
@@ -102,6 +136,40 @@ CDRouter CDRouter-IPv6-Top-100 package on Turris Omnia with system on initramfs:
   extends:
     - .turris-omnia testbed
     - .cdrouter
+
+CDRouter CDRouter-IPv6-Top-100 package on NEC WX3000HP with system on NAND and PPPoE on WAN:
+  needs:
+    - build test intel_mips prpl
+  extends:
+    - .nec-wx3000hp testbed
+    - .cdrouter
+  variables:
+    LABGRID_TARGET: "$DUT_BOARD-firstboot"
+    CDROUTER_TEST_CONFIG: ppp
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-enable-pppoe.sh
+
+CDRouter CDRouter-IPv6-Top-100 package on Gl.iNet B1300 with system on initramfs and PPPoE on WAN:
+  needs:
+    - build test ipq40xx prpl
+  extends:
+    - .glinet-b1300 testbed
+    - .cdrouter
+  variables:
+    CDROUTER_TEST_CONFIG: ppp
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-enable-pppoe.sh
+
+CDRouter CDRouter-IPv6-Top-100 package on Turris Omnia with system on initramfs and PPPoE on WAN:
+  needs:
+    - build test mvebu prpl
+  extends:
+    - .turris-omnia testbed
+    - .cdrouter
+  variables:
+    CDROUTER_TEST_CONFIG: ppp
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-enable-pppoe.sh
 
 CDRouter CDRouter-TR-069 package on NEC WX3000HP with system on NAND:
   allow_failure: true
