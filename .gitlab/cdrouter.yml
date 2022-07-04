@@ -7,7 +7,7 @@
     - if: '$CI_COMMIT_BRANCH == $CI_DESIGNATED_BRANCH'
     - when: manual
   variables:
-    TEST_CONFIG: generic
+    CDROUTER_TEST_CONFIG: generic
     DUT_SLEEP_AFTER_BOOT: 20
     CDROUTER_LAN_INTERFACE: eth1
     CDROUTER_WAN_INTERFACE: eth2
@@ -97,13 +97,13 @@
       fi
 
     - export TEST_PACKAGE="$(echo $CI_JOB_NAME | sed 's/CDRouter \(.*\) package on .*/\1/')"
-    - .gitlab/scripts/testbed-cdrouter.py config_import $TEST_CONFIG
+    - .gitlab/scripts/testbed-cdrouter.py config_import $CDROUTER_TEST_CONFIG
     - .gitlab/scripts/testbed-cdrouter.py package_import $TEST_PACKAGE.gz
     - >
       .gitlab/scripts/testbed-cdrouter.py
       package_run $TEST_PACKAGE
       --device generic
-      --configuration $TEST_CONFIG
+      --configuration $CDROUTER_TEST_CONFIG
       --system-info system-$LABGRID_TARGET.json
 
   after_script:
