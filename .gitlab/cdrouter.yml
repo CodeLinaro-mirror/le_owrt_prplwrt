@@ -59,8 +59,10 @@
     - ssh root@$TARGET_LAN_IP "cat /var/log/messages" > syslog-$LABGRID_TARGET.txt 2> /dev/null || true
     - ssh root@$TARGET_LAN_IP "ubus call system board" | tee system-$LABGRID_TARGET.json
 
-    - scp .gitlab/mockups/tr181-mockups.tar.gz root@${TARGET_LAN_IP}:/tmp/
-    - ssh root@$TARGET_LAN_IP "tar xzf /tmp/tr181-mockups.tar.gz -C / && /etc/init.d/tr181-mockups start"
+    - >
+      for dut_init_script in $DUT_INIT_SCRIPTS;
+        do echo "Running $dut_init_script"; /bin/sh "$dut_init_script";
+      done
 
     - .gitlab/scripts/testbed-cdrouter.py package_stop
     - .gitlab/scripts/testbed-cdrouter.py wait_for_netif $CDROUTER_LAN_INTERFACE
