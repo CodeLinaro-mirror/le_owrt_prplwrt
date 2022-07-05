@@ -162,7 +162,7 @@ SECTION "Base Configuration" {
 
         SECTION "WAN 802.1q VLAN" {
 
-            # testvar wanVlanId                        100
+            testvar wanVlanId                          100
             # testvar wanVlanPriority                  0
 
         }
@@ -503,7 +503,7 @@ SECTION "Base Configuration" {
 
         SECTION "LAN 802.1q VLAN" {
 
-            # testvar lanVlanId                        100
+            testvar lanVlanId                          200
             # testvar lanVlanPriority                  0
 
         }
