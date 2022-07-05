@@ -80,7 +80,7 @@ CDRouter CDRouter-Top-100 package on Turris Omnia with system on initramfs:
     - .turris-omnia testbed
     - .cdrouter
 
-CDRouter CDRouter-Top-100 package on NEC WX3000HP with system on NAND and PPPoE on WAN:
+CDRouter CDRouter-Top-100 package on NEC WX3000HP with system on NAND and PPPoE on WAN with VLANs:
   needs:
     - build test intel_mips prpl
   extends:
@@ -88,9 +88,10 @@ CDRouter CDRouter-Top-100 package on NEC WX3000HP with system on NAND and PPPoE 
     - .cdrouter
   variables:
     LABGRID_TARGET: "$DUT_BOARD-firstboot"
-    CDROUTER_TEST_CONFIG: ppp
+    CDROUTER_TEST_CONFIG: vlan-ppp
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-enable-pppoe.sh
+      .gitlab/scripts/dut-init/cdrouter-dut-enable-vlans.sh
 
 CDRouter CDRouter-Top-100 package on Gl.iNet B1300 with system on initramfs and PPPoE on WAN:
   needs:
@@ -137,7 +138,7 @@ CDRouter CDRouter-IPv6-Top-100 package on Turris Omnia with system on initramfs:
     - .turris-omnia testbed
     - .cdrouter
 
-CDRouter CDRouter-IPv6-Top-100 package on NEC WX3000HP with system on NAND and PPPoE on WAN:
+CDRouter CDRouter-IPv6-Top-100 package on NEC WX3000HP with system on NAND and PPPoE on WAN with VLANs:
   needs:
     - build test intel_mips prpl
   extends:
@@ -145,7 +146,7 @@ CDRouter CDRouter-IPv6-Top-100 package on NEC WX3000HP with system on NAND and P
     - .cdrouter
   variables:
     LABGRID_TARGET: "$DUT_BOARD-firstboot"
-    CDROUTER_TEST_CONFIG: ppp
+    CDROUTER_TEST_CONFIG: vlan-ppp
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-enable-pppoe.sh
 
