@@ -97,6 +97,26 @@ packages:
   - u80211d
   - umdns
   - wan-manager
+  # Packages for M1 delivery
+  # TODO: Sort alphabetically
+  - tr181-ppp
+  - netmodel-ppp
+  - tr181-dns
+  - tr181-neighbordiscovery
+  - mod-fw-amx
+  - tr181-routeradvertisement
+  - wan-autosensing
+  - netmodel-bridge
+  - netmodel-dhcpv4
+  - netmodel-dhcpv6
+  - netmodel-ethernet
+  - netmodel-ip
+  - netmodel-iprouter
+  - netmodel-netdev
+  - netmodel-vlan
+  - netmodel-clients
+  - tr181-logical
+  - netmodel-logical
 
 diffconfig: |
           CONFIG_PACKAGE_rpcd-mod-luci=y
