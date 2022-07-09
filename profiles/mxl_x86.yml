@@ -8,8 +8,8 @@ description: Build images for the Maxlinear x86 devices - URX
 feeds:
   - name: feed_mxl
     uri: ssh://git@designcentersw.maxlinear.com:29418/source/urx-prplos_feed_mxl.git
-    tracking_branch: URX_851_PRPLOS
-    revision: 6cf78529f5d339a962716f8202cbb951f6d3520f
+    tracking_branch: 8.9.1
+    revision: 0e8a144dd2f31b99f45e56ac189c7f68fa2dd667
 
 packages:
   - kmod-intel_eth_drv
@@ -49,12 +49,18 @@ packages:
   - vpn-firmware-lgm
   - kmod-ipsec4-offload
   - kmod-ipsec6-offload
+  - tc
+  - kmod-sched-act-colmark
+  - kmod-sched-drr
+  - kmod-sched-mqprio
+  - kmod-sched-prio
+  - kmod-qos-tc
 
 diffconfig: |
   CONFIG_DEVEL=y
   CONFIG_KERNEL_GIT_CLONE_URI="ssh://git@designcentersw.maxlinear.com:29418/source/urx-linux.git"
   CONFIG_KERNEL_GIT_DEPTH=""
-  CONFIG_KERNEL_GIT_REF="URX_851_PRPLOS_1.0.0"
+  CONFIG_KERNEL_GIT_REF="8.9.1"
   CONFIG_TOOLCHAINOPTS=y
   CONFIG_GCC_USE_VERSION_8=y
   CONFIG_TARGET_OPTIONS=y
@@ -64,3 +70,4 @@ diffconfig: |
   CONFIG_TARGET_DEVICE_intel_x86_lgm_DEVICE_LGM_UGW=y
   CONFIG_INTEL_X86_ALT_SUBTARGET_CONFIG="b0"
   CONFIG_BUILD_LOG=y
+  CONFIG_USE_QOS_TC=y
