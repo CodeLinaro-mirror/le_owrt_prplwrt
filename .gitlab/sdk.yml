@@ -80,6 +80,14 @@ stages:
 
   after_script:
     - cp -R "$CI_SDK_TOPDIR/logs" $CI_PROJECT_DIR
+    - >
+      if grep -qr 'make\[[[:digit:]]\].*Error [[:digit:]]$' logs; then
+        printf "\n====== Showing Make errors found in the log files ======";
+        for file in $(grep -lr 'make\[[[:digit:]]\].*Error [[:digit:]]$' logs); do
+          printf "\n====== Make errors from $CI_JOB_URL/artifacts/file/$file ======\n" ;
+          grep -r -C5 'make\[[[:digit:]]\].*Error [[:digit:]]$' $file ;
+        done
+      fi
 
   artifacts:
     expire_in: 1 month
