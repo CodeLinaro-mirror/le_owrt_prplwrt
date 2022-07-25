@@ -4,7 +4,7 @@ feeds:
   - name: feed_prpl
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-prpl.git
     tracking_branch: prplos
-    revision: 09ed954fd3d7f34e1f2ea8009f87876fe063d3a3
+    revision: e0d3db83c801cc4c1cc901cc1ac2a0e2fdff2c17
 
 additional_packages:
   - feed: packages
@@ -33,6 +33,8 @@ packages:
   - libfwinterface
   - libfwrules
   - libnetmodel
+  - libswla
+  - libswlc
   - lxc4
   - lxc4-attach
   - lxc4-auto
@@ -89,6 +91,7 @@ packages:
   - owsd
   - pcm-manager
   - prplmesh
+  - pwhm
   - rlyeh
   - routing-manager
   - syslog-ng
@@ -132,6 +135,9 @@ diffconfig: |
           CONFIG_SAH_SERVICES_TIMINGILA_ADAPTER_CONTAINER="/usr/lib/timingila-cthulhu/timingila-cthulhu.so"
           CONFIG_SAH_LIB_CTHULHU-LXC_LXC_TOOLS_PREFIX="/opt/prplos/usr/bin/"
           CONFIG_SAH_LIB_CTHULHU-LXC_PRPL_OS_RPATH=y
+          # pwhm options
+          CONFIG_USE_PRPLMESH_WHM=y
+          CONFIG_SAH_WLD_INIT_SCRIPT="prplmesh_whm"
           # kernel options for lcm
           CONFIG_KERNEL_ARM_PMU=y
           CONFIG_KERNEL_BLK_CGROUP=y
