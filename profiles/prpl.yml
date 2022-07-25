@@ -3,8 +3,8 @@ description: Add the prpl features
 feeds:
   - name: feed_prpl
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-prpl.git
-    tracking_branch: prplos
-    revision: e5249110c8903be503174d968e8f1cb20693d4ef
+    tracking_branch: dev_prplos_use_pwhm_backend
+    revision: decde4266e219df4a27a354dfb7ed7aacebe80af
 
 additional_packages:
   - feed: packages
@@ -33,6 +33,8 @@ packages:
   - libfwinterface
   - libfwrules
   - libnetmodel
+  - libswla
+  - libswlc
   - lxc4
   - lxc4-attach
   - lxc4-auto
@@ -77,6 +79,7 @@ packages:
   - owsd
   - pcm-manager
   - prplmesh
+  - pwhm
   - rlyeh
   - routing-manager
   - syslog-ng
@@ -114,6 +117,12 @@ diffconfig: |
           CONFIG_SAH_SERVICES_TIMINGILA_ADAPTER_CONTAINER="/usr/lib/timingila-cthulhu/timingila-cthulhu.so"
           CONFIG_SAH_LIB_CTHULHU-LXC_LXC_TOOLS_PREFIX="/opt/prplos/usr/bin/"
           CONFIG_SAH_LIB_CTHULHU-LXC_PRPL_OS_RPATH=y
+          # pwhm options
+          CONFIG_USE_PRPLMESH_WHM=y
+          CONFIG_SAH_WPS_IE_SERIAL_DEFAULT=y
+          # CONFIG_SAH_WPS_IE_SERIAL_FT_REQ is not set
+          # CONFIG_SAH_WPS_IE_RANDOM_SERIAL is not set
+          CONFIG_SAH_WLD_INIT_SCRIPT="prplmesh_whm"
           # kernel options for lcm
           CONFIG_KERNEL_ARM_PMU=y
           CONFIG_KERNEL_BLK_CGROUP=y
