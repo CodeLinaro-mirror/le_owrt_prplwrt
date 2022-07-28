@@ -14,7 +14,7 @@
     TFTP_IMAGE_PATH: bin/targets/$DUT_ARCH/$DUT_SUBTARGET
     TARGET_LAN_IP: 192.168.1.1
     TARGET_LAN_TEST_HOST: 192.168.1.2
-    DUT_SLEEP_AFTER_BOOT: 200
+    DUT_SLEEP_AFTER_BOOT: 90
     CRAM_REMOTE_COMMAND: ssh root@$TARGET_LAN_IP
     CRAM_TEST_SUITE: |
       .gitlab/tests/cram/generic/acceleration-plan-components
