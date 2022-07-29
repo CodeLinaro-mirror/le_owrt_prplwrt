@@ -11,7 +11,7 @@ Start wireless:
 Check that hostapd is operating after reboot:
 
   $ R logger -t cram "Check that hostapd is operating after reboot"
-  $ R "ps w" | sed -nE 's/.*(\/usr\/sbin\/hostapd.*)/\1/p' | LC_ALL=C sort
+  $ R "ps axw" | sed -nE 's/.*(\/usr\/sbin\/hostapd.*)/\1/p' | LC_ALL=C sort
   /usr/sbin/hostapd -s -P /var/run/wifi-phy0.pid -B /var/run/hostapd-phy0.conf
   /usr/sbin/hostapd -s -P /var/run/wifi-phy1.pid -B /var/run/hostapd-phy1.conf
 
@@ -33,7 +33,7 @@ Check VAP setup after restart:
 Check that prplmesh processes are running:
 
   $ R logger -t cram "Check that prplmesh processes are running"
-  $ R "ps w" | sed -nE 's/.*(\/opt\/prplmesh\/bin.*)/\1/p' | LC_ALL=C sort
+  $ R "ps axw" | sed -nE 's/.*(\/opt\/prplmesh\/bin.*)/\1/p' | LC_ALL=C sort
   /opt/prplmesh/bin/beerocks_agent
   /opt/prplmesh/bin/beerocks_controller
   /opt/prplmesh/bin/beerocks_fronthaul -i wlan0
@@ -43,17 +43,16 @@ Check that prplmesh processes are running:
 Check that prplmesh is operational:
 
   $ R logger -t cram "Check that prplmesh is operational"
-  $ R "/opt/prplmesh/scripts/prplmesh_utils.sh status" | sed -E 's/.*(\/opt\/prplmesh.*)/\1/' | LC_ALL=C sort
+  $ R "/opt/prplmesh/scripts/prplmesh_utils.sh status" | LC_ALL=C sort
   \x1b[0m (esc)
   \x1b[0m\x1b[1;32mOK Main radio agent operational (esc)
   \x1b[1;32moperational test success! (esc)
-  /opt/prplmesh/bin/beerocks_agent
-  /opt/prplmesh/bin/beerocks_controller
-  /opt/prplmesh/bin/beerocks_controller
-  /opt/prplmesh/bin/beerocks_fronthaul
-  /opt/prplmesh/bin/beerocks_fronthaul
-  /opt/prplmesh/bin/ieee1905_transport
   /opt/prplmesh/scripts/prplmesh_utils.sh: status
+  [0-9]+ beerocks_contro (re)
+  [0-9]+ beerocks_contro (re)
+  [0-9]+ beerocks_agent (re)
+  [0-9]+ beerocks_fronth (re)
+  [0-9]+ beerocks_fronth (re)
   OK wlan0 radio agent operational
   OK wlan1 radio agent operational
   executing operational test using bml
