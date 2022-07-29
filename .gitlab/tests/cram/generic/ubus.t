@@ -108,10 +108,10 @@ Check that ubus has expected datamodels available:
   QoS.QueueStats
   QoS.Scheduler
   QoS.Shaper
-  RouterAdvertisement
-  RouterAdvertisement.InterfaceSetting
   Rlyeh
   Rlyeh.Images
+  RouterAdvertisement
+  RouterAdvertisement.InterfaceSetting
   Routing
   Routing.RIP
   Routing.RIP.InterfaceSetting
@@ -175,13 +175,18 @@ Check that we've correct DHCP pool settings:
   $ R "ubus call DHCPv6.Server.Pool _get \"{'rel_path':'*'}\" | grep -E '(Alias|Enable|Status)' | sort"
   \t\t"Alias": "guest", (esc)
   \t\t"Alias": "lan", (esc)
+  \t\t"Alias": "lcm", (esc)
+  \t\t"Enable": false, (esc)
+  \t\t"Enable": false, (esc)
   \t\t"Enable": true, (esc)
-  \t\t"Enable": true, (esc)
+  \t\t"IANAEnable": false, (esc)
   \t\t"IANAEnable": false, (esc)
   \t\t"IANAEnable": false, (esc)
   \t\t"IAPDEnable": false, (esc)
   \t\t"IAPDEnable": false, (esc)
-  \t\t"Status": "Enabled", (esc)
+  \t\t"IAPDEnable": false, (esc)
+  \t\t"Status": "Disabled", (esc)
+  \t\t"Status": "Disabled", (esc)
   \t\t"Status": "Enabled", (esc)
 
 Check that we've correct Time.CurrentLocalTime:
