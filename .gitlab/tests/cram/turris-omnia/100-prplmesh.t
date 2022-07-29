@@ -11,7 +11,7 @@ Start wireless:
 Check that hostapd is operating after reboot:
 
   $ R logger -t cram "Check that hostapd is operating after reboot"
-  $ R "ps w" | sed -nE 's/.*(\/usr\/sbin\/hostapd.*)/\1/p' | LC_ALL=C sort
+  $ R "ps axw" | sed -nE 's/.*(\/usr\/sbin\/hostapd.*)/\1/p' | LC_ALL=C sort
   /usr/sbin/hostapd -s -P /var/run/wifi-phy0.pid -B /var/run/hostapd-phy0.conf
   /usr/sbin/hostapd -s -P /var/run/wifi-phy1.pid -B /var/run/hostapd-phy1.conf
 
@@ -33,7 +33,7 @@ Check VAP setup after restart:
 Check that prplmesh processes are running:
 
   $ R logger -t cram "Check that prplmesh processes are running"
-  $ R "ps w" | sed -nE 's/.*(\/opt\/prplmesh\/bin.*)/\1/p' | LC_ALL=C sort
+  $ R "ps axw" | sed -nE 's/.*(\/opt\/prplmesh\/bin.*)/\1/p' | LC_ALL=C sort
   /opt/prplmesh/bin/beerocks_agent
   /opt/prplmesh/bin/beerocks_controller
   /opt/prplmesh/bin/beerocks_fronthaul -i wlan0

@@ -12,7 +12,7 @@ Check that hostapd & supplicant proccess are up after wireless startup:
 
   $ R logger -t cram "Check that hostapd \& supplicant proccess are up after wireless startup"
 
-  $ R "ps w" | sed -nE 's/.*(\/usr\/sbin\/hostapd.*)/\1/p' | LC_ALL=C sort
+  $ R "ps axw" | sed -nE 's/.*(\/usr\/sbin\/hostapd.*)/\1/p' | LC_ALL=C sort
   /usr/sbin/hostapd -s -g /var/run/hostapd/global-hostapd -P /var/run/wifi-global-hostapd.pid -B /var/run/h
 
 Restart prplmesh:
@@ -36,7 +36,7 @@ Check that prplmesh processes are running:
 
   $ R logger -t cram "Check that prplmesh processes are running"
 
-  $ R "ps w" | sed -nE 's/.*(\/opt\/prplmesh\/bin.*)/\1/p' | LC_ALL=C sort
+  $ R "ps axw" | sed -nE 's/.*(\/opt\/prplmesh\/bin.*)/\1/p' | LC_ALL=C sort
   /opt/prplmesh/bin/beerocks_agent
   /opt/prplmesh/bin/beerocks_controller
   /opt/prplmesh/bin/beerocks_fronthaul -i wlan0
