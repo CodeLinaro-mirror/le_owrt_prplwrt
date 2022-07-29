@@ -30,6 +30,10 @@ Check that ubus has expected datamodels available:
   ACLManager.Role
   Bridging
   Bridging.Bridge
+  Bridging.Bridge.Port
+  Bridging.Bridge.Port.Stats
+  Bridging.Bridge.VLAN
+  Bridging.Bridge.VLANPort
   Cthulhu
   Cthulhu.Config
   Cthulhu.Container
@@ -65,7 +69,9 @@ Check that ubus has expected datamodels available:
   Ethernet
   Ethernet.Interface
   Ethernet.Link
+  Ethernet.Link.Stats
   Ethernet.VLANTermination
+  Ethernet.VLANTermination.Stats
   Firewall
   Firewall.Chain
   Firewall.Level
@@ -101,6 +107,10 @@ Check that ubus has expected datamodels available:
   NetModel.Intf
   PPP
   PPP.Interface
+  PPP.Interface.IPCP
+  PPP.Interface.IPv6CP
+  PPP.Interface.PPPoE
+  PPP.Interface.Stats
   QoS
   QoS.Classification
   QoS.Node
@@ -108,16 +118,19 @@ Check that ubus has expected datamodels available:
   QoS.QueueStats
   QoS.Scheduler
   QoS.Shaper
-  RouterAdvertisement
-  RouterAdvertisement.InterfaceSetting
   Rlyeh
   Rlyeh.Images
+  RouterAdvertisement
+  RouterAdvertisement.InterfaceSetting
+  RouterAdvertisement.InterfaceSetting.Option
   Routing
   Routing.RIP
   Routing.RIP.InterfaceSetting
   Routing.RouteInformation
   Routing.RouteInformation.InterfaceSetting
+  Routing.RouteInformation.InterfaceSetting.X_PRPL-COM_Option
   Routing.Router
+  Routing.Router.IPv6Forwarding
   SoftwareModules
   SoftwareModules.DeploymentUnit
   SoftwareModules.ExecEnv
@@ -175,13 +188,18 @@ Check that we've correct DHCP pool settings:
   $ R "ubus call DHCPv6.Server.Pool _get \"{'rel_path':'*'}\" | grep -E '(Alias|Enable|Status)' | sort"
   \t\t"Alias": "guest", (esc)
   \t\t"Alias": "lan", (esc)
+  \t\t"Alias": "lcm", (esc)
+  \t\t"Enable": false, (esc)
+  \t\t"Enable": false, (esc)
   \t\t"Enable": true, (esc)
-  \t\t"Enable": true, (esc)
+  \t\t"IANAEnable": false, (esc)
   \t\t"IANAEnable": false, (esc)
   \t\t"IANAEnable": false, (esc)
   \t\t"IAPDEnable": false, (esc)
   \t\t"IAPDEnable": false, (esc)
-  \t\t"Status": "Enabled", (esc)
+  \t\t"IAPDEnable": false, (esc)
+  \t\t"Status": "Disabled", (esc)
+  \t\t"Status": "Disabled", (esc)
   \t\t"Status": "Enabled", (esc)
 
 Check that we've correct Time.CurrentLocalTime:
