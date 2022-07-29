@@ -1,10 +1,10 @@
 ---
 profiles:
-  - LGM_PRPL
+  - PRPL_OSP_TB341
 target: intel_x86
 subtarget: lgm
 external_target: True
-description: Build images for the Maxlinear x86 devices - URX
+description: Build images for the Maxlinear x86 devices - OSP
              This target requires sources from MaxLinear, that are accessible via
              git.maxlinear.com.
              For reference boards, source code access and reporting issues,
@@ -144,7 +144,8 @@ diffconfig: |
   CONFIG_TARGET_OPTIMIZATION="-m64 -march=silvermont -mtune=intel -msse3 -mfpmath=sse -O2 -pipe -mindirect-branch=keep -mfunction-return=keep"
   CONFIG_TARGET_MULTI_PROFILE=y
   CONFIG_TARGET_PER_DEVICE_ROOTFS=y
-  CONFIG_TARGET_DEVICE_intel_x86_lgm_DEVICE_LGM_PRPL=y
+  CONFIG_TARGET_DEVICE_intel_x86_lgm_DEVICE_PRPL_OSP_TB341=y
+  # CONFIG_TARGET_DEVICE_intel_x86_lgm_DEVICE_LGM_PRPL is not set
   CONFIG_INTEL_X86_ALT_SUBTARGET_CONFIG="b0"
   CONFIG_BUILD_LOG=y
   CONFIG_VERSION_FILENAMES=n
