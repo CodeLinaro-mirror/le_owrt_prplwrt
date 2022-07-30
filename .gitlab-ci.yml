@@ -71,6 +71,29 @@ CDRouter CDRouter-Top-100 package on Turris Omnia with system on initramfs:
     - .turris-omnia testbed
     - .cdrouter
 
+CDRouter CDRouter-IPv6-Top-100 package on NEC WX3000HP with system on NAND:
+  needs:
+    - build test intel_mips prpl
+  extends:
+    - .nec-wx3000hp testbed
+    - .cdrouter
+  variables:
+    LABGRID_TARGET: "$DUT_BOARD-firstboot"
+
+CDRouter CDRouter-IPv6-Top-100 package on Gl.iNet B1300 with system on initramfs:
+  needs:
+    - build test ipq40xx prpl
+  extends:
+    - .glinet-b1300 testbed
+    - .cdrouter
+
+CDRouter CDRouter-IPv6-Top-100 package on Turris Omnia with system on initramfs:
+  needs:
+    - build test mvebu prpl
+  extends:
+    - .turris-omnia testbed
+    - .cdrouter
+
 CDRouter CDRouter-TR-069 package on NEC WX3000HP with system on NAND:
   allow_failure: true
   needs:
