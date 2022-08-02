@@ -13,7 +13,7 @@ Check that hostapd & supplicant proccess are up after wireless startup:
   $ R logger -t cram "Check that hostapd \& supplicant proccess are up after wireless startup"
 
   $ R "ps axw" | sed -nE 's/.*(\/usr\/sbin\/hostapd.*)/\1/p' | LC_ALL=C sort
-  /usr/sbin/hostapd -s -g /var/run/hostapd/global-hostapd -P /var/run/wifi-global-hostapd.pid -B /var/run/h
+  /usr/sbin/hostapd -s -g /var/run/hostapd/global-hostapd -P /var/run/wifi-global-hostapd.pid -B /var/run/hostapd-phy?.conf (glob)
 
 Restart prplmesh:
 
@@ -46,17 +46,16 @@ Check that prplmesh processes are running:
 Check that prplmesh is operational:
 
   $ R logger -t cram "Check that prplmesh is operational"
-  $ R "/opt/prplmesh/scripts/prplmesh_utils.sh status" | sed -E 's/.*(\/opt\/prplmesh.*)/\1/' | LC_ALL=C sort
+  $ R "/opt/prplmesh/scripts/prplmesh_utils.sh status" | LC_ALL=C sort
   \x1b[0m (esc)
   \x1b[0m\x1b[1;32mOK Main radio agent operational (esc)
   \x1b[1;32moperational test success! (esc)
-  /opt/prplmesh/bin/beerocks_agent
-  /opt/prplmesh/bin/beerocks_controller
-  /opt/prplmesh/bin/beerocks_controller
-  /opt/prplmesh/bin/beerocks_fronthaul
-  /opt/prplmesh/bin/beerocks_fronthaul
-  /opt/prplmesh/bin/ieee1905_transport
   /opt/prplmesh/scripts/prplmesh_utils.sh: status
+  [0-9]+ beerocks_contro (re)
+  [0-9]+ beerocks_contro (re)
+  [0-9]+ beerocks_agent (re)
+  [0-9]+ beerocks_fronth (re)
+  [0-9]+ beerocks_fronth (re)
   OK wlan0 radio agent operational
   OK wlan2 radio agent operational
   executing operational test using bml
