@@ -54,8 +54,6 @@ CDRouter CDRouter-Top-100 package on NEC WX3000HP with system on NAND:
   extends:
     - .nec-wx3000hp testbed
     - .cdrouter
-  variables:
-    LABGRID_TARGET: "$DUT_BOARD-firstboot"
 
 CDRouter CDRouter-Top-100 package on Gl.iNet B1300 with system on initramfs:
   needs:
@@ -78,7 +76,6 @@ CDRouter CDRouter-Top-100 package on NEC WX3000HP with system on NAND and PPPoE 
     - .nec-wx3000hp testbed
     - .cdrouter
   variables:
-    LABGRID_TARGET: "$DUT_BOARD-firstboot"
     CDROUTER_TEST_CONFIG: vlan-ppp
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-enable-pppoe.sh
@@ -112,8 +109,6 @@ CDRouter CDRouter-IPv6-Top-100 package on NEC WX3000HP with system on NAND:
   extends:
     - .nec-wx3000hp testbed
     - .cdrouter
-  variables:
-    LABGRID_TARGET: "$DUT_BOARD-firstboot"
 
 CDRouter CDRouter-IPv6-Top-100 package on Gl.iNet B1300 with system on initramfs:
   needs:
@@ -136,7 +131,6 @@ CDRouter CDRouter-IPv6-Top-100 package on NEC WX3000HP with system on NAND and P
     - .nec-wx3000hp testbed
     - .cdrouter
   variables:
-    LABGRID_TARGET: "$DUT_BOARD-firstboot"
     CDROUTER_TEST_CONFIG: vlan-ppp
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-enable-pppoe.sh
