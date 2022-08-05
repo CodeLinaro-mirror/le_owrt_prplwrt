@@ -36,11 +36,11 @@
         cd /home/builder &&
         make defconfig &&
         ./scripts/feeds update base &&
-        ./scripts/feeds install busybox &&
+        ./scripts/feeds install urngd &&
         sync && sleep 1 &&
-        make -j $(nproc) package/busybox/compile V=s &&
+        make -j $(nproc) package/urngd/compile V=s &&
         sync && sleep 1 &&
-        find ./bin/packages -name busybox*.ipk | grep ^./bin/packages/.*busybox
+        find ./bin/packages -name urngd*.ipk | grep ^./bin/packages/.*urngd
         "
 
 .deploy Docker image:
