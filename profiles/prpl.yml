@@ -27,8 +27,10 @@ packages:
   - dhcpv4-manager
   - dhcpv6s-manager
   - ethernet-manager
+  - ip6tables-zz-legacy
   - ip-manager
   - iptables-mod-ipopt
+  - iptables-zz-legacy
   - libdhcpoptions
   - libfwinterface
   - libfwrules
