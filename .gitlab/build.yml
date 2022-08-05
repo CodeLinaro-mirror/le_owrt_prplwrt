@@ -18,8 +18,11 @@
     - mkdir logs
     - set -o pipefail
 
+    - sed -i 's;https://git.openwrt.org;https://gitlab.com/openwrt;' feeds.conf.default
     - export CI_BUILD_PROFILE="$(echo $CI_JOB_NAME | sed 's/build test \(.*\)/\1/')"
     - scripts/gen_config.py $CI_BUILD_PROFILE 2>&1 | tee logs/build.log
+    - git checkout -- feeds.conf.default
+
     - >
       for option in $CI_BUILD_CONFIG $CI_BUILD_CONFIG_EXTRA; do
         echo "$option" | sed -E "s/^\+(.*)$/CONFIG_\1=y/;s/^\-(.*)$/CONFIG_\1=n/" >> .config
