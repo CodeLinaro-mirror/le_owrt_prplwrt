@@ -26,7 +26,7 @@ stages:
   - cdrouter
   - coverity
 
-build test intel_mips prpl:
+.build test intel_mips prpl:
   extends: .build test config
 
 build test ipq40xx prpl:
@@ -42,7 +42,7 @@ coverity scan ipq40xx prpl:
       arm-openwrt-linux-gcc
       arm-openwrt-linux-muslgnueabi-gcc
 
-run test NEC WX3000HP with system on NAND:
+.run test NEC WX3000HP with system on NAND:
   needs:
     - build test intel_mips prpl
   extends: .nec-wx3000hp testbed
@@ -57,7 +57,7 @@ run test Turris Omnia with system on initramfs:
     - build test mvebu prpl
   extends: .turris-omnia testbed
 
-CDRouter CDRouter-Top-100 package on NEC WX3000HP with system on NAND:
+.CDRouter CDRouter-Top-100 package on NEC WX3000HP with system on NAND:
   needs:
     - build test intel_mips prpl
   extends:
@@ -80,7 +80,7 @@ CDRouter CDRouter-Top-100 package on Turris Omnia with system on initramfs:
     - .turris-omnia testbed
     - .cdrouter
 
-CDRouter CDRouter-TR-069 package on NEC WX3000HP with system on NAND:
+.CDRouter CDRouter-TR-069 package on NEC WX3000HP with system on NAND:
   allow_failure: true
   needs:
     - build test intel_mips prpl
