@@ -62,10 +62,6 @@
           grep -r -C5 'make\[[[:digit:]]\].*Error [[:digit:]]$' $file ;
         done
       fi
-    - >
-      [ "$CI_COMMIT_BRANCH" = "$CI_DESIGNATED_BRANCH" ] && {
-        test -f .build_failed && .gitlab/scripts/prpl-jira.py build_failure || true
-      } || true
 
   artifacts:
     expire_in: 1 month
