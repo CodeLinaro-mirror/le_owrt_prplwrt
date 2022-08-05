@@ -1,0 +1,130 @@
+.cdrouter:
+  stage: cdrouter
+  image: "$CI_REGISTRY_IMAGE/$CI_DESIGNATED_BRANCH/testbed:latest"
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == $CI_DESIGNATED_BRANCH'
+    - when: manual
+  variables:
+    TEST_CONFIG: generic
+    DUT_SLEEP_AFTER_BOOT: 20
+    CDROUTER_LAN_INTERFACE: eth1
+    CDROUTER_WAN_INTERFACE: eth2
+    CDROUTER_ETH0_MAC_ADDRESS: 00:03:2d:49:2e:d8
+
+  before_script:
+    - sudo etherwake -i $TESTBED_MNG_INTERFACE $CDROUTER_ETH0_MAC_ADDRESS 2> /dev/null
+    - sudo ip link set $TESTBED_LAN_INTERFACE up 2> /dev/null
+    - sudo ip link set $TESTBED_WAN_INTERFACE up 2> /dev/null
+    - sleep 10
+
+    - eval $(ssh-agent -s)
+    - echo "$TESTBED_SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh; chmod 700 ~/.ssh
+    - ssh-keyscan $TESTBED_UART_RELAY_HOST > ~/.ssh/known_hosts 2> /dev/null
+    - chmod 644 ~/.ssh/known_hosts
+
+    - >
+      if [ -n "$TFTP_IMAGE_DOWNLOAD_URL" ]; then
+        echo "Downloading firmware image from $TFTP_IMAGE_DOWNLOAD_URL"
+        curl "$TFTP_IMAGE_DOWNLOAD_URL" > "$TESTBED_TFTP_PATH/$TFTP_IMAGE_FILENAME"
+      else
+        echo "Using firmware image $TFTP_IMAGE_PATH/$TFTP_IMAGE_FILENAME"
+        cp "$TFTP_IMAGE_PATH/$TFTP_IMAGE_FILENAME" "$TESTBED_TFTP_PATH"
+      fi
+    - >
+      if [ -n "$TFTP_IMAGE_UNPACK_COMMAND" ]; then
+        echo "Running $TFTP_IMAGE_UNPACK_COMMAND"
+        eval "$TFTP_IMAGE_UNPACK_COMMAND"
+      fi
+    - .gitlab/scripts/testbed-device.py --target $LABGRID_TARGET boot_into shell
+    - sudo ip link set $TESTBED_WAN_INTERFACE down 2> /dev/null
+    - >
+      .gitlab/scripts/testbed-device.py
+      --target $LABGRID_TARGET check_network
+      --network lan
+      --remote-host $TARGET_LAN_TEST_HOST
+
+    - >
+      retry_count=3;
+      while [ $retry_count -gt 0 ]; do
+        echo "Waiting for SSH availability on $TARGET_LAN_IP"
+        ssh-keyscan "$TARGET_LAN_IP" 2>&1 | grep -q "$TARGET_LAN_IP" && break
+        retry_count="$(( retry_count - 1 ))"
+        sleep 5
+      done
+
+    - ssh-keyscan $TARGET_LAN_IP >> ~/.ssh/known_hosts 2> /dev/null
+    - ssh root@$TARGET_LAN_IP "cat /var/log/messages" > syslog-$LABGRID_TARGET.txt 2> /dev/null || true
+    - ssh root@$TARGET_LAN_IP "ubus call system board" | tee system-$LABGRID_TARGET.json
+
+    - scp .gitlab/mockups/tr181-mockups.tar.gz root@${TARGET_LAN_IP}:/tmp/
+    - ssh root@$TARGET_LAN_IP "tar xzf /tmp/tr181-mockups.tar.gz -C / && /etc/init.d/tr181-mockups start"
+
+    - .gitlab/scripts/testbed-cdrouter.py package_stop
+    - .gitlab/scripts/testbed-cdrouter.py wait_for_netif $CDROUTER_LAN_INTERFACE
+    - .gitlab/scripts/testbed-cdrouter.py wait_for_netif $CDROUTER_WAN_INTERFACE
+
+    - sudo ip link set $TESTBED_LAN_INTERFACE down 2> /dev/null
+
+  script:
+    - sleep $DUT_SLEEP_AFTER_BOOT
+
+    - export TEST_PACKAGE="$(echo $CI_JOB_NAME | sed 's/CDRouter \(.*\) package on .*/\1/')"
+    - .gitlab/scripts/testbed-cdrouter.py config_import $TEST_CONFIG
+    - .gitlab/scripts/testbed-cdrouter.py package_import $TEST_PACKAGE.gz
+    - >
+      .gitlab/scripts/testbed-cdrouter.py
+      package_run $TEST_PACKAGE
+      --device generic
+      --configuration $TEST_CONFIG
+      --system-info system-$LABGRID_TARGET.json
+
+  after_script:
+    - >
+      test -f *-logdir.tgz &&
+      mkdir -p cdrouter-results &&
+      tar xf *-logdir.tgz --strip-components=1 --directory=cdrouter-results &&
+      cat cdrouter-results/final.txt &&
+      .gitlab/scripts/cdrouter-pretty-failures.awk cdrouter-results/*.txt
+
+    - eval $(ssh-agent -s)
+    - echo "$TESTBED_SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh; chmod 700 ~/.ssh
+    - ssh-keyscan $TESTBED_UART_RELAY_HOST > ~/.ssh/known_hosts 2> /dev/null
+    - chmod 644 ~/.ssh/known_hosts
+
+    - sudo ip link set $TESTBED_LAN_INTERFACE up 2> /dev/null
+    - sudo ip link set $TESTBED_WAN_INTERFACE up 2> /dev/null
+    - sleep 5
+
+    - ssh-keyscan $TARGET_LAN_IP >> ~/.ssh/known_hosts 2> /dev/null
+    - >
+      ssh root@$TARGET_LAN_IP exit && {
+        ssh root@$TARGET_LAN_IP ps > processes-$LABGRID_TARGET.txt
+        ssh root@$TARGET_LAN_IP dmesg > dmesg-$LABGRID_TARGET.txt
+        ssh root@$TARGET_LAN_IP "cat /var/log/messages" > syslog-$LABGRID_TARGET.txt
+        ssh root@$TARGET_LAN_IP opkg list > opkg_list-$LABGRID_TARGET.txt
+        scp -r root@${TARGET_LAN_IP}:/etc etc > /dev/null
+        scp -r root@${TARGET_LAN_IP}:/tmp/beerocks/logs prplmesh_beerocks_logs > /dev/null
+      } || true
+
+    - .gitlab/scripts/testbed-device.py --target $LABGRID_TARGET power off
+    - mv console_$LABGRID_TARGET console_$LABGRID_TARGET.txt || true
+
+    - .gitlab/scripts/testbed-cdrouter.py package_stop
+
+  artifacts:
+    expire_in: 1 month
+    when: always
+    paths:
+      - cdrouter-results
+      - etc
+      - prplmesh_beerocks_logs
+      - processes-$LABGRID_TARGET.txt
+      - dmesg-$LABGRID_TARGET.txt
+      - syslog-$LABGRID_TARGET.txt
+      - system-$LABGRID_TARGET.json
+      - console_$LABGRID_TARGET.txt
+      - opkg_list-$LABGRID_TARGET.txt
