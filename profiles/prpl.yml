@@ -29,7 +29,6 @@ packages:
   - ethernet-manager
   - ip-manager
   - iptables-mod-ipopt
-  - libarchive
   - libdhcpoptions
   - libfwinterface
   - libfwrules
