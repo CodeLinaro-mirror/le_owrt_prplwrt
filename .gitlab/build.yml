@@ -1,0 +1,80 @@
+.build test config:
+  stage: build
+  image: "$CI_REGISTRY_IMAGE/$CI_DESIGNATED_BRANCH/builder:latest"
+  tags:
+    - firmware-builder
+  variables:
+    CI_BUILD_CONFIG: >
+      +DEVEL +BUILD_LOG +SDK
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == $CI_DESIGNATED_BRANCH'
+    - when: manual
+  before_script:
+    - touch .build_failed
+
+  script:
+    - mkdir logs
+    - set -o pipefail
+
+    - export CI_BUILD_PROFILE="$(echo $CI_JOB_NAME | sed 's/build test \(.*\)/\1/')"
+    - scripts/gen_config.py $CI_BUILD_PROFILE 2>&1 | tee logs/build.log
+    - >
+      for option in $CI_BUILD_CONFIG $CI_BUILD_CONFIG_EXTRA; do
+        echo "$option" | sed -E "s/^\+(.*)$/CONFIG_\1=y/;s/^\-(.*)$/CONFIG_\1=n/" >> .config
+      done
+    - cat .config
+    - make defconfig | tee --append logs/build.log
+
+    - make -j $(nproc) tools/tar/compile 2>&1 | tee --append logs/build.log
+    - make -j $(nproc) download check FIXUP=1 2>&1 | tee --append logs/build.log
+
+    - >
+      git diff-index --exit-code HEAD || {
+        ret=$?
+        echo "Package integrity issues, please check packages-hash-issues.patch from artifacts"
+        git diff > packages-hash-issues.patch
+        exit $ret
+      }
+
+    - >
+      topdir=$(pwd);
+      for feed in $(find feeds -name .git); do
+        pushd $(dirname $feed) > /dev/null; git diff-index --exit-code HEAD || {
+          ret=$?
+          echo "Feed $(dirname $feed) packages integrity issues, please check feed-packages-hash-issues.patch from artifacts"
+          git diff > $topdir/feed-packages-hash-issues.patch
+          exit $ret
+        }
+        popd > /dev/null
+      done
+
+    - make -j $(nproc) 2>&1 | tee --append logs/build.log
+    - rm .build_failed
+
+  after_script:
+    - >
+      if test -f .build_failed && grep -qr 'make\[[[:digit:]]\].*Error [[:digit:]]$' logs; then
+        printf "\n====== Showing Make errors found in the log files ======";
+        for file in $(grep -lr 'make\[[[:digit:]]\].*Error [[:digit:]]$' logs); do
+          printf "\n====== Make errors from $CI_JOB_URL/artifacts/file/$file ======\n" ;
+          grep -r -C5 'make\[[[:digit:]]\].*Error [[:digit:]]$' $file ;
+        done
+      fi
+    - >
+      [ "$CI_COMMIT_BRANCH" = "$CI_DESIGNATED_BRANCH" ] && {
+        test -f .build_failed && .gitlab/scripts/prpl-jira.py build_failure || true
+      } || true
+
+  artifacts:
+    expire_in: 1 month
+    when: always
+    paths:
+      - bin
+      - logs
+      - ./*packages-hash-issues.patch
+  cache:
+    key: openwrt-downloads
+    paths:
+      - dl/
