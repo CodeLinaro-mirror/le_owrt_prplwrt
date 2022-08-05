@@ -1,0 +1,10 @@
+.glinet-b1300 testbed:
+  extends: .testbed true.cz
+  variables:
+    DUT_ARCH: ipq40xx
+    DUT_SUBTARGET: generic
+    DUT_BOARD: glinet-b1300
+    LABGRID_TARGET: glinet-b1300-initramfs
+    TFTP_IMAGE_FILENAME: openwrt-ipq40xx-generic-glinet_gl-b1300-initramfs-fit-uImage.itb
+  tags:
+    - dut-glinet-b1300
