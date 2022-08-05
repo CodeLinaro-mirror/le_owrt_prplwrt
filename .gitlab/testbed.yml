@@ -1,0 +1,130 @@
+.testbed:
+  stage: run
+  image: "$CI_REGISTRY_IMAGE/$CI_DESIGNATED_BRANCH/testbed:latest"
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: never
+    - when: always
+  variables:
+    DUT_WAN_INTERFACE: eth1
+    TESTBED_MNG_INTERFACE: enp1s0
+    TESTBED_LAN_INTERFACE: enp2s0
+    TESTBED_WAN_INTERFACE: enp3s0
+    TESTBED_TFTP_PATH: /var/lib/tftpboot
+    TFTP_IMAGE_PATH: bin/targets/$DUT_ARCH/$DUT_SUBTARGET
+    TARGET_LAN_IP: 192.168.1.1
+    TARGET_LAN_TEST_HOST: 192.168.1.2
+    DUT_SLEEP_AFTER_BOOT: 90
+    CRAM_REMOTE_COMMAND: ssh root@$TARGET_LAN_IP
+    CRAM_TEST_SUITE: |
+      .gitlab/tests/cram/generic/acceleration-plan-components
+      .gitlab/tests/cram/$DUT_BOARD/acceleration-plan-components
+      .gitlab/tests/cram/generic
+      .gitlab/tests/cram/$DUT_BOARD
+
+  before_script:
+    - touch .run_failed
+
+    - sudo ip link set $TESTBED_LAN_INTERFACE up 2> /dev/null
+    - sudo ip link set $TESTBED_WAN_INTERFACE up 2> /dev/null
+    - sleep 10
+
+    - eval $(ssh-agent -s)
+    - echo "$TESTBED_SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh; chmod 700 ~/.ssh
+    - ssh-keyscan $TESTBED_UART_RELAY_HOST > ~/.ssh/known_hosts 2> /dev/null
+    - chmod 644 ~/.ssh/known_hosts
+
+    - >
+      if [ -n "$TFTP_IMAGE_DOWNLOAD_URL" ]; then
+        echo "Downloading firmware image from $TFTP_IMAGE_DOWNLOAD_URL"
+        curl --fail "$TFTP_IMAGE_DOWNLOAD_URL" > "$TESTBED_TFTP_PATH/$TFTP_IMAGE_FILENAME"
+      else
+        echo "Using firmware image $TFTP_IMAGE_PATH/$TFTP_IMAGE_FILENAME"
+        cp "$TFTP_IMAGE_PATH/$TFTP_IMAGE_FILENAME" "$TESTBED_TFTP_PATH"
+      fi
+    - >
+      if [ -n "$TFTP_IMAGE_UNPACK_COMMAND" ]; then
+        echo "Running $TFTP_IMAGE_UNPACK_COMMAND"
+        eval "$TFTP_IMAGE_UNPACK_COMMAND"
+      fi
+    - .gitlab/scripts/testbed-device.py --target $LABGRID_TARGET boot_into shell
+    - >
+      .gitlab/scripts/testbed-device.py
+      --target $LABGRID_TARGET check_network
+      --network lan
+      --remote-host $TARGET_LAN_TEST_HOST
+
+    - >
+      retry_count=3;
+      while [ $retry_count -gt 0 ]; do
+        echo "Waiting for SSH availability on $TARGET_LAN_IP"
+        ssh-keyscan "$TARGET_LAN_IP" 2>&1 | grep -q "$TARGET_LAN_IP" && break
+        retry_count="$(( retry_count - 1 ))"
+        sleep 5
+      done
+
+    - ssh-keyscan $TARGET_LAN_IP >> ~/.ssh/known_hosts 2> /dev/null
+    - ssh root@$TARGET_LAN_IP "cat /var/log/messages" > syslog-$LABGRID_TARGET.txt 2> /dev/null || true
+    - ssh root@$TARGET_LAN_IP "ubus call system board" | tee system-$LABGRID_TARGET.json
+
+  script:
+    - sleep $DUT_SLEEP_AFTER_BOOT
+    - set -o pipefail
+    - python3 -m cram --verbose $CRAM_TEST_SUITE $CRAM_TEST_SUITE_EXTRA | tee cram-result-$LABGRID_TARGET.txt
+    - rm .run_failed
+
+  after_script:
+    - >
+      [ "$TMATE_ENABLE_SHELL" = "YES" ] && {
+        echo "Starting tmate session..."
+        tmate -n "${TMATE_SESSION_TOKEN}-$CI_JOB_ID" -k "$TMATE_API_KEY" -F new "ssh root@$TARGET_LAN_IP" > /tmp/tmate-session.log 2>&1
+        true
+      }
+
+    - eval $(ssh-agent -s)
+    - echo "$TESTBED_SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh; chmod 700 ~/.ssh
+    - ssh-keyscan $TESTBED_UART_RELAY_HOST > ~/.ssh/known_hosts 2> /dev/null
+    - chmod 644 ~/.ssh/known_hosts
+
+    - ssh-keyscan $TARGET_LAN_IP >> ~/.ssh/known_hosts 2> /dev/null
+    - >
+      ssh root@$TARGET_LAN_IP exit && {
+        ssh root@$TARGET_LAN_IP ps > processes-$LABGRID_TARGET.txt
+        ssh root@$TARGET_LAN_IP dmesg > dmesg-$LABGRID_TARGET.txt
+        ssh root@$TARGET_LAN_IP "cat /var/log/messages" > syslog-$LABGRID_TARGET.txt
+        ssh root@$TARGET_LAN_IP opkg list > opkg_list-$LABGRID_TARGET.txt
+        scp -r root@${TARGET_LAN_IP}:/etc etc > /dev/null
+        scp -r root@${TARGET_LAN_IP}:/tmp/beerocks/logs prplmesh_beerocks_logs > /dev/null
+      } || true
+
+    - .gitlab/scripts/testbed-device.py --target $LABGRID_TARGET power off
+
+    - mv console_$LABGRID_TARGET console_$LABGRID_TARGET.txt || true
+    - >
+      [ "$CI_COMMIT_BRANCH" = "$CI_DESIGNATED_BRANCH" ] && [ "$TMATE_ENABLE_SHELL" != "YES" ] && {
+        test -f .run_failed &&
+          .gitlab/scripts/prpl-jira.py run_failure --target $LABGRID_TARGET || true
+      } || true
+
+
+  artifacts:
+    expire_in: 1 month
+    when: always
+    paths:
+      - .gitlab/tests/cram/**/*.t.err
+      - etc
+      - prplmesh_beerocks_logs
+      - processes-$LABGRID_TARGET.txt
+      - dmesg-$LABGRID_TARGET.txt
+      - syslog-$LABGRID_TARGET.txt
+      - system-$LABGRID_TARGET.json
+      - console_$LABGRID_TARGET.txt
+      - cram-result-$LABGRID_TARGET.txt
+      - opkg_list-$LABGRID_TARGET.txt
+
+.testbed true.cz:
+  extends: .testbed
+  variables:
+    TESTBED_UART_RELAY_HOST: uart-relay.testbed.vpn.true.cz
