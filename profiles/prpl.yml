@@ -33,36 +33,36 @@ packages:
   - libfwinterface
   - libfwrules
   - libnetmodel
-  - lxc4
-  - lxc4-attach
-  - lxc4-auto
-  - lxc4-autostart
-  - lxc4-cgroup
-  - lxc4-checkconfig
-  - lxc4-common
-  - lxc4-config
-  - lxc4-configs
-  - lxc4-console
-  - lxc4-copy
-  - lxc4-create
-  - lxc4-destroy
-  - lxc4-device
-  - lxc4-execute
-  - lxc4-freeze
-  - lxc4-hooks
-  - lxc4-info
-  - lxc4-ls
-  - lxc4-monitor
-  - lxc4-start
-  - lxc4-stop
-  - lxc4-templates
-  - lxc4-top
-  - lxc4-unfreeze
-  - lxc4-unprivileged
-  - lxc4-unshare
-  - lxc4-user-nic
-  - lxc4-usernsexec
-  - lxc4-wait
+  - lxc
+  - lxc-attach
+  - lxc-auto
+  - lxc-autostart
+  - lxc-cgroup
+  - lxc-checkconfig
+  - lxc-common
+  - lxc-config
+  - lxc-configs
+  - lxc-console
+  - lxc-copy
+  - lxc-create
+  - lxc-destroy
+  - lxc-device
+  - lxc-execute
+  - lxc-freeze
+  - lxc-hooks
+  - lxc-info
+  - lxc-ls
+  - lxc-monitor
+  - lxc-start
+  - lxc-stop
+  - lxc-templates
+  - lxc-top
+  - lxc-unfreeze
+  - lxc-unprivileged
+  - lxc-unshare
+  - lxc-user-nic
+  - lxc-usernsexec
+  - lxc-wait
   - mod-amxb-ubus
   - mod-ba-cli
   - mod-dmext
@@ -109,8 +109,8 @@ diffconfig: |
           CONFIG_SAH_SERVICES_TIMINGILA_INIT_ADAPTERS=y
           CONFIG_SAH_SERVICES_TIMINGILA_ADAPTER_PACKAGER="/usr/lib/timingila-rlyeh/timingila-rlyeh.so"
           CONFIG_SAH_SERVICES_TIMINGILA_ADAPTER_CONTAINER="/usr/lib/timingila-cthulhu/timingila-cthulhu.so"
-          CONFIG_SAH_LIB_CTHULHU-LXC_LXC_TOOLS_PREFIX="/opt/prplos/usr/bin/"
-          CONFIG_SAH_LIB_CTHULHU-LXC_PRPL_OS_RPATH=y
+          CONFIG_SAH_LIB_CTHULHU-LXC_LXC_TOOLS_PREFIX="/usr/bin/"
+          # CONFIG_SAH_LIB_CTHULHU-LXC_PRPL_OS_RPATH is not set
           # kernel options for lcm
           CONFIG_KERNEL_ARM_PMU=y
           CONFIG_KERNEL_BLK_CGROUP=y
