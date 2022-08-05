@@ -1,0 +1,19 @@
+%config {}
+%define {
+	object TestingEmitter {
+		string CountryCode {
+			on action validate call check_maximum 2;
+		}
+	}
+	object TestingReceiver {
+		string NTPServer1;
+		string NTPServer2;
+	}
+}
+%populate {
+	object TestingEmitter {
+		parameter CountryCode = "EU";
+	}
+}
+#include "/var/run/selected_profile";
+?include "/etc/amx/testing/profile_${profile}.odl":"/etc/amx/testing/profile_default.odl";
