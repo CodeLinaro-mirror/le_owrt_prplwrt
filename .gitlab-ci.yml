@@ -1,0 +1,112 @@
+variables:
+  CI_DESIGNATED_BRANCH: prplos
+
+include:
+  - local: .gitlab/build.yml
+  - local: .gitlab/cdrouter.yml
+  - local: .gitlab/coverity.yml
+  - local: .gitlab/docker.yml
+  - local: .gitlab/docker/builder/gitlab.yml
+  - local: .gitlab/docker/testbed/gitlab.yml
+  - local: .gitlab/docker/sdk/gitlab.yml
+  - local: .gitlab/testbed.yml
+  - local: .gitlab/testbed/nec-wx3000hp.yml
+  - local: .gitlab/testbed/glinet-b1300.yml
+  - local: .gitlab/testbed/turris-omnia.yml
+
+stages:
+  - docker
+  - docker test
+  - docker deploy
+  - build
+  - docker SDK
+  - docker SDK test
+  - docker SDK deploy
+  - run
+  - cdrouter
+  - coverity
+
+build test intel_mips prpl:
+  extends: .build test config
+
+build test ipq40xx prpl:
+  extends: .build test config
+
+build test mvebu prpl:
+  extends: .build test config
+
+coverity scan ipq40xx prpl:
+  extends: .coverity scan config
+  variables:
+    CI_COVERITY_COMPILER_TEMPLATE_LIST: >
+      arm-openwrt-linux-gcc
+      arm-openwrt-linux-muslgnueabi-gcc
+
+run test NEC WX3000HP with system on NAND:
+  needs:
+    - build test intel_mips prpl
+  extends: .nec-wx3000hp testbed
+
+run test Gl.iNet B1300 with system on initramfs:
+  needs:
+    - build test ipq40xx prpl
+  extends: .glinet-b1300 testbed
+
+run test Turris Omnia with system on initramfs:
+  needs:
+    - build test mvebu prpl
+  extends: .turris-omnia testbed
+
+CDRouter CDRouter-Top-100 package on NEC WX3000HP with system on NAND:
+  needs:
+    - build test intel_mips prpl
+  extends:
+    - .nec-wx3000hp testbed
+    - .cdrouter
+  variables:
+    LABGRID_TARGET: "$DUT_BOARD-firstboot"
+
+CDRouter CDRouter-Top-100 package on Gl.iNet B1300 with system on initramfs:
+  needs:
+    - build test ipq40xx prpl
+  extends:
+    - .glinet-b1300 testbed
+    - .cdrouter
+
+CDRouter CDRouter-Top-100 package on Turris Omnia with system on initramfs:
+  needs:
+    - build test mvebu prpl
+  extends:
+    - .turris-omnia testbed
+    - .cdrouter
+
+CDRouter CDRouter-TR-069 package on NEC WX3000HP with system on NAND:
+  allow_failure: true
+  needs:
+    - build test intel_mips prpl
+  extends:
+    - .nec-wx3000hp testbed
+    - .cdrouter
+
+CDRouter CDRouter-TR-069 package on Gl.iNet B1300 with system on NOR:
+  allow_failure: true
+  needs:
+    - build test ipq40xx prpl
+  extends:
+    - .glinet-b1300 testbed
+    - .cdrouter
+  variables:
+    LABGRID_TARGET: glinet-b1300-nor
+    TFTP_IMAGE_FILENAME: openwrt-ipq40xx-generic-glinet_gl-b1300-squashfs-sysupgrade.bin
+
+CDRouter CDRouter-TR-069 package on Turris Omnia with system on eMMC:
+  allow_failure: true
+  needs:
+    - build test mvebu prpl
+  extends:
+    - .turris-omnia testbed
+    - .cdrouter
+  variables:
+    LABGRID_TARGET: turris-omnia-emmc
+    TFTP_IMAGE_FILENAME: openwrt-mvebu-cortexa9-cznic_turris-omnia-sysupgrade.img.gz
+    TFTP_IMAGE_UNPACK_COMMAND: "gunzip --force $TESTBED_TFTP_PATH/$TFTP_IMAGE_FILENAME || true"
