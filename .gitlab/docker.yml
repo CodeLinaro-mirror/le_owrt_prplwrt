@@ -1,0 +1,57 @@
+.docker in docker:
+  tags:
+    - gce
+  image: docker:19.03.7
+  services:
+    - docker:19.03.7-dind
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == $CI_DESIGNATED_BRANCH'
+    - when: manual
+      allow_failure: true
+  variables:
+    DOCKER_DRIVER: overlay2
+    DOCKER_TLS_CERTDIR: "/certs"
+
+.build Docker image:
+  stage: docker
+  extends: .docker in docker
+  script:
+    - export IMAGE_NAME="$(echo $CI_JOB_NAME | sed 's/build Docker image \(.*\)/\1/')"
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    - docker build -t "$IMAGE_NAME" $DOCKER_BUILD_EXTRA_ARGS $DOCKER_DOCKERFILE_PATH
+    - docker tag "$IMAGE_NAME" "$CI_REGISTRY_IMAGE/$CI_DESIGNATED_BRANCH/$IMAGE_NAME:$CI_COMMIT_REF_SLUG"
+    - docker push "$CI_REGISTRY_IMAGE/$CI_DESIGNATED_BRANCH/$IMAGE_NAME:$CI_COMMIT_REF_SLUG"
+
+.test Docker SDK image:
+  stage: docker SDK test
+  extends: .docker in docker
+  script:
+    - export IMAGE_NAME="$(echo $CI_JOB_NAME | sed 's/test Docker image \(.*\)/\1/')"
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    - docker pull "$CI_REGISTRY_IMAGE/$CI_DESIGNATED_BRANCH/$IMAGE_NAME:$CI_COMMIT_REF_SLUG"
+    - >
+      docker run "$CI_REGISTRY_IMAGE/$CI_DESIGNATED_BRANCH/$IMAGE_NAME:$CI_COMMIT_REF_SLUG" sh -c "
+        cd /home/builder &&
+        make defconfig &&
+        ./scripts/feeds update base &&
+        ./scripts/feeds install busybox &&
+        sync && sleep 1 &&
+        make -j $(nproc) package/busybox/compile V=s &&
+        sync && sleep 1 &&
+        find ./bin/packages -name busybox*.ipk | grep ^./bin/packages/.*busybox
+        "
+
+.deploy Docker image:
+  extends: .docker in docker
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == $CI_DESIGNATED_BRANCH'
+  script:
+    - export IMAGE_NAME="$(echo $CI_JOB_NAME | sed 's/deploy Docker image \(.*\)/\1/')"
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    - docker pull "$CI_REGISTRY_IMAGE/$CI_DESIGNATED_BRANCH/$IMAGE_NAME:$CI_COMMIT_REF_SLUG"
+    - docker tag "$CI_REGISTRY_IMAGE/$CI_DESIGNATED_BRANCH/$IMAGE_NAME:$CI_COMMIT_REF_SLUG" "$CI_REGISTRY_IMAGE/$CI_DESIGNATED_BRANCH/$IMAGE_NAME:latest"
+    - docker push "$CI_REGISTRY_IMAGE/$CI_DESIGNATED_BRANCH/$IMAGE_NAME:latest"
