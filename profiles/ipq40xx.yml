@@ -4,3 +4,6 @@ profiles:
 target: ipq40xx
 subtarget: generic
 description: Build image for Gl.iNet B1300
+
+diffconfig: |
+  CONFIG_TESTING_KERNEL=y
