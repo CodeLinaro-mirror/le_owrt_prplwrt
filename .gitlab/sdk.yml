@@ -149,7 +149,7 @@ stages:
 .build feed with OpenWrt SDK:
   extends: .build feed with SDK
   variables:
-    CI_SDK_BEFORE_COMPILE_COMMAND: sudo apt-get update; sudo apt-get install -y python-yaml python3-yaml
+    CI_SDK_BEFORE_COMPILE_COMMAND: sudo apt-get update; sudo apt-get install -y python3-yaml
     CI_SDK_TOPDIR: /home/build/openwrt
 
 .build feed with intel_mips-xrx500 SDK:
