@@ -252,6 +252,6 @@ targets:
         prompt: '=> '
         init_commands:
           - setenv bootargs earlyprintk console=ttyS0,115200
-          - dhcp ${kernel_addr_r} openwrt-mvebu-cortexa9-cznic_turris-omnia-initramfs-kernel.bin
-        boot_command: bootm ${kernel_addr_r}
+          - dhcp 0x2000000 openwrt-mvebu-cortexa9-cznic_turris-omnia-initramfs-kernel.bin
+        boot_command: bootm 0x2000000
       UBootStrategy: {}
