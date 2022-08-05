@@ -6,3 +6,6 @@ profiles:
 target: mvebu
 subtarget: cortexa9
 description: Build image for the Linksys WRT3200ACM (Rango), WRT32X (Venom), Turris Omnia
+
+diffconfig: |
+  CONFIG_TESTING_KERNEL=y
