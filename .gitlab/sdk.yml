@@ -168,7 +168,7 @@ stages:
   variables:
     CI_SDK_IMAGE: registry.gitlab.com/prpl-foundation/prplos/prplos/$CI_DESIGNATED_BRANCH/sdk-mvebu-cortexa9:latest
 
-.build feed with ath79-generic-19.07.7 SDK:
+.build feed with ath79-generic-22.03-SNAPSHOT SDK:
   extends: .build feed with OpenWrt SDK
   variables:
-    CI_SDK_IMAGE: openwrtorg/sdk:ath79-generic-19.07.7
+    CI_SDK_IMAGE: openwrt/sdk:ath79-generic-22.03-SNAPSHOT
