@@ -4,11 +4,11 @@ Create R alias:
 
 Check that random LXC binaries work:
 
-  $ R /opt/prplos/usr/bin/lxc-info
+  $ R lxc-info
   lxc-info: No container name specified
   [1]
 
-  $ R /opt/prplos/usr/bin/lxc-device
+  $ R lxc-device
   lxc-device: No container name specified
   [1]
 
