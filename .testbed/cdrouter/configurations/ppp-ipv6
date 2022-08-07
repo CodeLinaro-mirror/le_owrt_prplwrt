@@ -676,7 +676,7 @@ SECTION "Base Configuration" {
             # testvar portScanStart                    0
             # testvar portScanStop                     65535
             # testvar portScanDelay                    1
-            # testvar firewallTcpOpenPorts             "22 443"
+            testvar firewallTcpOpenPorts               "50805"
             # testvar firewallTcpClosedPorts           2323
             # testvar firewallUdpOpenPorts             1234
             testvar firewallUdpClosedPorts             68
