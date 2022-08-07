@@ -4,14 +4,9 @@ Create R alias:
 
 Get initial state of bridges:
 
-  $ R "brctl show | cut -d$'\t' -f1,4-"
-  bridge name\tSTP enabled\tinterfaces (esc)
-  br-guest\tno (esc)
-  br-lan\tno\t\tlan0 (esc)
-  \t\t\t\t\tlan1 (esc)
-  \t\t\t\t\tlan2 (esc)
-  \t\t\t\t\tlan3 (esc)
-  \t\t\t\t\tlan4 (esc)
+  $ R "brctl show | grep -E '(br-lan|br-guest)' | sort | cut -d$'\t' -f1,6" | tr '\t' ' '
+  br-guest 
+  br-lan lan(0|1|2|3|4) (re)
 
 Remove lan4 from LAN bridge and add it to the Guest bridge:
 
@@ -25,13 +20,9 @@ Remove lan4 from LAN bridge and add it to the Guest bridge:
 
 Check that lan4 is added to Guest bridge:
 
-  $ R "brctl show | cut -d$'\t' -f1,4-"
-  bridge name\tSTP enabled\tinterfaces (esc)
-  br-guest\tno\t\tlan4 (esc)
-  br-lan\tno\t\tlan0 (esc)
-  \t\t\t\t\tlan1 (esc)
-  \t\t\t\t\tlan2 (esc)
-  \t\t\t\t\tlan3 (esc)
+  $ R "brctl show | grep -E '(br-lan|br-guest)' | sort | cut -d$'\t' -f1,6" | tr '\t' ' '
+  br-guest lan4
+  br-lan lan(0|1|2|3) (re)
 
 Remove lan4 from the Guest bridge and add it back to the LAN bridge:
 
@@ -45,11 +36,6 @@ Remove lan4 from the Guest bridge and add it back to the LAN bridge:
 
 Check for initial state of bridges again:
 
-  $ R "brctl show | cut -d$'\t' -f1,4-"
-  bridge name\tSTP enabled\tinterfaces (esc)
-  br-guest\tno (esc)
-  br-lan\tno\t\tlan0 (esc)
-  \t\t\t\t\tlan1 (esc)
-  \t\t\t\t\tlan2 (esc)
-  \t\t\t\t\tlan3 (esc)
-  \t\t\t\t\tlan4 (esc)
+  $ R "brctl show | grep -E '(br-lan|br-guest)' | sort | cut -d$'\t' -f1,6" | tr '\t' ' '
+  br-guest 
+  br-lan lan(0|1|2|3|4) (re)
