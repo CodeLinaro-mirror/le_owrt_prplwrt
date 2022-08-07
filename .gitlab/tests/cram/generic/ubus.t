@@ -5,8 +5,18 @@ Create R alias:
 Check that ubus has all expected services available:
 
   $ R "ubus list | grep -v '^[[:upper:]]'"
+  container
   dhcp
   dnsmasq
+  dnsmasq.dns
+  hostapd
+  hotplug.dhcp
+  hotplug.ieee80211
+  hotplug.iface
+  hotplug.neigh
+  hotplug.net
+  hotplug.ntp
+  hotplug.tftp
   luci-rpc
   network
   network.device
@@ -17,11 +27,13 @@ Check that ubus has all expected services available:
   network.interface.wan
   network.interface.wan6
   network.wireless
+  rc
   service
   session
   system
   uci
   umdns
+  wpa_supplicant
 
 Check that ubus has expected datamodels available:
 
