@@ -102,8 +102,6 @@ Check that NetDev.Link provides expected output:
   br-lan
   eth0
   eth1
-  ifb0
-  ifb1
   lo
   teql0
   veth_gene_0
