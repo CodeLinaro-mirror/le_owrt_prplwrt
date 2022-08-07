@@ -124,7 +124,7 @@ Check correct change of packet classification ordering:
 Check default QoS configuration:
 
   $ R "tc qdisc show dev $DUT_WAN_INTERFACE"
-  qdisc htb 1: root refcnt (2|5|9) r2q 10 default 0x10003 direct_packets_stat [0-9]+ direct_qlen (532|1000) (re)
+  qdisc htb 1: root refcnt (2|5|9) r2q 10 default 0x10003 direct_packets_stat [0-9]+ direct_qlen (532|1000|1024) (re)
 
   $ R "tc class show dev $DUT_WAN_INTERFACE" | sort
   class htb 1:1 parent 1:32 prio 5 rate 25Mbit ceil 25Mbit burst *b cburst *b  (glob)
