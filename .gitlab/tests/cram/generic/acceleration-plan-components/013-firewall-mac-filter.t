@@ -15,8 +15,8 @@ Configure MAC filter rule:
 
 Check that there is correct rule present:
 
-  $ R "iptables -L FORWARD_L_Low -n | grep AA:BB:CC"
-  ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0            MAC AA:BB:CC:DD:EE:FF
+  $ R "iptables -L FORWARD_L_Low -n | grep aa:bb:cc"
+  ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0            MACaa:bb:cc:dd:ee:ff
 
 Disable MAC filter rule:
 
@@ -24,7 +24,7 @@ Disable MAC filter rule:
 
 Check that the rule is missing:
 
-  $ R "iptables -L FORWARD_L_Low -n | grep AA:BB:CC"
+  $ R "iptables -L FORWARD_L_Low -n | grep aa:bb:cc"
   [1]
 
 Enable MAC filter rule:
@@ -33,11 +33,11 @@ Enable MAC filter rule:
 
 Check that the rule is back again:
 
-  $ R "iptables -L FORWARD_L_Low -n | grep AA:BB:CC"
-  ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0            MAC AA:BB:CC:DD:EE:FF
+  $ R "iptables -L FORWARD_L_Low -n | grep aa:bb:cc"
+  ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0            MACaa:bb:cc:dd:ee:ff
 
 Remove the rule and check that it is gone:
 
   $ script --command "ssh -t root@$TARGET_LAN_IP ubus-cli Firewall.Chain.L_Low.Rule.test-" > /dev/null; sleep 1
-  $ R "iptables -L FORWARD_L_Low -n | grep AA:BB:CC"
+  $ R "iptables -L FORWARD_L_Low -n | grep aa:bb:cc"
   [1]
