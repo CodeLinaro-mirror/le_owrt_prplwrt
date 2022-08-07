@@ -12,8 +12,7 @@ Check that hostapd is operating after reboot:
 
   $ R logger -t cram "Check that hostapd is operating after reboot"
   $ R "ps w" | sed -nE 's/.*(\/usr\/sbin\/hostapd.*)/\1/p' | LC_ALL=C sort
-  /usr/sbin/hostapd -s -P /var/run/wifi-phy0.pid -B /var/run/hostapd-phy0.conf
-  /usr/sbin/hostapd -s -P /var/run/wifi-phy1.pid -B /var/run/hostapd-phy1.conf
+  /usr/sbin/hostapd -s -g /var/run/hostapd/global
 
 Restart prplmesh:
 
