@@ -3,8 +3,8 @@ description: Add the prpl features
 feeds:
   - name: feed_prpl
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-prpl.git
-    tracking_branch: prplwrt-19.07
-    revision: prplos-v1.5
+    tracking_branch: prplos
+    revision: e5249110c8903be503174d968e8f1cb20693d4ef
 
 additional_packages:
   - feed: packages
@@ -16,7 +16,6 @@ additional_packages:
       - lighttpd-mod-fastcgi
       - lighttpd-mod-auth
       - lighttpd-mod-authn_file
-      - syslog-ng
 
 packages:
   - acl-manager
@@ -80,6 +79,7 @@ packages:
   - prplmesh
   - rlyeh
   - routing-manager
+  - syslog-ng
   - tc
   - time-manager
   - timingila
@@ -102,6 +102,8 @@ diffconfig: |
           CONFIG_PACKAGE_rpcd-mod-luci=y
           CONFIG_PACKAGE_ip-full=y
           CONFIG_PACKAGE_ip-bridge=y
+          CONFIG_SYSLOGNG_LOGROTATE=y
+          CONFIG_SYSLOGNG_LOGROTATE_MAXSIZE="5M"
           # CONFIG_PACKAGE_firewall is not set
           # CONFIG_PACKAGE_logd is not set
           # lxc options for LCM
