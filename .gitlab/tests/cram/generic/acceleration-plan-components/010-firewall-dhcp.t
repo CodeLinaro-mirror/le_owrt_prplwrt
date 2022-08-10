@@ -2,6 +2,16 @@ Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
+Assure that fw3 is not installed and active:
+
+  $ R "fw3"
+  ash: fw3: not found
+  [127]
+
+  $ R "iptables -L INPUT | grep -c fw3"
+  0
+  [1]
+
 Check that client is able to get new lease:
 
   $ sudo nmap --script broadcast-dhcp-discover -e $TESTBED_LAN_INTERFACE 2>&1 | egrep '(Server|Router|Subnet)' | sort
