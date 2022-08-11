@@ -2,6 +2,11 @@ Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
+Check that ubus has hotplug.firmware service available:
+
+  $ R "ubus list | grep hotplug.firmware"
+  hotplug.firmware
+
 Check that we've correct system info:
 
   $ R "ubus call system board | jsonfilter -e @.system -e @.model -e @.board_name"
