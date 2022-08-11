@@ -4,7 +4,7 @@ Create R alias:
 
 Check that ubus has all expected services available:
 
-  $ R "ubus list | grep -v '^[[:upper:]]'"
+  $ R "ubus list | grep -v -e '^[[:upper:]]' -e 'hotplug.firmware'"
   container
   dhcp
   dnsmasq
