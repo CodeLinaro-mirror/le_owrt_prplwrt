@@ -6,7 +6,7 @@ Add DMZ host:
 
   $ printf "\
   > ubus-cli Firewall.X_Prpl_DMZ+{Alias='test'}
-  > ubus-cli Firewall.X_Prpl_DMZ.test.SourceInterface=eth1
+  > ubus-cli Firewall.X_Prpl_DMZ.test.SourceInterface=wan
   > ubus-cli Firewall.X_Prpl_DMZ.test.DestinationIPAddress=192.168.1.186
   > ubus-cli Firewall.X_Prpl_DMZ.test.Enable=1
   > " > /tmp/cram
