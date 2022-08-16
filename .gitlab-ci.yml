@@ -2,17 +2,9 @@ variables:
   CI_DESIGNATED_BRANCH: prplos
 
 include:
-  - local: .gitlab/build.yml
   - local: .gitlab/cdrouter.yml
-  - local: .gitlab/coverity.yml
-  - local: .gitlab/docker.yml
-  - local: .gitlab/docker/builder/gitlab.yml
-  - local: .gitlab/docker/testbed/gitlab.yml
-  - local: .gitlab/docker/sdk/gitlab.yml
   - local: .gitlab/testbed.yml
-  - local: .gitlab/testbed/nec-wx3000hp.yml
   - local: .gitlab/testbed/glinet-b1300.yml
-  - local: .gitlab/testbed/turris-omnia.yml
 
 stages:
   - docker
@@ -26,73 +18,16 @@ stages:
   - cdrouter
   - coverity
 
-build test intel_mips prpl:
-  extends: .build test config
-
-build test ipq40xx prpl:
-  extends: .build test config
-
-build test mvebu prpl:
-  extends: .build test config
-
-coverity scan ipq40xx prpl:
-  extends: .coverity scan config
-  variables:
-    CI_COVERITY_COMPILER_TEMPLATE_LIST: >
-      arm-openwrt-linux-gcc
-      arm-openwrt-linux-muslgnueabi-gcc
-
-run test NEC WX3000HP NAND:
-  needs:
-    - build test intel_mips prpl
-  extends: .nec-wx3000hp testbed
-
 run test Gl.iNet B1300 initramfs:
-  needs:
-    - build test ipq40xx prpl
+  when: manual
   extends: .glinet-b1300 testbed
 
-run test Turris Omnia initramfs:
-  needs:
-    - build test mvebu prpl
-  extends: .turris-omnia testbed
-
-CDRouter-Top-100 NEC NAND:
-  needs:
-    - build test intel_mips prpl
-  extends:
-    - .nec-wx3000hp testbed
-    - .cdrouter
-
 CDRouter-Top-100 Gl.iNet initramfs:
-  needs:
-    - build test ipq40xx prpl
   extends:
     - .glinet-b1300 testbed
     - .cdrouter
-
-CDRouter-Top-100 Turris initramfs:
-  needs:
-    - build test mvebu prpl
-  extends:
-    - .turris-omnia testbed
-    - .cdrouter
-
-CDRouter-Top-100 NEC PPPoE VLANs NAND:
-  needs:
-    - build test intel_mips prpl
-  extends:
-    - .nec-wx3000hp testbed
-    - .cdrouter
-  variables:
-    CDROUTER_TEST_CONFIG: vlan-ppp
-    DUT_INIT_SCRIPTS: |
-      .gitlab/scripts/dut-init/cdrouter-dut-enable-pppoe.sh
-      .gitlab/scripts/dut-init/cdrouter-dut-enable-vlans.sh
 
 CDRouter-Top-100 Gl.iNet PPPoE WAN initramfs:
-  needs:
-    - build test ipq40xx prpl
   extends:
     - .glinet-b1300 testbed
     - .cdrouter
@@ -100,53 +35,13 @@ CDRouter-Top-100 Gl.iNet PPPoE WAN initramfs:
     CDROUTER_TEST_CONFIG: ppp
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-enable-pppoe.sh
-
-CDRouter-Top-100 Turris PPPoE WAN initramfs:
-  needs:
-    - build test mvebu prpl
-  extends:
-    - .turris-omnia testbed
-    - .cdrouter
-  variables:
-    CDROUTER_TEST_CONFIG: ppp
-    DUT_INIT_SCRIPTS: |
-      .gitlab/scripts/dut-init/cdrouter-dut-enable-pppoe.sh
-
-CDRouter-IPv6-Top-100 NEC NAND:
-  needs:
-    - build test intel_mips prpl
-  extends:
-    - .nec-wx3000hp testbed
-    - .cdrouter
 
 CDRouter-IPv6-Top-100 Gl.iNet initramfs:
-  needs:
-    - build test ipq40xx prpl
   extends:
     - .glinet-b1300 testbed
     - .cdrouter
-
-CDRouter-IPv6-Top-100 Turris initramfs:
-  needs:
-    - build test mvebu prpl
-  extends:
-    - .turris-omnia testbed
-    - .cdrouter
-
-CDRouter-IPv6-Top-100 NEC PPPoE VLANs NAND:
-  needs:
-    - build test intel_mips prpl
-  extends:
-    - .nec-wx3000hp testbed
-    - .cdrouter
-  variables:
-    CDROUTER_TEST_CONFIG: vlan-ppp
-    DUT_INIT_SCRIPTS: |
-      .gitlab/scripts/dut-init/cdrouter-dut-enable-pppoe.sh
 
 CDRouter-IPv6-Top-100 Gl.iNet PPPoE WAN initramfs:
-  needs:
-    - build test ipq40xx prpl
   extends:
     - .glinet-b1300 testbed
     - .cdrouter
@@ -154,52 +49,14 @@ CDRouter-IPv6-Top-100 Gl.iNet PPPoE WAN initramfs:
     CDROUTER_TEST_CONFIG: ppp
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-enable-pppoe.sh
-
-CDRouter-IPv6-Top-100 Turris PPPoE WAN initramfs:
-  needs:
-    - build test mvebu prpl
-  extends:
-    - .turris-omnia testbed
-    - .cdrouter
-  variables:
-    CDROUTER_TEST_CONFIG: ppp
-    DUT_INIT_SCRIPTS: |
-      .gitlab/scripts/dut-init/cdrouter-dut-enable-pppoe.sh
-
-CDRouter-TR-069 NEC NAND:
-  allow_failure: true
-  needs:
-    - build test intel_mips prpl
-  extends:
-    - .nec-wx3000hp testbed
-    - .cdrouter
-  variables:
-    DUT_INIT_SCRIPTS: |
-      .gitlab/scripts/dut-init/cdrouter-tr181-mockups.sh
 
 CDRouter-TR-069 Gl.iNet NOR:
   allow_failure: true
-  needs:
-    - build test ipq40xx prpl
   extends:
     - .glinet-b1300 testbed
     - .cdrouter
   variables:
     LABGRID_TARGET: glinet-b1300-nor
     TFTP_IMAGE_FILENAME: openwrt-ipq40xx-generic-glinet_gl-b1300-squashfs-sysupgrade.bin
-    DUT_INIT_SCRIPTS: |
-      .gitlab/scripts/dut-init/cdrouter-tr181-mockups.sh
-
-CDRouter-TR-069 Turris eMMC:
-  allow_failure: true
-  needs:
-    - build test mvebu prpl
-  extends:
-    - .turris-omnia testbed
-    - .cdrouter
-  variables:
-    LABGRID_TARGET: turris-omnia-emmc
-    TFTP_IMAGE_FILENAME: openwrt-mvebu-cortexa9-cznic_turris-omnia-sysupgrade.img.gz
-    TFTP_IMAGE_UNPACK_COMMAND: "gunzip --force $TESTBED_TFTP_PATH/$TFTP_IMAGE_FILENAME || true"
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-tr181-mockups.sh
