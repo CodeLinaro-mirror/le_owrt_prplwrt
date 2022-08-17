@@ -5,6 +5,7 @@ include:
   - local: .gitlab/cdrouter.yml
   - local: .gitlab/testbed.yml
   - local: .gitlab/testbed/glinet-b1300.yml
+  - local: .gitlab/testbed/turris-omnia.yml
 
 stages:
   - docker
@@ -58,5 +59,48 @@ CDRouter-TR-069 Gl.iNet NOR:
   variables:
     LABGRID_TARGET: glinet-b1300-nor
     TFTP_IMAGE_FILENAME: openwrt-ipq40xx-generic-glinet_gl-b1300-squashfs-sysupgrade.bin
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-tr181-mockups.sh
+
+run test Turris Omnia initramfs:
+  extends: .turris-omnia testbed
+
+CDRouter-Top-100 Turris initramfs:
+  extends:
+    - .turris-omnia testbed
+    - .cdrouter
+
+CDRouter-Top-100 Turris PPPoE WAN initramfs:
+  extends:
+    - .turris-omnia testbed
+    - .cdrouter
+  variables:
+    CDROUTER_TEST_CONFIG: ppp
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-enable-pppoe.sh
+
+CDRouter-IPv6-Top-100 Turris initramfs:
+  extends:
+    - .turris-omnia testbed
+    - .cdrouter
+
+CDRouter-IPv6-Top-100 Turris PPPoE WAN initramfs:
+  extends:
+    - .turris-omnia testbed
+    - .cdrouter
+  variables:
+    CDROUTER_TEST_CONFIG: ppp
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-enable-pppoe.sh
+
+CDRouter-TR-069 Turris eMMC:
+  allow_failure: true
+  extends:
+    - .turris-omnia testbed
+    - .cdrouter
+  variables:
+    LABGRID_TARGET: turris-omnia-emmc
+    TFTP_IMAGE_FILENAME: openwrt-mvebu-cortexa9-cznic_turris-omnia-sysupgrade.img.gz
+    TFTP_IMAGE_UNPACK_COMMAND: "gunzip --force $TESTBED_TFTP_PATH/$TFTP_IMAGE_FILENAME || true"
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-tr181-mockups.sh
