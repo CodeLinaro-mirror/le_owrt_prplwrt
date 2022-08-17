@@ -69,6 +69,7 @@
     - ssh-keyscan $TARGET_LAN_IP >> ~/.ssh/known_hosts 2> /dev/null
     - ssh root@$TARGET_LAN_IP "cat /var/log/messages" > syslog-$LABGRID_TARGET.txt 2> /dev/null || true
     - ssh root@$TARGET_LAN_IP "ubus call system board" | tee system-$LABGRID_TARGET.json
+    - ssh root@$TARGET_LAN_IP "dd if=/dev/zero of=/tmp/big_file bs=1M count=10 && time cp /tmp/big_file /root/" || true
 
   script:
     - sleep $DUT_SLEEP_AFTER_BOOT
