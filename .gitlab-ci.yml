@@ -24,11 +24,15 @@ run test Gl.iNet B1300 initramfs:
   extends: .glinet-b1300 testbed
 
 CDRouter-Top-100 Gl.iNet initramfs:
+  when: manual
+  needs: []
   extends:
     - .glinet-b1300 testbed
     - .cdrouter
 
 CDRouter-Top-100 Gl.iNet PPPoE WAN initramfs:
+  when: manual
+  needs: []
   extends:
     - .glinet-b1300 testbed
     - .cdrouter
@@ -38,11 +42,15 @@ CDRouter-Top-100 Gl.iNet PPPoE WAN initramfs:
       .gitlab/scripts/dut-init/cdrouter-dut-enable-pppoe.sh
 
 CDRouter-IPv6-Top-100 Gl.iNet initramfs:
+  when: manual
+  needs: []
   extends:
     - .glinet-b1300 testbed
     - .cdrouter
 
 CDRouter-IPv6-Top-100 Gl.iNet PPPoE WAN initramfs:
+  when: manual
+  needs: []
   extends:
     - .glinet-b1300 testbed
     - .cdrouter
@@ -52,6 +60,8 @@ CDRouter-IPv6-Top-100 Gl.iNet PPPoE WAN initramfs:
       .gitlab/scripts/dut-init/cdrouter-dut-enable-pppoe.sh
 
 CDRouter-TR-069 Gl.iNet NOR:
+  when: manual
+  needs: []
   allow_failure: true
   extends:
     - .glinet-b1300 testbed
@@ -63,14 +73,20 @@ CDRouter-TR-069 Gl.iNet NOR:
       .gitlab/scripts/dut-init/cdrouter-tr181-mockups.sh
 
 run test Turris Omnia initramfs:
+  when: manual
+  needs: []
   extends: .turris-omnia testbed
 
 CDRouter-Top-100 Turris initramfs:
+  when: manual
+  needs: []
   extends:
     - .turris-omnia testbed
     - .cdrouter
 
 CDRouter-Top-100 Turris PPPoE WAN initramfs:
+  when: manual
+  needs: []
   extends:
     - .turris-omnia testbed
     - .cdrouter
@@ -80,11 +96,15 @@ CDRouter-Top-100 Turris PPPoE WAN initramfs:
       .gitlab/scripts/dut-init/cdrouter-dut-enable-pppoe.sh
 
 CDRouter-IPv6-Top-100 Turris initramfs:
+  when: manual
+  needs: []
   extends:
     - .turris-omnia testbed
     - .cdrouter
 
 CDRouter-IPv6-Top-100 Turris PPPoE WAN initramfs:
+  when: manual
+  needs: []
   extends:
     - .turris-omnia testbed
     - .cdrouter
@@ -94,6 +114,8 @@ CDRouter-IPv6-Top-100 Turris PPPoE WAN initramfs:
       .gitlab/scripts/dut-init/cdrouter-dut-enable-pppoe.sh
 
 CDRouter-TR-069 Turris eMMC:
+  when: manual
+  needs: []
   allow_failure: true
   extends:
     - .turris-omnia testbed
