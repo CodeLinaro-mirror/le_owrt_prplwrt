@@ -2,33 +2,72 @@ Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
+Check that wireless has desired configuration and state after boot:
+
+  $ R "ubus -S call WiFi.SSID _get | jsonfilter -e @[*].SSID -e @[*].Status | sort"
+  Down
+  Down
+  Down
+  Down
+  prplOS
+  prplOS
+  prplOS-guest
+  prplOS-guest
+
+  $ R "pgrep hostapd"
+  [1]
+
+  $ R "ubus list | grep hostapd."
+  [1]
+
 Start wireless:
 
   $ R logger -t cram "Start wireless"
-  $ R "uci set wireless.radio0.disabled='0'; uci set wireless.radio1.disabled='0'; uci commit; wifi up"
-  $ sleep 30
 
-Check that hostapd is operating after reboot:
+  $ R "ubus -S call WiFi.Radio.1 _set '{\"parameters\":{\"Enable\":1}}'"
+  {"WiFi.Radio.1.":{"Enable":true}}
+
+  $ R "ubus -S call WiFi.Radio.2 _set '{\"parameters\":{\"Enable\":1}}'"
+  {"WiFi.Radio.2.":{"Enable":true}}
+
+  $ R "ubus -t 30 wait_for hostapd.wlan0 && ubus -t 30 wait_for hostapd.wlan1"
+
+Check that hostapd is operating as expected:
 
   $ R logger -t cram "Check that hostapd is operating after reboot"
-  $ R "ps w" | sed -nE 's/.*(\/usr\/sbin\/hostapd.*)/\1/p' | LC_ALL=C sort
-  /usr/sbin/hostapd -s -P /var/run/wifi-phy0.pid -B /var/run/hostapd-phy0.conf
-  /usr/sbin/hostapd -s -P /var/run/wifi-phy1.pid -B /var/run/hostapd-phy1.conf
+  $ R "ps w" | sed -nE 's/.*(hostapd.*)/\1/p' | head -2 | LC_ALL=C sort
+  hostapd -ddt /tmp/wlan0_hapd.conf
+  hostapd -ddt /tmp/wlan1_hapd.conf
+
+  $ R "ubus list | grep hostapd. | sort"
+  hostapd.wlan0
+  hostapd.wlan1
+
+Check that wireless is operating:
+
+  $ R "ubus -S call WiFi.SSID _get | jsonfilter -e @[*].SSID -e @[*].Status | sort"
+  Up
+  Up
+  Up
+  Up
+  prplOS
+  prplOS
+  prplOS-guest
+  prplOS-guest
+
+  $ R "iw dev | grep -e Interface -e ssid | tr -d '\t' | sort"
+  Interface wlan0
+  Interface wlan1
+  ssid prplOS
+  ssid prplOS
+  ssid prplOS-guest
+  ssid prplOS-guest
 
 Restart prplmesh:
 
   $ R logger -t cram "Restart prplmesh"
   $ R "/etc/init.d/prplmesh gateway_mode && sleep 5" > /dev/null 2>&1
   $ sleep 60
-
-Check VAP setup after restart:
-
-  $ R logger -t cram "Check VAP setup after restart"
-  $ R "iwinfo | grep ESSID"
-  wlan0     ESSID: "prplOS"
-  wlan0-1   ESSID: "prplOS-guest"
-  wlan1     ESSID: "prplOS"
-  wlan1-1   ESSID: "prplOS-guest"
 
 Check that prplmesh processes are running:
 
