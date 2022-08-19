@@ -5,11 +5,15 @@ target: intel_x86
 subtarget: lgm
 external_target: True
 description: Build images for the Maxlinear x86 devices - URX
+             This target requires sources from MaxLinear, that are accessible via
+             designcentersw.maxlinear.com.
+             For reference boards, source code access and reporting issues,
+             please contact dbarr@maxlinear.com.
 feeds:
   - name: feed_mxl
     uri: ssh://git@designcentersw.maxlinear.com:29418/source/urx-prplos_feed_mxl.git
     tracking_branch: 8.9.1
-    revision: 0e8a144dd2f31b99f45e56ac189c7f68fa2dd667
+    revision: 61482b53da0e02f6b2bc467b799559a9aa045483
 
 packages:
   - kmod-intel_eth_drv
@@ -59,6 +63,7 @@ packages:
 diffconfig: |
   CONFIG_DEVEL=y
   CONFIG_KERNEL_GIT_CLONE_URI="ssh://git@designcentersw.maxlinear.com:29418/source/urx-linux.git"
+  CONFIG_KERNEL_GIT_MIRROR_HASH="65a417eba1644570ab72941e397c1a99439ea533951f223b742a31e6b7aeeb25"
   CONFIG_KERNEL_GIT_DEPTH=""
   CONFIG_KERNEL_GIT_REF="8.9.1"
   CONFIG_TOOLCHAINOPTS=y
