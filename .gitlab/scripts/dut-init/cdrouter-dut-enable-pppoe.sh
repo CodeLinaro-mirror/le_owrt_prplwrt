@@ -9,4 +9,4 @@ ssh root@$TARGET_LAN_IP "ubus call PPP.Interface.1 _set '{\"parameters\":{\"Enab
 ssh root@$TARGET_LAN_IP "ubus call IP.Interface.2 _set '{\"parameters\":{\"LowerLayers\":\"Device.PPP.Interface.1.\"}}'"
 ssh root@$TARGET_LAN_IP "ubus call IP.Interface.2.IPv4Address.1 _set '{\"parameters\":{\"AddressingType\":\"IPCP\"}}'"
 sleep 30
-ssh root@$TARGET_LAN_IP "ubus call PPP.Interface.1.IPCP _get"
+ssh root@$TARGET_LAN_IP "ubus call PPP.Interface.1 _get"
