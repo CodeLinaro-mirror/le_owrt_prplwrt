@@ -1,0 +1,103 @@
+Index: ath10k-ct-2021-06-03-b44cd7b2/ath10k-4.19/core.c
+===================================================================
+--- ath10k-ct-2021-06-03-b44cd7b2.orig/ath10k-4.19/core.c
++++ ath10k-ct-2021-06-03-b44cd7b2/ath10k-4.19/core.c
+@@ -3589,6 +3589,7 @@ struct ath10k *ath10k_core_create(size_t
+ 		return NULL;
+ 
+ 	ar->eeprom_overrides.max_txpower = 0xFFFF;
++	ar->eeprom_overrides.peer_stats_pn = 1;
+ 	ar->sta_xretry_kickout_thresh = DEFAULT_ATH10K_KICKOUT_THRESHOLD;
+ 
+ 	ar->ath_common.priv = ar;
+Index: ath10k-ct-2021-06-03-b44cd7b2/ath10k-4.19/mac.c
+===================================================================
+--- ath10k-ct-2021-06-03-b44cd7b2.orig/ath10k-4.19/mac.c
++++ ath10k-ct-2021-06-03-b44cd7b2/ath10k-4.19/mac.c
+@@ -8475,6 +8475,78 @@ static void ath10k_sta_rc_update(struct
+ 	ieee80211_queue_work(hw, &arsta->update_wk);
+ }
+ 
++static void ath10k_get_key_seq(struct ieee80211_hw *hw,
++			struct ieee80211_key_conf *key, struct ieee80211_key_seq *seq)
++{
++
++	printk("rme\n");
++#ifdef CONFIG_ATH10K_DEBUGFS
++
++	struct ath10k *ar = hw->priv;
++	struct ath10k_peer *peer;
++	struct ath10k_fw_stats_peer *peer_stats;
++	u8 addr[ETH_ALEN] = {0};
++	int ret;
++	int i;
++
++	seq->tkip.iv32 = 0;
++	seq->tkip.iv16 = 0;
++	spin_lock_bh(&ar->data_lock);
++	i = 0;
++	list_for_each_entry(peer, &ar->peers, list) {
++		for (i = 0; i < ARRAY_SIZE(peer->keys); i++) {
++			if (peer->keys[i] == key) {
++				printk("GLENNON:19 - found matching key for peer mac %2.2X:%2.2X:%2.2X:%2.2X:%2.2X:%2.2X\n",
++					peer->addr[0],
++					peer->addr[1],
++					peer->addr[2],
++					peer->addr[3],
++					peer->addr[4],
++					peer->addr[5]);
++				ether_addr_copy(addr, peer->addr);
++				break;
++			}
++		}
++
++		if (i < ARRAY_SIZE(peer->keys))
++			break;
++	}
++	spin_unlock_bh(&ar->data_lock);
++
++	if (i == ARRAY_SIZE(peer->keys)) {
++		return;
++	}
++
++	mutex_lock(&ar->conf_mutex);
++
++	if (ar->state != ATH10K_STATE_ON) {
++		goto unlock;
++	}
++
++	ret = ath10k_debug_fw_stats_request(ar);
++	if (ret)
++		goto unlock;
++
++	list_for_each_entry(peer_stats, &ar->debug.fw_stats.peers, list) {
++		if (ether_addr_equal(addr, peer_stats->peer_macaddr)) {
++			printk("GLENNON:19 - found matching tx_pn = %llu (0x%llx)\n", peer_stats->pn, peer_stats->pn);
++			seq->ccmp.pn[0] = (u8) peer_stats->pn;
++			seq->ccmp.pn[1] = (u8)(u64)(peer_stats->pn >> 8);
++			seq->ccmp.pn[2] = (u8)(u64)(peer_stats->pn >> 16);
++			seq->ccmp.pn[3] = (u8)(u64)(peer_stats->pn >> 24);
++			seq->ccmp.pn[4] = (u8)(u64)(peer_stats->pn >> 32);
++			seq->ccmp.pn[5] = (u8)(u64)(peer_stats->pn >> 40);
++			break;
++		}
++	}
++
++unlock:
++	mutex_unlock(&ar->conf_mutex);
++#else
++	seq->iv32 = 0;
++	seq->iv16 = 0;
++#endif
++}
+ 
+ static u64 ath10k_get_tsf(struct ieee80211_hw *hw, struct ieee80211_vif *vif)
+ {
+@@ -9080,6 +9151,7 @@ static const struct ieee80211_ops ath10k
+ 	.switch_vif_chanctx		= ath10k_mac_op_switch_vif_chanctx,
+ 	.sta_pre_rcu_remove		= ath10k_mac_op_sta_pre_rcu_remove,
+ 	.sta_statistics			= ath10k_sta_statistics,
++	.get_key_seq			= ath10k_get_key_seq,
+ 
+ 	CFG80211_TESTMODE_CMD(ath10k_tm_cmd)
+ 
