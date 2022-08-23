@@ -11,4 +11,5 @@ ssh root@$TARGET_LAN_IP "ubus call IP.Interface.2.IPv4Address.1 _set '{\"paramet
 sleep 20
 ssh root@$TARGET_LAN_IP "ubus call IP.Interface.2 _get"
 ssh root@$TARGET_LAN_IP "ubus call PPP.Interface.1 _get"
-ssh root@$TARGET_LAN_IP "ubus list"
+
+ssh root@$TARGET_LAN_IP "ubus call DNS.Client.Server _add '{\"parameters\":{\"Alias\":\"ppp\",\"Enable\":\"1\",\"DNSServer\":\"202.254.101.1\",\"Interface\":\"Device.IP.Interface.2.\",\"Type\":\"Static\"}}'"
