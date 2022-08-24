@@ -679,7 +679,7 @@ SECTION "Base Configuration" {
             # testvar firewallTcpOpenPorts             "22 443"
             # testvar firewallTcpClosedPorts           2323
             # testvar firewallUdpOpenPorts             1234
-            # testvar firewallUdpClosedPorts           113
+            testvar firewallUdpClosedPorts             68
             # testvar firewallOutBlockedTcpPorts       1234
             # testvar firewallOutBlockedUdpPorts       1234
             # testvar firewallOutBlockedIpProtos       0
