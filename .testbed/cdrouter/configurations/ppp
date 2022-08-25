@@ -1292,7 +1292,7 @@ SECTION "CDRouter IPv6 Add-On" {
     SECTION "IPv6 LAN" {
 
         # testvar ipv6LanMode                      autoconf
-        # testvar ipv6LanIp                        3001:dddd::%eui64%
+        testvar ipv6LanIp                          3001:dddd::1
         # testvar ipv6LanPrivacyAddresses          no
         # testvar ipv6LanPrefixLen                 64
         # testvar ipv6MaxLanClients                32
