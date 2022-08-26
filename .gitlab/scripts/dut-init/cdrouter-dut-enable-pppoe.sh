@@ -8,5 +8,3 @@ ssh root@$TARGET_LAN_IP "ubus call DHCPv4.Client.1 _set '{\"parameters\":{\"Enab
 ssh root@$TARGET_LAN_IP "ubus call PPP.Interface.1 _set '{\"parameters\":{\"Enable\":1}}'"
 ssh root@$TARGET_LAN_IP "ubus call IP.Interface.2 _set '{\"parameters\":{\"LowerLayers\":\"Device.PPP.Interface.1.\"}}'"
 ssh root@$TARGET_LAN_IP "ubus call IP.Interface.2.IPv4Address.1 _set '{\"parameters\":{\"AddressingType\":\"IPCP\"}}'"
-
-ssh root@$TARGET_LAN_IP "ubus call DNS.Client.Server _add '{\"parameters\":{\"Alias\":\"ppp\",\"Enable\":\"1\",\"DNSServer\":\"202.254.101.1\",\"Interface\":\"Device.IP.Interface.2.\",\"Type\":\"Static\"}}'"
