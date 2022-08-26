@@ -51,6 +51,7 @@
       --remote-host $TARGET_LAN_TEST_HOST
 
     - >
+      sleep 120
       retry_count=3;
       while [ $retry_count -gt 0 ]; do
         echo "Waiting for SSH availability on $TARGET_LAN_IP"
