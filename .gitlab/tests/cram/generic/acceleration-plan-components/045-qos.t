@@ -9,8 +9,8 @@ Check QoS root datamodel:
 
 Check Qos.Node.7 datamodel:
 
-  $ R "ubus call QoS.Node.7 _get | jsonfilter -e @[*].TrafficClasses -e @[*].DropAlgorithm -e @[*].Controller -e @[*].AllInterfaces -e @[*].SchedulerAlgorithm -e @[*].Alias " | sort
-  5, 6, 7
+  $ R "ubus call QoS.Node.7 _get '{"rel_path":"[Alias==\"node-queue-home-voip\"]."}' | jsonfilter -e @[*].TrafficClasses -e @[*].DropAlgorithm -e @[*].Controller -e @[*].AllInterfaces -e @[*].SchedulerAlgorithm -e @[*].Alias " | sort
+  5,6,7
   DT
   HTB
   false
