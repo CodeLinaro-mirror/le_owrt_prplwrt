@@ -4,7 +4,7 @@ feeds:
   - name: feed_prpl
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-prpl.git
     tracking_branch: prplos
-    revision: 09ed954fd3d7f34e1f2ea8009f87876fe063d3a3
+    revision: faa2f03627998099be28c51e9acbf02863a689d4
 
 additional_packages:
   - feed: packages
@@ -71,6 +71,7 @@ packages:
   - mod-qos-tc
   - mod-sahtrace
   - mod-vlan-ioctl
+  - mod-xpon-prpl
   - multisettings
   - netdev-plugin
   - netmodel
@@ -91,6 +92,7 @@ packages:
   - prplmesh
   - rlyeh
   - routing-manager
+  - ssh-server
   - syslog-ng
   - tc
   - time-manager
@@ -103,6 +105,7 @@ packages:
   - tr181-dhcpv4client
   - tr181-dhcpv6client
   - tr181-dns
+  - tr181-dnssd
   - tr181-firewall
   - tr181-logical
   - tr181-neighbordiscovery
@@ -111,6 +114,7 @@ packages:
   - tr181-rest-api
   - tr181-routeradvertisement
   - tr181-usermanagement
+  - tr181-xpon
   - u80211d
   - umdns
   - wan-autosensing
