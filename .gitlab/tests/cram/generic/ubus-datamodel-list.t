@@ -38,6 +38,8 @@ Check that ubus has expected datamodels available:
   DNS.Client.Server
   DNS.Relay
   DNS.Relay.Forwarding
+  DNSSD
+  DNSSD.Service
   Device
   Device.InterfaceStack
   DeviceInfo
@@ -115,6 +117,8 @@ Check that ubus has expected datamodels available:
   Routing.RouteInformation.InterfaceSetting.X_PRPL-COM_Option
   Routing.Router
   Routing.Router.IPv6Forwarding
+  SSH
+  SSH.Server
   SoftwareModules
   SoftwareModules.DeploymentUnit
   SoftwareModules.ExecEnv
@@ -197,6 +201,8 @@ Check that ubus has expected datamodels available:
   WiFi.SSID.Stats.WmmPacketsReceived
   WiFi.SSID.Stats.WmmPacketsSent
   WiFi.wps_DefParam
+  XPON
+  XPON.ONU
   X_PRPL-COM_MultiSettings
   X_PRPL-COM_MultiSettings.Profile
   X_PRPL-COM_PersistentConfiguration

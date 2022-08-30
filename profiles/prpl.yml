@@ -3,8 +3,8 @@ description: Add the prpl features
 feeds:
   - name: feed_prpl
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-prpl.git
-    tracking_branch: prplos
-    revision: e0d3db83c801cc4c1cc901cc1ac2a0e2fdff2c17
+    tracking_branch: ambiorix_latest
+    revision: f30755aa4fd170babb8cf1968c26ec9b32743526
 
 additional_packages:
   - feed: packages
@@ -73,6 +73,7 @@ packages:
   - mod-qos-tc
   - mod-sahtrace
   - mod-vlan-ioctl
+  - mod-xpon-prpl
   - multisettings
   - netdev-plugin
   - netmodel
@@ -94,6 +95,7 @@ packages:
   - pwhm
   - rlyeh
   - routing-manager
+  - ssh-server
   - syslog-ng
   - tc
   - time-manager
@@ -106,6 +108,7 @@ packages:
   - tr181-dhcpv4client
   - tr181-dhcpv6client
   - tr181-dns
+  - tr181-dnssd
   - tr181-firewall
   - tr181-logical
   - tr181-neighbordiscovery
@@ -114,6 +117,7 @@ packages:
   - tr181-rest-api
   - tr181-routeradvertisement
   - tr181-usermanagement
+  - tr181-xpon
   - u80211d
   - umdns
   - wan-autosensing
