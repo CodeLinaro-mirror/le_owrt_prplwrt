@@ -26,6 +26,8 @@ Check that ubus has expected datamodels available:
   DNS.Client.Server
   DNS.Relay
   DNS.Relay.Forwarding
+  DNSSD
+  DNSSD.Service
   Device
   Device.InterfaceStack
   DeviceInfo
@@ -116,12 +118,16 @@ Check that ubus has expected datamodels available:
   Users.Role
   Users.SupportedShell
   Users.User
+  XPON
+  XPON.ONU
   X_PRPL-COM_MultiSettings
   X_PRPL-COM_MultiSettings.Profile
   X_PRPL-COM_PersistentConfiguration
   X_PRPL-COM_PersistentConfiguration.Config
   X_PRPL-COM_PersistentConfiguration.Config.Security
   X_PRPL-COM_PersistentConfiguration.Service
+  X_PRPL-COM_SSH
+  X_PRPL-COM_SSH.Server
   X_PRPL-COM_WANAutoSensing
   X_PRPL-COM_WANAutoSensing.Config
   X_PRPL-COM_WANAutoSensing.Detect
