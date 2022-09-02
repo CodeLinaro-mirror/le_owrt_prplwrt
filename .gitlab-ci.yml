@@ -78,16 +78,26 @@ CDRouter-Top-100 Turris initramfs:
     - .turris-omnia testbed
     - .cdrouter
 
-CDRouter-Top-100 NEC PPPoE VLANs NAND:
+CDRouter-Top-100 NEC VLAN WAN NAND:
   needs:
     - build test intel_mips prpl
   extends:
     - .nec-wx3000hp testbed
     - .cdrouter
   variables:
-    CDROUTER_TEST_CONFIG: vlan-ppp
+    CDROUTER_TEST_CONFIG: vlan
     DUT_INIT_SCRIPTS: |
-      .gitlab/scripts/dut-init/cdrouter-dut-enable-pppoe.sh
+      .gitlab/scripts/dut-init/cdrouter-dut-enable-vlans.sh
+
+CDRouter-Top-100 Gl.iNet VLAN WAN initramfs:
+  needs:
+    - build test ipq40xx prpl
+  extends:
+    - .glinet-b1300 testbed
+    - .cdrouter
+  variables:
+    CDROUTER_TEST_CONFIG: vlan
+    DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-enable-vlans.sh
 
 CDRouter-Top-100 Gl.iNet PPPoE WAN initramfs:
@@ -133,16 +143,27 @@ CDRouter-IPv6-Top-100 Turris initramfs:
     - .turris-omnia testbed
     - .cdrouter
 
-CDRouter-IPv6-Top-100 NEC PPPoE VLANs NAND:
+CDRouter-IPv6-Top-100 NEC VLAN WAN NAND:
   needs:
     - build test intel_mips prpl
   extends:
     - .nec-wx3000hp testbed
     - .cdrouter
   variables:
-    CDROUTER_TEST_CONFIG: vlan-ppp
+    CDROUTER_TEST_CONFIG: vlan
     DUT_INIT_SCRIPTS: |
-      .gitlab/scripts/dut-init/cdrouter-dut-enable-pppoe.sh
+      .gitlab/scripts/dut-init/cdrouter-dut-enable-vlans.sh
+
+CDRouter-IPv6-Top-100 Gl.iNet VLAN WAN initramfs:
+  needs:
+    - build test ipq40xx prpl
+  extends:
+    - .glinet-b1300 testbed
+    - .cdrouter
+  variables:
+    CDROUTER_TEST_CONFIG: vlan
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-enable-vlans.sh
 
 CDRouter-IPv6-Top-100 Gl.iNet PPPoE WAN initramfs:
   needs:
