@@ -795,9 +795,18 @@ drv_mac80211_setup() {
 	for_each_interface "ap" mac80211_prepare_vif
 
 	[ -n "$hostapd_ctrl" ] && {
-		return
+		/usr/sbin/hostapd -s -P /var/run/wifi-$phy.pid -B "$hostapd_conf_file"
+		ret="$?"
+		wireless_add_process "$(cat /var/run/wifi-$phy.pid)" "/usr/sbin/hostapd" 1
+		[ "$ret" != 0 ] && {
+			wireless_setup_failed HOSTAPD_START_FAILED
+			return
+		}
 	}
 
+	for_each_interface "ap sta adhoc mesh monitor" mac80211_setup_vif
+
+	wireless_set_up
 }
 
 list_phy_interfaces() {
