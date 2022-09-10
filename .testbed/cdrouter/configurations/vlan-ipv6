@@ -503,7 +503,7 @@ SECTION "Base Configuration" {
 
         SECTION "LAN 802.1q VLAN" {
 
-            testvar lanVlanId                          201
+            # testvar lanVlanId                        201
             # testvar lanVlanPriority                  0
 
         }
@@ -1194,7 +1194,7 @@ SECTION "CDRouter IKE Add-On" {
 
 SECTION "CDRouter IPv6 Add-On" {
 
-    # testvar supportsIPv6                     no
+    testvar supportsIPv6                     yes
 
     SECTION "IPv6 WAN" {
 
