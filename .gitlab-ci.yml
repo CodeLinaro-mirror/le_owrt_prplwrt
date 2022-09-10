@@ -114,13 +114,23 @@ CDRouter-Top-100 Turris PPPoE WAN initramfs:
       .gitlab/scripts/dut-init/cdrouter-dut-enable-pppoe.sh
 
 CDRouter-IPv6-Top-100 NEC NAND:
+  allow_failure: true
+  rules:
+    - when: manual
   needs:
     - build test intel_mips prpl
+  variables:
+    CDROUTER_TEST_CONFIG: ppp-ipv6
   extends:
     - .nec-wx3000hp testbed
     - .cdrouter
 
 CDRouter-IPv6-Top-100 Gl.iNet initramfs:
+  allow_failure: true
+  rules:
+    - when: manual
+  variables:
+    CDROUTER_TEST_CONFIG: generic-ipv6
   needs:
     - build test ipq40xx prpl
   extends:
@@ -128,6 +138,11 @@ CDRouter-IPv6-Top-100 Gl.iNet initramfs:
     - .cdrouter
 
 CDRouter-IPv6-Top-100 Turris initramfs:
+  allow_failure: true
+  rules:
+    - when: manual
+  variables:
+    CDROUTER_TEST_CONFIG: generic-ipv6
   needs:
     - build test mvebu prpl
   extends:
@@ -135,46 +150,58 @@ CDRouter-IPv6-Top-100 Turris initramfs:
     - .cdrouter
 
 CDRouter-IPv6-Top-100 NEC VLAN WAN NAND:
+  allow_failure: true
+  rules:
+    - when: manual
   needs:
     - build test intel_mips prpl
   extends:
     - .nec-wx3000hp testbed
     - .cdrouter
   variables:
-    CDROUTER_TEST_CONFIG: vlan
+    CDROUTER_TEST_CONFIG: vlan-ipv6
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-enable-vlans.sh
 
 CDRouter-IPv6-Top-100 Gl.iNet VLAN WAN initramfs:
+  allow_failure: true
+  rules:
+    - when: manual
   needs:
     - build test ipq40xx prpl
   extends:
     - .glinet-b1300 testbed
     - .cdrouter
   variables:
-    CDROUTER_TEST_CONFIG: vlan
+    CDROUTER_TEST_CONFIG: vlan-ipv6
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-enable-vlans.sh
 
 CDRouter-IPv6-Top-100 Gl.iNet PPPoE WAN initramfs:
+  allow_failure: true
+  rules:
+    - when: manual
   needs:
     - build test ipq40xx prpl
   extends:
     - .glinet-b1300 testbed
     - .cdrouter
   variables:
-    CDROUTER_TEST_CONFIG: ppp
+    CDROUTER_TEST_CONFIG: ppp-ipv6
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-enable-pppoe.sh
 
 CDRouter-IPv6-Top-100 Turris PPPoE WAN initramfs:
+  allow_failure: true
+  rules:
+    - when: manual
   needs:
     - build test mvebu prpl
   extends:
     - .turris-omnia testbed
     - .cdrouter
   variables:
-    CDROUTER_TEST_CONFIG: ppp
+    CDROUTER_TEST_CONFIG: ppp-ipv6
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-enable-pppoe.sh
 
