@@ -4,17 +4,200 @@ import argparse
 import os
 import sys
 import logging
+import json
+import time
 
 from labgrid import Environment, StepReporter
+from labgrid.driver import ExecutionError
 from labgrid.consoleloggingreporter import ConsoleLoggingReporter
+
+
+class OpenWrtConsoleShell:
+    def __init__(self, args, shell):
+        self.args = args
+        self.shell = shell
+
+    def run(self, cmd):
+        result = None
+
+        try:
+            logging.info(f"executing: {cmd}")
+            result = self.shell.run_check(cmd)
+        except ExecutionError as e:
+            stdout = " ".join(e.stdout)
+            stderr = " ".join(e.stderr)
+            logging.error(f"failed: '{e.msg}' stdout='{stdout}' stderr='{stderr}'")
+            return None, (e.msg, e.stdout, e.stderr)
+
+        if len(result) > 0:
+            logging.info("result:\n" + "\n".join(result) + "\n" + "-" * 80)
+
+        return result
+
+    def ubus_call(self, cmd):
+        result = None
+
+        cmd = f"ubus call {cmd}"
+        try:
+            logging.info(f"executing: {cmd}")
+            result = self.shell.run_check(cmd)
+        except ExecutionError as e:
+            stdout = " ".join(e.stdout).replace("\t", "")
+            stderr = " ".join(e.stderr)
+            logging.error(f"failed: {e.msg} stdout='{stdout}' stderr='{stderr}'")
+            return None, e.stdout[-1], (e.msg, e.stdout, e.stderr)
+
+        result = json.loads(" ".join(result))
+        logging.info(f"result: {result}")
+        return result
+
+
+class UbusTR181:
+    def __init__(self, args, shell):
+        self.args = args
+        self.shell = shell
+
+    def api_call(self, method, path, parameters=None):
+        cmd = f"{path} {method}"
+        if parameters:
+            p = json.dumps({"parameters": parameters})
+            cmd += f" '{p}'"
+
+        return self.shell.ubus_call(cmd)
+
+    def get(self, path, parameters=None):
+        return self.api_call("_get", path, parameters)
+
+    def set(self, path, parameters):
+        return self.api_call("_set", path, parameters)
+
+    def add(self, path, parameters):
+        return self.api_call("_add", path, parameters)
+
+    def remove(self, path, parameters=None):
+        return self.api_call("_del", path, parameters)
+
+    def call(self, path, method, parameters):
+        cmd = f"{path} {method}"
+        if parameters:
+            p = json.dumps(parameters)
+            cmd += f" '{p}'"
+
+        return self.shell.ubus_call(cmd)
 
 
 class TestbedDevice:
     def __init__(self, args):
         self.args = args
+        self.shell = None
         self.env = Environment(config_file=self.args.config)
         ConsoleLoggingReporter.start(args.console_logpath)
         self.target = self.env.get_target(args.target)
+
+    def init_shell(self):
+        if self.shell:
+            return
+
+        self.shell_driver = self.target.get_driver("ShellDriver")
+        self.shell = OpenWrtConsoleShell(self.args, self.shell_driver)
+
+    def init_swconfig_glinet(self):
+        self.shell.run("swconfig dev switch0 vlan 1 set vid 201")
+        self.shell.run("swconfig dev switch0 vlan 1 set ports '0t 3t 4t'")
+
+        self.shell.run("swconfig dev switch0 vlan 2 set vid 101")
+        self.shell.run("swconfig dev switch0 vlan 2 set ports '0t 5t'")
+
+        self.shell.run("swconfig dev switch0 vlan 1 show")
+        self.shell.run("swconfig dev switch0 vlan 2 show")
+
+        self.shell.run(
+            """
+          uci add network switch_vlan &&
+          uci set network.@switch_vlan[-1]=switch_vlan &&
+          uci set network.@switch_vlan[-1].device='switch0' &&
+          uci set network.@switch_vlan[-1].vlan='2' &&
+          uci set network.@switch_vlan[-1].vid='101' &&
+          uci set network.@switch_vlan[-1].ports='0t 5t' &&
+          uci set network.@switch_vlan[0].vid='201' &&
+          uci set network.@switch_vlan[0].ports='3t 4t 0t' &&
+          uci commit network
+            """
+        )
+
+    def _init_swconfig(self):
+        if self.board_name.startswith("glinet"):
+            self.init_swconfig_glinet()
+
+    def _init_wan_vlan(self):
+        self.shell.run("ubus -t 60 wait_for X_PRPL-COM_WANManager.WAN")
+        self.ubus_tr181.set("X_PRPL-COM_WANManager.WAN.2.Intf.1", {"VlanID": 101})
+        self.ubus_tr181.call(
+            "X_PRPL-COM_WANManager", "setWANMode", {"WANMode": "demo_vlanmode"}
+        )
+
+    def _init_lan_vlan(self):
+        bridge_lan_ports = {
+            "cznic,turris-omnia": "Bridging.Bridge.1.Port.5",
+            "EASY350 ANYWAN (GRX350) Axepoint Asurada model": "Bridging.Bridge.1.Port.5",
+        }
+        bridge_vlan_port = bridge_lan_ports.get(
+            self.board_name, "Bridging.Bridge.1.Port.2"
+        )
+
+        self.ubus_tr181.set("Bridging.Bridge.1", {"Standard": "802.1Q-2005"})
+        self.ubus_tr181.add(
+            "Bridging.Bridge.1.VLAN",
+            {"Alias": "vlan201", "Name": "vlan201", "VLANID": 201, "Enable": 1},
+        )
+        self.ubus_tr181.set(
+            f"{bridge_vlan_port}",
+            {
+                "AcceptableFrameTypes": "AdmitOnlyVLANTagged",
+                "PVID": "201",
+                "Type": "CustomerVLANPort",
+                "Enable": 1,
+            },
+        )
+        self.ubus_tr181.add(
+            "Bridging.Bridge.1.VLANPort",
+            {
+                "Alias": "LAN",
+                "Name": "vlan201",
+                "Port": f"Device.{bridge_vlan_port}.",
+                "VLAN": "Device.Bridging.Bridge.1.VLAN.1.",
+                "Enable": 1,
+            },
+        )
+
+    def init_vlans(self):
+        self.init_shell()
+
+        system_info = self.shell.ubus_call("system board")
+        if not system_info:
+            logging.error("Unable to determine running DUT board!")
+            return
+
+        self.board_name = system_info["board_name"]
+        logging.info(f"Running on {self.board_name} board")
+
+        self.ubus_tr181 = UbusTR181(self.args, self.shell)
+        self._init_wan_vlan()
+        self._init_lan_vlan()
+        self._init_swconfig()
+
+        logging.info(
+            "Let the system apply the new configuration, waiting 15 seconds..."
+        )
+        time.sleep(15)
+
+        self.ubus_tr181.get("Ethernet.VLANTermination")
+        self.shell.run("(cat /proc/vlan101 || cat /proc/net/vlan/vlan101) 2> /dev/null")
+        self.shell.run("(cat /proc/vlan201 || cat /proc/net/vlan/vlan201) 2> /dev/null")
+        self.shell.run("ip address show vlan101")
+        self.shell.run("ip address show vlan201")
+        self.shell.run("brctl show")
+        self.shell.run("ip route show")
 
     def boot_into(self):
         strategy = self.target.get_driver("UBootStrategy")
@@ -116,6 +299,11 @@ def main():
         "-n", "--network", default="lan", help="target network (default: %(default)s)"
     )
     subparser.set_defaults(func=TestbedDevice.check_network)
+
+    subparser = subparsers.add_parser(
+        "init_vlans", help="initialize VLAN configuration"
+    )
+    subparser.set_defaults(func=TestbedDevice.init_vlans)
 
     args = parser.parse_args()
     if args.verbose >= 1:
