@@ -61,6 +61,20 @@ config WPA_WOLFSSL
 	select WOLFSSL_HAS_SESSION_TICKET
 	select WOLFSSL_HAS_WPAS
 
+config WPA_MBO_SUPPORT
+	bool "Multi Band Operation (Agile Multiband)"
+	default PACKAGE_wpa-supplicant || \
+		PACKAGE_wpa-supplicant-openssl || \
+		PACKAGE_wpa-supplicant-wolfssl || \
+		PACKAGE_wpad || \
+		PACKAGE_wpad-openssl || \
+		PACKAGE_wpad-wolfssl
+	help
+	  Multi Band Operation aka (Agile Multiband) enables features
+	  that facilitate efficient use of multiple frequency bands.
+	  Enabling MBO on an AP using RSN requires 802.11w to be enabled.
+	  Hostapd will refuse to start if MBO and RSN are enabled without 11w.
+
 config DRIVER_WEXT_SUPPORT
 	bool
 	default n
