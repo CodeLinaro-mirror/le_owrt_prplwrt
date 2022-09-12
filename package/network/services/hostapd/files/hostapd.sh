@@ -219,7 +219,7 @@ hostapd_common_add_bss_config() {
 	config_add_string wps_device_type wps_device_name wps_manufacturer wps_pin
 	config_add_string multi_ap_backhaul_ssid multi_ap_backhaul_key
 
-	config_add_boolean ieee80211v wnm_sleep_mode bss_transition
+	config_add_boolean ieee80211v wnm_sleep_mode bss_transition mbo
 	config_add_int time_advertisement
 	config_add_string time_zone
 
@@ -517,16 +517,23 @@ hostapd_set_bss_options() {
 	json_get_vars ieee80211v
 	set_default ieee80211v 0
 	if [ "$ieee80211v" -eq "1" ]; then
-		json_get_vars time_advertisement time_zone wnm_sleep_mode bss_transition
+		json_get_vars time_advertisement time_zone wnm_sleep_mode bss_transition mbo
 
 		set_default time_advertisement 0
 		set_default wnm_sleep_mode 0
 		set_default bss_transition 0
 
+		if [ "$enable_ax" -eq 1 ]; then
+			set_default mbo 1
+		else
+			set_default mbo 0
+		fi
+
 		append bss_conf "time_advertisement=$time_advertisement" "$N"
 		[ -n "$time_zone" ] && append bss_conf "time_zone=$time_zone" "$N"
 		append bss_conf "wnm_sleep_mode=$wnm_sleep_mode" "$N"
 		append bss_conf "bss_transition=$bss_transition" "$N"
+		append bss_conf "mbo=$mbo" "$N"
 	fi
 
 	json_get_vars ieee80211k
