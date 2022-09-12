@@ -102,6 +102,17 @@ CDRouter-Top-100 Turris VLAN WAN/LAN initramfs:
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-enable-vlans.sh
 
+CDRouter-Top-100 NEC PPPoE WAN NAND:
+  needs:
+    - build test intel_mips prpl
+  extends:
+    - .nec-wx3000hp testbed
+    - .cdrouter
+  variables:
+    CDROUTER_TEST_CONFIG: ppp
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-enable-pppoe.sh
+
 CDRouter-Top-100 Gl.iNet PPPoE WAN initramfs:
   needs:
     - build test ipq40xx prpl
@@ -201,6 +212,17 @@ CDRouter-IPv6-Top-100 Turris VLAN WAN/LAN initramfs:
     CDROUTER_TEST_CONFIG: vlan-ipv6
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-enable-vlans.sh
+
+CDRouter-IPv6-Top-100 NEC PPPoE WAN NAND:
+  needs:
+    - build test intel_mips prpl
+  extends:
+    - .nec-wx3000hp testbed
+    - .cdrouter
+  variables:
+    CDROUTER_TEST_CONFIG: ppp-ipv6
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-enable-pppoe.sh
 
 CDRouter-IPv6-Top-100 Gl.iNet PPPoE WAN initramfs:
   allow_failure: true
