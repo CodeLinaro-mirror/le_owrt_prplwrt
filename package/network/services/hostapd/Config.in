@@ -78,6 +78,7 @@ config WPA_MBO_SUPPORT
 config DRIVER_WEXT_SUPPORT
 	bool
 	default n
+	select WPA_MBO_SUPPORT
 
 config DRIVER_11N_SUPPORT
 	bool
