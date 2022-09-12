@@ -69,7 +69,7 @@ CDRouter-Top-100 Turris initramfs:
     - .turris-omnia testbed
     - .cdrouter
 
-CDRouter-Top-100 NEC VLAN WAN NAND:
+CDRouter-Top-100 NEC VLAN WAN/LAN NAND:
   needs:
     - build test intel_mips prpl
   extends:
@@ -80,11 +80,22 @@ CDRouter-Top-100 NEC VLAN WAN NAND:
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-enable-vlans.sh
 
-CDRouter-Top-100 Gl.iNet VLAN WAN initramfs:
+CDRouter-Top-100 Gl.iNet VLAN WAN/LAN initramfs:
   needs:
     - build test ipq40xx prpl
   extends:
     - .glinet-b1300 testbed
+    - .cdrouter
+  variables:
+    CDROUTER_TEST_CONFIG: vlan
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-enable-vlans.sh
+
+CDRouter-Top-100 Turris VLAN WAN/LAN initramfs:
+  needs:
+    - build test mvebu prpl
+  extends:
+    - .turris-omnia testbed
     - .cdrouter
   variables:
     CDROUTER_TEST_CONFIG: vlan
@@ -149,7 +160,7 @@ CDRouter-IPv6-Top-100 Turris initramfs:
     - .turris-omnia testbed
     - .cdrouter
 
-CDRouter-IPv6-Top-100 NEC VLAN WAN NAND:
+CDRouter-IPv6-Top-100 NEC VLAN WAN/LAN NAND:
   allow_failure: true
   rules:
     - when: manual
@@ -163,7 +174,7 @@ CDRouter-IPv6-Top-100 NEC VLAN WAN NAND:
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-enable-vlans.sh
 
-CDRouter-IPv6-Top-100 Gl.iNet VLAN WAN initramfs:
+CDRouter-IPv6-Top-100 Gl.iNet VLAN WAN/LAN initramfs:
   allow_failure: true
   rules:
     - when: manual
@@ -171,6 +182,20 @@ CDRouter-IPv6-Top-100 Gl.iNet VLAN WAN initramfs:
     - build test ipq40xx prpl
   extends:
     - .glinet-b1300 testbed
+    - .cdrouter
+  variables:
+    CDROUTER_TEST_CONFIG: vlan-ipv6
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-enable-vlans.sh
+
+CDRouter-IPv6-Top-100 Turris VLAN WAN/LAN initramfs:
+  allow_failure: true
+  rules:
+    - when: manual
+  needs:
+    - build test mvebu prpl
+  extends:
+    - .turris-omnia testbed
     - .cdrouter
   variables:
     CDROUTER_TEST_CONFIG: vlan-ipv6
