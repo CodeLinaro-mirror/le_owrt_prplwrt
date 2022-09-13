@@ -200,7 +200,7 @@ Check that we've correct DHCP pool settings:
   \t\t"IAPDEnable": false, (esc)
   \t\t"Status": "Disabled", (esc)
   \t\t"Status": "Disabled", (esc)
-  \t\t"Status": "Enabled", (esc)
+  \t\t"Status": "Error_Misconfigured", (esc)
 
 Check that we've correct Time.CurrentLocalTime:
 
