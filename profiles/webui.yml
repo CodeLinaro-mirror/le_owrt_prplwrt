@@ -4,7 +4,7 @@ feeds:
   - name: feed_prpl
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-prpl.git
     tracking_branch: prplos
-    revision: a0ea6d5551db4aec577b6df21de9eb290ee0ca9a
+    revision: 2dc9005c2baf46989e77ef72afda94d9eb772f07
 
 packages:
   - luci-mod-simple
