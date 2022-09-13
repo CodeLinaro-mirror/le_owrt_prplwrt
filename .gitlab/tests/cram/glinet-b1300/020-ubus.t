@@ -129,13 +129,13 @@ Check that NetModel.Intf provides expected output:
   $ R "ubus call NetModel _get '{\"rel_path\":\"Intf.\",\"depth\":100}' | jsonfilter -e @[*].Alias -e @[*].Flags -e @[*].Name -e @[*].Status | sed '/^$/d' | grep -v ^bridgeport | sort"
   Disabled
   Disabled
+  Disabled
   Enabled
   Enabled
   Enabled
   Enabled
   Enabled
-  Enabled
-  Enabled
+  Error
   Error
   Error
   Error
@@ -257,8 +257,8 @@ Check that NetModel.Intf provides expected output:
   ip enabled ipv4
   ip enabled ipv4 up ipv4-up
   ip iprouter .* (re)
-  ip up enabled ipv4 ipv6 ipv4-up ipv6-up
-  ip up enabled ipv4 ipv6 ipv4-up ipv6-up
+  ip up .* (re)
+  ip up .* (re)
   ip-guest
   ip-guest
   ip-guest
@@ -279,7 +279,6 @@ Check that NetModel.Intf provides expected output:
   logical up enabled
   logical up enabled
   netdev eth_link netdev-bound enabled netdev-up up
-  permanent
   permanent
   permanent
   permanent
