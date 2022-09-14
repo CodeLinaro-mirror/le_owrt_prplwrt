@@ -1,0 +1,39 @@
+Index: ath10k-ct-2021-06-03-b44cd7b2/ath10k-4.19/mac.c
+===================================================================
+--- ath10k-ct-2021-06-03-b44cd7b2.orig/ath10k-4.19/mac.c
++++ ath10k-ct-2021-06-03-b44cd7b2/ath10k-4.19/mac.c
+@@ -365,6 +365,7 @@ static int ath10k_send_key(struct ath10k
+ 		.key_data = key->key,
+ 		.key_flags = flags,
+ 		.macaddr = macaddr,
++        .pn = atomic64_read(&key->tx_pn),
+ 	};
+ 	int ret1, ret2;
+ 
+Index: ath10k-ct-2021-06-03-b44cd7b2/ath10k-4.19/wmi.c
+===================================================================
+--- ath10k-ct-2021-06-03-b44cd7b2.orig/ath10k-4.19/wmi.c
++++ ath10k-ct-2021-06-03-b44cd7b2/ath10k-4.19/wmi.c
+@@ -7949,6 +7949,10 @@ ath10k_wmi_op_gen_vdev_install_key(struc
+ 	cmd->key_txmic_len = __cpu_to_le32(arg->key_txmic_len);
+ 	cmd->key_rxmic_len = __cpu_to_le32(arg->key_rxmic_len);
+ 
++    if (arg->pn){
++        cmd->key_rsc_counter.key_seq_counter_l = __cpu_to_le32(arg->pn);
++        cmd->key_rsc_counter.key_seq_counter_h = __cpu_to_le32(0x80000000 ^ ((arg->pn >> 32) & 0x0000FFFF));
++    }
+ 	if (arg->macaddr)
+ 		ether_addr_copy(cmd->peer_macaddr.addr, arg->macaddr);
+ 	if (arg->key_data)
+Index: ath10k-ct-2021-06-03-b44cd7b2/ath10k-4.19/wmi.h
+===================================================================
+--- ath10k-ct-2021-06-03-b44cd7b2.orig/ath10k-4.19/wmi.h
++++ ath10k-ct-2021-06-03-b44cd7b2/ath10k-4.19/wmi.h
+@@ -5227,6 +5227,7 @@ struct wmi_vdev_install_key_arg {
+ 	u32 key_flags;
+ 	u32 key_cipher;
+ 	u32 key_len;
++    u64 pn;
+ 	u32 key_txmic_len;
+ 	u32 key_rxmic_len;
+ 	const void *key_data;
