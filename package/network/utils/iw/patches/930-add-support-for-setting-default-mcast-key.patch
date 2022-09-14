@@ -1,0 +1,64 @@
+From f5c7e48f84c57dd82b7d58af3495eeeb425dcbab Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Rapha=C3=ABl=20M=C3=A9lotte?= <raphael.melotte@mind.be>
+Date: Tue, 6 Sep 2022 14:47:59 +0200
+Subject: [PATCH 4/6] iw: add support for setting default multicast keys
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Signed-off-by: Raphaël Mélotte <raphael.melotte@mind.be>
+---
+ keys.c | 40 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 40 insertions(+)
+
+diff --git a/keys.c b/keys.c
+index b400b5b..22cf90f 100644
+--- a/keys.c
++++ b/keys.c
+@@ -219,3 +219,43 @@ nla_put_failure:
+ COMMAND(key, del, "<key index> <MAC address>",
+ 	NL80211_CMD_DEL_KEY, 0, CIB_NETDEV, handle_del_key,
+ 	"Delete a key.\n");
++
++static int handle_set_key(struct nl80211_state *state,
++                         struct nl_msg *msg, int argc, char **argv,
++                         enum id_input id)
++{
++       char *end;
++       struct nl_msg *key_msg;
++       int err = 1;
++
++       key_msg = nlmsg_alloc();
++       if (!key_msg)
++               err = -ENOMEM;
++
++       /* key index */
++       if (argc) {
++               nla_put_u8(msg, NL80211_ATTR_KEY_IDX, strtoul(argv[0], &end, 10));
++               argv++;
++               argc--;
++       }
++
++       nla_put_flag(msg, NL80211_ATTR_KEY_DEFAULT);
++       struct nlattr *types;
++
++       types = nla_nest_start(msg, NL80211_ATTR_KEY_DEFAULT_TYPES);
++       if (!types ||
++	   nla_put_flag(msg, NL80211_KEY_DEFAULT_TYPE_MULTICAST)) {
++	       err = -ENOMEM;
++	       goto nla_put_failure;
++       }
++       nla_nest_end(msg, types);
++
++       err = 0;
++
++ nla_put_failure:
++       nlmsg_free(key_msg);
++       return err;
++}
++COMMAND(key, set_default, "<key index>",
++	NL80211_CMD_SET_KEY, 0, CIB_NETDEV, handle_set_key,
++	"Set a key to be used as the default multicast key.\n");
+-- 
+2.37.1
+
