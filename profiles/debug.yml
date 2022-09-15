@@ -9,6 +9,11 @@ packages:
   - wpa-cli
   - iw-full
 
+additional_packages:
+  - feed: packages
+    packages:
+      - socat
+
 diffconfig: |
   CONFIG_BUSYBOX_DEFAULT_FEATURE_REVERSE_SEARCH=y
   CONFIG_BUSYBOX_DEFAULT_HUSH_SAVEHISTORY=y
