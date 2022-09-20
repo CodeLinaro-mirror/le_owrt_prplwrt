@@ -223,6 +223,15 @@ class TestbedDevice:
         self.ubus_tr181.call("Bridging", "_get", {"depth": 100})
         self.ubus_tr181.call("Firewall", "_get", {"depth": 100})
 
+    def console_recover_ssh_access(self):
+        self.init_shell()
+        self.shell.run("iptables -P INPUT ACCEPT")
+        self.shell.run("iptables -L INPUT")
+        self.shell.run("/etc/init.d/dropbear restart; sleep 5")
+        self.shell.run("logread | grep dropbear | tail -10")
+        self.shell.run("netstat -nlp | grep :22")
+        self.shell.run("ping -c1 192.168.1.1; ping -c1 192.168.1.2")
+
     def boot_into(self):
         strategy = self.target.get_driver("UBootStrategy")
         dest = self.args.destination
@@ -333,6 +342,12 @@ def main():
         "console_dump_system_state", help="dump system state using serial console"
     )
     subparser.set_defaults(func=TestbedDevice.console_dump_system_state)
+
+    subparser = subparsers.add_parser(
+        "console_recover_ssh_access",
+        help="try to recover SSH access using serial console",
+    )
+    subparser.set_defaults(func=TestbedDevice.console_recover_ssh_access)
 
     args = parser.parse_args()
     if args.verbose >= 1:
