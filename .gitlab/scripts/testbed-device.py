@@ -199,6 +199,30 @@ class TestbedDevice:
         self.shell.run("brctl show")
         self.shell.run("ip route show")
 
+    def console_dump_system_state(self):
+        self.init_shell()
+
+        self.shell.ubus_call("system board")
+
+        self.shell.run("df -h || df")
+        self.shell.run("free -h || free")
+        self.shell.run("ps auxfw || ps w")
+        self.shell.run("cat /etc/config/network")
+        self.shell.run("brctl show")
+        self.shell.run("ip route show")
+        self.shell.run("ip address show")
+        self.shell.run("ip link show")
+        self.shell.run("iptables-save")
+        self.shell.run("ip6tables-save")
+        self.shell.run("cat /var/log/messages || logread")
+
+        self.ubus_tr181 = UbusTR181(self.args, self.shell)
+        self.ubus_tr181.call("IP", "_get", {"depth": 100})
+        self.ubus_tr181.call("NetDev", "_get", {"depth": 100})
+        self.ubus_tr181.call("NetModel", "_get", {"depth": 100})
+        self.ubus_tr181.call("Bridging", "_get", {"depth": 100})
+        self.ubus_tr181.call("Firewall", "_get", {"depth": 100})
+
     def boot_into(self):
         strategy = self.target.get_driver("UBootStrategy")
         dest = self.args.destination
@@ -304,6 +328,11 @@ def main():
         "init_vlans", help="initialize VLAN configuration"
     )
     subparser.set_defaults(func=TestbedDevice.init_vlans)
+
+    subparser = subparsers.add_parser(
+        "console_dump_system_state", help="dump system state using serial console"
+    )
+    subparser.set_defaults(func=TestbedDevice.console_dump_system_state)
 
     args = parser.parse_args()
     if args.verbose >= 1:
