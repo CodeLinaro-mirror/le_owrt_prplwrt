@@ -86,6 +86,12 @@
     - ssh-keyscan $TESTBED_UART_RELAY_HOST > ~/.ssh/known_hosts 2> /dev/null
     - chmod 644 ~/.ssh/known_hosts
 
+    - >
+      ssh -o BatchMode=yes -o StrictHostKeyChecking=no -o ConnectTimeout=15 root@$TARGET_LAN_IP 'exit 0' || {
+        .gitlab/scripts/testbed-device.py --target $LABGRID_TARGET console_dump_system_state
+        .gitlab/scripts/testbed-device.py --target $LABGRID_TARGET console_recover_ssh_access
+      } || true
+
     - ssh-keyscan $TARGET_LAN_IP >> ~/.ssh/known_hosts 2> /dev/null
     - >
       ssh root@$TARGET_LAN_IP exit && {
