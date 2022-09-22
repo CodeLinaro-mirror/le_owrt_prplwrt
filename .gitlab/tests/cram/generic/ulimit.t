@@ -9,5 +9,5 @@ Assure no unlimited core file shell resource limits:
   >   dir=\$(dirname \$file); grep -q -s 'core.*size[[:space:]]*unlimited' \"\$dir/limits\" && \
   >   echo \"ERROR: unlimited core size detected: \$(cat \$file | tr '\0' ' ')\";
   > done \
-  > " | grep -v -e netifd -e udhcpc
+  > " | grep -v -e netifd -e udhcpc -e wait_for
   [1]
