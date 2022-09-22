@@ -1,0 +1,6 @@
+sed -i \
+  -e 's/netmodel-clients = 200/netmodel-clients = 500/' \
+  -e 's/netmodel-client = 200/netmodel-client = 500/' \
+  /etc/amx/netmodel-clients/netmodel-clients.odl
+
+exit 0
