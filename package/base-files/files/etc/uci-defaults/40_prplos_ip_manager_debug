@@ -1,0 +1,6 @@
+sed -i \
+	-e 's/ip-mngr = 200/ip-mngr = 500/' \
+	-e 's/ip-mod = 200/ip-mod = 500/' \
+	/etc/amx/ip-manager/ip-manager.odl
+
+exit 0
