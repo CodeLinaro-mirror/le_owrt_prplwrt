@@ -2300,7 +2300,7 @@ SECTION "CDRouter TR-069 Add-On" {
         # testvar acsPort                          80
         testvar acsDomain                          acs-download.qacafe.com
         # testvar acsTransport                     http
-        testvar acsAuth                          basic
+        # testvar acsAuth                          digest
         # testvar acsDigestQopAuth                 yes
         # testvar acsInterface                     wan
         testvar acsDiscoveryUrl                    http://acs-download.qacafe.com:80/
