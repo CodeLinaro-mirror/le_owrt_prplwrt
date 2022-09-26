@@ -38,6 +38,9 @@ build test ipq40xx prpl:
 build test mvebu prpl:
   extends: .build test config
 
+build test x86_64 prpl:
+  extends: .build test config
+
 coverity scan ipq40xx prpl:
   extends: .coverity scan config
   variables:
