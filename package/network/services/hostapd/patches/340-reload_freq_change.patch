@@ -1,7 +1,5 @@
-Index: hostapd-2019-08-08-ca8c2bd2/src/ap/hostapd.c
-===================================================================
---- hostapd-2019-08-08-ca8c2bd2.orig/src/ap/hostapd.c
-+++ hostapd-2019-08-08-ca8c2bd2/src/ap/hostapd.c
+--- a/src/ap/hostapd.c
++++ b/src/ap/hostapd.c
 @@ -108,6 +108,26 @@ static void hostapd_reload_bss(struct ho
  #endif /* CONFIG_NO_RADIUS */
  
@@ -29,7 +27,7 @@ Index: hostapd-2019-08-08-ca8c2bd2/src/ap/hostapd.c
  	if (!ssid->wpa_psk_set && ssid->wpa_psk && !ssid->wpa_psk->next &&
  	    ssid->wpa_passphrase_set && ssid->wpa_passphrase) {
  		/*
-@@ -211,6 +231,7 @@ int hostapd_reload_config(struct hostapd
+@@ -205,6 +225,7 @@ int hostapd_reload_config(struct hostapd
  	struct hostapd_data *hapd = iface->bss[0];
  	struct hostapd_config *newconf, *oldconf;
  	size_t j;
@@ -37,7 +35,7 @@ Index: hostapd-2019-08-08-ca8c2bd2/src/ap/hostapd.c
  
  	if (iface->config_fname == NULL) {
  		/* Only in-memory config in use - assume it has been updated */
-@@ -261,27 +282,23 @@ int hostapd_reload_config(struct hostapd
+@@ -255,24 +276,20 @@ int hostapd_reload_config(struct hostapd
  	}
  	iface->conf = newconf;
  
@@ -54,9 +52,6 @@ Index: hostapd-2019-08-08-ca8c2bd2/src/ap/hostapd.c
 +
  	for (j = 0; j < iface->num_bss; j++) {
  		hapd = iface->bss[j];
- 		if (!hapd->conf->config_id ||
- 		    strcmp(hapd->conf->config_id, newconf->bss[j]->config_id))
- 			hostapd_clear_old_bss(hapd);
  		hapd->iconf = newconf;
 -		hapd->iconf->channel = oldconf->channel;
 -		hapd->iconf->acs = oldconf->acs;
