@@ -17,7 +17,7 @@ CDRouter-TR-069 Gl.iNet NOR:
     - .cdrouter
   variables:
     LABGRID_TARGET: glinet-b1300-nor
-    TFTP_IMAGE_DOWNLOAD_URL: http://94.224.34.229/openwrt-ipq40xx-generic-glinet_gl-b1300-squashfs-sysupgrade.bin
+    TFTP_IMAGE_DOWNLOAD_URL: http://kashyyyk.mooo.com/fw/openwrt-ipq40xx-generic-glinet_gl-b1300-squashfs-sysupgrade.bin
     TFTP_IMAGE_FILENAME: openwrt-ipq40xx-generic-glinet_gl-b1300-squashfs-sysupgrade.bin
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-tr181-mockups.sh
