@@ -1,0 +1,74 @@
+From 39fb8c3edc74a7e419d95e2946a0b5a1206edc25 Mon Sep 17 00:00:00 2001
+From: Felix Fietkau <nbd@nbd.name>
+Date: Mon, 28 Dec 2020 14:42:30 +0100
+Subject: [PATCH] wireless: add support for not killing processes on teardown
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+When using a global hostapd/wpa_supplicant instance, it should not be killed
+if a single radio is torn down
+
+Signed-off-by: Felix Fietkau <nbd@nbd.name>
+---
+ scripts/netifd-wireless.sh | 1 +
+ wireless.c                 | 7 ++++++-
+ wireless.h                 | 1 +
+ 3 files changed, 8 insertions(+), 1 deletion(-)
+
+--- a/scripts/netifd-wireless.sh
++++ b/scripts/netifd-wireless.sh
+@@ -163,6 +163,7 @@ _wireless_add_process() {
+ 	json_add_int pid "$1"
+ 	json_add_string exe "$exe"
+ 	[ -n "$3" ] && json_add_boolean required 1
++	[ -n "$4" ] && json_add_boolean keep 1
+ 	exe2="$(readlink -f /proc/$1/exe)"
+ 	[ "$exe" != "$exe2" ] && echo "WARNING (wireless_add_process): executable path $exe does not match process $1 path ($exe2)"
+ 	_wdev_notify
+--- a/wireless.c
++++ b/wireless.c
+@@ -191,7 +191,7 @@ wireless_process_kill_all(struct wireles
+ 	list_for_each_entry_safe(proc, tmp, &wdev->script_proc, list) {
+ 		bool check = wireless_process_check(proc);
+ 
+-		if (check) {
++		if (check && !proc->keep) {
+ 			D(WIRELESS, "Wireless device '%s' kill pid %d\n", wdev->name, proc->pid);
+ 			kill(proc->pid, signal);
+ 		}
+@@ -901,12 +901,14 @@ wireless_device_add_process(struct wirel
+ 		PROC_ATTR_PID,
+ 		PROC_ATTR_EXE,
+ 		PROC_ATTR_REQUIRED,
++		PROC_ATTR_KEEP,
+ 		__PROC_ATTR_MAX
+ 	};
+ 	static const struct blobmsg_policy proc_policy[__PROC_ATTR_MAX] = {
+ 		[PROC_ATTR_PID] = { .name = "pid", .type = BLOBMSG_TYPE_INT32 },
+ 		[PROC_ATTR_EXE] = { .name = "exe", .type = BLOBMSG_TYPE_STRING },
+ 		[PROC_ATTR_REQUIRED] = { .name = "required", .type = BLOBMSG_TYPE_BOOL },
++		[PROC_ATTR_KEEP] = { .name = "keep", .type = BLOBMSG_TYPE_BOOL },
+ 	};
+ 	struct blob_attr *tb[__PROC_ATTR_MAX];
+ 	struct wireless_process *proc;
+@@ -933,6 +935,9 @@ wireless_device_add_process(struct wirel
+ 	if (tb[PROC_ATTR_REQUIRED])
+ 		proc->required = blobmsg_get_bool(tb[PROC_ATTR_REQUIRED]);
+ 
++	if (tb[PROC_ATTR_KEEP])
++		proc->keep = blobmsg_get_bool(tb[PROC_ATTR_KEEP]);
++
+ 	D(WIRELESS, "Wireless device '%s' add pid %d\n", wdev->name, proc->pid);
+ 	list_add(&proc->list, &wdev->script_proc);
+ 	uloop_timeout_set(&wdev->script_check, 0);
+--- a/wireless.h
++++ b/wireless.h
+@@ -95,6 +95,7 @@ struct wireless_process {
+ 	int pid;
+ 
+ 	bool required;
++	bool keep;
+ };
+ 
+ void wireless_device_create(struct wireless_driver *drv, const char *name, struct blob_attr *data);
