@@ -57,28 +57,28 @@ run test Turris Omnia initramfs:
     - build test mvebu prpl
   extends: .turris-omnia testbed
 
-CDRouter-Top-100 NEC NAND:
+CDRouter-Top-100+mDNS NEC NAND:
   needs:
     - build test intel_mips prpl
   extends:
     - .nec-wx3000hp testbed
     - .cdrouter
 
-CDRouter-Top-100 Gl.iNet initramfs:
+CDRouter-Top-100+mDNS Gl.iNet initramfs:
   needs:
     - build test ipq40xx prpl
   extends:
     - .glinet-b1300 testbed
     - .cdrouter
 
-CDRouter-Top-100 Turris initramfs:
+CDRouter-Top-100+mDNS Turris initramfs:
   needs:
     - build test mvebu prpl
   extends:
     - .turris-omnia testbed
     - .cdrouter
 
-CDRouter-Top-100 NEC VLAN WAN/LAN NAND:
+CDRouter-Top-100+mDNS NEC VLAN WAN/LAN NAND:
   needs:
     - build test intel_mips prpl
   extends:
@@ -89,7 +89,7 @@ CDRouter-Top-100 NEC VLAN WAN/LAN NAND:
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-enable-vlans.sh
 
-CDRouter-Top-100 Gl.iNet VLAN WAN/LAN initramfs:
+CDRouter-Top-100+mDNS Gl.iNet VLAN WAN/LAN initramfs:
   needs:
     - build test ipq40xx prpl
   extends:
@@ -100,7 +100,7 @@ CDRouter-Top-100 Gl.iNet VLAN WAN/LAN initramfs:
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-enable-vlans.sh
 
-CDRouter-Top-100 Turris VLAN WAN/LAN initramfs:
+CDRouter-Top-100+mDNS Turris VLAN WAN/LAN initramfs:
   needs:
     - build test mvebu prpl
   extends:
@@ -111,7 +111,7 @@ CDRouter-Top-100 Turris VLAN WAN/LAN initramfs:
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-enable-vlans.sh
 
-CDRouter-Top-100 NEC PPPoE WAN NAND:
+CDRouter-Top-100+mDNS NEC PPPoE WAN NAND:
   needs:
     - build test intel_mips prpl
   extends:
@@ -122,7 +122,7 @@ CDRouter-Top-100 NEC PPPoE WAN NAND:
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-enable-pppoe.sh
 
-CDRouter-Top-100 Gl.iNet PPPoE WAN initramfs:
+CDRouter-Top-100+mDNS Gl.iNet PPPoE WAN initramfs:
   needs:
     - build test ipq40xx prpl
   extends:
@@ -133,7 +133,7 @@ CDRouter-Top-100 Gl.iNet PPPoE WAN initramfs:
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-enable-pppoe.sh
 
-CDRouter-Top-100 Turris PPPoE WAN initramfs:
+CDRouter-Top-100+mDNS Turris PPPoE WAN initramfs:
   needs:
     - build test mvebu prpl
   extends:
@@ -144,7 +144,7 @@ CDRouter-Top-100 Turris PPPoE WAN initramfs:
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-enable-pppoe.sh
 
-CDRouter-IPv6-Top-100 NEC NAND:
+CDRouter-IPv6-Top-100+mDNS NEC NAND:
   allow_failure: true
   rules:
     - when: manual
@@ -156,7 +156,7 @@ CDRouter-IPv6-Top-100 NEC NAND:
     - .nec-wx3000hp testbed
     - .cdrouter
 
-CDRouter-IPv6-Top-100 Gl.iNet initramfs:
+CDRouter-IPv6-Top-100+mDNS Gl.iNet initramfs:
   allow_failure: true
   rules:
     - when: manual
@@ -168,7 +168,7 @@ CDRouter-IPv6-Top-100 Gl.iNet initramfs:
     - .glinet-b1300 testbed
     - .cdrouter
 
-CDRouter-IPv6-Top-100 Turris initramfs:
+CDRouter-IPv6-Top-100+mDNS Turris initramfs:
   allow_failure: true
   rules:
     - when: manual
@@ -180,7 +180,7 @@ CDRouter-IPv6-Top-100 Turris initramfs:
     - .turris-omnia testbed
     - .cdrouter
 
-CDRouter-IPv6-Top-100 NEC VLAN WAN/LAN NAND:
+CDRouter-IPv6-Top-100+mDNS NEC VLAN WAN/LAN NAND:
   allow_failure: true
   rules:
     - when: manual
@@ -194,7 +194,7 @@ CDRouter-IPv6-Top-100 NEC VLAN WAN/LAN NAND:
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-enable-vlans.sh
 
-CDRouter-IPv6-Top-100 Gl.iNet VLAN WAN/LAN initramfs:
+CDRouter-IPv6-Top-100+mDNS Gl.iNet VLAN WAN/LAN initramfs:
   allow_failure: true
   rules:
     - when: manual
@@ -208,7 +208,7 @@ CDRouter-IPv6-Top-100 Gl.iNet VLAN WAN/LAN initramfs:
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-enable-vlans.sh
 
-CDRouter-IPv6-Top-100 Turris VLAN WAN/LAN initramfs:
+CDRouter-IPv6-Top-100+mDNS Turris VLAN WAN/LAN initramfs:
   allow_failure: true
   rules:
     - when: manual
@@ -222,7 +222,7 @@ CDRouter-IPv6-Top-100 Turris VLAN WAN/LAN initramfs:
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-enable-vlans.sh
 
-CDRouter-IPv6-Top-100 NEC PPPoE WAN NAND:
+CDRouter-IPv6-Top-100+mDNS NEC PPPoE WAN NAND:
   allow_failure: true
   rules:
     - when: manual
@@ -236,7 +236,7 @@ CDRouter-IPv6-Top-100 NEC PPPoE WAN NAND:
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-enable-pppoe.sh
 
-CDRouter-IPv6-Top-100 Gl.iNet PPPoE WAN initramfs:
+CDRouter-IPv6-Top-100+mDNS Gl.iNet PPPoE WAN initramfs:
   allow_failure: true
   rules:
     - when: manual
@@ -250,7 +250,7 @@ CDRouter-IPv6-Top-100 Gl.iNet PPPoE WAN initramfs:
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-enable-pppoe.sh
 
-CDRouter-IPv6-Top-100 Turris PPPoE WAN initramfs:
+CDRouter-IPv6-Top-100+mDNS Turris PPPoE WAN initramfs:
   allow_failure: true
   rules:
     - when: manual
