@@ -11,20 +11,14 @@ stages:
   - cdrouter
 
 run test Gl.iNet B1300 initramfs:
-  needs:
-    - build test ipq40xx prpl
   extends: .glinet-b1300 testbed
 
 CDRouter-Top-100 Gl.iNet initramfs:
-  needs:
-    - build test ipq40xx prpl
   extends:
     - .glinet-b1300 testbed
     - .cdrouter
 
 CDRouter-Top-100 Gl.iNet VLAN WAN/LAN initramfs:
-  needs:
-    - build test ipq40xx prpl
   extends:
     - .glinet-b1300 testbed
     - .cdrouter
@@ -34,8 +28,6 @@ CDRouter-Top-100 Gl.iNet VLAN WAN/LAN initramfs:
       .gitlab/scripts/dut-init/cdrouter-dut-enable-vlans.sh
 
 CDRouter-Top-100 Gl.iNet PPPoE WAN initramfs:
-  needs:
-    - build test ipq40xx prpl
   extends:
     - .glinet-b1300 testbed
     - .cdrouter
@@ -50,8 +42,6 @@ CDRouter-IPv6-Top-100 Gl.iNet initramfs:
     - when: manual
   variables:
     CDROUTER_TEST_CONFIG: generic-ipv6
-  needs:
-    - build test ipq40xx prpl
   extends:
     - .glinet-b1300 testbed
     - .cdrouter
@@ -60,8 +50,6 @@ CDRouter-IPv6-Top-100 Gl.iNet VLAN WAN/LAN initramfs:
   allow_failure: true
   rules:
     - when: manual
-  needs:
-    - build test ipq40xx prpl
   extends:
     - .glinet-b1300 testbed
     - .cdrouter
@@ -74,8 +62,6 @@ CDRouter-IPv6-Top-100 Gl.iNet PPPoE WAN initramfs:
   allow_failure: true
   rules:
     - when: manual
-  needs:
-    - build test ipq40xx prpl
   extends:
     - .glinet-b1300 testbed
     - .cdrouter
