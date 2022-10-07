@@ -38,8 +38,6 @@ CDRouter-Top-100 Gl.iNet PPPoE WAN initramfs:
 
 CDRouter-IPv6-Top-100 Gl.iNet initramfs:
   allow_failure: true
-  rules:
-    - when: manual
   variables:
     CDROUTER_TEST_CONFIG: generic-ipv6
   extends:
@@ -48,8 +46,6 @@ CDRouter-IPv6-Top-100 Gl.iNet initramfs:
 
 CDRouter-IPv6-Top-100 Gl.iNet VLAN WAN/LAN initramfs:
   allow_failure: true
-  rules:
-    - when: manual
   extends:
     - .glinet-b1300 testbed
     - .cdrouter
@@ -60,8 +56,6 @@ CDRouter-IPv6-Top-100 Gl.iNet VLAN WAN/LAN initramfs:
 
 CDRouter-IPv6-Top-100 Gl.iNet PPPoE WAN initramfs:
   allow_failure: true
-  rules:
-    - when: manual
   extends:
     - .glinet-b1300 testbed
     - .cdrouter
