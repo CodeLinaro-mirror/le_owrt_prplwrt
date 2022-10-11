@@ -7,12 +7,8 @@ Check that wireless has desired configuration and state after boot:
   $ R "ubus -S call WiFi.SSID _get | jsonfilter -e @[*].SSID -e @[*].Status | sort"
   Down
   Down
-  Down
-  Down
   prplOS
   prplOS
-  prplOS-guest
-  prplOS-guest
 
   $ R "pgrep hostapd"
   [1]
@@ -27,10 +23,12 @@ Start wireless:
   $ R "ubus -S call WiFi.AccessPoint.1 _set '{\"parameters\":{\"Enable\":1}}'"
   {"WiFi.AccessPoint.1.":{"Enable":true}}
 
+  $ R "ubus -t 30 wait_for hostapd.wlan0"
+
   $ R "ubus -S call WiFi.AccessPoint.2 _set '{\"parameters\":{\"Enable\":1}}'"
   {"WiFi.AccessPoint.2.":{"Enable":true}}
 
-  $ R "ubus -t 30 wait_for hostapd.wlan0 && ubus -t 30 wait_for hostapd.wlan1"
+  $ R "ubus -t 30 wait_for hostapd.wlan1"
 
 Check that hostapd is operating as expected:
 
@@ -48,20 +46,14 @@ Check that wireless is operating:
   $ R "ubus -S call WiFi.SSID _get | jsonfilter -e @[*].SSID -e @[*].Status | sort"
   Up
   Up
-  Up
-  Up
   prplOS
   prplOS
-  prplOS-guest
-  prplOS-guest
 
   $ R "iw dev | grep -e Interface -e ssid | tr -d '\t' | sort"
   Interface wlan0
   Interface wlan1
   ssid prplOS
   ssid prplOS
-  ssid prplOS-guest
-  ssid prplOS-guest
 
 Restart prplmesh:
 
@@ -105,7 +97,5 @@ Check that prplmesh is in operational state:
   bml_nw_map_query: return value is: BML_RET_OK, Success status
   wlan0
   wlan0.0
-  wlan0.1
   wlan1
   wlan1.0
-  wlan1.1
