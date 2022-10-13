@@ -28,10 +28,6 @@ stages:
 
     - >
       for feed in $CI_SDK_INSTALL_FEEDS ci; do
-        sleep_interval="$(( (RANDOM % 60) + 1 ))"
-        echo "Waiting for $sleep_interval seconds..."
-        sleep "${sleep_interval}s"
-
         ./scripts/feeds update "$feed" ;
         ./scripts/feeds install -a -p "$feed" ;
       done 2>&1 | tee logs/build.log
