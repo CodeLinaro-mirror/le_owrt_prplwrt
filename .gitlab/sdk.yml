@@ -6,6 +6,8 @@ stages:
   - build
 
 .build feed with SDK:
+  tags:
+    - package-builder
   stage: build
   image: $CI_SDK_IMAGE
   variables:
