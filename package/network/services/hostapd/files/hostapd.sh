@@ -713,11 +713,6 @@ _wpa_supplicant_common() {
 	_config="${_rpath}-$ifname.conf"
 }
 
-wpa_supplicant_teardown_interface() {
-	_wpa_supplicant_common "$1"
-	rm -rf "$_rpath/$1" "$_config"
-}
-
 wpa_supplicant_prepare_interface() {
 	local ifname="$1"
 	_w_driver="$2"
@@ -762,7 +757,6 @@ wpa_supplicant_prepare_interface() {
 	else
 		[ -e "$multiap_flag_file" ] && rm "$multiap_flag_file"
 	fi
-	wpa_supplicant_teardown_interface "$ifname"
 	cat > "$_config" <<EOF
 $ap_scan
 $country_str
