@@ -40,6 +40,9 @@ build test mvebu prpl:
 
 build test x86_64 prpl:
   extends: .build test config
+  variables:
+    CI_BUILD_CONFIG: >
+      +DEVEL +BUILD_LOG +SDK +IB +IB_STANDALONE
 
 coverity scan ipq40xx prpl:
   extends: .coverity scan config
