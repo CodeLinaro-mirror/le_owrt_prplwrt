@@ -102,6 +102,11 @@ stages:
     CI_SDK_BUILD_PACKAGES: |
       please-provide
     CI_SDK_PACKAGE_JOBS_TEMPLATE: |
+      {% if env['CI_SDK_PIPELINE_SOURCE'] %}
+      workflow:
+        rules:
+          - if: $$CI_PIPELINE_SOURCE == "{{ env['CI_SDK_PIPELINE_SOURCE'] }}"
+      {% endif %}
       include:
         - remote: https://gitlab.com/prpl-foundation/prplos/prplos/-/raw/$CI_DESIGNATED_BRANCH/.gitlab/sdk.yml
       {% for sdk in env['CI_SDK_TARGETS'].rstrip().split("\n") %}
