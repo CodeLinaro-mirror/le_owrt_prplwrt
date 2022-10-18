@@ -256,7 +256,6 @@ CDRouter-IPv6-Top-100 Turris PPPoE WAN initramfs:
       .gitlab/scripts/dut-init/cdrouter-dut-enable-pppoe.sh
 
 CDRouter-TR-069 NEC NAND:
-  allow_failure: true
   needs:
     - build test intel_mips prpl
   extends:
@@ -267,7 +266,6 @@ CDRouter-TR-069 NEC NAND:
       .gitlab/scripts/dut-init/cdrouter-tr181-mockups.sh
 
 CDRouter-TR-069 Gl.iNet NOR:
-  allow_failure: true
   needs:
     - build test ipq40xx prpl
   extends:
@@ -280,7 +278,6 @@ CDRouter-TR-069 Gl.iNet NOR:
       .gitlab/scripts/dut-init/cdrouter-tr181-mockups.sh
 
 CDRouter-TR-069 Turris eMMC:
-  allow_failure: true
   needs:
     - build test mvebu prpl
   extends:
