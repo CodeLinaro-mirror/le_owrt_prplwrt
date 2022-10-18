@@ -7,9 +7,9 @@ Check QoS root datamodel:
   $ R "ubus -S call QoS _get"
   {"QoS.":{"SupportedControllers":"mod-qos-tc","ShaperNumberOfEntries":1,"QueueNumberOfEntries":5,"MaxClassificationEntries":20,"ClassificationNumberOfEntries":4,"QueueStatsNumberOfEntries":4,"MaxQueueEntries":20,"MaxShaperEntries":20}}
 
-Check Qos.Node.7 datamodel:
+Check Qos.Node.6 datamodel:
 
-  $ R "ubus call QoS.Node.7 _get | jsonfilter -e @[*].TrafficClasses -e @[*].DropAlgorithm -e @[*].Controller -e @[*].AllInterfaces -e @[*].SchedulerAlgorithm -e @[*].Alias " | sort
+  $ R "ubus call QoS.Node.6 _get | jsonfilter -e @[*].TrafficClasses -e @[*].DropAlgorithm -e @[*].Controller -e @[*].AllInterfaces -e @[*].SchedulerAlgorithm -e @[*].Alias " | sort
   5, 6, 7
   DT
   HTB
