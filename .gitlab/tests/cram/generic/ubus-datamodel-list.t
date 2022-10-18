@@ -117,6 +117,8 @@ Check that ubus has expected datamodels available:
   Routing.RouteInformation.InterfaceSetting.X_PRPL-COM_Option
   Routing.Router
   Routing.Router.IPv6Forwarding
+  SSH
+  SSH.Server
   SoftwareModules
   SoftwareModules.DeploymentUnit
   SoftwareModules.ExecEnv
@@ -138,8 +140,6 @@ Check that ubus has expected datamodels available:
   X_PRPL-COM_PersistentConfiguration.Config
   X_PRPL-COM_PersistentConfiguration.Config.Security
   X_PRPL-COM_PersistentConfiguration.Service
-  X_PRPL-COM_SSH
-  X_PRPL-COM_SSH.Server
   X_PRPL-COM_WANAutoSensing
   X_PRPL-COM_WANAutoSensing.Config
   X_PRPL-COM_WANAutoSensing.Detect
