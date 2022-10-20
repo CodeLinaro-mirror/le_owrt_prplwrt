@@ -1,3 +1,8 @@
+Skip test on nec-wx3000hp until PCF-728 is fixed:
+
+  $ [ "$DUT_BOARD" = "nec-wx3000hp" ] && exit 80
+  [1]
+
 Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
