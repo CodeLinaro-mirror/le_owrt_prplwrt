@@ -23,12 +23,12 @@ Start wireless:
   $ R "ubus -S call WiFi.AccessPoint.1 _set '{\"parameters\":{\"Enable\":1}}'"
   {"WiFi.AccessPoint.1.":{"Enable":true}}
 
-  $ R "ubus -t 30 wait_for hostapd.wlan0"
+  $ R "ubus -t 30 wait_for hostapd.wlan1"
 
   $ R "ubus -S call WiFi.AccessPoint.2 _set '{\"parameters\":{\"Enable\":1}}'"
   {"WiFi.AccessPoint.2.":{"Enable":true}}
 
-  $ R "ubus -t 30 wait_for hostapd.wlan1"
+  $ R "ubus -t 30 wait_for hostapd.wlan0"
 
 Check that hostapd is operating as expected:
 
