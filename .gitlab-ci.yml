@@ -11,17 +11,20 @@ stages:
   - cdrouter
 
 run test Gl.iNet B1300 initramfs:
-  when: []
+  when: always
+  needs: []
   extends: .glinet-b1300 testbed
 
 CDRouter-Top-100+mDNS Gl.iNet initramfs:
-  when: []
+  when: always
+  needs: []
   extends:
     - .glinet-b1300 testbed
     - .cdrouter
 
 CDRouter-Top-100+mDNS Gl.iNet VLAN WAN/LAN initramfs:
-  when: []
+  when: always
+  needs: []
   extends:
     - .glinet-b1300 testbed
     - .cdrouter
@@ -31,7 +34,8 @@ CDRouter-Top-100+mDNS Gl.iNet VLAN WAN/LAN initramfs:
       .gitlab/scripts/dut-init/cdrouter-dut-enable-vlans.sh
 
 CDRouter-Top-100+mDNS Gl.iNet PPPoE WAN initramfs:
-  when: []
+  when: always
+  needs: []
   extends:
     - .glinet-b1300 testbed
     - .cdrouter
@@ -42,7 +46,8 @@ CDRouter-Top-100+mDNS Gl.iNet PPPoE WAN initramfs:
 
 CDRouter-IPv6-Top-100+mDNS Gl.iNet initramfs:
   allow_failure: true
-  when: []
+  when: always
+  needs: []
   variables:
     CDROUTER_TEST_CONFIG: generic-ipv6
   extends:
@@ -51,7 +56,8 @@ CDRouter-IPv6-Top-100+mDNS Gl.iNet initramfs:
 
 CDRouter-IPv6-Top-100+mDNS Gl.iNet VLAN WAN/LAN initramfs:
   allow_failure: true
-  when: []
+  when: always
+  needs: []
   extends:
     - .glinet-b1300 testbed
     - .cdrouter
@@ -62,7 +68,8 @@ CDRouter-IPv6-Top-100+mDNS Gl.iNet VLAN WAN/LAN initramfs:
 
 CDRouter-IPv6-Top-100+mDNS Gl.iNet PPPoE WAN initramfs:
   allow_failure: true
-  when: []
+  when: always
+  needs: []
   extends:
     - .glinet-b1300 testbed
     - .cdrouter
@@ -73,7 +80,8 @@ CDRouter-IPv6-Top-100+mDNS Gl.iNet PPPoE WAN initramfs:
 
 CDRouter-TR-069 Gl.iNet NOR:
   allow_failure: true
-  when: []
+  when: always
+  needs: []
   extends:
     - .glinet-b1300 testbed
     - .cdrouter
