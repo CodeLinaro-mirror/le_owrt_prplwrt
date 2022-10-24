@@ -16,7 +16,7 @@ Add eth1 to the Guest bridge:
   > ubus-cli Bridging.Bridge.guest.Port.ETH1.Enable=1\n
   > ' > /tmp/run
   $ script --command "ssh -t root@$TARGET_LAN_IP '$(cat /tmp/run)'" > /dev/null
-  $ sleep 5
+  $ sleep 30
 
 Check that eth1 is added to br-guest bridge:
 
@@ -31,7 +31,7 @@ Remove eth1 from the Guest bridge:
   > ubus-cli Bridging.Bridge.guest.Port.ETH1-\n
   > ' > /tmp/run
   $ script --command "ssh -t root@$TARGET_LAN_IP '$(cat /tmp/run)'" > /dev/null
-  $ sleep 5
+  $ sleep 30
 
 Check for initial state of bridges again:
 
