@@ -7,6 +7,7 @@ Check that ubus has all expected services available:
   $ R "ubus list | grep -v '^[[:upper:]]'"
   dhcp
   dnsmasq
+  hostapd
   luci-rpc
   network
   network.device
@@ -22,6 +23,7 @@ Check that ubus has all expected services available:
   system
   uci
   umdns
+  wpa_supplicant
 
 Check that we've correct system info:
 
