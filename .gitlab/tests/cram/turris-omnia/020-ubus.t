@@ -7,6 +7,7 @@ Check that ubus has all expected services available:
   $ R "ubus list | grep -v '^[[:upper:]]'"
   dhcp
   dnsmasq
+  hostapd
   network
   network.device
   network.interface
