@@ -8,6 +8,7 @@ Check that ubus has all expected services available:
   dhcp
   dnsmasq
   hostapd
+  luci-rpc
   network
   network.device
   network.interface

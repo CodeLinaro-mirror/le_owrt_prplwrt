@@ -2,26 +2,6 @@ Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
-Check that ubus has all expected services available:
-
-  $ R "ubus list | grep -v '^[[:upper:]]'"
-  dhcp
-  dnsmasq
-  network
-  network.device
-  network.interface
-  network.interface.guest
-  network.interface.lan
-  network.interface.loopback
-  network.interface.wan
-  network.interface.wan6
-  network.wireless
-  service
-  session
-  system
-  uci
-  umdns
-
 Check that we've correct bridge aliases:
 
   $ R "ubus call Bridging _get \"{'rel_path':'Bridge.*.Alias'}\" | jsonfilter -e @[*].Alias | sort"

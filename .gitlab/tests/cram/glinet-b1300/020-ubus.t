@@ -7,7 +7,11 @@ Check that ubus has all expected services available:
   $ R "ubus list | grep -v '^[[:upper:]]'"
   dhcp
   dnsmasq
+<<<<<<< HEAD
   hostapd
+=======
+  luci-rpc
+>>>>>>> c9aec806c9... ci: move ubus service list to per-device files
   network
   network.device
   network.interface
@@ -22,7 +26,10 @@ Check that ubus has all expected services available:
   system
   uci
   umdns
+<<<<<<< HEAD
   wpa_supplicant
+=======
+>>>>>>> c9aec806c9... ci: move ubus service list to per-device files
 
 Check that we've correct system info:
 
