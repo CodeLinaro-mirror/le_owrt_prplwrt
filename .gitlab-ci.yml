@@ -27,26 +27,26 @@ stages:
   - run
   - cdrouter
 
-build test intel_mips prpl:
+build test intel_mips prpl webui:
   extends: .build test config
 
-build test ipq40xx prpl:
+build test ipq40xx prpl webui:
   extends: .build test config
 
-build test mvebu prpl:
+build test mvebu prpl webui:
   extends: .build test config
 
 run test NEC WX3000HP NAND:
   needs:
-    - build test intel_mips prpl
+    - build test intel_mips prpl webui
   extends: .nec-wx3000hp testbed
 
 run test Gl.iNet B1300 initramfs:
   needs:
-    - build test ipq40xx prpl
+    - build test ipq40xx prpl webui
   extends: .glinet-b1300 testbed
 
 run test Turris Omnia initramfs:
   needs:
-    - build test mvebu prpl
+    - build test mvebu prpl webui
   extends: .turris-omnia testbed
