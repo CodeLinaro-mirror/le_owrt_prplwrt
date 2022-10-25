@@ -1,6 +1,6 @@
 .turris-cdrouter: &turris_cdrouter
   needs:
-    - job: build test mvebu prpl
+    - job: build test mvebu prpl webui
       optional: true
   extends:
     - .turris-omnia testbed

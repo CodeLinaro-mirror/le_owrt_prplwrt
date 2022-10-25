@@ -1,6 +1,6 @@
 .nec-cdrouter: &nec_cdrouter
   needs:
-    - job: build test intel_mips prpl
+    - job: build test intel_mips prpl webui
       optional: true
   extends:
     - .nec-wx3000hp testbed

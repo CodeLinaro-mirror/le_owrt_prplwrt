@@ -29,16 +29,16 @@ stages:
   - cdrouter
   - coverity
 
-build test intel_mips prpl:
+build test intel_mips prpl webui:
   extends: .build test config
 
-build test ipq40xx prpl:
+build test ipq40xx prpl webui:
   extends: .build test config
 
-build test mvebu prpl:
+build test mvebu prpl webui:
   extends: .build test config
 
-build test x86_64 prpl:
+build test x86_64 prpl webui:
   extends: .build test config
   variables:
     CI_BUILD_CONFIG: >
@@ -53,18 +53,18 @@ coverity scan ipq40xx prpl:
 
 run test NEC WX3000HP NAND:
   needs:
-    - job: build test intel_mips prpl
+    - job: build test intel_mips prpl webui
       optional: true
   extends: .nec-wx3000hp testbed
 
 run test Gl.iNet B1300 initramfs:
   needs:
-    - job: build test ipq40xx prpl
+    - job: build test ipq40xx prpl webui
       optional: true
   extends: .glinet-b1300 testbed
 
 run test Turris Omnia initramfs:
   needs:
-    - job: build test mvebu prpl
+    - job: build test mvebu prpl webui
       optional: true
   extends: .turris-omnia testbed
