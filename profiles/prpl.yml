@@ -125,6 +125,7 @@ diffconfig: |
           CONFIG_PACKAGE_ip-bridge=y
           CONFIG_SYSLOGNG_LOGROTATE=y
           CONFIG_SYSLOGNG_LOGROTATE_MAXSIZE="5M"
+          CONFIG_PACKAGE_mod-xpon-prpl-mock=m
           # CONFIG_PACKAGE_firewall is not set
           # CONFIG_PACKAGE_logd is not set
           # lxc options for LCM
