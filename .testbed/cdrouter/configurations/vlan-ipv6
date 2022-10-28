@@ -503,7 +503,7 @@ SECTION "Base Configuration" {
 
         SECTION "LAN 802.1q VLAN" {
 
-            # testvar lanVlanId                        201
+              testvar lanVlanId                        201
             # testvar lanVlanPriority                  0
 
         }
