@@ -146,6 +146,7 @@ Check that ubus has expected datamodels available:
   WiFi.EndPoint.Stats
   WiFi.EndPoint.WPS
   WiFi.Radio
+  WiFi.Radio.ChannelMgt
   WiFi.Radio.DFS
   WiFi.Radio.DFS.Event
   WiFi.Radio.DriverConfig
