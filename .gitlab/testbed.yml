@@ -29,11 +29,14 @@
     - sudo ip link set $TESTBED_WAN_INTERFACE up 2> /dev/null
     - sleep 10
 
-    - eval $(ssh-agent -s)
-    - echo "$TESTBED_SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
     - mkdir -p ~/.ssh; chmod 700 ~/.ssh
-    - ssh-keyscan $TESTBED_UART_RELAY_HOST > ~/.ssh/known_hosts 2> /dev/null
-    - chmod 644 ~/.ssh/known_hosts
+    - >
+      if echo "$CI_RUNNER_DESCRIPTION" | grep -q testbed-01; then
+        eval $(ssh-agent -s)
+        echo "$TESTBED_SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+        ssh-keyscan $TESTBED_UART_RELAY_HOST > ~/.ssh/known_hosts 2> /dev/null
+        chmod 644 ~/.ssh/known_hosts
+      fi
 
     - >
       if [ -n "$TFTP_IMAGE_DOWNLOAD_URL" ]; then
@@ -48,6 +51,12 @@
         echo "Running $TFTP_IMAGE_UNPACK_COMMAND"
         eval "$TFTP_IMAGE_UNPACK_COMMAND"
       fi
+
+    - >
+      if echo "$CI_RUNNER_DESCRIPTION" | grep -q testbed-02; then
+        export TB_CONFIG=".testbed/labgrid/testbed-02.yaml"
+      fi
+
     - .gitlab/scripts/testbed-device.py --target $LABGRID_TARGET boot_into shell
     - >
       .gitlab/scripts/testbed-device.py
@@ -82,11 +91,19 @@
         true
       }
 
-    - eval $(ssh-agent -s)
-    - echo "$TESTBED_SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
     - mkdir -p ~/.ssh; chmod 700 ~/.ssh
-    - ssh-keyscan $TESTBED_UART_RELAY_HOST > ~/.ssh/known_hosts 2> /dev/null
-    - chmod 644 ~/.ssh/known_hosts
+    - >
+      if echo "$CI_RUNNER_DESCRIPTION" | grep -q testbed-01; then
+        eval $(ssh-agent -s)
+        echo "$TESTBED_SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+        ssh-keyscan $TESTBED_UART_RELAY_HOST > ~/.ssh/known_hosts 2> /dev/null
+        chmod 644 ~/.ssh/known_hosts
+      fi
+
+    - >
+      if echo "$CI_RUNNER_DESCRIPTION" | grep -q testbed-02; then
+        export TB_CONFIG=".testbed/labgrid/testbed-02.yaml"
+      fi
 
     - ssh-keyscan $TARGET_LAN_IP >> ~/.ssh/known_hosts 2> /dev/null
     - >
