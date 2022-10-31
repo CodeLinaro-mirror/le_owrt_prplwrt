@@ -58,6 +58,10 @@ define Package/selinux-policy/install
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/file_contexts $(1)/etc/selinux/$(PKG_NAME)/contexts/files/
 	$(INSTALL_CONF) $(PKG_BUILD_DIR)/policy.* $(1)/etc/selinux/$(PKG_NAME)/policy/
 	$(INSTALL_DATA) ./files/selinux-config $(1)/etc/selinux/config
+	$(INSTALL_DIR) $(1)/etc/init.d
+	$(INSTALL_DIR) $(1)/usr/bin
+	$(INSTALL_DIR) $(1)/lib/preinit
+	$(INSTALL_BIN) $(LOCAL_SRC)/files/selinux-labeldev.sh $(1)/lib/preinit/99_10_labeldev
 endef
 
 $(eval $(call BuildPackage,selinux-policy))
