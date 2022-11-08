@@ -174,7 +174,7 @@ targets:
           - setenv serverip 192.168.1.2
           - setenv ipaddr 192.168.1.1
         boot_command_delay: 5
-        boot_timeout: 90
+        boot_timeout: 180
         boot_command: tftpboot 0x88000000 openwrt-ipq40xx-generic-glinet_gl-b1300-initramfs-fit-uImage.itb && bootm 0x88000000
       UBootStrategy: {}
 
