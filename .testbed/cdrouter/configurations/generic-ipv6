@@ -521,7 +521,7 @@ SECTION "Base Configuration" {
 
         SECTION "NAT Options" {
 
-            # testvar natSimultaneousTcp               no
+              testvar natSimultaneousTcp               yes
             # testvar natSrcPort0                      yes
             # testvar natSupportsP2P                   yes
             # testvar natPortParity                    yes
