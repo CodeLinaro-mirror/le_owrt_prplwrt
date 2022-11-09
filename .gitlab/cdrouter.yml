@@ -69,9 +69,11 @@
     - ssh root@$TARGET_LAN_IP "ubus call system board" | tee system-$LABGRID_TARGET.json
 
     - >
-      for dut_init_script in "$DUT_INIT_SCRIPTS";
+      echo "Debug before loop : $DUT_INIT_SCRIPTS"
+      for dut_init_script in $DUT_INIT_SCRIPTS;
         do echo "Running $dut_init_script"; /bin/sh "$dut_init_script";
       done
+      echo "Debug end loop"
 
     - >
       if echo "$CI_RUNNER_DESCRIPTION" | grep -q testbed-02; then
