@@ -19,5 +19,5 @@ CDRouter-IPv6-Top-100+mDNS Gl.iNet VLAN WAN/LAN initramfs:
     CDROUTER_TEST_CONFIG: vlan-ipv6
     TFTP_IMAGE_DOWNLOAD_URL: http://kashyyyk.mooo.com/fw/openwrt-ipq40xx-generic-glinet_gl-b1300-initramfs-fit-uImage.itb
     DUT_INIT_SCRIPTS: |
-      .gitlab/scripts/dut-init/dut-forensics.sh
       .gitlab/scripts/dut-init/cdrouter-dut-enable-vlans.sh
+

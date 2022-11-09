@@ -216,8 +216,13 @@ class TestbedDevice:
         self.shell.run("ip6tables-save")
         self.shell.run("cat /var/log/messages || logread")
 
-        self.shell.run("ubus-cli Device.?")
-        
+        self.ubus_tr181 = UbusTR181(self.args, self.shell)
+        self.ubus_tr181.call("IP", "_get", {"depth": 100})
+        self.ubus_tr181.call("NetDev", "_get", {"depth": 100})
+        self.ubus_tr181.call("NetModel", "_get", {"depth": 100})
+        self.ubus_tr181.call("Bridging", "_get", {"depth": 100})
+        self.ubus_tr181.call("Firewall", "_get", {"depth": 100})
+
     def console_recover_ssh_access(self):
         self.init_shell()
         self.shell.run("iptables -P INPUT ACCEPT")
