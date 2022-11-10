@@ -14,13 +14,13 @@ run test Gl.iNet B1300 initramfs:
   needs: []
   extends: .glinet-b1300 testbed
 
-CDRouter-Top-100 Gl.iNet initramfs:
+CDRouter-Top-100+mDNS Gl.iNet initramfs:
   needs: []
   extends:
     - .glinet-b1300 testbed
     - .cdrouter
 
-CDRouter-Top-100 Gl.iNet VLAN WAN/LAN initramfs:
+CDRouter-Top-100+mDNS Gl.iNet VLAN WAN/LAN initramfs:
   needs: []
   extends:
     - .glinet-b1300 testbed
@@ -30,7 +30,7 @@ CDRouter-Top-100 Gl.iNet VLAN WAN/LAN initramfs:
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-enable-vlans.sh
 
-CDRouter-Top-100 Gl.iNet PPPoE WAN initramfs:
+CDRouter-Top-100+mDNS Gl.iNet PPPoE WAN initramfs:
   needs: []
   extends:
     - .glinet-b1300 testbed
