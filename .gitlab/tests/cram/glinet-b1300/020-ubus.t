@@ -149,7 +149,7 @@ Check that NetDev.Link provides expected output:
 
 Check that NetModel.Intf provides expected output:
 
-  $ R "ubus call NetModel _get '{\"rel_path\":\"Intf.\",\"depth\":100}' | jsonfilter -e @[*].Alias -e @[*].Flags -e @[*].Name -e @[*].Status | sed '/^$/d' | grep -v ^bridgeport | sort"
+  $ R "ubus call NetModel _get '{\"rel_path\":\"Intf.\",\"depth\":100}' | jsonfilter -e @[*].Alias -e @[*].Flags -e @[*].Name -e @[*].Status | sed '/^$/d' | grep -v -e ^bridgeport -e 'bridge '| sort"
   Disabled
   Disabled
   Disabled
