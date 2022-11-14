@@ -10,7 +10,7 @@ Check that wireless has desired configuration and state after boot:
   prplOS
   prplOS
 
-  $ R "pgrep hostapd"
+  $ R "pgrep -f 'hostapd -ddt'"
   [1]
 
   $ R "ubus list | grep hostapd."
@@ -33,9 +33,10 @@ Start wireless:
 Check that hostapd is operating as expected:
 
   $ R logger -t cram "Check that hostapd is operating after reboot"
-  $ R "ps axw" | sed -nE 's/.*(hostapd.*)/\1/p' | head -2 | LC_ALL=C sort
+  $ R "ps axw" | sed -nE 's/.*(hostapd.*)/\1/p' | head -3 | LC_ALL=C sort
   hostapd -ddt /tmp/wlan0_hapd.conf
   hostapd -ddt /tmp/wlan1_hapd.conf
+  hostapd/global
 
   $ R "ubus list | grep hostapd. | sort"
   hostapd.wlan0
