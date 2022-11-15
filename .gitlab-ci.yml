@@ -44,43 +44,50 @@ coverity scan ipq40xx prpl:
 
 run test NEC WX3000HP NAND:
   needs:
-    - build test intel_mips prpl
+    - job: build test intel_mips prpl
+      optional: true
   extends: .nec-wx3000hp testbed
 
 run test Gl.iNet B1300 initramfs:
   needs:
-    - build test ipq40xx prpl
+    - job: build test ipq40xx prpl
+      optional: true
   extends: .glinet-b1300 testbed
 
 run test Turris Omnia initramfs:
   needs:
-    - build test mvebu prpl
+    - job: build test mvebu prpl
+      optional: true
   extends: .turris-omnia testbed
 
 CDRouter-Top-100 NEC NAND:
   needs:
-    - build test intel_mips prpl
+    - job: build test intel_mips prpl
+      optional: true
   extends:
     - .nec-wx3000hp testbed
     - .cdrouter
 
 CDRouter-Top-100 Gl.iNet initramfs:
   needs:
-    - build test ipq40xx prpl
+    - job: build test ipq40xx prpl
+      optional: true
   extends:
     - .glinet-b1300 testbed
     - .cdrouter
 
 CDRouter-Top-100 Turris initramfs:
   needs:
-    - build test mvebu prpl
+    - job: build test mvebu prpl
+      optional: true
   extends:
     - .turris-omnia testbed
     - .cdrouter
 
 CDRouter-Top-100 NEC VLAN WAN/LAN NAND:
   needs:
-    - build test intel_mips prpl
+    - job: build test intel_mips prpl
+      optional: true
   extends:
     - .nec-wx3000hp testbed
     - .cdrouter
@@ -91,7 +98,8 @@ CDRouter-Top-100 NEC VLAN WAN/LAN NAND:
 
 CDRouter-Top-100 Gl.iNet VLAN WAN/LAN initramfs:
   needs:
-    - build test ipq40xx prpl
+    - job: build test ipq40xx prpl
+      optional: true
   extends:
     - .glinet-b1300 testbed
     - .cdrouter
@@ -102,7 +110,8 @@ CDRouter-Top-100 Gl.iNet VLAN WAN/LAN initramfs:
 
 CDRouter-Top-100 Turris VLAN WAN/LAN initramfs:
   needs:
-    - build test mvebu prpl
+    - job: build test mvebu prpl
+      optional: true
   extends:
     - .turris-omnia testbed
     - .cdrouter
@@ -113,7 +122,8 @@ CDRouter-Top-100 Turris VLAN WAN/LAN initramfs:
 
 CDRouter-Top-100 NEC PPPoE WAN NAND:
   needs:
-    - build test intel_mips prpl
+    - job: build test intel_mips prpl
+      optional: true
   extends:
     - .nec-wx3000hp testbed
     - .cdrouter
@@ -124,7 +134,8 @@ CDRouter-Top-100 NEC PPPoE WAN NAND:
 
 CDRouter-Top-100 Gl.iNet PPPoE WAN initramfs:
   needs:
-    - build test ipq40xx prpl
+    - job: build test ipq40xx prpl
+      optional: true
   extends:
     - .glinet-b1300 testbed
     - .cdrouter
@@ -135,7 +146,8 @@ CDRouter-Top-100 Gl.iNet PPPoE WAN initramfs:
 
 CDRouter-Top-100 Turris PPPoE WAN initramfs:
   needs:
-    - build test mvebu prpl
+    - job: build test mvebu prpl
+      optional: true
   extends:
     - .turris-omnia testbed
     - .cdrouter
@@ -147,9 +159,14 @@ CDRouter-Top-100 Turris PPPoE WAN initramfs:
 CDRouter-IPv6-Top-100 NEC NAND:
   allow_failure: true
   rules:
+    - if: '$TFTP_IMAGE_DOWNLOAD_URL =~ $TFTP_IMAGE_FILENAME_PATTERN'
+      when: always
+    - if: '$TFTP_IMAGE_DOWNLOAD_URL'
+      when: never
     - when: manual
   needs:
-    - build test intel_mips prpl
+    - job: build test intel_mips prpl
+      optional: true
   variables:
     CDROUTER_TEST_CONFIG: ppp-ipv6
   extends:
@@ -159,11 +176,16 @@ CDRouter-IPv6-Top-100 NEC NAND:
 CDRouter-IPv6-Top-100 Gl.iNet initramfs:
   allow_failure: true
   rules:
+    - if: '$TFTP_IMAGE_DOWNLOAD_URL =~ $TFTP_IMAGE_FILENAME_PATTERN'
+      when: always
+    - if: '$TFTP_IMAGE_DOWNLOAD_URL'
+      when: never
     - when: manual
   variables:
     CDROUTER_TEST_CONFIG: generic-ipv6
   needs:
-    - build test ipq40xx prpl
+    - job: build test ipq40xx prpl
+      optional: true
   extends:
     - .glinet-b1300 testbed
     - .cdrouter
@@ -171,11 +193,16 @@ CDRouter-IPv6-Top-100 Gl.iNet initramfs:
 CDRouter-IPv6-Top-100 Turris initramfs:
   allow_failure: true
   rules:
+    - if: '$TFTP_IMAGE_DOWNLOAD_URL =~ $TFTP_IMAGE_FILENAME_PATTERN'
+      when: always
+    - if: '$TFTP_IMAGE_DOWNLOAD_URL'
+      when: never
     - when: manual
   variables:
     CDROUTER_TEST_CONFIG: generic-ipv6
   needs:
-    - build test mvebu prpl
+    - job: build test mvebu prpl
+      optional: true
   extends:
     - .turris-omnia testbed
     - .cdrouter
@@ -183,9 +210,14 @@ CDRouter-IPv6-Top-100 Turris initramfs:
 CDRouter-IPv6-Top-100 NEC VLAN WAN/LAN NAND:
   allow_failure: true
   rules:
+    - if: '$TFTP_IMAGE_DOWNLOAD_URL =~ $TFTP_IMAGE_FILENAME_PATTERN'
+      when: always
+    - if: '$TFTP_IMAGE_DOWNLOAD_URL'
+      when: never
     - when: manual
   needs:
-    - build test intel_mips prpl
+    - job: build test intel_mips prpl
+      optional: true
   extends:
     - .nec-wx3000hp testbed
     - .cdrouter
@@ -197,9 +229,14 @@ CDRouter-IPv6-Top-100 NEC VLAN WAN/LAN NAND:
 CDRouter-IPv6-Top-100 Gl.iNet VLAN WAN/LAN initramfs:
   allow_failure: true
   rules:
+    - if: '$TFTP_IMAGE_DOWNLOAD_URL =~ $TFTP_IMAGE_FILENAME_PATTERN'
+      when: always
+    - if: '$TFTP_IMAGE_DOWNLOAD_URL'
+      when: never
     - when: manual
   needs:
-    - build test ipq40xx prpl
+    - job: build test ipq40xx prpl
+      optional: true
   extends:
     - .glinet-b1300 testbed
     - .cdrouter
@@ -211,9 +248,14 @@ CDRouter-IPv6-Top-100 Gl.iNet VLAN WAN/LAN initramfs:
 CDRouter-IPv6-Top-100 Turris VLAN WAN/LAN initramfs:
   allow_failure: true
   rules:
+    - if: '$TFTP_IMAGE_DOWNLOAD_URL =~ $TFTP_IMAGE_FILENAME_PATTERN'
+      when: always
+    - if: '$TFTP_IMAGE_DOWNLOAD_URL'
+      when: never
     - when: manual
   needs:
-    - build test mvebu prpl
+    - job: build test mvebu prpl
+      optional: true
   extends:
     - .turris-omnia testbed
     - .cdrouter
@@ -225,9 +267,14 @@ CDRouter-IPv6-Top-100 Turris VLAN WAN/LAN initramfs:
 CDRouter-IPv6-Top-100 NEC PPPoE WAN NAND:
   allow_failure: true
   rules:
+    - if: '$TFTP_IMAGE_DOWNLOAD_URL =~ $TFTP_IMAGE_FILENAME_PATTERN'
+      when: always
+    - if: '$TFTP_IMAGE_DOWNLOAD_URL'
+      when: never
     - when: manual
   needs:
-    - build test intel_mips prpl
+    - job: build test intel_mips prpl
+      optional: true
   extends:
     - .nec-wx3000hp testbed
     - .cdrouter
@@ -239,9 +286,14 @@ CDRouter-IPv6-Top-100 NEC PPPoE WAN NAND:
 CDRouter-IPv6-Top-100 Gl.iNet PPPoE WAN initramfs:
   allow_failure: true
   rules:
+    - if: '$TFTP_IMAGE_DOWNLOAD_URL =~ $TFTP_IMAGE_FILENAME_PATTERN'
+      when: always
+    - if: '$TFTP_IMAGE_DOWNLOAD_URL'
+      when: never
     - when: manual
   needs:
-    - build test ipq40xx prpl
+    - job: build test ipq40xx prpl
+      optional: true
   extends:
     - .glinet-b1300 testbed
     - .cdrouter
@@ -253,9 +305,14 @@ CDRouter-IPv6-Top-100 Gl.iNet PPPoE WAN initramfs:
 CDRouter-IPv6-Top-100 Turris PPPoE WAN initramfs:
   allow_failure: true
   rules:
+    - if: '$TFTP_IMAGE_DOWNLOAD_URL =~ $TFTP_IMAGE_FILENAME_PATTERN'
+      when: always
+    - if: '$TFTP_IMAGE_DOWNLOAD_URL'
+      when: never
     - when: manual
   needs:
-    - build test mvebu prpl
+    - job: build test mvebu prpl
+      optional: true
   extends:
     - .turris-omnia testbed
     - .cdrouter
@@ -266,7 +323,8 @@ CDRouter-IPv6-Top-100 Turris PPPoE WAN initramfs:
 
 CDRouter-TR-069 NEC NAND:
   needs:
-    - build test intel_mips prpl
+    - job: build test intel_mips prpl
+      optional: true
   extends:
     - .nec-wx3000hp testbed
     - .cdrouter
@@ -276,25 +334,29 @@ CDRouter-TR-069 NEC NAND:
 
 CDRouter-TR-069 Gl.iNet NOR:
   needs:
-    - build test ipq40xx prpl
+    - job: build test ipq40xx prpl
+      optional: true
   extends:
     - .glinet-b1300 testbed
     - .cdrouter
   variables:
     LABGRID_TARGET: glinet-b1300-nor
     TFTP_IMAGE_FILENAME: openwrt-ipq40xx-generic-glinet_gl-b1300-squashfs-sysupgrade.bin
+    TFTP_IMAGE_FILENAME_PATTERN: /.*openwrt-ipq40xx-generic-glinet_gl-b1300-squashfs-sysupgrade.bin/
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-tr181-mockups.sh
 
 CDRouter-TR-069 Turris eMMC:
   needs:
-    - build test mvebu prpl
+    - job: build test mvebu prpl
+      optional: true
   extends:
     - .turris-omnia testbed
     - .cdrouter
   variables:
     LABGRID_TARGET: turris-omnia-emmc
     TFTP_IMAGE_FILENAME: openwrt-mvebu-cortexa9-cznic_turris-omnia-sysupgrade.img.gz
+    TFTP_IMAGE_FILENAME_PATTERN: /.*openwrt-mvebu-cortexa9-cznic_turris-omnia-sysupgrade.img.gz/
     TFTP_IMAGE_UNPACK_COMMAND: "gunzip --force $TESTBED_TFTP_PATH/$TFTP_IMAGE_FILENAME || true"
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-tr181-mockups.sh

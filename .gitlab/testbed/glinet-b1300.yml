@@ -6,5 +6,6 @@
     DUT_BOARD: glinet-b1300
     LABGRID_TARGET: glinet-b1300-initramfs
     TFTP_IMAGE_FILENAME: openwrt-ipq40xx-generic-glinet_gl-b1300-initramfs-fit-uImage.itb
+    TFTP_IMAGE_FILENAME_PATTERN: /.*openwrt-ipq40xx-generic-glinet_gl-b1300-initramfs-fit-uImage.itb/
   tags:
     - dut-glinet-b1300

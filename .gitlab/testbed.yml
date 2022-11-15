@@ -4,6 +4,10 @@
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
       when: never
+    - if: '$TFTP_IMAGE_DOWNLOAD_URL =~ $TFTP_IMAGE_FILENAME_PATTERN'
+      when: always
+    - if: '$TFTP_IMAGE_DOWNLOAD_URL'
+      when: never
     - when: always
   variables:
     DUT_WAN_INTERFACE: eth1
