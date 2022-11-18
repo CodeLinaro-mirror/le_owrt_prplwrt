@@ -66,10 +66,6 @@ feeds:
     uri: git@git.maxlinear.com:ugw/feeds/feed_wlan_6x.git
     tracking_branch: 8.9.2
     revision: e61655861fd476450922c4c09f8a15f27675c266
-  - name: bootloader
-    uri: git@git.maxlinear.com:ugw/feeds/feed_uboot.git
-    tracking_branch: 8.9.2
-    revision: d17b4d5458d8f9d824c5f2dfae41d55de173a277
 
 packages:
   - kmod-intel_eth_drv
