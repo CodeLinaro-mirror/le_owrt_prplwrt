@@ -128,6 +128,13 @@ Check that ubus has expected datamodels available:
   Time.X_PRPL-COM_TimeServer
   Time.X_PRPL-COM_TimeServer.Intf
   Timingila
+  UPnP
+  UPnP.Device
+  UserInterface
+  UserInterface.HTTPAccess
+  UserInterface.HTTPAccess.X_PRPL-COM_HTTPConfig
+  UserInterface.HTTPProxy
+  UserInterface.HTTPVHost
   Users
   Users.Group
   Users.Role
