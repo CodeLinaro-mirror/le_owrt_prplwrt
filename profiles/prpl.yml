@@ -4,7 +4,7 @@ feeds:
   - name: feed_prpl
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-prpl.git
     tracking_branch: prplos
-    revision: 7586f0d5ffb177c1e92ef9e30d380d27c033f03f
+    revision: 06fa6b2d10b0d7c79498891866d7a360aec65cb0
 
 additional_packages:
   - feed: packages
@@ -68,6 +68,7 @@ packages:
   - mod-dmext
   - mod-dmstats
   - mod-fw-amx
+  - mod-httpaccess-lighttpd
   - mod-qos-tc
   - mod-sahtrace
   - mod-vlan-ioctl
@@ -107,12 +108,14 @@ packages:
   - tr181-dns
   - tr181-dnssd
   - tr181-firewall
+  - tr181-httpaccess
   - tr181-logical
   - tr181-neighbordiscovery
   - tr181-ppp
   - tr181-qos
   - tr181-rest-api
   - tr181-routeradvertisement
+  - tr181-upnp
   - tr181-usermanagement
   - tr181-xpon
   - u80211d
