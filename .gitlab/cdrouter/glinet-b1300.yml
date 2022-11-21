@@ -1,4 +1,4 @@
-CDRouter-Top-100+mDNS Gl.iNet initramfs:
+.glinet-cdrouter: &glinet_cdrouter
   needs:
     - job: build test ipq40xx prpl
       optional: true
@@ -6,32 +6,26 @@ CDRouter-Top-100+mDNS Gl.iNet initramfs:
     - .glinet-b1300 testbed
     - .cdrouter
 
+CDRouter-Top-100+mDNS Gl.iNet initramfs:
+  <<: *glinet_cdrouter
+
 CDRouter-Top-100+mDNS Gl.iNet VLAN WAN/LAN initramfs:
-  needs:
-    - job: build test ipq40xx prpl
-      optional: true
-  extends:
-    - .glinet-b1300 testbed
-    - .cdrouter
+  <<: *glinet_cdrouter
   variables:
     CDROUTER_TEST_CONFIG: vlan
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-enable-vlans.sh
 
 CDRouter-Top-100+mDNS Gl.iNet PPPoE WAN initramfs:
-  needs:
-    - job: build test ipq40xx prpl
-      optional: true
-  extends:
-    - .glinet-b1300 testbed
-    - .cdrouter
+  <<: *glinet_cdrouter
   variables:
     CDROUTER_TEST_CONFIG: ppp
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-enable-pppoe.sh
 
 
-CDRouter-IPv6-Top-100+mDNS Gl.iNet initramfs:
+.glinet-cdrouter-ipv6: &glinet_cdrouter_ipv6
+  <<: *glinet_cdrouter
   allow_failure: true
   rules:
     - if: '$TFTP_IMAGE_DOWNLOAD_URL =~ $TFTP_IMAGE_FILENAME_PATTERN'
@@ -39,41 +33,21 @@ CDRouter-IPv6-Top-100+mDNS Gl.iNet initramfs:
     - if: '$TFTP_IMAGE_DOWNLOAD_URL'
       when: never
     - when: manual
+
+CDRouter-IPv6-Top-100+mDNS Gl.iNet initramfs:
+  <<: *glinet_cdrouter_ipv6
   variables:
     CDROUTER_TEST_CONFIG: generic-ipv6
-  needs:
-    - job: build test ipq40xx prpl
-      optional: true
-  extends:
-    - .glinet-b1300 testbed
-    - .cdrouter
 
 CDRouter-IPv6-Top-100+mDNS Gl.iNet VLAN WAN/LAN initramfs:
-  allow_failure: true
-  rules:
-    - if: '$TFTP_IMAGE_DOWNLOAD_URL =~ $TFTP_IMAGE_FILENAME_PATTERN'
-      when: always
-    - if: '$TFTP_IMAGE_DOWNLOAD_URL'
-      when: never
-    - when: manual
-  needs:
-    - job: build test ipq40xx prpl
-      optional: true
-  extends:
-    - .glinet-b1300 testbed
-    - .cdrouter
+  <<: *glinet_cdrouter_ipv6
   variables:
     CDROUTER_TEST_CONFIG: vlan-ipv6
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-enable-vlans.sh
 
 CDRouter-TR-069 Gl.iNet NOR:
-  needs:
-    - job: build test ipq40xx prpl
-      optional: true
-  extends:
-    - .glinet-b1300 testbed
-    - .cdrouter
+  <<: *glinet_cdrouter
   variables:
     LABGRID_TARGET: glinet-b1300-nor
     TFTP_IMAGE_FILENAME: openwrt-ipq40xx-generic-glinet_gl-b1300-squashfs-sysupgrade.bin
@@ -82,21 +56,8 @@ CDRouter-TR-069 Gl.iNet NOR:
       .gitlab/scripts/dut-init/cdrouter-tr181-mockups.sh
 
 CDRouter-IPv6-Top-100+mDNS Gl.iNet PPPoE WAN initramfs:
-  allow_failure: true
-  rules:
-    - if: '$TFTP_IMAGE_DOWNLOAD_URL =~ $TFTP_IMAGE_FILENAME_PATTERN'
-      when: always
-    - if: '$TFTP_IMAGE_DOWNLOAD_URL'
-      when: never
-    - when: manual
-  needs:
-    - job: build test ipq40xx prpl
-      optional: true
-  extends:
-    - .glinet-b1300 testbed
-    - .cdrouter
+  <<: *glinet_cdrouter_ipv6
   variables:
     CDROUTER_TEST_CONFIG: ppp-ipv6
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-enable-pppoe.sh
-
