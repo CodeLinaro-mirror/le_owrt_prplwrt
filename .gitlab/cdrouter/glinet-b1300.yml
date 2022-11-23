@@ -34,6 +34,11 @@ CDRouter-Top-100+mDNS Gl.iNet PPPoE WAN initramfs:
       when: never
     - when: manual
 
+CDRouter-UPnP-IPv46 Gl.iNet initramfs:
+  <<: *glinet_cdrouter_ipv6
+  variables:
+    CDROUTER_TEST_CONFIG: generic-ipv6-upnp
+
 CDRouter-IPv6-Top-100+mDNS Gl.iNet initramfs:
   <<: *glinet_cdrouter_ipv6
   variables:

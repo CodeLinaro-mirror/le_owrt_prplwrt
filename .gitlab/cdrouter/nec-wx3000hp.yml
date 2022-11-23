@@ -34,6 +34,11 @@ CDRouter-Top-100+mDNS NEC PPPoE WAN NAND:
       when: never
     - when: manual
 
+CDRouter-UPnP-IPv46 NEC NAND:
+  <<: *nec_cdrouter_ipv6
+  variables:
+    CDROUTER_TEST_CONFIG: generic-ipv6-upnp
+
 CDRouter-IPv6-Top-100+mDNS NEC NAND:
   <<: *nec_cdrouter_ipv6
   variables:
