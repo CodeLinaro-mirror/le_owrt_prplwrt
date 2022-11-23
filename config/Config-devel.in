@@ -69,6 +69,20 @@ menuconfig DEVEL
 		help
 		  Compiler cache; see https://ccache.samba.org/
 
+	config CCACHE_TARGET_DIR
+		string "ccache directory for target builds" if CCACHE
+		default ""
+		help
+		  The ccache directory to use when compiling for the target.
+		  Defaults to '$(STAGING_DIR)/ccache'.
+
+	config CCACHE_HOST_DIR
+		string "ccache directory for host builds" if CCACHE
+		default ""
+		help
+		  The ccache directory to use when compiling for the host.
+		  Defaults to '$(STAGING_DIR_HOST)/ccache'.
+
 	config EXTERNAL_KERNEL_TREE
 		string "Use external kernel tree" if DEVEL
 		default ""

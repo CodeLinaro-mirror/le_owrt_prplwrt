@@ -173,7 +173,7 @@ define Build/Exports/Default
   $(1) : export CONFIG_SITE:=$$(CONFIG_SITE)
   $(1) : export PKG_CONFIG_PATH:=$$(PKG_CONFIG_PATH)
   $(1) : export PKG_CONFIG_LIBDIR:=$$(PKG_CONFIG_PATH)
-  $(if $(CONFIG_CCACHE),$(1) : export CCACHE_DIR:=$(STAGING_DIR)/ccache)
+  $(if $(CONFIG_CCACHE),$(1) : export CCACHE_DIR:=$(if $(CONFIG_CCACHE_TARGET_DIR),$(call qstrip,$(CONFIG_CCACHE_TARGET_DIR)),$(STAGING_DIR_HOST)/ccache))
 endef
 Build/Exports=$(Build/Exports/Default)
 
