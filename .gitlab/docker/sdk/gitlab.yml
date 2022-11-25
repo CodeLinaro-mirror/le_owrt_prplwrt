@@ -66,7 +66,7 @@ build Docker image sdk-x86-64:
     DOCKER_BUILD_EXTRA_ARGS: --build-arg DESIGNATED_BRANCH=$CI_DESIGNATED_BRANCH
   extends: .build Docker image
   before_script:
-    - tar xf bin/targets/ipq40xx/generic/openwrt-sdk-x86-64_gcc*.Linux-x86_64.tar.xz --strip=1 -C .gitlab/docker/sdk
+    - tar xf bin/targets/x86/64/openwrt-sdk-x86-64_gcc*.Linux-x86_64.tar.xz --strip=1 -C .gitlab/docker/sdk
 
 test Docker image sdk-x86-64:
   extends: .test Docker SDK image
