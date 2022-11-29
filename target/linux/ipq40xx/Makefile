@@ -9,14 +9,14 @@ CPU_SUBTYPE:=neon-vfpv4
 SUBTARGETS:=generic mikrotik
 
 KERNEL_PATCHVER:=5.10
-KERNEL_TESTING_PATCHVER:=5.10
+KERNEL_TESTING_PATCHVER:=5.15
 
 KERNELNAME:=zImage Image dtbs
 
 include $(INCLUDE_DIR)/target.mk
 DEFAULT_PACKAGES += \
 	kmod-usb-dwc3-qcom \
-	kmod-leds-gpio kmod-gpio-button-hotplug swconfig \
+	kmod-leds-gpio kmod-gpio-button-hotplug \
 	kmod-ath10k-ct wpad-basic-wolfssl \
 	kmod-usb3 kmod-usb-dwc3 ath10k-firmware-qca4019-ct \
 	uboot-envtools
