@@ -111,6 +111,7 @@ platform_do_upgrade() {
 	edgecore,ecw5211 |\
 	edgecore,oap100 |\
 	engenius,eap2200 |\
+	glinet,gl-a1300 |\
 	glinet,gl-ap1300 |\
 	luma,wrtq-329acn |\
 	mobipromo,cm520-79f |\
@@ -153,19 +154,32 @@ platform_do_upgrade() {
 	compex,wpj419)
 		nand_do_upgrade "$1"
 		;;
+	google,wifi)
+		export_bootdevice
+		export_partdevice CI_ROOTDEV 0
+		CI_KERNPART="kernel"
+		CI_ROOTPART="rootfs"
+		emmc_do_upgrade "$1"
+		;;
 	linksys,ea6350v3 |\
 	linksys,ea8300 |\
-	linksys,mr8300)
+	linksys,mr8300 |\
+	linksys,whw01-v1)
 		platform_do_upgrade_linksys "$1"
 		;;
-	meraki,mr33)
+	meraki,mr33 |\
+	meraki,mr74)
 		CI_KERNPART="part.safe"
 		nand_do_upgrade "$1"
 		;;
 	mikrotik,cap-ac|\
 	mikrotik,hap-ac2|\
+	mikrotik,hap-ac3-lte6-kit|\
 	mikrotik,lhgg-60ad|\
-	mikrotik,sxtsq-5-ac)
+	mikrotik,sxtsq-5-ac|\
+	mikrotik,wap-ac|\
+	mikrotik,wap-ac-lte|\
+	mikrotik,wap-r-ac)
 		[ "$(rootfs_type)" = "tmpfs" ] && mtd erase firmware
 		default_do_upgrade "$1"
 		;;
@@ -185,6 +199,9 @@ platform_do_upgrade() {
 		PART_NAME="inactive"
 		platform_do_upgrade_dualboot_datachk "$1"
 		;;
+	sony,ncp-hg100-cellular)
+		sony_emmc_do_upgrade "$1"
+		;;
 	teltonika,rutx10 |\
 	zte,mf286d |\
 	zte,mf289f)
@@ -202,7 +219,8 @@ platform_do_upgrade() {
 
 platform_copy_config() {
 	case "$(board_name)" in
-	glinet,gl-b2200)
+	glinet,gl-b2200 |\
+	google,wifi)
 		emmc_copy_config
 		;;
 	esac
