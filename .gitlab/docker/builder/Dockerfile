@@ -14,6 +14,8 @@ RUN \
 	iputils-ping \
 	iproute2 \
 	libncurses5-dev \
+	libelf-dev \
+	libdw-dev \
 	locales \
 	nmap \
 	openssh-client \
