@@ -10,8 +10,8 @@ description: Build images for the Intel MIPS devices - Axepoint and NEC(Asurada)
 feeds:
   - name: feed_intel
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-intel.git
-    tracking_branch: prplwrt-19.07
-    revision: prplos-v2.0-preview
+    tracking_branch: ugw-8.5.2-cleanup
+    revision: b7275a65f86821e7c191d4a1c13c61186168177b
 
 packages:
   - dwpal_6x-uci
