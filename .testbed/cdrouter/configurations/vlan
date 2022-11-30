@@ -77,8 +77,8 @@ SECTION "Base Configuration" {
 
             # testvar pppoeConnectOnDemand             no
             # testvar pppoeIdleTimeout                 60
-            # testvar pppoeUser                        qacafe
-            # testvar pppoePassword                    qacafe123
+            testvar pppoeUser                        softathome
+            testvar pppoePassword                    softathome
             # testvar pppoeAcName                      qacafe-ac
             # testvar pppoeServiceName                 any
             # testvar pppoeAcCookie                    auto
@@ -162,7 +162,7 @@ SECTION "Base Configuration" {
 
         SECTION "WAN 802.1q VLAN" {
 
-            # testvar wanVlanId                        100
+            testvar wanVlanId                          101
             # testvar wanVlanPriority                  0
 
         }
@@ -503,7 +503,7 @@ SECTION "Base Configuration" {
 
         SECTION "LAN 802.1q VLAN" {
 
-            # testvar lanVlanId                        100
+            testvar lanVlanId                          201
             # testvar lanVlanPriority                  0
 
         }
@@ -2292,7 +2292,7 @@ SECTION "CDRouter Storage Add-On" {
 
 SECTION "CDRouter TR-069 Add-On" {
 
-    testvar supportsCWMP                     yes
+    testvar supportsCWMP                     no
 
     SECTION "Basic ACS Configuration" {
 

@@ -6,6 +6,8 @@ stages:
   - build
 
 .build feed with SDK:
+  tags:
+    - package-builder
   stage: build
   image: $CI_SDK_IMAGE
   variables:
@@ -26,10 +28,6 @@ stages:
 
     - >
       for feed in $CI_SDK_INSTALL_FEEDS ci; do
-        sleep_interval="$(( (RANDOM % 60) + 1 ))"
-        echo "Waiting for $sleep_interval seconds..."
-        sleep "${sleep_interval}s"
-
         ./scripts/feeds update "$feed" ;
         ./scripts/feeds install -a -p "$feed" ;
       done 2>&1 | tee logs/build.log
@@ -104,6 +102,11 @@ stages:
     CI_SDK_BUILD_PACKAGES: |
       please-provide
     CI_SDK_PACKAGE_JOBS_TEMPLATE: |
+      {% if env['CI_SDK_PIPELINE_SOURCE'] %}
+      workflow:
+        rules:
+          - if: $$CI_PIPELINE_SOURCE == "{{ env['CI_SDK_PIPELINE_SOURCE'] }}"
+      {% endif %}
       include:
         - remote: https://gitlab.com/prpl-foundation/prplos/prplos/-/raw/$CI_DESIGNATED_BRANCH/.gitlab/sdk.yml
       {% for sdk in env['CI_SDK_TARGETS'].rstrip().split("\n") %}
@@ -168,7 +171,18 @@ stages:
   variables:
     CI_SDK_IMAGE: registry.gitlab.com/prpl-foundation/prplos/prplos/$CI_DESIGNATED_BRANCH/sdk-mvebu-cortexa9:latest
 
-.build feed with ath79-generic-22.03-SNAPSHOT SDK:
+.build feed with x86-64 SDK:
+  extends: .build feed with SDK
+  variables:
+    CI_SDK_IMAGE: registry.gitlab.com/prpl-foundation/prplos/prplos/$CI_DESIGNATED_BRANCH/sdk-x86-64:latest
+
+.build feed with ath79-generic-19.07.7 SDK:
   extends: .build feed with OpenWrt SDK
   variables:
-    CI_SDK_IMAGE: openwrt/sdk:ath79-generic-22.03-SNAPSHOT
+    CI_SDK_IMAGE: openwrtorg/sdk:ath79-generic-19.07.7
+
+.build feed with x86-64-22.03.2 SDK:
+   extends: .build feed with OpenWrt SDK
+   variables:
+     CI_SDK_BEFORE_COMPILE_COMMAND: sudo apt-get update; sudo apt-get install -y python3-yaml
+     CI_SDK_IMAGE: openwrt/sdk:x86-64-22.03.2

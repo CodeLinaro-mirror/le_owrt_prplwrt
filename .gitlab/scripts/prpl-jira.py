@@ -240,20 +240,10 @@ class JiraHelper:
         self.login()
 
     def login(self):
-        cert_data = None
         args = self.args
-
-        with open(args.private_key, "r", errors="ignore") as cert_file:
-            cert_data = cert_file.read()
-
-        oauth_dict = {
-            "access_token": args.access_token,
-            "access_token_secret": args.access_token_secret,
-            "consumer_key": args.consumer_key,
-            "key_cert": cert_data,
-        }
-
-        self.jira = JIRA({"server": args.instance_url}, oauth=oauth_dict)
+        self.jira = JIRA(
+            args.instance_url, basic_auth=(args.api_username, args.api_token)
+        )
 
     def create_or_update_issue(self, failure_type, failure_details):
         args = self.args
@@ -378,24 +368,17 @@ def main():
     )
 
     parser.add_argument(
-        "--access-token",
+        "--api-username",
         type=str,
-        default=os.environ.get("JIRA_ACCESS_TOKEN"),
-        help="Jira access token (default: %(default)s)",
+        default=os.environ.get("JIRA_API_USERNAME"),
+        help="Jira API username",
     )
 
     parser.add_argument(
-        "--access-token-secret",
+        "--api-token",
         type=str,
-        default=os.environ.get("JIRA_ACCESS_TOKEN_SECRET"),
-        help="Jira access token secret",
-    )
-
-    parser.add_argument(
-        "--consumer-key",
-        type=str,
-        default=os.environ.get("JIRA_CONSUMER_KEY"),
-        help="Jira consumer key",
+        default=os.environ.get("JIRA_API_TOKEN"),
+        help="Jira API token",
     )
 
     parser.add_argument(
@@ -403,13 +386,6 @@ def main():
         type=str,
         default=os.environ.get("JIRA_INSTANCE_URL", "https://jira.prplfoundation.org"),
         help="Jira instance URL (default: %(default)s)",
-    )
-
-    parser.add_argument(
-        "--private-key",
-        type=str,
-        default=os.environ.get("JIRA_PRIVATE_KEY"),
-        help="Jira private key",
     )
 
     parser.add_argument(
