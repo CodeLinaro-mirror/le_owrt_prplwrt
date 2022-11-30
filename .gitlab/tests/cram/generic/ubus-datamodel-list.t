@@ -12,6 +12,7 @@ Check that ubus has expected datamodels available:
   $ R "ubus list | grep '[[:upper:]]' | grep -v '\.[[:digit:]]'"
   ACLManager
   ACLManager.Role
+  Agent
   Bridging
   Bridging.Bridge
   Bridging.Bridge.Port
