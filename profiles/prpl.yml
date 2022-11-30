@@ -4,7 +4,7 @@ feeds:
   - name: feed_prpl
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-prpl.git
     tracking_branch: prplos-next
-    revision: 23e3956ea110db31227900127e262a612433d656
+    revision: 97e1340d86134e0c43ca09059ebe25089748eca9
 
 additional_packages:
   - feed: packages
@@ -16,7 +16,6 @@ additional_packages:
       - lighttpd-mod-fastcgi
       - lighttpd-mod-auth
       - lighttpd-mod-authn_file
-      - syslog-ng
 
 packages:
   - acl-manager
@@ -35,6 +34,8 @@ packages:
   - libfwinterface
   - libfwrules
   - libnetmodel
+  - libswla
+  - libswlc
   - lxc
   - lxc-attach
   - lxc-auto
@@ -69,18 +70,34 @@ packages:
   - mod-ba-cli
   - mod-dmext
   - mod-dmstats
+  - mod-fw-amx
   - mod-qos-tc
-  - mod-vlan-ioctl
   - mod-sahtrace
+  - mod-vlan-ioctl
+  - mod-xpon-prpl
   - multisettings
   - netdev-plugin
   - netmodel
+  - netmodel-bridge
+  - netmodel-clients
+  - netmodel-dhcpv4
+  - netmodel-dhcpv6
+  - netmodel-ethernet
+  - netmodel-ip
+  - netmodel-iprouter
+  - netmodel-logical
+  - netmodel-netdev
+  - netmodel-ppp
+  - netmodel-vlan
   - odl-generator
   - owsd
   - pcm-manager
   - prplmesh
+  - pwhm
   - rlyeh
   - routing-manager
+  - ssh-server
+  - syslog-ng
   - tc-tiny
   - time-manager
   - timingila
@@ -91,18 +108,29 @@ packages:
   - tr181-device
   - tr181-dhcpv4client
   - tr181-dhcpv6client
+  - tr181-dns
+  - tr181-dnssd
   - tr181-firewall
+  - tr181-logical
+  - tr181-neighbordiscovery
+  - tr181-ppp
   - tr181-qos
   - tr181-rest-api
+  - tr181-routeradvertisement
   - tr181-usermanagement
+  - tr181-xpon
   - u80211d
   - umdns
+  - wan-autosensing
   - wan-manager
 
 diffconfig: |
           CONFIG_PACKAGE_rpcd-mod-luci=y
           CONFIG_PACKAGE_ip-full=y
           CONFIG_PACKAGE_ip-bridge=y
+          CONFIG_SYSLOGNG_LOGROTATE=y
+          CONFIG_SYSLOGNG_LOGROTATE_MAXSIZE="5M"
+          CONFIG_PACKAGE_mod-xpon-prpl-mock=m
           # CONFIG_PACKAGE_firewall4 is not set
           # CONFIG_PACKAGE_logd is not set
           # lxc options for LCM
@@ -113,6 +141,9 @@ diffconfig: |
           CONFIG_SAH_SERVICES_TIMINGILA_ADAPTER_CONTAINER="/usr/lib/timingila-cthulhu/timingila-cthulhu.so"
           CONFIG_SAH_LIB_CTHULHU-LXC_LXC_TOOLS_PREFIX="/usr/bin/"
           # CONFIG_SAH_LIB_CTHULHU-LXC_PRPL_OS_RPATH is not set
+          # pwhm options
+          CONFIG_USE_PRPLMESH_WHM=y
+          CONFIG_SAH_WLD_INIT_SCRIPT="prplmesh_whm"
           # kernel options for lcm
           CONFIG_KERNEL_ARM_PMU=y
           CONFIG_KERNEL_BLK_CGROUP=y
