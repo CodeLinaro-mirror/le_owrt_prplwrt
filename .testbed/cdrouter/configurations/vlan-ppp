@@ -24,7 +24,7 @@ SECTION "Base Configuration" {
         SECTION "WAN Interface" {
 
             # testvar wanInterface                     eth2
-            # testvar wanMode                          DHCP
+            testvar wanMode                          PPPoE
             # testvar wanIspIp                         202.254.1.1
             # testvar wanIspAssignIp                   202.254.1.2
             # testvar wanIspMask                       255.255.255.0
@@ -77,8 +77,8 @@ SECTION "Base Configuration" {
 
             # testvar pppoeConnectOnDemand             no
             # testvar pppoeIdleTimeout                 60
-            # testvar pppoeUser                        qacafe
-            # testvar pppoePassword                    qacafe123
+            testvar pppoeUser                        softathome
+            testvar pppoePassword                    softathome
             # testvar pppoeAcName                      qacafe-ac
             # testvar pppoeServiceName                 any
             # testvar pppoeAcCookie                    auto
@@ -162,7 +162,7 @@ SECTION "Base Configuration" {
 
         SECTION "WAN 802.1q VLAN" {
 
-            # testvar wanVlanId                        100
+            testvar wanVlanId                          100
             # testvar wanVlanPriority                  0
 
         }
@@ -503,7 +503,7 @@ SECTION "Base Configuration" {
 
         SECTION "LAN 802.1q VLAN" {
 
-            # testvar lanVlanId                        100
+            testvar lanVlanId                          200
             # testvar lanVlanPriority                  0
 
         }
@@ -1198,7 +1198,7 @@ SECTION "CDRouter IPv6 Add-On" {
 
     SECTION "IPv6 WAN" {
 
-        # testvar ipv6WanMode                      DHCP
+        testvar ipv6WanMode                       PPPoE
         # testvar ipv6PPPoEAddressMode             DHCP
         # testvar ipv6WanIspIp                     3001::1
         # testvar ipv6WanIspAssignIp               3001::2
