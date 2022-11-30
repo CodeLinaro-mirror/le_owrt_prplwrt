@@ -11,10 +11,16 @@
     TESTBED_LAN_INTERFACE: enp2s0
     TESTBED_WAN_INTERFACE: enp3s0
     TESTBED_TFTP_PATH: /var/lib/tftpboot
-    TFTP_IMAGE_PATH: bin/targets/$DUT_ARCH/$DUT_SUBTARGET
+    TFTP_IMAGE_PATH: bin/targets/$DUT_TARGET/$DUT_SUBTARGET
+    PACKAGE_DIR: bin/packages
+    DUT_ARCH_PACKAGES_PATH: $PACKAGE_DIR/${DUT_ARCH}_${DUT_CPU_TYPE}_${DUT_CPU_SUBTYPE}
     TARGET_LAN_IP: 192.168.1.1
     TARGET_LAN_TEST_HOST: 192.168.1.2
     DUT_SLEEP_AFTER_BOOT: 90
+    DUT_SSH_CONNECT_TIMEOUT: 30
+    DUT_SSH_CONNECT_ATTEMPTS: 3
+    DUT_TR181_WAN_INTERFACE: Device.Ethernet.Link.2.
+    DUT_TR181_LAN_INTERFACE: Device.Ethernet.Link.3.
     CRAM_REMOTE_COMMAND: ssh root@$TARGET_LAN_IP
     CRAM_TEST_SUITE: |
       .gitlab/tests/cram/generic/acceleration-plan-components
@@ -29,11 +35,14 @@
     - sudo ip link set $TESTBED_WAN_INTERFACE up 2> /dev/null
     - sleep 10
 
-    - eval $(ssh-agent -s)
-    - echo "$TESTBED_SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
     - mkdir -p ~/.ssh; chmod 700 ~/.ssh
-    - ssh-keyscan $TESTBED_UART_RELAY_HOST > ~/.ssh/known_hosts 2> /dev/null
-    - chmod 644 ~/.ssh/known_hosts
+    - >
+      if echo "$CI_RUNNER_DESCRIPTION" | grep -q testbed-01; then
+        eval $(ssh-agent -s)
+        echo "$TESTBED_SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+        ssh-keyscan $TESTBED_UART_RELAY_HOST > ~/.ssh/known_hosts 2> /dev/null
+        chmod 644 ~/.ssh/known_hosts
+      fi
 
     - >
       if [ -n "$TFTP_IMAGE_DOWNLOAD_URL" ]; then
@@ -48,6 +57,12 @@
         echo "Running $TFTP_IMAGE_UNPACK_COMMAND"
         eval "$TFTP_IMAGE_UNPACK_COMMAND"
       fi
+
+    - >
+      if echo "$CI_RUNNER_DESCRIPTION" | grep -q testbed-02; then
+        export TB_CONFIG=".testbed/labgrid/testbed-02.yaml"
+      fi
+
     - .gitlab/scripts/testbed-device.py --target $LABGRID_TARGET boot_into shell
     - >
       .gitlab/scripts/testbed-device.py
@@ -55,14 +70,8 @@
       --network lan
       --remote-host $TARGET_LAN_TEST_HOST
 
-    - >
-      retry_count=3;
-      while [ $retry_count -gt 0 ]; do
-        echo "Waiting for SSH availability on $TARGET_LAN_IP"
-        ssh-keyscan "$TARGET_LAN_IP" 2>&1 | grep -q "$TARGET_LAN_IP" && break
-        retry_count="$(( retry_count - 1 ))"
-        sleep 5
-      done
+    - echo "Waiting for SSH connection availability with ${DUT_SSH_CONNECT_TIMEOUT}sec timeout, with $DUT_SSH_CONNECT_ATTEMPTS attempts..."
+    - time ssh -o BatchMode=yes -o StrictHostKeyChecking=no -o ConnectionAttempts=$DUT_SSH_CONNECT_ATTEMPTS -o ConnectTimeout=$DUT_SSH_CONNECT_TIMEOUT root@$TARGET_LAN_IP 'exit 0'
 
     - ssh-keyscan $TARGET_LAN_IP >> ~/.ssh/known_hosts 2> /dev/null
     - ssh root@$TARGET_LAN_IP "cat /var/log/messages" > syslog-$LABGRID_TARGET.txt 2> /dev/null || true
@@ -82,11 +91,25 @@
         true
       }
 
-    - eval $(ssh-agent -s)
-    - echo "$TESTBED_SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
     - mkdir -p ~/.ssh; chmod 700 ~/.ssh
-    - ssh-keyscan $TESTBED_UART_RELAY_HOST > ~/.ssh/known_hosts 2> /dev/null
-    - chmod 644 ~/.ssh/known_hosts
+    - >
+      if echo "$CI_RUNNER_DESCRIPTION" | grep -q testbed-01; then
+        eval $(ssh-agent -s)
+        echo "$TESTBED_SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+        ssh-keyscan $TESTBED_UART_RELAY_HOST > ~/.ssh/known_hosts 2> /dev/null
+        chmod 644 ~/.ssh/known_hosts
+      fi
+
+    - >
+      if echo "$CI_RUNNER_DESCRIPTION" | grep -q testbed-02; then
+        export TB_CONFIG=".testbed/labgrid/testbed-02.yaml"
+      fi
+
+    - >
+      ssh -o BatchMode=yes -o StrictHostKeyChecking=no -o ConnectTimeout=15 root@$TARGET_LAN_IP 'exit 0' || {
+        .gitlab/scripts/testbed-device.py --target $LABGRID_TARGET console_dump_system_state
+        .gitlab/scripts/testbed-device.py --target $LABGRID_TARGET console_recover_ssh_access
+      } || true
 
     - ssh-keyscan $TARGET_LAN_IP >> ~/.ssh/known_hosts 2> /dev/null
     - >
