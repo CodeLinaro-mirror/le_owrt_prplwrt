@@ -16,6 +16,12 @@ Check that wireless has desired configuration and state after boot:
   $ R "ubus list | grep hostapd."
   [1]
 
+
+Stop prplmesh before starting wireless:
+
+  $ R logger -t cram "Stop prplmesh"
+  $ R "/etc/init.d/prplmesh stop && sleep 5" > /dev/null 2>&1
+
 Start wireless:
 
   $ R logger -t cram "Start wireless"
