@@ -141,6 +141,7 @@
         ssh root@$TARGET_LAN_IP dmesg > dmesg-$LABGRID_TARGET.txt
         ssh root@$TARGET_LAN_IP "cat /var/log/messages" > syslog-$LABGRID_TARGET.txt
         ssh root@$TARGET_LAN_IP opkg list > opkg_list-$LABGRID_TARGET.txt
+        script --quiet --command "ssh -t root@$TARGET_LAN_IP /bin/getDebugInformation --all -o -" > debug-information-$LABGRID_TARGET.txt
         scp -r root@${TARGET_LAN_IP}:/etc etc > /dev/null
         scp -r root@${TARGET_LAN_IP}:/tmp/beerocks/logs prplmesh_beerocks_logs > /dev/null
       } || true
@@ -161,6 +162,7 @@
       - cdrouter-results
       - etc
       - prplmesh_beerocks_logs
+      - debug-information-$LABGRID_TARGET.txt
       - processes-$LABGRID_TARGET.txt
       - dmesg-$LABGRID_TARGET.txt
       - syslog-$LABGRID_TARGET.txt
