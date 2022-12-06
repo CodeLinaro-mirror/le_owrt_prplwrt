@@ -151,7 +151,10 @@ Check that NetDev.Link provides expected output:
   teql0
   veth_gene_0
   wlan0
+  wlan0.1
   wlan1
+  wlan1.1
+  wlan1.2
 
 Check that NetModel.Intf provides expected output:
 
@@ -291,6 +294,9 @@ Check that NetModel.Intf provides expected output:
   false
   false
   false
+  false
+  false
+  false
   guest
   guest
   guest_radio0
@@ -333,10 +339,24 @@ Check that NetModel.Intf provides expected output:
   ppp-wan
   ppp-wan
   pppoe-wan
+  radio
+  radio
+  radio-wifi0
+  radio-wifi1
   radio0
   radio1
   resolver
   resolver
+  ssid netdev
+  ssid netdev
+  ssid netdev
+  ssid netdev
+  ssid netdev
+  ssid-ep5g0
+  ssid-vap2g0guest
+  ssid-vap2g0priv
+  ssid-vap5g0guest
+  ssid-vap5g0priv
   true
   true
   true
