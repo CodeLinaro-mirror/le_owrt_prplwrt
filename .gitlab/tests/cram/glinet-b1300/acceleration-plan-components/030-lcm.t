@@ -17,7 +17,7 @@ Configure Sandbox:
   > ubus-cli Cthulhu.Sandbox.Instances.1.NetworkNS.Type="Veth"
   > ubus-cli Cthulhu.Sandbox.Instances.1.NetworkNS.Interfaces.+
   > ubus-cli Cthulhu.Sandbox.Instances.1.NetworkNS.Interfaces.1.Bridge="br-lan"
-  > ubus-cli Cthulhu.Sandbox.Instances.1.NetworkNS.Interfaces.1.Interface="eth0"
+  > ubus-cli Cthulhu.Sandbox.Instances.1.NetworkNS.Interfaces.1.Interface="eth9"
   > ubus-cli Cthulhu.Sandbox.Instances.1.NetworkNS.Interfaces.1.EnableDhcp=1
   > ubus-cli Cthulhu.Sandbox.Instances.1.NetworkNS.Enable=1
   > ubus-cli "Cthulhu.Sandbox.start(SandboxId=\"generic\")"
