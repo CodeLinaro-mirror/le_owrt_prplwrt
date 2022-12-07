@@ -13,7 +13,7 @@ Check that Sandbox is not configured properly:
 Configure Sandbox:
 
   $ cat > /tmp/run-sandbox <<EOF
-  > ubus-cli Cthulhu.Config.DhcpCommand=\"udhcpc -r 192.168.1.200 -i\"
+  > ubus-cli Cthulhu.Config.DhcpCommand=\"udhcpc -s /etc/amx/cthulhu/udhcpc.script -r 192.168.1.200 -i\"
   > ubus-cli Cthulhu.Sandbox.Instances.1.NetworkNS.Type="Veth"
   > ubus-cli Cthulhu.Sandbox.Instances.1.NetworkNS.Interfaces.+
   > ubus-cli Cthulhu.Sandbox.Instances.1.NetworkNS.Interfaces.1.Bridge="br-lan"
@@ -31,7 +31,7 @@ Check that Sandbox was configured properly:
   {"Cthulhu.Sandbox.Instances.1.NetworkNS.Interfaces.1.":{"EnableDhcp":true,"Interface":"eth0","Bridge":"br-lan"}}
 
   $ R "ubus -S call Cthulhu.Config _get | jsonfilter -e @[*].DhcpCommand"
-  udhcpc -r 192.168.1.200 -i
+  udhcpc -s /etc/amx/cthulhu/udhcpc.script -r 192.168.1.200 -i
 
 Install testing prplOS container v1:
 
