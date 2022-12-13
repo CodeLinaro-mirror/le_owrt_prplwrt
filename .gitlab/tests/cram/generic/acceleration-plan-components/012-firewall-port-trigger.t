@@ -19,7 +19,7 @@ Configure port trigger rule:
 Check that there is NFQUEUE rule:
 
   $ R "iptables -L FORWARD_PortTrigger -n | grep 6000"
-  NFQUEUE    tcp  --  0.0.0.0/0            0.0.0.0/0            tcp dpt:6000[8 bytes of unknown target data] 
+  NFQUEUE    tcp  --  0.0.0.0/0            0.0.0.0/0            tcp dpt:6000 NFQUEUE num 1
 
 Disable port trigger rule:
 
