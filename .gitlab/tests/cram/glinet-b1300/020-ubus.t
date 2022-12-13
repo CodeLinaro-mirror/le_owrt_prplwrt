@@ -85,6 +85,7 @@ Check that IP.Interface provides expected output:
   $ R "ubus call IP _get '{\"rel_path\":\"Interface.\",\"depth\":100}' | jsonfilter -e @[*].Alias -e @[*].Name -e @[*].IPAddress -e @[*].SubnetMask | sort" | egrep -v '(^f[0-9a-z:]+|^$)'
   10.0.0.2
   127.0.0.1
+  192.0.0.2
   192.168.1.1
   192.168.2.1
   192.168.5.1
@@ -93,8 +94,12 @@ Check that IP.Interface provides expected output:
   255.255.255.0
   255.255.255.0
   255.255.255.0
+  255.255.255.0
   ::1
   DHCP
+  DSLite-entry
+  DSLite-entry
+  DSLite-exit
   GUA
   GUA
   GUA_IAPD
@@ -141,6 +146,7 @@ Check that NetDev.Link provides expected output:
   eth1
   ifb0
   ifb1
+  ip6tnl0
   lo
   teql0
   veth_gene_0
@@ -166,6 +172,7 @@ Check that NetModel.Intf provides expected output:
   Error
   Error
   Error
+  Error
   br-guest
   br-guest
   br-lan
@@ -202,6 +209,7 @@ Check that NetModel.Intf provides expected output:
   bridge-wlan_port0
   bridge-wlan_port1
   bridge-wlan_port1
+  cpe-IPv4Address-1
   cpe-IPv4Address-1
   cpe-IPv4Address-1
   cpe-IPv4Address-1
@@ -230,6 +238,12 @@ Check that NetModel.Intf provides expected output:
   cpe-ReqOption-9
   default_radio0
   default_radio1
+  dslite netdev
+  dslite netdev
+  dslite-dynamic
+  dslite-static
+  dslite0
+  dslite0
   eth0
   eth0
   eth1
@@ -273,15 +287,23 @@ Check that NetModel.Intf provides expected output:
   false
   false
   false
+  false
+  false
+  false
+  false
   guest
   guest
   guest_radio0
   guest_radio1
-  ip enabled ipv4
-  ip enabled ipv4 up ipv4-up
-  ip iprouter .* (re)
-  ip up .* (re)
-  ip up .* (re)
+  ip .* (re)
+  ip .* (re)
+  ip .* (re)
+  ip .* (re)
+  ip .* (re)
+  ip .* (re)
+  ip .* (re)
+  ip-DSLite-entry
+  ip-DSLite-exit
   ip-guest
   ip-guest
   ip-guest

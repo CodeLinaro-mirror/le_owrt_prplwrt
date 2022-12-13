@@ -28,6 +28,8 @@ Check that ubus has expected datamodels available:
   DNS.Relay.Forwarding
   DNSSD
   DNSSD.Service
+  DSLite
+  DSLite.InterfaceSetting
   Device
   Device.InterfaceStack
   DeviceInfo
@@ -40,6 +42,14 @@ Check that ubus has expected datamodels available:
   DeviceInfo.Processor
   DeviceInfo.VendorConfigFile
   DeviceInfo.VendorLogFile
+  Devices
+  Devices.Config
+  Devices.Config.global
+  Devices.Device
+  Devices.Query
+  DynamicDNS
+  DynamicDNS.Client
+  DynamicDNS.Server
   Ethernet
   Ethernet.Interface
   Ethernet.Link
@@ -54,6 +64,9 @@ Check that ubus has expected datamodels available:
   Firewall.X_PRPL-COM_Policy
   Firewall.X_PRPL-COM_PortTrigger
   Firewall.X_PRPL-COM_Service
+  Hosts
+  Hosts.AccessControl
+  Hosts.Host
   IP
   IP.ActivePort
   IP.Interface
@@ -79,12 +92,19 @@ Check that ubus has expected datamodels available:
   NetDev.Stats
   NetModel
   NetModel.Intf
+  PCP
+  PCP.Client
   PPP
   PPP.Interface
   PPP.Interface.IPCP
   PPP.Interface.IPv6CP
   PPP.Interface.PPPoE
   PPP.Interface.Stats
+  PacketInterception
+  PacketInterception.CommunicationConfig
+  PacketInterception.Condition
+  PacketInterception.Interception
+  PacketInterception.PacketHandler
   QoS
   QoS.Classification
   QoS.Node

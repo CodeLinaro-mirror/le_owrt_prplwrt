@@ -4,7 +4,7 @@ feeds:
   - name: feed_prpl
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-prpl.git
     tracking_branch: prplos
-    revision: 29668a3e0daba6d321fd8c4c8b281d4358165b82
+    revision: e5e44dd32dd723d002bd729370bbb5c889aa8440
 
 additional_packages:
   - feed: packages
@@ -13,20 +13,21 @@ additional_packages:
       - libnl-core
       - libnl-route
       - lighttpd
-      - lighttpd-mod-fastcgi
       - lighttpd-mod-auth
       - lighttpd-mod-authn_file
+      - lighttpd-mod-fastcgi
 
 packages:
   - acl-manager
   - amx-cli
   - cthulhu
   - cthulhu-lxc
-  - deviceinfo-manager
   - debug-information
+  - deviceinfo-manager
   - dhcpv4-manager
   - dhcpv6s-manager
   - ethernet-manager
+  - hosts-manager
   - ip-manager
   - iptables-mod-ipopt
   - libarchive
@@ -92,6 +93,7 @@ packages:
   - netmodel-vlan
   - odl-generator
   - owsd
+  - packet-interception
   - pcm-manager
   - prplmesh
   - pwhm
@@ -111,10 +113,13 @@ packages:
   - tr181-dhcpv6client
   - tr181-dns
   - tr181-dnssd
+  - tr181-dslite
+  - tr181-dynamicdns
   - tr181-firewall
   - tr181-httpaccess
   - tr181-logical
   - tr181-neighbordiscovery
+  - tr181-pcp
   - tr181-ppp
   - tr181-qos
   - tr181-rest-api
