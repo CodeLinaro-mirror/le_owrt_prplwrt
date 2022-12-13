@@ -4,7 +4,7 @@ feeds:
   - name: feed_prpl
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-prpl.git
     tracking_branch: prplos
-    revision: 06fa6b2d10b0d7c79498891866d7a360aec65cb0
+    revision: 29668a3e0daba6d321fd8c4c8b281d4358165b82
 
 additional_packages:
   - feed: packages
@@ -23,6 +23,7 @@ packages:
   - cthulhu
   - cthulhu-lxc
   - deviceinfo-manager
+  - debug-information
   - dhcpv4-manager
   - dhcpv6s-manager
   - ethernet-manager

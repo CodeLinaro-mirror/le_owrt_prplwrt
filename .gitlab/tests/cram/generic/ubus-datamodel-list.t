@@ -125,8 +125,8 @@ Check that ubus has expected datamodels available:
   SoftwareModules.ExecEnv
   SoftwareModules.ExecutionUnit
   Time
-  Time.X_PRPL-COM_TimeServer
-  Time.X_PRPL-COM_TimeServer.Intf
+  Time.Client
+  Time.Server
   Timingila
   UPnP
   UPnP.Device
