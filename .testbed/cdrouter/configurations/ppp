@@ -290,7 +290,7 @@ SECTION "Base Configuration" {
               testvar supportsDynDns                   yes
             # testvar dynDnsServerIp                   66.37.215.49
             # testvar dynDnsTransport                  http
-              testvar dynDnsHostname                   cpe-01.prplOS.prplfoundation.org
+              testvar dynDnsHostname                   cpe01.prplOS.prplfoundation.org
             # testvar dynDnsUsername                   qacafe
             # testvar dynDnsPassword                   qacafe123
             # testvar dynDnsSystem                     dyndns
