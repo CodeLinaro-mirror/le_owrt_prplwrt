@@ -22,7 +22,7 @@ ssh "root@$TARGET_LAN_IP" "\
 ssh "root@$TARGET_LAN_IP" "\
 	ubus call DynamicDNS.Client.1.Hostname _add \
 	'{\"parameters\":{ \
-		\"Name\":\"cpe-01.prplOS.prplfoundation.org\", \
+		\"Name\":\"cpe01.prplOS.prplfoundation.org\", \
 		\"Enable\":1} \
 	}' \
 "
