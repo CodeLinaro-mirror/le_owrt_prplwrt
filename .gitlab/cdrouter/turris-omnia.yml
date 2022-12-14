@@ -8,12 +8,16 @@
 
 CDRouter-Top-100+mDNS Turris initramfs:
   <<: *turris_cdrouter
+  variables:
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
 
 CDRouter-Top-100+mDNS Turris VLAN WAN/LAN initramfs:
   <<: *turris_cdrouter
   variables:
     CDROUTER_TEST_CONFIG: vlan
     DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
       .gitlab/scripts/dut-init/cdrouter-dut-enable-vlans.sh
 
 CDRouter-Top-100+mDNS Turris PPPoE WAN initramfs:
@@ -21,6 +25,7 @@ CDRouter-Top-100+mDNS Turris PPPoE WAN initramfs:
   variables:
     CDROUTER_TEST_CONFIG: ppp
     DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
       .gitlab/scripts/dut-init/cdrouter-dut-enable-pppoe.sh
 
 
