@@ -2,6 +2,11 @@ Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
+Skip the tests if TFTP_IMAGE_DOWNLOAD_URL is used as the mock package would be missing:
+
+  $ [ -n "$TFTP_IMAGE_DOWNLOAD_URL" ] && exit 80
+  [1]
+
 Install mod-xpon-prpl-mock package:
 
   $ scp ${CI_PROJECT_DIR}/${DUT_ARCH_PACKAGES_PATH}/feed_prpl/mod-xpon-prpl-mock*.ipk "root@${TARGET_LAN_IP}:/tmp/"
