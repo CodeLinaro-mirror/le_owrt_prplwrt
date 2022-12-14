@@ -251,6 +251,7 @@ targets:
       UBootDriver:
         prompt: '=> '
         init_commands:
+          - setenv kernel_addr_r 0x2000000
           - setenv bootargs earlyprintk console=ttyS0,115200
           - dhcp 0x2000000 openwrt-mvebu-cortexa9-cznic_turris-omnia-initramfs-kernel.bin
         boot_command: bootm 0x2000000
