@@ -72,6 +72,7 @@
     - ssh root@$TARGET_LAN_IP "cat /var/log/messages" > syslog-$LABGRID_TARGET.txt 2> /dev/null || true
     - ssh root@$TARGET_LAN_IP "ubus call system board" | tee system-$LABGRID_TARGET.json
 
+    - ssh root@$TARGET_LAN_IP 'logger -t CI -p local0.info "System accessible over SSH, $(uptime -p)"' || true
     - >
       for dut_init_script in $DUT_INIT_SCRIPTS;
         do echo "Running $dut_init_script"; /bin/sh "$dut_init_script";
@@ -86,8 +87,6 @@
     - .gitlab/scripts/testbed-cdrouter.py wait_for_netif $CDROUTER_LAN_INTERFACE
     - .gitlab/scripts/testbed-cdrouter.py wait_for_netif $CDROUTER_WAN_INTERFACE
 
-    - sudo ip link set $TESTBED_LAN_INTERFACE down 2> /dev/null
-
   script:
     - sleep $DUT_SLEEP_AFTER_BOOT
 
@@ -99,6 +98,12 @@
     - export TEST_PACKAGE="$(echo $CI_JOB_NAME | sed 's/\(\w\) .*/\1/')"
     - .gitlab/scripts/testbed-cdrouter.py config_import $CDROUTER_TEST_CONFIG
     - .gitlab/scripts/testbed-cdrouter.py package_import $TEST_PACKAGE.gz
+
+    - >
+      ssh root@$TARGET_LAN_IP 'f=$(logread | grep "procd.*init complete"); echo "${f:-Warning: init is not complete yet,} $(uptime -p)"' || true
+    - ssh root@$TARGET_LAN_IP 'logger -t CI -p local0.info "Testing starts, $(uptime -p)"' || true
+    - sudo ip link set $TESTBED_LAN_INTERFACE down 2> /dev/null
+
     - >
       .gitlab/scripts/testbed-cdrouter.py
       package_run $TEST_PACKAGE
@@ -139,6 +144,7 @@
       } || true
 
     - ssh-keyscan $TARGET_LAN_IP >> ~/.ssh/known_hosts 2> /dev/null
+    - ssh root@$TARGET_LAN_IP 'logger -t CI -p local0.info "Testing finished, $(uptime -p)"' || true
     - >
       ssh root@$TARGET_LAN_IP exit && {
         ssh root@$TARGET_LAN_IP ps > processes-$LABGRID_TARGET.txt
