@@ -24,7 +24,7 @@ SECTION "Base Configuration" {
         SECTION "WAN Interface" {
 
             # testvar wanInterface                     eth2
-            # testvar wanMode                          DHCP
+              testvar wanMode                          dslite
             # testvar wanIspIp                         202.254.1.1
             # testvar wanIspAssignIp                   202.254.1.2
             # testvar wanIspMask                       255.255.255.0
@@ -111,7 +111,7 @@ SECTION "Base Configuration" {
         SECTION "DS-Lite" {
 
             # testvar ipv6DsliteAftr                   3001:aaaa::1
-            # testvar dhcpv6WanAftrName                aftr.qacafe.com
+              testvar dhcpv6WanAftrName                aftr.prplfoundation.org
             # testvar dsliteFirewallMode               address-restricted
 
         }
