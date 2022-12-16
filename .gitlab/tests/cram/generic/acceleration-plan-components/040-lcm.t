@@ -42,6 +42,10 @@ Check that Rlyeh has no container images:
   $ R "ubus -S call Rlyeh.Images _get"
   {"Rlyeh.Images.":{}}
 
+Check that registry.gitlab.com is accessible:
+
+  $ R "curl --silent --show-error --connect-timeout 60 https://registry.gitlab.com"
+
 Check that Rlyeh can download testing container:
 
   $ R "ubus -S call Rlyeh pull '{\"URI\":\"docker://registry.gitlab.com/prpl-foundation/prplos/prplos/prplos-testing-container-intel_mips-xrx500:v1\",\"UUID\":\"testing\"}'"
