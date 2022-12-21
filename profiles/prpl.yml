@@ -27,6 +27,11 @@ packages:
   - dhcpv4-manager
   - dhcpv6s-manager
   - ethernet-manager
+  - gmap-client
+  - gmap-mod-ethernet-dev
+  - gmap-mod-name-selector
+  - gmap-mod-self
+  - gmap-server
   - hosts-manager
   - ip-manager
   - iptables-mod-ipopt
