@@ -17,6 +17,7 @@
   script:
     - mkdir logs
     - set -o pipefail
+    - git config --global --add safe.directory '*'
 
     - sed -i 's;https://git.openwrt.org;https://gitlab.com/openwrt;' feeds.conf.default
     - export CI_BUILD_PROFILE="$(echo $CI_JOB_NAME | sed 's/build test \(.*\)/\1/')"
