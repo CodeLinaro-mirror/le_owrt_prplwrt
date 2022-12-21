@@ -18,6 +18,7 @@ stages:
 
   before_script:
     - set -o pipefail
+    - git config --global --add safe.directory '*'
 
     - cd $CI_SDK_TOPDIR
     - mkdir logs
@@ -49,6 +50,8 @@ stages:
     - sync
 
   script:
+    - git config --global --add safe.directory '*'
+
     - >
       test -n "$CI_SDK_BEFORE_COMPILE_COMMAND" &&
         echo "Running CI_SDK_BEFORE_COMPILE_COMMAND=$CI_SDK_BEFORE_COMPILE_COMMAND" &&
