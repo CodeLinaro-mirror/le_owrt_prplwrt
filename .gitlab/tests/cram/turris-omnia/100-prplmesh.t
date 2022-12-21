@@ -26,6 +26,7 @@ Stop prplmesh before starting wireless:
 
   $ R logger -t cram "Stop prplmesh"
   $ R "/etc/init.d/prplmesh stop && sleep 5" > /dev/null 2>&1
+  $ sleep 60
 
 Start wireless:
 
@@ -50,6 +51,7 @@ Start wireless:
   {"WiFi.AccessPoint.4.":{"Enable":true}}
 
   $ R "ubus -t 30 wait_for hostapd.wlan0.2"
+  $ sleep 30
 
 Check that hostapd is operating as expected:
 
