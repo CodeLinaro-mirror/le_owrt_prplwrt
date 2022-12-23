@@ -4,7 +4,7 @@ feeds:
   - name: feed_prpl
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-prpl.git
     tracking_branch: prplos
-    revision: 1816acc04c602f0fee3df6f98266a455a5afc414
+    revision: 51088e02f3063fa171da23ddd416aeb12dc0fb04
 
 additional_packages:
   - feed: packages
@@ -95,6 +95,8 @@ packages:
   - netmodel-logical
   - netmodel-netdev
   - netmodel-ppp
+  - netmodel-radio
+  - netmodel-ssid
   - netmodel-vlan
   - odl-generator
   - packet-interception

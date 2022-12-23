@@ -96,22 +96,34 @@ Check that IP.Interface provides expected output:
   255.255.255.0
   ::1
   DHCP
+  DHCP
   DSLite-entry
   DSLite-entry
   DSLite-exit
   GUA
   GUA
+  GUA
+  GUA
+  GUA_IAPD
+  GUA_IAPD
   GUA_IAPD
   GUA_IAPD
   GUA_RA
   GUA_RA
+  GUA_RA
+  GUA_RA
+  LLA
+  LLA
   ULA
+  ULA1
   ULA64
   br-guest
   br-lan
   eth1
   guest
   guest
+  iptv
+  iptv
   lan
   lan
   lcm
@@ -120,9 +132,15 @@ Check that IP.Interface provides expected output:
   loopback
   loopback_ipv4
   loopbackipv6
+  mgmt
+  mgmt
+  ppp
   public-lan
+  voip
+  voip
   wan
   wan
+  wan6
 
 Check that NAT.Interface provides expected output:
 
@@ -132,7 +150,7 @@ Check that NAT.Interface provides expected output:
   lan
   guest
   Device.IP.Interface.5.
-  Device.IP.Interface.2.
+  Device.Logical.Interface.1.
   Device.IP.Interface.3.
   Device.IP.Interface.4.
 
@@ -160,11 +178,25 @@ Check that NetModel.Intf provides expected output:
   Disabled
   Disabled
   Disabled
+  Disabled
+  Disabled
+  Disabled
+  Disabled
+  Disabled
   Enabled
   Enabled
   Enabled
   Enabled
   Enabled
+  Enabled
+  Enabled
+  Enabled
+  Error
+  Error
+  Error
+  Error
+  Error
+  Error
   Error
   Error
   Error
@@ -176,6 +208,8 @@ Check that NetModel.Intf provides expected output:
   Error
   br-guest
   br-guest
+  br-guest
+  br-lan
   br-lan
   br-lan
   br-lcm
@@ -210,6 +244,9 @@ Check that NetModel.Intf provides expected output:
   bridge-wlan_port0
   bridge-wlan_port1
   bridge-wlan_port1
+  cpe-IPv4Address-1
+  cpe-IPv4Address-1
+  cpe-IPv4Address-1
   cpe-IPv4Address-1
   cpe-IPv4Address-1
   cpe-IPv4Address-1
@@ -217,36 +254,75 @@ Check that NetModel.Intf provides expected output:
   cpe-IPv4Address-1
   cpe-IPv4Address-1
   cpe-IPv4Address-2
+  cpe-IPv4Address-2
+  cpe-IPv6Address-1
+  cpe-IPv6Address-1
   cpe-IPv6Address-1
   cpe-IPv6Address-1
   cpe-IPv6Address-1
   cpe-IPv6Address-2
   cpe-IPv6Address-2
+  cpe-IPv6Address-2
+  cpe-IPv6Address-2
+  cpe-IPv6Address-3
+  cpe-IPv6Address-4
   cpe-IPv6Prefix-1
   cpe-IPv6Prefix-1
+  cpe-IPv6Prefix-1
+  cpe-IPv6Prefix-1
+  cpe-IPv6Prefix-2
+  cpe-IPv6Prefix-2
   cpe-IPv6Prefix-2
   cpe-IPv6Prefix-2
   cpe-IPv6Prefix-3
   cpe-ReqOption-1
+  cpe-ReqOption-1
+  cpe-ReqOption-1
+  cpe-ReqOption-1
+  cpe-ReqOption-10
+  cpe-ReqOption-10
+  cpe-ReqOption-10
   cpe-ReqOption-10
   cpe-ReqOption-2
+  cpe-ReqOption-2
+  cpe-ReqOption-2
+  cpe-ReqOption-2
+  cpe-ReqOption-3
+  cpe-ReqOption-3
+  cpe-ReqOption-3
   cpe-ReqOption-3
   cpe-ReqOption-4
+  cpe-ReqOption-4
+  cpe-ReqOption-4
+  cpe-ReqOption-4
+  cpe-ReqOption-5
+  cpe-ReqOption-5
+  cpe-ReqOption-5
   cpe-ReqOption-5
   cpe-ReqOption-6
+  cpe-ReqOption-6
+  cpe-ReqOption-6
+  cpe-ReqOption-6
+  cpe-ReqOption-7
+  cpe-ReqOption-7
+  cpe-ReqOption-7
   cpe-ReqOption-7
   cpe-ReqOption-8
+  cpe-ReqOption-8
+  cpe-ReqOption-8
+  cpe-ReqOption-8
+  cpe-ReqOption-9
+  cpe-ReqOption-9
+  cpe-ReqOption-9
   cpe-ReqOption-9
   default_radio0
   default_radio1
   dslite netdev
-  dslite netdev
-  dslite-dynamic
-  dslite-static
-  dslite0
+  dslite-dslite0
   dslite0
   eth0
   eth0
+  eth1
   eth1
   eth1
   eth1
@@ -264,6 +340,9 @@ Check that NetModel.Intf provides expected output:
   ethLink-bridge_lcm
   ethLink-bridge_lcm
   ethLink-bridge_lcm
+  ethLink-eth_wan
+  ethLink-eth_wan
+  ethLink-eth_wan
   ethLink-eth_wan
   ethLink-eth_wan
   ethLink-eth_wan
@@ -271,11 +350,18 @@ Check that NetModel.Intf provides expected output:
   ethLink-link_lo
   ethLink-link_lo
   eth_intf netdev enabled netdev-bound netdev-up up
-  eth_intf netdev enabled upstream netdev-bound netdev-up up
+  eth_intf netdev enabled upstream netdev-bound ipv4 ipv6 netdev-up up
   eth_link enabled
   eth_link enabled
   eth_link enabled up
   eth_link enabled up
+  false
+  false
+  false
+  false
+  false
+  false
+  false
   false
   false
   false
@@ -306,11 +392,19 @@ Check that NetModel.Intf provides expected output:
   ip .* (re)
   ip .* (re)
   ip .* (re)
+  ip .* (re)
+  ip .* (re)
+  ip .* (re)
+  ip .* (re)
   ip-DSLite-entry
+  ip-DSLite-entry
+  ip-DSLite-exit
   ip-DSLite-exit
   ip-guest
   ip-guest
   ip-guest
+  ip-iptv
+  ip-iptv
   ip-lan
   ip-lan
   ip-lan
@@ -318,16 +412,26 @@ Check that NetModel.Intf provides expected output:
   ip-lcm
   ip-loopback
   ip-loopback
+  ip-mgmt
+  ip-mgmt
+  ip-voip
+  ip-voip
   ip-wan
   ip-wan
   ip-wan
+  ip-wan6
+  ip-wan6
   lan
   lan
+  lo
   lo
   logical up enabled
   logical up enabled
   logical up enabled
-  netdev eth_link netdev-bound enabled netdev-up up
+  netdev eth_link netdev-bound enabled ipv4 ipv6 netdev-up up
+  permanent
+  permanent
+  permanent
   permanent
   permanent
   permanent
@@ -337,8 +441,8 @@ Check that NetModel.Intf provides expected output:
   ppp-wan
   ppp-wan
   pppoe-wan
-  radio
-  radio
+  radio enabled
+  radio enabled
   radio-wifi0
   radio-wifi1
   radio0
@@ -372,5 +476,6 @@ Check that NetModel.Intf provides expected output:
   true
   true
   up
+  wan
   wan
   wan
