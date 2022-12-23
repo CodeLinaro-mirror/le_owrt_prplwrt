@@ -23,6 +23,7 @@ Check that ubus has expected datamodels available:
   Cthulhu.Container
   Cthulhu.Container.Instances
   Cthulhu.Information
+  Cthulhu.Plugins
   Cthulhu.Sandbox
   Cthulhu.Sandbox.Instances
   DHCPv4
@@ -43,7 +44,46 @@ Check that ubus has expected datamodels available:
   DSLite
   DSLite.InterfaceSetting
   Device
+  Device.Bridging
+  Device.BulkData
+  Device.DHCPv4
+  Device.DHCPv6
+  Device.DNS
+  Device.DNS.SD
+  Device.DSLite
+  Device.DeviceInfo
+  Device.DynamicDNS
+  Device.Ethernet
+  Device.Firewall
+  Device.Hosts
+  Device.IP
+  Device.IP.Diagnostics
   Device.InterfaceStack
+  Device.LocalAgent
+  Device.Logical
+  Device.MQTT
+  Device.ManagementServer
+  Device.MoCA
+  Device.NAT
+  Device.NeighborDiscovery
+  Device.PCP
+  Device.PPP
+  Device.PacketInterception
+  Device.QoS
+  Device.RouterAdvertisement
+  Device.Routing
+  Device.SSH
+  Device.Security
+  Device.SoftwareModules
+  Device.Time
+  Device.UPnP
+  Device.UserInterface
+  Device.Users
+  Device.WiFi
+  Device.X_PRPL-COM_MultiSettings
+  Device.X_PRPL-COM_PersistentConfiguration
+  Device.X_PRPL-COM_WANAutoSensing
+  Device.X_PRPL-COM_WANManager
   DeviceInfo
   DeviceInfo.DeviceImageFile
   DeviceInfo.FirmwareImage
@@ -72,6 +112,7 @@ Check that ubus has expected datamodels available:
   Firewall.Chain
   Firewall.Level
   Firewall.X_PRPL-COM_DMZ
+  Firewall.X_PRPL-COM_InterfaceSetting
   Firewall.X_PRPL-COM_Pinhole
   Firewall.X_PRPL-COM_Policy
   Firewall.X_PRPL-COM_PortTrigger
@@ -85,6 +126,8 @@ Check that ubus has expected datamodels available:
   Logical
   Logical.Interface
   ManagementServer
+  ManagementServer.ACSTransfers
+  ManagementServer.ACSTransfers.ACSTransfer
   ManagementServer.ConnRequest
   ManagementServer.InternalSettings
   ManagementServer.State
@@ -117,6 +160,7 @@ Check that ubus has expected datamodels available:
   PacketInterception.Condition
   PacketInterception.Interception
   PacketInterception.PacketHandler
+  ProxyManager
   QoS
   QoS.Classification
   QoS.Node
@@ -143,17 +187,16 @@ Check that ubus has expected datamodels available:
   SoftwareModules.DeploymentUnit
   SoftwareModules.ExecEnv
   SoftwareModules.ExecutionUnit
+  SoftwareModules.Plugins
   Time
   Time.Client
   Time.Server
   Timingila
+  Timingila.ProxyManager
   UPnP
   UPnP.Device
   UserInterface
   UserInterface.HTTPAccess
-  UserInterface.HTTPAccess.X_PRPL-COM_HTTPConfig
-  UserInterface.HTTPProxy
-  UserInterface.HTTPVHost
   Users
   Users.Group
   Users.Role
