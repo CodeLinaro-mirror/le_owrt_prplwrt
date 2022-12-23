@@ -10,9 +10,6 @@ Check that we've expected datamodel:
   UserInterface.HTTPAccess.1.X_PRPL-COM_HTTPConfig
   UserInterface.HTTPAccess.2
   UserInterface.HTTPAccess.2.X_PRPL-COM_HTTPConfig
-  UserInterface.HTTPAccess.X_PRPL-COM_HTTPConfig
-  UserInterface.HTTPProxy
-  UserInterface.HTTPVHost
 
   $ R "ubus call UserInterface.HTTPAccess _get | jsonfilter -e @[*].Port -e @[*].Status -e @[*].AccessType -e @[*].Alias | sort"
   80
