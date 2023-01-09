@@ -1,6 +1,6 @@
 --- a/hostapd/Makefile
 +++ b/hostapd/Makefile
-@@ -179,6 +179,11 @@
+@@ -179,6 +179,11 @@ LIBS_h += -lgcov
  LIBS_n += -lgcov
  endif
  
