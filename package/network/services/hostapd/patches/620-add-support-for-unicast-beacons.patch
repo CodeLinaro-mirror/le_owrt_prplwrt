@@ -1,0 +1,70 @@
+--- a/hostapd/config_file.c
++++ b/hostapd/config_file.c
+@@ -3370,6 +3370,12 @@ static int hostapd_config_fill(struct ho
+ 				   line);
+ 			return 1;
+ 		}
++	} else if (os_strcmp(buf, "beacon_da") == 0) {
++		if (hwaddr_aton(pos, bss->beacon_da)) {
++			wpa_printf(MSG_ERROR, "Line %d: invalid beacon_da item",
++				   line);
++			return 1;
++		}
+ 	} else if (os_strcmp(buf, "use_driver_iface_addr") == 0) {
+ 		conf->use_driver_iface_addr = atoi(pos);
+ #ifdef CONFIG_IEEE80211W
+--- a/hostapd/ctrl_iface.c
++++ b/hostapd/ctrl_iface.c
+@@ -1251,6 +1251,14 @@ static int hostapd_ctrl_iface_get_config
+ 		return pos - buf;
+ 	pos += ret;
+ 
++	if (!is_zero_ether_addr(hapd->conf->beacon_da)) {
++		ret = os_snprintf(pos, end - pos, "beacon_da=" MACSTR "\n",
++				  MAC2STR(hapd->conf->beacon_da));
++		if (os_snprintf_error(end - pos, ret))
++			return pos - buf;
++		pos += ret;
++	}
++
+ #ifdef CONFIG_WPS
+ 	ret = os_snprintf(pos, end - pos, "wps_state=%s\n",
+ 			  hapd->conf->wps_state == 0 ? "disabled" :
+--- a/hostapd/hostapd.conf
++++ b/hostapd/hostapd.conf
+@@ -95,6 +95,9 @@ ssid=test
+ # UTF-8 SSID: Whether the SSID is to be interpreted using UTF-8 encoding
+ #utf8_ssid=1
+ 
++# Destination address for beacon frames (defaults to broadcast)
++#beacon_da=ff:ff:ff:ff:ff:ff
++
+ # Country code (ISO/IEC 3166-1). Used to set regulatory domain.
+ # Set as needed to indicate country in which device is operating.
+ # This can limit available channels and transmit power.
+--- a/src/ap/ap_config.h
++++ b/src/ap/ap_config.h
+@@ -456,6 +456,7 @@ struct hostapd_bss_config {
+ 	struct hostapd_vlan *vlan;
+ 
+ 	macaddr bssid;
++	macaddr beacon_da;
+ 
+ 	/*
+ 	 * Maximum listen interval that STAs can use when associating with this
+--- a/src/ap/beacon.c
++++ b/src/ap/beacon.c
+@@ -1121,7 +1121,12 @@ int ieee802_11_build_ap_params(struct ho
+ 	head->frame_control = IEEE80211_FC(WLAN_FC_TYPE_MGMT,
+ 					   WLAN_FC_STYPE_BEACON);
+ 	head->duration = host_to_le16(0);
+-	os_memset(head->da, 0xff, ETH_ALEN);
++	if (is_zero_ether_addr(hapd->conf->beacon_da) ||
++	    is_broadcast_ether_addr(hapd->conf->beacon_da))
++		os_memset(head->da, 0xff, ETH_ALEN);
++	else {
++		os_memcpy(head->da, hapd->conf->beacon_da, ETH_ALEN);
++	}
+ 
+ 	os_memcpy(head->sa, hapd->own_addr, ETH_ALEN);
+ 	os_memcpy(head->bssid, hapd->own_addr, ETH_ALEN);
