@@ -13,12 +13,11 @@ Check that Sandbox is not configured properly:
 Configure Sandbox:
 
   $ cat > /tmp/run-sandbox <<EOF
-  > ubus-cli Cthulhu.Config.DhcpCommand=\"udhcpc -r 192.168.1.200 -i\"
+  > ubus-cli "Cthulhu.Sandbox.stop(SandboxId=\"generic\")"
   > ubus-cli Cthulhu.Sandbox.Instances.1.NetworkNS.Type="Veth"
   > ubus-cli Cthulhu.Sandbox.Instances.1.NetworkNS.Interfaces.+
   > ubus-cli Cthulhu.Sandbox.Instances.1.NetworkNS.Interfaces.1.Bridge="br-lan"
   > ubus-cli Cthulhu.Sandbox.Instances.1.NetworkNS.Interfaces.1.Interface="eth0"
-  > ubus-cli Cthulhu.Sandbox.Instances.1.NetworkNS.Interfaces.1.EnableDhcp=1
   > ubus-cli Cthulhu.Sandbox.Instances.1.NetworkNS.Enable=1
   > ubus-cli "Cthulhu.Sandbox.start(SandboxId=\"generic\")"
   > EOF
@@ -28,10 +27,7 @@ Configure Sandbox:
 Check that Sandbox was configured properly:
 
   $ R "ubus -S call Cthulhu.Sandbox.Instances.1.NetworkNS.Interfaces.1 _get"
-  {"Cthulhu.Sandbox.Instances.1.NetworkNS.Interfaces.1.":{"EnableDhcp":true,"Interface":"eth0","Bridge":"br-lan"}}
-
-  $ R "ubus -S call Cthulhu.Config _get | jsonfilter -e @[*].DhcpCommand"
-  udhcpc -r 192.168.1.200 -i
+  {"Cthulhu.Sandbox.Instances.1.NetworkNS.Interfaces.1.":{"EnableDhcp":false,"Interface":"eth0","Bridge":"br-lan"}}
 
 Install testing prplOS container v1:
 
@@ -48,10 +44,11 @@ Check that prplOS container v1 is running:
   Running
   cpe-prplos-testing
   prplos-testing
-  prplos/prplos-testing-container-ipq40xx-generic
+  prplos/prplos/prplos-testing-container-ipq40xx-generic
   v1
 
-  $ R "ssh -y root@192.168.1.200 'cat /etc/container-version' 2> /dev/null"
+  $ container_ip=$(R "ubus call DHCPv4.Server.Pool.1.Client.1.IPv4Address.1 _get | jsonfilter -e @[*].IPAddress")
+  $ R "ssh -y root@$container_ip 'cat /etc/container-version' 2> /dev/null"
   1
 
 Update to prplOS container v2:
@@ -69,10 +66,11 @@ Check that prplOS container v2 is running:
   Running
   cpe-prplos-testing
   prplos-testing
-  prplos/prplos-testing-container-ipq40xx-generic
+  prplos/prplos/prplos-testing-container-ipq40xx-generic
   v2
 
-  $ R "ssh -y root@192.168.1.200 'cat /etc/container-version' 2> /dev/null"
+  $ container_ip=$(R "ubus call DHCPv4.Server.Pool.1.Client.2.IPv4Address.1 _get | jsonfilter -e @[*].IPAddress")
+  $ R "ssh -y root@$container_ip 'cat /etc/container-version' 2> /dev/null"
   2
 
 Uninstall prplOS testing container:
