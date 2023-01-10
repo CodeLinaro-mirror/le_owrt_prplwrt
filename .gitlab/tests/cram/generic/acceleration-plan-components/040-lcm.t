@@ -20,7 +20,7 @@ Check that random LXC binaries work:
 Check Cthulhu.Config datamodel:
 
   $ R "ubus -S call Cthulhu.Config _get"
-  {"Cthulhu.Config.":{"ImageLocation":"/usr/share/rlyeh/images","StorageLocation":"/usr/share/cthulhu","UseOverlayFS":true,"DhcpCommand":"","DefaultBackend":"/usr/lib/cthulhu-lxc/cthulhu-lxc.so","BlobLocation":"/usr/share/rlyeh/blobs"}}
+  {"Cthulhu.Config.":{"PluginLocation":"/usr/lib/amx/cthulhu/plugins","ImageLocation":"/usr/share/rlyeh/images","StorageLocation":"/usr/share/cthulhu","UseOverlayFS":true,"DhcpCommand":"","DefaultBackend":"/usr/lib/cthulhu-lxc/cthulhu-lxc.so","BlobLocation":"/usr/share/rlyeh/blobs"}}
 
 Check Rlyeh datamodel:
 
@@ -57,7 +57,7 @@ Check that Rlyeh has downloaded the testing container:
 
   $ R "ubus -S call Rlyeh.Images _get | jsonfilter -e @[*].Name -e @[*].Status | sort"
   Downloaded
-  prplos/prplos-testing-container-intel_mips-xrx500
+  prplos/prplos/prplos-testing-container-intel_mips-xrx500
 
 Remove testing container:
 
