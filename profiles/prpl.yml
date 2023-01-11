@@ -4,7 +4,7 @@ feeds:
   - name: feed_prpl
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-prpl.git
     tracking_branch: prplos-next
-    revision: 97e1340d86134e0c43ca09059ebe25089748eca9
+    revision: 91944ec7e70ebdce5474bd60185dd0b5acae7f3a
 
 additional_packages:
   - feed: packages
@@ -13,20 +13,27 @@ additional_packages:
       - libnl-core
       - libnl-route
       - lighttpd
-      - lighttpd-mod-fastcgi
       - lighttpd-mod-auth
       - lighttpd-mod-authn_file
+      - lighttpd-mod-fastcgi
 
 packages:
   - acl-manager
   - amx-cli
   - cthulhu
   - cthulhu-lxc
+  - debug-information
   - deviceinfo-manager
   - dhcpv4-manager
   - dhcpv6s-manager
   - ethernet-manager
   - ip6tables-zz-legacy
+  - gmap-client
+  - gmap-mod-ethernet-dev
+  - gmap-mod-name-selector
+  - gmap-mod-self
+  - gmap-server
+  - hosts-manager
   - ip-manager
   - iptables-mod-ipopt
   - iptables-zz-legacy
@@ -69,6 +76,7 @@ packages:
   - mod-dmext
   - mod-dmstats
   - mod-fw-amx
+  - mod-httpaccess-lighttpd
   - mod-qos-tc
   - mod-sahtrace
   - mod-vlan-ioctl
@@ -89,6 +97,7 @@ packages:
   - netmodel-vlan
   - odl-generator
   - owsd
+  - packet-interception
   - pcm-manager
   - prplmesh
   - rlyeh
@@ -107,13 +116,18 @@ packages:
   - tr181-dhcpv6client
   - tr181-dns
   - tr181-dnssd
+  - tr181-dslite
+  - tr181-dynamicdns
   - tr181-firewall
+  - tr181-httpaccess
   - tr181-logical
   - tr181-neighbordiscovery
+  - tr181-pcp
   - tr181-ppp
   - tr181-qos
   - tr181-rest-api
   - tr181-routeradvertisement
+  - tr181-upnp
   - tr181-usermanagement
   - tr181-xpon
   - u80211d
