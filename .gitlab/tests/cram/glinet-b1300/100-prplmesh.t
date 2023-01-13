@@ -22,12 +22,12 @@ Check that wireless has desired configuration and state after boot:
   $ R "ubus list | grep hostapd."
   [1]
 
+Restart prplmesh:
 
-Stop prplmesh before starting wireless:
+  $ R logger -t cram "Restart prplmesh"
+  $ R "/etc/init.d/prplmesh gateway_mode && sleep 5" > /dev/null 2>&1
 
-  $ R logger -t cram "Stop prplmesh"
-  $ R "/etc/init.d/prplmesh stop && sleep 5" > /dev/null 2>&1
-  $ sleep 60
+ $ R "ubus -t 60 wait_for Device.WiFi"
 
 Start wireless:
 
@@ -92,12 +92,6 @@ Check that wireless is operating:
   ssid prplOS
   ssid prplOS-guest
   ssid prplOS-guest
-
-Restart prplmesh:
-
-  $ R logger -t cram "Restart prplmesh"
-  $ R "/etc/init.d/prplmesh gateway_mode && sleep 5" > /dev/null 2>&1
-  $ sleep 60
 
 Check that prplmesh processes are running:
 
