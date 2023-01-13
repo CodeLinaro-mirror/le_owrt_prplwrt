@@ -22,6 +22,22 @@ Check that wireless has desired configuration and state after boot:
   $ R "ubus list | grep hostapd."
   [1]
 
+Disable Endpoint feature because of PPM-2437:
+
+  $ R "ubus -S call WiFi.Radio.2 _set '{\"parameters\":{\"STA_Mode\":0}}'"
+  {"WiFi.Radio.2.":{"STA_Mode":false}}
+
+  $ R "ubus -S call WiFi.Radio.2 _set '{\"parameters\":{\"STASupported_Mode\":0}}'"
+  {"WiFi.Radio.2.":{"STASupported_Mode":false}}
+
+  $ sleep 10
+
+Restart pwhm:
+
+  $ R "/etc/init.d/prplmesh_whm stop && sleep 5" > /dev/null 2>&1
+
+  $ R "/etc/init.d/prplmesh_whm start && sleep 5" > /dev/null 2>&1
+
 Restart prplmesh:
 
   $ R logger -t cram "Restart prplmesh"
@@ -42,17 +58,18 @@ Start wireless:
   $ R "ubus -S call WiFi.AccessPoint.2 _set '{\"parameters\":{\"Enable\":1}}'"
   {"WiFi.AccessPoint.2.":{"Enable":true}}
 
-  $ R "ubus -t 30 wait_for hostapd.wlan0.1"
+  $ R "ubus -t 30 wait_for hostapd.wlan1.1"
 
   $ R "ubus -S call WiFi.AccessPoint.3 _set '{\"parameters\":{\"Enable\":1}}'"
   {"WiFi.AccessPoint.3.":{"Enable":true}}
 
-  $ R "ubus -t 30 wait_for hostapd.wlan1.1"
+  $ R "ubus -t 30 wait_for hostapd.wlan0"
 
   $ R "ubus -S call WiFi.AccessPoint.4 _set '{\"parameters\":{\"Enable\":1}}'"
   {"WiFi.AccessPoint.4.":{"Enable":true}}
 
-  $ R "ubus -t 30 wait_for hostapd.wlan0.2"
+  $ R "ubus -t 30 wait_for hostapd.wlan0.1"
+
   $ sleep 30
 
 Check that hostapd is operating as expected:
@@ -64,15 +81,15 @@ Check that hostapd is operating as expected:
   hostapd/global
 
   $ R "ubus list | grep hostapd. | sort"
+  hostapd.wlan0
   hostapd.wlan0.1
-  hostapd.wlan0.2
   hostapd.wlan1
   hostapd.wlan1.1
 
 Check that wireless is operating:
 
   $ R "ubus -S call WiFi.SSID _get | jsonfilter -e @[*].SSID -e @[*].Status | sort"
-  Dormant
+  Error
   PWHM_SSID5
   Up
   Up
@@ -86,7 +103,6 @@ Check that wireless is operating:
   $ R "iw dev | grep -e Interface -e ssid | tr -d '\t' | sort"
   Interface wlan0
   Interface wlan0.1
-  Interface wlan0.2
   Interface wlan1
   Interface wlan1.1
   ssid prplOS
@@ -130,5 +146,7 @@ Check that prplmesh is in operational state:
   bml_nw_map_query: return value is: BML_RET_OK, Success status
   wlan0
   wlan0.0
+  wlan0.1
   wlan1
   wlan1.0
+  wlan1.1
