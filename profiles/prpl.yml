@@ -4,7 +4,7 @@ feeds:
   - name: feed_prpl
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-prpl.git
     tracking_branch: prplwrt-19.07
-    revision: prplos-v2.2
+    revision: e1708be0e9d54f2fb1edb5a0901384bbe878ab3b
 
 additional_packages:
   - feed: packages
@@ -95,7 +95,6 @@ packages:
   - netmodel-ppp
   - netmodel-vlan
   - odl-generator
-  - owsd
   - packet-interception
   - pcm-manager
   - prplmesh
@@ -129,7 +128,6 @@ packages:
   - tr181-upnp
   - tr181-usermanagement
   - tr181-xpon
-  - u80211d
   - umdns
   - wan-autosensing
   - wan-manager
