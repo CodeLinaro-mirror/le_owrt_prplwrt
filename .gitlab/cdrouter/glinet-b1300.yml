@@ -71,3 +71,10 @@ CDRouter-IPv6-Top-100+mDNS Gl.iNet PPPoE WAN initramfs:
     CDROUTER_TEST_CONFIG: ppp-ipv6
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-enable-pppoe.sh
+
+CDRouter-IPv6-Top-100+mDNS+dslite Gl.iNet initramfs:
+  <<: *glinet_cdrouter_ipv6
+  variables:
+    CDROUTER_TEST_CONFIG: generic-ipv6-dslite
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-configure-dslite.sh
