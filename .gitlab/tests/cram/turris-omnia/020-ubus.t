@@ -17,7 +17,6 @@ Check that ubus has all expected services available:
   hotplug.net
   hotplug.ntp
   hotplug.tftp
-  luci-rpc
   network
   network.device
   network.interface
