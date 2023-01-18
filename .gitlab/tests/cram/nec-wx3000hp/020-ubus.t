@@ -7,7 +7,6 @@ Check that ubus has all expected services available:
   $ R "ubus list | grep -v '^[[:upper:]]'"
   dhcp
   dnsmasq
-  luci-rpc
   network
   network.device
   network.interface
