@@ -8,7 +8,8 @@ Add testing service:
 
 Restart multisettings service and start testing service:
 
-  $ R "/etc/init.d/testing start 2> /dev/null"
+  $ R "/etc/init.d/testing-emitter start 2> /dev/null"
+  $ R "/etc/init.d/testing-receiver start 2> /dev/null"
   $ R "/etc/init.d/multisettings restart 2> /dev/null"
 
 Add testing profiles and triggers:
@@ -17,14 +18,14 @@ Add testing profiles and triggers:
   > ubus-cli X_PRPL-COM_MultiSettings.DetectionAtBoot=1
   > ubus-cli X_PRPL-COM_MultiSettings.Profile.+{Alias='france-profile'}
   > ubus-cli X_PRPL-COM_MultiSettings.Profile.france-profile.Name='france'
-  > ubus-cli X_PRPL-COM_MultiSettings.Profile.france-profile.ImpactedModules='testing'
+  > ubus-cli X_PRPL-COM_MultiSettings.Profile.france-profile.ImpactedModules='testing-receiver'
   > ubus-cli X_PRPL-COM_MultiSettings.Profile.france-profile.Trigger.+{Alias='country-france'}
   > ubus-cli X_PRPL-COM_MultiSettings.Profile.france-profile.Trigger.country-france.LeftMember='TestingEmitter.CountryCode'
   > ubus-cli X_PRPL-COM_MultiSettings.Profile.france-profile.Trigger.country-france.RelationalOperator='Equal'
   > ubus-cli X_PRPL-COM_MultiSettings.Profile.france-profile.Trigger.country-france.RightMember='FR'
   > ubus-cli X_PRPL-COM_MultiSettings.Profile.+{Alias='usa-profile'}
   > ubus-cli X_PRPL-COM_MultiSettings.Profile.usa-profile.Name='usa'
-  > ubus-cli X_PRPL-COM_MultiSettings.Profile.usa-profile.ImpactedModules='testing'
+  > ubus-cli X_PRPL-COM_MultiSettings.Profile.usa-profile.ImpactedModules='testing-receiver'
   > ubus-cli X_PRPL-COM_MultiSettings.Profile.usa-profile.Trigger.+{Alias='country-usa'}
   > ubus-cli X_PRPL-COM_MultiSettings.Profile.usa-profile.Trigger.country-usa.LeftMember='TestingEmitter.CountryCode'
   > ubus-cli X_PRPL-COM_MultiSettings.Profile.usa-profile.Trigger.country-usa.RelationalOperator='Equal'
@@ -62,8 +63,9 @@ Check that french profile is correctly applied:
 
 Cleanup:
 
-  $ R "/etc/init.d/testing stop 2> /dev/null"
+  $ R "/etc/init.d/testing-emitter stop 2> /dev/null"
+  $ R "/etc/init.d/testing-receiver stop 2> /dev/null"
   $ R "/etc/init.d/multisettings stop 2> /dev/null"
-  $ R "rm -fr /etc/config/multisettings; rm /etc/init.d/testing"
-  $ R "rm -fr /etc/amx/testing; rm -fr /var/run/selected_profile; rm /usr/bin/testing"
+  $ R "rm -fr /etc/config/multisettings /etc/init.d/testing-receiver /etc/init.d/testing-emitter /etc/amx/testing-receiver /etc/amx/testing-emitter"
+  $ R "rm -fr /var/run/selected_profile /usr/bin/testing-emitter rm /usr/bin/testing-receiver"
   $ R "/etc/init.d/multisettings start 2> /dev/null"
