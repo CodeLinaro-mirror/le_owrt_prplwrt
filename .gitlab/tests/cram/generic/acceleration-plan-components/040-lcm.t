@@ -1,3 +1,8 @@
+Skip test on nec-wx3000hp until LCM-579 is fixed:
+
+  $ [ "$DUT_BOARD" = "nec-wx3000hp" ] && exit 80
+  [1]
+
 Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
@@ -36,6 +41,10 @@ Check that Rlyeh has no container images:
 
   $ R "ubus -S call Rlyeh.Images _get"
   {"Rlyeh.Images.":{}}
+
+Check that registry.gitlab.com is accessible:
+
+  $ R "curl --silent --show-error --connect-timeout 60 https://registry.gitlab.com"
 
 Check that Rlyeh can download testing container:
 
