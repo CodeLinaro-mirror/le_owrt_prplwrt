@@ -80,7 +80,7 @@ stages:
       done 2>&1 | tee --append logs/build.log
 
   after_script:
-    - cp -R "$CI_SDK_TOPDIR/logs" $CI_PROJECT_DIR
+    - cp -R "$CI_SDK_TOPDIR/logs" "$CI_SDK_TOPDIR/bin" $CI_PROJECT_DIR || true
     - >
       if grep -qr 'make\[[[:digit:]]\].*Error [[:digit:]]$' logs; then
         printf "\n====== Showing Make errors found in the log files ======";
