@@ -2,10 +2,27 @@ Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
-Check that ubus has hotplug.firmware service available:
+Check that ubus has all expected services available:
 
-  $ R "ubus list | grep hotplug.firmware"
-  hotplug.firmware
+  $ R "ubus list | grep -v '^[[:upper:]]'"
+  dhcp
+  dnsmasq
+  hostapd
+  network
+  network.device
+  network.interface
+  network.interface.guest
+  network.interface.lan
+  network.interface.loopback
+  network.interface.wan
+  network.interface.wan6
+  network.wireless
+  service
+  session
+  system
+  uci
+  umdns
+  wpa_supplicant
 
 Check that we've correct system info:
 
@@ -15,64 +32,73 @@ Check that we've correct system info:
   glinet,gl-b1300
 
   $ R "ubus call DeviceInfo _get | jsonfilter -e '@[\"DeviceInfo.\"].ProductClass'"
-  GL.iNet GL-B1300
+  gl-b1300
 
 Check that we've correct bridge port aliases:
 
   $ R "ubus call Bridging _get \"{'rel_path':'Bridge.*.Port.*.Alias'}\" | jsonfilter -e @[*].Alias | sort"
-  GUEST
-  LAN1
-  LAN2
-  bridge
-  default_radio0
-  default_radio1
+  eth_port0
+  guest_bridge
   guest_radio0
   guest_radio1
+  guest_wl0
+  guest_wl1
+  lan_bridge
+  lcm_bridge
+  wlan_port0
+  wlan_port1
 
 Check that we've correct ethernet interface details:
 
   $ R "ubus call Ethernet _get \"{'rel_path':'Interface.'}\" | grep -E '(Alias|Enable|Name)' | sort"
-  \t\t"Alias": "LAN1", (esc)
-  \t\t"Alias": "LAN2", (esc)
-  \t\t"Alias": "WAN", (esc)
-  \t\t"EEEEnable": false, (esc)
+  \t\t"Alias": "ETH0", (esc)
+  \t\t"Alias": "ETH1", (esc)
   \t\t"EEEEnable": false, (esc)
   \t\t"EEEEnable": false, (esc)
   \t\t"Enable": true, (esc)
   \t\t"Enable": true, (esc)
-  \t\t"Enable": true, (esc)
-  \t\t"Name": "lan1", (esc)
-  \t\t"Name": "lan2", (esc)
-  \t\t"Name": "wan", (esc)
+  \t\t"Name": "eth0", (esc)
+  \t\t"Name": "eth1", (esc)
 
 Check that we've correct ethernet link details:
 
   $ R "ubus call Ethernet _get \"{'rel_path':'Link.'}\" | grep -E '(Alias|Enable|Name)' | sort"
-  \t\t"Alias": "GUEST", (esc)
-  \t\t"Alias": "LAN", (esc)
-  \t\t"Alias": "LO", (esc)
-  \t\t"Alias": "WAN", (esc)
+  \t\t"Alias": "bridge_guest", (esc)
+  \t\t"Alias": "bridge_lan", (esc)
+  \t\t"Alias": "bridge_lcm", (esc)
+  \t\t"Alias": "eth_wan", (esc)
+  \t\t"Alias": "link_lo", (esc)
+  \t\t"Enable": true, (esc)
   \t\t"Enable": true, (esc)
   \t\t"Enable": true, (esc)
   \t\t"Enable": true, (esc)
   \t\t"Enable": true, (esc)
   \t\t"Name": "br-guest", (esc)
   \t\t"Name": "br-lan", (esc)
+  \t\t"Name": "br-lcm", (esc)
+  \t\t"Name": "eth1", (esc)
   \t\t"Name": "lo", (esc)
-  \t\t"Name": "wan", (esc)
 
 Check that IP.Interface provides expected output:
 
   $ R "ubus call IP _get '{\"rel_path\":\"Interface.\",\"depth\":100}' | jsonfilter -e @[*].Alias -e @[*].Name -e @[*].IPAddress -e @[*].SubnetMask | sort" | egrep -v '(^f[0-9a-z:]+|^$)'
   10.0.0.2
   127.0.0.1
+  192.0.0.2
   192.168.1.1
   192.168.2.1
+  192.168.5.1
   255.0.0.0
   255.255.255.0
   255.255.255.0
   255.255.255.0
+  255.255.255.0
+  255.255.255.0
   ::1
+  DHCP
+  DSLite-entry
+  DSLite-entry
+  DSLite-exit
   GUA
   GUA
   GUA_IAPD
@@ -83,85 +109,171 @@ Check that IP.Interface provides expected output:
   ULA64
   br-guest
   br-lan
+  eth1
   guest
   guest
   lan
   lan
+  lcm
+  lcm
   lo
   loopback
   loopback_ipv4
   loopbackipv6
+  public-lan
   wan
   wan
 
 Check that NAT.Interface provides expected output:
 
   $ R "ubus call NAT _get '{\"rel_path\":\"InterfaceSetting.\",\"depth\":100}' | jsonfilter -e @[*].Alias -e @[*].Interface"
+  lcm
+  wan
   lan
   guest
-  wan
-  br-lan
-  br-guest
-  wan
+  Device.IP.Interface.5.
+  Device.IP.Interface.2.
+  Device.IP.Interface.3.
+  Device.IP.Interface.4.
 
 Check that NetDev.Link provides expected output:
 
   $ R "ubus call NetDev _get '{\"rel_path\":\"Link.\",\"depth\":100}' | jsonfilter -e @[*].Name | sort"
   br-guest
   br-lan
-  br-lan
   eth0
-  lan1
-  lan2
+  eth1
+  ifb0
+  ifb1
+  ip6tnl0
   lo
   teql0
   veth_gene_0
-  wan
   wlan0
   wlan1
 
 Check that NetModel.Intf provides expected output:
 
-  $ R "ubus call NetModel _get '{\"rel_path\":\"Intf.\",\"depth\":100}' | jsonfilter -e @[*].Alias -e @[*].Flags -e @[*].Name -e @[*].Status | sed '/^$/d' | sort"
-  bridge
-  bridge
-  bridge-GUEST
-  bridge-GUEST
-  bridge-bridge
-  bridge-bridge
-  bridgeport-LAN1
-  bridgeport-LAN1
-  bridgeport-LAN2
-  bridgeport-LAN2
-  bridgeport-default_radio0
-  bridgeport-default_radio0
-  bridgeport-default_radio1
-  bridgeport-default_radio1
-  bridgeport-guest_radio0
-  bridgeport-guest_radio0
-  bridgeport-guest_radio1
-  bridgeport-guest_radio1
-  ethIntf-LAN1
-  ethIntf-LAN1
-  ethIntf-LAN2
-  ethIntf-LAN2
-  ethIntf-WAN
-  ethIntf-WAN
-  ethLink-GUEST
-  ethLink-GUEST
-  ethLink-LAN
-  ethLink-LAN
-  ethLink-LO
-  ethLink-LO
-  ethLink-WAN
-  ethLink-WAN
-  eth_intf netdev
-  eth_intf netdev
-  eth_intf netdev
-  eth_link
-  eth_link
-  eth_link
-  eth_link
+  $ R "ubus call NetModel _get '{\"rel_path\":\"Intf.\",\"depth\":100}' | jsonfilter -e @[*].Alias -e @[*].Flags -e @[*].Name -e @[*].Status | sed '/^$/d' | grep -v -e ^bridgeport -e 'bridge '| sort"
+  Disabled
+  Disabled
+  Disabled
+  Enabled
+  Enabled
+  Enabled
+  Enabled
+  Enabled
+  Error
+  Error
+  Error
+  Error
+  Error
+  Error
+  Error
+  Error
+  Error
+  br-guest
+  br-guest
+  br-lan
+  br-lan
+  br-lcm
+  br-lcm
+  bridge-ETH1
+  bridge-ETH1
+  bridge-eth_port0
+  bridge-eth_port0
+  bridge-eth_port0
+  bridge-guest_bridge
+  bridge-guest_bridge
+  bridge-guest_bridge
+  bridge-guest_bridge
+  bridge-guest_bridge
+  bridge-guest_bridge
+  bridge-guest_radio0
+  bridge-guest_radio0
+  bridge-guest_radio1
+  bridge-guest_radio1
+  bridge-guest_wl0
+  bridge-guest_wl0
+  bridge-guest_wl1
+  bridge-guest_wl1
+  bridge-lan_bridge
+  bridge-lan_bridge
+  bridge-lan_bridge
+  bridge-lan_bridge
+  bridge-lan_bridge
+  bridge-lcm_bridge
+  bridge-lcm_bridge
+  bridge-wlan_port0
+  bridge-wlan_port0
+  bridge-wlan_port1
+  bridge-wlan_port1
+  cpe-IPv4Address-1
+  cpe-IPv4Address-1
+  cpe-IPv4Address-1
+  cpe-IPv4Address-1
+  cpe-IPv4Address-1
+  cpe-IPv4Address-1
+  cpe-IPv4Address-2
+  cpe-IPv6Address-1
+  cpe-IPv6Address-1
+  cpe-IPv6Address-1
+  cpe-IPv6Address-2
+  cpe-IPv6Address-2
+  cpe-IPv6Prefix-1
+  cpe-IPv6Prefix-1
+  cpe-IPv6Prefix-2
+  cpe-IPv6Prefix-2
+  cpe-IPv6Prefix-3
+  cpe-ReqOption-1
+  cpe-ReqOption-10
+  cpe-ReqOption-2
+  cpe-ReqOption-3
+  cpe-ReqOption-4
+  cpe-ReqOption-5
+  cpe-ReqOption-6
+  cpe-ReqOption-7
+  cpe-ReqOption-8
+  cpe-ReqOption-9
+  default_radio0
+  default_radio1
+  dslite netdev
+  dslite netdev
+  dslite-dynamic
+  dslite-static
+  dslite0
+  dslite0
+  eth0
+  eth0
+  eth1
+  eth1
+  eth1
+  ethIntf-ETH0
+  ethIntf-ETH0
+  ethIntf-ETH1
+  ethIntf-ETH1
+  ethIntf-ETH1
+  ethLink-bridge_guest
+  ethLink-bridge_guest
+  ethLink-bridge_guest
+  ethLink-bridge_lan
+  ethLink-bridge_lan
+  ethLink-bridge_lan
+  ethLink-bridge_lcm
+  ethLink-bridge_lcm
+  ethLink-bridge_lcm
+  ethLink-eth_wan
+  ethLink-eth_wan
+  ethLink-eth_wan
+  ethLink-eth_wan
+  ethLink-link_lo
+  ethLink-link_lo
+  eth_intf netdev enabled netdev-bound netdev-up up
+  eth_intf netdev enabled upstream netdev-bound netdev-up up
+  eth_link enabled
+  eth_link enabled
+  eth_link enabled up
+  eth_link enabled up
   false
   false
   false
@@ -178,27 +290,68 @@ Check that NetModel.Intf provides expected output:
   false
   false
   false
-  false
-  false
-  false
-  false
-  inbridge
-  inbridge
-  inbridge
-  inbridge
-  inbridge
-  inbridge
-  ip netdev
-  ip netdev
-  ip netdev
-  ip netdev dhcpv[46] dhcpv[46] (re)
+  guest
+  guest
+  guest_radio0
+  guest_radio1
+  ip .* (re)
+  ip .* (re)
+  ip .* (re)
+  ip .* (re)
+  ip .* (re)
+  ip .* (re)
+  ip .* (re)
+  ip-DSLite-entry
+  ip-DSLite-exit
+  ip-guest
   ip-guest
   ip-guest
   ip-lan
   ip-lan
+  ip-lan
+  ip-lcm
+  ip-lcm
   ip-loopback
   ip-loopback
   ip-wan
   ip-wan
+  ip-wan
+  lan
+  lan
+  lo
+  logical up enabled
+  logical up enabled
+  logical up enabled
+  netdev eth_link netdev-bound enabled netdev-up up
+  permanent
+  permanent
+  permanent
+  permanent
+  permanent
+  ppp netdev
+  ppp-wan
+  ppp-wan
+  pppoe-wan
+  radio0
+  radio1
   resolver
   resolver
+  true
+  true
+  true
+  true
+  true
+  true
+  true
+  true
+  true
+  true
+  true
+  true
+  true
+  true
+  true
+  true
+  up
+  wan
+  wan

@@ -6,8 +6,7 @@ Create testing user:
 
   $ printf "\
   > ubus-cli Users.Group.+{GroupID=999,Groupname='testgroup',Alias='testgroup'}
-  > ubus-cli Users.SupportedShell.+{Name='/bin/ash',Alias='ash',Enable='true'}
-  > ubus-cli Users.User.+{UserID=666,Username='testuser',Alias='testuser',GroupParticipation='Users.Group.testgroup.',Password='password',Shell='Users.SupportedShell.ash.'}
+  > ubus-cli Users.User.+{UserID=666,Username='testuser',Alias='testuser',GroupParticipation='Users.Group.testgroup.',Password='password',Shell='Users.SupportedShell.ash-shell.'}
   > sleep 5; passwd -d root
   > " > /tmp/cram
   $ script --command "ssh -t root@$TARGET_LAN_IP '$(cat /tmp/cram)'" > /dev/null

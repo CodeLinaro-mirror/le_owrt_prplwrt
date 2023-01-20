@@ -6,7 +6,7 @@ Configure MAC filter rule:
 
   $ printf "\
   > ubus-cli Firewall.Chain.L_Low.Rule+{Alias='test'}
-  > ubus-cli Firewall.Chain.L_Low.Rule.test.X_Prpl_SourceMAC='AA:BB:CC:DD:EE:FF'
+  > ubus-cli Firewall.Chain.L_Low.Rule.test.X_PRPL-COM_SourceMAC='AA:BB:CC:DD:EE:FF'
   > ubus-cli Firewall.Chain.L_Low.Rule.test.Target=Accept
   > ubus-cli Firewall.Chain.L_Low.Rule.test.IPVersion=4
   > ubus-cli Firewall.Chain.L_Low.Rule.test.Enable=1

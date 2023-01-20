@@ -12,6 +12,7 @@ RUN \
 	iproute2 \
 	locales \
 	netcat-openbsd \
+	ntpdate \
 	nmap \
 	openssh-client \
 	python3 \

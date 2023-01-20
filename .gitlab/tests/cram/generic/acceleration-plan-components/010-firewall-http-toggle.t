@@ -9,7 +9,7 @@ Check that HTTP from LAN is allowed by default:
 
 Disable firewall rule for HTTP access from LAN:
 
-  $ script --command "ssh -t root@$TARGET_LAN_IP ubus-cli Firewall.X_Prpl_Service.http.Enable=0" > /dev/null; sleep .5
+  $ script --command "ssh -t root@$TARGET_LAN_IP ubus-cli Firewall.X_PRPL-COM_Service.http.Enable=0" > /dev/null; sleep .5
 
 Check that HTTP from LAN is forbidden:
 
@@ -18,7 +18,7 @@ Check that HTTP from LAN is forbidden:
 
 Enable firewall rule for HTTP access from LAN:
 
-  $ script --command "ssh -t root@$TARGET_LAN_IP ubus-cli Firewall.X_Prpl_Service.http.Enable=1" > /dev/null; sleep .5
+  $ script --command "ssh -t root@$TARGET_LAN_IP ubus-cli Firewall.X_PRPL-COM_Service.http.Enable=1" > /dev/null; sleep .5
 
 Check that HTTP from LAN is allowed again:
 
