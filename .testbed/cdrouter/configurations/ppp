@@ -50,7 +50,7 @@ SECTION "Base Configuration" {
 
         SECTION "DHCP Server" {
 
-            # testvar dhcpLeaseTime                    300
+              testvar dhcpLeaseTime                    180
             # testvar dhcpServerBroadcast              no
             # testvar dhcpServerRapidCommit            yes
             # testvar dhcpServerClientIDBehavior       rfc6842
@@ -287,10 +287,10 @@ SECTION "Base Configuration" {
 
         SECTION "Dynamic DNS" {
 
-            # testvar supportsDynDns                   no
+              testvar supportsDynDns                   yes
             # testvar dynDnsServerIp                   66.37.215.49
             # testvar dynDnsTransport                  http
-            # testvar dynDnsHostname                   test.domain.com
+              testvar dynDnsHostname                   cpe01.prplOS.prplfoundation.org
             # testvar dynDnsUsername                   qacafe
             # testvar dynDnsPassword                   qacafe123
             # testvar dynDnsSystem                     dyndns
@@ -298,7 +298,7 @@ SECTION "Base Configuration" {
             # testvar dynDnsBackMx                     no
             # testvar dynDnsWildcard                   off
             # testvar dynDnsAgent                      RAS/1.1
-            # testvar dynDnsWait                       30
+              testvar dynDnsWait                       60
             # testvar testDynDnsErrorCode              no
             # testvar dynDnsServerReturn               !yours
 
