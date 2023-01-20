@@ -5,17 +5,17 @@ Create R alias:
 Check QoS root datamodel:
 
   $ R "ubus -S call QoS _get"
-  {"QoS.":{"SupportedControllers":"mod-qos-tc","ShaperNumberOfEntries":1,"QueueNumberOfEntries":5,"MaxClassificationEntries":20,"ClassificationNumberOfEntries":0,"QueueStatsNumberOfEntries":4,"MaxQueueEntries":20,"MaxShaperEntries":20}}
+  {"QoS.":{"SupportedControllers":"mod-qos-tc","ShaperNumberOfEntries":1,"QueueNumberOfEntries":5,"MaxSchedulerEntries":20,"SchedulerNumberOfEntries":1,"QueueStatsNumberOfEntries":4,"MaxClassificationEntries":20,"ClassificationNumberOfEntries":4,"MaxQueueEntries":20,"MaxShaperEntries":20}}
 
 Check Qos.Node.7 datamodel:
 
   $ R "ubus call QoS.Node.7 _get | jsonfilter -e @[*].TrafficClasses -e @[*].DropAlgorithm -e @[*].Controller -e @[*].AllInterfaces -e @[*].SchedulerAlgorithm -e @[*].Alias " | sort
-  5, 6, 7
+  3
   DT
   HTB
   false
   mod-qos-tc
-  node-queue-home-voip
+  node-queue-home-iptv
 
 Check QoS.Queue datamodel for stats-home-iptv:
 
@@ -49,20 +49,7 @@ Check QoS.Shaper.1 datamodel:
   mod-qos-tc
   true
 
-Add a new classification instance and set the DSCP value for IPv4 ICMP packets:
-
-  $ cat > /tmp/new-classification <<EOF
-  > ubus-cli QoS.Classification.+{Alias=icmp_dscp_cs6,Flags=\"class_basic\"}
-  > ubus-cli QoS.Classification.icmp_dscp_cs6.DSCPMark=48
-  > ubus-cli QoS.Classification.icmp_dscp_cs6.Interface=\"Postrouting\"
-  > ubus-cli QoS.Classification.icmp_dscp_cs6.Protocol=1
-  > ubus-cli QoS.Classification.icmp_dscp_cs6.IPVersion=4
-  > ubus-cli QoS.Classification.icmp_dscp_cs6.Enable=1
-  > EOF
-  $ script --command "ssh -t root@$TARGET_LAN_IP '$(cat /tmp/new-classification)'" > /dev/null
-  $ sleep 2
-
-Check new classification instance configuration:
+Check default classification instance for DSCP value for IPv4 ICMP packets (icmp_dscp_cs6) configuration:
 
   $ R "ubus call QoS.Classification.1 _get | jsonfilter -e @[*].Status -e @[*].DSCPMark -e @[*].Alias -e @[*].Protocol -e @[*].IPVersion" | sort
   1
@@ -90,7 +77,7 @@ Check altered classification instance configuration:
   $ R "iptables -t mangle -L POSTROUTING_class | grep 'DSCP set'"
   DSCP       icmp --  anywhere             anywhere             DSCP set 0x34
 
-Add a second classification instance. Mark ICMP packets to network 192.168.25.0/24 with value 8 (CS1):
+Add a new classification instance 5. Mark ICMP packets to network 192.168.25.0/24 with value 8 (CS1):
 
   $ cat > /tmp/new-classification <<EOF
   > ubus-cli QoS.Classification.+{Alias=icmp_dscp_cs1,Flags=\"class_basic\"}
@@ -114,7 +101,7 @@ Check correct change of packet classification ordering:
   $ R "ubus call QoS.Classification.1 _get | jsonfilter -e @[*].Order"
   2
 
-  $ R "ubus call QoS.Classification.2 _get | jsonfilter -e @[*].Order"
+  $ R "ubus call QoS.Classification.5 _get | jsonfilter -e @[*].Order"
   1
 
   $ R "iptables -t mangle -L POSTROUTING_class | grep 'DSCP set'"
@@ -124,7 +111,7 @@ Check correct change of packet classification ordering:
 Check default QoS configuration:
 
   $ R "tc qdisc show dev $DUT_WAN_INTERFACE"
-  qdisc htb 1: root refcnt (2|5|9) r2q 10 default 0x10003 direct_packets_stat [0-9]+ direct_qlen (532|1000|1024) (re)
+  qdisc htb 1: root refcnt (2|5|9) r2q 10 default 0x10003 direct_packets_stat [0-9]+ direct_qlen (532|1000) (re)
 
   $ R "tc class show dev $DUT_WAN_INTERFACE" | sort
   class htb 1:1 parent 1:32 prio 5 rate 25Mbit ceil 25Mbit burst *b cburst *b  (glob)
@@ -161,3 +148,14 @@ Check that iptables rule is created in the FORWARD_class chain in the mangle tab
 
   $ R "iptables -t mangle -L FORWARD_class | grep 'MARK xset'"
   MARK       udp  --  anywhere             192.168.55.0/24      udp MARK xset 0x4/0x1f
+
+Restore original classification configuration:
+
+  $ cat > /tmp/new-classification <<EOF
+  > ubus-cli QoS.Classification.icmp_dscp_cs6.Order=1
+  > ubus-cli QoS.Classification.icmp_dscp_cs6.DSCPMark=48
+  > ubus-cli QoS.Classification.icmp_dscp_cs1- 
+  > ubus-cli QoS.Classification.subnet1_high_prio-
+  > EOF
+  $ script --command "ssh -t root@$TARGET_LAN_IP '$(cat /tmp/new-classification)'" > /dev/null
+  $ sleep 2

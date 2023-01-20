@@ -24,7 +24,7 @@ SECTION "Base Configuration" {
         SECTION "WAN Interface" {
 
             # testvar wanInterface                     eth2
-            # testvar wanMode                          DHCP
+              testvar wanMode                          dslite
             # testvar wanIspIp                         202.254.1.1
             # testvar wanIspAssignIp                   202.254.1.2
             # testvar wanIspMask                       255.255.255.0
@@ -50,7 +50,7 @@ SECTION "Base Configuration" {
 
         SECTION "DHCP Server" {
 
-              testvar dhcpLeaseTime                    180
+            # testvar dhcpLeaseTime                    300
             # testvar dhcpServerBroadcast              no
             # testvar dhcpServerRapidCommit            yes
             # testvar dhcpServerClientIDBehavior       rfc6842
@@ -77,8 +77,8 @@ SECTION "Base Configuration" {
 
             # testvar pppoeConnectOnDemand             no
             # testvar pppoeIdleTimeout                 60
-            testvar pppoeUser                        softathome
-            testvar pppoePassword                    softathome
+            # testvar pppoeUser                        qacafe
+            # testvar pppoePassword                    qacafe123
             # testvar pppoeAcName                      qacafe-ac
             # testvar pppoeServiceName                 any
             # testvar pppoeAcCookie                    auto
@@ -111,7 +111,7 @@ SECTION "Base Configuration" {
         SECTION "DS-Lite" {
 
             # testvar ipv6DsliteAftr                   3001:aaaa::1
-            # testvar dhcpv6WanAftrName                aftr.qacafe.com
+              testvar dhcpv6WanAftrName                aftr.prplfoundation.org
             # testvar dsliteFirewallMode               address-restricted
 
         }
@@ -162,7 +162,7 @@ SECTION "Base Configuration" {
 
         SECTION "WAN 802.1q VLAN" {
 
-            testvar wanVlanId                          101
+            # testvar wanVlanId                        100
             # testvar wanVlanPriority                  0
 
         }
@@ -287,10 +287,10 @@ SECTION "Base Configuration" {
 
         SECTION "Dynamic DNS" {
 
-              testvar supportsDynDns                   yes
+            # testvar supportsDynDns                   no
             # testvar dynDnsServerIp                   66.37.215.49
             # testvar dynDnsTransport                  http
-              testvar dynDnsHostname                   cpe01.prplOS.prplfoundation.org
+            # testvar dynDnsHostname                   test.domain.com
             # testvar dynDnsUsername                   qacafe
             # testvar dynDnsPassword                   qacafe123
             # testvar dynDnsSystem                     dyndns
@@ -298,7 +298,7 @@ SECTION "Base Configuration" {
             # testvar dynDnsBackMx                     no
             # testvar dynDnsWildcard                   off
             # testvar dynDnsAgent                      RAS/1.1
-              testvar dynDnsWait                       60
+            # testvar dynDnsWait                       30
             # testvar testDynDnsErrorCode              no
             # testvar dynDnsServerReturn               !yours
 
@@ -503,7 +503,7 @@ SECTION "Base Configuration" {
 
         SECTION "LAN 802.1q VLAN" {
 
-            testvar lanVlanId                          201
+            # testvar lanVlanId                        100
             # testvar lanVlanPriority                  0
 
         }
@@ -521,7 +521,7 @@ SECTION "Base Configuration" {
 
         SECTION "NAT Options" {
 
-            # testvar natSimultaneousTcp               no
+              testvar natSimultaneousTcp               yes
             # testvar natSrcPort0                      yes
             # testvar natSupportsP2P                   yes
             # testvar natPortParity                    yes
@@ -1194,7 +1194,7 @@ SECTION "CDRouter IKE Add-On" {
 
 SECTION "CDRouter IPv6 Add-On" {
 
-    # testvar supportsIPv6                     no
+    testvar supportsIPv6                     yes
 
     SECTION "IPv6 WAN" {
 
@@ -2292,7 +2292,7 @@ SECTION "CDRouter Storage Add-On" {
 
 SECTION "CDRouter TR-069 Add-On" {
 
-    testvar supportsCWMP                     no
+    testvar supportsCWMP                     yes
 
     SECTION "Basic ACS Configuration" {
 
