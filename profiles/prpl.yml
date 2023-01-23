@@ -4,7 +4,7 @@ feeds:
   - name: feed_prpl
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-prpl.git
     tracking_branch: prplos
-    revision: e1708be0e9d54f2fb1edb5a0901384bbe878ab3b
+    revision: 6fb3f8f46e4fe72948dfa4d831daad77eb102c4b
 
 additional_packages:
   - feed: packages
@@ -155,6 +155,7 @@ diffconfig: |
           # pwhm options
           CONFIG_USE_PRPLMESH_WHM=y
           CONFIG_SAH_WLD_INIT_SCRIPT="prplmesh_whm"
+          CONFIG_PACKAGE_prplmesh-unit-tests=m
           # kernel options for lcm
           CONFIG_KERNEL_ARM_PMU=y
           CONFIG_KERNEL_BLK_CGROUP=y
