@@ -4,7 +4,7 @@ feeds:
   - name: feed_prpl
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-prpl.git
     tracking_branch: prplos-next
-    revision: 91944ec7e70ebdce5474bd60185dd0b5acae7f3a
+    revision: b6b1a920497b617dfe6ee8f96ecc5fe7d5c359c4
 
 additional_packages:
   - feed: packages
@@ -16,6 +16,7 @@ additional_packages:
       - lighttpd-mod-auth
       - lighttpd-mod-authn_file
       - lighttpd-mod-fastcgi
+      - syslog-ng
 
 packages:
   - acl-manager
@@ -106,7 +107,6 @@ packages:
   - rlyeh
   - routing-manager
   - ssh-server
-  - syslog-ng
   - tc-tiny
   - time-manager
   - timingila
