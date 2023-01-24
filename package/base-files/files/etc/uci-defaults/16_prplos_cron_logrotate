@@ -1,0 +1,4 @@
+grep -s -q /usr/sbin/logrotate /etc/crontabs/root && exit 0
+echo "# logrotate runs every 10 minutes" >> /etc/crontabs/root
+echo "*/10 * * * * /usr/sbin/logrotate /etc/logrotate.conf" >> /etc/crontabs/root
+exit 0
