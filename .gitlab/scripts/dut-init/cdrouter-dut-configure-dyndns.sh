@@ -3,7 +3,7 @@
 ssh "root@$TARGET_LAN_IP" "sed -i 's/CHECK_SECONDS=300/CHECK_SECONDS=30/g' /usr/lib/ddns/dynamic_dns_updater.sh"
 ssh "root@$TARGET_LAN_IP" "ubus -t 200 wait_for DynamicDNS.Client"
 ssh "root@$TARGET_LAN_IP" "\
-	ubus call DynamicDNS.Server.10 _set \
+	ubus call DynamicDNS.Server.9 _set \
 	'{\"parameters\":{ \
 		\"CheckInterval\":60, \
   }}' \
@@ -12,7 +12,7 @@ ssh "root@$TARGET_LAN_IP" "\
 	ubus call DynamicDNS.Client _add \
 	'{\"parameters\":{ \
 		\"Alias\":\"cdrouter\", \
-		\"Server\":\"DynamicDNS.Server.10.\", \
+		\"Server\":\"DynamicDNS.Server.9.\", \
 		\"Interface\":\"Device.IP.Interface.2.\", \
 		\"Username\":\"qacafe\", \
 		\"Password\":\"qacafe123\", \
