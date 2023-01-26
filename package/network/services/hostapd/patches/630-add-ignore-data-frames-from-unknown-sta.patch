@@ -1,0 +1,72 @@
+From cb949726fc6194c608027f2556c00b262c6b8b34 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Rapha=C3=ABl=20M=C3=A9lotte?= <raphael.melotte@mind.be>
+Date: Tue, 24 Jan 2023 14:15:09 +0100
+Subject: [PATCH] hostapd: add option to ignore data frames from unknown
+ stations
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+When an external process manages hostapd, it can be needed to
+temporarily ignore class 3 frames from unknown stations until hostapd
+can be made aware of the station.
+
+Add a new option that, when set, makes hostapd ignore class 3 frames
+from unknown stations. When the option is not set, the behavior stays
+the same as before (i.e. unknown stations are deauthenticated).
+
+Signed-off-by: Raphaël Mélotte <raphael.melotte@mind.be>
+---
+ hostapd/config_file.c | 2 ++
+ hostapd/hostapd.conf  | 5 +++++
+ src/ap/ap_config.h    | 2 ++
+ src/ap/ieee802_11.c   | 2 +-
+ 4 files changed, 10 insertions(+), 1 deletion(-)
+
+--- a/hostapd/config_file.c
++++ b/hostapd/config_file.c
+@@ -4335,6 +4335,8 @@ static int hostapd_config_fill(struct ho
+ 		bss->broadcast_deauth = atoi(pos);
+ 	} else if (os_strcmp(buf, "notify_mgmt_frames") == 0) {
+ 		conf->notify_mgmt_frames = atoi(pos);
++	} else if (os_strcmp(buf, "no_deauth_unknown_sta") == 0) {
++		bss->no_deauth_unknown_sta = atoi(pos);
+ #ifdef CONFIG_DPP
+ 	} else if (os_strcmp(buf, "dpp_connector") == 0) {
+ 		os_free(bss->dpp_connector);
+--- a/hostapd/hostapd.conf
++++ b/hostapd/hostapd.conf
+@@ -557,6 +557,11 @@ wmm_ac_vo_acm=0
+ # Default: 0 (disabled)
+ #notify_mgmt_frames=0
+ 
++# Do not deauthenticate unknown stations.
++# This can be used to temporarily ignore data frames from unknown
++# stations, instead of deauthenticating them.
++#no_deauth_unknown_sta=0
++
+ ##### IEEE 802.11n related configuration ######################################
+ 
+ # ieee80211n: Whether IEEE 802.11n (HT) is enabled
+--- a/src/ap/ap_config.h
++++ b/src/ap/ap_config.h
+@@ -711,6 +711,8 @@ struct hostapd_bss_config {
+ 
+ 	int broadcast_deauth;
+ 
++	int no_deauth_unknown_sta;
++
+ #ifdef CONFIG_DPP
+ 	char *dpp_connector;
+ 	struct wpabuf *dpp_netaccesskey;
+--- a/src/ap/ieee802_11.c
++++ b/src/ap/ieee802_11.c
+@@ -5333,7 +5333,7 @@ void ieee802_11_rx_from_unknown(struct h
+ 		hostapd_drv_sta_disassoc(
+ 			hapd, src,
+ 			WLAN_REASON_CLASS3_FRAME_FROM_NONASSOC_STA);
+-	else
++	else if (!hapd->conf->no_deauth_unknown_sta)
+ 		hostapd_drv_sta_deauth(
+ 			hapd, src,
+ 			WLAN_REASON_CLASS3_FRAME_FROM_NONASSOC_STA);

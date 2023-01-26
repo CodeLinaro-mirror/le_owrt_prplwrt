@@ -38,7 +38,7 @@
  	os_free(conf->basic_rates);
 --- a/src/ap/ap_config.h
 +++ b/src/ap/ap_config.h
-@@ -830,6 +830,7 @@ struct hostapd_bss_config {
+@@ -832,6 +832,7 @@ struct hostapd_bss_config {
  	 */
  	u8 mka_psk_set;
  #endif /* CONFIG_MACSEC */
@@ -46,7 +46,7 @@
  };
  
  /**
-@@ -1013,7 +1014,7 @@ struct hostapd_config {
+@@ -1015,7 +1016,7 @@ struct hostapd_config {
  	unsigned int airtime_update_interval;
  #define AIRTIME_MODE_MAX (__AIRTIME_MODE_MAX - 1)
  #endif /* CONFIG_AIRTIME_POLICY */
