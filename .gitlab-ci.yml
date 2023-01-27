@@ -2,7 +2,6 @@ variables:
   CI_DESIGNATED_BRANCH: prplos
 
 include:
-  - local: .gitlab/build.yml
   - local: .gitlab/cdrouter.yml
   - local: .gitlab/cdrouter/glinet-b1300.yml
   - local: .gitlab/testbed.yml
@@ -15,7 +14,9 @@ stages:
   - cdrouter
 
 build test ipq40xx prpl webui:
-  extends: .build test config
+  stage: build
+  script: 
+    - echo "Dummy job to satisfy dependencies"
 
 run test Gl.iNet B1300 initramfs:
   needs:
