@@ -2,6 +2,7 @@ variables:
   CI_DESIGNATED_BRANCH: prplos
 
 include:
+  - local: .gitlab/build.yml
   - local: .gitlab/cdrouter.yml
   - local: .gitlab/cdrouter/glinet-b1300.yml
   - local: .gitlab/testbed.yml
