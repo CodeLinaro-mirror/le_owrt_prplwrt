@@ -12,9 +12,6 @@ stages:
   - run
   - cdrouter
 
-build test ipq40xx prpl webui:
-  extends: .build test config
-
 run test Gl.iNet B1300 initramfs:
   needs:
     - job: build test ipq40xx prpl webui
