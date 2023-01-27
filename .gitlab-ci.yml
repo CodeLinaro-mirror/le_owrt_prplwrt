@@ -13,8 +13,5 @@ stages:
   - cdrouter
 
 run test Gl.iNet B1300 initramfs:
-  needs:
-    - job: build test ipq40xx prpl webui
-      optional: true
   extends: .glinet-b1300 testbed
 
