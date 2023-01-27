@@ -9,4 +9,4 @@ ssh root@$TARGET_LAN_IP "ubus call IP.Interface.2 _set '{\"parameters\":{\"Lower
 ssh root@$TARGET_LAN_IP "ubus call IP.Interface.2.IPv4Address.1 _set '{\"parameters\":{\"AddressingType\":\"IPCP\"}}'"
 
 #add a dns monitor
-ssh root@TARGET_LAN_IP "exec <&- >&- 2>&- ; while true; do sh -c \"date; nslookup acs-download.qacafe.com \">> /cfg/tmpnslookup;  sleep 10;  done &" 
+ssh root@$TARGET_LAN_IP "exec <&- >&- 2>&- ; while true; do sh -c \"date; nslookup acs-download.qacafe.com \">> /cfg/tmpnslookup;  sleep 10;  done &" 
