@@ -153,7 +153,6 @@ Check that NetDev.Link provides expected output:
   wlan0.1
   wlan1
   wlan1.1
-  wlan1.2
 
 Check that NetModel.Intf provides expected output:
 

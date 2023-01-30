@@ -5,11 +5,11 @@ Create R alias:
 Check that wireless has desired configuration and state after boot:
 
   $ R "ubus -S call WiFi.SSID _get | jsonfilter -e @[*].SSID -e @[*].Status | sort"
-  Dormant
   Down
   Down
   Down
   Down
+  Error
   PWHM_SSID5
   prplOS
   prplOS
@@ -22,26 +22,10 @@ Check that wireless has desired configuration and state after boot:
   $ R "ubus list | grep hostapd."
   [1]
 
-Disable Endpoint feature because of PPM-2437:
-
-  $ R "ubus -S call WiFi.Radio.2 _set '{\"parameters\":{\"STA_Mode\":0}}'"
-  {"WiFi.Radio.2.":{"STA_Mode":false}}
-
-  $ R "ubus -S call WiFi.Radio.2 _set '{\"parameters\":{\"STASupported_Mode\":0}}'"
-  {"WiFi.Radio.2.":{"STASupported_Mode":false}}
-
-  $ sleep 10
-
-Restart pwhm:
-
-  $ R "/etc/init.d/prplmesh_whm stop && sleep 5" > /dev/null 2>&1
-
-  $ R "/etc/init.d/prplmesh_whm start && sleep 5" > /dev/null 2>&1
-
 Restart prplmesh:
 
   $ R logger -t cram "Restart prplmesh"
-  $ R "/etc/init.d/prplmesh gateway_mode && sleep 5" > /dev/null 2>&1
+  $ R "/etc/init.d/prplmesh gateway_mode" > /dev/null 2>&1
 
   $ R "ubus -t 60 wait_for Device.WiFi"
 

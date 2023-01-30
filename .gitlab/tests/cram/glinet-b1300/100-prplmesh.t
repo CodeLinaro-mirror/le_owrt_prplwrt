@@ -5,11 +5,11 @@ Create R alias:
 Check that wireless has desired configuration and state after boot:
 
   $ R "ubus -S call WiFi.SSID _get | jsonfilter -e @[*].SSID -e @[*].Status | sort"
-  Dormant
   Down
   Down
   Down
   Down
+  Error
   PWHM_SSID5
   prplOS
   prplOS
@@ -25,7 +25,7 @@ Check that wireless has desired configuration and state after boot:
 Restart prplmesh:
 
   $ R logger -t cram "Restart prplmesh"
-  $ R "/etc/init.d/prplmesh gateway_mode && sleep 5" > /dev/null 2>&1
+  $ R "/etc/init.d/prplmesh gateway_mode" > /dev/null 2>&1
 
  $ R "ubus -t 60 wait_for Device.WiFi"
 
@@ -41,7 +41,7 @@ Start wireless:
   $ R "ubus -S call WiFi.AccessPoint.2 _set '{\"parameters\":{\"Enable\":1}}'"
   {"WiFi.AccessPoint.2.":{"Enable":true}}
 
-  $ R "ubus -t 30 wait_for hostapd.wlan1.1"
+  $ R "ubus -t 30 wait_for hostapd.wlan1"
 
   $ R "ubus -S call WiFi.AccessPoint.3 _set '{\"parameters\":{\"Enable\":1}}'"
   {"WiFi.AccessPoint.3.":{"Enable":true}}
@@ -51,7 +51,7 @@ Start wireless:
   $ R "ubus -S call WiFi.AccessPoint.4 _set '{\"parameters\":{\"Enable\":1}}'"
   {"WiFi.AccessPoint.4.":{"Enable":true}}
 
-  $ R "ubus -t 30 wait_for hostapd.wlan1.2"
+  $ R "ubus -t 30 wait_for hostapd.wlan1.1"
   $ sleep 30
 
 Check that hostapd is operating as expected:
@@ -65,13 +65,13 @@ Check that hostapd is operating as expected:
   $ R "ubus list | grep hostapd. | sort"
   hostapd.wlan0
   hostapd.wlan0.1
+  hostapd.wlan1
   hostapd.wlan1.1
-  hostapd.wlan1.2
 
 Check that wireless is operating:
 
   $ R "ubus -S call WiFi.SSID _get | jsonfilter -e @[*].SSID -e @[*].Status | sort"
-  Dormant
+  Error
   PWHM_SSID5
   Up
   Up
@@ -87,7 +87,6 @@ Check that wireless is operating:
   Interface wlan0.1
   Interface wlan1
   Interface wlan1.1
-  Interface wlan1.2
   ssid prplOS
   ssid prplOS
   ssid prplOS-guest
