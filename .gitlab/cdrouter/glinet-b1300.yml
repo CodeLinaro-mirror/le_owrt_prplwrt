@@ -27,7 +27,7 @@ CDRouter-Top-100+mDNS Gl.iNet PPPoE WAN initramfs:
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
       .gitlab/scripts/dut-init/cdrouter-dut-enable-pppoe.sh
-
+      .gitlab/scripts/dut-init/triggered-debug.sh
 
 .glinet-cdrouter-ipv6: &glinet_cdrouter_ipv6
   <<: *glinet_cdrouter
