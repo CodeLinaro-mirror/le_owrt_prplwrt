@@ -2304,7 +2304,7 @@ SECTION "CDRouter TR-069 Add-On" {
         # testvar acsDigestQopAuth                 yes
         # testvar acsInterface                     wan
         testvar acsDiscoveryUrl                    http://acs-download.qacafe.com:80/
-        # testvar acsWaitForInform                 120
+        testvar acsWaitForInform                   300
         # testvar acsSkipInitialInform             no
         # testvar acsCpeConnReqURL                 http://192.168.200.2:80/cwmp
         # testvar cwmpProtocolVersion              1.0
