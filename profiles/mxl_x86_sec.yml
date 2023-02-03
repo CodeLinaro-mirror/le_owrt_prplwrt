@@ -13,63 +13,67 @@ feeds:
   - name: intel_x86
     uri: git@git.maxlinear.com:ugw/feeds/feed_target_x86.git
     tracking_branch: master
-    revision: 1f2962250ccc7eca97b0e42c708d6340fd40bf33
+    revision: b3c3771f063db1f765255964577415a66a29fd02
   - name: rootfs
     uri: git@git.maxlinear.com:ugw/rootfs.git
-    tracking_branch: master 
-    revision: 343424f1cbb932e0f7fb7bba75cac0272289e864
+    tracking_branch: master
+    revision: 05210b9a3ff6c2f57128565002e511386442b01e
   - name: 3rdparty
     uri: git@git.maxlinear.com:ugw/feeds/feed_3rdparty.git
     tracking_branch: master
-    revision: fd52b096104341e1fda1e450e92cbc2f68c2d127
+    revision: f7125e69f9514439b36b0629b5951fd73db0c272
   - name: datapath
     uri: git@git.maxlinear.com:ugw/feeds/feed_datapath.git
     tracking_branch: master
-    revision: 2656e258d8f96b36762fbc02675c066ab7370ace
+    revision: 64e27ef777fe2fcc3ddeca2d324027985516c9d9
   - name: gphy_firmware
     uri: git@git.maxlinear.com:ugw/feeds/feed_gphy_firmware.git
     tracking_branch: master
-    revision: bcc7c085a452312c4f48b9200e766f4ab5b8d093
+    revision: 9bfbc1a899203090b29ae1f5aad8ae71c1993ab3
   - name: gwdpa_dpm
     uri: git@git.maxlinear.com:ugw/feeds/feed_gwdpa-dpm.git
     tracking_branch: master
-    revision: f9536d68c1ef4138a15d5628342ff8d8f19a8d11
+    revision: c03e07719653aaa5b4449b75dcc10c09779ea21b
   - name: misc
     uri: git@git.maxlinear.com:ugw/feeds/feed_common.git
     tracking_branch: master
-    revision: 5a703dbcbc45267e66b6caee50d53d7e50a486bf
+    revision: 1a4894b72a980becb35290b4f708d5fa7a29094e
   - name: opensource_apps
     uri: git@git.maxlinear.com:ugw/feeds/feed_opensource_apps.git
     tracking_branch: master
-    revision: ce2eb0ae18c338785dda49ba6a44795b5f8534e3
+    revision: 98d4905d265dd987ebebc0ba57624f0d40b4dd9e
   - name: packet_learn
     uri: git@git.maxlinear.com:ugw/feeds/feed_packet_learn.git
     tracking_branch: master
-    revision: 5a30713ca540983c2a7ae4ff513509016e7a1dc5
+    revision: f94fb9dbfd87ed2c72762f6860bcd95aa7eb771e
   - name: pon
     uri: git@git.maxlinear.com:ugw/feeds/feed_pon.git
     tracking_branch: master
-    revision: 5f65d5b7e4dbd5d85e41c038064ebe2e451c4c3b
+    revision: 48286ae4d264742c261e7aa5545c81ddca307624
   - name: ppa
     uri: git@git.maxlinear.com:ugw/feeds/feed_ppa.git
     tracking_branch: master
-    revision: ecb96a9cef58ac623c579f721cc5873d8f8aa895
+    revision: 229259fc8f0b460fe9e5df7ad949a44580778b99
   - name: pp_net_adapter
     uri: git@git.maxlinear.com:ugw/feeds/feed_pp_net_adapter.git
     tracking_branch: master
-    revision: 164f47855571959664ea9015bd2bffa555ced911
+    revision: 8dcd5a662f4c54842ad6cc089600eea39db5ced9
   - name: vpn_fw
     uri: git@git.maxlinear.com:ugw/feeds/feed_vpn_fw.git
     tracking_branch: master
-    revision: 4b19b89e07aa9d865371030adae6799f068a39ff
-  - name: wlan_6x
-    uri: git@git.maxlinear.com:ugw/feeds/feed_wlan.git
+    revision: ba38f3a75e33f36bea7b5c90782ca5e9f94179aa
+  - name: qos
+    uri: git@git.maxlinear.com:ugw/feeds/feed_qos_tc.git
     tracking_branch: master
-    revision: 8631284a04f5e6edf8752448b541fa403b526e05
+    revision: 8904e7fbb73db1d880d7f14139cb971296275c9b
+  - name: utils
+    uri: git@git.maxlinear.com:ugw/feeds/feed_ugw_utils.git
+    tracking_branch: master
+    revision: 4ce7ebf6957704cb3c641742374f3d2e59f7e8f4
   - name: bootloader
     uri: git@git.maxlinear.com:ugw/feeds/feed_uboot.git
-    tracking_branch: master
-    revision: e0844efc012fa217ccabf5dbaf0f6f651186a6b8
+    tracking_branch: updk_9.1.15
+    revision: eb20a85d25b5c65fb606f145dc917d176fd26808
 
 packages:
   - kmod-mxl_eth_drv
@@ -82,15 +86,6 @@ packages:
   - kmod-p34x_phy_fwdl
   - ltq-gphy-fw-lgm
   #- netifd-ugw
-  - dwpal_6x-uci
-  - iwlwav-hostap-uci
-  - iwlwav-iw
-  - iwlwav-tools
-  - iwlwav-firmware
-  - iwinfo
-  - ltq-wlan-wave_6x-uci
-  - safeclibs3
-  - swpal_6x-uci
   - e2fsprogs
   - kmod-directconnect-dp
   - kmod-ppa-drv
@@ -132,16 +127,18 @@ packages:
   - kmod-mxl_pon_hgu_vuni_lgm
   - ethtool
   - base-files-prpl
-  #- ppmd
-  #- pm-util
+  - ppmd
+  - pm-util
   #- signingutil
   - kmod-intel-qos
+  - kmod-qos-tc
+  - partx-utils
 
 diffconfig: |
   CONFIG_DEVEL=y
   CONFIG_KERNEL_GIT_CLONE_URI="git@git.maxlinear.com:mxl/linux.git"
   CONFIG_KERNEL_GIT_DEPTH=""
-  CONFIG_KERNEL_GIT_REF="master"
+  CONFIG_KERNEL_GIT_REF="UPDK_9.1.15"
   CONFIG_TOOLCHAINOPTS=y
   CONFIG_GCC_USE_VERSION_8=y
   CONFIG_GPON_OMCI_ONU_UBUS_INTERFACE=y
@@ -164,19 +161,20 @@ diffconfig: |
   CONFIG_PACKAGE_kmod-intel_noc_firewall=y
   CONFIG_INTEL_X86_SECBOOT=y
   CONFIG_INTEL_X86_AIC_BASEADDR=0x010000000
-  CONFIG_INTEL_X86_CERTIFICATION="/nfs/site/proj/chdsw_ci/telco/dist/Secureboot_Keys/LGM_Keys_Vault/Product/384-bit_certificate_product_a.bin"
+  CONFIG_INTEL_X86_CERTIFICATION="<Custom-Path-To-384-bit_certificate>"
   CONFIG_INTEL_X86_CERTIFICATION_SUPPORT=y
   CONFIG_INTEL_X86_DTB_ROLLBACKID=0x4
   CONFIG_INTEL_X86_ENC_KEY="ENCkey.bin"
   CONFIG_INTEL_X86_KERNEL_BASEADDR=0x8200000
   CONFIG_INTEL_X86_KERNEL_METADATA=y
   CONFIG_INTEL_X86_KERNEL_ROLLBACKID=0x4
-  CONFIG_INTEL_X86_PRIVATE_KEY="/nfs/site/proj/chdsw_ci/telco/dist/Secureboot_Keys/LGM_Keys_Vault/Product/384-bit_keypair_product_a.der"
-  CONFIG_INTEL_X86_PROD_UNIQUE_KEY="/nfs/site/proj/chdsw_ci/telco/dist/Secureboot_Keys/LGM_Keys_Vault/Product/256-bit_huk_product.bin"
+  CONFIG_INTEL_X86_PRIVATE_KEY="<Custom-Path-To-384-bit_ecdsa_keypair>"
+  CONFIG_INTEL_X86_PROD_UNIQUE_KEY="<Custom-Path-To-256-bit_hw_unique_key>"
   CONFIG_INTEL_X86_ROOTFS_ROLLBACKID=0x4
-  CONFIG_INTEL_X86_SIGNTOOL="/nfs/site/proj/chdsw_ci/telco/dist/Secureboot_Keys/LGM_Tools/signtool"
+  CONFIG_INTEL_X86_SIGNTOOL="<Custom-Path-To-Signtool>"
   CONFIG_INTEL_X86_TEP_BASEADDR=0x8200000
   CONFIG_INTEL_X86_TEP_ROLLBACKID=0x4
   # CONFIG_INTEL_X86_EXTERNAL_IMAGE_SIGNING=y
   # CONFIG_INTEL_X86_SIGNING_SER_USER=""
   # CONFIG_INTEL_X86_SIGNING_SER_PASS=""
+  CONFIG_BUILD_SDK="prplos"
