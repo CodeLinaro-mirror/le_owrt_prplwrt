@@ -8,7 +8,7 @@
     - when: manual
   variables:
     CDROUTER_TEST_CONFIG: generic
-    DUT_SLEEP_AFTER_BOOT: 20
+    DUT_SLEEP_AFTER_BOOT: 90
     CDROUTER_LAN_INTERFACE: eth1
     CDROUTER_WAN_INTERFACE: eth2
     CDROUTER_ETH0_MAC_ADDRESS: 00:03:2d:49:2e:d8
@@ -61,14 +61,15 @@
       --network lan
       --remote-host $TARGET_LAN_TEST_HOST
 
+    - sleep $DUT_SLEEP_AFTER_BOOT
     - echo "Waiting for SSH connection availability with ${DUT_SSH_CONNECT_TIMEOUT}sec timeout, with $DUT_SSH_CONNECT_ATTEMPTS attempts..."
     - time ssh -o BatchMode=yes -o StrictHostKeyChecking=no -o ConnectionAttempts=$DUT_SSH_CONNECT_ATTEMPTS -o ConnectTimeout=$DUT_SSH_CONNECT_TIMEOUT root@$TARGET_LAN_IP 'exit 0'
 
     - ssh-keyscan $TARGET_LAN_IP >> ~/.ssh/known_hosts 2> /dev/null
+    - ssh root@$TARGET_LAN_IP 'logger -t CI -p local0.info "System accessible over SSH, $(uptime -p)"' || true
     - ssh root@$TARGET_LAN_IP "cat /var/log/messages" > syslog-$LABGRID_TARGET.txt 2> /dev/null || true
     - ssh root@$TARGET_LAN_IP "ubus call system board" | tee system-$LABGRID_TARGET.json
 
-    - ssh root@$TARGET_LAN_IP 'logger -t CI -p local0.info "System accessible over SSH, $(uptime -p)"' || true
     - >
       for dut_init_script in $DUT_INIT_SCRIPTS;
         do echo "Running $dut_init_script"; /bin/sh "$dut_init_script";
@@ -84,8 +85,6 @@
     - .gitlab/scripts/testbed-cdrouter.py wait_for_netif $CDROUTER_WAN_INTERFACE
 
   script:
-    - sleep $DUT_SLEEP_AFTER_BOOT
-
     - >
       if echo "$CI_RUNNER_DESCRIPTION" | grep -q testbed-02; then
         export CDROUTER_API_TOKEN="$CDROUTER_API_TOKEN_TESTBED_02"
