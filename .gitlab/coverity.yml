@@ -72,7 +72,6 @@
       libgmap-client
       libnetmodel
       libsahtrace
-      libtrace
       moca-manager
       mod-amxb-ubus
       mod-ba-cli
