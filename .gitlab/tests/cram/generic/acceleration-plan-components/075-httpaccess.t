@@ -15,7 +15,7 @@ Check that we've expected datamodel:
   UserInterface.HTTPVHost
 
   $ R "ubus call UserInterface.HTTPAccess _get | jsonfilter -e @[*].Port -e @[*].Status -e @[*].AccessType -e @[*].Alias | sort"
-  8080
+  80
   8090
   Down
   LocalAccess
@@ -26,7 +26,7 @@ Check that we've expected datamodel:
 
 Check that prpl-webui is available from LAN by default:
 
-  $ curl --silent --max-time 3 "http://${TARGET_LAN_IP}:8080" | grep -c prpl-webui/config/environment
+  $ curl --silent --max-time 3 "http://${TARGET_LAN_IP}" | grep -c prpl-webui/config/environment
   1
 
 Disable prpl-webui access from LAN:
@@ -36,7 +36,7 @@ Disable prpl-webui access from LAN:
 
 Check that prpl-webui is not available from LAN:
 
-  $ curl --silent --max-time 1 "http://${TARGET_LAN_IP}:8080" | grep -c prpl-webui/config/environment
+  $ curl --silent --max-time 1 "http://${TARGET_LAN_IP}" | grep -c prpl-webui/config/environment
   0
   [1]
 
@@ -47,5 +47,5 @@ Enable prpl-webui access from LAN:
 
 Check that prpl-webui is available from LAN again:
 
-  $ curl --silent --retry-connrefused --retry 3 --max-time 3 "http://${TARGET_LAN_IP}:8080" | grep -c prpl-webui/config/environment
+  $ curl --silent --retry-connrefused --retry 3 --max-time 3 "http://${TARGET_LAN_IP}" | grep -c prpl-webui/config/environment
   1
