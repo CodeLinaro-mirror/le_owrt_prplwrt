@@ -4,8 +4,8 @@ Create R alias:
 
 Check that HTTP from LAN is allowed by default:
 
-  $ R "iptables -L INPUT_Services -v -n | grep 'br-lan.*dpt:80$'"
-    * ACCEPT     tcp  --  br-lan *       0.0.0.0/0            0.0.0.0/0            tcp dpt:80 (glob)
+  $ R "iptables -L INPUT_Services -v -n | grep 'br-lan.*dpt:443$'"
+    * ACCEPT     tcp  --  br-lan *       0.0.0.0/0            0.0.0.0/0            tcp dpt:443 (glob)
 
 Disable firewall rule for HTTP access from LAN:
 
@@ -13,7 +13,7 @@ Disable firewall rule for HTTP access from LAN:
 
 Check that HTTP from LAN is forbidden:
 
-  $ R "iptables -L INPUT_Services -v -n | grep 'br-lan.*dpt:80$'"
+  $ R "iptables -L INPUT_Services -v -n | grep 'br-lan.*dpt:443$'"
   [1]
 
 Enable firewall rule for HTTP access from LAN:
@@ -22,5 +22,5 @@ Enable firewall rule for HTTP access from LAN:
 
 Check that HTTP from LAN is allowed again:
 
-  $ R "iptables -L INPUT_Services -v -n | grep 'br-lan.*dpt:80$'"
-    * ACCEPT     tcp  --  br-lan *       0.0.0.0/0            0.0.0.0/0            tcp dpt:80 (glob)
+  $ R "iptables -L INPUT_Services -v -n | grep 'br-lan.*dpt:443$'"
+    * ACCEPT     tcp  --  br-lan *       0.0.0.0/0            0.0.0.0/0            tcp dpt:443 (glob)
