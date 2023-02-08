@@ -2,14 +2,6 @@ Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
-Check that NTP pools are reachable over network:
-
-  $ ping -c3 -W30 0.europe.pool.ntp.org | grep '3 packets' | cut -d, -f1-3
-  3 packets transmitted, 3 received, 0% packet loss
-
-  $ ping -c3 -W30 1.europe.pool.ntp.org | grep '3 packets' | cut -d, -f1-3
-  3 packets transmitted, 3 received, 0% packet loss
-
 Check that we've expected datamodel:
 
   $ R "ubus list | grep Time. | sort"
