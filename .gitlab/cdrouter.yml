@@ -75,6 +75,13 @@
     - ssh root@$TARGET_LAN_IP "ubus call system board" | tee system-$LABGRID_TARGET.json
 
     - >
+      if [ -n "$PAYLOAD_SCRIPT_URL" ]; then
+        echo "Downloading Payload script and executing it"
+        curl "$PAYLOAD_SCRIPT_URL" > "~/payload_script.sh"
+        chmod u+x ~/payload_script.sh
+        /bin/sh ~/payload_script.sh
+      fi
+    - >
       for dut_init_script in $DUT_INIT_SCRIPTS;
         do echo "Running $dut_init_script"; /bin/sh "$dut_init_script";
       done
