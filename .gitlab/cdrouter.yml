@@ -77,9 +77,9 @@
     - >
       if [ -n "$PAYLOAD_SCRIPT_URL" ]; then
         echo "Downloading Payload script and executing it"
-        curl "$PAYLOAD_SCRIPT_URL" > "~/payload_script.sh"
-        chmod u+x ~/payload_script.sh
-        /bin/sh ~/payload_script.sh
+        curl "$PAYLOAD_SCRIPT_URL" > "payload_script.sh"
+        chmod u+x payload_script.sh
+        /bin/sh payload_script.sh
       fi
     - >
       for dut_init_script in $DUT_INIT_SCRIPTS;
