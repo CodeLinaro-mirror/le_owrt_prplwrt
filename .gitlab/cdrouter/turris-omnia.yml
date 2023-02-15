@@ -31,7 +31,6 @@ CDRouter-Top-100+mDNS Turris PPPoE WAN initramfs:
 
 .turris-cdrouter-ipv6: &turris_cdrouter_ipv6
   <<: *turris_cdrouter
-  allow_failure: true
   rules:
     - if: '$TFTP_IMAGE_DOWNLOAD_URL =~ $TFTP_IMAGE_FILENAME_PATTERN'
       when: always
@@ -41,6 +40,7 @@ CDRouter-Top-100+mDNS Turris PPPoE WAN initramfs:
 
 CDRouter-UPnP-IPv46 Turris initramfs:
   <<: *turris_cdrouter_ipv6
+  allow_failure: true
   variables:
     CDROUTER_TEST_CONFIG: generic-ipv6-upnp
 
