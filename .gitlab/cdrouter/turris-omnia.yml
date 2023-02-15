@@ -56,7 +56,7 @@ CDRouter-IPv6-Top-100+mDNS Turris VLAN WAN/LAN initramfs:
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-enable-vlans.sh
 
-CDRouter-IPv6-Top-100+mDNS Turris PPPoE WAN initramfs:
+.CDRouter-IPv6-Top-100+mDNS Turris PPPoE WAN initramfs:
   <<: *turris_cdrouter_ipv6
   variables:
     CDROUTER_TEST_CONFIG: ppp-ipv6
