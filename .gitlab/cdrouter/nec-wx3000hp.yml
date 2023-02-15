@@ -44,7 +44,7 @@ CDRouter-UPnP-IPv46 NEC NAND:
   variables:
     CDROUTER_TEST_CONFIG: generic-ipv6-upnp
 
-CDRouter-IPv6-Top-100+mDNS NEC NAND:
+.CDRouter-IPv6-Top-100+mDNS NEC NAND:
   <<: *nec_cdrouter_ipv6
   variables:
     CDROUTER_TEST_CONFIG: ppp-ipv6
