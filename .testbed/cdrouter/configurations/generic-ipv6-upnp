@@ -1349,7 +1349,7 @@ SECTION "CDRouter IPv6 Add-On" {
         # testvar ipv6FirewallOutBlockedTcpPorts   1234
         # testvar ipv6FirewallOutBlockedUdpPorts   1234
         # testvar ipv6FirewallOutBlockedIpProtos   0
-        # testvar ipv6WanPingRespond               no
+          testvar ipv6WanPingRespond               yes
 
         SECTION "IPv6 TCP MSS Clamping" {
 
