@@ -5,6 +5,8 @@ targets:
       ModbusTCPCoil:
         host: quido.testbed-02.vpn.true.cz
         coil: 7
+        managed_coils: 8
+        exclusive_coil_mode: True
         write_multiple_coils: True
       RawSerialPort:
         port: "/dev/glinet-b1300"
@@ -36,6 +38,8 @@ targets:
       ModbusTCPCoil:
         host: quido.testbed-02.vpn.true.cz
         coil: 7
+        managed_coils: 8
+        exclusive_coil_mode: True
         write_multiple_coils: True
       RawSerialPort:
         port: "/dev/glinet-b1300"
