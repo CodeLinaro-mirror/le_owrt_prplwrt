@@ -36,6 +36,7 @@ CDRouter-Top-100+mDNS NEC PPPoE WAN NAND:
       when: always
     - if: '$TFTP_IMAGE_DOWNLOAD_URL'
       when: never
+    - if: '$CI_COMMIT_BRANCH == $CI_DESIGNATED_BRANCH'
     - when: manual
 
 CDRouter-UPnP-IPv46 NEC NAND:

@@ -36,6 +36,7 @@ CDRouter-Top-100+mDNS Turris PPPoE WAN initramfs:
       when: always
     - if: '$TFTP_IMAGE_DOWNLOAD_URL'
       when: never
+    - if: '$CI_COMMIT_BRANCH == $CI_DESIGNATED_BRANCH'
     - when: manual
 
 CDRouter-UPnP-IPv46 Turris initramfs:
