@@ -29,8 +29,8 @@ RUN \
 RUN localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
 ENV LANG=en_US.utf8
 
-ENV LABGRID_COMMIT=0e1ef80ca803
-RUN git clone --branch wip/testbed https://gitlab.com/prpl-foundation/prplOS/labgrid
+ENV LABGRID_COMMIT=1ca30de33a1f57eb
+RUN git clone --branch wip/testbed-next https://gitlab.com/prpl-foundation/prplOS/labgrid
 WORKDIR labgrid
 RUN git reset --hard $LABGRID_COMMIT
 
