@@ -7,6 +7,7 @@
     DUT_BOARD: nec-wx3000hp
     DUT_CPU_TYPE: 24kc
     DUT_CPU_SUBTYPE: nomips16
+    DUT_SLEEP_AFTER_BOOT: 180
     LABGRID_TARGET: nec-wx3000hp-nand
     TFTP_IMAGE_FILENAME: AX3000_1600_ETH_11AXUCI_ASURADA-squashfs-fullimage.img
   tags:
