@@ -137,7 +137,7 @@
 
     - mv console_$LABGRID_TARGET console_$LABGRID_TARGET.txt || true
     - >
-      [ "$CI_COMMIT_BRANCH" = "$CI_DESIGNATED_BRANCH" ] && [ "$TMATE_ENABLE_SHELL" != "YES" ] && {
+      [ "$CI_COMMIT_BRANCH" = "$CI_DESIGNATED_BRANCH" ] && [ "$TMATE_ENABLE_SHELL" != "YES" ] && [ "$LABGRID_TARGET" != "nec-wx3000hp-nand" ] && {
         test -f .run_failed &&
           .gitlab/scripts/prpl-jira.py run_failure --target $LABGRID_TARGET || true
       } || true
