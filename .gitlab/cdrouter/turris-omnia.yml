@@ -32,6 +32,8 @@ CDRouter-Top-100+mDNS Turris PPPoE WAN initramfs:
 .turris-cdrouter-ipv6: &turris_cdrouter_ipv6
   <<: *turris_cdrouter
   rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: never
     - if: '$TFTP_IMAGE_DOWNLOAD_URL =~ $TFTP_IMAGE_FILENAME_PATTERN'
       when: always
     - if: '$TFTP_IMAGE_DOWNLOAD_URL'
