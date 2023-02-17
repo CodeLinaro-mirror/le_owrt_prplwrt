@@ -32,6 +32,8 @@ CDRouter-Top-100+mDNS NEC PPPoE WAN NAND:
 .nec-cdrouter-ipv6: &nec_cdrouter_ipv6
   <<: *nec_cdrouter
   rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: never
     - if: '$TFTP_IMAGE_DOWNLOAD_URL =~ $TFTP_IMAGE_FILENAME_PATTERN'
       when: always
     - if: '$TFTP_IMAGE_DOWNLOAD_URL'
