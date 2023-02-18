@@ -318,6 +318,7 @@ Check that NetModel.Intf provides expected output:
   dslite netdev
   dslite-dslite0
   dslite0
+  ep5g0
   eth0
   eth0
   eth1
@@ -442,11 +443,31 @@ Check that NetModel.Intf provides expected output:
   radio enabled
   radio enabled
   radio-wifi0
+  radio-wifi0
+  radio-wifi0
+  radio-wifi1
+  radio-wifi1
+  radio-wifi1
   radio-wifi1
   radio0
   radio1
   resolver
   resolver
+  ssid netdev
+  ssid netdev netdev-bound
+  ssid netdev netdev-bound
+  ssid netdev netdev-bound
+  ssid netdev netdev-bound
+  ssid-ep5g0
+  ssid-ep5g0
+  ssid-vap2g0guest
+  ssid-vap2g0guest
+  ssid-vap2g0priv
+  ssid-vap2g0priv
+  ssid-vap5g0guest
+  ssid-vap5g0guest
+  ssid-vap5g0priv
+  ssid-vap5g0priv
   true
   true
   true
@@ -467,3 +488,9 @@ Check that NetModel.Intf provides expected output:
   wan
   wan
   wan
+  wlan0
+  wlan0
+  wlan0.1
+  wlan1
+  wlan1
+  wlan1.1
