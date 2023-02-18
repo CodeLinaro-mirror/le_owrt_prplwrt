@@ -40,6 +40,7 @@ packages:
   - libfwinterface
   - libfwrules
   - libnetmodel
+  - lua-amx
   - lxc4
   - lxc4-attach
   - lxc4-auto
@@ -76,6 +77,7 @@ packages:
   - mod-dmstats
   - mod-fw-amx
   - mod-httpaccess-lighttpd
+  - mod-lua-amx
   - mod-qos-tc
   - mod-sahtrace
   - mod-vlan-ioctl

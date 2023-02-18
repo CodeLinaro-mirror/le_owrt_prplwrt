@@ -296,6 +296,7 @@ Check that NetModel.Intf provides expected output:
   dslite netdev
   dslite-dslite0
   dslite0
+  ep5g0
   eth0
   eth0
   eth1
@@ -441,3 +442,9 @@ Check that NetModel.Intf provides expected output:
   wan
   wan
   wan
+  wlan0
+  wlan0
+  wlan0.1
+  wlan1
+  wlan1
+  wlan1.1
