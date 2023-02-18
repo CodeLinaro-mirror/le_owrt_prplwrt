@@ -4,7 +4,7 @@ feeds:
   - name: feed_prpl
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-prpl.git
     tracking_branch: prplos
-    revision: 51088e02f3063fa171da23ddd416aeb12dc0fb04
+    revision: 9c05af9e68c5c98b2f6c764870470afc7809c326
 
 additional_packages:
   - feed: packages
@@ -42,6 +42,7 @@ packages:
   - libnetmodel
   - libswla
   - libswlc
+  - lua-amx
   - lxc4
   - lxc4-attach
   - lxc4-auto
@@ -78,6 +79,7 @@ packages:
   - mod-dmstats
   - mod-fw-amx
   - mod-httpaccess-lighttpd
+  - mod-lua-amx
   - mod-qos-tc
   - mod-sahtrace
   - mod-vlan-ioctl
