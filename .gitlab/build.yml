@@ -21,7 +21,7 @@
 
     - sudo apt-get update && sudo apt-get install --yes libelf-dev libdw-dev
 
-    - sed -i 's;https://git.openwrt.org;https://gitlab.com/openwrt;' feeds.conf.default
+    - sed -i -E 's;git.openwrt.org/(feed|project);github.com/openwrt;' feeds.conf.default
     - export CI_BUILD_PROFILE="$(echo $CI_JOB_NAME | sed 's/build test \(.*\)/\1/')"
     - scripts/gen_config.py $CI_BUILD_PROFILE 2>&1 | tee logs/build.log
     - git checkout -- feeds.conf.default
