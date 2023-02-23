@@ -5,12 +5,12 @@ Create R alias:
 Check PCP root datamodel:
 
   $ R "ubus -S call PCP _get"
-  {"PCP.":{"OptionList":"1,3","PreferredVersion":2,"SupportedVersions":"0,1,2","Debug":false,"ClientNumberOfEntries":0}}
+  {"PCP.":{"OptionList":"1,3","PreferredVersion":2,"SupportedVersions":"0,1,2","X_PRPL-COM_Enable":false,"Debug":false,"ClientNumberOfEntries":1}}
 
 Add Client:
 
   $ R "ubus -S call PCP.Client _add '{\"parameters\":{\"WANInterface\":\"Device.IP.Interface.2.\"}}'" ; sleep 2
-  {"object":"PCP.Client.cpe-Client-1.","index":1,"name":"cpe-Client-1","parameters":{"Alias":"cpe-Client-1"},"path":"PCP.Client.1."}
+  {"object":"PCP.Client.cpe-Client-2.","index":2,"name":"cpe-Client-2","parameters":{"Alias":"cpe-Client-2"},"path":"PCP.Client.2."}
 
 Check Client parameters:
 
@@ -21,7 +21,7 @@ Check Client parameters:
 Add Server:
 
   $ R "ubus -S call PCP.Client.1.Server _add '{\"parameters\":{\"Origin\":\"DHCPv6\"}}'" ; sleep 2
-  {"object":"PCP.Client.cpe-Client-1.Server.cpe-Server-1.","index":1,"name":"cpe-Server-1","parameters":{"Alias":"cpe-Server-1"},"path":"PCP.Client.1.Server.1."}
+  {"object":"PCP.Client.cpe-Client-1.Server.cpe-Server-2.","index":2,"name":"cpe-Server-2","parameters":{"Alias":"cpe-Server-2"},"path":"PCP.Client.1.Server.2."}
 
 Check Server parameters:
 
