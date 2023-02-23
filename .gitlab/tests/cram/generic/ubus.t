@@ -56,7 +56,7 @@ Check that we've correct DHCP pool settings:
   \t\t"Alias": "lan", (esc)
   \t\t"Alias": "lcm", (esc)
   \t\t"Enable": false, (esc)
-  \t\t"Enable": false, (esc)
+  \t\t"Enable": true, (esc)
   \t\t"Enable": true, (esc)
   \t\t"IANAEnable": false, (esc)
   \t\t"IANAEnable": false, (esc)
@@ -65,7 +65,7 @@ Check that we've correct DHCP pool settings:
   \t\t"IAPDEnable": false, (esc)
   \t\t"IAPDEnable": false, (esc)
   \t\t"Status": "Disabled", (esc)
-  \t\t"Status": "Disabled", (esc)
+  \t\t"Status": "Error_Misconfigured", (esc)
   \t\t"Status": "Error_Misconfigured", (esc)
 
 Check that aclmanager has expected setup:

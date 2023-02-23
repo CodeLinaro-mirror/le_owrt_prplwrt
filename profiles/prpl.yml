@@ -72,10 +72,12 @@ packages:
   - lxc4-usernsexec
   - lxc4-wait
   - mod-amxb-ubus
+  - mod-autosensing
   - mod-ba-cli
   - mod-dmext
   - mod-dmstats
   - mod-fw-amx
+  - mod-fw-host
   - mod-httpaccess-lighttpd
   - mod-lua-amx
   - mod-qos-tc
@@ -133,7 +135,6 @@ packages:
   - tr181-usermanagement
   - tr181-xpon
   - umdns
-  - wan-autosensing
   - wan-manager
 
 diffconfig: |
