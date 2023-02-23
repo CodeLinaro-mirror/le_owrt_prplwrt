@@ -39,8 +39,6 @@ Check that we've correct bridge port aliases:
   $ R "ubus call Bridging _get \"{'rel_path':'Bridge.*.Port.*.Alias'}\" | jsonfilter -e @[*].Alias | sort"
   eth_port0
   guest_bridge
-  guest_radio0
-  guest_radio1
   guest_wl0
   guest_wl1
   lan_bridge
@@ -98,7 +96,6 @@ Check that IP.Interface provides expected output:
   DHCP
   DHCP
   DSLite-entry
-  DSLite-entry
   DSLite-exit
   GUA
   GUA
@@ -123,7 +120,6 @@ Check that IP.Interface provides expected output:
   guest
   guest
   iptv
-  iptv
   lan
   lan
   lcm
@@ -133,12 +129,13 @@ Check that IP.Interface provides expected output:
   loopback_ipv4
   loopbackipv6
   mgmt
-  mgmt
-  ppp
+  primary
+  primary
+  primary
+  primary
+  primary
   public-lan
   voip
-  voip
-  wan
   wan
   wan6
 
@@ -203,7 +200,6 @@ Check that NetModel.Intf provides expected output:
   Error
   Error
   Error
-  Error
   br-guest
   br-guest
   br-guest
@@ -221,12 +217,6 @@ Check that NetModel.Intf provides expected output:
   bridge-guest_bridge
   bridge-guest_bridge
   bridge-guest_bridge
-  bridge-guest_bridge
-  bridge-guest_bridge
-  bridge-guest_radio0
-  bridge-guest_radio0
-  bridge-guest_radio1
-  bridge-guest_radio1
   bridge-guest_wl0
   bridge-guest_wl0
   bridge-guest_wl1
@@ -252,18 +242,17 @@ Check that NetModel.Intf provides expected output:
   cpe-IPv4Address-1
   cpe-IPv4Address-1
   cpe-IPv4Address-2
-  cpe-IPv4Address-2
-  cpe-IPv6Address-1
-  cpe-IPv6Address-1
-  cpe-IPv6Address-1
-  cpe-IPv6Address-1
-  cpe-IPv6Address-1
-  cpe-IPv6Address-2
-  cpe-IPv6Address-2
-  cpe-IPv6Address-2
-  cpe-IPv6Address-2
-  cpe-IPv6Address-3
-  cpe-IPv6Address-4
+  cpe-IPv6Address.* (re)
+  cpe-IPv6Address.* (re)
+  cpe-IPv6Address.* (re)
+  cpe-IPv6Address.* (re)
+  cpe-IPv6Address.* (re)
+  cpe-IPv6Address.* (re)
+  cpe-IPv6Address.* (re)
+  cpe-IPv6Address.* (re)
+  cpe-IPv6Address.* (re)
+  cpe-IPv6Address.* (re)
+  cpe-IPv6Address.* (re)
   cpe-IPv6Prefix-1
   cpe-IPv6Prefix-1
   cpe-IPv6Prefix-1
@@ -348,14 +337,12 @@ Check that NetModel.Intf provides expected output:
   ethLink-eth_wan
   ethLink-link_lo
   ethLink-link_lo
-  eth_intf netdev enabled netdev-bound netdev-up up
-  eth_intf netdev enabled upstream netdev-bound ipv4 ipv6 netdev-up up
+  eth_intf netdev.* (re)
+  eth_intf netdev.* (re)
   eth_link enabled
   eth_link enabled
   eth_link enabled up
   eth_link enabled up
-  false
-  false
   false
   false
   false
@@ -404,6 +391,7 @@ Check that NetModel.Intf provides expected output:
   ip-guest
   ip-iptv
   ip-iptv
+  ip-iptv
   ip-lan
   ip-lan
   ip-lan
@@ -413,13 +401,16 @@ Check that NetModel.Intf provides expected output:
   ip-loopback
   ip-mgmt
   ip-mgmt
+  ip-mgmt
+  ip-voip
   ip-voip
   ip-voip
   ip-wan
   ip-wan
   ip-wan
   ip-wan6
-  ip-wan6
+  iptv
+  iptv
   lan
   lan
   lo
@@ -427,7 +418,12 @@ Check that NetModel.Intf provides expected output:
   logical up enabled
   logical up enabled
   logical up enabled
-  netdev eth_link netdev-bound enabled ipv4 ipv6 netdev-up up
+  logical up enabled
+  logical up enabled
+  logical up enabled
+  mgmt
+  mgmt
+  netdev eth_link netdev-bound enabled ipv4 ipv6.* (re)
   permanent
   permanent
   permanent
@@ -449,8 +445,6 @@ Check that NetModel.Intf provides expected output:
   radio-wifi1
   radio-wifi1
   radio-wifi1
-  radio0
-  radio1
   resolver
   resolver
   ssid netdev
@@ -484,8 +478,12 @@ Check that NetModel.Intf provides expected output:
   true
   true
   true
+  true
+  true
+  true
   up
-  wan
+  voip
+  voip
   wan
   wan
   wlan0
