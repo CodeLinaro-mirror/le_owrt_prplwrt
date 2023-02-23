@@ -38,7 +38,7 @@ Install testing prplOS container v1:
 
 Check that prplOS container v1 is running:
 
-  $ sleep 30
+  $ sleep 40
 
   $ R "ubus -S call Cthulhu.Container.Instances.1 _get | jsonfilter -e @[*].Status -e @[*].Bundle -e @[*].BundleVersion -e @[*].ContainerId -e @[*].Alias | sort"
   Running
@@ -60,7 +60,7 @@ Update to prplOS container v2:
 
 Check that prplOS container v2 is running:
 
-  $ sleep 30
+  $ sleep 40
 
   $ R "ubus -S call Cthulhu.Container.Instances.2 _get | jsonfilter -e @[*].Status -e @[*].Bundle -e @[*].BundleVersion -e @[*].ContainerId -e @[*].Alias | sort"
   Running
