@@ -4,7 +4,7 @@ feeds:
   - name: feed_prpl
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-prpl.git
     tracking_branch: prplos
-    revision: 78d2c6a3bc73e5180a984a1c267798f1c7c48128
+    revision: eae33dd1fa66a0274cbbb6d599df29010312876f
 
 additional_packages:
   - feed: packages
@@ -74,10 +74,12 @@ packages:
   - lxc4-usernsexec
   - lxc4-wait
   - mod-amxb-ubus
+  - mod-autosensing
   - mod-ba-cli
   - mod-dmext
   - mod-dmstats
   - mod-fw-amx
+  - mod-fw-host
   - mod-httpaccess-lighttpd
   - mod-lua-amx
   - mod-qos-tc
@@ -136,7 +138,6 @@ packages:
   - tr181-usermanagement
   - tr181-xpon
   - umdns
-  - wan-autosensing
   - wan-manager
 
 diffconfig: |

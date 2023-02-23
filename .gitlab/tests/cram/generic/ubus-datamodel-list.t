@@ -44,6 +44,8 @@ Check that ubus has expected datamodels available:
   DNS.Client.Server
   DNS.Relay
   DNS.Relay.Forwarding
+  DNS.Relay.LANInterface
+  DNS.X_PRPL-COM_Host
   DNSSD
   DNSSD.Service
   DSLite
@@ -87,7 +89,6 @@ Check that ubus has expected datamodels available:
   Device.WiFi
   Device.X_PRPL-COM_MultiSettings
   Device.X_PRPL-COM_PersistentConfiguration
-  Device.X_PRPL-COM_WANAutoSensing
   Device.X_PRPL-COM_WANManager
   DeviceInfo
   DeviceInfo.DeviceImageFile
@@ -122,6 +123,8 @@ Check that ubus has expected datamodels available:
   Firewall.X_PRPL-COM_Policy
   Firewall.X_PRPL-COM_PortTrigger
   Firewall.X_PRPL-COM_Service
+  Firewall.X_PRPL-COM_WANAccess
+  Firewall.X_PRPL-COM_WANAccess.BlockList
   Hosts
   Hosts.AccessControl
   Hosts.Host
@@ -177,7 +180,6 @@ Check that ubus has expected datamodels available:
   Rlyeh.Images
   RouterAdvertisement
   RouterAdvertisement.InterfaceSetting
-  RouterAdvertisement.InterfaceSetting.Option
   Routing
   Routing.RIP
   Routing.RIP.InterfaceSetting
@@ -285,8 +287,5 @@ Check that ubus has expected datamodels available:
   X_PRPL-COM_PersistentConfiguration.Config
   X_PRPL-COM_PersistentConfiguration.Config.Security
   X_PRPL-COM_PersistentConfiguration.Service
-  X_PRPL-COM_WANAutoSensing
-  X_PRPL-COM_WANAutoSensing.Config
-  X_PRPL-COM_WANAutoSensing.Detect
   X_PRPL-COM_WANManager
   X_PRPL-COM_WANManager.WAN
