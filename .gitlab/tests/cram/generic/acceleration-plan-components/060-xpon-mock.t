@@ -35,8 +35,8 @@ Start tr181-xpon service and mock:
 
 Check that Transceiver.1 datamodel is properly available:
 
-  $ R "ubus call XPON.ONU.1.ANI.1.Transceiver.1 _get | jsonfilter -e @[*].ModuleVendor -e @[*].PONMode -e @[*].ModuleFirmwareVersion | sort"
-  MyVendor
+  $ R "ubus call XPON.ONU.1.ANI.1.Transceiver.1 _get | jsonfilter -e @[*].VendorName -e @[*].PONMode -e @[*].VendorRevision | sort"
+  MyVendorName
   Version_1
   XGS-PON
 
@@ -53,7 +53,7 @@ Add Transceiver.2 instance:
 
 Check that Transceiver.1 datamodel is properly available:
 
-  $ R "ubus call XPON.ONU.1.ANI.1.Transceiver.2 _get | jsonfilter -e @[*].ModuleVendor -e @[*].PONMode -e @[*].ModuleFirmwareVersion | sort"
+  $ R "ubus call XPON.ONU.1.ANI.1.Transceiver.2 _get | jsonfilter -e @[*].VendorName -e @[*].PONMode -e @[*].VendorRevision | sort"
   
   NG-PON2
   SomeOtherVendor
