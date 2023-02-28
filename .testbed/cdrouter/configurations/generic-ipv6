@@ -1198,7 +1198,7 @@ SECTION "CDRouter IPv6 Add-On" {
 
     SECTION "IPv6 WAN" {
 
-        # testvar ipv6WanMode                      DHCP
+          testvar ipv6WanMode                      autoconf
         # testvar ipv6PPPoEAddressMode             DHCP
         # testvar ipv6WanIspIp                     3001::1
         # testvar ipv6WanIspAssignIp               3001::2
