@@ -56,7 +56,7 @@
         popd > /dev/null
       done
 
-    - make -j $(nproc) 2>&1 | tee --append logs/build.log
+    - (make -j $(nproc) || make -j1 V=sc ) 2>&1 | tee --append logs/build.log
     - rm .build_failed
 
   after_script:
