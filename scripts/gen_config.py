@@ -157,11 +157,11 @@ for p in profile.get("feeds", []):
 
 for ap in profile.get("additional_packages"):
     feed = ap["feed"]
-    for package in ap["packages"]:
-        if run_cmd(
-            ["./scripts/feeds", "install", "-f", "-p", feed, package]
-        ).returncode:
-            die(f"Error installing additional package {package} from {feed} feed")
+    if run_cmd(
+        ["./scripts/feeds", "install", "-f", "-p", feed, *ap["packages"]]
+    ).returncode:
+        packages_install = " ".join(ap["packages"])
+        die(f"Error installing additional packages {packages_install} from {feed} feed")
 
 if profile.get("external_target", False):
     if run_cmd(["./scripts/feeds", "install", profile["target"]]).returncode:
