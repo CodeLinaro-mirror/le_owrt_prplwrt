@@ -3,10 +3,12 @@
 import yaml
 from pathlib import Path
 from shutil import rmtree
+import io
 import sys
 from subprocess import run
 from os import getenv
 
+sys.stdout = io.TextIOWrapper(open(sys.stdout.fileno(), "wb", 0), write_through=True)
 profile_folder = Path(getenv("PROFILES", "./profiles"))
 
 
