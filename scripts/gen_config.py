@@ -12,6 +12,12 @@ sys.stdout = io.TextIOWrapper(open(sys.stdout.fileno(), "wb", 0), write_through=
 profile_folder = Path(getenv("PROFILES", "./profiles"))
 
 
+def run_cmd(cmd: list):
+    if getenv("GENCONFIG_VERBOSE"):
+        print('run_cmd: "' + " ".join(cmd) + '"')
+    return run(cmd)
+
+
 def die(msg: str):
     """Quit script with error message
 
@@ -107,7 +113,8 @@ profile = {
 for p in sys.argv[1:]:
     profile = load_yaml(p, profile)
 
-# print(yaml.dump(profile))
+if getenv("GENCONFIG_VERBOSE"):
+    print(yaml.dump(profile))
 
 for d in profile.get("description"):
     print(d)
@@ -135,25 +142,29 @@ for p in profile.get("feeds", []):
     except:
         print(f"Badly configured feed: {f}")
 
-if run(["./scripts/feeds", "setup", *feeds]).returncode:
+if run_cmd(["./scripts/feeds", "setup", *feeds]).returncode:
     die(f"Error setting up feeds")
 
-if run(["./scripts/feeds", "update"]).returncode:
+if run_cmd(["./scripts/feeds", "update"]).returncode:
     die(f"Error updating feeds")
 
 for p in profile.get("feeds", []):
     f = profile["feeds"].get(p)
-    if run(["./scripts/feeds", "install", "-a", "-f", "-p", f.get("name")]).returncode:
+    if run_cmd(
+        ["./scripts/feeds", "install", "-a", "-f", "-p", f.get("name")]
+    ).returncode:
         die(f"Error installing {feed}")
 
 for ap in profile.get("additional_packages"):
     feed = ap["feed"]
     for package in ap["packages"]:
-        if run(["./scripts/feeds", "install", "-f", "-p", feed, package]).returncode:
+        if run_cmd(
+            ["./scripts/feeds", "install", "-f", "-p", feed, package]
+        ).returncode:
             die(f"Error installing additional package {package} from {feed} feed")
 
 if profile.get("external_target", False):
-    if run(["./scripts/feeds", "install", profile["target"]]).returncode:
+    if run_cmd(["./scripts/feeds", "install", profile["target"]]).returncode:
         die(f"Error installing external target {profile['target']}")
 
 config_output = f"""CONFIG_TARGET_{profile["target"]}=y
@@ -180,7 +191,10 @@ for ap in profile.get("additional_packages"):
 Path(".config").write_text(config_output)
 print("Configuration written to .config")
 
+if getenv("GENCONFIG_VERBOSE"):
+    print(config_output)
+
 rmtree("./tmp", ignore_errors=True)
 print("Running make defconfig")
-if run(["make", "defconfig"]).returncode:
+if run_cmd(["make", "defconfig"]).returncode:
     die(f"Error running make defconfig")
