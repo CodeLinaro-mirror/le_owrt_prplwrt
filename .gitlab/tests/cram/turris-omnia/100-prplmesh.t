@@ -1,8 +1,3 @@
-Skip testing until prplMesh is ready:
-
-  $ exit 80
-  [1]
-
 Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
