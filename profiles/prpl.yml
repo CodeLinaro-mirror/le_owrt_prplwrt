@@ -105,6 +105,7 @@ packages:
   - odl-generator
   - packet-interception
   - pcm-manager
+  - prplmesh
   - procps-ng-pgrep
   - procps-ng-pkill
   - procps-ng-uptime
