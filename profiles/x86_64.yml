@@ -6,6 +6,7 @@ subtarget: 64
 description: Build image for x86/64 generic target
 
 packages:
+  - hostapd-utils
   - kmod-mac80211-hwsim
   - wpad-basic
 
