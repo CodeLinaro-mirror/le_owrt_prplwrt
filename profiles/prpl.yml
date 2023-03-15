@@ -4,7 +4,7 @@ feeds:
   - name: feed_prpl
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-prpl.git
     tracking_branch: prplos-next
-    revision: 2fee252c2cca8435af6ac85c99de8e42320302a0
+    revision: be4b167e9f79da15c5739c345036a3de16299216
 
 additional_packages:
   - feed: packages
@@ -158,6 +158,9 @@ diffconfig: |
           CONFIG_SAH_SERVICES_TIMINGILA_ADAPTER_CONTAINER="/usr/lib/timingila-cthulhu/timingila-cthulhu.so"
           CONFIG_SAH_LIB_CTHULHU-LXC_LXC_TOOLS_PREFIX="/usr/bin/"
           # CONFIG_SAH_LIB_CTHULHU-LXC_PRPL_OS_RPATH is not set
+          # pwhm options
+          CONFIG_USE_PRPLMESH_WHM=y
+          CONFIG_SAH_WLD_INIT_SCRIPT="prplmesh_whm"
           CONFIG_PACKAGE_prplmesh-unit-tests=m
           # kernel options for lcm
           CONFIG_KERNEL_ARM_PMU=y
