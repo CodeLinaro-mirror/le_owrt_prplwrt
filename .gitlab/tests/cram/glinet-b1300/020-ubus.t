@@ -309,7 +309,6 @@ Check that NetModel.Intf provides expected output:
   dslite netdev
   dslite-dslite0
   dslite0
-  ep5g0
   eth0
   eth0
   eth1
@@ -449,7 +448,7 @@ Check that NetModel.Intf provides expected output:
   radio-wifi1
   resolver
   resolver
-  ssid netdev
+  ssid netdev netdev-bound
   ssid netdev netdev-bound
   ssid netdev netdev-bound
   ssid netdev netdev-bound
@@ -491,6 +490,7 @@ Check that NetModel.Intf provides expected output:
   wlan0
   wlan0
   wlan0.1
+  wlan1
   wlan1
   wlan1
   wlan1.1

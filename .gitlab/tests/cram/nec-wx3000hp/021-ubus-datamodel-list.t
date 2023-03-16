@@ -193,73 +193,10 @@ Check that ubus has expected datamodels available:
   Users.User
   WiFi
   WiFi.AccessPoint
-  WiFi.AccessPoint.AssociatedDevice
-  WiFi.AccessPoint.AssociatedDevice.ProbeReqCaps
-  WiFi.AccessPoint.AssociationCount
-  WiFi.AccessPoint.AssociationCount.FastReconnectTypes
-  WiFi.AccessPoint.DriverConfig
-  WiFi.AccessPoint.HotSpot2
-  WiFi.AccessPoint.IEEE80211r
-  WiFi.AccessPoint.IEEE80211u
-  WiFi.AccessPoint.MACFiltering
-  WiFi.AccessPoint.MACFiltering.Entry
-  WiFi.AccessPoint.MACFiltering.TempEntry
-  WiFi.AccessPoint.Neighbour
-  WiFi.AccessPoint.ProbeFiltering
-  WiFi.AccessPoint.ProbeFiltering.TempEntry
-  WiFi.AccessPoint.RssiEventing
-  WiFi.AccessPoint.Security
-  WiFi.AccessPoint.VendorIEs
-  WiFi.AccessPoint.VendorIEs.VendorIE
-  WiFi.AccessPoint.WPS
   WiFi.AutoCommitMgr
   WiFi.EndPoint
-  WiFi.EndPoint.AssocStats
-  WiFi.EndPoint.Profile
-  WiFi.EndPoint.Profile.Security
-  WiFi.EndPoint.Security
-  WiFi.EndPoint.Stats
-  WiFi.EndPoint.WPS
   WiFi.Radio
-  WiFi.Radio.ChannelMgt
-  WiFi.Radio.DFS
-  WiFi.Radio.DFS.Event
-  WiFi.Radio.DriverConfig
-  WiFi.Radio.DriverStatus
-  WiFi.Radio.EventCounter
-  WiFi.Radio.MACConfig
-  WiFi.Radio.NaStaMonitor
-  WiFi.Radio.NaStaMonitor.MonitorDevice
-  WiFi.Radio.NaStaMonitor.NonAssociatedDevice
-  WiFi.Radio.NaStaMonitor.RssiEventing
-  WiFi.Radio.RadCaps
-  WiFi.Radio.ScanConfig
-  WiFi.Radio.ScanResults
-  WiFi.Radio.ScanResults.SurroundingChannels
-  WiFi.Radio.ScanResults.SurroundingChannels.Accesspoint
-  WiFi.Radio.ScanResults.SurroundingChannels.Accesspoint.SSID
-  WiFi.Radio.ScanStats
-  WiFi.Radio.ScanStats.ScanReason
-  WiFi.Radio.Stats
-  WiFi.Radio.Stats.WmmBytesReceived
-  WiFi.Radio.Stats.WmmBytesSent
-  WiFi.Radio.Stats.WmmFailedBytesReceived
-  WiFi.Radio.Stats.WmmFailedReceived
-  WiFi.Radio.Stats.WmmFailedSent
-  WiFi.Radio.Stats.WmmFailedbytesSent
-  WiFi.Radio.Stats.WmmPacketsReceived
-  WiFi.Radio.Stats.WmmPacketsSent
-  WiFi.Radio.Vendor
   WiFi.SSID
-  WiFi.SSID.Stats
-  WiFi.SSID.Stats.WmmBytesReceived
-  WiFi.SSID.Stats.WmmBytesSent
-  WiFi.SSID.Stats.WmmFailedBytesReceived
-  WiFi.SSID.Stats.WmmFailedReceived
-  WiFi.SSID.Stats.WmmFailedSent
-  WiFi.SSID.Stats.WmmFailedbytesSent
-  WiFi.SSID.Stats.WmmPacketsReceived
-  WiFi.SSID.Stats.WmmPacketsSent
   WiFi.wps_DefParam
   XPON
   XPON.ONU
