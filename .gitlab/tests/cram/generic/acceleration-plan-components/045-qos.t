@@ -147,6 +147,7 @@ Let all upstream (LAN -> WAN) UDP packets to network 192.168.55.0/24 go through 
 Check that iptables rule is created in the FORWARD_class chain in the mangle table:
 
   $ R "iptables -t mangle -L FORWARD_class | grep 'MARK xset'"
+  MARK       all  --  anywhere             192.168.25.0/24      MARK xset 0x5/0x1f
   MARK       udp  --  anywhere             192.168.55.0/24      udp MARK xset 0x4/0x1f
 
 Restore original classification configuration:
