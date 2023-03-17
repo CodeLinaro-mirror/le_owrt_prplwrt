@@ -11,69 +11,74 @@ description: Build images for the Maxlinear x86 devices - URX
              please check https://gitlab.com/prpl-foundation/prplos/prplos/-/wikis/MaxLinear-Open-Service-Platform
 feeds:
   - name: intel_x86
-    uri: git@git.maxlinear.com:ugw/feeds/feed_target_x86.git
-    tracking_branch: master
-    revision: b3c3771f063db1f765255964577415a66a29fd02
+    uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_target_x86.git
+    tracking_branch: updk_9.1.20
+    revision: 010f06a661ec63666cf85b59923677aea0c67e2e
   - name: rootfs
-    uri: git@git.maxlinear.com:ugw/rootfs.git
-    tracking_branch: master
-    revision: 05210b9a3ff6c2f57128565002e511386442b01e
+    uri: ssh://git@git.maxlinear.com/ugw/rootfs.git
+    tracking_branch: updk_9.1.20
+    revision: c2e782a23707e006ca6e91a37ff43269a265926f
   - name: 3rdparty
-    uri: git@git.maxlinear.com:ugw/feeds/feed_3rdparty.git
+    uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_3rdparty.git
     tracking_branch: master
     revision: f7125e69f9514439b36b0629b5951fd73db0c272
   - name: datapath
-    uri: git@git.maxlinear.com:ugw/feeds/feed_datapath.git
+    uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_datapath.git
     tracking_branch: master
-    revision: 64e27ef777fe2fcc3ddeca2d324027985516c9d9
+    revision: 4d179d5b2f42ed9e5b00548739e69f7fdf3e5178
   - name: gphy_firmware
-    uri: git@git.maxlinear.com:ugw/feeds/feed_gphy_firmware.git
+    uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_gphy_firmware.git
     tracking_branch: master
-    revision: 9bfbc1a899203090b29ae1f5aad8ae71c1993ab3
+    revision: 48474aac48317aab4f2fa4b2bf0b8b18c63f27d9
   - name: gwdpa_dpm
-    uri: git@git.maxlinear.com:ugw/feeds/feed_gwdpa-dpm.git
+    uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_gwdpa-dpm.git
     tracking_branch: master
-    revision: c03e07719653aaa5b4449b75dcc10c09779ea21b
+    revision: 3c20c2534cbeb23558bac4bd5c7c38a0dd99ddd6
   - name: misc
-    uri: git@git.maxlinear.com:ugw/feeds/feed_common.git
+    uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_common.git
     tracking_branch: master
     revision: 1a4894b72a980becb35290b4f708d5fa7a29094e
   - name: opensource_apps
-    uri: git@git.maxlinear.com:ugw/feeds/feed_opensource_apps.git
-    tracking_branch: master
-    revision: 98d4905d265dd987ebebc0ba57624f0d40b4dd9e
+    uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_opensource_apps.git
+    tracking_branch:  master
+    revision: 38d97271517b61794c5da5b145d0b7c7770bee09
   - name: packet_learn
-    uri: git@git.maxlinear.com:ugw/feeds/feed_packet_learn.git
+    uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_packet_learn.git
     tracking_branch: master
-    revision: f94fb9dbfd87ed2c72762f6860bcd95aa7eb771e
+    revision: 570ecc18069df5c35f111d28b8129f8b784af8e4
   - name: pon
-    uri: git@git.maxlinear.com:ugw/feeds/feed_pon.git
-    tracking_branch: master
-    revision: 48286ae4d264742c261e7aa5545c81ddca307624
+    uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_pon.git
+    tracking_branch: updk_9.1.20
+    revision: 3491aeb54efd99f927baa5bb44c6571b3e5f4402
   - name: ppa
-    uri: git@git.maxlinear.com:ugw/feeds/feed_ppa.git
+    uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_ppa.git
     tracking_branch: master
-    revision: 229259fc8f0b460fe9e5df7ad949a44580778b99
+    revision: 5157a770ebe00e3bcb039dac07f8c2148e3d985d
   - name: pp_net_adapter
-    uri: git@git.maxlinear.com:ugw/feeds/feed_pp_net_adapter.git
+    uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_pp_net_adapter.git
     tracking_branch: master
-    revision: 8dcd5a662f4c54842ad6cc089600eea39db5ced9
+    revision: ec878a21e2774d77a5d9464d77450ad05bb32947
   - name: vpn_fw
-    uri: git@git.maxlinear.com:ugw/feeds/feed_vpn_fw.git
+    uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_vpn_fw.git
     tracking_branch: master
-    revision: ba38f3a75e33f36bea7b5c90782ca5e9f94179aa
+    revision: 17a1b7ae81b28a6e0faa244da7d76f319716a2e0
   - name: qos
-    uri: git@git.maxlinear.com:ugw/feeds/feed_qos_tc.git
+    uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_qos_tc.git
     tracking_branch: master
     revision: 8904e7fbb73db1d880d7f14139cb971296275c9b
   - name: utils
-    uri: git@git.maxlinear.com:ugw/feeds/feed_ugw_utils.git
+    uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_ugw_utils.git
     tracking_branch: master
-    revision: 4ce7ebf6957704cb3c641742374f3d2e59f7e8f4
+    revision: da40d436f1b9395c712889e1333771d951fa392d
   - name: bootloader
-    uri: git@git.maxlinear.com:ugw/feeds/feed_uboot.git
-    tracking_branch: updk_9.1.15
-    revision: eb20a85d25b5c65fb606f145dc917d176fd26808
+    uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_uboot.git
+    tracking_branch: updk_9.1.20
+    revision: d11d993f39ebc4696499d1180bde169225747555
+
+additional_packages:
+  - feed: packages
+    packages:
+      - miniupnpd-iptables
 
 packages:
   - kmod-mxl_eth_drv
@@ -132,12 +137,14 @@ packages:
   - kmod-intel-qos
   - kmod-qos-tc
   - partx-utils
+  - obudpst
+  - speedtest-modules
 
 diffconfig: |
   CONFIG_DEVEL=y
   CONFIG_KERNEL_GIT_CLONE_URI="git@git.maxlinear.com:mxl/linux.git"
   CONFIG_KERNEL_GIT_DEPTH=""
-  CONFIG_KERNEL_GIT_REF="UPDK_9.1.15"
+  CONFIG_KERNEL_GIT_REF="updk_9.1.20"
   CONFIG_TOOLCHAINOPTS=y
   CONFIG_GCC_USE_VERSION_8=y
   CONFIG_GPON_OMCI_ONU_UBUS_INTERFACE=y
@@ -153,3 +160,8 @@ diffconfig: |
   CONFIG_VERSION_CODE_FILENAMES=n
   # CONFIG_PACKAGE_bios_images is not set
   CONFIG_BUILD_SDK="prplos"
+  CONFIG_BUSYBOX_CUSTOM=y
+  CONFIG_BUSYBOX_CONFIG_TFTPD=y
+  CONFIG_BUSYBOX_CONFIG_FEATURE_TFTP_GET=y
+  CONFIG_BUSYBOX_CONFIG_FEATURE_TFTP_PUT=y
+  CONFIG_BUSYBOX_CONFIG_TFTP=y
