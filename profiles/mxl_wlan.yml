@@ -2,9 +2,9 @@
 description: Add the WLAN feature for the Maxlinear devices
 feeds:
   - name: wlan_6x
-    uri: git@git.maxlinear.com:ugw/feeds/feed_wlan.git
-    tracking_branch: master
-    revision: b0d88b2fe7e4ef10e7c5d3e943c2dd1eaa613619
+    uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_wlan.git
+    tracking_branch: updk_9.1.20
+    revision: 3a71b8c42ffee118b0493eaaeaac1648677cd26c
 
 packages:
   - dwpal_6x-uci
