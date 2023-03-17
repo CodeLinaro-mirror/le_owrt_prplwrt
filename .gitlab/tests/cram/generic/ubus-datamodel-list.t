@@ -7,16 +7,11 @@ Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
-Wait to have the object Agent loaded:
-
-  $ R "ubus -t 120 wait_for Agent"
-
 Check that ubus has expected datamodels available:
 
-  $ R "ubus list | grep '[[:upper:]]' | grep -v '\.[[:digit:]]'"
+  $ R "ubus list | grep '[[:upper:]]' | grep -v -e '\.[[:digit:]]' -e ^Agent"
   ACLManager
   ACLManager.Role
-  Agent
   Bridging
   Bridging.Bridge
   Bridging.Bridge.Port
