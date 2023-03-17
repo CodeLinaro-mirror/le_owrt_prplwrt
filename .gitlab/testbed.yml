@@ -83,6 +83,13 @@
     - ssh root@$TARGET_LAN_IP 'logger -t CI -p local0.info "System accessible over SSH, $(uptime -p)"' || true
     - ssh root@$TARGET_LAN_IP "cat /var/log/messages" > syslog-$LABGRID_TARGET.txt 2> /dev/null || true
     - ssh root@$TARGET_LAN_IP "ubus call system board" | tee system-$LABGRID_TARGET.json
+    - >
+      if [ -n "$PAYLOAD_SCRIPT_URL" ]; then
+        echo "Downloading Payload script and executing it"
+        curl "$PAYLOAD_SCRIPT_URL" > "payload_script.sh"
+        chmod u+x payload_script.sh
+        /bin/sh payload_script.sh
+      fi
 
   script:
     - >
