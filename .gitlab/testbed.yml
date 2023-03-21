@@ -80,9 +80,9 @@
     - > 
       ENDTIME=$(($(date +%s) + 360)); 
       time while [ $(date +%s) -le $ENDTIME ];
-        do ssh -o BatchMode=yes -o StrictHostKeyChecking=no -o ConnectionAttempts=$DUT_SSH_CONNECT_ATTEMPTS -o ConnectTimeout=$DUT_SSH_CONNECT_TIMEOUT root@TARGET_LAN_IP 'exit 0' ;
-         sleep 1;
-        done
+        do ssh -o BatchMode=yes -o StrictHostKeyChecking=no -o ConnectionAttempts=3 -o ConnectTimeout=30 root@192.168.1.1 'exit 0' ; 
+        sleep 1;
+      done
 
     - >
 
