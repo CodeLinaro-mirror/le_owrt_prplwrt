@@ -14,7 +14,7 @@ test Docker image builder:
     - >
       docker run --rm "$CI_REGISTRY_IMAGE/$CI_DESIGNATED_BRANCH/$IMAGE_NAME:$CI_COMMIT_REF_SLUG" sh -c "
         git clone --depth 1 https://gitlab.com/prpl-foundation/prplOS/prplos &&
-        cd prplos && scripts/gen_config.py tplinkC6 prpl &&
+        cd prplos && scripts/gen_config.py x86_64 prpl &&
         make -j $(nproc) tools/flock/compile &&
         python3 -c 'import jira; import jwt'
         "
