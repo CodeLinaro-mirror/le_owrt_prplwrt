@@ -5,14 +5,14 @@ Create R alias:
 Configure port trigger rule:
 
   $ printf "\
-  > ubus-cli Firewall.X_PRPL-COM_PortTrigger+{Alias='test'}
-  > ubus-cli Firewall.X_PRPL-COM_PortTrigger.test.Port=6000
-  > ubus-cli Firewall.X_PRPL-COM_PortTrigger.test.Protocol="6"
-  > ubus-cli Firewall.X_PRPL-COM_PortTrigger.test.Timer=7
-  > ubus-cli Firewall.X_PRPL-COM_PortTrigger.test.Rule+{Alias='test-rule'}
-  > ubus-cli Firewall.X_PRPL-COM_PortTrigger.test.Rule.test-rule.Port=8000
-  > ubus-cli Firewall.X_PRPL-COM_PortTrigger.test.Rule.test-rule.Protocol="17"
-  > ubus-cli Firewall.X_PRPL-COM_PortTrigger.test.Enable=1
+  > ubus-cli NAT.PortTrigger+{Alias='test'}
+  > ubus-cli NAT.PortTrigger.test.Port=6000
+  > ubus-cli NAT.PortTrigger.test.Protocol="6"
+  > ubus-cli NAT.PortTrigger.test.Timer=7
+  > ubus-cli NAT.PortTrigger.test.Rule+{Alias='test-rule'}
+  > ubus-cli NAT.PortTrigger.test.Rule.test-rule.Port=8000
+  > ubus-cli NAT.PortTrigger.test.Rule.test-rule.Protocol="17"
+  > ubus-cli NAT.PortTrigger.test.Enable=1
   > " > /tmp/cram
   $ script --command "ssh -t root@$TARGET_LAN_IP '$(cat /tmp/cram)'" > /dev/null; sleep 1
 
@@ -23,7 +23,7 @@ Check that there is NFQUEUE rule:
 
 Disable port trigger rule:
 
-  $ script --command "ssh -t root@$TARGET_LAN_IP ubus-cli Firewall.X_PRPL-COM_PortTrigger.test.Enable=0" > /dev/null; sleep 1
+  $ script --command "ssh -t root@$TARGET_LAN_IP ubus-cli NAT.PortTrigger.test.Enable=0" > /dev/null; sleep 1
 
 Check that there is no NFQUEUE rule:
 
@@ -32,7 +32,7 @@ Check that there is no NFQUEUE rule:
 
 Enable port trigger rule:
 
-  $ script --command "ssh -t root@$TARGET_LAN_IP ubus-cli Firewall.X_PRPL-COM_PortTrigger.test.Enable=1" > /dev/null; sleep 1
+  $ script --command "ssh -t root@$TARGET_LAN_IP ubus-cli NAT.PortTrigger.test.Enable=1" > /dev/null; sleep 1
 
 Add route to 10.10.10.10 via TARGET_LAN_IP:
 
@@ -50,7 +50,7 @@ Check that additional rules has been created:
 
 Check that the owner IPAddress was correctly set:
 
-  $ R "ubus call Firewall.X_PRPL-COM_PortTrigger _get '{\"rel_path\":\"test.Stats.IPAddress\"}' | jsonfilter -e @[*].IPAddress"
+  $ R "ubus call NAT.PortTrigger _get '{\"rel_path\":\"test.Stats.IPAddress\"}' | jsonfilter -e @[*].IPAddress"
   192.168.1.2
 
 Wait for expiration of port trigger and check that everything is disabled:
@@ -61,5 +61,5 @@ Wait for expiration of port trigger and check that everything is disabled:
 
 Remove port trigger rule and route:
 
-  $ script --command "ssh -t root@$TARGET_LAN_IP ubus-cli Firewall.X_PRPL-COM_PortTrigger.test-" > /dev/null
+  $ script --command "ssh -t root@$TARGET_LAN_IP ubus-cli NAT.PortTrigger.test-" > /dev/null
   $ sudo ip route del 10.10.10.10/32 via $TARGET_LAN_IP dev $TESTBED_LAN_INTERFACE 2> /dev/null

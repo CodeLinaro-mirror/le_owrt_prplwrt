@@ -11,7 +11,7 @@ Check that we've correct bridge aliases:
 
 Check that we've correct DHCP pool settings:
 
-  $ R "ubus call DHCPv4.Server.Pool _get \"{'rel_path':'*'}\" | grep -E '(Alias|MinAddres|MaxAddress|Enable|Servers|Status)' | sort"
+  $ R "ubus call DHCPv4Server.Pool _get \"{'rel_path':'*'}\" | grep -E '(Alias|MinAddres|MaxAddress|Enable|Servers|Status)' | sort"
   \t\t"Alias": "guest", (esc)
   \t\t"Alias": "lan", (esc)
   \t\t"Alias": "lcm", (esc)
@@ -31,7 +31,7 @@ Check that we've correct DHCP pool settings:
   \t\t"Status": "Enabled", (esc)
   \t\t"Status": "Error_Misconfigured", (esc)
 
-  $ R "ubus call DHCPv6.Server.Pool _get \"{'rel_path':'*'}\" | grep -E '(Alias|Enable|Status)' | sort"
+  $ R "ubus call DHCPv6Server.Pool _get \"{'rel_path':'*'}\" | grep -E '(Alias|Enable|Status)' | sort"
   \t\t"Alias": "guest", (esc)
   \t\t"Alias": "lan", (esc)
   \t\t"Alias": "lcm", (esc)

@@ -31,14 +31,14 @@ Check that ubus has expected datamodels available:
   Cthulhu.Plugins
   Cthulhu.Sandbox
   Cthulhu.Sandbox.Instances
-  DHCPv4
-  DHCPv4.Client
-  DHCPv4.Server
-  DHCPv4.Server.Pool
-  DHCPv6
-  DHCPv6.Client
-  DHCPv6.Server
-  DHCPv6.Server.Pool
+  DHCPv4Client
+  DHCPv4Client.Client
+  DHCPv4Server
+  DHCPv4Server.Pool
+  DHCPv6Client
+  DHCPv6Client.Client
+  DHCPv6Server
+  DHCPv6Server.Pool
   DNS
   DNS.Client
   DNS.Client.Server
@@ -53,8 +53,13 @@ Check that ubus has expected datamodels available:
   Device
   Device.Bridging
   Device.BulkData
+  Device.CWMPManagementServer
   Device.DHCPv4
+  Device.DHCPv4.Client
+  Device.DHCPv4.Server
   Device.DHCPv6
+  Device.DHCPv6.Client
+  Device.DHCPv6.Server
   Device.DNS
   Device.DNS.SD
   Device.DSLite
@@ -69,7 +74,6 @@ Check that ubus has expected datamodels available:
   Device.LocalAgent
   Device.Logical
   Device.MQTT
-  Device.ManagementServer
   Device.MoCA
   Device.NAT
   Device.NeighborDiscovery
@@ -84,9 +88,12 @@ Check that ubus has expected datamodels available:
   Device.SoftwareModules
   Device.Time
   Device.UPnP
+  Device.UPnP.Description
+  Device.UPnP.Discovery
   Device.UserInterface
   Device.Users
   Device.WiFi
+  Device.WiFi.DataElements
   Device.X_PRPL-COM_MultiSettings
   Device.X_PRPL-COM_PersistentConfiguration
   Device.X_PRPL-COM_WANManager
@@ -116,13 +123,12 @@ Check that ubus has expected datamodels available:
   Ethernet.VLANTermination.Stats
   Firewall
   Firewall.Chain
+  Firewall.DMZ
   Firewall.Level
-  Firewall.X_PRPL-COM_DMZ
+  Firewall.Pinhole
+  Firewall.Policy
+  Firewall.Service
   Firewall.X_PRPL-COM_InterfaceSetting
-  Firewall.X_PRPL-COM_Pinhole
-  Firewall.X_PRPL-COM_Policy
-  Firewall.X_PRPL-COM_PortTrigger
-  Firewall.X_PRPL-COM_Service
   Firewall.X_PRPL-COM_WANAccess
   Firewall.X_PRPL-COM_WANAccess.BlockList
   Hosts
@@ -144,6 +150,7 @@ Check that ubus has expected datamodels available:
   NAT
   NAT.InterfaceSetting
   NAT.PortMapping
+  NAT.PortTrigger
   NeighborDiscovery
   NeighborDiscovery.InterfaceSetting
   NetDev
@@ -211,73 +218,10 @@ Check that ubus has expected datamodels available:
   Users.User
   WiFi
   WiFi.AccessPoint
-  WiFi.AccessPoint.AssociatedDevice
-  WiFi.AccessPoint.AssociatedDevice.ProbeReqCaps
-  WiFi.AccessPoint.AssociationCount
-  WiFi.AccessPoint.AssociationCount.FastReconnectTypes
-  WiFi.AccessPoint.DriverConfig
-  WiFi.AccessPoint.HotSpot2
-  WiFi.AccessPoint.IEEE80211r
-  WiFi.AccessPoint.IEEE80211u
-  WiFi.AccessPoint.MACFiltering
-  WiFi.AccessPoint.MACFiltering.Entry
-  WiFi.AccessPoint.MACFiltering.TempEntry
-  WiFi.AccessPoint.Neighbour
-  WiFi.AccessPoint.ProbeFiltering
-  WiFi.AccessPoint.ProbeFiltering.TempEntry
-  WiFi.AccessPoint.RssiEventing
-  WiFi.AccessPoint.Security
-  WiFi.AccessPoint.VendorIEs
-  WiFi.AccessPoint.VendorIEs.VendorIE
-  WiFi.AccessPoint.WPS
   WiFi.AutoCommitMgr
   WiFi.EndPoint
-  WiFi.EndPoint.AssocStats
-  WiFi.EndPoint.Profile
-  WiFi.EndPoint.Profile.Security
-  WiFi.EndPoint.Security
-  WiFi.EndPoint.Stats
-  WiFi.EndPoint.WPS
   WiFi.Radio
-  WiFi.Radio.ChannelMgt
-  WiFi.Radio.DFS
-  WiFi.Radio.DFS.Event
-  WiFi.Radio.DriverConfig
-  WiFi.Radio.DriverStatus
-  WiFi.Radio.EventCounter
-  WiFi.Radio.MACConfig
-  WiFi.Radio.NaStaMonitor
-  WiFi.Radio.NaStaMonitor.MonitorDevice
-  WiFi.Radio.NaStaMonitor.NonAssociatedDevice
-  WiFi.Radio.NaStaMonitor.RssiEventing
-  WiFi.Radio.RadCaps
-  WiFi.Radio.ScanConfig
-  WiFi.Radio.ScanResults
-  WiFi.Radio.ScanResults.SurroundingChannels
-  WiFi.Radio.ScanResults.SurroundingChannels.Accesspoint
-  WiFi.Radio.ScanResults.SurroundingChannels.Accesspoint.SSID
-  WiFi.Radio.ScanStats
-  WiFi.Radio.ScanStats.ScanReason
-  WiFi.Radio.Stats
-  WiFi.Radio.Stats.WmmBytesReceived
-  WiFi.Radio.Stats.WmmBytesSent
-  WiFi.Radio.Stats.WmmFailedBytesReceived
-  WiFi.Radio.Stats.WmmFailedReceived
-  WiFi.Radio.Stats.WmmFailedSent
-  WiFi.Radio.Stats.WmmFailedbytesSent
-  WiFi.Radio.Stats.WmmPacketsReceived
-  WiFi.Radio.Stats.WmmPacketsSent
-  WiFi.Radio.Vendor
   WiFi.SSID
-  WiFi.SSID.Stats
-  WiFi.SSID.Stats.WmmBytesReceived
-  WiFi.SSID.Stats.WmmBytesSent
-  WiFi.SSID.Stats.WmmFailedBytesReceived
-  WiFi.SSID.Stats.WmmFailedReceived
-  WiFi.SSID.Stats.WmmFailedSent
-  WiFi.SSID.Stats.WmmFailedbytesSent
-  WiFi.SSID.Stats.WmmPacketsReceived
-  WiFi.SSID.Stats.WmmPacketsSent
   WiFi.wps_DefParam
   XPON
   XPON.ONU
