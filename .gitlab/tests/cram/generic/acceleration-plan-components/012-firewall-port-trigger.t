@@ -7,8 +7,8 @@ Configure port trigger rule:
   $ printf "\
   > ubus-cli NAT.PortTrigger+{Alias='test'}
   > ubus-cli NAT.PortTrigger.test.Port=6000
-  > ubus-cli NAT.PortTrigger.test.Protocol="6"
-  > ubus-cli NAT.PortTrigger.test.Timer=7
+  > ubus-cli NAT.PortTrigger.test.Protocol="TCP"
+  > ubus-cli NAT.PortTrigger.test.AutoDisableDuration=7
   > ubus-cli NAT.PortTrigger.test.Rule+{Alias='test-rule'}
   > ubus-cli NAT.PortTrigger.test.Rule.test-rule.Port=8000
   > ubus-cli NAT.PortTrigger.test.Rule.test-rule.Protocol="17"

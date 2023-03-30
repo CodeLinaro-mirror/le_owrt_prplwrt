@@ -5,7 +5,7 @@ Create R alias:
 Check PacketInterception root datamodel:
 
   $ R "ubus -S call PacketInterception _get"
-  {"PacketInterception.":{"CommunicationConfigNumberOfEntries":1,"ConditionNumberOfEntries":1,"Status":"Disabled","InterceptionNumberOfEntries":1,"Enable":false,"SupportedCommControllers":"socket","PacketHandlerNumberOfEntries":1,"SupportedParsers":""}}
+  {"PacketInterception.":{"CommunicationConfigNumberOfEntries":1,"ConditionNumberOfEntries":1,"Status":"Disabled","InterceptionNumberOfEntries":1,"Enable":false,"SupportedCommControllers":"socket","PacketHandlerNumberOfEntries":1,"SupportedParsers":"peafowl"}}
 
 Check that no interception is being configured:
 

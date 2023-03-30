@@ -7,6 +7,7 @@ Get initial state of bridges:
   $ R "brctl show | sort | cut -d$'\t' -f1,4-"
   br-guest\tno (esc)
   br-lan\tno\t\teth0 (esc)
+  br-lcm\tno (esc)
   bridge name\tSTP enabled\tinterfaces (esc)
 
 Add eth1 to the Guest bridge:
@@ -23,6 +24,7 @@ Check that eth1 is added to br-guest bridge:
   $ R "brctl show | sort | cut -d$'\t' -f1,4-"
   br-guest\tno\t\teth1 (esc)
   br-lan\tno\t\teth0 (esc)
+  br-lcm\tno (esc)
   bridge name\tSTP enabled\tinterfaces (esc)
 
 Remove eth1 from the Guest bridge:
@@ -38,4 +40,5 @@ Check for initial state of bridges again:
   $ R "brctl show | sort | cut -d$'\t' -f1,4-"
   br-guest\tno (esc)
   br-lan\tno\t\teth0 (esc)
+  br-lcm\tno (esc)
   bridge name\tSTP enabled\tinterfaces (esc)
