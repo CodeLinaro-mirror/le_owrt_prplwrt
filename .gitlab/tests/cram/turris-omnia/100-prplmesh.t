@@ -7,8 +7,14 @@ Check that wireless has desired configuration and state after boot:
   $ R "ubus -S call WiFi.SSID _get | jsonfilter -e @[*].SSID -e @[*].Status | sort"
   Down
   Down
+  Down
+  Down
+  Error
+  PWHM_SSID5
   prplOS
   prplOS
+  prplOS-guest
+  prplOS-guest
 
   $ R "pgrep -f 'hostapd -ddt'"
   [1]
@@ -16,10 +22,13 @@ Check that wireless has desired configuration and state after boot:
   $ R "ubus list | grep hostapd."
   [1]
 
-Stop prplmesh before starting wireless:
+Restart prplmesh:
 
-  $ R logger -t cram "Stop prplmesh"
-  $ R "/etc/init.d/prplmesh stop && sleep 5" > /dev/null 2>&1
+  $ R logger -t cram "Restart prplmesh"
+  $ R "/etc/init.d/prplmesh gateway_mode 2>&1 | logger -t prplmesh-gateway-mode"
+
+  $ R "ubus -t 60 wait_for Device.WiFi"
+
 
 Start wireless:
 
@@ -33,7 +42,19 @@ Start wireless:
   $ R "ubus -S call WiFi.AccessPoint.2 _set '{\"parameters\":{\"Enable\":1}}'"
   {"WiFi.AccessPoint.2.":{"Enable":true}}
 
+  $ R "ubus -t 30 wait_for hostapd.wlan1.1"
+
+  $ R "ubus -S call WiFi.AccessPoint.3 _set '{\"parameters\":{\"Enable\":1}}'"
+  {"WiFi.AccessPoint.3.":{"Enable":true}}
+
   $ R "ubus -t 30 wait_for hostapd.wlan0"
+
+  $ R "ubus -S call WiFi.AccessPoint.4 _set '{\"parameters\":{\"Enable\":1}}'"
+  {"WiFi.AccessPoint.4.":{"Enable":true}}
+
+  $ R "ubus -t 30 wait_for hostapd.wlan0.1"
+
+  $ sleep 30
 
 Check that hostapd is operating as expected:
 
@@ -45,27 +66,33 @@ Check that hostapd is operating as expected:
 
   $ R "ubus list | grep hostapd. | sort"
   hostapd.wlan0
+  hostapd.wlan0.1
   hostapd.wlan1
+  hostapd.wlan1.1
 
 Check that wireless is operating:
 
   $ R "ubus -S call WiFi.SSID _get | jsonfilter -e @[*].SSID -e @[*].Status | sort"
+  Error
+  PWHM_SSID5
+  Up
+  Up
   Up
   Up
   prplOS
   prplOS
+  prplOS-guest
+  prplOS-guest
 
   $ R "iw dev | grep -e Interface -e ssid | tr -d '\t' | sort"
   Interface wlan0
+  Interface wlan0.1
   Interface wlan1
+  Interface wlan1.1
   ssid prplOS
   ssid prplOS
-
-Restart prplmesh:
-
-  $ R logger -t cram "Restart prplmesh"
-  $ R "/etc/init.d/prplmesh gateway_mode && sleep 5" > /dev/null 2>&1
-  $ sleep 60
+  ssid prplOS-guest
+  ssid prplOS-guest
 
 Check that prplmesh processes are running:
 
@@ -103,5 +130,7 @@ Check that prplmesh is in operational state:
   bml_nw_map_query: return value is: BML_RET_OK, Success status
   wlan0
   wlan0.0
+  wlan0.1
   wlan1
   wlan1.0
+  wlan1.1
