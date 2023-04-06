@@ -4,7 +4,6 @@ variables:
 include:
   - local: .gitlab/build.yml
   - local: .gitlab/cdrouter.yml
-  - local: .gitlab/cdrouter/glinet-b1300.yml
   - local: .gitlab/cdrouter/turris-omnia.yml
   - local: .gitlab/coverity.yml
   - local: .gitlab/docker.yml
@@ -12,8 +11,6 @@ include:
   - local: .gitlab/docker/testbed/gitlab.yml
   - local: .gitlab/docker/sdk/gitlab.yml
   - local: .gitlab/testbed.yml
-  - local: .gitlab/testbed/nec-wx3000hp.yml
-  - local: .gitlab/testbed/glinet-b1300.yml
   - local: .gitlab/testbed/turris-omnia.yml
 
 stages:
@@ -28,12 +25,6 @@ stages:
   - cdrouter
   - coverity
 
-.build test intel_mips prpl webui:
-  extends: .build test config
-
-build test ipq40xx prpl webui:
-  extends: .build test config
-
 build test mvebu prpl webui:
   extends: .build test config
 
@@ -42,18 +33,6 @@ build test x86_64 prpl webui:
   variables:
     CI_BUILD_CONFIG: >
       +DEVEL +BUILD_LOG +SDK +IB +IB_STANDALONE
-
-.run test NEC WX3000HP NAND:
-  needs:
-    - job: build test intel_mips prpl webui
-      optional: true
-  extends: .nec-wx3000hp testbed
-
-run test Gl.iNet B1300 initramfs:
-  needs:
-    - job: build test ipq40xx prpl webui
-      optional: true
-  extends: .glinet-b1300 testbed
 
 run test Turris Omnia initramfs:
   needs:
