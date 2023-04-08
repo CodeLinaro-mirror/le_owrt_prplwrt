@@ -538,7 +538,7 @@ define KernelPackage/crypto-lib-curve25519/config
   imply PACKAGE_kmod-crypto-kpp
 endef
 
-define KernelPackage/crypto-lib-curve25519/x86/64
+define KernelPackage/crypto-lib-curve25519/x86_64
   KCONFIG+=CONFIG_CRYPTO_CURVE25519_X86
   FILES+=$(LINUX_DIR)/arch/x86/crypto/curve25519-x86_64.ko
 endef
@@ -551,6 +551,11 @@ endef
 ifeq ($(ARCH)-$(CONFIG_KERNEL_MODE_NEON),arm-y)
   KernelPackage/crypto-lib-curve25519/$(CRYPTO_TARGET)=\
 	  $(KernelPackage/crypto-lib-curve25519/arm-neon)
+endif
+
+ifdef KernelPackage/crypto-lib-curve25519/$(ARCH)
+  KernelPackage/crypto-lib-curve25519/$(CRYPTO_TARGET)=\
+	  $(KernelPackage/crypto-lib-curve25519/$(ARCH))
 endif
 
 $(eval $(call KernelPackage,crypto-lib-curve25519))
@@ -643,10 +648,15 @@ define KernelPackage/crypto-md5/octeon
   AUTOLOAD+=$(call AutoLoad,09,octeon-md5)
 endef
 
-define KernelPackage/crypto-md5/mpc85xx
+define KernelPackage/crypto-md5/powerpc
   FILES+=$(LINUX_DIR)/arch/powerpc/crypto/md5-ppc.ko
   AUTOLOAD+=$(call AutoLoad,09,md5-ppc)
 endef
+
+ifdef KernelPackage/crypto-md5/$(ARCH)
+  KernelPackage/crypto-md5/$(CRYPTO_TARGET)=\
+	  $(KernelPackage/crypto-md5/$(ARCH))
+endif
 
 $(eval $(call KernelPackage,crypto-md5))
 
@@ -732,7 +742,7 @@ ifndef CONFIG_TARGET_x86_64
   endef
 endif
 
-define KernelPackage/crypto-misc/x86/64
+define KernelPackage/crypto-misc/x86_64
   FILES+= \
 	$(LINUX_DIR)/arch/x86/crypto/camellia-x86_64.ko \
 	$(LINUX_DIR)/arch/x86/crypto/blowfish-x86_64.ko \
@@ -751,6 +761,11 @@ define KernelPackage/crypto-misc/x86/64
 	cast6-avx-x86_64 twofish-x86_64 twofish-x86_64-3way \
 	twofish-avx-x86_64 blowfish-x86_64 serpent-avx-x86_64 serpent-avx2)
 endef
+
+ifdef KernelPackage/crypto-misc/$(ARCH)
+  KernelPackage/crypto-misc/$(CRYPTO_TARGET)=\
+	  $(KernelPackage/crypto-misc/$(ARCH))
+endif
 
 $(eval $(call KernelPackage,crypto-misc))
 
@@ -881,10 +896,15 @@ define KernelPackage/crypto-sha1/mpc85xx
   AUTOLOAD+=$(call AutoLoad,09,sha1-ppc-spe)
 endef
 
-define KernelPackage/crypto-sha1/x86/64
+define KernelPackage/crypto-sha1/x86_64
   FILES+=$(LINUX_DIR)/arch/x86/crypto/sha1-ssse3.ko
   AUTOLOAD+=$(call AutoLoad,09,sha1-ssse3)
 endef
+
+ifdef KernelPackage/crypto-sha1/$(ARCH)
+  KernelPackage/crypto-sha1/$(CRYPTO_TARGET)=\
+	  $(KernelPackage/crypto-sha1/$(ARCH))
+endif
 
 $(eval $(call KernelPackage,crypto-sha1))
 
@@ -914,10 +934,15 @@ define KernelPackage/crypto-sha256/mpc85xx
   AUTOLOAD+=$(call AutoLoad,09,sha256-ppc-spe)
 endef
 
-define KernelPackage/crypto-sha256/x86/64
+define KernelPackage/crypto-sha256/x86_64
   FILES+=$(LINUX_DIR)/arch/x86/crypto/sha256-ssse3.ko
   AUTOLOAD+=$(call AutoLoad,09,sha256-ssse3)
 endef
+
+ifdef KernelPackage/crypto-sha256/$(ARCH)
+  KernelPackage/crypto-sha256/$(CRYPTO_TARGET)=\
+	  $(KernelPackage/crypto-sha256/$(ARCH))
+endif
 
 $(eval $(call KernelPackage,crypto-sha256))
 
@@ -951,10 +976,15 @@ endef
 
 KernelPackage/crypto-sha512/tegra=$(KernelPackage/crypto-sha512/arm)
 
-define KernelPackage/crypto-sha512/x86/64
+define KernelPackage/crypto-sha512/x86_64
   FILES+=$(LINUX_DIR)/arch/x86/crypto/sha512-ssse3.ko
   AUTOLOAD+=$(call AutoLoad,09,sha512-ssse3)
 endef
+
+ifdef KernelPackage/crypto-sha512/$(ARCH)
+  KernelPackage/crypto-sha512/$(CRYPTO_TARGET)=\
+	  $(KernelPackage/crypto-sha512/$(ARCH))
+endif
 
 $(eval $(call KernelPackage,crypto-sha512))
 
