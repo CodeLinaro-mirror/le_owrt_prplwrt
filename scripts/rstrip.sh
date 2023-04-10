@@ -12,6 +12,11 @@ SELF=${0##*/}
   exit 1
 }
 
+[ -n "$SIGN_KEY" ] || {
+        echo "The variable SIGN_KEY must be set to point to the command that signs kernel modules"
+        exit 1
+}
+
 TARGETS=$*
 
 [ -z "$TARGETS" ] && {
@@ -29,6 +34,10 @@ find $TARGETS -type f -a -exec file {} \; | \
 	[ "${S}" = "relocatable" ] && {
 		[ "${F##*.}" == "o" ] && continue
 		eval "$STRIP_KMOD $F"
+		echo "--------------------------------------------------------------------------------"
+		echo "Signing module $F via $SIGN_KEY"
+		eval "$SIGN_KEY $F"
+		echo "--------------------------------------------------------------------------------"
 	} || {
 		b=$(stat -c '%a' $F)
 		[ -z "$PATCHELF" ] || [ -z "$TOPDIR" ] || {
