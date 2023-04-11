@@ -66,6 +66,7 @@ Cleanup:
   $ R "/etc/init.d/testing-emitter stop 2> /dev/null"
   $ R "/etc/init.d/testing-receiver stop 2> /dev/null"
   $ R "/etc/init.d/multisettings stop 2> /dev/null"
+  [1]
   $ R "rm -fr /etc/config/multisettings /etc/init.d/testing-receiver /etc/init.d/testing-emitter /etc/amx/testing-receiver /etc/amx/testing-emitter"
   $ R "rm -fr /var/run/selected_profile /usr/bin/testing-emitter rm /usr/bin/testing-receiver"
   $ R "/etc/init.d/multisettings start 2> /dev/null"

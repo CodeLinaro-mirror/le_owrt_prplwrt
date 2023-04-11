@@ -118,6 +118,7 @@ Check that IP.Interface provides expected output:
   ULA64
   br-guest
   br-lan
+  br-lcm
   eth1
   guest
   guest
@@ -158,6 +159,7 @@ Check that NetDev.Link provides expected output:
   $ R "ubus call NetDev _get '{\"rel_path\":\"Link.\",\"depth\":100}' | jsonfilter -e @[*].Name | sort"
   br-guest
   br-lan
+  br-lcm
   eth0
   eth1
   ifb0
@@ -170,6 +172,7 @@ Check that NetDev.Link provides expected output:
   wlan0.1
   wlan1
   wlan1.1
+  wlan1.2
 
 Check that NetModel.Intf provides expected output:
 
@@ -210,6 +213,7 @@ Check that NetModel.Intf provides expected output:
   br-lan
   br-lan
   br-lan
+  br-lcm
   br-lcm
   br-lcm
   bridge-ETH1

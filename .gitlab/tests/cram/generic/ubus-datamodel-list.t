@@ -74,6 +74,7 @@ Check that ubus has expected datamodels available:
   Device.LocalAgent
   Device.Logical
   Device.MQTT
+  Device.ManagementServer
   Device.MoCA
   Device.NAT
   Device.NeighborDiscovery
@@ -139,6 +140,8 @@ Check that ubus has expected datamodels available:
   IP.Interface
   Logical
   Logical.Interface
+  Logical.X_PRPL-ORG_Subnet
+  Logical.X_PRPL-ORG_Subnet.Config
   ManagementServer
   ManagementServer.ACSTransfers
   ManagementServer.ACSTransfers.ACSTransfer
