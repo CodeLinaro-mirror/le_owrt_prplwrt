@@ -1247,23 +1247,6 @@ endef
 $(eval $(call KernelPackage,w83627hf-wdt))
 
 
-define KernelPackage/itco-wdt
-  SUBMENU:=$(OTHER_MENU)
-  TITLE:=Intel iTCO Watchdog Timer
-  KCONFIG:=CONFIG_ITCO_WDT \
-           CONFIG_ITCO_VENDOR_SUPPORT=y
-  FILES:=$(LINUX_DIR)/drivers/$(WATCHDOG_DIR)/iTCO_wdt.ko \
-         $(LINUX_DIR)/drivers/$(WATCHDOG_DIR)/iTCO_vendor_support.ko
-  AUTOLOAD:=$(call AutoLoad,50,iTCO_vendor_support iTCO_wdt,1)
-endef
-
-define KernelPackage/itco-wdt/description
-  Kernel module for Intel iTCO Watchdog Timer
-endef
-
-$(eval $(call KernelPackage,itco-wdt))
-
-
 define KernelPackage/it87-wdt
   SUBMENU:=$(OTHER_MENU)
   TITLE:=ITE IT87 Watchdog Timer
@@ -1280,19 +1263,3 @@ define KernelPackage/it87-wdt/description
 endef
 
 $(eval $(call KernelPackage,it87-wdt))
-
-
-define KernelPackage/f71808e-wdt
-  SUBMENU:=$(OTHER_MENU)
-  TITLE:=Fintek F718xx/F818xx Watchdog Timer
-  DEPENDS:=@TARGET_x86
-  KCONFIG:=CONFIG_F71808E_WDT
-  FILES:=$(LINUX_DIR)/drivers/$(WATCHDOG_DIR)/f71808e_wdt.ko
-  AUTOLOAD:=$(call AutoProbe,f71808e-wdt,1)
-endef
-
-define KernelPackage/f71808e-wdt/description
-  Kernel module for the watchdog timer found on many Fintek Super-IO chips.
-endef
-
-$(eval $(call KernelPackage,f71808e-wdt))
