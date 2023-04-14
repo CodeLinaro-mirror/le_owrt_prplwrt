@@ -258,7 +258,7 @@ class TestbedDevice:
             'ifstatus {} | jsonfilter -qe "@.up" || true'.format(network), "true", 60.0
         )
 
-        shell.wait_for("ping -c1 {} || true".format(host), ", 0% packet loss", 90.0)
+        shell.wait_for("ping -c1 {} || true".format(host), ", 0% packet loss", 180.0)
 
 
 def main():
