@@ -14,7 +14,7 @@ Index: ath10k-ct-2021-06-03-b44cd7b2/ath10k-4.19/mac.c
 ===================================================================
 --- ath10k-ct-2021-06-03-b44cd7b2.orig/ath10k-4.19/mac.c
 +++ ath10k-ct-2021-06-03-b44cd7b2/ath10k-4.19/mac.c
-@@ -8475,6 +8475,78 @@ static void ath10k_sta_rc_update(struct
+@@ -8475,6 +8475,77 @@ static void ath10k_sta_rc_update(struct
  	ieee80211_queue_work(hw, &arsta->update_wk);
  }
  
@@ -22,7 +22,6 @@ Index: ath10k-ct-2021-06-03-b44cd7b2/ath10k-4.19/mac.c
 +			struct ieee80211_key_conf *key, struct ieee80211_key_seq *seq)
 +{
 +
-+	printk("rme\n");
 +#ifdef CONFIG_ATH10K_DEBUGFS
 +
 +	struct ath10k *ar = hw->priv;
