@@ -5,6 +5,7 @@ ssh "root@$TARGET_LAN_IP" "ubus -t 200 wait_for DHCPv4Client.Client.1 NAT.Interf
 ssh "root@$TARGET_LAN_IP" "ubus -S call DHCPv4Client.Client.1 _set '{\"parameters\":{\"Enable\":0}}'"
 ssh "root@$TARGET_LAN_IP" "ubus -S call IP.Interface.2 _set '{\"parameters\":{\"IPv4Enable\":0}}'"
 ssh "root@$TARGET_LAN_IP" "ubus -S call Logical.Interface.1 _set '{\"parameters\":{\"LowerLayers\":\"Device.IP.Interface.2.,Device.IP.Interface.7.\"}}'"
+ssh "root@$TARGET_LAN_IP" "ubus -S call ManagementServer.InternalSettings  _set '{\"parameters\":{\"ACSAddrFamily\":6}}'"
 ssh "root@$TARGET_LAN_IP" "ubus -S call DSLite.InterfaceSetting.1 _set '{\"parameters\":{\"EndpointAssignmentPrecedence\":\"Static\"}}'"
 ssh "root@$TARGET_LAN_IP" "\
 	ubus call DSLite.InterfaceSetting.1 _set \

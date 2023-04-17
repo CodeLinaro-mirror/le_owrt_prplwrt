@@ -2296,7 +2296,7 @@ SECTION "CDRouter TR-069 Add-On" {
 
     SECTION "Basic ACS Configuration" {
 
-        # testvar acsIp                            6.0.0.1
+        testvar acsIp                              3009::1
         # testvar acsPort                          80
         testvar acsDomain                          acs-download.qacafe.com
         # testvar acsTransport                     http
@@ -2304,7 +2304,7 @@ SECTION "CDRouter TR-069 Add-On" {
         # testvar acsDigestQopAuth                 yes
         # testvar acsInterface                     wan
         testvar acsDiscoveryUrl                    http://acs-download.qacafe.com:80/
-        # testvar acsWaitForInform                 120
+        testvar acsWaitForInform                 300
         # testvar acsSkipInitialInform             no
         # testvar acsCpeConnReqURL                 http://192.168.200.2:80/cwmp
         # testvar cwmpProtocolVersion              1.0
