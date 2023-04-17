@@ -4,67 +4,18 @@ variables:
 include:
   - local: .gitlab/build.yml
   - local: .gitlab/cdrouter.yml
-  - local: .gitlab/cdrouter/nec-wx3000hp.yml
   - local: .gitlab/cdrouter/glinet-b1300.yml
   - local: .gitlab/cdrouter/turris-omnia.yml
-  - local: .gitlab/coverity.yml
-  - local: .gitlab/docker.yml
-  - local: .gitlab/docker/builder/gitlab.yml
-  - local: .gitlab/docker/testbed/gitlab.yml
-  - local: .gitlab/docker/sdk/gitlab.yml
   - local: .gitlab/testbed.yml
-  - local: .gitlab/testbed/nec-wx3000hp.yml
   - local: .gitlab/testbed/glinet-b1300.yml
   - local: .gitlab/testbed/turris-omnia.yml
 
 stages:
-  - docker
-  - docker test
-  - docker deploy
   - build
-  - docker SDK
-  - docker SDK test
-  - docker SDK deploy
-  - run
   - cdrouter
-  - coverity
-
-build test intel_mips prpl webui:
-  extends: .build test config
 
 build test ipq40xx prpl webui:
   extends: .build test config
 
 build test mvebu prpl webui:
   extends: .build test config
-
-build test x86_64 prpl webui:
-  extends: .build test config
-  variables:
-    CI_BUILD_CONFIG: >
-      +DEVEL +BUILD_LOG +SDK +IB +IB_STANDALONE
-
-coverity scan ipq40xx prpl:
-  extends: .coverity scan config
-  variables:
-    CI_COVERITY_COMPILER_TEMPLATE_LIST: >
-      arm-openwrt-linux-gcc
-      arm-openwrt-linux-muslgnueabi-gcc
-
-run test NEC WX3000HP NAND:
-  needs:
-    - job: build test intel_mips prpl webui
-      optional: true
-  extends: .nec-wx3000hp testbed
-
-run test Gl.iNet B1300 initramfs:
-  needs:
-    - job: build test ipq40xx prpl webui
-      optional: true
-  extends: .glinet-b1300 testbed
-
-run test Turris Omnia initramfs:
-  needs:
-    - job: build test mvebu prpl webui
-      optional: true
-  extends: .turris-omnia testbed
