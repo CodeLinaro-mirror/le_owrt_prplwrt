@@ -2374,9 +2374,9 @@ SECTION "CDRouter TR-069 Add-On" {
 
             testvar_group cwmp_profile1 {
 
-                # testvar cwmpProfileName                  myVendorParameters
+                testvar cwmpProfileName                  FullDataModel
                 testvar cwmpProfilePath                  auto
-                # testvar cwmpProfileObject                InternetGatewayDevice:1
+                testvar cwmpProfileObject                Device:2
 
             }
 
