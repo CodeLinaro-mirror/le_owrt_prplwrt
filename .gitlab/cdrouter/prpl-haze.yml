@@ -28,6 +28,13 @@ CDRouter-Top-100+mDNS Haze PPPoE WAN initramfs:
       .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
       .gitlab/scripts/dut-init/cdrouter-dut-enable-pppoe.sh
 
+CDRouter-Wireless Haze initramfs:
+  <<: *prpl_haze
+  variables:
+    CDROUTER_TEST_CONFIG: wireless
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-configure-wireless.sh
+
 
 .prpl-haze-ipv6: &prpl_haze_ipv6
   <<: *prpl_haze
