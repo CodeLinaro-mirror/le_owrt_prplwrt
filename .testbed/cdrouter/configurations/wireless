@@ -287,7 +287,7 @@ SECTION "Base Configuration" {
 
         SECTION "Dynamic DNS" {
 
-              testvar supportsDynDns                   yes
+            # testvar supportsDynDns                   no
             # testvar dynDnsServerIp                   66.37.215.49
             # testvar dynDnsTransport                  http
               testvar dynDnsHostname                   cpe01.prplOS.prplfoundation.org
@@ -324,10 +324,10 @@ SECTION "Base Configuration" {
 
         SECTION "LAN Interface" {
 
-            # testvar lanInterface                     eth1
+            testvar lanInterface                       wifi0-acn
             # testvar lanMode                          DHCP
             # testvar lanClients                       1
-            # testvar lanSecurity                      NONE
+            testvar lanSecurity                        WPA
             # testvar lanIp                            192.168.1.1
             # testvar lanMask                          255.255.255.0
             # testvar lanDomainName                    qacafe.com
@@ -397,7 +397,7 @@ SECTION "Base Configuration" {
 
         SECTION "802.11 Wireless" {
 
-            # testvar lanSSID                          qa-net
+            testvar lanSSID                            prplOS
             # testvar lanChannel                       auto
             # testvar lan80211Phy                      auto
             # testvar lanBSSID                         auto
@@ -405,8 +405,8 @@ SECTION "Base Configuration" {
 
             SECTION "WPA Configuration Options" {
 
-                # testvar wpaMode                          auto
-                # testvar wpaKey                           qacafe123
+                testvar wpaMode                            WPA2-Personal
+                testvar wpaKey                             password
                 # testvar wpaSaePassword                   "sae secret"
                 # testvar wpaKeyMgmt                       PSK
                 # testvar wpaCipher                        auto
@@ -446,12 +446,12 @@ SECTION "Base Configuration" {
 
             SECTION "Expected Beacon Information" {
 
-                # testvar wifiBeaconWpaMode                none
+                testvar wifiBeaconWpaMode                  RSN
                 # testvar wifiBeaconWpaKeyMgmt             PSK
                 # testvar wifiBeaconWpaCipher              CCMP-128
                 # testvar wifiBeaconRsnCipher              CCMP-128
                 # testvar wifiBeaconWpaGroupCipher         CCMP-128
-                # testvar wifiBeaconPhy                    "n a ac"
+                testvar wifiBeaconPhy                      "b g n"
 
             }
 
@@ -2292,7 +2292,7 @@ SECTION "CDRouter Storage Add-On" {
 
 SECTION "CDRouter TR-069 Add-On" {
 
-    testvar supportsCWMP                     yes
+    testvar supportsCWMP                     no
 
     SECTION "Basic ACS Configuration" {
 
