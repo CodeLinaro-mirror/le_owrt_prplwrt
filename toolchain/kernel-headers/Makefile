@@ -156,6 +156,7 @@ define Host/Prepare
 	fi ; \
 	cp -r $(KERNEL_DIST_DIR)/vmlinux .; \
 	cp -r $(KERNEL_DIST_DIR)/unsigned_abl_userdebug.elf .; \
+	cp -r $(KERNEL_DIST_DIR)/unsigned_abl_user.elf .; \
 	cp -r $(KERNEL_DIST_DIR)/kernel-headers/include/linux linux-$(LINUX_VERSION)/include/; \
 	cp -r $(KERNEL_DIST_DIR)/kernel-headers/include/net linux-$(LINUX_VERSION)/include/; \
 	mkdir -p linux-$(LINUX_VERSION)/include/uapi; \
