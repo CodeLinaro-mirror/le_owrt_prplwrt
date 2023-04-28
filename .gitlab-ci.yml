@@ -28,7 +28,7 @@ stages:
 build test mvebu prpl webui:
   extends: .build test config
 
-build test x86_64 prpl webui:
+build test ipq40xx prpl webui:
   extends: .build test config
   variables:
     CI_BUILD_CONFIG: >
