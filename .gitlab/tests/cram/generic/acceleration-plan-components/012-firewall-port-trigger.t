@@ -11,7 +11,7 @@ Configure port trigger rule:
   > ubus-cli NAT.PortTrigger.test.AutoDisableDuration=7
   > ubus-cli NAT.PortTrigger.test.Rule+{Alias='test-rule'}
   > ubus-cli NAT.PortTrigger.test.Rule.test-rule.Port=8000
-  > ubus-cli NAT.PortTrigger.test.Rule.test-rule.Protocol="TCP"
+  > ubus-cli NAT.PortTrigger.test.Rule.test-rule.Protocol="UDP"
   > ubus-cli NAT.PortTrigger.test.Enable=1
   > " > /tmp/cram
   $ script --command "ssh -t root@$TARGET_LAN_IP '$(cat /tmp/cram)'" > /dev/null; sleep 1

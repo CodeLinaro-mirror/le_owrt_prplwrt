@@ -145,14 +145,8 @@ Check that IP.Interface provides expected output:
 Check that NAT.Interface provides expected output:
 
   $ R "ubus call NAT _get '{\"rel_path\":\"InterfaceSetting.\",\"depth\":100}' | jsonfilter -e @[*].Alias -e @[*].Interface"
-  lcm
   wan
-  lan
-  guest
-  Device.IP.Interface.5.
   Device.Logical.Interface.1.
-  Device.IP.Interface.3.
-  Device.IP.Interface.4.
 
 Check that NetDev.Link provides expected output:
 
@@ -184,7 +178,7 @@ Check that NetModel.Intf provides expected output:
   Disabled
   Disabled
   Disabled
-  Disabled
+  Enabled
   Enabled
   Enabled
   Enabled
@@ -227,6 +221,8 @@ Check that NetModel.Intf provides expected output:
   bridge-guest_bridge
   bridge-guest_wl0
   bridge-guest_wl0
+  bridge-guest_wl0
+  bridge-guest_wl1
   bridge-guest_wl1
   bridge-guest_wl1
   bridge-lan_bridge
@@ -238,6 +234,8 @@ Check that NetModel.Intf provides expected output:
   bridge-lcm_bridge
   bridge-wlan_port0
   bridge-wlan_port0
+  bridge-wlan_port0
+  bridge-wlan_port1
   bridge-wlan_port1
   bridge-wlan_port1
   cpe-IPv4Address-1
@@ -259,8 +257,8 @@ Check that NetModel.Intf provides expected output:
   cpe-IPv6Address.* (re)
   cpe-IPv6Address.* (re)
   cpe-IPv6Address.* (re)
-  cpe-IPv6Address.* (re)
-  cpe-IPv6Address.* (re)
+  cpe-IPv6Address-3
+  cpe-IPv6Address-4
   cpe-IPv6Prefix-1
   cpe-IPv6Prefix-1
   cpe-IPv6Prefix-1
@@ -310,12 +308,9 @@ Check that NetModel.Intf provides expected output:
   cpe-ReqOption-9
   cpe-ReqOption-9
   cpe-ReqOption-9
-  default_radio0
-  default_radio1
-  dslite netdev
+  dslite netdev enabled
   dslite-dslite0
   dslite0
-  ep5g0
   eth0
   eth0
   eth1
@@ -374,11 +369,11 @@ Check that NetModel.Intf provides expected output:
   false
   false
   false
-  false
   guest
   guest
-  guest_radio0
-  guest_radio1
+  ip enabled ipv4 ipv6 dhcpv6 iprouter dhcpv4 iprouter-up up ipv4-up 
+  ip enabled ipv4 ipv6 up ipv4-up ipv6-up
+  ip enabled ipv4 ipv6 up ipv4-up ipv6-up
   ip .* (re)
   ip .* (re)
   ip .* (re)
@@ -386,10 +381,7 @@ Check that NetModel.Intf provides expected output:
   ip .* (re)
   ip .* (re)
   ip .* (re)
-  ip .* (re)
-  ip .* (re)
-  ip .* (re)
-  ip .* (re)
+  ip up enabled ipv4 ipv6 ipv4-up ipv6-up
   ip-DSLite-entry
   ip-DSLite-entry
   ip-DSLite-exit
@@ -428,10 +420,11 @@ Check that NetModel.Intf provides expected output:
   logical up enabled
   logical up enabled
   logical up enabled
-  logical up enabled
+  logical up enabled logical4-up
   mgmt
   mgmt
-  netdev eth_link netdev-bound enabled ipv4 ipv6.* (re)
+  netdev eth_link netdev-bound enabled ipv4 ipv6 up netdev-up
+  permanent
   permanent
   permanent
   permanent
@@ -455,7 +448,7 @@ Check that NetModel.Intf provides expected output:
   radio-wifi1
   resolver
   resolver
-  ssid netdev
+  ssid netdev netdev-bound
   ssid netdev netdev-bound
   ssid netdev netdev-bound
   ssid netdev netdev-bound
@@ -464,12 +457,17 @@ Check that NetModel.Intf provides expected output:
   ssid-ep5g0
   ssid-vap2g0guest
   ssid-vap2g0guest
+  ssid-vap2g0guest
+  ssid-vap2g0priv
   ssid-vap2g0priv
   ssid-vap2g0priv
   ssid-vap5g0guest
   ssid-vap5g0guest
+  ssid-vap5g0guest
   ssid-vap5g0priv
   ssid-vap5g0priv
+  ssid-vap5g0priv
+  true
   true
   true
   true
@@ -496,7 +494,12 @@ Check that NetModel.Intf provides expected output:
   wan
   wlan0
   wlan0
+  wlan0
+  wlan0.1
   wlan0.1
   wlan1
   wlan1
   wlan1.1
+  wlan1.1
+  wlan1.2
+  wlan1.2

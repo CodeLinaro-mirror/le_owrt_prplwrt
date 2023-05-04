@@ -71,6 +71,7 @@ Check that ubus has expected datamodels available:
   Device.IP
   Device.IP.Diagnostics
   Device.InterfaceStack
+  Device.LANConfigSecurity
   Device.LocalAgent
   Device.Logical
   Device.MQTT
@@ -95,6 +96,7 @@ Check that ubus has expected datamodels available:
   Device.Users
   Device.WiFi
   Device.WiFi.DataElements
+  Device.XPON
   Device.X_PRPL-COM_MultiSettings
   Device.X_PRPL-COM_PersistentConfiguration
   Device.X_PRPL-COM_WANManager
@@ -195,10 +197,11 @@ Check that ubus has expected datamodels available:
   Routing.RIP.InterfaceSetting
   Routing.RouteInformation
   Routing.RouteInformation.InterfaceSetting
-  Routing.RouteInformation.InterfaceSetting.X_PRPL-COM_Option
+  Routing.RouteInformation.InterfaceSetting.Option
   Routing.Router
   Routing.Router.IPv6Forwarding
   SSH
+  SSH.AuthorizedKey
   SSH.Server
   SoftwareModules
   SoftwareModules.DeploymentUnit

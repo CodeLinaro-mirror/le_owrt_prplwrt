@@ -7,6 +7,7 @@ Add testing SSH server instance on LAN interface and port 1922:
   $ printf "\
   > ubus-cli SSH.Server.+{Alias='ci-testing',Enable=1,Port=1922,AllowPasswordLogin='False',AllowRootLogin='False',AllowRootPasswordLogin='False'}
   > ubus-cli SSH.Server.ci-testing.Interface=Device.IP.Interface.3.
+  > ubus-cli SSH.Server.ci-testing.IPv4AllowedSourcePrefix="10.0.0.0/24"
   > " > /tmp/cram
   $ script --command "ssh -t root@$TARGET_LAN_IP '$(cat /tmp/cram)'" > /dev/null; sleep 5
 
@@ -32,7 +33,7 @@ Enable password login:
 Check datamodel:
 
   $ R "ubus call SSH.Server.3 _get | jsonfilter -e @[*].Status -e @[*].AllowPasswordLogin -e @[*].AllowRootLogin" | sort
-  Running
+  Enabled
   true
   true
 

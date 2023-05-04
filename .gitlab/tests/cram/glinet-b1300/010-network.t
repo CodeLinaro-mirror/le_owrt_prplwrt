@@ -5,7 +5,7 @@ Create R alias:
 Check correct routing table:
 
   $ R ip route
-  default via 10.0.0.1 dev eth1
+  default via 10.0.0.1 dev eth1 
   10.0.0.0/24 dev eth1 proto kernel scope link src 10.0.0.2 
   192.168.1.0/24 dev br-lan proto kernel scope link src 192.168.1.1 
   192.168.2.0/24 dev br-guest proto kernel scope link src 192.168.2.1 linkdown 

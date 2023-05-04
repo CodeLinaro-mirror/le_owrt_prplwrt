@@ -7,12 +7,14 @@ Check that we've expected datamodel:
   $ R "ubus list | grep UserInterface. | sort"
   UserInterface.HTTPAccess
   UserInterface.HTTPAccess.1
+  UserInterface.HTTPAccess.1.Session
   UserInterface.HTTPAccess.1.X_PRPL-COM_HTTPConfig
   UserInterface.HTTPAccess.2
+  UserInterface.HTTPAccess.2.Session
   UserInterface.HTTPAccess.2.X_PRPL-COM_HTTPConfig
 
   $ R "ubus call UserInterface.HTTPAccess _get | jsonfilter -e @[*].Port -e @[*].Status -e @[*].AccessType -e @[*].Alias | sort"
-  8080
+  80
   8090
   Down
   LocalAccess
