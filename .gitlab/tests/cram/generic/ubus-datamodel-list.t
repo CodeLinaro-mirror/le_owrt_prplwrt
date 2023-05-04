@@ -195,7 +195,7 @@ Check that ubus has expected datamodels available:
   Routing.RIP.InterfaceSetting
   Routing.RouteInformation
   Routing.RouteInformation.InterfaceSetting
-  Routing.RouteInformation.InterfaceSetting.X_PRPL-COM_Option
+  Routing.RouteInformation.InterfaceSetting.Option
   Routing.Router
   Routing.Router.IPv6Forwarding
   SSH

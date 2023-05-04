@@ -12,7 +12,7 @@ Check that we've expected datamodel:
   UserInterface.HTTPAccess.2.X_PRPL-COM_HTTPConfig
 
   $ R "ubus call UserInterface.HTTPAccess _get | jsonfilter -e @[*].Port -e @[*].Status -e @[*].AccessType -e @[*].Alias | sort"
-  8080
+  80
   8090
   Down
   LocalAccess
