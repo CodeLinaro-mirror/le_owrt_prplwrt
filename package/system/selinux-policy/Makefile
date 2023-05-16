@@ -39,7 +39,10 @@ define Build/Configure
 	mkdir -p $(PKG_BUILD_DIR)/src/qti
 	$(CP) $(LOCAL_SRC)/cil/file/execfile/*.cil $(PKG_BUILD_DIR)/src/
 	$(CP) $(LOCAL_SRC)/cil/dev/nodedev/*.cil   $(PKG_BUILD_DIR)/src/
+ifeq ($(USER_VARIANT),0)
 	$(CP) $(LOCAL_SRC)/cil/file/execfile/test/*.cil $(PKG_BUILD_DIR)/src/
+	$(CP) $(LOCAL_SRC)/cil/file/execfile/user_debug/userdebug.cil $(PKG_BUILD_DIR)/src/
+endif
 endef
 
 define Build/Compile
