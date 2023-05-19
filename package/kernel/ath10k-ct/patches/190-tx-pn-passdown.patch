@@ -1,0 +1,54 @@
+From ff38499044fe7f8078128936937db697f4a2a3ac Mon Sep 17 00:00:00 2001
+From: Tucker Polomik <t.polomik@cablelabs.com>
+Date: Fri, 19 May 2023 11:35:02 -0600
+Subject: [PATCH] ath10k-ct: allow for setting key sequence
+
+Signed-off-by: Tucker Polomik <t.polomik@cablelabs.com>
+---
+ ath10k-4.19/mac.c | 1 +
+ ath10k-4.19/wmi.c | 4 ++++
+ ath10k-4.19/wmi.h | 1 +
+ 3 files changed, 6 insertions(+)
+
+diff --git a/ath10k-4.19/mac.c b/ath10k-4.19/mac.c
+index 425ee82..7e1c77b 100644
+--- a/ath10k-4.19/mac.c
++++ b/ath10k-4.19/mac.c
+@@ -349,6 +349,7 @@ static int ath10k_send_key(struct ath10k_vif *arvif,
+ 		.key_data = key->key,
+ 		.key_flags = flags,
+ 		.macaddr = macaddr,
++		.pn = atomic64_read(&key->tx_pn),
+ 	};
+ 	int ret1, ret2;
+ 
+diff --git a/ath10k-4.19/wmi.c b/ath10k-4.19/wmi.c
+index c953c78..133694e 100644
+--- a/ath10k-4.19/wmi.c
++++ b/ath10k-4.19/wmi.c
+@@ -7949,6 +7949,10 @@ ath10k_wmi_op_gen_vdev_install_key(struct ath10k *ar,
+ 	cmd->key_txmic_len = __cpu_to_le32(arg->key_txmic_len);
+ 	cmd->key_rxmic_len = __cpu_to_le32(arg->key_rxmic_len);
+ 
++	if (arg->pn) {
++		cmd->key_rsc_counter.key_seq_counter_l = __cpu_to_le32(arg->pn);
++		cmd->key_rsc_counter.key_seq_counter_h = __cpu_to_le32(0x80000000 ^ ((arg->pn >> 32) & 0x0000FFFF));
++	}
+ 	if (arg->macaddr)
+ 		ether_addr_copy(cmd->peer_macaddr.addr, arg->macaddr);
+ 	if (arg->key_data)
+diff --git a/ath10k-4.19/wmi.h b/ath10k-4.19/wmi.h
+index b4e2aef..2b56f57 100644
+--- a/ath10k-4.19/wmi.h
++++ b/ath10k-4.19/wmi.h
+@@ -5227,6 +5227,7 @@ struct wmi_vdev_install_key_arg {
+ 	u32 key_flags;
+ 	u32 key_cipher;
+ 	u32 key_len;
++	u64 pn;
+ 	u32 key_txmic_len;
+ 	u32 key_rxmic_len;
+ 	const void *key_data;
+-- 
+2.40.0
+
