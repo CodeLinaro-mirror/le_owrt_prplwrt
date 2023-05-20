@@ -23,7 +23,7 @@ stages:
     - cd $CI_SDK_TOPDIR
     - mkdir logs
 
-    - sed -i 's;https://git.openwrt.org;https://gitlab.com/openwrt;' feeds.conf.default
+    - sed -i -E 's;git.openwrt.org/(feed|project);github.com/openwrt;' feeds.conf.default
     - echo "src-include defaults feeds.conf.default" > feeds.conf
     - echo "src-link ci $CI_PROJECT_DIR" >> feeds.conf
 
