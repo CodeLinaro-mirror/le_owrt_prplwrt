@@ -5,6 +5,10 @@ feeds:
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-prpl.git
     tracking_branch: prplos-next
     revision: 2fee252c2cca8435af6ac85c99de8e42320302a0
+  - name: feed_usp
+    uri: https://gitlab.com/soft.at.home/buildsystems/openwrt/feed_usp.git
+    tracking_branch: main
+    revision: 6bb336f06e61badbf28c84b9b2b00b9921c6cab2
 
 additional_packages:
   - feed: packages
@@ -139,6 +143,9 @@ packages:
   - tr181-xpon
   - umdns
   - wan-manager
+  - uspagent
+  - tr181-localagent
+  - tr181-mqtt
 
 diffconfig: |
           CONFIG_PACKAGE_rpcd-mod-luci=y
