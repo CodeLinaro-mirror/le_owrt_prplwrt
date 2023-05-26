@@ -1,4 +1,4 @@
 src-git luci https://git.openwrt.org/project/luci.git^712bc8e52d73720dc42577c08eb80ce7b1548b1e
 src-git routing https://git.openwrt.org/feed/routing.git^a30ac2558ead4da96560d97168f0a9fa585ca627
 src-git telephony https://git.openwrt.org/feed/telephony.git^f2dc3c087823eb05374a96257c2d1bb99424d5dc
-src-git packages https://git.openwrt.org/feed/packages.git^f08dae84f83e59af217468396ec0ccd9cbaec2e2
+src-git packages https://gitlab.com/essensium-mind/prplos_package_feed_patched.git^b639d7335ff6ef651ac391c3edae284000d015dc
