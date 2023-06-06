@@ -159,7 +159,7 @@ diffconfig: |
           CONFIG_SAH_SERVICES_TIMINGILA_ADAPTER_CONTAINER="/usr/lib/timingila-cthulhu/timingila-cthulhu.so"
           CONFIG_SAH_LIB_CTHULHU-LXC_LXC_TOOLS_PREFIX="/usr/bin/"
           # CONFIG_SAH_LIB_CTHULHU-LXC_PRPL_OS_RPATH is not set
-          CONFIG_PACKAGE_prplmesh-unit-tests=m
+          # CONFIG_PACKAGE_prplmesh-unit-tests is not set
           # kernel options for lcm
           CONFIG_KERNEL_ARM_PMU=y
           CONFIG_KERNEL_BLK_CGROUP=y
