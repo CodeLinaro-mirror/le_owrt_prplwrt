@@ -16,6 +16,7 @@ additional_packages:
       - lighttpd-mod-auth
       - lighttpd-mod-authn_file
       - lighttpd-mod-fastcgi
+      - libpcre
       - syslog-ng
 
 packages:
