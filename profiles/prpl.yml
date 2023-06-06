@@ -4,7 +4,7 @@ feeds:
   - name: feed_prpl
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-prpl.git
     tracking_branch: prplos-next
-    revision: 5ecd617d57af73f5d1d58878af0e156753911ab4
+    revision: 5340dd0ebcf3b4ede03b779237bb5741cb7c1470
 
 additional_packages:
   - feed: packages
@@ -74,6 +74,7 @@ packages:
   - lxc-user-nic
   - lxc-usernsexec
   - lxc-wait
+  - miniupnpd-iptables
   - mod-amxb-ubus
   - mod-autosensing
   - mod-ba-cli
