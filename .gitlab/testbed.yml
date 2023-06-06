@@ -1,6 +1,6 @@
 .testbed:
   stage: run
-  image: "$CI_REGISTRY_IMAGE/$CI_DESIGNATED_BRANCH/testbed:latest"
+  image: "$CI_REGISTRY_IMAGE/testbed:$CI_COMMIT_REF_SLUG"
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
       when: never

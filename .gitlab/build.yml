@@ -1,6 +1,6 @@
 .build test config:
   stage: build
-  image: "$CI_REGISTRY_IMAGE/$CI_DESIGNATED_BRANCH/builder:latest"
+  image: "$CI_REGISTRY_IMAGE/builder:$CI_COMMIT_REF_SLUG"
   tags:
     - firmware-builder
   variables:
