@@ -25,6 +25,9 @@ stages:
   - cdrouter
   - coverity
 
+build test ipq807x prpl webui:
+  extends: .build test config
+
 build test mvebu prpl webui:
   extends: .build test config
 
