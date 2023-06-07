@@ -1,0 +1,7 @@
+---
+profiles:
+  - prpl_haze
+  - dynalink_dl-wrx36
+target: ipq807x
+subtarget: generic
+description: Build image for prpl Foundation's Haze and Dynalink DL-WRX36
