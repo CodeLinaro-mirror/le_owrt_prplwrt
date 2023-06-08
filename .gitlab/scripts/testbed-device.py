@@ -199,7 +199,7 @@ class TestbedDevice:
         )
         time.sleep(15)
 
-        self.ubus_tr181.get("Ethernet.VLANTermination")
+        self.shell.run("ubus-cli Ethernet.VLANTermination.?")
         self.shell.run("(cat /proc/vlan101 || cat /proc/net/vlan/vlan101) 2> /dev/null")
         self.shell.run("(cat /proc/vlan201 || cat /proc/net/vlan/vlan201) 2> /dev/null")
         self.shell.run("ip address show vlan101")
