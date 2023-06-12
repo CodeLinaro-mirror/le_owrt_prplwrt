@@ -102,7 +102,7 @@ class TestbedDevice:
         self.shell = OpenWrtConsoleShell(self.args, self.shell_driver)
 
     def init_swconfig_glinet(self):
-        self.shell.run("swconfig dev switch0 vlan 1 set vid 201")
+        self.shell.run("swconfig dev switch0 vlan 1 set vid 100")
         self.shell.run("swconfig dev switch0 vlan 1 set ports '0t 3t 4t'")
 
         self.shell.run("swconfig dev switch0 vlan 2 set vid 101")
@@ -119,7 +119,7 @@ class TestbedDevice:
           uci set network.@switch_vlan[-1].vlan='2' &&
           uci set network.@switch_vlan[-1].vid='101' &&
           uci set network.@switch_vlan[-1].ports='0t 5t' &&
-          uci set network.@switch_vlan[0].vid='201' &&
+          uci set network.@switch_vlan[0].vid='100' &&
           uci set network.@switch_vlan[0].ports='3t 4t 0t' &&
           uci commit network
             """
@@ -131,8 +131,8 @@ class TestbedDevice:
 
     def _init_wan_vlan(self):
         self.shell.run("ubus -t 60 wait_for X_PRPL-COM_WANManager.WAN")
-        self.shell.run("ubus-cli X_PRPL-COM_WANManager.WAN.2.Intf.1.VlanID=101")
-        self.shell.run("ubus call X_PRPL-COM_WANManager setWANMode '{ \"WANMode\": \"demo_vlanmode\" }'")
+        self.shell.run("ubus-cli X_PRPL-COM_WANManager.WAN.2.Intf.1.VlanID=100")
+        self.shell.run("ubus call X_PRPL-COM_WANManager setWANMode '{ \"WANMode\": \"Ethernet_DHCP\" }'")
 
     def _init_lan_vlan(self):
         bridge_lan_ports = {
@@ -146,9 +146,9 @@ class TestbedDevice:
         """
 
         self.shell.run("ubus-cli Bridging.Bridge.1.Standard=\"802.1Q-2005\"")
-        self.shell.run("ubus-cli Bridging.Bridge.1.VLAN.+{Alias='vlan201', Name='vlan201', VLANID=201, Enable=1}")
+        self.shell.run("ubus-cli Bridging.Bridge.1.VLAN.+{Alias='vlan100', Name='vlan100', VLANID=100, Enable=1}")
         self.shell.run("ubus-cli Bridging.Bridge.1.Port.2.AcceptableFrameTypes=\"AdmitOnlyVLANTagged\"")
-        self.shell.run("ubus-cli Bridging.Bridge.1.Port.2.PVID=\"201\"")
+        self.shell.run("ubus-cli Bridging.Bridge.1.Port.2.PVID=\"100\"")
         self.shell.run("ubus-cli Bridging.Bridge.1.Port.2.Type=\"CustomerVLANPort\"")
         self.shell.run("ubus-cli Bridging.Bridge.1.Port.2.Enable=1")
         
