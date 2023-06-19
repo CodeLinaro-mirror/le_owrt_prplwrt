@@ -6,9 +6,9 @@ feeds:
     tracking_branch: prplwrt-19.07
     revision: 550cbade72b4654e7fe327f56325a7f89e9f8b9c
   - name: feed_usp
-    uri: https://gitlab.com/soft.at.home/buildsystems/openwrt/feed_usp.git
-    tracking_branch: main
-    revision: 2a4ef30d0b2ca0aa81b5da78de2c7e3a2b8bd321
+    uri: https://gitlab.com/essensium-mind/prplmesh-feed-usp.git
+    tracking_branch: vegas-06.23
+    revision: e00788aad3738bd284fa6513dbc13410ae0ea6c5
 
 additional_packages:
   - feed: packages
