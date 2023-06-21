@@ -9,6 +9,8 @@ PKG_SSP ?= 1
 PKG_FORTIFY_SOURCE ?= 1
 PKG_RELRO ?= 1
 
+TARGET_CFLAGS += -I$(STAGING_DIR)/usr/include/
+
 ifdef CONFIG_GCC_USE_VERSION_13
   TARGET_CFLAGS += -fcommon
 endif
