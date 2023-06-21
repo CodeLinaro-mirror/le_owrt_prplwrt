@@ -4,6 +4,7 @@ variables:
 include:
   - local: .gitlab/build.yml
   - local: .gitlab/cdrouter.yml
+  - local: .gitlab/cdrouter/prpl-haze.yml
   - local: .gitlab/cdrouter/turris-omnia.yml
   - local: .gitlab/coverity.yml
   - local: .gitlab/docker.yml
@@ -35,8 +36,17 @@ build test x86_64 prpl webui:
     CI_BUILD_CONFIG: >
       +DEVEL +BUILD_LOG +SDK +IB +IB_STANDALONE
 
+build test ipq807x prpl webui:
+  extends: .build test config
+
 run test Turris Omnia initramfs:
   needs:
     - job: build test mvebu prpl webui
       optional: true
   extends: .turris-omnia testbed
+
+run test Haze initramfs:
+  needs:
+    - job: build test ipq807x prpl webui
+      optional: true
+  extends: .prpl-haze testbed
