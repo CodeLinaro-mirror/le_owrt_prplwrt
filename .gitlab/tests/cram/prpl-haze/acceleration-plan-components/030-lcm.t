@@ -32,7 +32,7 @@ Check that Sandbox was configured properly:
 Install testing prplOS container v1:
 
   $ cat > /tmp/run-container <<EOF
-  > ubus-cli "SoftwareModules.InstallDU(URL=\"docker://registry.gitlab.com/prpl-foundation/prplos/prplos/prplos-testing-container-mvebu-cortexa9:v1\", UUID=\"prplos-testing\", ExecutionEnvRef=\"generic\")"
+  > ubus-cli "SoftwareModules.InstallDU(URL=\"docker://registry.gitlab.com/prpl-foundation/prplos/prplos/prplos-testing-container-ipq807x-generic:v1\", UUID=\"prplos-testing\", ExecutionEnvRef=\"generic\")"
   > EOF
   $ script --command "ssh -t root@$TARGET_LAN_IP '$(cat /tmp/run-container)'" > /dev/null
 
@@ -44,7 +44,7 @@ Check that prplOS container v1 is running:
   Running
   cpe-prplos-testing
   prplos-testing
-  prplos/prplos/prplos-testing-container-mvebu-cortexa9
+  prplos/prplos/prplos-testing-container-ipq807x-generic
   v1
 
   $ container_ip=$(R "ubus call DHCPv4.Server.Pool.1.Client.1.IPv4Address.1 _get | jsonfilter -e @[*].IPAddress")
@@ -54,7 +54,7 @@ Check that prplOS container v1 is running:
 Update to prplOS container v2:
 
   $ cat > /tmp/run-container <<EOF
-  > ubus-cli "SoftwareModules.DeploymentUnit.cpe-prplos-testing.Update(URL=\"docker://registry.gitlab.com/prpl-foundation/prplos/prplos/prplos-testing-container-mvebu-cortexa9:v2\")"
+  > ubus-cli "SoftwareModules.DeploymentUnit.cpe-prplos-testing.Update(URL=\"docker://registry.gitlab.com/prpl-foundation/prplos/prplos/prplos-testing-container-ipq807x-generic:v2\")"
   > EOF
   $ script --command "ssh -t root@$TARGET_LAN_IP '$(cat /tmp/run-container)'" > /dev/null
 
@@ -66,7 +66,7 @@ Check that prplOS container v2 is running:
   Running
   cpe-prplos-testing
   prplos-testing
-  prplos/prplos/prplos-testing-container-mvebu-cortexa9
+  prplos/prplos/prplos-testing-container-ipq807x-generic
   v2
 
   $ container_ip=$(R "ubus call DHCPv4.Server.Pool.1.Client.1.IPv4Address.1 _get | jsonfilter -e @[*].IPAddress")
