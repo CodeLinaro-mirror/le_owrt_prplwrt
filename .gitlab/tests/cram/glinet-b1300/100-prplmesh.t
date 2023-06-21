@@ -9,7 +9,7 @@ Check that wireless has desired configuration and state after boot:
   Down
   Down
   Down
-  Error
+  Down
   PWHM_SSID5
   prplOS
   prplOS
@@ -71,7 +71,7 @@ Check that hostapd is operating as expected:
 Check that wireless is operating:
 
   $ R "ubus -S call WiFi.SSID _get | jsonfilter -e @[*].SSID -e @[*].Status | sort"
-  Error
+  Down
   PWHM_SSID5
   Up
   Up
@@ -87,6 +87,7 @@ Check that wireless is operating:
   Interface wlan0.1
   Interface wlan1
   Interface wlan1.1
+  Interface wlan1.2
   ssid prplOS
   ssid prplOS
   ssid prplOS-guest
