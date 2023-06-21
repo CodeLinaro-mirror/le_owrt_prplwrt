@@ -23,6 +23,7 @@ Check that ubus has all expected services available:
   uci
   umdns
   wpa_supplicant
+  wpa_supplicant.wlan0.2
 
 Check that we've correct system info:
 

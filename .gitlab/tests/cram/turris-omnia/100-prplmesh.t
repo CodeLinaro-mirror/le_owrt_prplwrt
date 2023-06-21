@@ -9,7 +9,7 @@ Check that wireless has desired configuration and state after boot:
   Down
   Down
   Down
-  Error
+  Down
   PWHM_SSID5
   prplOS
   prplOS
@@ -42,12 +42,12 @@ Start wireless:
   $ R "ubus -S call WiFi.AccessPoint.2 _set '{\"parameters\":{\"Enable\":1}}'"
   {"WiFi.AccessPoint.2.":{"Enable":true}}
 
-  $ R "ubus -t 30 wait_for hostapd.wlan1.1"
+  $ R "ubus -t 30 wait_for hostapd.wlan0"
 
   $ R "ubus -S call WiFi.AccessPoint.3 _set '{\"parameters\":{\"Enable\":1}}'"
   {"WiFi.AccessPoint.3.":{"Enable":true}}
 
-  $ R "ubus -t 30 wait_for hostapd.wlan0"
+  $ R "ubus -t 30 wait_for hostapd.wlan1.1"
 
   $ R "ubus -S call WiFi.AccessPoint.4 _set '{\"parameters\":{\"Enable\":1}}'"
   {"WiFi.AccessPoint.4.":{"Enable":true}}
@@ -73,7 +73,7 @@ Check that hostapd is operating as expected:
 Check that wireless is operating:
 
   $ R "ubus -S call WiFi.SSID _get | jsonfilter -e @[*].SSID -e @[*].Status | sort"
-  Error
+  Down
   PWHM_SSID5
   Up
   Up
@@ -87,6 +87,7 @@ Check that wireless is operating:
   $ R "iw dev | grep -e Interface -e ssid | tr -d '\t' | sort"
   Interface wlan0
   Interface wlan0.1
+  Interface wlan0.2
   Interface wlan1
   Interface wlan1.1
   ssid prplOS
