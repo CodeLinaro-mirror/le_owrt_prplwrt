@@ -89,6 +89,7 @@ Check that wireless is operating:
   Interface wlan0.1
   Interface wlan1
   Interface wlan1.1
+  Interface wlan2
   ssid prplOS
   ssid prplOS
   ssid prplOS-guest
