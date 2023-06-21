@@ -11,6 +11,7 @@ Check that ubus has all expected services available:
   dnsmasq.dns
   hostapd
   hotplug.dhcp
+  hotplug.firmware
   hotplug.ieee80211
   hotplug.iface
   hotplug.neigh
@@ -37,6 +38,6 @@ Check that ubus has all expected services available:
 Check that we've correct system info:
 
   $ R "ubus call system board | jsonfilter -e @.system -e @.model -e @.board_name"
-  ARMv7 Processor rev 1 (v7l)
-  Turris Omnia
-  cznic,turris-omnia
+  ARMv8 Processor rev 4
+  prpl Foundation Haze
+  prpl,haze
