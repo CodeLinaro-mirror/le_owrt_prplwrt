@@ -95,6 +95,12 @@ Check that wireless is operating:
   ssid prplOS-guest
   ssid prplOS-guest
 
+Restart prplmesh:
+
+  $ R logger -t cram "Restart prplmesh"
+  $ R "/etc/init.d/prplmesh gateway_mode" > /dev/null 2>&1
+  $ sleep 30
+
 Check that prplmesh processes are running:
 
   $ R logger -t cram "Check that prplmesh processes are running"
