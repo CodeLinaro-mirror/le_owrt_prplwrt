@@ -78,7 +78,7 @@ feeds:
 additional_packages:
   - feed: packages
     packages:
-      - miniupnpd-iptables
+      - miniupnpd2-iptables
 
 packages:
   - kmod-mxl_eth_drv
