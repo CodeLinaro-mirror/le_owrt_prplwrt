@@ -2,6 +2,28 @@ Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
+Check that ubus has all expected services available:
+
+  $ R "ubus list | grep -v '^[[:upper:]]'"
+  dhcp
+  dnsmasq
+  hostapd
+  network
+  network.device
+  network.interface
+  network.interface.guest
+  network.interface.lan
+  network.interface.loopback
+  network.interface.wan
+  network.interface.wan6
+  network.wireless
+  service
+  session
+  system
+  uci
+  umdns
+  wpa_supplicant
+
 Check that we've correct system info:
 
   $ R "ubus call system board | jsonfilter -e @.system -e @.model -e @.board_name"
@@ -15,14 +37,14 @@ Check that we've correct system info:
 Check that we've correct bridge port aliases:
 
   $ R "ubus call Bridging _get \"{'rel_path':'Bridge.*.Port.*.Alias'}\" | jsonfilter -e @[*].Alias | sort"
+  default_radio0
+  default_radio1
   eth_port0
   guest_bridge
-  guest_wl0
-  guest_wl1
+  guest_radio0
+  guest_radio1
   lan_bridge
   lcm_bridge
-  wlan_port0
-  wlan_port1
 
 Check that we've correct ethernet interface details:
 
@@ -143,7 +165,10 @@ Check that NetDev.Link provides expected output:
   teql0
   veth_gene_0
   wlan0
+  wlan0.1
   wlan1
+  wlan1.1
+  wlan1.2
 
 Check that NetModel.Intf provides expected output:
 
@@ -188,6 +213,12 @@ Check that NetModel.Intf provides expected output:
   br-lcm
   bridge-ETH1
   bridge-ETH1
+  bridge-default_radio0
+  bridge-default_radio0
+  bridge-default_radio0
+  bridge-default_radio1
+  bridge-default_radio1
+  bridge-default_radio1
   bridge-eth_port0
   bridge-eth_port0
   bridge-eth_port0
@@ -195,10 +226,12 @@ Check that NetModel.Intf provides expected output:
   bridge-guest_bridge
   bridge-guest_bridge
   bridge-guest_bridge
-  bridge-guest_wl0
-  bridge-guest_wl0
-  bridge-guest_wl1
-  bridge-guest_wl1
+  bridge-guest_radio0
+  bridge-guest_radio0
+  bridge-guest_radio0
+  bridge-guest_radio1
+  bridge-guest_radio1
+  bridge-guest_radio1
   bridge-lan_bridge
   bridge-lan_bridge
   bridge-lan_bridge
@@ -206,10 +239,6 @@ Check that NetModel.Intf provides expected output:
   bridge-lan_bridge
   bridge-lcm_bridge
   bridge-lcm_bridge
-  bridge-wlan_port0
-  bridge-wlan_port0
-  bridge-wlan_port1
-  bridge-wlan_port1
   cpe-IPv4Address-1
   cpe-IPv4Address-1
   cpe-IPv4Address-1
@@ -280,8 +309,6 @@ Check that NetModel.Intf provides expected output:
   cpe-ReqOption-9
   cpe-ReqOption-9
   cpe-ReqOption-9
-  default_radio0
-  default_radio1
   dslite netdev
   dslite-dslite0
   dslite0
@@ -337,10 +364,15 @@ Check that NetModel.Intf provides expected output:
   false
   false
   false
+  false
+  false
+  false
+  false
+  false
+  false
+  false
   guest
   guest
-  guest_radio0
-  guest_radio1
   ip .* (re)
   ip .* (re)
   ip .* (re)
@@ -406,8 +438,36 @@ Check that NetModel.Intf provides expected output:
   ppp-wan
   ppp-wan
   pppoe-wan
+  radio enabled
+  radio enabled
+  radio-radio0
+  radio-radio0
+  radio-radio0
+  radio-radio1
+  radio-radio1
+  radio-radio1
+  radio-radio1
   resolver
   resolver
+  ssid netdev netdev-bound
+  ssid netdev netdev-bound
+  ssid netdev netdev-bound
+  ssid netdev netdev-bound
+  ssid netdev netdev-bound
+  ssid-DEFAULT_RADIO0
+  ssid-DEFAULT_RADIO0
+  ssid-DEFAULT_RADIO0
+  ssid-DEFAULT_RADIO1
+  ssid-DEFAULT_RADIO1
+  ssid-DEFAULT_RADIO1
+  ssid-GUEST_RADIO0
+  ssid-GUEST_RADIO0
+  ssid-GUEST_RADIO0
+  ssid-GUEST_RADIO1
+  ssid-GUEST_RADIO1
+  ssid-GUEST_RADIO1
+  ssid-ep5g0
+  ssid-ep5g0
   true
   true
   true
@@ -432,3 +492,14 @@ Check that NetModel.Intf provides expected output:
   voip
   wan
   wan
+  wlan0
+  wlan0
+  wlan0
+  wlan0.1
+  wlan0.1
+  wlan1
+  wlan1
+  wlan1.1
+  wlan1.1
+  wlan1.2
+  wlan1.2

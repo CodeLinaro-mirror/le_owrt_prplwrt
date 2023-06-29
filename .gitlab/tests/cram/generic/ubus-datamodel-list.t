@@ -9,7 +9,7 @@ Create R alias:
 
 Check that ubus has expected datamodels available:
 
-  $ R "ubus list | grep '[[:upper:]]' | grep -v '\.[[:digit:]]'"
+  $ R "ubus list | grep '[[:upper:]]' | grep -v -e '\.[[:digit:]]' -e ^Agent"
   ACLManager
   ACLManager.Role
   Bridging
@@ -204,6 +204,13 @@ Check that ubus has expected datamodels available:
   Users.Role
   Users.SupportedShell
   Users.User
+  WiFi
+  WiFi.AccessPoint
+  WiFi.AutoCommitMgr
+  WiFi.EndPoint
+  WiFi.Radio
+  WiFi.SSID
+  WiFi.wps_DefParam
   XPON
   XPON.ONU
   X_PRPL-COM_MultiSettings

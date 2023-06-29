@@ -2,33 +2,99 @@ Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
-Start wireless:
+Check that wireless has desired configuration and state after boot:
 
-  $ R logger -t cram "Start wireless"
-  $ R "uci set wireless.radio0.disabled='0'; uci set wireless.radio1.disabled='0'; uci commit; wifi up"
-  $ sleep 30
+  $ R "ubus -S call WiFi.SSID _get | jsonfilter -e @[*].SSID -e @[*].Status | sort"
+  Down
+  Down
+  Down
+  Down
+  Down
+  PWHM_SSID5
+  prplOS
+  prplOS
+  prplOS-guest
+  prplOS-guest
 
-Check that hostapd is operating after reboot:
+  $ R "pgrep -f 'hostapd -ddt'"
+  [1]
 
-  $ R logger -t cram "Check that hostapd is operating after reboot"
-  $ R "ps axw" | sed -nE 's/.*(\/usr\/sbin\/hostapd.*)/\1/p' | LC_ALL=C sort
-  /usr/sbin/hostapd -s -P /var/run/wifi-phy0.pid -B /var/run/hostapd-phy0.conf
-  /usr/sbin/hostapd -s -P /var/run/wifi-phy1.pid -B /var/run/hostapd-phy1.conf
+  $ R "ubus list | grep hostapd."
+  [1]
 
 Restart prplmesh:
 
   $ R logger -t cram "Restart prplmesh"
-  $ R "/etc/init.d/prplmesh gateway_mode && sleep 5" > /dev/null 2>&1
-  $ sleep 60
+  $ R "/etc/init.d/prplmesh gateway_mode" > /dev/null 2>&1
 
-Check VAP setup after restart:
+  $ sleep 30
 
-  $ R logger -t cram "Check VAP setup after restart"
-  $ R "iwinfo | grep ESSID"
-  wlan0     ESSID: "prplOS"
-  wlan0-1   ESSID: "prplOS-guest"
-  wlan1     ESSID: "prplOS"
-  wlan1-1   ESSID: "prplOS-guest"
+Start wireless:
+
+  $ R logger -t cram "Start wireless"
+
+  $ R "ubus -S call WiFi.AccessPoint.1 _set '{\"parameters\":{\"Enable\":1}}'"
+  {"WiFi.AccessPoint.1.":{"Enable":true}}
+
+  $ R "i=15 ; while [ \$i -gt 1 ]; do ubus -S call WiFi.SSID.1 _get '{\"rel_path\":\"Status\"}'| grep -q Up && echo 'SSID.1 Up' && i=0 ; i=\$(( i-1 )); sleep 1 ; done"
+  SSID.1 Up
+
+  $ R "ubus -S call WiFi.AccessPoint.2 _set '{\"parameters\":{\"Enable\":1}}'"
+  {"WiFi.AccessPoint.2.":{"Enable":true}}
+
+  $ R "i=15 ; while [ \$i -gt 1 ]; do ubus -S call WiFi.SSID.2 _get '{\"rel_path\":\"Status\"}'| grep -q Up && echo 'SSID.2 Up' && i=0 ; i=\$(( i-1 )); sleep 1 ; done"
+  SSID.2 Up
+
+  $ R "ubus -S call WiFi.AccessPoint.3 _set '{\"parameters\":{\"Enable\":1}}'"
+  {"WiFi.AccessPoint.3.":{"Enable":true}}
+
+  $ R "i=15 ; while [ \$i -gt 1 ]; do ubus -S call WiFi.SSID.3 _get '{\"rel_path\":\"Status\"}'| grep -q Up && echo 'SSID.3 Up' && i=0 ; i=\$(( i-1 )); sleep 1 ; done"
+  SSID.3 Up
+
+  $ R "ubus -S call WiFi.AccessPoint.4 _set '{\"parameters\":{\"Enable\":1}}'"
+  {"WiFi.AccessPoint.4.":{"Enable":true}}
+
+  $ R "i=15 ; while [ \$i -gt 1 ]; do ubus -S call WiFi.SSID.4 _get '{\"rel_path\":\"Status\"}'| grep -q Up && echo 'SSID.4 Up' && i=0 ; i=\$(( i-1 )); sleep 1 ; done"
+  SSID.4 Up
+
+Check that hostapd is operating as expected:
+
+  $ R logger -t cram "Check that hostapd is operating after reboot"
+  $ R "ps axw" | sed -nE 's/.*(hostapd.*)/\1/p' | head -3 | LC_ALL=C sort
+  hostapd -ddt /tmp/wlan0_hapd.conf
+  hostapd -ddt /tmp/wlan1_hapd.conf
+  hostapd/global
+
+  $ R "ubus list | grep hostapd. | sort"
+  hostapd.wlan0
+  hostapd.wlan0.1
+  hostapd.wlan1.1
+  hostapd.wlan1.2
+
+Check that wireless is operating:
+
+  $ R "ubus -S call WiFi.SSID _get | jsonfilter -e @[*].SSID -e @[*].Status | sort"
+  Down
+  PWHM_SSID5
+  Up
+  Up
+  Up
+  Up
+  prplOS
+  prplOS
+  prplOS-guest
+  prplOS-guest
+
+  $ R "iw dev | grep -e Interface -e ssid | tr -d '\t' | sort"
+  Interface wlan0
+  Interface wlan0.1
+  Interface wlan1
+  Interface wlan1.1
+  Interface wlan1.2
+  ssid prplOS
+  ssid prplOS
+  ssid prplOS-guest
+  ssid prplOS-guest
 
 Check that prplmesh processes are running:
 

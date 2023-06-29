@@ -4,6 +4,9 @@ Create R alias:
 
 Check for correct SSID setup:
 
-  $ R "iwinfo | grep ESSID"
-  wlan0     ESSID: unknown
-  wlan1     ESSID: unknown
+  $ R "iw dev | grep -e Interface -e ssid | sort"
+  \tInterface wlan0 (esc)
+  \tInterface wlan0.1 (esc)
+  \tInterface wlan1 (esc)
+  \tInterface wlan1.1 (esc)
+  \tInterface wlan1.2 (esc)

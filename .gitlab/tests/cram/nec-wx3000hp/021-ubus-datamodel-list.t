@@ -191,6 +191,13 @@ Check that ubus has expected datamodels available:
   Users.Role
   Users.SupportedShell
   Users.User
+  WiFi
+  WiFi.AccessPoint
+  WiFi.AutoCommitMgr
+  WiFi.EndPoint
+  WiFi.Radio
+  WiFi.SSID
+  WiFi.wps_DefParam
   XPON
   XPON.ONU
   X_PRPL-COM_MultiSettings
