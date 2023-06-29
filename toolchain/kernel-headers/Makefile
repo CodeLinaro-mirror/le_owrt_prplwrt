@@ -171,6 +171,7 @@ define Host/Prepare
 	cd -;
 	cd $(TOPDIR)/src/kernel-$(LINUX_VERSION)/kernel_platform; \
 	BUILD_CONFIG=msm-kernel/$(BUILD_CONFIG_NAME) KERNEL_KIT=../out/$(OUT_DIR_NAME)/ OUT_DIR=temp_out_dir ./build/build_module.sh; \
+	cp ../out/$(OUT_DIR_NAME)/msm-kernel/include/generated/utsrelease.h temp_out_dir/msm-kernel/include/generated/; \
 	cd -;
 endef
 
