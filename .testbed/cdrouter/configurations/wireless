@@ -2292,7 +2292,7 @@ SECTION "CDRouter Storage Add-On" {
 
 SECTION "CDRouter TR-069 Add-On" {
 
-    testvar supportsCWMP                     no
+    testvar supportsCWMP                     yes
 
     SECTION "Basic ACS Configuration" {
 
