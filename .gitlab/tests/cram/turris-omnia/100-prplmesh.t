@@ -26,9 +26,7 @@ Restart prplmesh:
 
   $ R logger -t cram "Restart prplmesh"
   $ R "/etc/init.d/prplmesh gateway_mode" > /dev/null 2>&1
-
-  $ R "ubus -t 60 wait_for Device.WiFi"
-
+  $ R "ubus -t 60 wait_for Device.WiFi.DataElements"
 
 Start wireless:
 
@@ -37,24 +35,26 @@ Start wireless:
   $ R "ubus -S call WiFi.AccessPoint.1 _set '{\"parameters\":{\"Enable\":1}}'"
   {"WiFi.AccessPoint.1.":{"Enable":true}}
 
-  $ R "ubus -t 30 wait_for hostapd.wlan1"
+  $ R "i=30 ; while [ \$i -gt 1 ]; do ubus -S call WiFi.SSID.1 _get '{\"rel_path\":\"Status\"}'| grep -q Up && echo 'SSID.1 Up' && i=0 ; i=\$(( i-1 )); sleep 1 ; done"
+  SSID.1 Up
 
   $ R "ubus -S call WiFi.AccessPoint.2 _set '{\"parameters\":{\"Enable\":1}}'"
   {"WiFi.AccessPoint.2.":{"Enable":true}}
 
-  $ R "ubus -t 30 wait_for hostapd.wlan0"
+  $ R "i=30 ; while [ \$i -gt 1 ]; do ubus -S call WiFi.SSID.2 _get '{\"rel_path\":\"Status\"}'| grep -q Up && echo 'SSID.2 Up' && i=0 ; i=\$(( i-1 )); sleep 1 ; done"
+  SSID.2 Up
 
   $ R "ubus -S call WiFi.AccessPoint.3 _set '{\"parameters\":{\"Enable\":1}}'"
   {"WiFi.AccessPoint.3.":{"Enable":true}}
 
-  $ R "ubus -t 30 wait_for hostapd.wlan1.1"
+  $ R "i=30 ; while [ \$i -gt 1 ]; do ubus -S call WiFi.SSID.3 _get '{\"rel_path\":\"Status\"}'| grep -q Up && echo 'SSID.3 Up' && i=0 ; i=\$(( i-1 )); sleep 1 ; done"
+  SSID.3 Up
 
   $ R "ubus -S call WiFi.AccessPoint.4 _set '{\"parameters\":{\"Enable\":1}}'"
   {"WiFi.AccessPoint.4.":{"Enable":true}}
 
-  $ R "ubus -t 30 wait_for hostapd.wlan0.1"
-
-  $ sleep 30
+  $ R "i=30 ; while [ \$i -gt 1 ]; do ubus -S call WiFi.SSID.4 _get '{\"rel_path\":\"Status\"}'| grep -q Up && echo 'SSID.4 Up' && i=0 ; i=\$(( i-1 )); sleep 1 ; done"
+  SSID.4 Up
 
 Check that hostapd is operating as expected:
 
@@ -65,8 +65,8 @@ Check that hostapd is operating as expected:
   hostapd/global
 
   $ R "ubus list | grep hostapd. | sort"
-  hostapd.wlan0
   hostapd.wlan0.1
+  hostapd.wlan0.2
   hostapd.wlan1
   hostapd.wlan1.1
 
@@ -94,12 +94,6 @@ Check that wireless is operating:
   ssid prplOS
   ssid prplOS-guest
   ssid prplOS-guest
-
-Restart prplmesh:
-
-  $ R logger -t cram "Restart prplmesh"
-  $ R "/etc/init.d/prplmesh gateway_mode" > /dev/null 2>&1
-  $ sleep 30
 
 Check that prplmesh processes are running:
 
