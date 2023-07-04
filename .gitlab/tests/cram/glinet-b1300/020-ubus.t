@@ -37,14 +37,14 @@ Check that we've correct system info:
 Check that we've correct bridge port aliases:
 
   $ R "ubus call Bridging _get \"{'rel_path':'Bridge.*.Port.*.Alias'}\" | jsonfilter -e @[*].Alias | sort"
+  default_radio0
+  default_radio1
   eth_port0
   guest_bridge
-  guest_wl0
-  guest_wl1
+  guest_radio0
+  guest_radio1
   lan_bridge
   lcm_bridge
-  wlan_port0
-  wlan_port1
 
 Check that we've correct ethernet interface details:
 
@@ -213,6 +213,12 @@ Check that NetModel.Intf provides expected output:
   br-lcm
   bridge-ETH1
   bridge-ETH1
+  bridge-default_radio0
+  bridge-default_radio0
+  bridge-default_radio0
+  bridge-default_radio1
+  bridge-default_radio1
+  bridge-default_radio1
   bridge-eth_port0
   bridge-eth_port0
   bridge-eth_port0
@@ -220,10 +226,12 @@ Check that NetModel.Intf provides expected output:
   bridge-guest_bridge
   bridge-guest_bridge
   bridge-guest_bridge
-  bridge-guest_wl0
-  bridge-guest_wl0
-  bridge-guest_wl1
-  bridge-guest_wl1
+  bridge-guest_radio0
+  bridge-guest_radio0
+  bridge-guest_radio0
+  bridge-guest_radio1
+  bridge-guest_radio1
+  bridge-guest_radio1
   bridge-lan_bridge
   bridge-lan_bridge
   bridge-lan_bridge
@@ -231,10 +239,6 @@ Check that NetModel.Intf provides expected output:
   bridge-lan_bridge
   bridge-lcm_bridge
   bridge-lcm_bridge
-  bridge-wlan_port0
-  bridge-wlan_port0
-  bridge-wlan_port1
-  bridge-wlan_port1
   cpe-IPv4Address-1
   cpe-IPv4Address-1
   cpe-IPv4Address-1
@@ -305,8 +309,6 @@ Check that NetModel.Intf provides expected output:
   cpe-ReqOption-9
   cpe-ReqOption-9
   cpe-ReqOption-9
-  default_radio0
-  default_radio1
   dslite netdev
   dslite-dslite0
   dslite0
@@ -371,8 +373,6 @@ Check that NetModel.Intf provides expected output:
   false
   guest
   guest
-  guest_radio0
-  guest_radio1
   ip .* (re)
   ip .* (re)
   ip .* (re)
@@ -440,13 +440,13 @@ Check that NetModel.Intf provides expected output:
   pppoe-wan
   radio enabled
   radio enabled
-  radio-wifi0
-  radio-wifi0
-  radio-wifi0
-  radio-wifi1
-  radio-wifi1
-  radio-wifi1
-  radio-wifi1
+  radio-radio0
+  radio-radio0
+  radio-radio0
+  radio-radio1
+  radio-radio1
+  radio-radio1
+  radio-radio1
   resolver
   resolver
   ssid netdev netdev-bound
@@ -454,16 +454,20 @@ Check that NetModel.Intf provides expected output:
   ssid netdev netdev-bound
   ssid netdev netdev-bound
   ssid netdev netdev-bound
+  ssid-DEFAULT_RADIO0
+  ssid-DEFAULT_RADIO0
+  ssid-DEFAULT_RADIO0
+  ssid-DEFAULT_RADIO1
+  ssid-DEFAULT_RADIO1
+  ssid-DEFAULT_RADIO1
+  ssid-GUEST_RADIO0
+  ssid-GUEST_RADIO0
+  ssid-GUEST_RADIO0
+  ssid-GUEST_RADIO1
+  ssid-GUEST_RADIO1
+  ssid-GUEST_RADIO1
   ssid-ep5g0
   ssid-ep5g0
-  ssid-vap2g0guest
-  ssid-vap2g0guest
-  ssid-vap2g0priv
-  ssid-vap2g0priv
-  ssid-vap5g0guest
-  ssid-vap5g0guest
-  ssid-vap5g0priv
-  ssid-vap5g0priv
   true
   true
   true
@@ -490,8 +494,12 @@ Check that NetModel.Intf provides expected output:
   wan
   wlan0
   wlan0
+  wlan0
+  wlan0.1
   wlan0.1
   wlan1
   wlan1
   wlan1.1
+  wlan1.1
+  wlan1.2
   wlan1.2
