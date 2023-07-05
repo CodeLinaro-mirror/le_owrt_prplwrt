@@ -184,8 +184,7 @@ stages:
   variables:
     CI_SDK_IMAGE: openwrtorg/sdk:ath79-generic-19.07.7
 
-.build feed with x86-64-22.03.2 SDK:
+.build feed with x86-64-prplos-next SDK:
    extends: .build feed with OpenWrt SDK
    variables:
-     CI_SDK_BEFORE_COMPILE_COMMAND: sudo apt-get update; sudo apt-get install -y python3-yaml
-     CI_SDK_IMAGE: openwrt/sdk:x86-64-22.03.2
+     CI_SDK_IMAGE: registry.gitlab.com/prpl-foundation/prplos/prplos/prplos-next/sdk-x86-64:latest
