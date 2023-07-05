@@ -185,11 +185,11 @@ stages:
     CI_SDK_IMAGE: openwrtorg/sdk:ath79-generic-19.07.7
 
 .build feed with x86-64-prplos-next SDK:
-   extends: .build feed with OpenWrt SDK
+   extends: .build feed with SDK
    variables:
      CI_SDK_IMAGE: registry.gitlab.com/prpl-foundation/prplos/prplos/prplos-next/sdk-x86-64:latest
 
 .build feed with ipq807x-generic-prplos-next SDK:
-   extends: .build feed with OpenWrt SDK
+   extends: .build feed with SDK
    variables:
      CI_SDK_IMAGE: registry.gitlab.com/prpl-foundation/prplos/prplos/prplos-next/sdk-ipq807x-generic:latest
