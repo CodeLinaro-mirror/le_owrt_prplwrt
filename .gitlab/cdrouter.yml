@@ -2,6 +2,8 @@
   stage: cdrouter
   image: "$CI_REGISTRY_IMAGE/$CI_DESIGNATED_BRANCH/testbed:latest"
   rules:
+    - if: $CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS
+      when: never
     - when: manual
   variables:
     CDROUTER_TEST_CONFIG: generic

@@ -45,6 +45,8 @@ CDRouter-Wireless Haze initramfs:
       when: always
     - if: '$TFTP_IMAGE_DOWNLOAD_URL'
       when: never
+    - if: $CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS
+      when: never
     - if: '$CI_COMMIT_BRANCH == $CI_DESIGNATED_BRANCH'
     - when: manual
 
