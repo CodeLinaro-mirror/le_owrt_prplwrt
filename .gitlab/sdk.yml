@@ -188,3 +188,8 @@ stages:
    extends: .build feed with OpenWrt SDK
    variables:
      CI_SDK_IMAGE: registry.gitlab.com/prpl-foundation/prplos/prplos/prplos-next/sdk-x86-64:latest
+
+.build feed with ipq807x-generic-prplos-next SDK:
+   extends: .build feed with OpenWrt SDK
+   variables:
+     CI_SDK_IMAGE: registry.gitlab.com/prpl-foundation/prplos/prplos/prplos-next/sdk-ipq807x-generic:latest
