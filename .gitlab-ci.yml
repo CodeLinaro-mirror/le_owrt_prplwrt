@@ -27,6 +27,20 @@ stages:
   - cdrouter
   - coverity
 
+build test mxl_x86 mxl_wlan_hostap_ng prpl:
+  image: registry.gitlab.com/prpl-foundation/prplos/prplos/prplos-next/builder-osp@sha256:c3e7d58f4ca821b78386da1a36c8a9646805cdc5b746500464411c245b95d049
+  extends: .build test config
+  artifacts:
+  tags:
+    - firmware-builder-osp
+
+build test mxl_x86_osp_tb341 mxl_wlan_hostap_ng prpl:
+  image: registry.gitlab.com/prpl-foundation/prplos/prplos/prplos-next/builder-osp@sha256:c3e7d58f4ca821b78386da1a36c8a9646805cdc5b746500464411c245b95d049
+  extends: .build test config
+  artifacts:
+  tags:
+    - firmware-builder-osp
+
 build test mvebu prpl:
   extends: .build test config
 
