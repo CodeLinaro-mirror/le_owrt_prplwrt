@@ -15,24 +15,28 @@
     - touch .build_failed
 
   script:
-    - mkdir logs
+    - mkdir -p logs
     - set -o pipefail
     - git config --global --add safe.directory '*'
 
-    - sed -i -E 's;git.openwrt.org/(feed|project);github.com/openwrt;' feeds.conf.default
-    - export CI_BUILD_PROFILE="$(echo $CI_JOB_NAME | sed 's/build test \(.*\)/\1/')"
-    - scripts/gen_config.py $CI_BUILD_PROFILE 2>&1 | tee logs/build.log
-    - git checkout -- feeds.conf.default
-
     - >
-      for option in $CI_BUILD_CONFIG $CI_BUILD_CONFIG_EXTRA; do
-        echo "$option" | sed -E "s/^\+(.*)$/CONFIG_\1=y/;s/^\-(.*)$/CONFIG_\1=n/" >> .config
-      done
-    - cat .config
-    - make defconfig | tee --append logs/build.log
+      if echo "$CI_RUNNER_DESCRIPTION" | grep -v -q "Restricted.*OSP"; then
+        sed -i -E 's;git.openwrt.org/(feed|project);github.com/openwrt;' feeds.conf.default
+        export CI_BUILD_PROFILE="$(echo $CI_JOB_NAME | sed 's/build test \(.*\)/\1/')"
+        scripts/gen_config.py $CI_BUILD_PROFILE 2>&1 | tee logs/build.log
+        git checkout -- feeds.conf.default
 
-    - make -j $(nproc) tools/tar/compile 2>&1 | tee --append logs/build.log
-    - make -j $(nproc) download check FIXUP=1 2>&1 | tee --append logs/build.log
+        for option in $CI_BUILD_CONFIG $CI_BUILD_CONFIG_EXTRA; do
+          echo "$option" | sed -E "s/^\+(.*)$/CONFIG_\1=y/;s/^\-(.*)$/CONFIG_\1=n/" >> .config
+        done
+        cat .config
+        make defconfig | tee --append logs/build.log
+
+        make -j $(nproc) tools/tar/compile 2>&1 | tee --append logs/build.log
+        make -j $(nproc) download check FIXUP=1 2>&1 | tee --append logs/build.log
+      else
+        grep --color -e "Error updating feeds" -e "ERROR:.*failed to build." logs/build.log && exit 1
+      fi
 
     - >
       git diff-index --exit-code HEAD || {
