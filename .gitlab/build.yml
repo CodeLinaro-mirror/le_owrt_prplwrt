@@ -74,7 +74,3 @@
       - bin
       - logs
       - ./*packages-hash-issues.patch
-  cache:
-    key: openwrt-downloads
-    paths:
-      - dl/
