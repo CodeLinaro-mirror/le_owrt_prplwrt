@@ -1,6 +1,6 @@
 .prpl-haze: &prpl_haze
   needs:
-    - job: build test ipq807x prpl webui
+    - job: build test ipq807x prpl
       optional: true
   extends:
     - .prpl-haze testbed

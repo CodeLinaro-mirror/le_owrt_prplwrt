@@ -35,11 +35,11 @@ include:
 stages:
  - build
 
-build test netgear-rax40 prpl webui:
+build test netgear-rax40 prpl:
   extends: .build test config
 ```
 
-Which is going to build test prplOS with `netgear-rax40`, `prpl` and `webui` profiles.
+Which is going to build test prplOS with `netgear-rax40` and `prpl` profiles.
 
 Description of CI variables:
 
