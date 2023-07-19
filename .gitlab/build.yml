@@ -65,9 +65,9 @@
     - >
       if test -f .build_failed && grep -qr 'make\[[[:digit:]]\].*Error [[:digit:]]$' logs; then
         printf "\n====== Showing Make errors found in the log files ======";
-        for file in $(grep -lr 'make\[[[:digit:]]\].*Error [[:digit:]]$' logs); do
+        for file in $(grep -lr 'make\[[[:digit:]]\+\].*Error [[:digit:]]\+$' logs); do
           printf "\n====== Make errors from $CI_JOB_URL/artifacts/file/$file ======\n" ;
-          grep -r -C5 'make\[[[:digit:]]\].*Error [[:digit:]]$' $file ;
+          grep -r -C20 'make\[[[:digit:]]\+\].*Error [[:digit:]]\+$' $file ;
         done
       fi
 
