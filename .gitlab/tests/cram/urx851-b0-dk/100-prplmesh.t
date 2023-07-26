@@ -9,10 +9,14 @@ Check that wireless has desired configuration and state after boot:
   Down
   Down
   Down
+  Down
+  Down
   Error
   PWHM_SSID5
   prplOS
   prplOS
+  prplOS
+  prplOS-guest
   prplOS-guest
   prplOS-guest
 
@@ -62,6 +66,7 @@ Check that hostapd is operating as expected:
   $ R "ps axw" | sed -nE 's/.*(hostapd.*)/\1/p' | head -3 | LC_ALL=C sort
   hostapd -ddt /tmp/wlan0_hapd.conf
   hostapd -ddt /tmp/wlan2_hapd.conf
+  hostapd -ddt /tmp/wlan4_hapd.conf
 
 Check that wireless is operating:
 
@@ -74,6 +79,8 @@ Check that wireless is operating:
   Up
   prplOS
   prplOS
+  prplOS
+  prplOS-guest
   prplOS-guest
   prplOS-guest
 
@@ -85,6 +92,8 @@ Check that wireless is operating:
   Interface wlan2.1
   Interface wlan2.2
   Interface wlan4
+  ssid dummy_ssid_2.4GHz
+  ssid dummy_ssid_5GHz
   ssid prplOS
   ssid prplOS
   ssid prplOS-guest
@@ -98,6 +107,7 @@ Check that prplmesh processes are running:
   /opt/prplmesh/bin/beerocks_controller
   /opt/prplmesh/bin/beerocks_fronthaul -i wlan0
   /opt/prplmesh/bin/beerocks_fronthaul -i wlan2
+  /opt/prplmesh/bin/beerocks_fronthaul -i wlan4
   /opt/prplmesh/bin/ieee1905_transport
 
 Check that prplmesh is operational:
@@ -130,6 +140,9 @@ Check that prplmesh is in operational state:
   wlan2
   wlan2.0
   wlan2.1
+  wlan4
+  wlan4.0
+  wlan4.1
 
 Disable wireless:
 
@@ -168,10 +181,14 @@ Check that wireless is disabled:
   Down
   Down
   Down
+  Down
+  Down
   Error
   PWHM_SSID5
   prplOS
   prplOS
+  prplOS
+  prplOS-guest
   prplOS-guest
   prplOS-guest
 
