@@ -54,6 +54,8 @@ Disable and enable the Time manager to force time synchronization:
 
   $ R "ubus -S call Time _set '{\"parameters\":{\"Enable\":False}}'" ; sleep 1
   {"Time.":{"Enable":false}}
+  {}
+  {"amxd-error-code":0}
 
   $ R "ubus -S call Time.Client.1 _get | jsonfilter -e @[*].Status"
   Disabled
@@ -63,6 +65,8 @@ Disable and enable the Time manager to force time synchronization:
 
   $ R "ubus -S call Time _set '{\"parameters\":{\"Enable\":True}}'" ; sleep 5
   {"Time.":{"Enable":true}}
+  {}
+  {"amxd-error-code":0}
 
 Check that Status has expected Unsynchronized state:
 
@@ -80,6 +84,8 @@ Disable and enable the Time manager to force time synchronization:
 
   $ R "ubus -S call Time _set '{\"parameters\":{\"Enable\":False}}'" ; sleep 1
   {"Time.":{"Enable":false}}
+  {}
+  {"amxd-error-code":0}
 
   $ R "ubus -S call Time.Client.1 _get | jsonfilter -e @[*].Status"
   Disabled
@@ -89,6 +95,8 @@ Disable and enable the Time manager to force time synchronization:
 
   $ R "ubus -S call Time _set '{\"parameters\":{\"Enable\":True}}'" ; sleep 10
   {"Time.":{"Enable":true}}
+  {}
+  {"amxd-error-code":0}
 
 Check that Status has expected Synchronized state:
 
@@ -107,6 +115,8 @@ Disable NTP server for LAN clients:
 
   $ R "ubus -S call Time.Server.1 _set '{\"parameters\":{\"Enable\":False}}'" ; sleep 1
   {"Time.Server.1.":{"Enable":false}}
+  {}
+  {"amxd-error-code":0}
 
 Check that CPE can't provide NTP to LAN clients:
 
@@ -117,6 +127,8 @@ Enable NTP server for LAN clients:
 
   $ R "ubus -S call Time.Server.1 _set '{\"parameters\":{\"Enable\":True}}'" ; sleep 10
   {"Time.Server.1.":{"Enable":true}}
+  {}
+  {"amxd-error-code":0}
 
 Check that CPE provides again NTP to the LAN clients:
 

@@ -6,6 +6,8 @@ Check QoS root datamodel:
 
   $ R "ubus -S call QoS _get"
   {"QoS.":{"SupportedControllers":"mod-qos-tc","ShaperNumberOfEntries":1,"QueueNumberOfEntries":5,"MaxSchedulerEntries":20,"SchedulerNumberOfEntries":1,"QueueStatsNumberOfEntries":4,"MaxClassificationEntries":20,"ClassificationNumberOfEntries":4,"MaxQueueEntries":20,"MaxShaperEntries":20}}
+  {}
+  {"amxd-error-code":0}
 
 Check Qos.Node.7 datamodel:
 
