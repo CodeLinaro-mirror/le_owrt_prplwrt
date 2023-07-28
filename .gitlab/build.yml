@@ -58,6 +58,16 @@
         popd > /dev/null
       done
 
+    - >
+      trap "
+        grep -qz 'package/install[[:space:]]make -r world' logs/build.log && {
+          echo '[!] ERROR: package/install seems to fail, enabling verbose output'
+          make package/install V=s 2>&1 | tee --append logs/build.log
+          grep -C5 'Collected errors:' logs/build.log
+        }
+        echo '[!] ERROR: build failed'
+        exit 1
+      " ERR
     - make -j $(nproc) 2>&1 | tee --append logs/build.log
     - rm .build_failed
 
