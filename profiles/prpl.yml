@@ -150,6 +150,7 @@ packages:
   - procps-ng-pgrep
   - procps-ng-pkill
   - procps-ng-uptime
+  - prpl-webui
   - rlyeh
   - routing-manager
   - ssh-server
@@ -189,7 +190,6 @@ diffconfig: |
           CONFIG_SAH_LUA_AMX_LUA_VERSION="5.1"
           # CONFIG_SAH_AMX_PCM_TARBALL is not set
           CONFIG_MINIUPNP_TR181-FIREWALL=y
-          CONFIG_PACKAGE_miniupnpd-iptables=y
           CONFIG_PACKAGE_rpcd-mod-luci=y
           CONFIG_PACKAGE_ip-full=y
           CONFIG_PACKAGE_ip-bridge=y
