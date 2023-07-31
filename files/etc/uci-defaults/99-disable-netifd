@@ -1,0 +1,9 @@
+#!/bin/sh
+
+uci delete network.@device[0]
+uci delete network.lan 
+uci delete network.wan 
+uci delete network.wan6
+uci commit
+
+exit 0
