@@ -12,7 +12,7 @@ feeds:
     revision: v1.0.34
   - name: feed_net_core
     uri: https://gitlab.com/soft.at.home/buildsystems/openwrt/feed_net_core.git
-    revision: v12.16.0
+    revision: v12.17.2
   - name: feed_qos_firewall
     uri: https://gitlab.com/soft.at.home/buildsystems/openwrt/feed_qos_firewall.git
     revision: v3.2.0
@@ -42,8 +42,8 @@ feeds:
     revision: v0.1.4
   - name: feed_prpl
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-prpl.git
-    tracking_branch: sah_fix
-    revision: 2e5365feb13dbd507b4f1c5efad738ce147388d2
+    tracking_branch: prplos-next
+    revision: bcd1f03ebf74b2bfd8e4edfffd69ca3689d37464
 
 additional_packages:
   - feed: packages
@@ -184,7 +184,6 @@ packages:
   - tr181-xpon
   - umdns
   - wan-manager
-  - mod-pcm-svc
 
 diffconfig: |
           CONFIG_SAH_LUA_AMX_LUA_VERSION_OVERRIDE=y
