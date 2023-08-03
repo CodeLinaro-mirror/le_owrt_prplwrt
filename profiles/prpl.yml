@@ -127,6 +127,7 @@ packages:
   - mod-xpon-prpl
   - mod-ra-radvd
   - mod-dns-unbound
+  - mod-dhcpv4c
   - multisettings
   - netdev-plugin
   - netmodel
@@ -184,6 +185,7 @@ packages:
   - tr181-xpon
   - umdns
   - wan-manager
+
 
 diffconfig: |
           CONFIG_SAH_LUA_AMX_LUA_VERSION_OVERRIDE=y
