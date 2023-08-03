@@ -184,6 +184,7 @@ packages:
   - tr181-xpon
   - umdns
   - wan-manager
+  - mod-pcm-svc
 
 diffconfig: |
           CONFIG_SAH_LUA_AMX_LUA_VERSION_OVERRIDE=y
