@@ -128,6 +128,7 @@ packages:
   - mod-ra-radvd
   - mod-dns-unbound
   - mod-dhcpv4c
+  - mod-logical-api
   - multisettings
   - netdev-plugin
   - netmodel
