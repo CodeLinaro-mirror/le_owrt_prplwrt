@@ -1,0 +1,6 @@
+#!/bin/sh
+
+rm /etc/rc.d/S25netdev_cfg.sh 
+rm /etc/rc.d/S99mxl-network-init
+
+exit 0
