@@ -1,0 +1,20 @@
+#!/bin/sh /etc/rc.common
+
+START=99
+
+boot()
+{
+ubus -t 30 wait_for DHCPv4Client
+
+if ubus-cli DHCPv4Client.Client.1.DHCPStatus? | grep -q  "Bound"
+then
+    echo " already status = Bound" >> /tmp/dhcpcheck.log
+    exit 
+    
+else 
+     echo " value is toggeled " >> /tmp/dhcpcheck.log
+    ubus-cli  DHCPv4Client.Client.1.Enable=0
+    sleep 15
+    ubus-cli  DHCPv4Client.Client.1.Enable=1
+fi
+}
