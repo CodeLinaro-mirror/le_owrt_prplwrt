@@ -15,10 +15,10 @@ Add DMZ host:
 Check that correct firewall rules were created:
 
   $ R "iptables -t nat -L POSTROUTING_DMZ | grep 186 | sort"
-  SNAT       all  --  192.168.1.0/24       192.168.1.186        to:10.0.0.32
+  SNAT       all  --  192.168.1.0/24       192.168.1.186        to:10.0.0.2
 
   $ R "iptables -t nat -L PREROUTING_DMZ | grep 186 | sort"
-  DNAT       all  --  anywhere             10.0.0.32            to:192.168.1.186
+  DNAT       all  --  anywhere             10.0.0.2            to:192.168.1.186
 
   $ R "iptables -L FORWARD_DMZ | grep 186 | sort"
   ACCEPT     all  --  192.168.1.186        anywhere            

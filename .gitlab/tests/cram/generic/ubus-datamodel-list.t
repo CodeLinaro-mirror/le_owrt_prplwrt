@@ -12,11 +12,11 @@ Check that ubus has expected datamodels available:
   $ R "ubus list | grep '[[:upper:]]' | grep -v '\.[[:digit:]]'"
   ACLManager
   ACLManager.Role
-  Agent
   Bridging
   Bridging.Bridge
   Bridging.Bridge.Port
   Bridging.Bridge.Port.Stats
+  Bridging.Bridge.STP
   Bridging.Bridge.VLAN
   Bridging.Bridge.VLANPort
   Cthulhu
@@ -27,14 +27,12 @@ Check that ubus has expected datamodels available:
   Cthulhu.Plugins
   Cthulhu.Sandbox
   Cthulhu.Sandbox.Instances
-  DHCPv4
-  DHCPv4.Client
-  DHCPv4.Server
-  DHCPv4.Server.Pool
-  DHCPv6
-  DHCPv6.Client
-  DHCPv6.Server
-  DHCPv6.Server.Pool
+  DHCPv4Client
+  DHCPv4Server
+  DHCPv4Server.Pool
+  DHCPv6Client
+  DHCPv6Server
+  DHCPv6Server.Pool
   DNS
   DNS.Client
   DNS.Client.Server
@@ -49,8 +47,13 @@ Check that ubus has expected datamodels available:
   Device
   Device.Bridging
   Device.BulkData
+  Device.Buttons
+  Device.CWMPManagementServer
+  Device.ConMon
   Device.DHCPv4
   Device.DHCPv6
+  Device.DHCPv6.Client
+  Device.DHCPv6.Server
   Device.DNS
   Device.DNS.SD
   Device.DSLite
@@ -58,10 +61,12 @@ Check that ubus has expected datamodels available:
   Device.DynamicDNS
   Device.Ethernet
   Device.Firewall
+  Device.HomePlug
   Device.Hosts
   Device.IP
   Device.IP.Diagnostics
   Device.InterfaceStack
+  Device.LANConfigSecurity
   Device.LocalAgent
   Device.Logical
   Device.MQTT
@@ -80,9 +85,12 @@ Check that ubus has expected datamodels available:
   Device.SoftwareModules
   Device.Time
   Device.UPnP
+  Device.UPnP.Description
+  Device.UPnP.Discovery
   Device.UserInterface
   Device.Users
   Device.WiFi
+  Device.XPON
   Device.X_PRPL-COM_MultiSettings
   Device.X_PRPL-COM_PersistentConfiguration
   Device.X_PRPL-COM_WANManager
@@ -112,13 +120,12 @@ Check that ubus has expected datamodels available:
   Ethernet.VLANTermination.Stats
   Firewall
   Firewall.Chain
+  Firewall.DMZ
   Firewall.Level
-  Firewall.X_PRPL-COM_DMZ
+  Firewall.Pinhole
+  Firewall.Policy
+  Firewall.Service
   Firewall.X_PRPL-COM_InterfaceSetting
-  Firewall.X_PRPL-COM_Pinhole
-  Firewall.X_PRPL-COM_Policy
-  Firewall.X_PRPL-COM_PortTrigger
-  Firewall.X_PRPL-COM_Service
   Firewall.X_PRPL-COM_WANAccess
   Firewall.X_PRPL-COM_WANAccess.BlockList
   Hosts
@@ -127,19 +134,37 @@ Check that ubus has expected datamodels available:
   IP
   IP.ActivePort
   IP.Interface
+  IPDiagnostics
+  IPDiagnostics.IPPing
+  IPDiagnostics.IPPing.Process
+  IPDiagnostics.X_PRPL-COM_DownloadConfig
+  IPDiagnostics.X_PRPL-COM_DownloadResult
+  IPDiagnostics.X_PRPL-COM_DownloadResult.Config
+  IPDiagnostics.X_PRPL-COM_DownloadResult.IncrementalResult
+  IPDiagnostics.X_PRPL-COM_DownloadResult.Process
+  IPDiagnostics.X_PRPL-COM_UploadConfig
+  IPDiagnostics.X_PRPL-COM_UploadResult
+  IPDiagnostics.X_PRPL-COM_UploadResult.Config
+  IPDiagnostics.X_PRPL-COM_UploadResult.IncrementalResult
+  IPDiagnostics.X_PRPL-COM_UploadResult.PerConnectionResult
+  IPDiagnostics.X_PRPL-COM_UploadResult.Process
   Logical
   Logical.Interface
+  Logical.X_PRPL-ORG_Subnet
+  Logical.X_PRPL-ORG_Subnet.Config
   ManagementServer
   ManagementServer.ACSTransfers
   ManagementServer.ACSTransfers.ACSTransfer
   ManagementServer.ConnRequest
   ManagementServer.InternalSettings
+  ManagementServer.ManageableDevice
   ManagementServer.State
   ManagementServer.Stats
   ManagementServer.Subscription
   NAT
   NAT.InterfaceSetting
   NAT.PortMapping
+  NAT.PortTrigger
   NeighborDiscovery
   NeighborDiscovery.InterfaceSetting
   NetDev
@@ -161,6 +186,7 @@ Check that ubus has expected datamodels available:
   PPP.Interface.Stats
   PacketInterception
   PacketInterception.CommunicationConfig
+  PacketInterception.CommunicationConfig.Socket
   PacketInterception.Condition
   PacketInterception.Interception
   PacketInterception.PacketHandler
@@ -181,23 +207,20 @@ Check that ubus has expected datamodels available:
   Routing.RIP.InterfaceSetting
   Routing.RouteInformation
   Routing.RouteInformation.InterfaceSetting
-  Routing.RouteInformation.InterfaceSetting.X_PRPL-COM_Option
+  Routing.RouteInformation.InterfaceSetting.Option
   Routing.Router
   Routing.Router.IPv6Forwarding
   SSH
+  SSH.AuthorizedKey
   SSH.Server
-  SoftwareModules
-  SoftwareModules.DeploymentUnit
-  SoftwareModules.ExecEnv
-  SoftwareModules.ExecutionUnit
-  SoftwareModules.Plugins
+  Security
+  Security.Certificate
   Time
   Time.Client
   Time.Server
-  Timingila
-  Timingila.ProxyManager
   UPnP
   UPnP.Device
+  Unbound
   UserInterface
   UserInterface.HTTPAccess
   Users
@@ -217,6 +240,7 @@ Check that ubus has expected datamodels available:
   X_PRPL-COM_MultiSettings
   X_PRPL-COM_MultiSettings.Profile
   X_PRPL-COM_PersistentConfiguration
+  X_PRPL-COM_PersistentConfiguration.BackupFile
   X_PRPL-COM_PersistentConfiguration.Config
   X_PRPL-COM_PersistentConfiguration.Config.Security
   X_PRPL-COM_PersistentConfiguration.Service

@@ -43,6 +43,7 @@ Check that the firewall rule was actually created:
   $ R "iptables -vnL INPUT_Services | grep :67 | cut -d ' ' -f 11,16,20,53 | sort"
   ACCEPT udp br-guest dpt:67
   ACCEPT udp br-lan dpt:67
+  ACCEPT udp br-lcm dpt:67
 
 Check that client is able to get new lease again:
 

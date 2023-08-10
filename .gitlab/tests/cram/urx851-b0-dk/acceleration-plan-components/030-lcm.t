@@ -28,6 +28,8 @@ Check that Sandbox was configured properly:
 
   $ R "ubus -S call Cthulhu.Sandbox.Instances.1.NetworkNS.Interfaces.1 _get"
   {"Cthulhu.Sandbox.Instances.1.NetworkNS.Interfaces.1.":{"EnableDhcp":false,"Interface":"eth0","Bridge":"br-lan"}}
+  {}
+  {"amxd-error-code":0}
 
 Install testing prplOS container v1:
 
@@ -86,6 +88,8 @@ Check that Rlyeh has no container images:
 
   $ R "ubus -S call Rlyeh.Images _get"
   {"Rlyeh.Images.":{}}
+  {}
+  {"amxd-error-code":0}
 
 Check that container image is gone from the filesystem as well:
 
