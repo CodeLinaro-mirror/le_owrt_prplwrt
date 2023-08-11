@@ -201,6 +201,8 @@ diffconfig: |
           CONFIG_PACKAGE_mod-xpon-prpl-mock=m
           # CONFIG_PACKAGE_firewall4 is not set
           # CONFIG_PACKAGE_logd is not set
+          CONFIG_PACKAGE_mod-httpaccess-lighttpd=y
+          CONFIG_PACKAGE_lighttpd-mod-access=y
           # lxc options for LCM
           CONFIG_SAH_SERVICES_CTHULHU_INIT_CONTAINER_BACKEND=y
           CONFIG_SAH_SERVICES_CTHULHU_CONTAINER_BACKEND="/usr/lib/cthulhu-lxc/cthulhu-lxc.so"
