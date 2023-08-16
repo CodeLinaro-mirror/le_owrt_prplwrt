@@ -4,7 +4,7 @@ feeds:
   - name: feed_prpl
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-prpl.git
     tracking_branch: prplos-next
-    revision: 1c54d2aa4e165e7a8871c9f5d880dd37bf86e110
+    revision: 7cdfbb883ec6291e0cacc4b51c262327650dba1d
 
 additional_packages:
   - feed: packages
@@ -161,6 +161,7 @@ diffconfig: |
           # CONFIG_SAH_LIB_CTHULHU-LXC_PRPL_OS_RPATH is not set
           # pwhm options
           CONFIG_USE_PRPLMESH_WHM=y
+          CONFIG_PRPL_CONTROLLER_ROOT_PATH="X_PRPL-ORG_WiFiController"
           CONFIG_SAH_WLD_INIT_SCRIPT="prplmesh_whm"
           CONFIG_PACKAGE_prplmesh-unit-tests=m
           # kernel options for lcm
