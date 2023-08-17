@@ -3,7 +3,7 @@ description: Add the prpl features
 feeds:
   - name: feed_opensource
     uri: https://gitlab.com/soft.at.home/buildsystems/openwrt/feed_opensource
-    revision: gen_openwrt22.03_v0.0.4
+    revision: gen_openwrt22.03_v0.1.0
   - name: feed_amx
     uri: https://gitlab.com/soft.at.home/buildsystems/openwrt/feed_amx.git
     revision: v10.0.4
@@ -112,6 +112,7 @@ packages:
   - lxc-user-nic
   - lxc-usernsexec
   - lxc-wait
+  - miniupnpd-amx
   - mod-amxb-ubus
   - mod-autosensing
   - mod-ba-cli
@@ -192,7 +193,7 @@ diffconfig: |
           CONFIG_SAH_LUA_AMX_LUA_VERSION_OVERRIDE=y
           CONFIG_SAH_LUA_AMX_LUA_VERSION="5.1"
           # CONFIG_SAH_AMX_PCM_TARBALL is not set
-          CONFIG_MINIUPNP_TR181-FIREWALL=y
+          CONFIG_PACKAGE_miniupnpd-iptables=y
           CONFIG_PACKAGE_rpcd-mod-luci=y
           CONFIG_PACKAGE_ip-full=y
           CONFIG_PACKAGE_ip-bridge=y
