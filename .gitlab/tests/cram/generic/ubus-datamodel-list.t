@@ -28,9 +28,11 @@ Check that ubus has expected datamodels available:
   Cthulhu.Sandbox
   Cthulhu.Sandbox.Instances
   DHCPv4Client
+  DHCPv4Client.Client
   DHCPv4Server
   DHCPv4Server.Pool
   DHCPv6Client
+  DHCPv6Client.Client
   DHCPv6Server
   DHCPv6Server.Pool
   DNS
@@ -38,7 +40,8 @@ Check that ubus has expected datamodels available:
   DNS.Client.Server
   DNS.Relay
   DNS.Relay.Forwarding
-  DNS.Relay.LANInterface
+  DNS.Relay.X_PRPL-COM_Config
+  DNS.X_PRPL-COM_ForwardZone
   DNS.X_PRPL-COM_Host
   DNSSD
   DNSSD.Service
@@ -51,6 +54,9 @@ Check that ubus has expected datamodels available:
   Device.CWMPManagementServer
   Device.ConMon
   Device.DHCPv4
+  Device.DHCPv4.Client
+  Device.DHCPv4.Relay
+  Device.DHCPv4.Server
   Device.DHCPv6
   Device.DHCPv6.Client
   Device.DHCPv6.Server
@@ -215,9 +221,18 @@ Check that ubus has expected datamodels available:
   SSH.Server
   Security
   Security.Certificate
+  SoftwareModules
+  SoftwareModules.DeploymentUnit
+  SoftwareModules.ExecEnv
+  SoftwareModules.ExecutionUnit
+  SoftwareModules.NetworkConfig
+  SoftwareModules.NetworkConfig.Interfaces
+  SoftwareModules.Plugins
   Time
   Time.Client
   Time.Server
+  Timingila
+  Timingila.ProxyManager
   UPnP
   UPnP.Device
   Unbound

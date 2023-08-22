@@ -101,7 +101,7 @@ The firewall rule to set a DSCP value for ICMP packets to network 192.168.25.0/2
 Check correct change of packet classification ordering:
 
   $ R "ubus call QoS.Classification.1 _get | jsonfilter -e @[*].Order"
-  2
+  1
 
   $ R "ubus call QoS.Classification.5 _get | jsonfilter -e @[*].Order"
   1

@@ -20,7 +20,7 @@ Check Client parameters:
 
   $ R "ubus call PCP.Client.1 _get | jsonfilter -e @[*].WANInterface -e @[*].Status | sort"
   Device.Logical.Interface.1.
-  Disabled
+  StackDisabled
 
 Add Server:
 

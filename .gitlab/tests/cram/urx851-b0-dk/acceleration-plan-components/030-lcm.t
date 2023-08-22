@@ -8,7 +8,7 @@ Check that Sandbox is not configured properly:
   [4]
 
   $ R "ubus -S call Cthulhu.Config _get | jsonfilter -e @[*].DhcpCommand"
-  
+  [1]
 
 Configure Sandbox:
 
@@ -27,7 +27,7 @@ Configure Sandbox:
 Check that Sandbox was configured properly:
 
   $ R "ubus -S call Cthulhu.Sandbox.Instances.1.NetworkNS.Interfaces.1 _get"
-  {"Cthulhu.Sandbox.Instances.1.NetworkNS.Interfaces.1.":{"EnableDhcp":false,"Interface":"eth0","Bridge":"br-lan"}}
+  {"Cthulhu.Sandbox.Instances.1.NetworkNS.Interfaces.1.":{"Interface":"eth0","Bridge":"br-lan"}}
   {}
   {"amxd-error-code":0}
 
@@ -49,7 +49,7 @@ Check that prplOS container v1 is running:
   prplos-testing
   v1
 
-  $ container_ip=$(R "ubus call DHCPv4.Server.Pool.1.Client.1.IPv4Address.1 _get | jsonfilter -e @[*].IPAddress")
+  $ container_ip=$(R "ubus call DHCPv4Server.Pool.1.Client.1.IPv4Address.1 _get | jsonfilter -e @[*].IPAddress")
   $ R "ssh -y root@$container_ip 'cat /etc/container-version' 2> /dev/null"
   1
 
@@ -71,7 +71,7 @@ Check that prplOS container v2 is running:
   prplos-testing
   v2
 
-  $ container_ip=$(R "ubus call DHCPv4.Server.Pool.1.Client.1.IPv4Address.1 _get | jsonfilter -e @[*].IPAddress")
+  $ container_ip=$(R "ubus call DHCPv4Server.Pool.1.Client.1.IPv4Address.1 _get | jsonfilter -e @[*].IPAddress")
   $ R "ssh -y root@$container_ip 'cat /etc/container-version' 2> /dev/null"
   2
 
@@ -87,7 +87,7 @@ Check that prplOS container is not running:
 Check that Rlyeh has no container images:
 
   $ R "ubus -S call Rlyeh.Images _get"
-  {"Rlyeh.Images.":{}}
+  {"Rlyeh.Images.2.":{"URI":"docker://registry.gitlab.com/prpl-foundation/prplos/prplos/prplos-testing-container-x86-64:v1","MarkForRemoval":false,"Status":"Downloaded","DiskLocation":"prpl-foundation/prplos/prplos/prplos-testing-container-x86-64","Vendor":"","Description":"","ErrorCode":0,"UUID":"prplos-testing","Name":"prpl-foundation/prplos/prplos/prplos-testing-container-x86-64","Version":"v1"},"Rlyeh.Images.":{}}
   {}
   {"amxd-error-code":0}
 

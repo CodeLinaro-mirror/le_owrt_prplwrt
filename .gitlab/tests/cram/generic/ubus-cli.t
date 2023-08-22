@@ -1,6 +1,6 @@
 Check that we've correct DHCPv4 pools:
 
-  $ script --command "ssh -t root@$TARGET_LAN_IP 'ubus-cli DHCPv4.Server.Pool.*.Alias?'" | grep 'Pool\.[[:digit:]]\.Alias' | sort
+  $ script --command "ssh -t root@$TARGET_LAN_IP 'ubus-cli DHCPv4Server.Pool.*.Alias?'" | grep 'Pool\.[[:digit:]]\.Alias' | sort
   DHCPv4Server.Pool.1.Alias="lan"\r (esc)
   DHCPv4Server.Pool.2.Alias="guest"\r (esc)
   DHCPv4Server.Pool.3.Alias="lcm"\r (esc)
