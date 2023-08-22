@@ -1,5 +1,0 @@
-#!/bin/sh
-
-rm /etc/rc.d/S19unbound
-
-exit 0
