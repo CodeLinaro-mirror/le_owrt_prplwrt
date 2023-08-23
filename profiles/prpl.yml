@@ -12,7 +12,7 @@ feeds:
     revision: v1.0.39
   - name: feed_net_core
     uri: https://gitlab.com/soft.at.home/buildsystems/openwrt/feed_net_core.git
-    revision: v13.1.6
+    revision: v13.1.7
   - name: feed_qos_firewall
     uri: https://gitlab.com/soft.at.home/buildsystems/openwrt/feed_qos_firewall.git
     revision: v3.4.0
@@ -130,6 +130,7 @@ packages:
   - mod-dns-unbound
   - mod-dhcpv4c
   - mod-logical-api
+  - mod-ppp-daemon
   - multisettings
   - netdev-plugin
   - netmodel
