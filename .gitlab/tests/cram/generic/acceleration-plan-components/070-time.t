@@ -20,17 +20,17 @@ Check that we've expected datamodel:
   $ R "ubus call Time.Client.1 _get | jsonfilter -e @[*].Port -e @[*].Status -e @[*].Servers -e @[*].Alias -e @[*].Mode | sort"
   0.europe.pool.ntp.org, 1.europe.pool.ntp.org
   123
-  Manycast
   Synchronized
+  Unicast
   cpe-client-1
 
   $ R "ubus call Time.Server _get | jsonfilter -e @[*].Port -e @[*].Status -e @[*].Alias -e @[*].Mode | sort"
   123
   123
-  Enabled
-  Enabled
   Unicast
   Unicast
+  Up
+  Up
   cpe-br-guest
   cpe-br-lan
 

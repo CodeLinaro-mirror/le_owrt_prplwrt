@@ -143,6 +143,9 @@ Check that ubus has expected datamodels available:
   IPDiagnostics
   IPDiagnostics.IPPing
   IPDiagnostics.IPPing.Process
+  IPDiagnostics.TraceRoute
+  IPDiagnostics.TraceRoute.Process
+  IPDiagnostics.TraceRoute.RouteHops
   IPDiagnostics.X_PRPL-COM_DownloadConfig
   IPDiagnostics.X_PRPL-COM_DownloadResult
   IPDiagnostics.X_PRPL-COM_DownloadResult.Config
