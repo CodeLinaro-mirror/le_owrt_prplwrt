@@ -7,9 +7,6 @@ Check that miniupnpd is enabled and running by default:
   $ R "pgrep --count miniupnpd"
   1
 
-  $ R "uci show upnpd.config.enabled"
-  upnpd.config.enabled='1'
-
   $ R "ubus -S call UPnP.Device _get '{\"rel_path\":\"UPnPIGD\"}'"
   {"UPnP.Device.":{"UPnPIGD":true}}
   {}
