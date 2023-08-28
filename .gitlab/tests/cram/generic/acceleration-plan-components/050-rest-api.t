@@ -10,4 +10,4 @@ Check we can get protected parameters:
   [{"parameters":{"Version":4},"path":"Device.Time.Client.1."}] (no-eol)
 
   $ curl -X GET -i "http://192.168.1.1/serviceElements/Security." -H "Authorization: bearer $session_id" --silent --max-time 3 | grep Forbidden
-  HTTP/1.1 403 Forbidden
+  HTTP/1.1 403 Forbidden\r (esc)
