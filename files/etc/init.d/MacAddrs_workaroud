@@ -1,5 +1,0 @@
-#!/bin/sh /etc/rc.common
-
-START=30
-
-chmod a-x S71gmap-server S82gmap-client
