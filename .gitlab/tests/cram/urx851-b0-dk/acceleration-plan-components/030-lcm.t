@@ -87,7 +87,7 @@ Check that prplOS container is not running:
 Check that Rlyeh has no container images:
 
   $ R "ubus -S call Rlyeh.Images _get"
-  {"Rlyeh.Images.":{},"Rlyeh.Images.1.":{"URI":"docker://registry.gitlab.com/prpl-foundation/prplos/prplos/prplos-testing-container-x86-64:v1","MarkForRemoval":false,"Status":"Downloaded","DiskLocation":"}
+  {"Rlyeh.Images.":{}}
   {}
   {"amxd-error-code":0}
 
