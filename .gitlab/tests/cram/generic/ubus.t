@@ -11,7 +11,7 @@ Check that we've correct bridge aliases:
 
 Check that we've correct DHCP pool settings:
 
-  $ R "ubus call DHCPv4Server.Pool _get \"{'rel_path':'*'}\" | grep -E '(Alias|MinAddres|MaxAddress|Enable|Servers|Status)' | sort"
+  $ R "ubus call DHCPv4Server.Pool _get \"{'rel_path':''}\" | grep -E '(Alias|MinAddres|MaxAddress|Enable|Servers|Status)' | sort"
   \t\t"Alias": "guest", (esc)
   \t\t"Alias": "lan", (esc)
   \t\t"Alias": "lcm", (esc)
@@ -31,7 +31,7 @@ Check that we've correct DHCP pool settings:
   \t\t"Status": "Enabled", (esc)
   \t\t"Status": "Error_Misconfigured", (esc)
 
-  $ R "ubus call DHCPv6Server.Pool _get \"{'rel_path':'*'}\" | grep -E '(Alias|Enable|Status)' | sort"
+  $ R "ubus call DHCPv6Server.Pool _get \"{'rel_path':''}\" | grep -E '(Alias|Enable|Status)' | sort"
   \t\t"Alias": "guest", (esc)
   \t\t"Alias": "lan", (esc)
   \t\t"Alias": "lcm", (esc)
@@ -50,13 +50,15 @@ Check that we've correct DHCP pool settings:
 
 Check that aclmanager has expected setup:
 
-  $ R "ubus call ACLManager.Role _get '{\"rel_path\":\"*\"}' | jsonfilter -e @[*].Name -e @[*].Alias | sort"
+  $ R "ubus call ACLManager.Role _get '{\"rel_path\":\"\"}' | jsonfilter -e @[*].Name -e @[*].Alias | sort"
   admin
   cpe-Role-1
   cpe-Role-2
   cpe-Role-3
-  guest
+  cpe-Role-4
+  cwmp
   operator
+  untrusted
 
 Check that Users.Role component has expected setup:
 
