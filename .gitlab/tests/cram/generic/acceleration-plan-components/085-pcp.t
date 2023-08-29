@@ -11,26 +11,26 @@ Check PCP root datamodel:
 
 Add Client:
 
-  $ R "ubus -S call PCP.Client _add '{\"parameters\":{\"WANInterface\":\"Device.IP.Interface.2.\"}}'" ; sleep 2
-  {"object":"PCP.Client.cpe-Client-2.","index":2,"name":"cpe-Client-2","parameters":{"Alias":"cpe-Client-2"},"path":"PCP.Client.2."}
-  {}
-  {"amxd-error-code":0}
+  $ R "ubus-cli PCP.Client+{WANInterface = \"Device.IP.Interface.2.\"}" ; sleep 2
+  > PCP.Client+{WANInterface = "Device.IP.Interface.2."}
+  PCP.Client.2.
+  PCP.Client.2.Alias="cpe-Client-2"
 
 Check Client parameters:
 
-  $ R "ubus call PCP.Client.1 _get | jsonfilter -e @[*].WANInterface -e @[*].Status | sort"
+  $ R "ubus call PCP.Client.2 _get | jsonfilter -e @[*].WANInterface -e @[*].Status | sort"
   Device.Logical.Interface.1.
   StackDisabled
 
 Add Server:
 
-  $ R "ubus -S call PCP.Client.1.Server _add '{\"parameters\":{\"Origin\":\"DHCPv6\"}}'" ; sleep 2
-  {"object":"PCP.Client.cpe-Client-1.Server.cpe-Server-2.","index":2,"name":"cpe-Server-2","parameters":{"Alias":"cpe-Server-2"},"path":"PCP.Client.1.Server.2."}
-  {}
-  {"amxd-error-code":0}
+  $ R "ubus-cli PCP.Client.2.Server+{Origin = \"DHCPv6\"}" ; sleep 2
+  > PCP.Client.2.Server+{Origin = "DHCPv6"}
+  PCP.Client.2.Server.1.
+  PCP.Client.2.Server.1.Alias="cpe-Server-1"
 
 Check Server parameters:
 
-  $ R "ubus call PCP.Client.1.Server.1 _get | jsonfilter -e @[*].Status -e @[*].Origin | sort"
+  $ R "ubus call PCP.Client.2.Server.1 _get | jsonfilter -e @[*].Status -e @[*].Origin | sort"
   DHCPv6
   Disabled
