@@ -202,6 +202,7 @@ diffconfig: |
           CONFIG_SYSLOGNG_LOGROTATE=y
           CONFIG_SYSLOGNG_LOGROTATE_MAXSIZE="5M"
           CONFIG_PACKAGE_mod-xpon-prpl-mock=m
+          # CONFIG_PACKAGE_netifd is not set
           # CONFIG_PACKAGE_firewall4 is not set
           # CONFIG_PACKAGE_logd is not set
           # lxc options for LCM
