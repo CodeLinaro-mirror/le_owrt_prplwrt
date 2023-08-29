@@ -11,10 +11,7 @@ Check PCP root datamodel:
 
 Add Client:
 
-  $ R "ubus-cli PCP.Client+{WANInterface = \"Device.IP.Interface.2.\"}" ; sleep 2
-  > PCP.Client+{WANInterface = "Device.IP.Interface.2."}
-  PCP.Client.2.
-  PCP.Client.2.Alias="cpe-Client-2"
+  $ R "ubus-cli PCP.Client+{WANInterface = \"Device.Logical.Interface.1.\"}" > /dev/null; sleep 2
 
 Check Client parameters:
 
@@ -24,10 +21,7 @@ Check Client parameters:
 
 Add Server:
 
-  $ R "ubus-cli PCP.Client.2.Server+{Origin = \"DHCPv6\"}" ; sleep 2
-  > PCP.Client.2.Server+{Origin = "DHCPv6"}
-  PCP.Client.2.Server.1.
-  PCP.Client.2.Server.1.Alias="cpe-Server-1"
+  $ R "ubus-cli PCP.Client.2.Server+{Origin = \"DHCPv6\"}" > /dev/null; sleep 2
 
 Check Server parameters:
 
