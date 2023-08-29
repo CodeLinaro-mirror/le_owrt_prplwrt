@@ -29,7 +29,7 @@ Check that we've correct DHCP pool settings:
   \t\t"MinAddress": "192.168.5.100", (esc)
   \t\t"Status": "Enabled", (esc)
   \t\t"Status": "Enabled", (esc)
-  \t\t"Status": "Error_Misconfigured", (esc)
+  \t\t"Status": "Enabled", (esc)
 
   $ R "ubus call DHCPv6Server.Pool _get \"{'rel_path':''}\" | grep -E '(Alias|Enable|Status)' | sort"
   \t\t"Alias": "guest", (esc)
