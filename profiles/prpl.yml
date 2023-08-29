@@ -49,6 +49,7 @@ additional_packages:
   - feed: packages
     packages:
       - chrony
+      - iputils-ping
       - libnl-core
       - libnl-route
       - lighttpd
