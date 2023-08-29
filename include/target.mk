@@ -20,7 +20,6 @@ DEFAULT_PACKAGES:=\
 	libustream-wolfssl \
 	logd \
 	mtd \
-	netifd \
 	opkg \
 	uci \
 	uclient-fetch \
