@@ -13,11 +13,11 @@ feeds:
   - name: intel_x86
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_target_x86.git
     tracking_branch: updk_9.1.30
-    revision: 5665b682615993745ac3398a003db2b9209fbd5c
+    revision: 3ef756839c44ffcb35d7cdc317b76409fc2535ee
   - name: rootfs
     uri: ssh://git@git.maxlinear.com/ugw/rootfs.git
     tracking_branch: updk_9.1.30
-    revision: 425d010d585228ef8388b862e8f4a55613e68b99
+    revision: a0173dc552973b3f84902efecfb5f1a4796818e2
   - name: 3rdparty
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_3rdparty.git
     tracking_branch: updk_9.1.30
@@ -73,7 +73,7 @@ feeds:
   - name: bootloader
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_uboot.git
     tracking_branch:  updk_9.1.30
-    revision: d66f77c0722bf99e80d78772f23c6c6fa7976d61
+    revision: 4b003e393f7bb73ace65d0b434c432d2a0cb1bef
   - name: mcast_service
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_mcast_service.git
     tracking_branch:  updk_9.1.30
