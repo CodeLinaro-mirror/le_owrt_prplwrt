@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ssh "root@$TARGET_LAN_IP" "sed -i 's/CHECK_SECONDS=30/CHECK_SECONDS=300/g' /usr/lib/ddns/dynamic_dns_updater.sh"
+ssh "root@$TARGET_LAN_IP" "sed -i 's/CHECK_SECONDS=300/CHECK_SECONDS=30/g' /usr/lib/ddns/dynamic_dns_updater.sh"
 ssh "root@$TARGET_LAN_IP" "ubus -t 200 wait_for DynamicDNS.Client"
 ssh "root@$TARGET_LAN_IP" "\
 	ubus call DynamicDNS.Server.9 _set \
