@@ -152,6 +152,7 @@ define Build/InstallDev
 	$(INSTALL_DIR) $(1)/usr/lib
 	$(CP) $(PKG_INSTALL_DIR)/usr/lib/liblua.{a,so*} $(1)/usr/lib/
 	$(LN) liblua.so.$(PKG_VERSION) $(1)/usr/lib/liblualib.so
+	$(LN) liblua.so.$(PKG_VERSION) $(1)/usr/lib/liblua5.1.so
 	$(INSTALL_DIR) $(1)/usr/lib/pkgconfig
 	$(CP) $(PKG_BUILD_DIR)/etc/lua.pc $(1)/usr/lib/pkgconfig/
 endef
@@ -159,6 +160,7 @@ endef
 define Package/liblua/install
 	$(INSTALL_DIR) $(1)/usr/lib
 	$(CP) $(PKG_INSTALL_DIR)/usr/lib/liblua.so.* $(1)/usr/lib/
+	$(LN) liblua.so.$(PKG_VERSION) $(1)/usr/lib/liblua5.1.so
 endef
 
 define Package/lua/install
