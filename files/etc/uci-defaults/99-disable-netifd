@@ -1,9 +1,0 @@
-#!/bin/sh
-
-while uci -q delete network.@device[0]; do :; done
-uci delete network.lan 
-uci delete network.wan 
-uci delete network.wan6
-uci commit
-
-exit 0
