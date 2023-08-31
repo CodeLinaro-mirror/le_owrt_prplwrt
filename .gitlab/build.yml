@@ -70,6 +70,11 @@
         echo '[!] ERROR: build failed'
         exit 1
       " ERR
+
+    - tar xvzf wnc_prpl_haze-v0.1.2.tar.gz
+    - ./wnc_prpl/configure.sh haze-final
+    - ( git diff ; cd feeds/feed_prpl ; git diff )
+
     - make -j $(nproc) 2>&1 | tee --append logs/build.log
     - rm .build_failed
 
