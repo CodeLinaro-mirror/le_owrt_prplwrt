@@ -130,10 +130,10 @@ class TestbedDevice:
             self.init_swconfig_glinet()
 
     def _init_wan_vlan(self):
-        self.shell.run("ubus -t 60 wait_for X_PRPL-COM_WANManager.WAN")
-        self.shell.run("ubus-cli X_PRPL-COM_WANManager.WAN.2.Intf.1.VlanID=101")
-        self.shell.run("ubus-cli X_PRPL-COM_WANManager.WAN.2.Intf.2.VlanID=100")
-        self.shell.run("ubus call X_PRPL-COM_WANManager setWANMode '{ \"WANMode\": \"Ethernet_DHCP\" }'") 
+        self.shell.run("ubus -t 60 wait_for WANManager.WAN")
+        self.shell.run("ubus-cli WANManager.WAN.2.Intf.1.VlanID=101")
+        self.shell.run("ubus-cli WANManager.WAN.2.Intf.2.VlanID=100")
+        self.shell.run("ubus call WANManager setWANMode '{ \"WANMode\": \"Ethernet_DHCP\" }'") 
 
     def _init_lan_vlan(self):
         bridge_lan_ports = {

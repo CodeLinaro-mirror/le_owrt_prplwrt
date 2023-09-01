@@ -262,5 +262,5 @@ Check that ubus has expected datamodels available:
   X_PRPL-COM_PersistentConfiguration.Config
   X_PRPL-COM_PersistentConfiguration.Config.Security
   X_PRPL-COM_PersistentConfiguration.Service
-  X_PRPL-COM_WANManager
-  X_PRPL-COM_WANManager.WAN
+  WANManager
+  WANManager.WAN
