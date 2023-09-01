@@ -170,6 +170,8 @@ Check that ubus has expected datamodels available:
   ManagementServer.State
   ManagementServer.Stats
   ManagementServer.Subscription
+  MultiSettings
+  MultiSettings.Profile
   NAT
   NAT.InterfaceSetting
   NAT.PortMapping
@@ -199,6 +201,11 @@ Check that ubus has expected datamodels available:
   PacketInterception.Condition
   PacketInterception.Interception
   PacketInterception.PacketHandler
+  PersistentConfiguration
+  PersistentConfiguration.BackupFile
+  PersistentConfiguration.Config
+  PersistentConfiguration.Config.Security
+  PersistentConfiguration.Service
   ProxyManager
   QoS
   QoS.Classification
@@ -246,6 +253,8 @@ Check that ubus has expected datamodels available:
   Users.Role
   Users.SupportedShell
   Users.User
+  WANManager
+  WANManager.WAN
   WiFi
   WiFi.AccessPoint
   WiFi.AutoCommitMgr
@@ -255,12 +264,3 @@ Check that ubus has expected datamodels available:
   WiFi.wps_DefParam
   XPON
   XPON.ONU
-  X_PRPL-COM_MultiSettings
-  X_PRPL-COM_MultiSettings.Profile
-  X_PRPL-COM_PersistentConfiguration
-  X_PRPL-COM_PersistentConfiguration.BackupFile
-  X_PRPL-COM_PersistentConfiguration.Config
-  X_PRPL-COM_PersistentConfiguration.Config.Security
-  X_PRPL-COM_PersistentConfiguration.Service
-  WANManager
-  WANManager.WAN
