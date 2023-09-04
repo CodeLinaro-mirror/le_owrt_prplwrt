@@ -5,7 +5,7 @@ Create R alias:
 Get initial state of bridges:
 
   $ R "brctl show | grep -E '(br-lan|br-guest)' | sort | cut -d$'\t' -f1,6" | tr '\t' ' '
-  br-guest 
+  br-guest wlan0.2
   br-lan eth0_(1|2|3|4|5) (re)
 
 Remove eth0_1 from LAN bridge and add it to the Guest bridge:
@@ -37,5 +37,5 @@ Remove eth0_1 from the Guest bridge and add it back to the LAN bridge:
 Check for initial state of bridges again:
 
   $ R "brctl show | grep -E '(br-lan|br-guest)' | sort | cut -d$'\t' -f1,6" | tr '\t' ' '
-  br-guest 
+  br-guest wlan0.2
   br-lan eth0_(1|2|3|4|5) (re)
