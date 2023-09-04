@@ -23,10 +23,20 @@ Check that ubus has expected datamodels available:
   Cthulhu.Config
   Cthulhu.Container
   Cthulhu.Container.Instances
+  Cthulhu.Container.Instances.Plugins.NetworkConfig
+  Cthulhu.Container.Instances.Plugins.NetworkConfig.AccessInterfaces
+  Cthulhu.Container.Instances.Plugins.NetworkConfig.FirewallRules
+  Cthulhu.Container.Instances.Plugins.NetworkConfig.PortForwarding
   Cthulhu.Information
   Cthulhu.Plugins
+  Cthulhu.Plugins.NetworkConfig
+  Cthulhu.Plugins.NetworkConfig.FirewallRules
+  Cthulhu.Plugins.NetworkConfig.FirewallRules.Rules
+  Cthulhu.Plugins.NetworkConfig.Interfaces
   Cthulhu.Sandbox
   Cthulhu.Sandbox.Instances
+  Cthulhu.Sandbox.Instances.Plugins.DHCP
+  Cthulhu.Sandbox.Instances.Plugins.DHCP.Interfaces
   DHCPv4Client
   DHCPv4Client.Client
   DHCPv4Server

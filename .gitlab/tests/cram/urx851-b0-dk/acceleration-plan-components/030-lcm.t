@@ -50,7 +50,7 @@ Check that prplOS container v2 is running:
   prplos-testing
   v2
 
-  $ container_ip=$(R "ubus call DHCPv4Server.Pool.1.Client.1.IPv4Address.1 _get | jsonfilter -e @[*].IPAddress")
+  $ container_ip=$(R "ubus call DHCPv4Server.Pool.3.Client.1.IPv4Address.1 _get | jsonfilter -e @[*].IPAddress")
   $ R "ssh -y root@$container_ip 'cat /etc/container-version' 2> /dev/null"
   2
 
