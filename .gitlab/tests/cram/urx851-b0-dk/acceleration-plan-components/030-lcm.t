@@ -12,29 +12,9 @@ Check that Sandbox is not configured properly:
 
 Configure Sandbox:
 
-  $ cat > /tmp/run-sandbox <<EOF
-  > ubus-cli "Cthulhu.Sandbox.stop(SandboxId=\"generic\")"
-  > ubus-cli Cthulhu.Sandbox.Instances.1.NetworkNS.Type="Veth"
-  > ubus-cli Cthulhu.Sandbox.Instances.1.NetworkNS.Interfaces.+
-  > ubus-cli Cthulhu.Sandbox.Instances.1.NetworkNS.Interfaces.1.Bridge="br-lan"
-  > ubus-cli Cthulhu.Sandbox.Instances.1.NetworkNS.Interfaces.1.Interface="eth0"
-  > ubus-cli Cthulhu.Sandbox.Instances.1.NetworkNS.Enable=1
-  > ubus-cli "Cthulhu.Sandbox.start(SandboxId=\"generic\")"
-  > EOF
-  $ script --command "ssh -t root@$TARGET_LAN_IP '$(cat /tmp/run-sandbox)'" > /dev/null
-  $ sleep 10
-
-Check that Sandbox was configured properly:
-
-  $ R "ubus -S call Cthulhu.Sandbox.Instances.1.NetworkNS.Interfaces.1 _get"
-  {"Cthulhu.Sandbox.Instances.1.NetworkNS.Interfaces.1.":{"Interface":"eth0","Bridge":"br-lan"}}
-  {}
-  {"amxd-error-code":0}
-
 Install testing prplOS container v1:
-
   $ cat > /tmp/run-container <<EOF
-  > ubus-cli "SoftwareModules.InstallDU(URL=\"docker://registry.gitlab.com/prpl-foundation/prplos/prplos/prplos-testing-container-x86-64:v1\", UUID=\"prplos-testing\", ExecutionEnvRef=\"generic\")"
+  ubus-cli 'SoftwareModules.InstallDU(URL="docker://registry.gitlab.com/prpl-foundation/prplos/prplos/prplos-testing-container-x86-64:v1", UUID="prplos-testing", ExecutionEnvRef="generic", "NetworkConfig" = { "AccessInterfaces" = [{"Reference" = "Lan"]}})'
   > EOF
   $ script --command "ssh -t root@$TARGET_LAN_IP '$(cat /tmp/run-container)'" > /dev/null
 
@@ -56,7 +36,7 @@ Check that prplOS container v1 is running:
 Update to prplOS container v2:
 
   $ cat > /tmp/run-container <<EOF
-  > ubus-cli "SoftwareModules.DeploymentUnit.cpe-prplos-testing.Update(URL=\"docker://registry.gitlab.com/prpl-foundation/prplos/prplos/prplos-testing-container-x86-64:v2\")"
+  > ubus-cli "SoftwareModules.DeploymentUnit.cpe-prplos-testing.Update(URL="docker://registry.gitlab.com/prpl-foundation/prplos/prplos/prplos-testing-container-x86-64:v2", UUID="prplos-testing", ExecutionEnvRef="generic", "NetworkConfig" = { "AccessInterfaces" = [{"Reference" = "Lan"]}})'
   > EOF
   $ script --command "ssh -t root@$TARGET_LAN_IP '$(cat /tmp/run-container)'" > /dev/null
 
@@ -71,7 +51,7 @@ Check that prplOS container v2 is running:
   prplos-testing
   v2
 
-  $ container_ip=$(R "ubus call DHCPv4Server.Pool.1.Client.1.IPv4Address.1 _get | jsonfilter -e @[*].IPAddress")
+  $ container_ip=$(R "ubus call DHCPv4Server.Pool.3.Client.1.IPv4Address.1 _get | jsonfilter -e @[*].IPAddress")
   $ R "ssh -y root@$container_ip 'cat /etc/container-version' 2> /dev/null"
   2
 

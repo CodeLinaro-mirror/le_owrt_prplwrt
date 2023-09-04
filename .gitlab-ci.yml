@@ -31,47 +31,47 @@ stages:
   - cdrouter
   - coverity
 
-build test mxl_x86 mxl_wlan_hostap_ng prpl:
+build test mxl_x86 mxl_wlan_hostap_ng prpl security:
   image: registry.gitlab.com/prpl-foundation/prplos/prplos/prplos-next/builder-osp@sha256:c3e7d58f4ca821b78386da1a36c8a9646805cdc5b746500464411c245b95d049
   extends: .build test config
   artifacts:
   tags:
     - firmware-builder-osp
 
-build test mxl_x86_osp_tb341 mxl_wlan_hostap_ng prpl:
+build test mxl_x86_osp_tb341 mxl_wlan_hostap_ng prpl security:
   image: registry.gitlab.com/prpl-foundation/prplos/prplos/prplos-next/builder-osp@sha256:c3e7d58f4ca821b78386da1a36c8a9646805cdc5b746500464411c245b95d049
   extends: .build test config
   artifacts:
   tags:
     - firmware-builder-osp
 
-build test mvebu prpl:
+build test mvebu prpl security:
   extends: .build test config
 
-build test x86_64 prpl:
+build test x86_64 prpl security:
   extends: .build test config
   variables:
     CI_BUILD_CONFIG: >
       +DEVEL +BUILD_LOG +SDK +IB +IB_STANDALONE
 
-build test ipq807x prpl:
+build test ipq807x prpl security:
   extends: .build test config
 
 run test Turris Omnia initramfs:
   needs:
-    - job: build test mvebu prpl
+    - job: build test mvebu prpl security
       optional: true
   extends: .turris-omnia testbed
 
 run test Haze initramfs:
   needs:
-    - job: build test ipq807x prpl
+    - job: build test ipq807x prpl security
       optional: true
   extends: .prpl-haze testbed
 
 run test URX851-HDK-3 with system on eMMC:
   needs:
-    - job: build test mxl_x86_osp_tb341 mxl_wlan_hostap_ng prpl
+    - job: build test mxl_x86_osp_tb341 mxl_wlan_hostap_ng prpl security
       optional: true
   extends: .urx851-hdk-3 testbed
 
