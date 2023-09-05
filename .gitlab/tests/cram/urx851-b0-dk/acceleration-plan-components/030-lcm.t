@@ -13,7 +13,7 @@ Check that Sandbox is not configured properly:
 Install testing prplOS container v1:
 
   $ cat > /tmp/run-container <<EOF
-  > ubus-cli 'SoftwareModules.InstallDU(URL="docker://registry.gitlab.com/prpl-foundation/prplos/prplos/prplos-testing-container-x86-64:v1", UUID="prplos-testing", ExecutionEnvRef="generic", "NetworkConfig" = { "AccessInterfaces" = [{"Reference" = "Lan"]}})'
+  > ubus-cli '\''SoftwareModules.InstallDU(URL="docker://registry.gitlab.com/prpl-foundation/prplos/prplos/prplos-testing-container-x86-64:v1", UUID="prplos-testing", ExecutionEnvRef="generic", NetworkConfig = { "AccessInterfaces" = [{"Reference" = "Lan"]}})'\''
   > EOF
   $ script --command "ssh -t root@$TARGET_LAN_IP '$(cat /tmp/run-container)'" > /dev/null
 
