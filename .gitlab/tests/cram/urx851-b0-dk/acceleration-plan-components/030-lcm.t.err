@@ -44,15 +44,11 @@ Check that prplOS container v2 is running:
   $ sleep 40
 
   $ R "ubus -S call Cthulhu.Container.Instances.2 _get | jsonfilter -e @[*].Status -e @[*].Bundle -e @[*].BundleVersion -e @[*].ContainerId -e @[*].Alias | sort"
-  Running
-  cpe-prplos-testing
-  prpl-foundation/prplos/prplos/prplos-testing-container-x86-64
-  prplos-testing
-  v2
+  Failed to parse json data: unexpected end of data
 
   $ container_ip=$(R "ubus call DHCPv4Server.Pool.3.Client.1.IPv4Address.1 _get | jsonfilter -e @[*].IPAddress")
   $ R "ssh -y root@$container_ip 'cat /etc/container-version' 2> /dev/null"
-  2
+  1
 
 Uninstall prplOS testing container:
 
@@ -66,7 +62,7 @@ Check that prplOS container is not running:
 Check that Rlyeh has no container images:
 
   $ R "ubus -S call Rlyeh.Images _get"
-  {"Rlyeh.Images.":{}}
+  {"Rlyeh.Images.":{},"Rlyeh.Images.1.":{"URI":"docker://registry.gitlab.com/prpl-foundation/prplos/prplos/prplos-testing-container-x86-64:v1","MarkForRemoval":false,"Status":"Downloaded","DiskLocation":"prpl-foundation/prplos/prplos/prplos-testing-container-x86-64","Vendor":"","Description":"","ErrorCode":0,"UUID":"prplos-testing","Name":"prpl-foundation/prplos/prplos/prplos-testing-container-x86-64","Version":"v1"}}
   {}
   {"amxd-error-code":0}
 
