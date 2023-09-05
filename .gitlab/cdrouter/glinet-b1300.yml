@@ -1,6 +1,6 @@
 .glinet-cdrouter: &glinet_cdrouter
   needs:
-    - job: build test ipq40xx prpl security
+    - job: build test ipq40xx prpl
       optional: true
   extends:
     - .glinet-b1300 testbed

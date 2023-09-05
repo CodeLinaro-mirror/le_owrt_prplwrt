@@ -1,6 +1,6 @@
 .urx851-pon-cdrouter: &urx851_pon_cdrouter
   needs:
-    - job: build test mxl_x86 mxl_wlan_hostap_ng prpl security
+    - job: build test mxl_x86 mxl_wlan_hostap_ng prpl
       optional: true
   extends:
     - .urx851-b0-dk-pon testbed
