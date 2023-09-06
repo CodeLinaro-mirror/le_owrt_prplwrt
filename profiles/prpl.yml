@@ -6,25 +6,25 @@ feeds:
     revision: gen_openwrt22.03_v0.1.5
   - name: feed_amx
     uri: https://gitlab.com/soft.at.home/buildsystems/openwrt/feed_amx.git
-    revision: v10.1.0
+    revision: v10.1.1
   - name: feed_gmap
     uri: https://gitlab.com/soft.at.home/buildsystems/openwrt/feed_gmap.git
     revision: v1.0.40
   - name: feed_net_core
     uri: https://gitlab.com/soft.at.home/buildsystems/openwrt/feed_net_core.git
-    revision: v13.1.12
+    revision: v13.3.1
   - name: feed_qos_firewall
     uri: https://gitlab.com/soft.at.home/buildsystems/openwrt/feed_qos_firewall.git
-    revision: v3.4.1
+    revision: v3.4.3
   - name: feed_net_services
     uri: https://gitlab.com/soft.at.home/buildsystems/openwrt/feed_net_services.git
-    revision: v6.5.3
+    revision: v6.6.0
   - name: feed_net_hl_services
     uri: https://gitlab.com/soft.at.home/buildsystems/openwrt/feed_net_hl_services.git
     revision: v0.2.3
   - name: feed_usp
     uri: https://gitlab.com/soft.at.home/buildsystems/openwrt/feed_usp.git
-    revision: v8.1.0
+    revision: v8.2.0
   - name: feed_netmodel
     uri: https://gitlab.com/soft.at.home/buildsystems/openwrt/feed_netmodel.git
     revision: v4.3.0
@@ -39,7 +39,7 @@ feeds:
     revision: v0.2.1
   - name: feed_board_configuration
     uri: https://gitlab.com/soft.at.home/buildsystems/openwrt/feed_board_configuration.git
-    revision: v0.2.0
+    revision: v0.2.1
   - name: feed_prpl
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-prpl.git
     tracking_branch: prplos-next
