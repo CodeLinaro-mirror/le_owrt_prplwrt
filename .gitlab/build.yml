@@ -21,6 +21,17 @@
     - set -o pipefail
     - git config --global --add safe.directory '*'
 
+    - |
+      crlf_check_failed=$(rgrep -U $'\x0D' profiles | cut -d: -f1 | sort -u)
+      if test -n "$crlf_check_failed"; then
+        echo -e "ERROR: detected CRLF issues in the following YAML profiles:\n"
+        for profile in $crlf_check_failed; do
+          echo " * $profile"
+        done
+        echo -e "\nIt might result in hard to debug issues, please fix them."
+        exit 1
+      fi
+
     - >
       if echo "$CI_RUNNER_DESCRIPTION" | grep -v -q "Restricted.*OSP"; then
         sed -i -E 's;git.openwrt.org/(feed|project);github.com/openwrt;' feeds.conf.default
