@@ -3,8 +3,8 @@ description: Add the prpl features
 feeds:
   - name: feed_prpl
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-prpl.git
-    tracking_branch: prplos-next
-    revision: 7cdfbb883ec6291e0cacc4b51c262327650dba1d
+    tracking_branch: dev/PPM-2598-bump-pwhm-and-lib-upstep-ssh-server
+    revision: 23532211e06661f76916ce9efed64708f0e88b4c
 
 additional_packages:
   - feed: packages
