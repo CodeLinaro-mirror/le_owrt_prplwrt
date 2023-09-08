@@ -22,7 +22,7 @@
     - git config --global --add safe.directory '*'
 
     - |
-      crlf_check_failed=$(rgrep -U $'\x0D' profiles | cut -d: -f1 | sort -u)
+      crlf_check_failed=$(rgrep -U $'\x0D' profiles | cut -d: -f1 | sort -u || true)
       if test -n "$crlf_check_failed"; then
         echo -e "ERROR: detected CRLF issues in the following YAML profiles:\n"
         for profile in $crlf_check_failed; do
