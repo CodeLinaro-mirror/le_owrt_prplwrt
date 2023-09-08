@@ -33,7 +33,7 @@ feeds:
     revision: v0.21.0
   - name: feed_lcm
     uri: https://gitlab.com/soft.at.home/buildsystems/openwrt/feed_lcm.git
-    revision: v0.3.1
+    revision: v0.3.2
   - name: feed_debug
     uri: https://gitlab.com/soft.at.home/buildsystems/openwrt/feed_debug.git
     revision: v0.2.2
