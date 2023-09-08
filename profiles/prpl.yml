@@ -12,10 +12,10 @@ feeds:
     revision: v1.0.40
   - name: feed_net_core
     uri: https://gitlab.com/soft.at.home/buildsystems/openwrt/feed_net_core.git
-    revision: v13.3.1
+    revision: v13.2.0
   - name: feed_qos_firewall
     uri: https://gitlab.com/soft.at.home/buildsystems/openwrt/feed_qos_firewall.git
-    revision: v3.4.3
+    revision: v3.4.1
   - name: feed_net_services
     uri: https://gitlab.com/soft.at.home/buildsystems/openwrt/feed_net_services.git
     revision: v6.6.0
@@ -36,14 +36,14 @@ feeds:
     revision: v0.3.0
   - name: feed_debug
     uri: https://gitlab.com/soft.at.home/buildsystems/openwrt/feed_debug.git
-    revision: v0.2.1
+    revision: v0.2.2
   - name: feed_board_configuration
     uri: https://gitlab.com/soft.at.home/buildsystems/openwrt/feed_board_configuration.git
-    revision: v0.2.1
+    revision: v0.2.0
   - name: feed_prpl
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-prpl.git
-    tracking_branch: prplos-next
-    revision: 1c54d2aa4e165e7a8871c9f5d880dd37bf86e110
+    tracking_branch: mf/prplos-M1-2023
+    revision: 9fc93ae46e571b38504e73be16fe40378833314d
 
 additional_packages:
   - feed: packages
