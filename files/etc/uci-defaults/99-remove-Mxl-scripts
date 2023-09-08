@@ -1,6 +1,6 @@
 #!/bin/sh
 
-rm /etc/rc.d/S25netdev_cfg.sh 
-rm /etc/rc.d/S99mxl-network-init
+/etc/init.d/netdev_cfg.sh disable
+/etc/init.d/mxl-network-init disable
 
 exit 0
