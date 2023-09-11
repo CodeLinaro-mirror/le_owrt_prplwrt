@@ -27,7 +27,7 @@ feeds:
     revision: v8.2.0
   - name: feed_netmodel
     uri: https://gitlab.com/soft.at.home/buildsystems/openwrt/feed_netmodel.git
-    revision: v4.3.0
+    revision: v4.3.2
   - name: feed_tr69
     uri: https://gitlab.com/soft.at.home/buildsystems/openwrt/feed_tr69.git
     revision: v0.21.0
