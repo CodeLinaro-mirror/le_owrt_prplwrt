@@ -3,4 +3,6 @@
 /etc/init.d/netdev_cfg.sh disable
 /etc/init.d/mxl-network-init disable
 
+sed -i '84a proxy-wait-time = 7;' /etc/amx/tr181-device/tr181-device.odl
+
 exit 0
