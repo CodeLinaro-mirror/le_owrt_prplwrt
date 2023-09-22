@@ -287,7 +287,7 @@ Signed-off-by: Petr Štetiar <ynezz@true.cz>
 -      return dhcp_packet_size(mess, agent_id, real_end); 
 +       size_t result = dhcp_packet_size(mess, agent_id, real_end);
 +#ifdef HAVE_UBUS
-+       if (lease && lease->ubus_extra_info) {
++       if (lease && lease->ubus_extra_info && lease->ubus_extra_info->net) {
 +         lease->ubus_extra_info->net = context->netid.net;
 +       }
 +#endif
