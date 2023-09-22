@@ -17,7 +17,6 @@ RUN \
 	openssh-client \
 	python3 \
 	python3-pip \
-	python3-setuptools \
 	sshpass \
 	sudo \
 	tcpdump \
@@ -35,9 +34,9 @@ WORKDIR labgrid
 RUN git reset --hard $LABGRID_COMMIT
 
 RUN \
-	pip3 install -U pip && \
-	pip3 install -r requirements.txt && \
-	pip3 install -r modbus-requirements.txt && \
+	python3 -m pip install -U pip==23.2.1 setuptools==47.3.2 setuptools-scm==7.1.0 && \
+	python3 -m pip install -r requirements.txt && \
+	python3 -m pip install -r modbus-requirements.txt && \
 	python3 setup.py install && \
 	rm -fr /labgrid
 
