@@ -29,11 +29,9 @@ Signed-off-by: Petr Štetiar <ynezz@true.cz>
  src/ubus.c    | 226 +++++++++++++++++++++++++++++++++++++++++++++++++-
  4 files changed, 308 insertions(+), 32 deletions(-)
 
-diff --git a/src/dnsmasq.h b/src/dnsmasq.h
-index 0864b7eee509..76e2a7fca3af 100644
 --- a/src/dnsmasq.h
 +++ b/src/dnsmasq.h
-@@ -282,6 +282,8 @@ struct event_desc {
+@@ -286,6 +286,8 @@ struct event_desc {
  #define option_var(x) (daemon->options[(x) / OPTION_BITS])
  #define option_val(x) ((1u) << ((x) % OPTION_BITS))
  #define option_bool(x) (option_var(x) & option_val(x))
@@ -42,17 +40,17 @@ index 0864b7eee509..76e2a7fca3af 100644
  
  /* extra flags for my_syslog, we use facilities since they are known 
     not to occupy the same bits as priorities, no matter how syslog.h is set up. 
-@@ -810,6 +812,9 @@ struct dhcp_lease {
-     struct slaac_address *next;
+@@ -825,6 +827,9 @@ struct dhcp_lease {
    } *slaac_address;
    int vendorclass_count;
-+#endif
+ #endif
 +#ifdef HAVE_UBUS
 +  struct ubus_extra_info *ubus_extra_info;
- #endif
++#endif
    struct dhcp_lease *next;
  };
-@@ -1475,6 +1480,7 @@ char *host_from_dns(struct in_addr addr);
+ 
+@@ -1509,6 +1514,7 @@ char *host_from_dns(struct in_addr addr)
  
  /* lease.c */
  #ifdef HAVE_DHCP
@@ -60,7 +58,7 @@ index 0864b7eee509..76e2a7fca3af 100644
  void lease_update_file(time_t now);
  void lease_update_dns(int force);
  void lease_init(time_t now);
-@@ -1564,6 +1570,18 @@ void emit_dbus_signal(int action, struct dhcp_lease *lease, char *hostname);
+@@ -1598,6 +1604,18 @@ void emit_dbus_signal(int action, struct
  
  /* ubus.c */
  #ifdef HAVE_UBUS
@@ -79,7 +77,7 @@ index 0864b7eee509..76e2a7fca3af 100644
  struct blob_attr;
  typedef void (*ubus_dns_notify_cb)(struct blob_attr *msg, void *priv);
  
-@@ -1573,7 +1591,10 @@ void check_ubus_listeners(void);
+@@ -1607,7 +1625,10 @@ void check_ubus_listeners(void);
  void drop_ubus_listeners(void);
  struct blob_buf *ubus_dns_notify_prepare(void);
  int ubus_dns_notify(const char *type, ubus_dns_notify_cb cb, void *priv);
@@ -91,8 +89,6 @@ index 0864b7eee509..76e2a7fca3af 100644
  #  ifdef HAVE_CONNTRACK
  void ubus_event_bcast_connmark_allowlist_refused(u32 mark, const char *name);
  void ubus_event_bcast_connmark_allowlist_resolved(u32 mark, const char *pattern, const char *ip, u32 ttl);
-diff --git a/src/lease.c b/src/lease.c
-index 1a9f1c6ec9dd..8a73d44a7252 100644
 --- a/src/lease.c
 +++ b/src/lease.c
 @@ -21,6 +21,10 @@
@@ -106,7 +102,7 @@ index 1a9f1c6ec9dd..8a73d44a7252 100644
  static int read_leases(time_t now, FILE *leasestream)
  {
    unsigned long ei;
-@@ -789,6 +793,9 @@ struct dhcp_lease *lease4_allocate(struct in_addr addr)
+@@ -789,6 +793,9 @@ struct dhcp_lease *lease4_allocate(struc
      {
        lease->addr = addr;
        daemon->metrics[METRIC_LEASES_ALLOCATED_4]++;
@@ -116,19 +112,17 @@ index 1a9f1c6ec9dd..8a73d44a7252 100644
      }
    
    return lease;
-@@ -1104,6 +1111,10 @@ int do_script_run(time_t now)
- 	      tmp = slaac->next;
+@@ -1105,6 +1112,10 @@ int do_script_run(time_t now)
  	      free(slaac);
  	    }
-+#endif
+ #endif
 +#ifdef HAVE_UBUS
 +      ubus_free_extrainfo(lease->ubus_extra_info);
 +      lease->ubus_extra_info = NULL;
- #endif
++#endif
  	  kill_name(lease);
  #ifdef HAVE_SCRIPT
-diff --git a/src/rfc2131.c b/src/rfc2131.c
-index c902eb70cae5..f8dde0a7e158 100644
+ 	  queue_script(ACTION_DEL, lease, lease->old_hostname, now);
 --- a/src/rfc2131.c
 +++ b/src/rfc2131.c
 @@ -18,9 +18,6 @@
@@ -141,7 +135,7 @@ index c902eb70cae5..f8dde0a7e158 100644
  #ifdef HAVE_SCRIPT
  static void add_extradata_opt(struct dhcp_lease *lease, unsigned char *opt);
  #endif
-@@ -33,8 +30,8 @@ static void option_put_string(struct dhcp_packet *mess, unsigned char *end,
+@@ -33,8 +30,8 @@ static void option_put_string(struct dhc
  			      int opt, const char *string, int null_term);
  static struct in_addr option_addr(unsigned char *opt);
  static unsigned int option_uint(unsigned char *opt, int offset, int size);
@@ -152,7 +146,7 @@ index c902eb70cae5..f8dde0a7e158 100644
  static unsigned char *option_find(struct dhcp_packet *mess, size_t size, int opt_type, int minsize);
  static unsigned char *option_find1(unsigned char *p, unsigned char *end, int opt, int minsize);
  static size_t dhcp_packet_size(struct dhcp_packet *mess, unsigned char *agent_id, unsigned char *real_end);
-@@ -100,6 +97,7 @@ size_t dhcp_reply(struct dhcp_context *context, char *iface_name, int int_index,
+@@ -100,6 +97,7 @@ size_t dhcp_reply(struct dhcp_context *c
    struct dhcp_opt *o;
    unsigned char pxe_uuid[17];
    unsigned char *oui = NULL, *serial = NULL;
@@ -160,7 +154,7 @@ index c902eb70cae5..f8dde0a7e158 100644
  #ifdef HAVE_SCRIPT
    unsigned char *class = NULL;
  #endif
-@@ -674,7 +672,7 @@ size_t dhcp_reply(struct dhcp_context *context, char *iface_name, int int_index,
+@@ -674,7 +672,7 @@ size_t dhcp_reply(struct dhcp_context *c
  	}
        
        daemon->metrics[METRIC_BOOTP]++;
@@ -169,7 +163,7 @@ index c902eb70cae5..f8dde0a7e158 100644
        
        return message ? 0 : dhcp_packet_size(mess, agent_id, real_end);
      }
-@@ -931,7 +929,8 @@ size_t dhcp_reply(struct dhcp_context *context, char *iface_name, int int_index,
+@@ -931,7 +929,8 @@ size_t dhcp_reply(struct dhcp_context *c
  	  opt71.next = daemon->dhcp_opts;
  	  do_encap_opts(&opt71, OPTION_VENDOR_CLASS_OPT, DHOPT_VENDOR_MATCH, mess, end, 0);
  	  
@@ -179,7 +173,7 @@ index c902eb70cae5..f8dde0a7e158 100644
  	  log_tags(tagif_netid, ntohl(mess->xid));
  	  return dhcp_packet_size(mess, agent_id, real_end);	  
  	}
-@@ -1006,7 +1005,8 @@ size_t dhcp_reply(struct dhcp_context *context, char *iface_name, int int_index,
+@@ -1006,7 +1005,8 @@ size_t dhcp_reply(struct dhcp_context *c
  		    do_encap_opts(pxe_opts(pxearch, tagif_netid, tmp->local, now), OPTION_VENDOR_CLASS_OPT, DHOPT_VENDOR_MATCH, mess, end, 0);
  	    
  		  daemon->metrics[METRIC_PXE]++;
@@ -189,7 +183,7 @@ index c902eb70cae5..f8dde0a7e158 100644
  		  log_tags(tagif_netid, ntohl(mess->xid));
  		  if (!ignore)
  		    apply_delay(mess->xid, recvtime, tagif_netid);
-@@ -1041,7 +1041,7 @@ size_t dhcp_reply(struct dhcp_context *context, char *iface_name, int int_index,
+@@ -1041,7 +1041,7 @@ size_t dhcp_reply(struct dhcp_context *c
  	return 0;
        
        daemon->metrics[METRIC_DHCPDECLINE]++;
@@ -198,7 +192,7 @@ index c902eb70cae5..f8dde0a7e158 100644
        
        if (lease && lease->addr.s_addr == option_addr(opt).s_addr)
  	lease_prune(lease, now);
-@@ -1068,15 +1068,16 @@ size_t dhcp_reply(struct dhcp_context *context, char *iface_name, int int_index,
+@@ -1068,15 +1068,16 @@ size_t dhcp_reply(struct dhcp_context *c
  	  !(opt = option_find(mess, sz, OPTION_SERVER_IDENTIFIER, INADDRSZ)) ||
  	  option_addr(opt).s_addr != server_id(context, override, fallback).s_addr)
  	return 0;
@@ -221,7 +215,7 @@ index c902eb70cae5..f8dde0a7e158 100644
        return 0;
        
      case DHCPDISCOVER:
-@@ -1142,7 +1143,7 @@ size_t dhcp_reply(struct dhcp_context *context, char *iface_name, int int_index,
+@@ -1142,7 +1143,7 @@ size_t dhcp_reply(struct dhcp_context *c
  	}
        
        daemon->metrics[METRIC_DHCPDISCOVER]++;
@@ -230,7 +224,7 @@ index c902eb70cae5..f8dde0a7e158 100644
  
        if (message || !(context = narrow_context(context, mess->yiaddr, tagif_netid)))
  	return 0;
-@@ -1163,7 +1164,7 @@ size_t dhcp_reply(struct dhcp_context *context, char *iface_name, int int_index,
+@@ -1163,7 +1164,7 @@ size_t dhcp_reply(struct dhcp_context *c
  	}
        
        daemon->metrics[METRIC_DHCPOFFER]++;
@@ -239,7 +233,7 @@ index c902eb70cae5..f8dde0a7e158 100644
        
        time = calc_time(context, config, option_find(mess, sz, OPTION_LEASE_TIME, 4));
        clear_packet(mess, end);
-@@ -1276,8 +1277,8 @@ size_t dhcp_reply(struct dhcp_context *context, char *iface_name, int int_index,
+@@ -1276,8 +1277,8 @@ size_t dhcp_reply(struct dhcp_context *c
  	}
  
        daemon->metrics[METRIC_DHCPREQUEST]++;
@@ -250,7 +244,7 @@ index c902eb70cae5..f8dde0a7e158 100644
      rapid_commit:
        if (!message)
  	{
-@@ -1351,7 +1352,7 @@ size_t dhcp_reply(struct dhcp_context *context, char *iface_name, int int_index,
+@@ -1351,7 +1352,7 @@ size_t dhcp_reply(struct dhcp_context *c
        if (message)
  	{
  	  daemon->metrics[rapid_commit ? METRIC_NOANSWER : METRIC_DHCPNAK]++;
@@ -259,7 +253,7 @@ index c902eb70cae5..f8dde0a7e158 100644
  
  	  /* rapid commit case: lease allocate failed but don't send DHCPNAK */
  	  if (rapid_commit)
-@@ -1380,7 +1381,17 @@ size_t dhcp_reply(struct dhcp_context *context, char *iface_name, int int_index,
+@@ -1380,7 +1381,17 @@ size_t dhcp_reply(struct dhcp_context *c
  	    }
  
  	  log_tags(tagif_netid, ntohl(mess->xid));
@@ -278,7 +272,7 @@ index c902eb70cae5..f8dde0a7e158 100644
  	  if (do_classes)
  	    {
  	      /* pick up INIT-REBOOT events. */
-@@ -1513,7 +1524,6 @@ size_t dhcp_reply(struct dhcp_context *context, char *iface_name, int int_index,
+@@ -1510,7 +1521,6 @@ size_t dhcp_reply(struct dhcp_context *c
  	    override = lease->override;
  
  	  daemon->metrics[METRIC_DHCPACK]++;
@@ -286,7 +280,7 @@ index c902eb70cae5..f8dde0a7e158 100644
  
  	  clear_packet(mess, end);
  	  option_put(mess, end, OPTION_MESSAGE_TYPE, 1, DHCPACK);
-@@ -1525,14 +1535,21 @@ size_t dhcp_reply(struct dhcp_context *context, char *iface_name, int int_index,
+@@ -1522,14 +1532,21 @@ size_t dhcp_reply(struct dhcp_context *c
  		     netid, subnet_addr, fqdn_flags, borken_opt, pxearch, uuid, vendor_class_len, now, time, fuzz, pxevendor);
  	}
  
@@ -310,7 +304,7 @@ index c902eb70cae5..f8dde0a7e158 100644
       
        if (message || mess->ciaddr.s_addr == 0)
  	return 0;
-@@ -1559,7 +1576,7 @@ size_t dhcp_reply(struct dhcp_context *context, char *iface_name, int int_index,
+@@ -1556,7 +1573,7 @@ size_t dhcp_reply(struct dhcp_context *c
        log_tags(tagif_netid, ntohl(mess->xid));
        
        daemon->metrics[METRIC_DHCPACK]++;
@@ -319,7 +313,7 @@ index c902eb70cae5..f8dde0a7e158 100644
        
        if (lease)
  	{
-@@ -1692,9 +1709,12 @@ static void add_extradata_opt(struct dhcp_lease *lease, unsigned char *opt)
+@@ -1689,9 +1706,12 @@ static void add_extradata_opt(struct dhc
  }
  #endif
  
@@ -334,7 +328,7 @@ index c902eb70cae5..f8dde0a7e158 100644
    if (!err && !option_bool(OPT_LOG_OPTS) && option_bool(OPT_QUIET_DHCP))
      return;
    
-@@ -1725,10 +1745,12 @@ static void log_packet(char *type, void *addr, unsigned char *ext_mac,
+@@ -1722,10 +1742,12 @@ static void log_packet(char *type, void
  	      err ? err : "");
    
  #ifdef HAVE_UBUS
@@ -349,11 +343,9 @@ index c902eb70cae5..f8dde0a7e158 100644
  #endif
  }
  
-diff --git a/src/ubus.c b/src/ubus.c
-index b1a5e0daf6ed..e6d70210195e 100644
 --- a/src/ubus.c
 +++ b/src/ubus.c
-@@ -27,6 +27,12 @@ static int ubus_handle_metrics(struct ubus_context *ctx, struct ubus_object *obj
+@@ -27,6 +27,12 @@ static int ubus_handle_metrics(struct ub
  			       struct ubus_request_data *req, const char *method,
  			       struct blob_attr *msg);
  
@@ -366,7 +358,7 @@ index b1a5e0daf6ed..e6d70210195e 100644
  #ifdef HAVE_CONNTRACK
  enum {
    SET_CONNMARK_ALLOWLIST_MARK,
-@@ -56,6 +62,7 @@ static void ubus_subscribe_cb(struct ubus_context *ctx, struct ubus_object *obj)
+@@ -56,6 +62,7 @@ static void ubus_subscribe_cb(struct ubu
  
  static const struct ubus_method ubus_object_methods[] = {
    UBUS_METHOD_NOARG("metrics", ubus_handle_metrics),
@@ -374,7 +366,7 @@ index b1a5e0daf6ed..e6d70210195e 100644
  #ifdef HAVE_CONNTRACK
    UBUS_METHOD("set_connmark_allowlist", ubus_handle_set_connmark_allowlist, set_connmark_allowlist_policy),
  #endif
-@@ -226,6 +233,133 @@ static int ubus_handle_metrics(struct ubus_context *ctx, struct ubus_object *obj
+@@ -226,6 +233,133 @@ static int ubus_handle_metrics(struct ub
    return UBUS_STATUS_OK;
  }
  
@@ -508,7 +500,7 @@ index b1a5e0daf6ed..e6d70210195e 100644
  #ifdef HAVE_CONNTRACK
  static int ubus_handle_set_connmark_allowlist(struct ubus_context *ctx, struct ubus_object *obj,
  					      struct ubus_request_data *req, const char *method,
-@@ -398,7 +532,7 @@ int ubus_dns_notify(const char *type, ubus_dns_notify_cb cb, void *priv)
+@@ -398,7 +532,7 @@ int ubus_dns_notify(const char *type, ub
  	return ubus_complete_request(ubus, &dreq.req.req, 100);
  }
  
@@ -517,7 +509,7 @@ index b1a5e0daf6ed..e6d70210195e 100644
  {
    struct ubus_context *ubus = (struct ubus_context *)daemon->ubus;
  
-@@ -414,10 +548,98 @@ void ubus_event_bcast(const char *type, const char *mac, const char *ip, const c
+@@ -414,10 +548,98 @@ void ubus_event_bcast(const char *type,
      CHECK(blobmsg_add_string(&b, "name", name));
    if (interface)
      CHECK(blobmsg_add_string(&b, "interface", interface));
