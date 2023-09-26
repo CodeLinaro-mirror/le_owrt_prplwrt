@@ -156,6 +156,7 @@ packages:
 
 
 diffconfig: |
+          CONFIG_DROPBEAR_ECC=y
           CONFIG_SAH_LUA_AMX_LUA_VERSION_OVERRIDE=y
           CONFIG_SAH_LUA_AMX_LUA_VERSION="5.1"
           # CONFIG_SAH_AMX_PCM_TARBALL is not set
