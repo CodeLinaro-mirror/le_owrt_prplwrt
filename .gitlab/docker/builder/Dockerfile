@@ -11,20 +11,20 @@ RUN \
 	gawk \
 	git-core \
 	gosu \
-	iputils-ping \
 	iproute2 \
-	libncurses5-dev \
-	libelf-dev \
+	iputils-ping \
 	libdw-dev \
+	libelf-dev \
+	libncurses5-dev \
 	locales \
 	nmap \
 	openssh-client \
+	pwgen \
 	python-distlib \
 	python-yaml \
 	python3 \
 	python3-pip \
 	python3-setuptools \
-	pwgen \
 	rsync \
 	signify-openbsd \
 	subversion \
