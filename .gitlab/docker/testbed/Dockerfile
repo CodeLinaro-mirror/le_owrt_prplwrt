@@ -8,12 +8,12 @@ RUN \
 	curl \
 	etherwake \
 	git-core \
-	iputils-ping \
 	iproute2 \
+	iputils-ping \
 	locales \
 	netcat-openbsd \
-	ntpdate \
 	nmap \
+	ntpdate \
 	openssh-client \
 	python3 \
 	python3-pip \
