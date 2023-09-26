@@ -75,7 +75,7 @@ packages:
   - lxc-user-nic
   - lxc-usernsexec
   - lxc-wait
-  - miniupnpd-amx
+  - miniupnpd-prpl
   - mod-amxb-ubus
   - mod-autosensing
   - mod-ba-cli
@@ -156,6 +156,11 @@ packages:
 
 
 diffconfig: |
+          CONFIG_PACKAGE_ppp-prpl=y
+          CONFIG_PACKAGE_unbound-daemon-prpl=y
+          # CONFIG_PACKAGE_ppp is not set
+          # CONFIG_PACKAGE_miniupnpd is not set
+          # CONFIG_PACKAGE_unbound-daemon is not set
           CONFIG_DROPBEAR_ECC=y
           CONFIG_SAH_LUA_AMX_LUA_VERSION_OVERRIDE=y
           CONFIG_SAH_LUA_AMX_LUA_VERSION="5.1"
