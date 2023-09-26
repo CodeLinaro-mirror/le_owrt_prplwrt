@@ -10,6 +10,7 @@ RUN \
 	git-core \
 	iproute2 \
 	iputils-ping \
+	jq \
 	locales \
 	netcat-openbsd \
 	nmap \
