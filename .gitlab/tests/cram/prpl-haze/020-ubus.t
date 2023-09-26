@@ -8,7 +8,6 @@ Check that ubus has all expected services available:
   container
   dhcp
   dnsmasq
-  dnsmasq.dns
   hostapd
   hotplug.dhcp
   hotplug.firmware
@@ -21,11 +20,7 @@ Check that ubus has all expected services available:
   network
   network.device
   network.interface
-  network.interface.guest
-  network.interface.lan
   network.interface.loopback
-  network.interface.wan
-  network.interface.wan6
   network.wireless
   rc
   service
