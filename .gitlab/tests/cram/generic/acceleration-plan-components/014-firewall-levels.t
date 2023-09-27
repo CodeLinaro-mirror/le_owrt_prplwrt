@@ -9,10 +9,10 @@ Set firewall level to High:
 Check that it is set properly:
 
   $ R "iptables -n -L FORWARD_L_Low | grep references"
-  Chain FORWARD_L_Low (0 references)
+  Chain FORWARD_L_Low (3 references)
 
   $ R "iptables -n -L FORWARD_L_High | grep references"
-  Chain FORWARD_L_High (2 references)
+  Chain FORWARD_L_High (0 references)
 
 Set firewall level to Low:
 
@@ -21,7 +21,7 @@ Set firewall level to Low:
 Check that it is set properly:
 
   $ R "iptables -n -L FORWARD_L_Low | grep references"
-  Chain FORWARD_L_Low (2 references)
+  Chain FORWARD_L_Low (3 references)
 
   $ R "iptables -n -L FORWARD_L_High | grep references"
   Chain FORWARD_L_High (0 references)

@@ -12,35 +12,46 @@ Check that ubus has expected datamodels available:
   $ R "ubus list | grep '[[:upper:]]' | grep -v '\.[[:digit:]]'"
   ACLManager
   ACLManager.Role
-  Agent
   Bridging
   Bridging.Bridge
   Bridging.Bridge.Port
   Bridging.Bridge.Port.Stats
+  Bridging.Bridge.STP
   Bridging.Bridge.VLAN
   Bridging.Bridge.VLANPort
   Cthulhu
   Cthulhu.Config
   Cthulhu.Container
   Cthulhu.Container.Instances
+  Cthulhu.Container.Instances.Plugins.NetworkConfig
+  Cthulhu.Container.Instances.Plugins.NetworkConfig.AccessInterfaces
+  Cthulhu.Container.Instances.Plugins.NetworkConfig.FirewallRules
+  Cthulhu.Container.Instances.Plugins.NetworkConfig.PortForwarding
   Cthulhu.Information
   Cthulhu.Plugins
+  Cthulhu.Plugins.NetworkConfig
+  Cthulhu.Plugins.NetworkConfig.FirewallRules
+  Cthulhu.Plugins.NetworkConfig.FirewallRules.Rules
+  Cthulhu.Plugins.NetworkConfig.Interfaces
   Cthulhu.Sandbox
   Cthulhu.Sandbox.Instances
-  DHCPv4
-  DHCPv4.Client
-  DHCPv4.Server
-  DHCPv4.Server.Pool
-  DHCPv6
-  DHCPv6.Client
-  DHCPv6.Server
-  DHCPv6.Server.Pool
+  Cthulhu.Sandbox.Instances.Plugins.DHCP
+  Cthulhu.Sandbox.Instances.Plugins.DHCP.Interfaces
+  DHCPv4Client
+  DHCPv4Client.Client
+  DHCPv4Server
+  DHCPv4Server.Pool
+  DHCPv6Client
+  DHCPv6Client.Client
+  DHCPv6Server
+  DHCPv6Server.Pool
   DNS
   DNS.Client
   DNS.Client.Server
   DNS.Relay
   DNS.Relay.Forwarding
-  DNS.Relay.LANInterface
+  DNS.Relay.X_PRPL-COM_Config
+  DNS.X_PRPL-COM_ForwardZone
   DNS.X_PRPL-COM_Host
   DNSSD
   DNSSD.Service
@@ -49,8 +60,16 @@ Check that ubus has expected datamodels available:
   Device
   Device.Bridging
   Device.BulkData
+  Device.Buttons
+  Device.CWMPManagementServer
+  Device.ConMon
   Device.DHCPv4
+  Device.DHCPv4.Client
+  Device.DHCPv4.Relay
+  Device.DHCPv4.Server
   Device.DHCPv6
+  Device.DHCPv6.Client
+  Device.DHCPv6.Server
   Device.DNS
   Device.DNS.SD
   Device.DSLite
@@ -58,10 +77,12 @@ Check that ubus has expected datamodels available:
   Device.DynamicDNS
   Device.Ethernet
   Device.Firewall
+  Device.HomePlug
   Device.Hosts
   Device.IP
   Device.IP.Diagnostics
   Device.InterfaceStack
+  Device.LANConfigSecurity
   Device.LocalAgent
   Device.Logical
   Device.MQTT
@@ -80,9 +101,12 @@ Check that ubus has expected datamodels available:
   Device.SoftwareModules
   Device.Time
   Device.UPnP
+  Device.UPnP.Description
+  Device.UPnP.Discovery
   Device.UserInterface
   Device.Users
   Device.WiFi
+  Device.XPON
   Device.X_PRPL-COM_MultiSettings
   Device.X_PRPL-COM_PersistentConfiguration
   Device.X_PRPL-COM_WANManager
@@ -112,13 +136,12 @@ Check that ubus has expected datamodels available:
   Ethernet.VLANTermination.Stats
   Firewall
   Firewall.Chain
+  Firewall.DMZ
   Firewall.Level
-  Firewall.X_PRPL-COM_DMZ
+  Firewall.Pinhole
+  Firewall.Policy
+  Firewall.Service
   Firewall.X_PRPL-COM_InterfaceSetting
-  Firewall.X_PRPL-COM_Pinhole
-  Firewall.X_PRPL-COM_Policy
-  Firewall.X_PRPL-COM_PortTrigger
-  Firewall.X_PRPL-COM_Service
   Firewall.X_PRPL-COM_WANAccess
   Firewall.X_PRPL-COM_WANAccess.BlockList
   Hosts
@@ -127,19 +150,42 @@ Check that ubus has expected datamodels available:
   IP
   IP.ActivePort
   IP.Interface
+  IPDiagnostics
+  IPDiagnostics.IPPing
+  IPDiagnostics.IPPing.Process
+  IPDiagnostics.TraceRoute
+  IPDiagnostics.TraceRoute.Process
+  IPDiagnostics.TraceRoute.RouteHops
+  IPDiagnostics.X_PRPL-COM_DownloadConfig
+  IPDiagnostics.X_PRPL-COM_DownloadResult
+  IPDiagnostics.X_PRPL-COM_DownloadResult.Config
+  IPDiagnostics.X_PRPL-COM_DownloadResult.IncrementalResult
+  IPDiagnostics.X_PRPL-COM_DownloadResult.Process
+  IPDiagnostics.X_PRPL-COM_UploadConfig
+  IPDiagnostics.X_PRPL-COM_UploadResult
+  IPDiagnostics.X_PRPL-COM_UploadResult.Config
+  IPDiagnostics.X_PRPL-COM_UploadResult.IncrementalResult
+  IPDiagnostics.X_PRPL-COM_UploadResult.PerConnectionResult
+  IPDiagnostics.X_PRPL-COM_UploadResult.Process
   Logical
   Logical.Interface
+  Logical.X_PRPL-ORG_Subnet
+  Logical.X_PRPL-ORG_Subnet.Config
   ManagementServer
   ManagementServer.ACSTransfers
   ManagementServer.ACSTransfers.ACSTransfer
   ManagementServer.ConnRequest
   ManagementServer.InternalSettings
+  ManagementServer.ManageableDevice
   ManagementServer.State
   ManagementServer.Stats
   ManagementServer.Subscription
+  MultiSettings
+  MultiSettings.Profile
   NAT
   NAT.InterfaceSetting
   NAT.PortMapping
+  NAT.PortTrigger
   NeighborDiscovery
   NeighborDiscovery.InterfaceSetting
   NetDev
@@ -161,9 +207,15 @@ Check that ubus has expected datamodels available:
   PPP.Interface.Stats
   PacketInterception
   PacketInterception.CommunicationConfig
+  PacketInterception.CommunicationConfig.Socket
   PacketInterception.Condition
   PacketInterception.Interception
   PacketInterception.PacketHandler
+  PersistentConfiguration
+  PersistentConfiguration.BackupFile
+  PersistentConfiguration.Config
+  PersistentConfiguration.Config.Security
+  PersistentConfiguration.Service
   ProxyManager
   QoS
   QoS.Classification
@@ -181,15 +233,20 @@ Check that ubus has expected datamodels available:
   Routing.RIP.InterfaceSetting
   Routing.RouteInformation
   Routing.RouteInformation.InterfaceSetting
-  Routing.RouteInformation.InterfaceSetting.X_PRPL-COM_Option
+  Routing.RouteInformation.InterfaceSetting.Option
   Routing.Router
   Routing.Router.IPv6Forwarding
   SSH
+  SSH.AuthorizedKey
   SSH.Server
+  Security
+  Security.Certificate
   SoftwareModules
   SoftwareModules.DeploymentUnit
   SoftwareModules.ExecEnv
   SoftwareModules.ExecutionUnit
+  SoftwareModules.NetworkConfig
+  SoftwareModules.NetworkConfig.Interfaces
   SoftwareModules.Plugins
   Time
   Time.Client
@@ -198,6 +255,7 @@ Check that ubus has expected datamodels available:
   Timingila.ProxyManager
   UPnP
   UPnP.Device
+  Unbound
   UserInterface
   UserInterface.HTTPAccess
   Users
@@ -205,6 +263,8 @@ Check that ubus has expected datamodels available:
   Users.Role
   Users.SupportedShell
   Users.User
+  WANManager
+  WANManager.WAN
   WiFi
   WiFi.AccessPoint
   WiFi.AutoCommitMgr
@@ -214,11 +274,3 @@ Check that ubus has expected datamodels available:
   WiFi.wps_DefParam
   XPON
   XPON.ONU
-  X_PRPL-COM_MultiSettings
-  X_PRPL-COM_MultiSettings.Profile
-  X_PRPL-COM_PersistentConfiguration
-  X_PRPL-COM_PersistentConfiguration.Config
-  X_PRPL-COM_PersistentConfiguration.Config.Security
-  X_PRPL-COM_PersistentConfiguration.Service
-  X_PRPL-COM_WANManager
-  X_PRPL-COM_WANManager.WAN
