@@ -9,6 +9,8 @@
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
       when: never
+    - if: '$TFTP_IMAGE_DOWNLOAD_URL'
+      when: never
     - if: '$CI_COMMIT_BRANCH == $CI_DESIGNATED_BRANCH'
     - when: manual
   before_script:
