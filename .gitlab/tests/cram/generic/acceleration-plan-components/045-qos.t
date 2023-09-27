@@ -6,6 +6,8 @@ Check QoS root datamodel:
 
   $ R "ubus -S call QoS _get"
   {"QoS.":{"SupportedControllers":"mod-qos-tc","ShaperNumberOfEntries":1,"QueueNumberOfEntries":5,"MaxSchedulerEntries":20,"SchedulerNumberOfEntries":1,"QueueStatsNumberOfEntries":4,"MaxClassificationEntries":20,"ClassificationNumberOfEntries":4,"MaxQueueEntries":20,"MaxShaperEntries":20}}
+  {}
+  {"amxd-error-code":0}
 
 Check Qos.Node.7 datamodel:
 
@@ -80,7 +82,7 @@ Check altered classification instance configuration:
 Add a new classification instance 5. Mark ICMP packets to network 192.168.25.0/24 with value 8 (CS1):
 
   $ cat > /tmp/new-classification <<EOF
-  > ubus-cli QoS.Classification.+{Alias=icmp_dscp_cs1,Flags=\"class_basic\"}
+  > ubus-cli QoS.Classification.+{Alias=icmp_dscp_cs1}
   > ubus-cli QoS.Classification.icmp_dscp_cs1.DSCPMark=8
   > ubus-cli QoS.Classification.icmp_dscp_cs1.Interface="Postrouting"
   > ubus-cli QoS.Classification.icmp_dscp_cs1.Protocol=1
@@ -132,7 +134,7 @@ Check default QoS configuration:
 Let all upstream (LAN -> WAN) UDP packets to network 192.168.55.0/24 go through queue-home-iptv (highest priority):
 
   $ cat > /tmp/new-classification <<EOF
-  > ubus-cli QoS.Classification.+{Alias=subnet1_high_prio,Flags=\"class_basic\"}
+  > ubus-cli QoS.Classification.+{Alias=subnet1_high_prio}
   > ubus-cli QoS.Classification.subnet1_high_prio.Interface=\"Forward\"
   > ubus-cli QoS.Classification.subnet1_high_prio.Protocol=17
   > ubus-cli QoS.Classification.subnet1_high_prio.IPVersion=4
