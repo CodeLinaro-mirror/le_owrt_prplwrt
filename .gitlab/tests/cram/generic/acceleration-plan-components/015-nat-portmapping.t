@@ -7,7 +7,7 @@ Create portmapping:
   $ printf "\
   > ubus-cli NAT.PortMapping+{Alias='testing'}
   > ubus-cli NAT.PortMapping.testing.ExternalPort=5000
-  > ubus-cli NAT.PortMapping.testing.Interface=wan
+  > ubus-cli NAT.PortMapping.testing.Interface=IP.Interface.2.
   > ubus-cli NAT.PortMapping.testing.InternalClient=$TARGET_LAN_TEST_HOST
   > ubus-cli NAT.PortMapping.testing.InternalPort=12345
   > ubus-cli NAT.PortMapping.testing.Protocol=TCP

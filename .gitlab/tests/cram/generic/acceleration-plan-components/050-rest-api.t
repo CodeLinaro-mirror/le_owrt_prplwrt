@@ -1,9 +1,20 @@
-Check that REST API is working as expected:
+Check that REST API is working on non-protected parameters:
 
-  $ curl --silent --max-time 3 --user admin:admin 'http://192.168.1.1/serviceElements/DeviceInfo.FriendlyName'
-  [{"parameters":{"FriendlyName":"prplHGW"},"path":"DeviceInfo."}] (no-eol)
+  $ curl --silent --max-time 3 "http://192.168.1.1/serviceElements/Device.DeviceInfo.FriendlyName"
+  [{"parameters":{"FriendlyName":"prplHGW"},"path":"Device.DeviceInfo."}] (no-eol)
+
+Check we can get protected parameters:
+
+  $ session_id=$(curl --silent -X POST "http://192.168.1.1/session" --data '{"username":"admin","password":"admin"}' --max-time 3 | jq -r .sessionID)
+  $ curl -X GET "http://192.168.1.1/serviceElements/Device.Time.Client.1.Version" -H "Authorization: bearer $session_id" --silent --max-time 3
+  [{"parameters":{"Version":4},"path":"Device.Time.Client.1."}] (no-eol)
+
+Check we cannot access protected datamodel sections:
+
+  $ curl -X GET -i "http://192.168.1.1/serviceElements/Security." -H "Authorization: bearer $session_id" --silent --max-time 3 | grep Forbidden
+  HTTP/1.1 403 Forbidden\r (esc)
 
 Check that REST API is not usable with invalid credentials:
 
-  $ curl --silent --max-time 3 --user admin:failure 'http://192.168.1.1/serviceElements/DeviceInfo.FriendlyName' | grep h1
-    <h1>401 Unauthorized</h1>
+  $ curl -X POST -i "http://192.168.1.1/session" --data '{"username":"admin","password":"failure"}' --silent --max-time 3 | grep "Bad Request"
+  HTTP/1.1 400 Bad Request\r (esc)

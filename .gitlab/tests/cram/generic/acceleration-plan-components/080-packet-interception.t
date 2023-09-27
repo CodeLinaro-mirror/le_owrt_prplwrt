@@ -5,18 +5,9 @@ Create R alias:
 Check PacketInterception root datamodel:
 
   $ R "ubus -S call PacketInterception _get"
-  {"PacketInterception.":{"CommunicationConfigNumberOfEntries":1,"ConditionNumberOfEntries":1,"Status":"Disabled","InterceptionNumberOfEntries":1,"Enable":false,"SupportedCommControllers":"socket","PacketHandlerNumberOfEntries":1,"SupportedParsers":""}}
-
-Check that no interception is being configured:
-
-  $ R "iptables -t mangle -L INTERCEPT_Forward"
-  Chain INTERCEPT_Forward (0 references)
-  target     prot opt source               destination         
-
-Enable interception of DNS packets:
-
-  $ R "ubus -S call PacketInterception _set '{\"parameters\":{\"Enable\":True}}'" ; sleep 2
-  {"PacketInterception.":{"Enable":true}}
+  {"PacketInterception.":{"InterceptionNumberOfEntries":1,"Enable":true,"PacketHandlerNumberOfEntries":1,"ConditionNumberOfEntries":3,"Status":"Enabled"}}
+  {}
+  {"amxd-error-code":0}
 
 Check that interception is configured properly:
 
@@ -24,14 +15,34 @@ Check that interception is configured properly:
   Chain INTERCEPT_Forward (1 references)
   target     prot opt source               destination         
   NFQUEUE    udp  --  anywhere             anywhere             udp dpt:domain NFQUEUE num 2
+  NFQUEUE    tcp  --  anywhere             anywhere             tcp dpt:www NFQUEUE num 3
+  NFQUEUE    tcp  --  anywhere             anywhere             tcp dpt:https NFQUEUE num 4
 
-Disable interception of DNS packets:
+Disable interception:
 
   $ R "ubus -S call PacketInterception _set '{\"parameters\":{\"Enable\":False}}'" ; sleep 2
   {"PacketInterception.":{"Enable":false}}
+  {}
+  {"amxd-error-code":0}
 
 Check that no interception is being configured:
 
   $ R "iptables -t mangle -L INTERCEPT_Forward"
   Chain INTERCEPT_Forward (0 references)
   target     prot opt source               destination         
+
+Enable interception again:
+
+  $ R "ubus -S call PacketInterception _set '{\"parameters\":{\"Enable\":True}}'" ; sleep 2
+  {"PacketInterception.":{"Enable":true}}
+  {}
+  {"amxd-error-code":0}
+
+Check that interception is configured properly:
+
+  $ R "iptables -t mangle -L INTERCEPT_Forward"
+  Chain INTERCEPT_Forward (1 references)
+  target     prot opt source               destination         
+  NFQUEUE    udp  --  anywhere             anywhere             udp dpt:domain NFQUEUE num 2
+  NFQUEUE    tcp  --  anywhere             anywhere             tcp dpt:www NFQUEUE num 3
+  NFQUEUE    tcp  --  anywhere             anywhere             tcp dpt:https NFQUEUE num 4
