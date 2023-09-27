@@ -15,21 +15,21 @@ Restart multisettings service and start testing service:
 Add testing profiles and triggers:
 
   $ printf "\
-  > ubus-cli X_PRPL-COM_MultiSettings.DetectionAtBoot=1
-  > ubus-cli X_PRPL-COM_MultiSettings.Profile.+{Alias='france-profile'}
-  > ubus-cli X_PRPL-COM_MultiSettings.Profile.france-profile.Name='france'
-  > ubus-cli X_PRPL-COM_MultiSettings.Profile.france-profile.ImpactedModules='testing-receiver'
-  > ubus-cli X_PRPL-COM_MultiSettings.Profile.france-profile.Trigger.+{Alias='country-france'}
-  > ubus-cli X_PRPL-COM_MultiSettings.Profile.france-profile.Trigger.country-france.LeftMember='TestingEmitter.CountryCode'
-  > ubus-cli X_PRPL-COM_MultiSettings.Profile.france-profile.Trigger.country-france.RelationalOperator='Equal'
-  > ubus-cli X_PRPL-COM_MultiSettings.Profile.france-profile.Trigger.country-france.RightMember='FR'
-  > ubus-cli X_PRPL-COM_MultiSettings.Profile.+{Alias='usa-profile'}
-  > ubus-cli X_PRPL-COM_MultiSettings.Profile.usa-profile.Name='usa'
-  > ubus-cli X_PRPL-COM_MultiSettings.Profile.usa-profile.ImpactedModules='testing-receiver'
-  > ubus-cli X_PRPL-COM_MultiSettings.Profile.usa-profile.Trigger.+{Alias='country-usa'}
-  > ubus-cli X_PRPL-COM_MultiSettings.Profile.usa-profile.Trigger.country-usa.LeftMember='TestingEmitter.CountryCode'
-  > ubus-cli X_PRPL-COM_MultiSettings.Profile.usa-profile.Trigger.country-usa.RelationalOperator='Equal'
-  > ubus-cli X_PRPL-COM_MultiSettings.Profile.usa-profile.Trigger.country-usa.RightMember='US'
+  > ubus-cli MultiSettings.DetectionAtBoot=1
+  > ubus-cli MultiSettings.Profile.+{Alias='france-profile'}
+  > ubus-cli MultiSettings.Profile.france-profile.Name='france'
+  > ubus-cli MultiSettings.Profile.france-profile.ImpactedModules='testing-receiver'
+  > ubus-cli MultiSettings.Profile.france-profile.Trigger.+{Alias='country-france'}
+  > ubus-cli MultiSettings.Profile.france-profile.Trigger.country-france.LeftMember='TestingEmitter.CountryCode'
+  > ubus-cli MultiSettings.Profile.france-profile.Trigger.country-france.RelationalOperator='Equal'
+  > ubus-cli MultiSettings.Profile.france-profile.Trigger.country-france.RightMember='FR'
+  > ubus-cli MultiSettings.Profile.+{Alias='usa-profile'}
+  > ubus-cli MultiSettings.Profile.usa-profile.Name='usa'
+  > ubus-cli MultiSettings.Profile.usa-profile.ImpactedModules='testing-receiver'
+  > ubus-cli MultiSettings.Profile.usa-profile.Trigger.+{Alias='country-usa'}
+  > ubus-cli MultiSettings.Profile.usa-profile.Trigger.country-usa.LeftMember='TestingEmitter.CountryCode'
+  > ubus-cli MultiSettings.Profile.usa-profile.Trigger.country-usa.RelationalOperator='Equal'
+  > ubus-cli MultiSettings.Profile.usa-profile.Trigger.country-usa.RightMember='US'
   > " > /tmp/cram
   $ script --command "ssh -t root@$TARGET_LAN_IP '$(cat /tmp/cram)'" > /dev/null
 
