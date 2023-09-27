@@ -3,8 +3,8 @@ description: Add the prpl features
 feeds:
   - name: feed_prpl
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-prpl.git
-    tracking_branch: prplos-next
-    revision: 1c54d2aa4e165e7a8871c9f5d880dd37bf86e110
+    tracking_branch: mf/prplos-M1-2023
+    revision: 4e2ac49ae18f7a504d202537e185ef87ba9036a8
 
 additional_packages:
   - feed: packages
@@ -22,6 +22,8 @@ packages:
   - acl-manager
   - amx-cli
   - cthulhu
+  - cthulhu-dhcpc
+  - cthulhu-networking
   - cthulhu-lxc
   - debug-information
   - deviceinfo-manager
@@ -73,6 +75,7 @@ packages:
   - lxc-user-nic
   - lxc-usernsexec
   - lxc-wait
+  - miniupnpd-prpl
   - mod-amxb-ubus
   - mod-autosensing
   - mod-ba-cli
@@ -86,6 +89,11 @@ packages:
   - mod-sahtrace
   - mod-vlan-ioctl
   - mod-xpon-prpl
+  - mod-ra-radvd
+  - mod-dns-unbound
+  - mod-dhcpv4c
+  - mod-logical-api
+  - mod-ppp-daemon
   - multisettings
   - netdev-plugin
   - netmodel
@@ -102,6 +110,8 @@ packages:
   - netmodel-radio
   - netmodel-ssid
   - netmodel-vlan
+  - netmodel-dslite
+  - netmodel-xpon
   - odl-generator
   - packet-interception
   - pcm-manager
@@ -129,6 +139,7 @@ packages:
   - tr181-dynamicdns
   - tr181-firewall
   - tr181-httpaccess
+  - tr181-ipdiagnostics
   - tr181-logical
   - tr181-neighbordiscovery
   - tr181-pcp
@@ -136,6 +147,7 @@ packages:
   - tr181-qos
   - tr181-rest-api
   - tr181-routeradvertisement
+  - tr181-security
   - tr181-upnp
   - tr181-usermanagement
   - tr181-xpon
