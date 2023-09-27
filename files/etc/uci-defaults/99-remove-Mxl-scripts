@@ -1,0 +1,6 @@
+#!/bin/sh
+
+/etc/init.d/netdev_cfg.sh disable
+/etc/init.d/mxl-network-init disable
+
+exit 0
