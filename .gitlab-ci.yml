@@ -54,7 +54,7 @@ build test x86_64 prpl security:
     CI_BUILD_CONFIG: >
       +DEVEL +BUILD_LOG +SDK +IB +IB_STANDALONE
 
-build test ipq807x prpl security:
+build test ipq807x prpl:
   extends: .build test config
 
 run test Turris Omnia initramfs:
@@ -65,7 +65,7 @@ run test Turris Omnia initramfs:
 
 run test Haze initramfs:
   needs:
-    - job: build test ipq807x prpl security
+    - job: build test ipq807x prpl
       optional: true
   extends: .prpl-haze testbed
 
