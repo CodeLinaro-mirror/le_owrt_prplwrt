@@ -258,8 +258,8 @@ SECTION "Base Configuration" {
 
             SECTION "User Configurable DNS Entries" {
 
-                # testvar dnsHostname1                     test.qacafe.com
-                # testvar dnsIp1                           5.5.5.5
+                  testvar dnsHostname1                     cpe01.prplOS.prplfoundation.org
+                  testvar dnsIp1                           7.7.7.7
 
             }
 
