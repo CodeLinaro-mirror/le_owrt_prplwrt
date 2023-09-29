@@ -193,3 +193,8 @@ stages:
    extends: .build feed with SDK
    variables:
      CI_SDK_IMAGE: registry.gitlab.com/prpl-foundation/prplos/prplos/prplos-next/sdk-ipq807x-generic:latest
+
+.build feed with mvebu-cortexa9-prplos-next SDK:
+   extends: .build feed with SDK
+   variables:
+     CI_SDK_IMAGE: registry.gitlab.com/prpl-foundation/prplos/prplos/prplos-next/sdk-mvebu-cortexa9:latest
