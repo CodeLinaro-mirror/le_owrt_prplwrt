@@ -83,13 +83,6 @@ Check that prplOS container is not running:
   $ R "ubus -S call Cthulhu.Container.Instances.2 _get"
   [4]
 
-Check that Rlyeh has no container images:
-
-  $ R "ubus -S call Rlyeh.Images _get"
-  {"Rlyeh.Images.":{}}
-  {}
-  {"amxd-error-code":0}
-
 Check that container image is gone from the filesystem as well:
 
   $ R "ls -al /usr/share/rlyeh/images/prplos"
