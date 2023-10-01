@@ -22,8 +22,10 @@ PKG_CONFIG_DEPENDS += \
 
 sanitize = $(call tolower,$(subst _,-,$(subst $(space),-,$(1))))
 
+VERSION_PRPLOS:=$(if $(VERSION_PRPLOS),$(VERSION_PRPLOS),$(shell $(TOPDIR)/scripts/prplos_version.sh))
+
 VERSION_NUMBER:=$(call qstrip,$(CONFIG_VERSION_NUMBER))
-VERSION_NUMBER:=$(if $(VERSION_NUMBER),$(VERSION_NUMBER),23.05.3)
+VERSION_NUMBER:=$(if $(VERSION_NUMBER),$(VERSION_NUMBER),$(VERSION_PRPLOS))
 
 VERSION_CODE:=$(call qstrip,$(CONFIG_VERSION_CODE))
 VERSION_CODE:=$(if $(VERSION_CODE),$(VERSION_CODE),r23809-234f1a2efa)
