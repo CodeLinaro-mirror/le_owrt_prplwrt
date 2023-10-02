@@ -219,3 +219,15 @@ diffconfig: |
           CONFIG_KERNEL_SECCOMP_FILTER=y
           CONFIG_KERNEL_USER_NS=y
           CONFIG_KERNEL_UTS_NS=y
+          # prplOS branding
+          CONFIG_IMAGEOPT=y
+          CONFIG_VERSIONOPT=y
+          CONFIG_VERSION_DIST="prplOS"
+          CONFIG_VERSION_REPO="https://downloads.openwrt.org/releases/22.03-SNAPSHOT"
+          CONFIG_VERSION_HOME_URL="https://prplfoundation.org"
+          CONFIG_VERSION_MANUFACTURER="prpl Foundation"
+          CONFIG_VERSION_MANUFACTURER_URL="https://prplfoundation.org"
+          CONFIG_VERSION_BUG_URL="https://jira.prplfoundation.org"
+          CONFIG_VERSION_SUPPORT_URL="https://jira.prplfoundation.org"
+          # CONFIG_VERSION_FILENAMES is not set
+          # CONFIG_VERSION_CODE_FILENAMES is not set
