@@ -76,7 +76,7 @@ Check that we've correct hostname and release info:
 
   $ R "ubus -S call system board | jsonfilter -e '@.hostname' -e '@.release.distribution'"
   prplOS.lan
-  OpenWrt
+  prplOS
 
 Check that netifd service is running:
 
