@@ -179,6 +179,11 @@ stages:
   variables:
     CI_SDK_IMAGE: registry.gitlab.com/prpl-foundation/prplos/prplos/$CI_DESIGNATED_BRANCH/sdk-x86-64:latest
 
+.build feed with ipq807x-generic SDK:
+  extends: .build feed with SDK
+  variables:
+    CI_SDK_IMAGE: registry.gitlab.com/prpl-foundation/prplos/prplos/$CI_DESIGNATED_BRANCH/sdk-ipq807x-generic:latest
+
 .build feed with ath79-generic-19.07.7 SDK:
   extends: .build feed with OpenWrt SDK
   variables:
