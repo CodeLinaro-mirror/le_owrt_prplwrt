@@ -74,10 +74,6 @@ feeds:
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_uboot.git
     tracking_branch:  updk_9.1.30
     revision: 4b003e393f7bb73ace65d0b434c432d2a0cb1bef
-  - name: mcast_service
-    uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_mcast_service.git
-    tracking_branch:  updk_9.1.30
-    revision: 4bcbd243ce4ec04200a85749fb2e8b6fa1bae2c4
   - name: dpl
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_dpl.git
     tracking_branch:  updk_9.1.30
@@ -148,10 +144,6 @@ packages:
   - partx-utils
   - obudpst
   - speedtest-modules
-  - kmod-mcast-helper
-  - libmcastdaemon
-  - libmcastfapi
-  - mcastcli
   - kmod-dpl
 
 diffconfig: |
