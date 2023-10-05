@@ -6,13 +6,13 @@
     - .urx851-b0-dk-pon testbed
     - .cdrouter
 
-CDRouter-Top-100+mDNS URX851-B0-DK PON initramfs:
+CDRouter-Top-100+mDNS-OSP URX851-B0-DK PON initramfs:
   <<: *urx851_pon_cdrouter
   variables:
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
 
-CDRouter-Top-100+mDNS URX851-B0-DK PON VLAN WAN/LAN initramfs:
+CDRouter-Top-100+mDNS-OSP URX851-B0-DK PON VLAN WAN/LAN initramfs:
   <<: *urx851_pon_cdrouter
   variables:
     CDROUTER_TEST_CONFIG: vlan
@@ -20,7 +20,7 @@ CDRouter-Top-100+mDNS URX851-B0-DK PON VLAN WAN/LAN initramfs:
       .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
       .gitlab/scripts/dut-init/cdrouter-dut-enable-vlans.sh
 
-CDRouter-Top-100+mDNS URX851-B0-DK PON PPPoE WAN initramfs:
+CDRouter-Top-100+mDNS-OSP URX851-B0-DK PON PPPoE WAN initramfs:
   <<: *urx851_pon_cdrouter
   variables:
     CDROUTER_TEST_CONFIG: ppp
