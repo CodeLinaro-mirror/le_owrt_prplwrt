@@ -7,3 +7,4 @@ description: Build image for prpl Foundation Haze board
 
 packages:
   - hostapd-utils
+  - board-config-haze
