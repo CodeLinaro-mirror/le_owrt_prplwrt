@@ -23,14 +23,13 @@ packages:
   - amx-cli
   - cthulhu
   - cthulhu-dhcpc
-  - cthulhu-networking
   - cthulhu-lxc
+  - cthulhu-networking
   - debug-information
   - deviceinfo-manager
   - dhcpv4-manager
   - dhcpv6s-manager
   - ethernet-manager
-  - ip6tables-zz-legacy
   - gmap-client
   - gmap-mod-ethernet-dev
   - gmap-mod-name-selector
@@ -38,6 +37,7 @@ packages:
   - gmap-server
   - hosts-manager
   - ip-manager
+  - ip6tables-zz-legacy
   - iptables-mod-ipopt
   - iptables-zz-legacy
   - libdhcpoptions
@@ -79,21 +79,21 @@ packages:
   - mod-amxb-ubus
   - mod-autosensing
   - mod-ba-cli
+  - mod-dhcpv4c
   - mod-dmext
   - mod-dmstats
+  - mod-dns-unbound
   - mod-fw-amx
   - mod-fw-host
   - mod-httpaccess-lighttpd
+  - mod-logical-api
   - mod-lua-amx
+  - mod-ppp-daemon
   - mod-qos-tc
+  - mod-ra-radvd
   - mod-sahtrace
   - mod-vlan-ioctl
   - mod-xpon-prpl
-  - mod-ra-radvd
-  - mod-dns-unbound
-  - mod-dhcpv4c
-  - mod-logical-api
-  - mod-ppp-daemon
   - multisettings
   - netdev-plugin
   - netmodel
@@ -101,6 +101,7 @@ packages:
   - netmodel-clients
   - netmodel-dhcpv4
   - netmodel-dhcpv6
+  - netmodel-dslite
   - netmodel-ethernet
   - netmodel-ip
   - netmodel-iprouter
@@ -110,7 +111,6 @@ packages:
   - netmodel-radio
   - netmodel-ssid
   - netmodel-vlan
-  - netmodel-dslite
   - netmodel-xpon
   - odl-generator
   - packet-interception
