@@ -451,7 +451,7 @@ SECTION "Base Configuration" {
                 # testvar wifiBeaconWpaCipher              CCMP-128
                 # testvar wifiBeaconRsnCipher              CCMP-128
                 # testvar wifiBeaconWpaGroupCipher         CCMP-128
-                testvar wifiBeaconPhy                      "b g n"
+                testvar wifiBeaconPhy                      "ax b g n"
 
             }
 
