@@ -6,13 +6,13 @@
     - .urx851-hdk-3 testbed
     - .cdrouter
 
-CDRouter-Top-100+mDNS URX851-HDK-3 initramfs:
+CDRouter-Top-100+mDNS-OSP URX851-HDK-3 initramfs:
   <<: *urx851_cdrouter
   variables:
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
 
-CDRouter-Top-100+mDNS URX851-HDK-3 VLAN WAN/LAN initramfs:
+CDRouter-Top-100+mDNS-OSP URX851-HDK-3 VLAN WAN/LAN initramfs:
   <<: *urx851_cdrouter
   variables:
     CDROUTER_TEST_CONFIG: vlan
@@ -20,7 +20,7 @@ CDRouter-Top-100+mDNS URX851-HDK-3 VLAN WAN/LAN initramfs:
       .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
       .gitlab/scripts/dut-init/cdrouter-dut-enable-vlans.sh
 
-CDRouter-Top-100+mDNS URX851-HDK-3 PPPoE WAN initramfs:
+CDRouter-Top-100+mDNS-OSP URX851-HDK-3 PPPoE WAN initramfs:
   <<: *urx851_cdrouter
   variables:
     CDROUTER_TEST_CONFIG: ppp
