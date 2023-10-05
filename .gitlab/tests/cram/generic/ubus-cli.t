@@ -4,6 +4,7 @@ Check that we've correct DHCPv4 pools:
   DHCPv4Server.Pool.1.Alias="lan"\r (esc)
   DHCPv4Server.Pool.2.Alias="guest"\r (esc)
   DHCPv4Server.Pool.3.Alias="lcm"\r (esc)
+  DHCPv4Server.Pool.4.Alias="lan_extender"\r (esc)
 
 Check that we've correct DHCPv6 pools:
 
