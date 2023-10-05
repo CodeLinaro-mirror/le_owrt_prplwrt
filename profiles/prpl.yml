@@ -1,6 +1,45 @@
 ---
 description: Add the prpl features
 feeds:
+  - name: feed_opensource
+    uri: https://gitlab.com/soft.at.home/buildsystems/openwrt/feed_opensource
+    revision: gen_openwrt22.03_v0.6.0
+  - name: feed_amx
+    uri: https://gitlab.com/soft.at.home/buildsystems/openwrt/feed_amx.git
+    revision: v10.2.4
+  - name: feed_gmap
+    uri: https://gitlab.com/soft.at.home/buildsystems/openwrt/feed_gmap.git
+    revision: v1.2.1
+  - name: feed_net_core
+    uri: https://gitlab.com/soft.at.home/buildsystems/openwrt/feed_net_core.git
+    revision: v14.2.3
+  - name: feed_qos_firewall
+    uri: https://gitlab.com/soft.at.home/buildsystems/openwrt/feed_qos_firewall.git
+    revision: v3.5.0
+  - name: feed_net_services
+    uri: https://gitlab.com/soft.at.home/buildsystems/openwrt/feed_net_services.git
+    revision: v6.13.0
+  - name: feed_net_hl_services
+    uri: https://gitlab.com/soft.at.home/buildsystems/openwrt/feed_net_hl_services.git
+    revision: v0.3.2
+  - name: feed_usp
+    uri: https://gitlab.com/soft.at.home/buildsystems/openwrt/feed_usp.git
+    revision: v8.6.0
+  - name: feed_netmodel
+    uri: https://gitlab.com/soft.at.home/buildsystems/openwrt/feed_netmodel.git
+    revision: v4.5.0
+  - name: feed_tr69
+    uri: https://gitlab.com/soft.at.home/buildsystems/openwrt/feed_tr69.git
+    revision: v0.21.1
+  - name: feed_lcm
+    uri: https://gitlab.com/soft.at.home/buildsystems/openwrt/feed_lcm.git
+    revision: v0.3.2
+  - name: feed_debug
+    uri: https://gitlab.com/soft.at.home/buildsystems/openwrt/feed_debug.git
+    revision: v0.3.1
+  - name: feed_board_configuration
+    uri: https://gitlab.com/soft.at.home/buildsystems/openwrt/feed_board_configuration.git
+    revision: v0.2.1
   - name: feed_prpl
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-prpl.git
     tracking_branch: prplos
