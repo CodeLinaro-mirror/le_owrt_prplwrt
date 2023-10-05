@@ -20,6 +20,8 @@ Check that ubus has expected datamodels available:
   Bridging.Bridge.STP
   Bridging.Bridge.VLAN
   Bridging.Bridge.VLANPort
+  Buttons
+  Buttons.Button
   Cthulhu
   Cthulhu.Config
   Cthulhu.Container
@@ -84,6 +86,7 @@ Check that ubus has expected datamodels available:
   Device.IP.Diagnostics
   Device.InterfaceStack
   Device.LANConfigSecurity
+  Device.LEDs
   Device.LocalAgent
   Device.Logical
   Device.MQTT
@@ -169,10 +172,12 @@ Check that ubus has expected datamodels available:
   IPDiagnostics.X_PRPL-COM_UploadResult.IncrementalResult
   IPDiagnostics.X_PRPL-COM_UploadResult.PerConnectionResult
   IPDiagnostics.X_PRPL-COM_UploadResult.Process
+  LEDs
+  LEDs.LED
   Logical
   Logical.Interface
-  Logical.X_PRPL-ORG_Subnet
-  Logical.X_PRPL-ORG_Subnet.Config
+  Logical.X_PRPL-COM_Subnet
+  Logical.X_PRPL-COM_Subnet.Config
   ManagementServer
   ManagementServer.ACSTransfers
   ManagementServer.ACSTransfers.ACSTransfer
@@ -213,6 +218,11 @@ Check that ubus has expected datamodels available:
   PacketInterception.Condition
   PacketInterception.Interception
   PacketInterception.PacketHandler
+  PersistentConfiguration
+  PersistentConfiguration.BackupFile
+  PersistentConfiguration.Config
+  PersistentConfiguration.Config.Security
+  PersistentConfiguration.Service
   ProxyManager
   QoS
   QoS.Classification
@@ -252,6 +262,7 @@ Check that ubus has expected datamodels available:
   Timingila.ProxyManager
   UPnP
   UPnP.Device
+  UPnP.IGDConfig
   Unbound
   UserInterface
   UserInterface.HTTPAccess
@@ -271,8 +282,3 @@ Check that ubus has expected datamodels available:
   WiFi.wps_DefParam
   XPON
   XPON.ONU
-  X_PRPL-COM_PersistentConfiguration
-  X_PRPL-COM_PersistentConfiguration.BackupFile
-  X_PRPL-COM_PersistentConfiguration.Config
-  X_PRPL-COM_PersistentConfiguration.Config.Security
-  X_PRPL-COM_PersistentConfiguration.Service
