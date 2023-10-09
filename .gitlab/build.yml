@@ -5,7 +5,7 @@
     - firmware-builder
   variables:
     CI_BUILD_CONFIG: >
-      +DEVEL +BUILD_LOG +SDK
+      +DEVEL +BUILD_LOG +SDK +INCLUDE_CONFIG
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
       when: never
