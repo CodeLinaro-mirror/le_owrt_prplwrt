@@ -12,8 +12,8 @@ Check Cthulhu.Sandbox datamodel:
 Check Cthulhu.Config datamodel:
 
   $ R "ubus -S call Cthulhu.Config _get | jsonfilter -e @[*].UseOverlayFS -e @[*].DefaultBackend -e @[*].ImageLocation | sort"
+  /lcm/rlyeh/images
   /usr/lib/cthulhu-lxc/cthulhu-lxc.so
-  /usr/share/rlyeh/images
   true
 
 Install testing prplOS container v1:
@@ -21,7 +21,7 @@ Install testing prplOS container v1:
   $ cat > /tmp/run-container <<EOF
   > ubus-cli SoftwareModules.InstallDU\( \
   > URL="docker://registry.gitlab.com/prpl-foundation/prplos/prplos/prplos-testing-container-x86-64:v1", \
-  > UUID="prplos-testing", \
+  > UUID="0f032bd7-54bd-5b81-b14e-9441d730092f", \
   > ExecutionEnvRef="generic", \
   > NetworkConfig = { "AccessInterfaces" = [{"Reference" = "Lan"}] } \
   > \)
@@ -34,9 +34,9 @@ Check that prplOS container v1 is running:
 
   $ R "ubus -S call Cthulhu.Container.Instances.1 _get | jsonfilter -e @[*].Status -e @[*].Bundle -e @[*].BundleVersion -e @[*].ContainerId -e @[*].Alias | sort"
   Running
-  cpe-prplos-testing
+  c879945e-d002-5775-88a8-e29bc0c641b4
+  cpe-c879945e-d002-5775-88a8-e29bc0c641b4
   prpl-foundation/prplos/prplos/prplos-testing-container-x86-64
-  prplos-testing
   v1
 
   $ container_ip=$(R "ubus call DHCPv4Server.Pool.3.Client.1.IPv4Address.1 _get | jsonfilter -e @[*].IPAddress")
@@ -48,9 +48,8 @@ Check that prplOS container v1 is running:
 Update to prplOS container v2:
 
   $ cat > /tmp/run-container <<EOF
-  > ubus-cli SoftwareModules.DeploymentUnit.cpe-prplos-testing.Update\( \
+  > ubus-cli SoftwareModules.DeploymentUnit.cpe-c879945e-d002-5775-88a8-e29bc0c641b4.Update\( \
   > URL="docker://registry.gitlab.com/prpl-foundation/prplos/prplos/prplos-testing-container-x86-64:v2", \
-  > UUID="prplos-testing", \
   > ExecutionEnvRef="generic", \
   > NetworkConfig = { "AccessInterfaces" = [{"Reference" = "Lan"}] } \
   > \)
@@ -61,11 +60,11 @@ Check that prplOS container v2 is running:
 
   $ sleep 30
 
-  $ R "ubus -S call Cthulhu.Container.Instances.2 _get | jsonfilter -e @[*].Status -e @[*].Bundle -e @[*].BundleVersion -e @[*].ContainerId -e @[*].Alias | sort"
+  $ R "ubus -S call Cthulhu.Container.Instances.1 _get | jsonfilter -e @[*].Status -e @[*].Bundle -e @[*].BundleVersion -e @[*].ContainerId -e @[*].Alias | sort"
   Running
-  cpe-prplos-testing
+  c879945e-d002-5775-88a8-e29bc0c641b4
+  cpe-c879945e-d002-5775-88a8-e29bc0c641b4
   prpl-foundation/prplos/prplos/prplos-testing-container-x86-64
-  prplos-testing
   v2
 
   $ container_ip=$(R "ubus call DHCPv4Server.Pool.3.Client.2.IPv4Address.1 _get | jsonfilter -e @[*].IPAddress")
@@ -76,7 +75,7 @@ Check that prplOS container v2 is running:
 
 Uninstall prplOS testing container:
 
-  $ script --command "ssh -t root@$TARGET_LAN_IP 'ubus-cli SoftwareModules.DeploymentUnit.cpe-prplos-testing.Uninstall\(\)'" > /dev/null;  sleep 5
+  $ script --command "ssh -t root@$TARGET_LAN_IP 'ubus-cli SoftwareModules.DeploymentUnit.cpe-c879945e-d002-5775-88a8-e29bc0c641b4.Uninstall\(\)'" > /dev/null;  sleep 5
 
 Check that prplOS container is not running:
 
@@ -87,6 +86,8 @@ Check that Rlyeh has no container images:
 
   $ R "ubus -S call Rlyeh.Images _get"
   {"Rlyeh.Images.":{}}
+  {}
+  {"amxd-error-code":0}
 
 Check that container image is gone from the filesystem as well:
 
