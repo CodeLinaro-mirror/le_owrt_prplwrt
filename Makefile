@@ -111,6 +111,7 @@ checksum: FORCE
 
 buildversion: FORCE
 	$(SCRIPT_DIR)/getver.sh > $(BIN_DIR)/version.buildinfo
+	$(SCRIPT_DIR)/prplos_version.sh > $(BIN_DIR)/version.prplos.buildinfo
 
 feedsversion: FORCE
 	$(SCRIPT_DIR)/feeds list -fs > $(BIN_DIR)/feeds.buildinfo
