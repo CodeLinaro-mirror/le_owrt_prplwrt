@@ -20,14 +20,14 @@ Check that random LXC binaries work:
 Check Cthulhu.Config datamodel:
 
   $ R "ubus -S call Cthulhu.Config _get"
-  {"Cthulhu.Config.":{"PluginLocation":"/usr/lib/amx/cthulhu/plugins","ImageLocation":"/usr/share/rlyeh/images","UseOverlayFS":true,"UseBundles":false,"StorageLocation":"/usr/share/cthulhu","DefaultBackend":"/usr/lib/cthulhu-lxc/cthulhu-lxc.so","BundleLocation":"/usr/share/celephais/bundles","BlobLocation":"/usr/share/rlyeh/blobs"}}
+  {"Cthulhu.Config.":{"PluginLocation":"/usr/lib/amx/cthulhu/plugins","ImageLocation":"/usr/share/rlyeh/images","UseOverlayFS":true,"UseBundles":false,"OnboardingLocation":"/etc/amx/cthulhu/onboard","StorageLocation":"/usr/share/cthulhu","OnboardingFile":"/usr/share/cthulhu/cthulhu_onboarded","DefaultBackend":"/usr/lib/cthulhu-lxc/cthulhu-lxc.so","BundleLocation":"/usr/share/celephais/bundles","BlobLocation":"/usr/share/rlyeh/blobs"}}
   {}
   {"amxd-error-code":0}
 
 Check Rlyeh datamodel:
 
   $ R "ubus -S call Rlyeh _get"
-  {"Rlyeh.":{"ImageLocation":"/usr/share/rlyeh/images","SignatureVerification":false,"StorageLocation":"/usr/share/rlyeh/blobs"}}
+  {"Rlyeh.":{"ImageLocation":"/usr/share/rlyeh/images","ROImageLocation":"/usr/rlyeh/images","ROStorageLocation":"/usr/rlyeh/blobs","CertificateVerification":true,"SignatureVerification":true,"RemainingDiskSpaceBytes":1000001,"StorageLocation":"/usr/share/rlyeh/blobs","OnboardingFile":"/usr/share/rlyeh_onboarded"}}
   {}
   {"amxd-error-code":0}
 
@@ -58,7 +58,7 @@ Check that registry.gitlab.com is accessible:
 
 Check that Rlyeh can download testing container:
 
-  $ R "ubus -S call Rlyeh pull '{\"URI\":\"docker://registry.gitlab.com/prpl-foundation/prplos/prplos/prplos-testing-container-intel_mips-xrx500:v1\",\"UUID\":\"testing\"}'"
+  $ R "ubus -S call Rlyeh pull '{\"URI\":\"docker://registry.gitlab.com/prpl-foundation/prplos/prplos/prplos-testing-container-intel_mips-xrx500:v1\",\"DUID\":\"0f032bd7-54bd-5b81-b14e-9441d730092f\"}'"
   {"retval":""}
   {}
   {"amxd-error-code":0}
@@ -73,7 +73,7 @@ Check that Rlyeh has downloaded the testing container:
 
 Remove testing container:
 
-  $ R "ubus -S call Rlyeh remove '{\"UUID\":\"testing\",\"Version\":\"v1\"}'"; sleep 5
+  $ R "ubus -S call Rlyeh remove '{\"DUID\":\"0f032bd7-54bd-5b81-b14e-9441d730092f\",\"Version\":\"v1\"}'"; sleep 5
   {"retval":""}
   {}
   {"amxd-error-code":0}
