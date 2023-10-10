@@ -13,7 +13,7 @@ feeds:
   - name: intel_x86
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_target_x86.git
     tracking_branch: updk_9.1.30
-    revision: 3ef756839c44ffcb35d7cdc317b76409fc2535ee
+    revision: c266217746df620d652631cc256529998617caba
   - name: rootfs
     uri: ssh://git@git.maxlinear.com/ugw/rootfs.git
     tracking_branch: updk_9.1.30
