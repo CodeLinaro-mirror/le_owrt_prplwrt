@@ -20,14 +20,14 @@ Check that random LXC binaries work:
 Check Cthulhu.Config datamodel:
 
   $ R "ubus -S call Cthulhu.Config _get"
-  {"Cthulhu.Config.":{"ImageLocation":"/lcm/rlyeh/images","PluginLocation":"/usr/lib/amx/cthulhu/plugins","UseOverlayFS":true,"OnboardingLocation":"/etc/amx/cthulhu/onboard","StorageLocation":"/lcm/cthulhu","DefaultBackend":"/usr/lib/cthulhu-lxc/cthulhu-lxc.so","OnboardingFile":"/lcm/cthulhu_onboarded","BlobLocation":"/lcm/rlyeh/blobs"}}
+  {"Cthulhu.Config.":{"PluginLocation":"/usr/lib/amx/cthulhu/plugins","ImageLocation":"/usr/share/rlyeh/images","UseOverlayFS":true,"UseBundles":false,"OnboardingLocation":"/etc/amx/cthulhu/onboard","StorageLocation":"/usr/share/cthulhu","OnboardingFile":"/usr/share/cthulhu/cthulhu_onboarded","DefaultBackend":"/usr/lib/cthulhu-lxc/cthulhu-lxc.so","BundleLocation":"/usr/share/celephais/bundles","BlobLocation":"/usr/share/rlyeh/blobs"}}
   {}
   {"amxd-error-code":0}
 
 Check Rlyeh datamodel:
 
   $ R "ubus -S call Rlyeh _get"
-  {"Rlyeh.":{"ImageLocation":"/lcm/rlyeh/images","ROImageLocation":"/usr/rlyeh/images","ROStorageLocation":"/usr/rlyeh/blobs","CertificateVerification":true,"SignatureVerification":true,"RemainingDiskSpaceBytes":1000001,"StorageLocation":"/lcm/rlyeh/blobs","OnboardingFile":"/lcm/rlyeh_onboarded"}}
+  {"Rlyeh.":{"ImageLocation":"/usr/share/rlyeh/images","ROImageLocation":"/usr/rlyeh/images","ROStorageLocation":"/usr/rlyeh/blobs","CertificateVerification":true,"SignatureVerification":true,"RemainingDiskSpaceBytes":1000001,"StorageLocation":"/usr/share/rlyeh/blobs","OnboardingFile":"/usr/share/rlyeh_onboarded"}}
   {}
   {"amxd-error-code":0}
 

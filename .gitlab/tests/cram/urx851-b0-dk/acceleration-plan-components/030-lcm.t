@@ -12,8 +12,8 @@ Check Cthulhu.Sandbox datamodel:
 Check Cthulhu.Config datamodel:
 
   $ R "ubus -S call Cthulhu.Config _get | jsonfilter -e @[*].UseOverlayFS -e @[*].DefaultBackend -e @[*].ImageLocation | sort"
-  /lcm/rlyeh/images
   /usr/lib/cthulhu-lxc/cthulhu-lxc.so
+  /usr/share/rlyeh/images
   true
 
 Install testing prplOS container v1:
