@@ -4,7 +4,12 @@ feeds:
   - name: feed_prpl
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-prpl.git
     tracking_branch: prplos
-    revision: 2ba42f9b73de3d86a51a6b6979c57271e508ed12
+    revision: f45750776e33b76d9e08793b1ed93eb845e57b5e
+  - name: feed_usp
+    uri: https://gitlab.com/soft.at.home/buildsystems/openwrt/feed_usp.git
+    tracking_branch: main
+    revision: 95307755e86ae9cf11a573ee20ad706deec33bf9
+
 
 additional_packages:
   - feed: packages
@@ -153,6 +158,9 @@ packages:
   - tr181-xpon
   - umdns
   - wan-manager
+  - uspagent
+  - tr181-localagent
+  - tr181-mqtt
 
 diffconfig: |
           CONFIG_PACKAGE_ppp-prpl=y
