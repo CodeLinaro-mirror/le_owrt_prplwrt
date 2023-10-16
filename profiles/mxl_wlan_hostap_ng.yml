@@ -4,7 +4,7 @@ feeds:
   - name: wlan_6x
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_wlan.git
     tracking_branch: updk_9.1.30
-    revision: b9ef38020b4917f948b4ac8a3db3a36abb0c4a84
+    revision: f0d61926797e47766b84de562463210721aeb469
 
 packages:
   - dwpal_6x-uci-osp
