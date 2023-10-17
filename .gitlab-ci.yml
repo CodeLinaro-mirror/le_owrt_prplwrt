@@ -3,6 +3,7 @@ variables:
 
 include:
   - local: .gitlab/build.yml
+  - local: .gitlab/release.yml
   - local: .gitlab/cdrouter.yml
   - local: .gitlab/cdrouter/prpl-haze.yml
   - local: .gitlab/cdrouter/turris-omnia.yml
@@ -24,6 +25,7 @@ stages:
   - docker test
   - docker deploy
   - build
+  - release
   - docker SDK
   - docker SDK test
   - docker SDK deploy
