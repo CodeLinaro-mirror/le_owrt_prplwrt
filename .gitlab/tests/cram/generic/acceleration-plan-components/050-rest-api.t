@@ -9,6 +9,21 @@ Check we can get protected parameters:
   $ curl -X GET "http://192.168.1.1/serviceElements/Device.Time.Client.1.Version" -H "Authorization: bearer $session_id" --silent --max-time 3
   [{"parameters":{"Version":4},"path":"Device.Time.Client.1."}] (no-eol)
 
+Check we have working commands endpoint:
+
+  $ curl --silent --max-time 3 \
+  > -H "Authorization: bearer $session_id" \
+  > -H "Content-type: application/json" "http://192.168.1.1/commands" \
+  > --data '{ "sendresp": true, "command": "Device.ScheduleTimer()", "inputArgs": {"DelaySeconds":1}}'
+  [{"outputArgs":{"ScheduleTimer":""},"executed":"Device.ScheduleTimer()"}] (no-eol)
+
+Check that commands endpoint ACL is working:
+
+  $ curl -i --silent --max-time 3 \
+  > -H "Content-type: application/json" "http://192.168.1.1/commands" \
+  > --data '{ "sendresp": true, "command": "Device.ScheduleTimer()", "inputArgs": {"DelaySeconds":1}}' | grep Forbidden
+  HTTP/1.1 403 Forbidden\r (esc)
+
 Check we cannot access protected datamodel sections:
 
   $ curl -X GET -i "http://192.168.1.1/serviceElements/Security." -H "Authorization: bearer $session_id" --silent --max-time 3 | grep Forbidden
