@@ -1,5 +1,5 @@
 variables:
-  CI_DESIGNATED_BRANCH: prplos
+  CI_DESIGNATED_BRANCH: prplos-22.03
 
 include:
   - local: .gitlab/build.yml
