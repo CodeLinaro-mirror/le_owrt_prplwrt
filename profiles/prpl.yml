@@ -4,7 +4,7 @@ feeds:
   - name: feed_prpl
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-prpl.git
     tracking_branch: prplos
-    revision: f45750776e33b76d9e08793b1ed93eb845e57b5e
+    revision: d5df422ec7d5089f75c314b10cf00bcc2d0e4cdd
   - name: feed_usp
     uri: https://gitlab.com/soft.at.home/buildsystems/openwrt/feed_usp.git
     tracking_branch: main
