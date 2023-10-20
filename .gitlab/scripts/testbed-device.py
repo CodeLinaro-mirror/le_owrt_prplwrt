@@ -244,7 +244,6 @@ class TestbedDevice:
 
     def check_network(self):
         host = self.args.remote_host
-        network = self.args.network
         shell = self.target.get_driver("ShellDriver")
         shell.wait_for("ubus-cli 'IP.Interface.[Alias==\"lan\"].Status?0'", "Up", 60.0)
 
