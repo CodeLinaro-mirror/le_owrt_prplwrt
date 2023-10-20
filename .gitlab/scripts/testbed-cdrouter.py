@@ -140,7 +140,6 @@ class TestbedCDRouter:
         current = None
         job = self.cdr.jobs.get(self.job.id)
         while job.status == "running":
-
             updates = self.cdr.results.updates(job.result_id)
             running = updates.running
             progress = updates.progress
