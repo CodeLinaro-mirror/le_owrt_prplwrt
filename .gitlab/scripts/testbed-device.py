@@ -152,14 +152,14 @@ class TestbedDevice:
             "ubus-cli Bridging.Bridge.1.VLAN.+{Alias='vlan201', Name='vlan201', VLANID=201, Enable=1}"
         )
         self.shell.run(
-            'ubus-cli Bridging.Bridge.1.Port.6.AcceptableFrameTypes="AdmitOnlyVLANTagged"'
+            f'ubus-cli {bridge_vlan_port}.AcceptableFrameTypes="AdmitOnlyVLANTagged"'
         )
-        self.shell.run('ubus-cli Bridging.Bridge.1.Port.6.PVID="201"')
-        self.shell.run('ubus-cli Bridging.Bridge.1.Port.6.Type="CustomerVLANPort"')
-        self.shell.run("ubus-cli Bridging.Bridge.1.Port.6.Enable=1")
+        self.shell.run(f'ubus-cli {bridge_vlan_port}.PVID="201"')
+        self.shell.run(f'ubus-cli {bridge_vlan_port}.Type="CustomerVLANPort"')
+        self.shell.run(f"ubus-cli {bridge_vlan_port}.Enable=1")
 
         self.shell.run(
-            "ubus-cli Bridging.Bridge.1.VLANPort+{Alias='LAN', Name='vlan201', Port='Device.Bridging.Bridge.1.Port.6.', VLAN='Device.Bridging.Bridge.1.VLAN.1.', Enable=1}"
+            f"ubus-cli Bridging.Bridge.1.VLANPort+{{Alias='LAN', Name='vlan201', Port='Device.{bridge_vlan_port}.', VLAN='Device.Bridging.Bridge.1.VLAN.1.', Enable=1}}"
         )
 
     def init_vlans(self):
