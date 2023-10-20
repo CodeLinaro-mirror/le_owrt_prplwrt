@@ -49,7 +49,7 @@ feeds:
   - name: pon
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_pon.git
     tracking_branch: updk_9.1.30
-    revision: 14728fd34c859216d42280fd26f77295db5e180d
+    revision: ff67911e62cfd8051bbf4528d4358cd910e58604
   - name: ppa
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_ppa.git
     tracking_branch: updk_9.1.30
