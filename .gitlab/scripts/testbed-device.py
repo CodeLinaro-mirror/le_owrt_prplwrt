@@ -133,7 +133,9 @@ class TestbedDevice:
         self.shell.run("ubus -t 60 wait_for WANManager.WAN")
         self.shell.run("ubus-cli WANManager.WAN.2.Intf.1.VlanID=101")
         self.shell.run("ubus-cli WANManager.WAN.2.Intf.2.VlanID=100")
-        self.shell.run("ubus call WANManager setWANMode '{ \"WANMode\": \"Ethernet_DHCP\" }'")
+        self.shell.run(
+            'ubus call WANManager setWANMode \'{ "WANMode": "Ethernet_DHCP" }\''
+        )
 
     def _init_lan_vlan(self):
         bridge_lan_ports = {
@@ -145,14 +147,20 @@ class TestbedDevice:
             self.board_name, "Bridging.Bridge.1.Port.2"
         )
 
-        self.shell.run("ubus-cli Bridging.Bridge.1.Standard=\"802.1Q-2005\"")
-        self.shell.run("ubus-cli Bridging.Bridge.1.VLAN.+{Alias='vlan201', Name='vlan201', VLANID=201, Enable=1}")
-        self.shell.run("ubus-cli Bridging.Bridge.1.Port.6.AcceptableFrameTypes=\"AdmitOnlyVLANTagged\"")
-        self.shell.run("ubus-cli Bridging.Bridge.1.Port.6.PVID=\"201\"")
-        self.shell.run("ubus-cli Bridging.Bridge.1.Port.6.Type=\"CustomerVLANPort\"")
+        self.shell.run('ubus-cli Bridging.Bridge.1.Standard="802.1Q-2005"')
+        self.shell.run(
+            "ubus-cli Bridging.Bridge.1.VLAN.+{Alias='vlan201', Name='vlan201', VLANID=201, Enable=1}"
+        )
+        self.shell.run(
+            'ubus-cli Bridging.Bridge.1.Port.6.AcceptableFrameTypes="AdmitOnlyVLANTagged"'
+        )
+        self.shell.run('ubus-cli Bridging.Bridge.1.Port.6.PVID="201"')
+        self.shell.run('ubus-cli Bridging.Bridge.1.Port.6.Type="CustomerVLANPort"')
         self.shell.run("ubus-cli Bridging.Bridge.1.Port.6.Enable=1")
 
-        self.shell.run("ubus-cli Bridging.Bridge.1.VLANPort+{Alias='LAN', Name='vlan201', Port='Device.Bridging.Bridge.1.Port.6.', VLAN='Device.Bridging.Bridge.1.VLAN.1.', Enable=1}")
+        self.shell.run(
+            "ubus-cli Bridging.Bridge.1.VLANPort+{Alias='LAN', Name='vlan201', Port='Device.Bridging.Bridge.1.Port.6.', VLAN='Device.Bridging.Bridge.1.VLAN.1.', Enable=1}"
+        )
 
     def init_vlans(self):
         self.init_shell()
@@ -238,9 +246,7 @@ class TestbedDevice:
         host = self.args.remote_host
         network = self.args.network
         shell = self.target.get_driver("ShellDriver")
-        shell.wait_for(
-            "ubus-cli 'IP.Interface.[Alias==\"lan\"].Status?0'", "Up", 60.0
-        )
+        shell.wait_for("ubus-cli 'IP.Interface.[Alias==\"lan\"].Status?0'", "Up", 60.0)
 
         shell.wait_for("ping -c1 {} || true".format(host), ", 0% packet loss", 180.0)
 
