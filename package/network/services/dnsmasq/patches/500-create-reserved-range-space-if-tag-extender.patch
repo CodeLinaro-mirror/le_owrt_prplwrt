@@ -1,0 +1,95 @@
+diff --git a/src/dhcp.c b/src/dhcp.c
+index 42d819f..275647b 100644
+--- a/src/dhcp.c
++++ b/src/dhcp.c
+@@ -35,6 +35,23 @@ static int check_listen_addrs(struct in_addr local, int if_index, char *label,
+ static int relay_upstream4(int iface_index, struct dhcp_packet *mess, size_t sz);
+ static struct dhcp_relay *relay_reply4(struct dhcp_packet *mess, char *arrival_interface);
+ 
++static int got_tag(struct dhcp_netid *filter, const char* tag) 
++{
++  struct dhcp_netid *curs = filter;
++
++  if(!curs)
++    return 0;
++
++  if(!tag)
++    return 0;
++
++  do {
++      if(strstr(curs->net, tag))
++        return 1;
++  } while (curs = curs->next);
++  return 0;
++}
++
+ static int make_fd(int port)
+ {
+   int fd = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP);
+@@ -660,9 +677,26 @@ struct dhcp_context *address_available(struct dhcp_context *context,
+ 	  addr >= start &&
+ 	  addr <= end &&
+ 	  match_netid(tmp->filter, netids, 1))
+-	return tmp;
++	    {
++	      struct dhcp_context *d;
++	      int found_extender = 0;
++	      /* master try to get a extender address*/
++	      for(d = context; d; d = d->next)
++	        {
++	        if(d->filter &&
++	           got_tag(&tmp->netid, "master") &&
++	           got_tag(d->filter, "extender") &&
++	           addr >= ntohl(d->start.s_addr) &&
++	           addr <= ntohl(d->end.s_addr))
++	          {
++	            found_extender = 1;
++	            break;
++	          }
++	        }
++	    if(!found_extender)
++	      return tmp;
++	    }
+     }
+-
+   return NULL;
+ }
+ 
+@@ -816,17 +850,34 @@ int address_allocate(struct dhcp_context *context,
+ 	  addr = start;
+ 	  
+ 	  do {
+-	    /* eliminate addresses in use by the server. */
++	    int invalide_address = 0;
++	    /* eliminate addresses in use by the server */
+ 	    for (d = context; d; d = d->current)
+ 	      if (addr.s_addr == d->router.s_addr)
+-		break;
++	        break;
++
++	    /* eliminate addresses in extender if in master network */
++	    if(c && got_tag(&c->netid, "master"))
++	      {
++	        struct dhcp_context *tmp;
++	        for (tmp = context; tmp; tmp = tmp->next)
++	          {
++	            if(tmp->filter && got_tag(tmp->filter, "extender") &&
++	               ntohl(addr.s_addr) >= ntohl(tmp->start.s_addr) &&
++	               ntohl(addr.s_addr) <= ntohl(tmp->end.s_addr))
++	              {
++	                invalide_address = 1;
++	                break;
++	              }
++	          }
++	      }
+ 
+ 	    /* Addresses which end in .255 and .0 are broken in Windows even when using 
+ 	       supernetting. ie dhcp-range=192.168.0.1,192.168.1.254,255,255,254.0
+ 	       then 192.168.0.255 is a valid IP address, but not for Windows as it's
+ 	       in the class C range. See  KB281579. We therefore don't allocate these 
+ 	       addresses to avoid hard-to-diagnose problems. Thanks Bill. */	    
+-	    if (!d &&
++	    if (!d && !invalide_address &&
+ 		!lease_find_by_addr(addr) && 
+ 		!config_find_by_address(daemon->dhcp_conf, addr) &&
+ 		(!IN_CLASSC(ntohl(addr.s_addr)) || 
