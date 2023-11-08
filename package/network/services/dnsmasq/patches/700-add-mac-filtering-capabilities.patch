@@ -1,0 +1,176 @@
+diff --git a/src/dhcp.c b/src/dhcp.c
+index 8342553..1161e05 100644
+--- a/src/dhcp.c
++++ b/src/dhcp.c
+@@ -942,7 +942,7 @@ int address_allocate(struct dhcp_context *context,
+ 	    /* if extender range is also full break the loop */
+ 	    if((c->flags & CONTEXT_RANGE_FULL) &&
+ 	       extender &&
+-	       (addr.s_addr == htonl(ntohl(extender->start.s_addr) - 1))) 
++	       (addr.s_addr == htonl(ntohl(extender->start.s_addr) - 1)))
+ 	      addr = c->start;
+ 
+ 	  } while (addr.s_addr != start.s_addr);
+diff --git a/src/dnsmasq.h b/src/dnsmasq.h
+index 8cb17aa..d8365f2 100644
+--- a/src/dnsmasq.h
++++ b/src/dnsmasq.h
+@@ -967,7 +967,7 @@ struct dhcp_pxe_vendor {
+ };
+ 
+ struct dhcp_mac {
+-  unsigned int mask;
++  unsigned char mask[DHCP_CHADDR_MAX];
+   int hwaddr_len, hwaddr_type;
+   unsigned char hwaddr[DHCP_CHADDR_MAX];
+   struct dhcp_netid netid;
+diff --git a/src/option.c b/src/option.c
+index c5e8cb4..26a7d8a 100644
+--- a/src/option.c
++++ b/src/option.c
+@@ -4141,18 +4141,25 @@ static int one_opt(int option, char *arg, char *errstr, char *gen_err, int comma
+ 	  {
+ 	    struct dhcp_mac *new = opt_malloc(sizeof(struct dhcp_mac));
+ 	    new->netid.net = opt_string_alloc(set_prefix(arg));
+-	    unhide_metas(comma);
+-	    new->hwaddr_len = parse_hex(comma, new->hwaddr, DHCP_CHADDR_MAX, &new->mask, &new->hwaddr_type);
+-	    if (new->hwaddr_len == -1)
++	    arg = comma;
++	    if (!(comma = split(arg)))
+ 	      {
+-		free(new->netid.net);
+-		ret_err_free(gen_err, new);
++	        free(new->netid.net);
++	        ret_err_free(gen_err, new);
+ 	      }
+-	    else
++	    if(!sscanf(arg, "%02hhx:%02hhx:%02hhx:%02hhx:%02hhx:%02hhx", &new->hwaddr[0], &new->hwaddr[1], &new->hwaddr[2], &new->hwaddr[3], &new->hwaddr[4], &new->hwaddr[5]))
++	      {
++	        free(new->netid.net);
++	        ret_err_free(gen_err, new);
++	      }
++	    if(!sscanf(comma, "%02hhx:%02hhx:%02hhx:%02hhx:%02hhx:%02hhx", &new->mask[0], &new->mask[1], &new->mask[2], &new->mask[3], &new->mask[4], &new->mask[5]))
+ 	      {
+-		new->next = daemon->dhcp_macs;
+-		daemon->dhcp_macs = new;
++	        free(new->netid.net);
++	        ret_err_free(gen_err, new);
+ 	      }
++	    new->hwaddr_len = 6;
++	    new->next = daemon->dhcp_macs;
++	    daemon->dhcp_macs = new;
+ 	  }
+       }
+       break;
+diff --git a/src/rfc2131.c b/src/rfc2131.c
+index 35a48d1..5ce820d 100644
+--- a/src/rfc2131.c
++++ b/src/rfc2131.c
+@@ -255,11 +255,11 @@ size_t dhcp_reply(struct dhcp_context *context, char *iface_name, int int_index,
+       /* find mac to use for logging and hashing */
+       emac = extended_hwaddr(mess->htype, mess->hlen, mess->chaddr, clid_len, clid, &emac_len);
+     }
+-  
++
+   for (mac = daemon->dhcp_macs; mac; mac = mac->next)
+     if (mac->hwaddr_len == mess->hlen &&
+ 	(mac->hwaddr_type == mess->htype || mac->hwaddr_type == 0) &&
+-	memcmp_masked(mac->hwaddr, mess->chaddr, mess->hlen, mac->mask))
++	memcmp_masked_bytes(mac->hwaddr, mess->chaddr, mess->hlen, mac->mask))
+       {
+ 	mac->netid.next = netid;
+ 	netid = &mac->netid;
+@@ -491,35 +491,35 @@ size_t dhcp_reply(struct dhcp_context *context, char *iface_name, int int_index,
+       else
+ 	continue;
+ 
+-      if ((opt = option_find(mess, sz, mopt, 1)))
++	  if ((opt = option_find(mess, sz, mopt, 1)))
+ 	    {
+ 	      char* o_curs = vendor->data;
+-          int o_len = vendor->len;
+-          int prefix = 0;
+-          int suffix = 0;
++	      int o_len = vendor->len;
++	      int prefix = 0;
++	      int suffix = 0;
+ 	      if(*(vendor->data) == '*')
+-            {
+-              o_curs++;
+-              suffix = 1;
+-              o_len--;
+-            }
+-          if(*(o_curs+o_len-1) == '*')
+-            {
+-              prefix = 1;
+-              o_len--;
+-            }
++	        {
++	          o_curs++;
++	          suffix = 1;
++	          o_len--;
++	        }
++	      if(*(o_curs+o_len-1) == '*')
++	        {
++	          prefix = 1;
++	          o_len--;
++	        }
+ 	      for (int i = 0; i <= (option_len(opt) - o_len);)
+ 	        {
+-		      if (memcmp(o_curs, option_ptr(opt, i), o_len) == 0 && (o_len == (option_len(opt) - i) || prefix))
++	          if (memcmp(o_curs, option_ptr(opt, i), o_len) == 0 && (o_len == (option_len(opt) - i) || prefix))
+ 	            {
+-		          vendor->netid.next = netid;
+-		          netid = &vendor->netid;
+-		          break;
++	              vendor->netid.next = netid;
++	              netid = &vendor->netid;
++	              break;
+ 	            }
+-		      if (suffix)
+-            i++;
+-              else
+-            i += option_len(opt);
++	          if (suffix)
++	            i++;
++	          else
++	            i += option_len(opt);
+ 	        }
+ 	    }
+     }
+diff --git a/src/rfc3315.c b/src/rfc3315.c
+index 8754481..dd86843 100644
+--- a/src/rfc3315.c
++++ b/src/rfc3315.c
+@@ -451,7 +451,7 @@ static int dhcp6_no_relay(struct state *state, int msg_type, unsigned char *inbu
+       for (mac_opt = daemon->dhcp_macs; mac_opt; mac_opt = mac_opt->next)
+ 	if ((unsigned)mac_opt->hwaddr_len == state->mac_len &&
+ 	    ((unsigned)mac_opt->hwaddr_type == state->mac_type || mac_opt->hwaddr_type == 0) &&
+-	    memcmp_masked(mac_opt->hwaddr, state->mac, state->mac_len, mac_opt->mask))
++	    memcmp_masked_bytes(mac_opt->hwaddr, state->mac, state->mac_len, mac_opt->mask))
+ 	  {
+ 	    mac_opt->netid.next = state->tags;
+ 	    state->tags = &mac_opt->netid;
+diff --git a/src/util.c b/src/util.c
+index d2ff72f..ad1597f 100644
+--- a/src/util.c
++++ b/src/util.c
+@@ -655,6 +655,18 @@ int memcmp_masked(unsigned char *a, unsigned char *b, int len, unsigned int mask
+   return count;
+ }
+ 
++/* return 0 for no match, or nb matched*/
++int memcmp_masked_bytes(unsigned char *a, unsigned char *b, int len, unsigned char *mask)
++{
++  int i, count;
++  for (count = 1, i = len - 1; i >= 0; i--)
++    if ((a[i] & mask[i]) == (b[i] & mask[i]))
++      count ++;
++    else
++      return 0;
++  return count;
++}
++
+ /* _note_ may copy buffer */
+ int expand_buf(struct iovec *iov, size_t size)
+ {
