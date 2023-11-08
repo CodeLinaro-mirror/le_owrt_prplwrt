@@ -5,14 +5,14 @@ Create R alias:
 Check that wireless has desired configuration and state after boot:
 
   $ R "ubus -S call WiFi.SSID _get | jsonfilter -e @[*].SSID -e @[*].Status | sort"
+  Dormant
   Down
   Down
   Down
   Down
   Down
   Down
-  Down
-  PWHM_SSID5
+  PWHM_SSID7
   prplOS
   prplOS
   prplOS
@@ -93,13 +93,12 @@ Check that hostapd is operating as expected:
   $ R logger -t cram "Check that hostapd is operating after reboot"
   $ R "ps axw" | sed -nE 's/.*(hostapd.*)/\1/p' | head -3 | LC_ALL=C sort
   hostapd -ddt /tmp/wlan0_hapd.conf
-  hostapd -ddt /tmp/wlan1_hapd.conf
   hostapd/global
   hostapd/global
 
   $ R "ubus list | grep hostapd. | sort"
-  hostapd.wlan0
   hostapd.wlan0.1
+  hostapd.wlan0.2
   hostapd.wlan1
   hostapd.wlan1.1
   hostapd.wlan2
@@ -108,8 +107,8 @@ Check that hostapd is operating as expected:
 Check that wireless is operating:
 
   $ R "ubus -S call WiFi.SSID _get | jsonfilter -e @[*].SSID -e @[*].Status | sort"
-  Error
-  PWHM_SSID5
+  Dormant
+  PWHM_SSID7
   Up
   Up
   Up
@@ -146,6 +145,7 @@ Check that prplmesh processes are running:
   /opt/prplmesh/bin/beerocks_controller
   /opt/prplmesh/bin/beerocks_fronthaul -i wlan0
   /opt/prplmesh/bin/beerocks_fronthaul -i wlan1
+  /opt/prplmesh/bin/beerocks_fronthaul -i wlan2
   /opt/prplmesh/bin/ieee1905_transport
 
 Check that prplmesh is operational:
@@ -157,12 +157,13 @@ Check that prplmesh is operational:
   \x1b[1;32moperational test success! (esc)
   /opt/prplmesh/scripts/prplmesh_utils.sh: status
   [0-9]+ beerocks_contro (re)
-  [0-9]+ beerocks_contro (re)
   [0-9]+ beerocks_agent (re)
+  [0-9]+ beerocks_fronth (re)
   [0-9]+ beerocks_fronth (re)
   [0-9]+ beerocks_fronth (re)
   OK wlan0 radio agent operational
   OK wlan1 radio agent operational
+  OK wlan2 radio agent operational
   executing operational test using bml
 
 Check that prplmesh is in operational state:
@@ -178,6 +179,10 @@ Check that prplmesh is in operational state:
   wlan1
   wlan1.0
   wlan1.1
+  wlan2
+  wlan2.0
+  wlan2.1
+
 
 Disable wireless:
 
@@ -236,14 +241,14 @@ Disable wireless:
 Check that wireless is disabled:
 
   $ R "ubus -S call WiFi.SSID _get | jsonfilter -e @[*].SSID -e @[*].Status | sort"
+  Dormant
   Down
   Down
   Down
   Down
   Down
   Down
-  Down
-  PWHM_SSID5
+  PWHM_SSID7
   prplOS
   prplOS
   prplOS
