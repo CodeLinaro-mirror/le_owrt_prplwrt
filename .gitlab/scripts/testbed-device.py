@@ -17,12 +17,12 @@ class OpenWrtConsoleShell:
         self.args = args
         self.shell = shell
 
-    def run(self, cmd):
+    def run(self, cmd, timeout=30):
         result = None
 
         try:
             logging.info(f"executing: {cmd}")
-            result = self.shell.run_check(cmd)
+            result = self.shell.run_check(cmd, timeout=timeout)
         except ExecutionError as e:
             stdout = " ".join(e.stdout)
             stderr = " ".join(e.stderr)
