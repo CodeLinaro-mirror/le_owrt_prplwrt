@@ -1,0 +1,112 @@
+diff --git a/src/dhcp.c b/src/dhcp.c
+index 275647b..8342553 100644
+--- a/src/dhcp.c
++++ b/src/dhcp.c
+@@ -663,7 +663,6 @@ struct dhcp_context *address_available(struct dhcp_context *context,
+   
+   unsigned int start, end, addr = ntohl(taddr.s_addr);
+   struct dhcp_context *tmp;
+-
+   for (tmp = context; tmp; tmp = tmp->current)
+     if (taddr.s_addr == context->router.s_addr)
+       return NULL;
+@@ -687,7 +686,8 @@ struct dhcp_context *address_available(struct dhcp_context *context,
+ 	           got_tag(&tmp->netid, "master") &&
+ 	           got_tag(d->filter, "extender") &&
+ 	           addr >= ntohl(d->start.s_addr) &&
+-	           addr <= ntohl(d->end.s_addr))
++	           addr <= ntohl(d->end.s_addr) &&
++	           !(tmp->flags & CONTEXT_RANGE_FULL))
+ 	          {
+ 	            found_extender = 1;
+ 	            break;
+@@ -849,8 +849,11 @@ int address_allocate(struct dhcp_context *context,
+ 	  /* iterate until we find a free address. */
+ 	  addr = start;
+ 	  
++	  /* make sure that we check the master range first*/
++	  c->flags &= ~CONTEXT_RANGE_FULL;
+ 	  do {
+ 	    int invalide_address = 0;
++	    struct dhcp_context *extender = NULL;
+ 	    /* eliminate addresses in use by the server */
+ 	    for (d = context; d; d = d->current)
+ 	      if (addr.s_addr == d->router.s_addr)
+@@ -862,12 +865,16 @@ int address_allocate(struct dhcp_context *context,
+ 	        struct dhcp_context *tmp;
+ 	        for (tmp = context; tmp; tmp = tmp->next)
+ 	          {
+-	            if(tmp->filter && got_tag(tmp->filter, "extender") &&
+-	               ntohl(addr.s_addr) >= ntohl(tmp->start.s_addr) &&
+-	               ntohl(addr.s_addr) <= ntohl(tmp->end.s_addr))
++	            if(tmp->filter && got_tag(tmp->filter, "extender"))
+ 	              {
+-	                invalide_address = 1;
+-	                break;
++	                extender = tmp;
++	                if(ntohl(addr.s_addr) >= ntohl(tmp->start.s_addr) &&
++	                   ntohl(addr.s_addr) <= ntohl(tmp->end.s_addr) &&
++	                   !(c->flags & CONTEXT_RANGE_FULL))
++	                  {
++	                    invalide_address = 1;
++	                    break;
++	                  }
+ 	              }
+ 	          }
+ 	      }
+@@ -877,7 +884,8 @@ int address_allocate(struct dhcp_context *context,
+ 	       then 192.168.0.255 is a valid IP address, but not for Windows as it's
+ 	       in the class C range. See  KB281579. We therefore don't allocate these 
+ 	       addresses to avoid hard-to-diagnose problems. Thanks Bill. */	    
+-	    if (!d && !invalide_address &&
++	    if (!d && 
++		!invalide_address &&
+ 		!lease_find_by_addr(addr) && 
+ 		!config_find_by_address(daemon->dhcp_conf, addr) &&
+ 		(!IN_CLASSC(ntohl(addr.s_addr)) || 
+@@ -913,11 +921,30 @@ int address_allocate(struct dhcp_context *context,
+ 		  }
+ 	      }
+ 	    
+-	    addr.s_addr = htonl(ntohl(addr.s_addr) + 1);
++	    /* if the range is detected to be full try to fill extender range*/
++	    if(c->flags & CONTEXT_RANGE_FULL)
++	      addr.s_addr = htonl(ntohl(addr.s_addr) - 1);
++	    else
++	      addr.s_addr = htonl(ntohl(addr.s_addr) + 1);
+ 	    
+-	    if (addr.s_addr == htonl(ntohl(c->end.s_addr) + 1))
++	    /* end of range*/
++	    if(addr.s_addr == htonl(ntohl(c->end.s_addr) + 1))
++	      {
++	        /* check if master have extender else looking for address is break */
++	        if(extender) 
++	          {
++	            c->flags |= CONTEXT_RANGE_FULL;
++	            addr = extender->end;
++	          }
++	        else
++	          addr = c->start;
++	      }
++	    /* if extender range is also full break the loop */
++	    if((c->flags & CONTEXT_RANGE_FULL) &&
++	       extender &&
++	       (addr.s_addr == htonl(ntohl(extender->start.s_addr) - 1))) 
+ 	      addr = c->start;
+-	    
++
+ 	  } while (addr.s_addr != start.s_addr);
+ 	}
+ 
+diff --git a/src/dnsmasq.h b/src/dnsmasq.h
+index caaa5b7..8cb17aa 100644
+--- a/src/dnsmasq.h
++++ b/src/dnsmasq.h
+@@ -1044,6 +1044,7 @@ struct shared_network {
+ #define CONTEXT_V6             (1u<<17)
+ #define CONTEXT_RA_OFF_LINK    (1u<<18)
+ #define CONTEXT_SETLEASE       (1u<<19)
++#define CONTEXT_RANGE_FULL     (1u<<20)
+ 
+ struct ping_result {
+   struct in_addr addr;
