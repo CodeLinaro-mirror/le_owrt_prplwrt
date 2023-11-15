@@ -233,3 +233,9 @@ diffconfig: |
           CONFIG_VERSION_SUPPORT_URL="https://jira.prplfoundation.org"
           # CONFIG_VERSION_FILENAMES is not set
           # CONFIG_VERSION_CODE_FILENAMES is not set
+          # OpenSSL is the default and only TLS provider
+          CONFIG_LIBCURL_OPENSSL=y
+          # CONFIG_LIBCURL_MBEDTLS is not set
+          # CONFIG_PACKAGE_libwolfssl is not set
+          # CONFIG_PACKAGE_libustream-wolfssl is not set
+          CONFIG_PACKAGE_libustream-openssl=y
