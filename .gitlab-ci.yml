@@ -14,6 +14,7 @@ include:
   - local: .gitlab/docker/builder/gitlab.yml
   - local: .gitlab/docker/testbed/gitlab.yml
   - local: .gitlab/docker/sdk/gitlab.yml
+  - local: .gitlab/docker/ib/gitlab.yml
   - local: .gitlab/testbed.yml
   - local: .gitlab/testbed/prpl-haze.yml
   - local: .gitlab/testbed/turris-omnia.yml
