@@ -26,9 +26,9 @@ stages:
   - docker deploy
   - build
   - release
-  - docker SDK
-  - docker SDK test
-  - docker SDK deploy
+  - docker SDK and IB
+  - docker SDK and IB test
+  - docker SDK and IB deploy
   - run
   - cdrouter
   - coverity
