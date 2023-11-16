@@ -52,9 +52,6 @@ build test mvebu prpl security:
 
 build test x86_64 prpl security:
   extends: .build test config
-  variables:
-    CI_BUILD_CONFIG: >
-      +DEVEL +BUILD_LOG +SDK +IB +IB_STANDALONE
 
 build test ipq807x prpl:
   extends: .build test config
