@@ -1,5 +1,5 @@
 build Docker image sdk-mvebu-cortexa9:
-  stage: docker SDK
+  stage: docker SDK and IB
   needs: ["build test mvebu prpl security"]
   variables:
     DOCKER_DOCKERFILE_PATH: .gitlab/docker/sdk
@@ -13,13 +13,13 @@ test Docker image sdk-mvebu-cortexa9:
   needs: ["build Docker image sdk-mvebu-cortexa9"]
 
 deploy Docker image sdk-mvebu-cortexa9:
-  stage: docker SDK deploy
+  stage: docker SDK and IB deploy
   extends: .deploy Docker image
   needs: ["test Docker image sdk-mvebu-cortexa9"]
 
 
 build Docker image sdk-x86-64:
-  stage: docker SDK
+  stage: docker SDK and IB
   needs: ["build test x86_64 prpl security"]
   variables:
     DOCKER_DOCKERFILE_PATH: .gitlab/docker/sdk
@@ -33,13 +33,13 @@ test Docker image sdk-x86-64:
   needs: ["build Docker image sdk-x86-64"]
 
 deploy Docker image sdk-x86-64:
-  stage: docker SDK deploy
+  stage: docker SDK and IB deploy
   extends: .deploy Docker image
   needs: ["test Docker image sdk-x86-64"]
 
 
 build Docker image sdk-ipq807x-generic:
-  stage: docker SDK
+  stage: docker SDK and IB
   needs: ["build test ipq807x prpl"]
   variables:
     DOCKER_DOCKERFILE_PATH: .gitlab/docker/sdk
@@ -53,6 +53,6 @@ test Docker image sdk-ipq807x-generic:
   needs: ["build Docker image sdk-ipq807x-generic"]
 
 deploy Docker image sdk-ipq807x-generic:
-  stage: docker SDK deploy
+  stage: docker SDK and IB deploy
   extends: .deploy Docker image
   needs: ["test Docker image sdk-ipq807x-generic"]
