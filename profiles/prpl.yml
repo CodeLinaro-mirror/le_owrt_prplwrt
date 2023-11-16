@@ -4,7 +4,7 @@ feeds:
   - name: feed_prpl
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-prpl.git
     tracking_branch: prplos-22.03
-    revision: ec1349f1a1ee0f81ed9eb7003d84738be1ca9c78
+    revision: e180b5cd40726e162410aeae1537d3696d1560db
 
 additional_packages:
   - feed: packages
@@ -130,6 +130,7 @@ packages:
   - timingila-rlyeh
   - tr069-manager
   - tr181-bridging
+  - tr181-button
   - tr181-device
   - tr181-dhcpv4client
   - tr181-dhcpv6client
@@ -140,6 +141,7 @@ packages:
   - tr181-firewall
   - tr181-httpaccess
   - tr181-ipdiagnostics
+  - tr181-led
   - tr181-logical
   - tr181-neighbordiscovery
   - tr181-pcp
