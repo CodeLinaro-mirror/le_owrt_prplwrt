@@ -130,6 +130,7 @@ packages:
   - timingila-rlyeh
   - tr069-manager
   - tr181-bridging
+  - tr181-button
   - tr181-device
   - tr181-dhcpv4client
   - tr181-dhcpv6client
@@ -140,6 +141,7 @@ packages:
   - tr181-firewall
   - tr181-httpaccess
   - tr181-ipdiagnostics
+  - tr181-led
   - tr181-logical
   - tr181-neighbordiscovery
   - tr181-pcp
