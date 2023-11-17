@@ -20,7 +20,7 @@ Install testing prplOS container v1:
 
   $ cat > /tmp/run-container <<EOF
   > ubus-cli SoftwareModules.InstallDU\( \
-  > URL="docker://registry.gitlab.com/prpl-foundation/prplos/prplos/prplos-testing-container-x86-64:v1", \
+  > URL="docker://registry.gitlab.com/prpl-foundation/prplos/prplos/prplos/lcm-test-ipq807x-generic-v1:ynezz-lcm-containers", \
   > UUID="0f032bd7-54bd-5b81-b14e-9441d730092f", \
   > ExecutionEnvRef="generic", \
   > NetworkConfig = { "AccessInterfaces" = [{"Reference" = "Lan"}] } \
@@ -49,7 +49,7 @@ Update to prplOS container v2:
 
   $ cat > /tmp/run-container <<EOF
   > ubus-cli SoftwareModules.DeploymentUnit.cpe-c879945e-d002-5775-88a8-e29bc0c641b4.Update\( \
-  > URL="docker://registry.gitlab.com/prpl-foundation/prplos/prplos/prplos-testing-container-x86-64:v2", \
+  > URL="docker://registry.gitlab.com/prpl-foundation/prplos/prplos/prplos/lcm-test-ipq807x-generic-v2:ynezz-lcm-containers", \
   > ExecutionEnvRef="generic", \
   > NetworkConfig = { "AccessInterfaces" = [{"Reference" = "Lan"}] } \
   > \)
