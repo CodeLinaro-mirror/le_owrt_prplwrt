@@ -15,6 +15,7 @@ include:
   - local: .gitlab/docker/testbed/gitlab.yml
   - local: .gitlab/docker/sdk/gitlab.yml
   - local: .gitlab/docker/ib/gitlab.yml
+  - local: .gitlab/docker/ib/lcm/gitlab.yml
   - local: .gitlab/testbed.yml
   - local: .gitlab/testbed/prpl-haze.yml
   - local: .gitlab/testbed/turris-omnia.yml
@@ -30,6 +31,7 @@ stages:
   - docker SDK and IB
   - docker SDK and IB test
   - docker SDK and IB deploy
+  - docker IB LCM container
   - run
   - cdrouter
   - coverity
