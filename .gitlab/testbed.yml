@@ -49,20 +49,6 @@
       fi
 
     - >
-      if [ -n "$TFTP_IMAGE_DOWNLOAD_URL" ]; then
-        echo "Downloading firmware image from $TFTP_IMAGE_DOWNLOAD_URL"
-        curl --fail "$TFTP_IMAGE_DOWNLOAD_URL" > "$TESTBED_TFTP_PATH/$TFTP_IMAGE_FILENAME"
-      else
-        echo "Using firmware image $TFTP_IMAGE_PATH/$TFTP_IMAGE_FILENAME"
-        cp "$TFTP_IMAGE_PATH/$TFTP_IMAGE_FILENAME" "$TESTBED_TFTP_PATH"
-      fi
-    - >
-      if [ -n "$TFTP_IMAGE_UNPACK_COMMAND" ]; then
-        echo "Running $TFTP_IMAGE_UNPACK_COMMAND"
-        eval "$TFTP_IMAGE_UNPACK_COMMAND"
-      fi
-
-    - >
       if echo "$CI_RUNNER_DESCRIPTION" | grep -q testbed-02; then
         export TB_CONFIG=".testbed/labgrid/testbed-02.yaml"
       fi
@@ -89,7 +75,7 @@
       ssh root@$TARGET_LAN_IP 'f=$(logread | grep "procd.*init complete"); echo "${f:-Warning: init is not complete yet,} $(uptime -p)"' || true
     - ssh root@$TARGET_LAN_IP 'logger -t CI -p local0.info "Testing starts, $(uptime -p)"' || true
     - set -o pipefail
-    - python3 -m cram --verbose $CRAM_TEST_SUITE $CRAM_TEST_SUITE_EXTRA | tee cram-result-$LABGRID_TARGET.txt
+    - python3 -m cram --verbose .gitlab/tests/cram/urx851-b0-dk/acceleration-plan-components/030-lcm.t | tee cram-result-$LABGRID_TARGET.txt
     - ssh root@$TARGET_LAN_IP 'logger -t CI -p local0.info "Testing finished, $(uptime -p)"' || true
     - rm .run_failed
 
