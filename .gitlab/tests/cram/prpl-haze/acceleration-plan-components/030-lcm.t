@@ -20,8 +20,8 @@ Install testing prplOS container v1:
 
   $ cat > /tmp/run-container <<EOF
   > ubus-cli SoftwareModules.InstallDU\( \
-  > URL="docker://registry.gitlab.com/prpl-foundation/prplos/prplos/prplos-testing-container-ipq807x-generic:v1", \
-  > UUID="prplos-testing", \
+  > URL="docker://registry.gitlab.com/prpl-foundation/prplos/prplos/prplos/lcm-test-ipq807x-generic:prplos-v1", \
+  > UUID="0f032bd7-54bd-5b81-b14e-9441d730092f", \
   > ExecutionEnvRef="generic", \
   > NetworkConfig = { "AccessInterfaces" = [{"Reference" = "Lan"}] } \
   > \)
@@ -34,10 +34,10 @@ Check that prplOS container v1 is running:
 
   $ R "ubus -S call Cthulhu.Container.Instances.1 _get | jsonfilter -e @[*].Status -e @[*].Bundle -e @[*].BundleVersion -e @[*].ContainerId -e @[*].Alias | sort"
   Running
-  cpe-prplos-testing
-  prplos-testing
-  prplos/prplos/prplos-testing-container-ipq807x-generic
-  v1
+  c879945e-d002-5775-88a8-e29bc0c641b4
+  cpe-c879945e-d002-5775-88a8-e29bc0c641b4
+  prpl-foundation/prplos/prplos/prplos/lcm-test-ipq807x-generic
+  prplos-v1
 
   $ container_ip=$(R "ubus call DHCPv4Server.Pool.3.Client.1.IPv4Address.1 _get | jsonfilter -e @[*].IPAddress")
   $ R "ssh -y root@$container_ip 'cat /etc/container-version ; ip r' 2> /dev/null"
@@ -48,9 +48,9 @@ Check that prplOS container v1 is running:
 Update to prplOS container v2:
 
   $ cat > /tmp/run-container <<EOF
-  > ubus-cli SoftwareModules.DeploymentUnit.cpe-prplos-testing.Update\( \
-  > URL="docker://registry.gitlab.com/prpl-foundation/prplos/prplos/prplos-testing-container-ipq807x-generic:v2", \
-  > UUID="prplos-testing", \
+  > ubus-cli SoftwareModules.DeploymentUnit.cpe-c879945e-d002-5775-88a8-e29bc0c641b4.Update\( \
+  > URL="docker://registry.gitlab.com/prpl-foundation/prplos/prplos/prplos/lcm-test-ipq807x-generic:prplos-v2", \
+  > UUID="0f032bd7-54bd-5b81-b14e-9441d730092f", \
   > ExecutionEnvRef="generic", \
   > NetworkConfig = { "AccessInterfaces" = [{"Reference" = "Lan"}] } \
   > \)
@@ -61,12 +61,12 @@ Check that prplOS container v2 is running:
 
   $ sleep 30
 
-  $ R "ubus -S call Cthulhu.Container.Instances.2 _get | jsonfilter -e @[*].Status -e @[*].Bundle -e @[*].BundleVersion -e @[*].ContainerId -e @[*].Alias | sort"
+  $ R "ubus -S call Cthulhu.Container.Instances.1 _get | jsonfilter -e @[*].Status -e @[*].Bundle -e @[*].BundleVersion -e @[*].ContainerId -e @[*].Alias | sort"
   Running
-  cpe-prplos-testing
-  prplos-testing
-  prplos/prplos/prplos-testing-container-ipq807x-generic
-  v2
+  c879945e-d002-5775-88a8-e29bc0c641b4
+  cpe-c879945e-d002-5775-88a8-e29bc0c641b4
+  prpl-foundation/prplos/prplos/prplos/lcm-test-ipq807x-generic
+  prplos-v2
 
   $ container_ip=$(R "ubus call DHCPv4Server.Pool.3.Client.2.IPv4Address.1 _get | jsonfilter -e @[*].IPAddress")
   $ R "ssh -y root@$container_ip 'cat /etc/container-version ; ip r' 2> /dev/null"
@@ -76,11 +76,11 @@ Check that prplOS container v2 is running:
 
 Uninstall prplOS testing container:
 
-  $ script --command "ssh -t root@$TARGET_LAN_IP 'ubus-cli SoftwareModules.DeploymentUnit.cpe-prplos-testing.Uninstall\(\)'" > /dev/null;  sleep 5
+  $ script --command "ssh -t root@$TARGET_LAN_IP 'ubus-cli SoftwareModules.DeploymentUnit.cpe-c879945e-d002-5775-88a8-e29bc0c641b4.Uninstall\(\)'" > /dev/null;  sleep 5
 
 Check that prplOS container is not running:
 
-  $ R "ubus -S call Cthulhu.Container.Instances.2 _get"
+  $ R "ubus -S call Cthulhu.Container.Instances.1 _get"
   [4]
 
 Check that Rlyeh has no container images:
