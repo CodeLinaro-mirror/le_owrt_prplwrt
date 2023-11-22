@@ -91,6 +91,6 @@ Check that Rlyeh has no container images:
 
 Check that container image is gone from the filesystem as well:
 
-  $ R "ls -al /usr/share/rlyeh/images/prplos"
-  ls: /usr/share/rlyeh/images/prplos: No such file or directory
+  $ R "ls -al /usr/share/rlyeh/images/prpl-foundation"
+  ls: /usr/share/rlyeh/images/prpl-foundation: No such file or directory
   [1]
