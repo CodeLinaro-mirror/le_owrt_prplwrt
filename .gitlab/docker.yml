@@ -110,4 +110,7 @@
         docker pull "$CI_REGISTRY_IMAGE/$CI_DESIGNATED_BRANCH/$image_name:$CI_COMMIT_REF_SLUG"
         docker tag "$CI_REGISTRY_IMAGE/$CI_DESIGNATED_BRANCH/$image_name:$CI_COMMIT_REF_SLUG" "$CI_REGISTRY_IMAGE/$CI_DESIGNATED_BRANCH/$image_name:latest"
         docker push "$CI_REGISTRY_IMAGE/$CI_DESIGNATED_BRANCH/$image_name:latest"
+
+        docker tag "$CI_REGISTRY_IMAGE/$CI_DESIGNATED_BRANCH/$image_name:$CI_COMMIT_REF_SLUG" "$CI_REGISTRY_IMAGE/$CI_DESIGNATED_BRANCH/${IMAGE_NAME}:$version"
+        docker push "$CI_REGISTRY_IMAGE/$CI_DESIGNATED_BRANCH/${IMAGE_NAME}:$version"
       done
