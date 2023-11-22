@@ -65,6 +65,9 @@ build_push_container()
       "$rootfs_dir"
     docker tag "$container_name" "$CI_REGISTRY_IMAGE/$CI_DESIGNATED_BRANCH/$container_name:$CI_COMMIT_REF_SLUG"
     docker push "$CI_REGISTRY_IMAGE/$CI_DESIGNATED_BRANCH/$container_name:$CI_COMMIT_REF_SLUG"
+
+    docker tag "$container_name" "$CI_REGISTRY_IMAGE/$CI_DESIGNATED_BRANCH/$CI_LCM_CONTAINER_NAME:${CI_COMMIT_REF_SLUG}-$version"
+    docker push "$CI_REGISTRY_IMAGE/$CI_DESIGNATED_BRANCH/$CI_LCM_CONTAINER_NAME:${CI_COMMIT_REF_SLUG}-$version"
   done
 }
 
