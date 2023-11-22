@@ -30,7 +30,7 @@ Install testing prplOS container v1:
 
 Check that prplOS container v1 is running:
 
-  $ sleep 30
+  $ sleep 40
 
   $ R "ubus -S call Cthulhu.Container.Instances.1 _get | jsonfilter -e @[*].Status -e @[*].Bundle -e @[*].BundleVersion -e @[*].ContainerId -e @[*].Alias | sort"
   Running
@@ -58,7 +58,7 @@ Update to prplOS container v2:
 
 Check that prplOS container v2 is running:
 
-  $ sleep 30
+  $ sleep 40
 
   $ R "ubus -S call Cthulhu.Container.Instances.1 _get | jsonfilter -e @[*].Status -e @[*].Bundle -e @[*].BundleVersion -e @[*].ContainerId -e @[*].Alias | sort"
   Running
@@ -75,7 +75,7 @@ Check that prplOS container v2 is running:
 
 Uninstall prplOS testing container:
 
-  $ script --command "ssh -t root@$TARGET_LAN_IP 'ubus-cli SoftwareModules.DeploymentUnit.cpe-c879945e-d002-5775-88a8-e29bc0c641b4.Uninstall\(\)'" > /dev/null;  sleep 5
+  $ script --command "ssh -t root@$TARGET_LAN_IP 'ubus-cli SoftwareModules.DeploymentUnit.cpe-c879945e-d002-5775-88a8-e29bc0c641b4.Uninstall\(\)'" > /dev/null;  sleep 10
 
 Check that prplOS container is not running:
 
