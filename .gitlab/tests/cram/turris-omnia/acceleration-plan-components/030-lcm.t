@@ -2,37 +2,29 @@ Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
-Check that Sandbox is not configured properly:
+Check Cthulhu.Sandbox datamodel:
 
-  $ R "ubus -S call Cthulhu.Sandbox.Instances.1.NetworkNS.Interfaces.1 _get"
-  [4]
+  $ R "ubus -S call Cthulhu.Sandbox.Instances.1 _get | jsonfilter -e @[*].Status -e @[*].Enable -e @[*].SandboxId | sort"
+  Up
+  generic
+  true
 
-  $ R "ubus -S call Cthulhu.Config _get | jsonfilter -e @[*].DhcpCommand"
-  
+Check Cthulhu.Config datamodel:
 
-Configure Sandbox:
-
-  $ cat > /tmp/run-sandbox <<EOF
-  > ubus-cli "Cthulhu.Sandbox.stop(SandboxId=\"generic\")"
-  > ubus-cli Cthulhu.Sandbox.Instances.1.NetworkNS.Type="Veth"
-  > ubus-cli Cthulhu.Sandbox.Instances.1.NetworkNS.Interfaces.+
-  > ubus-cli Cthulhu.Sandbox.Instances.1.NetworkNS.Interfaces.1.Bridge="br-lan"
-  > ubus-cli Cthulhu.Sandbox.Instances.1.NetworkNS.Interfaces.1.Interface="eth0"
-  > ubus-cli Cthulhu.Sandbox.Instances.1.NetworkNS.Enable=1
-  > ubus-cli "Cthulhu.Sandbox.start(SandboxId=\"generic\")"
-  > EOF
-  $ script --command "ssh -t root@$TARGET_LAN_IP '$(cat /tmp/run-sandbox)'" > /dev/null
-  $ sleep 10
-
-Check that Sandbox was configured properly:
-
-  $ R "ubus -S call Cthulhu.Sandbox.Instances.1.NetworkNS.Interfaces.1 _get"
-  {"Cthulhu.Sandbox.Instances.1.NetworkNS.Interfaces.1.":{"EnableDhcp":false,"Interface":"eth0","Bridge":"br-lan"}}
+  $ R "ubus -S call Cthulhu.Config _get | jsonfilter -e @[*].UseOverlayFS -e @[*].DefaultBackend -e @[*].ImageLocation | sort"
+  /usr/lib/cthulhu-lxc/cthulhu-lxc.so
+  /usr/share/rlyeh/images
+  true
 
 Install testing prplOS container v1:
 
   $ cat > /tmp/run-container <<EOF
-  > ubus-cli "SoftwareModules.InstallDU(URL=\"docker://registry.gitlab.com/prpl-foundation/prplos/prplos/prplos-testing-container-mvebu-cortexa9:v1\", UUID=\"prplos-testing\", ExecutionEnvRef=\"generic\")"
+  > ubus-cli SoftwareModules.InstallDU\( \
+  > URL="docker://registry.gitlab.com/prpl-foundation/prplos/prplos/prplos/lcm-test-mvebu-cortexa9:prplos-v1", \
+  > UUID="0f032bd7-54bd-5b81-b14e-9441d730092f", \
+  > ExecutionEnvRef="generic", \
+  > NetworkConfig = { "AccessInterfaces" = [{"Reference" = "Lan"}] } \
+  > \)
   > EOF
   $ script --command "ssh -t root@$TARGET_LAN_IP '$(cat /tmp/run-container)'" > /dev/null
 
@@ -42,19 +34,26 @@ Check that prplOS container v1 is running:
 
   $ R "ubus -S call Cthulhu.Container.Instances.1 _get | jsonfilter -e @[*].Status -e @[*].Bundle -e @[*].BundleVersion -e @[*].ContainerId -e @[*].Alias | sort"
   Running
-  cpe-prplos-testing
-  prplos-testing
-  prplos/prplos/prplos-testing-container-mvebu-cortexa9
-  v1
+  c879945e-d002-5775-88a8-e29bc0c641b4
+  cpe-c879945e-d002-5775-88a8-e29bc0c641b4
+  prpl-foundation/prplos/prplos/prplos/lcm-test-mvebu-cortexa9
+  prplos-v1
 
-  $ container_ip=$(R "ubus call DHCPv4.Server.Pool.1.Client.1.IPv4Address.1 _get | jsonfilter -e @[*].IPAddress")
-  $ R "ssh -y root@$container_ip 'cat /etc/container-version' 2> /dev/null"
+  $ container_ip=$(R "ubus call DHCPv4Server.Pool.3.Client.1.IPv4Address.1 _get | jsonfilter -e @[*].IPAddress")
+  $ R "ssh -y root@$container_ip 'cat /etc/container-version ; ip r' 2> /dev/null"
   1
+  default via 192.168.5.1 dev lcm0 
+  192.168.5.0/24 dev lcm0 scope link  src 192.168.5.* (re)
 
 Update to prplOS container v2:
 
   $ cat > /tmp/run-container <<EOF
-  > ubus-cli "SoftwareModules.DeploymentUnit.cpe-prplos-testing.Update(URL=\"docker://registry.gitlab.com/prpl-foundation/prplos/prplos/prplos-testing-container-mvebu-cortexa9:v2\")"
+  > ubus-cli SoftwareModules.DeploymentUnit.cpe-c879945e-d002-5775-88a8-e29bc0c641b4.Update\( \
+  > URL="docker://registry.gitlab.com/prpl-foundation/prplos/prplos/prplos/lcm-test-mvebu-cortexa9:prplos-v2", \
+  > UUID="0f032bd7-54bd-5b81-b14e-9441d730092f", \
+  > ExecutionEnvRef="generic", \
+  > NetworkConfig = { "AccessInterfaces" = [{"Reference" = "Lan"}] } \
+  > \)
   > EOF
   $ script --command "ssh -t root@$TARGET_LAN_IP '$(cat /tmp/run-container)'" > /dev/null
 
@@ -62,30 +61,34 @@ Check that prplOS container v2 is running:
 
   $ sleep 30
 
-  $ R "ubus -S call Cthulhu.Container.Instances.2 _get | jsonfilter -e @[*].Status -e @[*].Bundle -e @[*].BundleVersion -e @[*].ContainerId -e @[*].Alias | sort"
+  $ R "ubus -S call Cthulhu.Container.Instances.1 _get | jsonfilter -e @[*].Status -e @[*].Bundle -e @[*].BundleVersion -e @[*].ContainerId -e @[*].Alias | sort"
   Running
-  cpe-prplos-testing
-  prplos-testing
-  prplos/prplos/prplos-testing-container-mvebu-cortexa9
-  v2
+  c879945e-d002-5775-88a8-e29bc0c641b4
+  cpe-c879945e-d002-5775-88a8-e29bc0c641b4
+  prpl-foundation/prplos/prplos/prplos/lcm-test-mvebu-cortexa9
+  prplos-v2
 
-  $ container_ip=$(R "ubus call DHCPv4.Server.Pool.1.Client.1.IPv4Address.1 _get | jsonfilter -e @[*].IPAddress")
-  $ R "ssh -y root@$container_ip 'cat /etc/container-version' 2> /dev/null"
+  $ container_ip=$(R "ubus call DHCPv4Server.Pool.3.Client.2.IPv4Address.1 _get | jsonfilter -e @[*].IPAddress")
+  $ R "ssh -y root@$container_ip 'cat /etc/container-version ; ip r' 2> /dev/null"
   2
+  default via 192.168.5.1 dev lcm0 
+  192.168.5.0/24 dev lcm0 scope link  src 192.168.5.* (re)
 
 Uninstall prplOS testing container:
 
-  $ script --command "ssh -t root@$TARGET_LAN_IP 'ubus-cli SoftwareModules.DeploymentUnit.cpe-prplos-testing.Uninstall\(\)'" > /dev/null;  sleep 5
+  $ script --command "ssh -t root@$TARGET_LAN_IP 'ubus-cli SoftwareModules.DeploymentUnit.cpe-c879945e-d002-5775-88a8-e29bc0c641b4.Uninstall\(\)'" > /dev/null;  sleep 5
 
 Check that prplOS container is not running:
 
-  $ R "ubus -S call Cthulhu.Container.Instances.2 _get"
+  $ R "ubus -S call Cthulhu.Container.Instances.1 _get"
   [4]
 
 Check that Rlyeh has no container images:
 
   $ R "ubus -S call Rlyeh.Images _get"
   {"Rlyeh.Images.":{}}
+  {}
+  {"amxd-error-code":0}
 
 Check that container image is gone from the filesystem as well:
 
