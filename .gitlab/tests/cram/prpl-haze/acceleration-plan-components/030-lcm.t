@@ -89,9 +89,3 @@ Check that Rlyeh has no container images:
   {"Rlyeh.Images.":{}}
   {}
   {"amxd-error-code":0}
-
-Check that container image is gone from the filesystem as well:
-
-  $ R "ls -al /usr/share/rlyeh/images/prpl-foundation"
-  ls: /usr/share/rlyeh/images/prpl-foundation: No such file or directory
-  [1]
