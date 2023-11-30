@@ -1,3 +1,8 @@
+Skip the test if coredumps are enabled in the CI build:
+
+  $ [ -z "$CI_COMMIT_TAG" ] && [ "$CI_DESIGNATED_BRANCH" != "$CI_COMMIT_BRANCH" ] && exit 80
+  [1]
+
 Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
