@@ -6,7 +6,7 @@ upload:
   image: curlimages/curl:8.4.0
 
   needs:
-    - job: build test ipq807x prpl
+    - job: build test ipq807x prpl security
     - job: build test mvebu prpl security
     - job: build test x86_64 prpl security
 
