@@ -81,3 +81,9 @@ CDRouter-IPv6-Top-100+mDNS Haze VLAN WAN/LAN initramfs:
     TFTP_IMAGE_FILENAME_PATTERN: /.*openwrt-ipq807x-generic-prpl_haze-squashfs-sysupgrade.bin/
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-tr181-mockups.sh
+
+CDRouter-USP-Certification Haze initramfs:
+  <<: *prpl_haze
+  variables:
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
