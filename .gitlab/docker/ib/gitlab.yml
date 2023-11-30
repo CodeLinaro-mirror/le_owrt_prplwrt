@@ -46,7 +46,7 @@ deploy Docker image ib-x86-64:
 
 build Docker image ib-ipq807x-generic:
   stage: docker SDK and IB
-  needs: ["build test ipq807x prpl"]
+  needs: ["build test ipq807x prpl security"]
   variables:
     DOCKER_DOCKERFILE_PATH: .gitlab/docker/ib
     DOCKER_BUILD_EXTRA_ARGS: --build-arg DESIGNATED_BRANCH=$CI_DESIGNATED_BRANCH

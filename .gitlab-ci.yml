@@ -56,7 +56,7 @@ build test mvebu prpl security:
 build test x86_64 prpl security:
   extends: .build test config
 
-build test ipq807x prpl:
+build test ipq807x prpl security:
   extends: .build test config
 
 run test Turris Omnia initramfs:
@@ -67,7 +67,7 @@ run test Turris Omnia initramfs:
 
 run test Haze initramfs:
   needs:
-    - job: build test ipq807x prpl
+    - job: build test ipq807x prpl security
       optional: true
   extends: .prpl-haze testbed
 
