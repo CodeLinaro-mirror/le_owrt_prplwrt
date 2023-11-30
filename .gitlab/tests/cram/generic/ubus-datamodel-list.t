@@ -56,6 +56,9 @@ Check that ubus has expected datamodels available:
   DNS.Relay.X_PRPL-COM_Config
   DNS.X_PRPL-COM_ForwardZone
   DNS.X_PRPL-COM_Host
+  DNS.X_PRPL-COM_RebindProtection
+  DNS.X_PRPL-COM_RebindProtection.DomainExceptions
+  DNS.X_PRPL-COM_RebindProtection.IPExceptions
   DNSSD
   DNSSD.Service
   DSLite
@@ -141,12 +144,15 @@ Check that ubus has expected datamodels available:
   Ethernet.VLANTermination.Stats
   Firewall
   Firewall.Chain
+  Firewall.ConnectionTracking
+  Firewall.ConnectionTracking.SIP
   Firewall.DMZ
   Firewall.Level
   Firewall.Pinhole
   Firewall.Policy
   Firewall.Service
   Firewall.X_PRPL-COM_InterfaceSetting
+  Firewall.X_PRPL-COM_Log
   Firewall.X_PRPL-COM_WANAccess
   Firewall.X_PRPL-COM_WANAccess.BlockList
   Hosts
