@@ -12,81 +12,80 @@ description: Build secure boot images for the Maxlinear x86 devices - URX.
 feeds:
   - name: intel_x86
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_target_x86.git
-    tracking_branch: updk_9.1.30
-    revision: 3ef756839c44ffcb35d7cdc317b76409fc2535ee
+    tracking_branch: master
+    revision: 66888fad0e8bfde331fb27f379c4d4521fb0338a
   - name: rootfs
     uri: ssh://git@git.maxlinear.com/ugw/rootfs.git
-    tracking_branch: updk_9.1.30
-    revision: a0173dc552973b3f84902efecfb5f1a4796818e2
+    tracking_branch: updk_9.1.40
+    revision: ab4434b131fe9a390b7888a578eb2d42c45bf888
   - name: 3rdparty
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_3rdparty.git
-    tracking_branch: updk_9.1.30
-    revision: 46a05a23aac3f90bc9c66a4bd8294de498e946da
+    tracking_branch: master
+    revision: 9085085ca3b91aa5468b7a35645772540aad083f
   - name: datapath
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_datapath.git
-    tracking_branch: updk_9.1.30
-    revision: e867d3d95fdbd2c52e5a51a1160bc7042c07fed8
+    tracking_branch: master
+    revision: f4411add143fb1138f5e94a29e1e1f9621c44895
   - name: gphy_firmware
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_gphy_firmware.git
-    tracking_branch: updk_9.1.30
-    revision: f7ed02509c18851120b559155e9f2316afb46f29
+    tracking_branch: master
+    revision: 7f53bcc7d43c8fe41417d21d50e290bb77f6c231
   - name: gwdpa_dpm
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_gwdpa-dpm.git
-    tracking_branch: updk_9.1.30
-    revision: 28b8d2f1c840acdab55ba71a9c4f7d06dc7c9abb
+    tracking_branch: master
+    revision: 616cbc0a64e880769258dc20a9b49ddeeb02abce
   - name: misc
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_common.git
-    tracking_branch: updk_9.1.30
-    revision: 7bf766c519c882ce31a9b179ccab25b79d0e48a5
-  - name: opensource_apps
-    uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_opensource_apps.git
-    tracking_branch:  updk_9.1.30
-    revision: a1fbc0ca349029cc5e21fe75424bcff870067ceb
+    tracking_branch: master
+    revision: 3ab18477cfb96b7ae3a5bdc065ff0ba8a98ee843
+  - name: opensource_apps_prpl
+    uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_opensource_apps_prpl.git
+    tracking_branch:  master
+    revision: 5ed128166ca34d223214c5c5fc46da89c0485ab4
   - name: packet_learn
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_packet_learn.git
-    tracking_branch: updk_9.1.30
-    revision: 1f326221d8909add27139f7c5edcf72ca11da850
+    tracking_branch: master
+    revision: d853655eaff6b6470a21b22526e4cf8e7c162440
   - name: pon
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_pon.git
-    tracking_branch: updk_9.1.30
-    revision: 14728fd34c859216d42280fd26f77295db5e180d
+    tracking_branch: master
+    revision: 35556be6145a589f6e1a2a43d76d119cf1471c95
   - name: ppa
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_ppa.git
-    tracking_branch: updk_9.1.30
-    revision: 47e3aac213072703ee818ae42d5f048420f131d7
+    tracking_branch: master
+    revision: cdbd47c5457fd2b354998bb76f8582d5044e5fd7
   - name: pp_net_adapter
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_pp_net_adapter.git
-    tracking_branch: updk_9.1.30
-    revision: ebc1e4fa2e5b2dbc6e347d1a5c853c5df8e6502d
+    tracking_branch: master
+    revision: d57e0c7820255fca61874c6202f67aed169cb841
   - name: vpn_fw
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_vpn_fw.git
-    tracking_branch: updk_9.1.30
-    revision: befe57974f1b70223f8027cd8aebe78735c7191d
+    tracking_branch: master
+    revision: 8e08b19977af08dc5870dfa9e169545e2220d4d4
   - name: qos
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_qos_tc.git
-    tracking_branch: updk_9.1.30
+    tracking_branch: master
     revision: 8904e7fbb73db1d880d7f14139cb971296275c9b
   - name: utils
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_ugw_utils.git
-    tracking_branch: updk_9.1.30
-    revision: cf45032a3f079090dbd40778c77cebff676d0c18
+    tracking_branch: master
+    revision: ca312a0da1480281e93c5cf64beae6e6a45010ba
   - name: bootloader
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_uboot.git
-    tracking_branch:  updk_9.1.30
-    revision: 4b003e393f7bb73ace65d0b434c432d2a0cb1bef
-  - name: mcast_service
-    uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_mcast_service.git
-    tracking_branch:  updk_9.1.30
-    revision: 4bcbd243ce4ec04200a85749fb2e8b6fa1bae2c4
+    tracking_branch:  updk_9.1.40
+    revision: 0998eae9cea0ee3be6551360ae5d97ac18d52f85
   - name: dpl
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_dpl.git
-    tracking_branch:  updk_9.1.30
-    revision: 4059c44ca150034295619969a5feaf6f707176d6
-
-additional_packages:
-  - feed: packages
-    packages:
-      - miniupnpd2-iptables
+    tracking_branch:  master
+    revision: 974a1514811799c84939ee2478bdc6356e8e1227
+  - name: ugw_sdk
+    uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_ugw_sdk.git
+    tracking_branch:  updk_9.1.40
+    revision: 40a227bfb85f0e596420c47183e948302ef61c5e
+  - name: system_service
+    uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_system_service.git
+    tracking_branch:  updk_9.1.40
+    revision: 8b42d6ce407001ed89cd5dd1245adac37cf08d9d
 
 packages:
   - kmod-mxl_eth_drv
@@ -97,7 +96,7 @@ packages:
   - kmod-intel_ppv4_fw_lgm
   - kmod-ppv4
   - kmod-p34x_phy_fwdl
-  - ltq-gphy-fw-lgm
+  - mxl-gphy-fw-lgm
   #- netifd-ugw
   - e2fsprogs
   - kmod-directconnect-dp
@@ -149,19 +148,21 @@ packages:
   - partx-utils
   - obudpst
   - speedtest-modules
-  - kmod-mcast-helper
-  - libmcastdaemon
-  - libmcastfapi
-  - mcastcli
   - kmod-dpl
+  - kmod-mxl_gpy
+  - libhelper
+  - libscapi
+  - kmod-sse_driver_lgm
+  - kmod-sse_ssal_driver_lgm
+  - sse_fapi_lgm
+  - sse_fapi_lgm-sse_test_app
 
 diffconfig: |
   CONFIG_DEVEL=y
   CONFIG_KERNEL_GIT_CLONE_URI="git@git.maxlinear.com:mxl/linux.git"
   CONFIG_KERNEL_GIT_DEPTH=""
-  CONFIG_KERNEL_GIT_REF="updk_9.1.30"
+  CONFIG_KERNEL_GIT_REF="UPDK_9.1.40"
   CONFIG_GPON_OMCI_ONU_UBUS_INTERFACE=y
-  CONFIG_TARGET_OPTIONS=y
   CONFIG_TARGET_MULTI_PROFILE=y
   CONFIG_TARGET_PER_DEVICE_ROOTFS=y
   CONFIG_TARGET_DEVICE_intel_x86_lgm_DEVICE_LGM_PRPL=y
