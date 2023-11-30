@@ -150,13 +150,17 @@
         ssh root@$TARGET_LAN_IP dmesg > dmesg-$LABGRID_TARGET.txt
         ssh root@$TARGET_LAN_IP "cat /var/log/messages" > syslog-$LABGRID_TARGET.txt
         ssh root@$TARGET_LAN_IP opkg list > opkg_list-$LABGRID_TARGET.txt
-        script --quiet --command "ssh -t root@$TARGET_LAN_IP /bin/getDebugInformation --all -o -" > debug-information-$LABGRID_TARGET.txt
+        script --quiet --command "ssh -t root@$TARGET_LAN_IP /bin/getDebugInformation --all"
+        scp -r root@${TARGET_LAN_IP}:/tmp/debug_all.tar.gz . > /dev/null
         scp -r root@${TARGET_LAN_IP}:/etc etc > /dev/null
         scp -r root@${TARGET_LAN_IP}:/tmp/beerocks/logs prplmesh_beerocks_logs > /dev/null
       } || true
 
     - .gitlab/scripts/testbed-device.py --target $LABGRID_TARGET power off
     - mv console_$LABGRID_TARGET console_$LABGRID_TARGET.txt || true
+    - tar xzf debug_all.tar.gz || true
+    - mv debug-\*.txt debug-information-$LABGRID_TARGET.txt || true
+    - mv coredumps_all.tar.gz coredumps-$LABGRID_TARGET.tar.gz || true
 
     - >
       if echo "$CI_RUNNER_DESCRIPTION" | grep -q testbed-02; then
@@ -178,3 +182,4 @@
       - system-$LABGRID_TARGET.json
       - console_$LABGRID_TARGET.txt
       - opkg_list-$LABGRID_TARGET.txt
+      - coredumps-$LABGRID_TARGET.tar.gz
