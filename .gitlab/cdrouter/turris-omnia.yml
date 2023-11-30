@@ -82,3 +82,9 @@ CDRouter-TR-069 Turris eMMC:
     TFTP_IMAGE_UNPACK_COMMAND: "gunzip --force $TESTBED_TFTP_PATH/$TFTP_IMAGE_FILENAME || true"
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-tr181-mockups.sh
+
+CDRouter-USP-Certification Turris initramfs:
+  <<: *turris_cdrouter
+  variables:
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
