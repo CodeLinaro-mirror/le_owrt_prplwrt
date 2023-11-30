@@ -78,3 +78,9 @@ CDRouter-TR-069 URX851-HDK-3 eMMC:
   variables:
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-tr181-mockups.sh
+
+CDRouter-USP-Certification URX851-HDK-3 initramfs:
+  <<: *urx851_cdrouter
+  variables:
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
