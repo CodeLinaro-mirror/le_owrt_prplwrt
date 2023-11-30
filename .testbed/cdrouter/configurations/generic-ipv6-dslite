@@ -332,7 +332,7 @@ SECTION "Base Configuration" {
             # testvar lanMask                          255.255.255.0
             # testvar lanDomainName                    qacafe.com
             # testvar lanMtu                           default
-              testvar lanHostname                      prplOS.lan
+              testvar lanHostname                      prplOS
             # testvar lanGuestMode                     no
 
             SECTION "ARP Settings" {
