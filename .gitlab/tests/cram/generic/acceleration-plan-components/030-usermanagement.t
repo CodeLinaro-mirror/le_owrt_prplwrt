@@ -28,6 +28,19 @@ Check that we are able to login:
   $ sshpass -ppassword ssh testuser@$TARGET_LAN_IP id
   uid=666(testuser) gid=999(testgroup) groups=999(testgroup),999(testgroup)
 
+Change password to unsecure word:
+
+  $ printf "\
+  > ubus-cli Users.User.testuser.Password="unsecure"
+  > " > /tmp/cram
+  $ script --command "ssh -t root@$TARGET_LAN_IP '$(cat /tmp/cram)'" > /dev/null
+  $ sleep 1
+
+Check that we are able to login with unsecure password:
+
+  $ sshpass -punsecure ssh testuser@$TARGET_LAN_IP id
+  uid=666(testuser) gid=999(testgroup) groups=999(testgroup),999(testgroup)
+
 Delete group and user:
 
   $ printf "\
@@ -50,6 +63,6 @@ Check that user and group does not exists:
 
 Check that we are not able to login:
 
-  $ sshpass -ppassword ssh testuser@$TARGET_LAN_IP id
+  $ sshpass -punsecure ssh testuser@$TARGET_LAN_IP id
   Permission denied, please try again.\r (esc)
   [5]
