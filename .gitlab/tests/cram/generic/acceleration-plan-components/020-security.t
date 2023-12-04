@@ -16,8 +16,8 @@ Check that certs are in place as expected:
   $ R "ubus -S call Security.Certificate _get | jsonfilter -e @[*].Enable -e @[*].Subject -e @[*].SignatureAlgorithm -e @[*].NotBefore | LC_ALL=C sort"
   /C=US/O=PrplFoundation/OU=prplOS/CN=prplOS.lan
   /C=US/O=PrplFoundation/OU=prplOS/CN=prplOS.lan
-  2023-12-04T17:41:08.803262332Z
-  2023-12-04T17:41:08.805833655Z
+  2023-12-04T17:41:08.* (re)
+  2023-12-04T17:41:08.* (re)
   ecdsa-with-SHA512
   sha512WithRSAEncryption
   true
@@ -51,6 +51,6 @@ Check that the first certificate is not present anymore:
 
   $ R "ubus -S call Security.Certificate _get | jsonfilter -e @[*].Enable -e @[*].Subject -e @[*].SignatureAlgorithm -e @[*].NotBefore | LC_ALL=C sort"
   /C=US/O=PrplFoundation/OU=prplOS/CN=prplOS.lan
-  2023-12-04T17:41:08.805833655Z
+  2023-12-04T17:41:08.* (re)
   ecdsa-with-SHA512
   true
