@@ -23,22 +23,6 @@ Check that certs are in place as expected:
   true
   true
 
-Disable 2nd certificate:
-
-  $ R "ubus -S call Security.Certificate _set '{\"parameters\":{\"Enable\":False}}'" ; sleep .5
-
-Check that the certificate is disabled:
-
-  $ R "ubus -S call Security.Certificate _get | jsonfilter -e @[*].Enable -e @[*].Subject -e @[*].SignatureAlgorithm -e @[*].NotBefore | LC_ALL=C sort"
-
-Enable 2nd certificate:
-
-  $ R "ubus -S call Security.Certificate _set '{\"parameters\":{\"Enable\":True}}'" ; sleep .5
-
-Check that the certificate is enabled:
-
-  $ R "ubus -S call Security.Certificate _get | jsonfilter -e @[*].Enable -e @[*].Subject -e @[*].SignatureAlgorithm -e @[*].NotBefore | LC_ALL=C sort"
-
 Remove first certificate from the system:
 
   $ R "rm /etc/config/autocert/testing*1.pem"
