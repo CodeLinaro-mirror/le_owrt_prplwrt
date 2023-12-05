@@ -159,7 +159,7 @@
     - .gitlab/scripts/testbed-device.py --target $LABGRID_TARGET power off
     - mv console_$LABGRID_TARGET console_$LABGRID_TARGET.txt || true
     - tar xzf debug_all.tar.gz || true
-    - mv debug-\*.txt debug-information-$LABGRID_TARGET.txt || true
+    - mv debug-*.txt debug-information-$LABGRID_TARGET.txt || true
     - ( [ $(tar -tf coredumps_all.tar.gz | wc -l) -eq 0 ] && rm coredumps_all.tar.gz || true ) 2>/dev/null
     - mv coredumps_all.tar.gz coredumps-$LABGRID_TARGET.tar.gz 2> /dev/null || true
 
