@@ -23,6 +23,8 @@ ifneq ($(call qstrip,$(CONFIG_KERNEL_GIT_CLONE_URI)),)
   PKG_SOURCE_URL:=$(call qstrip,$(CONFIG_KERNEL_GIT_CLONE_URI))
   PKG_SOURCE_VERSION:=$(call qstrip,$(CONFIG_KERNEL_GIT_REF))
   PKG_MIRROR_HASH:=$(call qstrip,$(CONFIG_KERNEL_GIT_MIRROR_HASH))
+  PKG_MIRROR_DEPTH:=$(call qstrip,$(CONFIG_KERNEL_GIT_DEPTH))
+  PKG_MIRROR_BRANCH:=$(call qstrip,$(CONFIG_KERNEL_GIT_BRANCH))
 ifdef CHECK
   PLATFORM_DIR:=$(firstword $(wildcard $(TOPDIR)/target/linux/feeds/$(BOARD) $(TOPDIR)/target/linux/$(BOARD)))
   include $(PLATFORM_DIR)/Makefile
