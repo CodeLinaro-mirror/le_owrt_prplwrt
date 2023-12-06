@@ -110,6 +110,16 @@ menuconfig DEVEL
 		  It can be a git hash or a branch name.
 		  If unused, the clone's repository HEAD will be checked-out.
 
+	config KERNEL_GIT_DEPTH
+		int "Enter git depth to git clone" if DEVEL
+		depends on (KERNEL_GIT_CLONE_URI != "")
+		default 0
+
+	config KERNEL_GIT_BRANCH
+		string "Enter git branch to git clone" if DEVEL
+		depends on (KERNEL_GIT_CLONE_URI != "")
+		default ""
+
 	config KERNEL_GIT_MIRROR_HASH
 		string "Enter hash of Git kernel tree source checkout tarball" if DEVEL
 		depends on (KERNEL_GIT_CLONE_URI != "")
