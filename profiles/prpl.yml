@@ -4,7 +4,7 @@ feeds:
   - name: feed_prpl
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-prpl.git
     tracking_branch: prplos
-    revision: 9ddf50179a7b384d4c9c34159e9d50a3b4c20bad
+    revision: d6f217401c9bd25724d60268a383b6ef1d1eeec2
 
 additional_packages:
   - feed: packages
@@ -77,6 +77,7 @@ packages:
   - lxc-wait
   - miniupnpd-prpl
   - mod-amxb-ubus
+  - mod-amxb-usp
   - mod-autosensing
   - mod-ba-cli
   - mod-dhcpv4c
@@ -187,6 +188,8 @@ diffconfig: |
           CONFIG_SAH_WLD_INIT_SCRIPT="prplmesh_whm"
           CONFIG_PRPL_CONTROLLER_ROOT_PATH="X_PRPL-ORG_WiFiController"
           CONFIG_PACKAGE_prplmesh-unit-tests=m
+          ENABLE_USP_SERVER_SOCKET=y
+          SAH_WLD_ENABLE_USP_SERVER_SOCKET=y
           # kernel options for lcm
           CONFIG_KERNEL_ARM_PMU=y
           CONFIG_KERNEL_BLK_CGROUP=y
