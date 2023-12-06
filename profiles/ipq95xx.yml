@@ -1,0 +1,37 @@
+---
+profiles:
+  - prpl_freedom
+target: ipq95xx
+subtarget: generic
+external_target: True
+description: Build image for prpl Foundation Freedom board
+feeds:
+  - name: feed_qca
+    uri: https://gitlab.com/prpl-foundation/prplOS/feed-qca.git
+    tracking_branch: dev/ath12.2.0csu1-ipq95xx
+    revision: 0a8a9d5594a9d271ffd788a1b3d63fe58c7b205e
+packages:
+  - ipq95xx
+  - wireless-regdb
+  - hostapd-utils-qca
+  - ath12k-wifi-qcom-qcn92xx
+  - ath12k-caldata
+  - aq-fw-download
+  - aq_phy
+  - qca-ssdk-shell
+  - io-expander-freedom
+  - kmod-usb-phy-ipq807x
+  - kmod-usb-dwc3-internal
+  - kmod-usb-dwc3-qcom-internal
+  - kmod-usb-storage
+  - kmod-usb-storage-extras
+  - kmod-usb-storage-uas
+  - kmod-fs-vfat
+diffconfig: |
+  CONFIG_DEVEL=y
+  CONFIG_KERNEL_GIT_CLONE_URI="https://git.codelinaro.org/clo/qsdk/oss/kernel/linux-ipq-5.4.git"
+  CONFIG_KERNEL_GIT_REF="f2ee796db820c"
+  CONFIG_KERNEL_GIT_DEPTH=50
+  CONFIG_KERNEL_GIT_BRANCH="NHSS.QSDK.12.2.5"
+  CONFIG_BUSYBOX_CUSTOM=y
+  CONFIG_BUSYBOX_CONFIG_I2CSET=y
