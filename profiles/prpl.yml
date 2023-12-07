@@ -4,7 +4,7 @@ feeds:
   - name: feed_prpl
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-prpl.git
     tracking_branch: prplos
-    revision: 31e306e321c8a8b75cf48bafde42da4d31fac985
+    revision: a4e7a17fdda3bb577a5c66feccdedaf17bd41769
 
 additional_packages:
   - feed: packages
@@ -133,6 +133,7 @@ packages:
   - tr069-manager
   - tr181-bridging
   - tr181-button
+  - tr181-captiveportal
   - tr181-device
   - tr181-dhcpv4client
   - tr181-dhcpv6client
@@ -152,6 +153,7 @@ packages:
   - tr181-rest-api
   - tr181-routeradvertisement
   - tr181-security
+  - tr181-syslog
   - tr181-upnp
   - tr181-usermanagement
   - tr181-xpon
