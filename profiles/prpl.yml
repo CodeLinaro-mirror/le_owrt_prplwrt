@@ -176,12 +176,9 @@ diffconfig: |
           # CONFIG_PACKAGE_firewall4 is not set
           # CONFIG_PACKAGE_logd is not set
           # lxc options for LCM
-          CONFIG_SAH_SERVICES_CTHULHU_INIT_CONTAINER_BACKEND=y
-          CONFIG_SAH_SERVICES_CTHULHU_CONTAINER_BACKEND="/usr/lib/cthulhu-lxc/cthulhu-lxc.so"
           CONFIG_SAH_SERVICES_TIMINGILA_INIT_ADAPTERS=y
           CONFIG_SAH_SERVICES_TIMINGILA_ADAPTER_PACKAGER="/usr/lib/timingila-rlyeh/timingila-rlyeh.so"
           CONFIG_SAH_SERVICES_TIMINGILA_ADAPTER_CONTAINER="/usr/lib/timingila-cthulhu/timingila-cthulhu.so"
-          CONFIG_SAH_LIB_CTHULHU-LXC_LXC_TOOLS_PREFIX="/usr/bin/"
           # CONFIG_SAH_LIB_CTHULHU-LXC_PRPL_OS_RPATH is not set
           # pwhm options
           CONFIG_USE_PRPLMESH_WHM=y
