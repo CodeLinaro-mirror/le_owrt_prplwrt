@@ -238,3 +238,4 @@ diffconfig: |
           # CONFIG_PACKAGE_libwolfssl is not set
           # CONFIG_PACKAGE_libustream-wolfssl is not set
           CONFIG_PACKAGE_libustream-openssl=y
+          # CONFIG_SAH_AMX_PCM_TARBALL is not set
