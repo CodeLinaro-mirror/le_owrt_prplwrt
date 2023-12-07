@@ -59,6 +59,9 @@ build test x86_64 prpl security:
 build test ipq807x prpl security:
   extends: .build test config
 
+build test ipq95xx prpl security:
+  extends: .build test config
+
 run test Turris Omnia initramfs:
   needs:
     - job: build test mvebu prpl security
