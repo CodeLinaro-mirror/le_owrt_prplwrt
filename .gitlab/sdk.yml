@@ -124,8 +124,7 @@ stages:
       {% endfor %}
 
   before_script:
-    - apk add python3 py3-pip
-    - pip3 install jinja2
+    - apk add py3-jinja2
 
   script:
     - |
