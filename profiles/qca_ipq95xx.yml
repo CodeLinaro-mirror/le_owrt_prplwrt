@@ -20,6 +20,7 @@ packages:
   - aq_phy
   - qca-ssdk-shell
   - io-expander-freedom
+  - mod-whm-qca-ipq95xx
   - kmod-usb-phy-ipq807x
   - kmod-usb-dwc3-internal
   - kmod-usb-dwc3-qcom-internal
