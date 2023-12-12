@@ -161,7 +161,6 @@ packages:
   - procps-ng-pkill
   - procps-ng-uptime
   - prpl-webui
-  - prplmesh
   - rlyeh
   - routing-manager
   - ssh-server
@@ -230,11 +229,6 @@ diffconfig: |
           CONFIG_SAH_SERVICES_TIMINGILA_ADAPTER_CONTAINER="/usr/lib/timingila-cthulhu/timingila-cthulhu.so"
           CONFIG_SAH_LIB_CTHULHU-LXC_LXC_TOOLS_PREFIX="/usr/bin/"
           # CONFIG_SAH_LIB_CTHULHU-LXC_PRPL_OS_RPATH is not set
-          # pwhm options
-          CONFIG_USE_PRPLMESH_WHM=y
-          CONFIG_SAH_WLD_INIT_SCRIPT="prplmesh_whm"
-          CONFIG_PRPL_CONTROLLER_ROOT_PATH="X_PRPL-ORG_WiFiController"
-          CONFIG_PACKAGE_prplmesh-unit-tests=m
           # kernel options for lcm
           CONFIG_KERNEL_ARM_PMU=y
           CONFIG_KERNEL_BLK_CGROUP=y
