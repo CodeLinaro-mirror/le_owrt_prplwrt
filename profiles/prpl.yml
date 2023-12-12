@@ -197,6 +197,12 @@ packages:
   - tr181-xpon
   - umdns
   - wan-manager
+  - tr181-mqtt
+  - mod-amxb-usp
+  - tr181-uds
+  - tr181-uspservices
+  - tr181-localagent
+  - uspagent
 
 diffconfig: |
           CONFIG_JSON_CYCLONEDX_SBOM=y
