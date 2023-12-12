@@ -9,7 +9,7 @@ feeds:
   - name: feed_qca
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-qca.git
     tracking_branch: dev/ath12.2.0csu1-ipq95xx
-    revision: 7ae014dbd7df837649c69ebbe88b4435cd6dacce
+    revision: de0bd559ba02263ef9db4311255bd367acb8521c
 packages:
   - ipq95xx
   - wireless-regdb
