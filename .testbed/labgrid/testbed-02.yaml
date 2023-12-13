@@ -159,3 +159,65 @@ targets:
           - setenv fullimage openwrt-intel_x86-lgm-LGM_PRPL-lgp_b0_pon_fullimage.img
           - mmc dev 0 && mmc erase c6800 10000 && mmc erase d6800 10000 && run update_fullimage
       UBootStrategy: {}
+
+  wnc-freedom-initramfs:
+    resources:
+      ModbusTCPCoil:
+        host: quido.testbed-02.vpn.true.cz
+        coil: 1
+        managed_coils: 8
+        exclusive_coil_mode: True
+        write_multiple_coils: True
+      RawSerialPort:
+        port: "/dev/wnc-freedom"
+    drivers:
+      ModbusCoilDriver: {}
+      DigitalOutputPowerDriver: {}
+      SerialDriver: {}
+      ShellDriver:
+        console_ready: Please press Enter to activate this console.
+        prompt: 'root@[\w()]+:[^ ]+ '
+        login_prompt: built-in shell (ash)
+        await_login_timeout: 16
+        username: kingbanik
+      UBootDriver:
+        prompt: 'IPQ9574# '
+        init_commands:
+          - setenv serverip 10.0.0.1
+          - setenv ipaddr 10.0.0.2
+        boot_command: tftpboot openwrt-ipq95xx-prpl_freedom-initramfs-uImage.itb && bootm
+        boot_command_delay: 3
+      UBootStrategy: {}
+
+  wnc-freedom-emmc:
+    resources:
+      ModbusTCPCoil:
+        host: quido.testbed-02.vpn.true.cz
+        coil: 1
+        managed_coils: 8
+        exclusive_coil_mode: True
+        write_multiple_coils: True
+      RawSerialPort:
+        port: "/dev/wnc-freedom"
+    drivers:
+      ModbusCoilDriver: {}
+      DigitalOutputPowerDriver: {}
+      SerialDriver: {}
+      ShellDriver:
+        console_ready: Please press Enter to activate this console.
+        prompt: 'root@[\w()]+:[^ ]+ '
+        login_prompt: built-in shell (ash)
+        await_login_timeout: 16
+        username: kingbanik
+      UBootDriver:
+        prompt: 'IPQ9574# '
+        init_commands:
+          - setenv serverip 10.0.0.1
+          - setenv ipaddr 10.0.0.2
+          - sleep 5
+          - tftpboot 0x44000000 openwrt-ipq95xx-prpl_freedom-squashfs-sysupgrade.bin
+          - setenv untar_addr_kernel; setenv untar_addr_root; echo
+          - untar 0x$fileaddr 0x$filesize kernel root
+          - if test -n $untar_addr_kernel; then flash "0:HLOS" 0x$untar_addr_kernel 0x$untar_size_kernel; else echo "kernel is not found"; fi
+          - if test -n $untar_addr_root; then flash "rootfs" 0x$untar_addr_root 0x$untar_size_root; else echo "rootfs is not found"; fi
+      UBootStrategy: {}
