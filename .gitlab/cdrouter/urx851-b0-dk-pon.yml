@@ -5,6 +5,14 @@
   extends:
     - .urx851-b0-dk-pon testbed
     - .cdrouter
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: never
+    - if: '$TFTP_IMAGE_DOWNLOAD_URL =~ $TFTP_IMAGE_FILENAME_PATTERN'
+      when: always
+    - if: '$TFTP_IMAGE_DOWNLOAD_URL'
+      when: never
+    - when: manual
 
 CDRouter-Top-100+mDNS-OSP URX851-B0-DK PON initramfs:
   <<: *urx851_pon_cdrouter
@@ -45,7 +53,6 @@ CDRouter-Wireless URX851-B0-DK PON initramfs:
       when: always
     - if: '$TFTP_IMAGE_DOWNLOAD_URL'
       when: never
-    - if: '$CI_COMMIT_BRANCH == $CI_DESIGNATED_BRANCH'
     - when: manual
 
 CDRouter-UPnP-IPv46 URX851-B0-DK PON initramfs:
