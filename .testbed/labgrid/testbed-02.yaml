@@ -159,3 +159,61 @@ targets:
           - setenv fullimage openwrt-intel_x86-lgm-LGM_PRPL-lgp_b0_pon_fullimage.img
           - mmc dev 0 && mmc erase c6800 10000 && mmc erase d6800 10000 && run update_fullimage
       UBootStrategy: {}
+
+  wnc-freedom-initramfs:
+    resources:
+      ModbusTCPCoil:
+        host: quido.testbed-02.vpn.true.cz
+        coil: 1
+        managed_coils: 8
+        exclusive_coil_mode: True
+        write_multiple_coils: True
+      RawSerialPort:
+        port: "/dev/wnc-freedom"
+    drivers:
+      ModbusCoilDriver: {}
+      DigitalOutputPowerDriver: {}
+      SerialDriver: {}
+      ShellDriver:
+        console_ready: Please press Enter to activate this console.
+        prompt: 'root@[\w()]+:[^ ]+ '
+        login_prompt: built-in shell (ash)
+        await_login_timeout: 16
+        username: kingbanik
+      UBootDriver:
+        prompt: 'IPQ9574# '
+        init_commands:
+          - setenv serverip 10.0.0.1
+          - setenv ipaddr 10.0.0.2
+        boot_command: tftpboot openwrt-ipq95xx-prpl_freedom-initramfs-kernel.bin && bootm
+        boot_command_delay: 3
+      UBootStrategy: {}
+
+  wnc-freedom-emmc:
+    resources:
+      ModbusTCPCoil:
+        host: quido.testbed-02.vpn.true.cz
+        coil: 1
+        managed_coils: 8
+        exclusive_coil_mode: True
+        write_multiple_coils: True
+      RawSerialPort:
+        port: "/dev/wnc-freedom"
+    drivers:
+      ModbusCoilDriver: {}
+      DigitalOutputPowerDriver: {}
+      SerialDriver: {}
+      ShellDriver:
+        console_ready: Please press Enter to activate this console.
+        prompt: 'root@[\w()]+:[^ ]+ '
+        login_prompt: built-in shell (ash)
+        await_login_timeout: 16
+        username: kingbanik
+      UBootDriver:
+        prompt: 'IPQ9574# '
+        init_commands:
+          - setenv serverip 10.0.0.1
+          - setenv ipaddr 10.0.0.2
+          - tftpboot sysupgrade-prpl_freedom/kernel && flash 0:HLOS && flash 0:HLOS_1
+          - tftpboot sysupgrade-prpl_freedom/root && flasherase rootfs && flasherase rootfs_1 && flash rootfs && flash rootfs_1
+      UBootStrategy: {}

@@ -9,6 +9,7 @@ include:
   - local: .gitlab/cdrouter/turris-omnia.yml
   - local: .gitlab/cdrouter/urx851-hdk-3.yml
   - local: .gitlab/cdrouter/urx851-b0-dk-pon.yml
+  - local: .gitlab/cdrouter/wnc-freedom.yml
   - local: .gitlab/coverity.yml
   - local: .gitlab/docker.yml
   - local: .gitlab/docker/builder/gitlab.yml
@@ -21,6 +22,7 @@ include:
   - local: .gitlab/testbed/turris-omnia.yml
   - local: .gitlab/testbed/urx851-hdk-3.yml
   - local: .gitlab/testbed/urx851-b0-dk-pon.yml
+  - local: .gitlab/testbed/wnc-freedom.yml
 
 stages:
   - docker
@@ -85,3 +87,9 @@ run test URX851-B0-DK-PON with system on eMMC:
     - job: build test mxl_x86 mxl_wlan_hostap_ng prpl security
       optional: true
   extends: .urx851-b0-dk-pon testbed
+
+run test Freedom eMMC:
+  needs:
+    - job: build test qca_ipq95xx prpl security
+      optional: true
+  extends: .wnc-freedom testbed
