@@ -6,13 +6,13 @@
     - .prpl-haze testbed
     - .cdrouter
 
-CDRouter-Top-100+mDNS Haze initramfs:
+CDRouter-Top-100+mDNS Haze eMMC:
   <<: *prpl_haze
   variables:
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
 
-CDRouter-Top-100+mDNS Haze VLAN WAN/LAN initramfs:
+CDRouter-Top-100+mDNS Haze VLAN WAN/LAN eMMC:
   <<: *prpl_haze
   variables:
     CDROUTER_TEST_CONFIG: vlan
@@ -20,7 +20,7 @@ CDRouter-Top-100+mDNS Haze VLAN WAN/LAN initramfs:
       .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
       .gitlab/scripts/dut-init/cdrouter-dut-enable-vlans.sh
 
-CDRouter-Top-100+mDNS Haze PPPoE WAN initramfs:
+CDRouter-Top-100+mDNS Haze PPPoE WAN eMMC:
   <<: *prpl_haze
   variables:
     CDROUTER_TEST_CONFIG: ppp
@@ -28,7 +28,7 @@ CDRouter-Top-100+mDNS Haze PPPoE WAN initramfs:
       .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
       .gitlab/scripts/dut-init/cdrouter-dut-enable-pppoe.sh
 
-CDRouter-Wireless Haze initramfs:
+CDRouter-Wireless Haze eMMC:
   <<: *prpl_haze
   variables:
     CDROUTER_TEST_CONFIG: wireless
@@ -48,25 +48,25 @@ CDRouter-Wireless Haze initramfs:
     - if: '$CI_COMMIT_BRANCH == $CI_DESIGNATED_BRANCH'
     - when: manual
 
-CDRouter-UPnP-IPv46 Haze initramfs:
+CDRouter-UPnP-IPv46 Haze eMMC:
   <<: *prpl_haze_ipv6
   allow_failure: true
   variables:
     CDROUTER_TEST_CONFIG: generic-ipv6-upnp
 
-CDRouter-IPv6-Top-100+mDNS Haze initramfs:
+CDRouter-IPv6-Top-100+mDNS Haze eMMC:
   <<: *prpl_haze_ipv6
   variables:
     CDROUTER_TEST_CONFIG: generic-ipv6
 
-CDRouter-IPv6-Top-100+mDNS Haze VLAN WAN/LAN initramfs:
+CDRouter-IPv6-Top-100+mDNS Haze VLAN WAN/LAN eMMC:
   <<: *prpl_haze_ipv6
   variables:
     CDROUTER_TEST_CONFIG: vlan-ipv6
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-enable-vlans.sh
 
-.CDRouter-IPv6-Top-100+mDNS Haze PPPoE WAN initramfs:
+.CDRouter-IPv6-Top-100+mDNS Haze PPPoE WAN eMMC:
   <<: *prpl_haze_ipv6
   variables:
     CDROUTER_TEST_CONFIG: ppp-ipv6
@@ -82,7 +82,7 @@ CDRouter-TR-069 Haze eMMC:
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-tr181-mockups.sh
 
-CDRouter-USP-Certification Haze initramfs:
+CDRouter-USP-Certification Haze eMMC:
   <<: *prpl_haze
   variables:
     DUT_INIT_SCRIPTS: |
