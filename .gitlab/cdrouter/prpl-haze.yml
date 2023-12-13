@@ -73,7 +73,7 @@ CDRouter-IPv6-Top-100+mDNS Haze VLAN WAN/LAN initramfs:
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-enable-pppoe.sh
 
-.CDRouter-TR-069 Haze eMMC:
+CDRouter-TR-069 Haze eMMC:
   <<: *prpl_haze
   variables:
     LABGRID_TARGET: prpl-haze-emmc
