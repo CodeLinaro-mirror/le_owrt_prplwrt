@@ -23,4 +23,4 @@ packages:
   - crda_wave_6x
 
 diffconfig: |
-  CONFIG_DEFAULT_WIRELESS_CONFIGURATION_TYPE="mesh"
+  CONFIG_DEFAULT_WIRELESS_CONFIGURATION_TYPE="gw"
