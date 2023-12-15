@@ -14,13 +14,13 @@
       when: never
     - when: manual
 
-CDRouter-Top-100+mDNS-OSP URX851-B0-DK PON initramfs:
+CDRouter-Top-100+mDNS-OSP URX851-B0-DK PON eMMC:
   <<: *urx851_pon_cdrouter
   variables:
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
 
-CDRouter-Top-100+mDNS-OSP URX851-B0-DK PON VLAN WAN/LAN initramfs:
+CDRouter-Top-100+mDNS-OSP URX851-B0-DK PON VLAN WAN/LAN eMMC:
   <<: *urx851_pon_cdrouter
   variables:
     CDROUTER_TEST_CONFIG: vlan
@@ -28,7 +28,7 @@ CDRouter-Top-100+mDNS-OSP URX851-B0-DK PON VLAN WAN/LAN initramfs:
       .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
       .gitlab/scripts/dut-init/cdrouter-dut-enable-vlans.sh
 
-CDRouter-Top-100+mDNS-OSP URX851-B0-DK PON PPPoE WAN initramfs:
+CDRouter-Top-100+mDNS-OSP URX851-B0-DK PON PPPoE WAN eMMC:
   <<: *urx851_pon_cdrouter
   variables:
     CDROUTER_TEST_CONFIG: ppp
@@ -36,7 +36,7 @@ CDRouter-Top-100+mDNS-OSP URX851-B0-DK PON PPPoE WAN initramfs:
       .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
       .gitlab/scripts/dut-init/cdrouter-dut-enable-pppoe.sh
 
-CDRouter-Wireless URX851-B0-DK PON initramfs:
+CDRouter-Wireless URX851-B0-DK PON eMMC:
   <<: *urx851_pon_cdrouter
   variables:
     CDROUTER_TEST_CONFIG: wireless
@@ -55,25 +55,25 @@ CDRouter-Wireless URX851-B0-DK PON initramfs:
       when: never
     - when: manual
 
-CDRouter-UPnP-IPv46 URX851-B0-DK PON initramfs:
+CDRouter-UPnP-IPv46 URX851-B0-DK PON eMMC:
   <<: *urx851_pon_cdrouter_ipv6
   allow_failure: true
   variables:
     CDROUTER_TEST_CONFIG: generic-ipv6-upnp
 
-CDRouter-IPv6-Top-100+mDNS URX851-B0-DK PON initramfs:
+CDRouter-IPv6-Top-100+mDNS URX851-B0-DK PON eMMC:
   <<: *urx851_pon_cdrouter_ipv6
   variables:
     CDROUTER_TEST_CONFIG: generic-ipv6
 
-CDRouter-IPv6-Top-100+mDNS URX851-B0-DK PON VLAN WAN/LAN initramfs:
+CDRouter-IPv6-Top-100+mDNS URX851-B0-DK PON VLAN WAN/LAN eMMC:
   <<: *urx851_pon_cdrouter_ipv6
   variables:
     CDROUTER_TEST_CONFIG: vlan-ipv6
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-enable-vlans.sh
 
-.CDRouter-IPv6-Top-100+mDNS URX851-B0-DK PON PPPoE WAN initramfs:
+.CDRouter-IPv6-Top-100+mDNS URX851-B0-DK PON PPPoE WAN eMMC:
   <<: *urx851_pon_cdrouter_ipv6
   variables:
     CDROUTER_TEST_CONFIG: ppp-ipv6
