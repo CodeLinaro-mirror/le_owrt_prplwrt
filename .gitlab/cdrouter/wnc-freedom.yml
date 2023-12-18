@@ -1,7 +1,4 @@
 .wnc-freedom: &wnc_freedom
-  needs:
-    - job: build test qca_ipq95xx prpl security
-      optional: true
   extends:
     - .wnc-freedom testbed
     - .cdrouter

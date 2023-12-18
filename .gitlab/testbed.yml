@@ -2,13 +2,7 @@
   stage: run
   image: "$CI_REGISTRY_IMAGE/$CI_DESIGNATED_BRANCH/testbed:latest"
   rules:
-    - if: '$CI_PIPELINE_SOURCE == "schedule"'
-      when: never
-    - if: '$TFTP_IMAGE_DOWNLOAD_URL =~ $TFTP_IMAGE_FILENAME_PATTERN'
-      when: always
-    - if: '$TFTP_IMAGE_DOWNLOAD_URL'
-      when: never
-    - when: always
+    - when: manual
   variables:
     DUT_WAN_INTERFACE: eth1
     TESTBED_MNG_INTERFACE: enp1s0
@@ -46,20 +40,6 @@
         echo "$TESTBED_SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
         ssh-keyscan $TESTBED_UART_RELAY_HOST > ~/.ssh/known_hosts 2> /dev/null
         chmod 644 ~/.ssh/known_hosts
-      fi
-
-    - >
-      if [ -n "$TFTP_IMAGE_DOWNLOAD_URL" ]; then
-        echo "Downloading firmware image from $TFTP_IMAGE_DOWNLOAD_URL"
-        curl --fail "$TFTP_IMAGE_DOWNLOAD_URL" > "$TESTBED_TFTP_PATH/$TFTP_IMAGE_FILENAME"
-      else
-        echo "Using firmware image $TFTP_IMAGE_PATH/$TFTP_IMAGE_FILENAME"
-        cp "$TFTP_IMAGE_PATH/$TFTP_IMAGE_FILENAME" "$TESTBED_TFTP_PATH"
-      fi
-    - >
-      if [ -n "$TFTP_IMAGE_UNPACK_COMMAND" ]; then
-        echo "Running $TFTP_IMAGE_UNPACK_COMMAND"
-        eval "$TFTP_IMAGE_UNPACK_COMMAND"
       fi
 
     - >
