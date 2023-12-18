@@ -92,6 +92,7 @@
         echo '[!] ERROR: build failed'
         exit 1
       " ERR
+    - sed -i 's|# CONFIG_EXT4_USE_FOR_EXT2 is not set|CONFIG_EXT4_USE_FOR_EXT2=y|' feeds/feed_qca/qca/ipq95xx/ipq95xx/config-5.4
     - make -j $(nproc) 2>&1 | tee --append logs/build.log
     - rm .build_failed
 
