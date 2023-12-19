@@ -4,15 +4,22 @@ Create R alias:
 
 Get initial state of bridges:
 
-  $ R "brctl show | grep -E '(br-lan|br-guest)' | sort | cut -d$'\t' -f1,6" | tr '\t' ' '
-  br-guest 
-  br-lan lan(0|1|2|3|4) (re)
+  $ R "bridge -json link" | jq -r 'sort_by(.master,.ifname) | reverse | .[] | "\(.master)@\(.ifname)"'
+  br-lan@wlan1
+  br-lan@wlan0.1
+  br-lan@lan4
+  br-lan@lan3
+  br-lan@lan2
+  br-lan@lan1
+  br-lan@lan0
+  br-guest@wlan1.1
+  br-guest@wlan0.2
 
 Remove lan4 from LAN bridge and add it to the Guest bridge:
 
   $ printf ' \
-  > ubus-cli Bridging.Bridge.lan.Port.eth_port4-\n
-  > ubus-cli Bridging.Bridge.guest.Port.+{Name="lan4", Alias="eth_port4", LowerLayers="Device.Ethernet.Interface.6."}\n
+  > ubus-cli Bridging.Bridge.lan.Port.LAN4-\n
+  > ubus-cli Bridging.Bridge.guest.Port.+{Name="LAN4", Alias="eth_port4", LowerLayers="Device.Ethernet.Interface.6."}\n
   > ubus-cli Bridging.Bridge.guest.Port.eth_port4.Enable=1\n
   > ' > /tmp/run
   $ script --command "ssh -t root@$TARGET_LAN_IP '$(cat /tmp/run)'" > /dev/null
@@ -20,9 +27,16 @@ Remove lan4 from LAN bridge and add it to the Guest bridge:
 
 Check that lan4 is added to Guest bridge:
 
-  $ R "brctl show | grep -E '(br-lan|br-guest)' | sort | cut -d$'\t' -f1,6" | tr '\t' ' '
-  br-guest lan4
-  br-lan lan(0|1|2|3) (re)
+  $ R "bridge -json link" | jq -r 'sort_by(.master,.ifname) | reverse | .[] | "\(.master)@\(.ifname)"'
+  br-lan@wlan1
+  br-lan@wlan0.1
+  br-lan@lan3
+  br-lan@lan2
+  br-lan@lan1
+  br-lan@lan0
+  br-guest@wlan1.1
+  br-guest@wlan0.2
+  br-guest@lan4
 
 Remove lan4 from the Guest bridge and add it back to the LAN bridge:
 
@@ -36,6 +50,13 @@ Remove lan4 from the Guest bridge and add it back to the LAN bridge:
 
 Check for initial state of bridges again:
 
-  $ R "brctl show | grep -E '(br-lan|br-guest)' | sort | cut -d$'\t' -f1,6" | tr '\t' ' '
-  br-guest 
-  br-lan lan(0|1|2|3|4) (re)
+  $ R "bridge -json link" | jq -r 'sort_by(.master,.ifname) | reverse | .[] | "\(.master)@\(.ifname)"'
+  br-lan@wlan1
+  br-lan@wlan0.1
+  br-lan@lan4
+  br-lan@lan3
+  br-lan@lan2
+  br-lan@lan1
+  br-lan@lan0
+  br-guest@wlan1.1
+  br-guest@wlan0.2
