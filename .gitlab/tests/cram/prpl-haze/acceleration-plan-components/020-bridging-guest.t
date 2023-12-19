@@ -4,14 +4,21 @@ Create R alias:
 
 Get initial state of bridges:
 
-  $ R "brctl show | grep -E '(br-lan|br-guest)' | sort | cut -d$'\t' -f1,6" | tr '\t' ' '
-  br-guest 
-  br-lan lan(1|2|3) (re)
+  $ R "bridge -json link" | jq -r 'sort_by(.master,.ifname) | reverse | .[] | "\(.master)@\(.ifname)"'
+  br-lan@wlan2
+  br-lan@wlan1
+  br-lan@wlan0.1
+  br-lan@lan3
+  br-lan@lan2
+  br-lan@lan1
+  br-guest@wlan2.1
+  br-guest@wlan1.1
+  br-guest@wlan0.2
 
 Remove lan1 from LAN bridge and add it to the Guest bridge:
 
   $ printf ' \
-  > ubus-cli Bridging.Bridge.lan.Port.eth_port1-\n
+  > ubus-cli Bridging.Bridge.lan.Port.LAN1-\n
   > ubus-cli Bridging.Bridge.guest.Port.+{Name="LAN1", Alias="eth_port1", LowerLayers="Device.Ethernet.Interface.2."}\n
   > ubus-cli Bridging.Bridge.guest.Port.eth_port1.Enable=1\n
   > ' > /tmp/run
@@ -20,9 +27,16 @@ Remove lan1 from LAN bridge and add it to the Guest bridge:
 
 Check that lan1 is added to Guest bridge:
 
-  $ R "brctl show | grep -E '(br-lan|br-guest)' | sort | cut -d$'\t' -f1,6" | tr '\t' ' '
-  br-guest lan1
-  br-lan lan(2|3) (re)
+  $ R "bridge -json link" | jq -r 'sort_by(.master,.ifname) | reverse | .[] | "\(.master)@\(.ifname)"'
+  br-lan@wlan2
+  br-lan@wlan1
+  br-lan@wlan0.1
+  br-lan@lan3
+  br-lan@lan2
+  br-guest@wlan2.1
+  br-guest@wlan1.1
+  br-guest@wlan0.2
+  br-guest@lan1
 
 Remove lan1 from the Guest bridge and add it back to the LAN bridge:
 
@@ -36,6 +50,13 @@ Remove lan1 from the Guest bridge and add it back to the LAN bridge:
 
 Check for initial state of bridges again:
 
-  $ R "brctl show | grep -E '(br-lan|br-guest)' | sort | cut -d$'\t' -f1,6" | tr '\t' ' '
-  br-guest 
-  br-lan lan(1|2|3) (re)
+  $ R "bridge -json link" | jq -r 'sort_by(.master,.ifname) | reverse | .[] | "\(.master)@\(.ifname)"'
+  br-lan@wlan2
+  br-lan@wlan1
+  br-lan@wlan0.1
+  br-lan@lan3
+  br-lan@lan2
+  br-lan@lan1
+  br-guest@wlan2.1
+  br-guest@wlan1.1
+  br-guest@wlan0.2
