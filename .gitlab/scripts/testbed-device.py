@@ -140,7 +140,8 @@ class TestbedDevice:
     def _init_lan_vlan(self):
         bridge_lan_ports = {
             "mxl,lgm": "Bridging.Bridge.1.Port.3",
-            "cznic,turris-omnia": "Bridging.Bridge.1.Port.5",
+            "prpl,haze": "Bridging.Bridge.1.Port.4",
+            "cznic,turris-omnia": "Bridging.Bridge.2.Port.5",
             "EASY350 ANYWAN (GRX350) Axepoint Asurada model": "Bridging.Bridge.1.Port.5",
         }
         bridge_vlan_port = bridge_lan_ports.get(
