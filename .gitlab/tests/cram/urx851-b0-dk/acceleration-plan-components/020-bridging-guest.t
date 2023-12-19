@@ -4,9 +4,18 @@ Create R alias:
 
 Get initial state of bridges:
 
-  $ R "brctl show | grep -E '(br-lan|br-guest)' | sort | cut -d$'\t' -f1,6" | tr '\t' ' '
-  br-guest wlan0.2
-  br-lan eth0_(1|2|3|4|5) (re)
+  $ R "bridge -json link" | jq -r 'sort_by(.master,.ifname) | reverse | .[] | "\(.master)@\(.ifname)"'
+  br-lan@wlan4.1
+  br-lan@wlan2.1
+  br-lan@wlan0.1
+  br-lan@eth0_5
+  br-lan@eth0_4
+  br-lan@eth0_3
+  br-lan@eth0_2
+  br-lan@eth0_1
+  br-guest@wlan4.2
+  br-guest@wlan2.2
+  br-guest@wlan0.2
 
 Remove eth0_1 from LAN bridge and add it to the Guest bridge:
 
@@ -20,9 +29,18 @@ Remove eth0_1 from LAN bridge and add it to the Guest bridge:
 
 Check that eth0_1 is added to Guest bridge:
 
-  $ R "brctl show | grep -E '(br-lan|br-guest)' | sort | cut -d$'\t' -f1,6" | tr '\t' ' '
-  br-guest eth0_1
-  br-lan eth0_(2|3|4|5) (re)
+  $ R "bridge -json link" | jq -r 'sort_by(.master,.ifname) | reverse | .[] | "\(.master)@\(.ifname)"'
+  br-lan@wlan4.1
+  br-lan@wlan2.1
+  br-lan@wlan0.1
+  br-lan@eth0_5
+  br-lan@eth0_4
+  br-lan@eth0_3
+  br-lan@eth0_2
+  br-guest@wlan4.2
+  br-guest@wlan2.2
+  br-guest@wlan0.2
+  br-guest@eth0_1
 
 Remove eth0_1 from the Guest bridge and add it back to the LAN bridge:
 
@@ -36,6 +54,15 @@ Remove eth0_1 from the Guest bridge and add it back to the LAN bridge:
 
 Check for initial state of bridges again:
 
-  $ R "brctl show | grep -E '(br-lan|br-guest)' | sort | cut -d$'\t' -f1,6" | tr '\t' ' '
-  br-guest wlan0.2
-  br-lan eth0_(1|2|3|4|5) (re)
+  $ R "bridge -json link" | jq -r 'sort_by(.master,.ifname) | reverse | .[] | "\(.master)@\(.ifname)"'
+  br-lan@wlan4.1
+  br-lan@wlan2.1
+  br-lan@wlan0.1
+  br-lan@eth0_5
+  br-lan@eth0_4
+  br-lan@eth0_3
+  br-lan@eth0_2
+  br-lan@eth0_1
+  br-guest@wlan4.2
+  br-guest@wlan2.2
+  br-guest@wlan0.2
