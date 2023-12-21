@@ -65,7 +65,7 @@ run test Turris Omnia initramfs:
       optional: true
   extends: .turris-omnia testbed
 
-run test Haze eMMC:
+run test Haze initramfs:
   needs:
     - job: build test ipq807x prpl security
       optional: true
