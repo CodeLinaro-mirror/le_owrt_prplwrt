@@ -116,6 +116,11 @@ menuconfig DEVEL
 		range 1 2147483647
 		default 1
 
+	config KERNEL_GIT_BRANCH
+		string "Specify Git branch used during Git clone step" if DEVEL
+		depends on (KERNEL_GIT_CLONE_URI != "")
+		default ""
+
 	config KERNEL_GIT_MIRROR_HASH
 		string "Enter hash of Git kernel tree source checkout tarball" if DEVEL
 		depends on (KERNEL_GIT_CLONE_URI != "")
