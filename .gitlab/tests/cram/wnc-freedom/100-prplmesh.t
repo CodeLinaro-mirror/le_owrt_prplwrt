@@ -73,23 +73,23 @@ Check that hostapd is operating as expected:
   hostapd/global
 
   $ R "ubus list | grep hostapd. | sort"
+  hostapd.wlan0
   hostapd.wlan0.1
-  hostapd.wlan0.2
   hostapd.wlan1
   hostapd.wlan1.1
-  hostapd.wlan2
   hostapd.wlan2.1
+  hostapd.wlan2.2
 
 Check that wireless is operating:
 
   $ R "iw dev | grep -e Interface -e ssid | tr -d '\t' | sort"
   Interface wlan0
   Interface wlan0.1
-  Interface wlan0.2
   Interface wlan1
   Interface wlan1.1
   Interface wlan2
   Interface wlan2.1
+  Interface wlan2.2
   ssid prplOS
   ssid prplOS
   ssid prplOS
