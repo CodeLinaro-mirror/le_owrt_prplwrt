@@ -5,7 +5,7 @@ Create R alias:
 Check PCP root datamodel:
 
   $ R "ubus -S call PCP _get"
-  {"PCP.":{"OptionList":"1,3","PreferredVersion":2,"SupportedVersions":"0,1,2","X_PRPL-COM_Enable":false,"Debug":false,"ClientNumberOfEntries":1}}
+  {"PCP.":{"Enable":false,"OptionList":"1,3","PreferredVersion":2,"SupportedVersions":"0,1,2","Debug":false,"ClientNumberOfEntries":1}}
   {}
   {"amxd-error-code":0}
 

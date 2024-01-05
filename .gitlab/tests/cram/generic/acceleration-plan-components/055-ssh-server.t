@@ -69,8 +69,8 @@ Check the Session datamodel:
   $ R "ubus call SSH.Server.3.Session _get | jsonfilter -e @[*].IPAddress -e @[*].User -e @[*].Alias" | sort
   192.168.1.2
   192.168.1.2
-  cpe-Session-1
   cpe-Session-2
+  cpe-Session-3
   root
   root
 
