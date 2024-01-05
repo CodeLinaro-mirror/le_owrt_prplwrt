@@ -16,6 +16,7 @@ additional_packages:
       - lighttpd-mod-auth
       - lighttpd-mod-authn_file
       - lighttpd-mod-fastcgi
+      - modemmanager
       - syslog-ng2
 
 packages:
@@ -157,6 +158,7 @@ packages:
 diffconfig: |
           CONFIG_JSON_CYCLONEDX_SBOM=y
           CONFIG_PACKAGE_unbound-daemon-prpl=y
+          CONFIG_PACKAGE_modemmanager=y
           # CONFIG_PACKAGE_miniupnpd is not set
           # CONFIG_PACKAGE_unbound-daemon is not set
           CONFIG_DROPBEAR_ECC=y
