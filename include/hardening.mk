@@ -12,7 +12,7 @@ PKG_RELRO ?= 1
 TARGET_CFLAGS += -I$(STAGING_DIR)/usr/include/
 
 ifdef CONFIG_GCC_USE_VERSION_13
-  TARGET_CFLAGS += -fcommon
+  TARGET_CFLAGS += -fcommon -D_LARGEFILE64_SOURCE
 endif
 
 ifdef CONFIG_USE_MUSL
