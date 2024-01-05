@@ -5,7 +5,7 @@ Create R alias:
 Check PacketInterception root datamodel:
 
   $ R "ubus -S call PacketInterception _get"
-  {"PacketInterception.":{"InterceptionNumberOfEntries":1,"Enable":true,"PacketHandlerNumberOfEntries":1,"ConditionNumberOfEntries":3,"Status":"Enabled"}}
+  {"PacketInterception.":{"InterceptionNumberOfEntries":1,"Enable":true,"PacketHandlerNumberOfEntries":1,"ConditionNumberOfEntries":4,"Status":"Enabled"}}
   {}
   {"amxd-error-code":0}
 
@@ -17,6 +17,7 @@ Check that interception is configured properly:
   NFQUEUE    udp  --  anywhere             anywhere             udp dpt:domain NFQUEUE num 2
   NFQUEUE    tcp  --  anywhere             anywhere             tcp dpt:www NFQUEUE num 3
   NFQUEUE    tcp  --  anywhere             anywhere             tcp dpt:https NFQUEUE num 4
+  NFQUEUE    udp  --  anywhere             anywhere             udp dpt:https NFQUEUE num 5
 
 Disable interception:
 
@@ -46,3 +47,4 @@ Check that interception is configured properly:
   NFQUEUE    udp  --  anywhere             anywhere             udp dpt:domain NFQUEUE num 2
   NFQUEUE    tcp  --  anywhere             anywhere             tcp dpt:www NFQUEUE num 3
   NFQUEUE    tcp  --  anywhere             anywhere             tcp dpt:https NFQUEUE num 4
+  NFQUEUE    udp  --  anywhere             anywhere             udp dpt:https NFQUEUE num 5
