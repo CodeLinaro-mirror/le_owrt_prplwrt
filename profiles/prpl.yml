@@ -88,7 +88,6 @@ packages:
   - mod-httpaccess-lighttpd
   - mod-logical-api
   - mod-lua-amx
-  - mod-ppp-daemon
   - mod-qos-tc
   - mod-ra-radvd
   - mod-sahtrace
@@ -107,7 +106,6 @@ packages:
   - netmodel-iprouter
   - netmodel-logical
   - netmodel-netdev
-  - netmodel-ppp
   - netmodel-radio
   - netmodel-ssid
   - netmodel-vlan
@@ -146,7 +144,6 @@ packages:
   - tr181-logical
   - tr181-neighbordiscovery
   - tr181-pcp
-  - tr181-ppp
   - tr181-qos
   - tr181-rest-api
   - tr181-routeradvertisement
@@ -159,9 +156,7 @@ packages:
 
 diffconfig: |
           CONFIG_JSON_CYCLONEDX_SBOM=y
-          CONFIG_PACKAGE_ppp-prpl=y
           CONFIG_PACKAGE_unbound-daemon-prpl=y
-          # CONFIG_PACKAGE_ppp is not set
           # CONFIG_PACKAGE_miniupnpd is not set
           # CONFIG_PACKAGE_unbound-daemon is not set
           CONFIG_DROPBEAR_ECC=y
