@@ -1,0 +1,46 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From:
+Date:
+Subject: Disable deprecated protocols SSLv3, TLS 1.0, TLS 1.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Disable deprecated TLS protocols by default; SSLv3, TLS 1.0, TLS 1.1
+and disable DTLS 1.0 as well since based on TLS 1.1
+SSLv2 support has been removed in OpenSSL 1.1.0, no need to handle it.
+
+To enable deprecated TLS protocols, compile with openssl options:
+enable-tls1 enable-tls1-method
+enable-tls1_1 enable-tls1_1-method
+enable-ssl3 enable-ssl3-method
+and
+enable-dtls1 enable-dtls1-method (if CONFIG_OPENSSL_WITH_DTLS=y)
+
+Reviewed-by:
+
+--- a/Configure
++++ b/Configure
+@@ -334,7 +334,9 @@ $config{tdirs} = [];
+ 
+ # Known TLS and DTLS protocols
+ my @tls = qw(ssl3 tls1 tls1_1 tls1_2 tls1_3);
++my @tls_deprecated = qw(ssl3 tls1 tls1_1);
+ my @dtls = qw(dtls1 dtls1_2);
++my @dtls_deprecated = qw(dtls1);
+ 
+ # Explicitly known options that are possible to disable.  They can
+ # be regexps, and will be used like this: /^no-${option}$/
+@@ -475,6 +477,12 @@ our %disabled = ( # "what"         => "c
+                   "zlib"                => "default",
+                   "zlib-dynamic"        => "default",
+                 );
++# Disable deprecated TLS protocols by default
++foreach my $proto ((@tls_deprecated, @dtls_deprecated))
++        {
++        $disabled{"$proto"} = "default";
++        $disabled{"$proto-method"} = "default" unless $proto eq "tls1_3";
++        }
+ 
+ # Note: => pair form used for aesthetics, not to truly make a hash table
+ my @disable_cascades = (
