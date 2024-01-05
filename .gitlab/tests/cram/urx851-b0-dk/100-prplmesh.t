@@ -130,6 +130,7 @@ Check that wireless is operating:
   ssid prplOS
   ssid prplOS-guest
   ssid prplOS-guest
+  ssid prplOS-guest
 
 Check that prplmesh processes are running:
 
