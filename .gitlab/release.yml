@@ -9,6 +9,7 @@ upload:
     - job: build test ipq807x prpl security
     - job: build test mvebu prpl security
     - job: build test x86_64 prpl security
+    - job: build test qca_ipq95xx prpl security
 
   rules:
     - if: '$CI_COMMIT_TAG =~ /^prplos-v[0-9]+\.[0-9]+\.[0-9]+.*$/'
@@ -49,6 +50,17 @@ upload:
         --upload-file bin/targets/ipq807x/generic/openwrt-ipq807x-generic-prpl_haze-squashfs-sysupgrade.bin \
         ${PACKAGE_REGISTRY_URL}/prpl-haze/${prplos_version}/openwrt-ipq807x-generic-prpl_haze-squashfs-sysupgrade.bin
 
+    # qca_ipq95xx
+    - |
+      curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
+        --upload-file bin/targets/ipq95xx/generic/openwrt-ipq95xx-prpl_freedom-initramfs-uImage.itb \
+        ${PACKAGE_REGISTRY_URL}/wnc-freedom/${prplos_version}/openwrt-ipq95xx-prpl_freedom-initramfs-uImage.itb
+
+    - |
+      curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
+        --upload-file bin/targets/ipq95xx/generic/openwrt-ipq95xx-prpl_freedom-squashfs-sysupgrade.bin \
+        ${PACKAGE_REGISTRY_URL}/wnc-freedom/${prplos_version}/openwrt-ipq95xx-prpl_freedom-squashfs-sysupgrade.bin
+
 release:
   stage: release
 
@@ -70,5 +82,7 @@ release:
         --assets-link "{\"name\":\"prpl Haze initramfs\",\"url\":\"${PACKAGE_REGISTRY_URL}/prpl-haze/${prplos_version}/openwrt-ipq807x-generic-prpl_haze-initramfs-uImage.itb\"}" \
         --assets-link "{\"name\":\"Turris Omnia sysupgrade\",\"url\":\"${PACKAGE_REGISTRY_URL}/turris-omnia/${prplos_version}/openwrt-mvebu-cortexa9-cznic_turris-omnia-initramfs-kernel.bin\"}" \
         --assets-link "{\"name\":\"Turris Omnia initramfs\",\"url\":\"${PACKAGE_REGISTRY_URL}/turris-omnia/${prplos_version}/openwrt-mvebu-cortexa9-cznic_turris-omnia-sysupgrade.img.gz\"}" \
+        --assets-link "{\"name\":\"WNC Freedom sysupgrade\",\"url\":\"${PACKAGE_REGISTRY_URL}/wnc-freedom/${prplos_version}/openwrt-ipq95xx-prpl_freedom-squashfs-sysupgrade.bin\"}" \
+        --assets-link "{\"name\":\"WNC Freedom initramfs\",\"url\":\"${PACKAGE_REGISTRY_URL}/wnc-freedom/${prplos_version}/openwrt-ipq95xx-prpl_freedom-initramfs-uImage.itb\"}" \
         --assets-link "{\"name\":\"x86/64 sysupgrade\",\"url\":\"${PACKAGE_REGISTRY_URL}/x86-64/${prplos_version}/openwrt-x86-64-generic-squashfs-combined-efi.img\"}" \
         --assets-link "{\"name\":\"x86/64 initramfs\",\"url\":\"${PACKAGE_REGISTRY_URL}/x86-64/${prplos_version}/openwrt-x86-64-generic-initramfs-kernel.bin\"}"
