@@ -64,6 +64,13 @@ build test ipq807x prpl security:
 build test qca_ipq95xx prpl security:
   extends: .build test config
 
+coverity scan ipq807x prpl:
+  extends: .coverity scan config
+  variables:
+    CI_COVERITY_COMPILER_TEMPLATE_LIST: >
+      aarch64-openwrt-linux-gcc
+      aarch64-openwrt-linux-musl-gcc
+
 run test Turris Omnia initramfs:
   needs:
     - job: build test mvebu prpl security
