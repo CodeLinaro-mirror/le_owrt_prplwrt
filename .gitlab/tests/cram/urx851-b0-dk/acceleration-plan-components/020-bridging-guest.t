@@ -22,10 +22,11 @@ Remove eth0_1 from LAN bridge and add it to the Guest bridge:
   $ printf ' \
   > ubus-cli Bridging.Bridge.lan.Port.ETH0_1-\n
   > ubus-cli Bridging.Bridge.guest.Port.+{Name="eth0_1", Alias="ETH0_1", LowerLayers="Device.Ethernet.Interface.2."}\n
+  > sleep 1\n
   > ubus-cli Bridging.Bridge.guest.Port.ETH0_1.Enable=1\n
   > ' > /tmp/run
   $ script --command "ssh -t root@$TARGET_LAN_IP '$(cat /tmp/run)'" > /dev/null
-  $ sleep 10
+  $ sleep 2
 
 Check that eth0_1 is added to Guest bridge:
 
@@ -47,10 +48,11 @@ Remove eth0_1 from the Guest bridge and add it back to the LAN bridge:
   $ printf '\
   > ubus-cli Bridging.Bridge.guest.Port.ETH0_1-\n
   > ubus-cli Bridging.Bridge.lan.Port.+{Name="eth0_1", Alias="ETH0_1", LowerLayers="Device.Ethernet.Interface.2."}\n
+  > sleep 1\n
   > ubus-cli Bridging.Bridge.lan.Port.ETH0_1.Enable=1\n
   > ' > /tmp/run
   $ script --command "ssh -t root@$TARGET_LAN_IP '$(cat /tmp/run)'" > /dev/null
-  $ sleep 20
+  $ sleep 2
 
 Check for initial state of bridges again:
 
