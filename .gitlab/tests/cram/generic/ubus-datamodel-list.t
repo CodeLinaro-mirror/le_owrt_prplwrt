@@ -112,8 +112,6 @@ Check that ubus has expected datamodels available:
   Device.UPnP.Discovery
   Device.UserInterface
   Device.Users
-  Device.WiFi
-  Device.WiFi.DataElements
   Device.XPON
   Device.X_PRPL-COM_MultiSettings
   Device.X_PRPL-COM_PersistentConfiguration
