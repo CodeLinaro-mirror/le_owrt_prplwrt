@@ -3,8 +3,8 @@ description: Add the prpl features
 feeds:
   - name: feed_prpl
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-prpl.git
-    tracking_branch: prplos
-    revision: 180fb53013501c9084eed9a16b3459de0e7c6061
+    tracking_branch: feature/PCF-1074-obuspa
+    revision: 743dff699f3336c00e777a9c0030b3763ffadcce
 
 additional_packages:
   - feed: packages
