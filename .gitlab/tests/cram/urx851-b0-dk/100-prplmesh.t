@@ -2,6 +2,30 @@ Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
+Disable autochannel :
+
+  $ R "ubus -S call WiFi.Radio.2 _set '{\"parameters\":{\"AutoChannelEnable\":0}}'"
+  {"WiFi.Radio.2.":{"AutoChannelEnable":false}}
+  {}
+  {"amxd-error-code":0}
+
+
+  $ R "ubus -S call WiFi.Radio.1 _set '{\"parameters\":{\"AutoChannelEnable\":0}}'"
+  {"WiFi.Radio.1.":{"AutoChannelEnable":false}}
+  {}
+  {"amxd-error-code":0}
+
+  $ sleep 1
+
+Set channel to a non DFS one
+
+  $ R "ubus -S call WiFi.Radio.2 _set '{\"parameters\":{\"Channel\":36}}'"
+  {"WiFi.Radio.2.":{"Channel":36}}
+  {}
+  {"amxd-error-code":0}
+
+  $ sleep 1
+
 Check that wireless has desired configuration and state after boot:
 
   $ R "ubus -S call WiFi.SSID _get | jsonfilter -e @[*].SSID -e @[*].Status | sort"
