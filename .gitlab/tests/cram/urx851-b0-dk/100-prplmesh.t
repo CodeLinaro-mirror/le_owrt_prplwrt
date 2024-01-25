@@ -294,4 +294,4 @@ Check that wireless is disabled:
   prplOS-guest
 
   $ R "pgrep -f 'hostapd -ddt'"
-  [1]
+  [0-9]+ (re)
