@@ -4,7 +4,7 @@ feeds:
   - name: feed_prpl
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-prpl.git
     tracking_branch: prpl/nightly
-    revision: 10a5d47368889501d5727f504f097c4d776c642b
+    revision: 27f14adc753546df5a3ee039dbee388d43356a3e
 
 additional_packages:
   - feed: packages
