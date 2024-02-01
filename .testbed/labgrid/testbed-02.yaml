@@ -157,7 +157,7 @@ targets:
           - setenv serverip 192.168.1.2
           - setenv ipaddr 192.168.1.1
           - setenv fullimage openwrt-intel_x86-lgm-LGM_PRPL-lgp_b0_pon_fullimage.img
-          - mmc dev 0 && mmc erase c6800 10000 && mmc erase d6800 10000 && run update_fullimage
+          - mmc dev 0 && mmc erase ${rootfs_data_block_start} ${rootfs_data_block_size} && run update_fullimage
       UBootStrategy: {}
 
   wnc-freedom-initramfs:

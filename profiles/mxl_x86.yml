@@ -12,12 +12,12 @@ description: Build images for the Maxlinear x86 devices - URX
 feeds:
   - name: intel_x86
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_target_x86.git
-    tracking_branch: master
-    revision: 1de4ef985edcb23549a62590c30ade723d438cc7
+    tracking_branch: updk_9.1.50
+    revision: 84e1535dffcb177c4c80d693fb735d42a6a7c607
   - name: rootfs
     uri: ssh://git@git.maxlinear.com/ugw/rootfs.git
-    tracking_branch: updk_9.1.40
-    revision: ab4434b131fe9a390b7888a578eb2d42c45bf888
+    tracking_branch: updk_9.1.50
+    revision: 27687c7a93440db874ad12ce25cf31e24da21f6b
   - name: 3rdparty
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_3rdparty.git
     tracking_branch: master
@@ -25,15 +25,15 @@ feeds:
   - name: datapath
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_datapath.git
     tracking_branch: master
-    revision: f4411add143fb1138f5e94a29e1e1f9621c44895
+    revision: 9f330b650f09e4de84be7823a8e5248fa5ecbafd
   - name: gphy_firmware
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_gphy_firmware.git
     tracking_branch: master
     revision: 7f53bcc7d43c8fe41417d21d50e290bb77f6c231
   - name: gwdpa_dpm
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_gwdpa-dpm.git
-    tracking_branch: master
-    revision: 616cbc0a64e880769258dc20a9b49ddeeb02abce
+    tracking_branch: updk_9.1.50
+    revision: 16e87b7218b7c745bf61dffb9d23d4f3edbf923c
   - name: misc
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_common.git
     tracking_branch: master
@@ -49,15 +49,15 @@ feeds:
   - name: pon
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_pon.git
     tracking_branch: master
-    revision: 35556be6145a589f6e1a2a43d76d119cf1471c95
+    revision: ff289aee92c4b677f93e6ee8351c2b8a16e8c932
   - name: ppa
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_ppa.git
     tracking_branch: master
-    revision: cdbd47c5457fd2b354998bb76f8582d5044e5fd7
+    revision: 8bb4acb022ae7126b45407933bbd40cbf810d145
   - name: pp_net_adapter
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_pp_net_adapter.git
     tracking_branch: master
-    revision: d57e0c7820255fca61874c6202f67aed169cb841
+    revision: bd7cdfb362cce97396757417586ea864f948e762
   - name: vpn_fw
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_vpn_fw.git
     tracking_branch: master
@@ -69,19 +69,27 @@ feeds:
   - name: utils
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_ugw_utils.git
     tracking_branch: master
-    revision: ca312a0da1480281e93c5cf64beae6e6a45010ba
+    revision: 776f8c0ddda970e87c17e69c619b14d89c133e14
   - name: bootloader
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_uboot.git
-    tracking_branch:  updk_9.1.40
-    revision: 0998eae9cea0ee3be6551360ae5d97ac18d52f85
+    tracking_branch: updk_9.1.50
+    revision: b53cb1932ae3c1a65a6c70b4759b206b5480a484
   - name: dpl
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_dpl.git
     tracking_branch:  master
-    revision: 974a1514811799c84939ee2478bdc6356e8e1227
+    revision: d381a96bad0b4f05be744b9d1b595beffc5b225e
   - name: voice_cpe
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_voice_cpe.git
     tracking_branch:  master
-    revision: 7a5dadf8e32263bfb6034cb318158956d69c42c3
+    revision: 18c1b024388a75bab5c1d5d5b912e3441d0a32cc
+  - name: speedtest
+    uri: ssh://git@git.maxlinear.com/mxl/speedtest.git
+    tracking_branch:  master
+    revision: e0c8e49ccf0bca8ce1c1390cdd3dc34780453d32
+  - name: mcast_service
+    uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_mcast_service.git
+    tracking_branch:  master
+    revision: a2cb18bb1b8ba93d65461c8f7e9786decf837619
 
 packages:
   - kmod-mxl_eth_drv
@@ -144,6 +152,10 @@ packages:
   - obudpst
   - speedtest-modules
   - kmod-dpl
+  - kmod-mcast-helper
+  - libmcastdaemon
+  - libmcastfapi
+  - mcastcli
     #voice
   - kmod-voice-tapi
   - kmod-voice-lgm
@@ -163,14 +175,14 @@ packages:
 diffconfig: |
   CONFIG_DEVEL=y
   CONFIG_KERNEL_GIT_CLONE_URI="git@git.maxlinear.com:mxl/linux.git"
-  CONFIG_KERNEL_GIT_REF="UPDK_9.1.40"
+  CONFIG_KERNEL_GIT_BRANCH="UPDK_9.1.50"
   CONFIG_GPON_OMCI_ONU_UBUS_INTERFACE=y
   CONFIG_TARGET_MULTI_PROFILE=y
   CONFIG_TARGET_PER_DEVICE_ROOTFS=y
   CONFIG_TARGET_DEVICE_intel_x86_lgm_DEVICE_LGM_PRPL=y
   # CONFIG_TARGET_ROOTFS_EXT4FS is not set
   CONFIG_BUILD_LOG=y
-  CONFIG_PACKAGE_uboot-lgp-urx851-p34x-phy-emmc=y
+  CONFIG_PACKAGE_uboot-lgp-urx851-p34x-phy-emmc-prpl=y
   CONFIG_VERSION_FILENAMES=n
   CONFIG_VERSION_CODE_FILENAMES=n
   # CONFIG_PACKAGE_bios_images is not set
@@ -180,3 +192,4 @@ diffconfig: |
   CONFIG_BUSYBOX_CONFIG_FEATURE_TFTP_GET=y
   CONFIG_BUSYBOX_CONFIG_FEATURE_TFTP_PUT=y
   CONFIG_BUSYBOX_CONFIG_TFTP=y
+  CONFIG_KERNEL_FTRACE=y

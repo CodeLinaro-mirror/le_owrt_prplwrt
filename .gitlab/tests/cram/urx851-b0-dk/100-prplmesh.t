@@ -36,7 +36,9 @@ Check that wireless has desired configuration and state after boot:
   Down
   Down
   Down
+  Down
   PWHM_SSID7
+  PWHM_SSID8
   prplOS
   prplOS
   prplOS
@@ -130,7 +132,9 @@ Check that wireless is operating:
 
   $ R "ubus -S call WiFi.SSID _get | jsonfilter -e @[*].SSID -e @[*].Status | sort"
   Dormant
+  Down
   PWHM_SSID7
+  PWHM_SSID8
   Up
   Up
   Up
@@ -285,7 +289,9 @@ Check that wireless is disabled:
   Down
   Down
   Down
+  Down
   PWHM_SSID7
+  PWHM_SSID8
   prplOS
   prplOS
   prplOS
