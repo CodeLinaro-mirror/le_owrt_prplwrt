@@ -26,6 +26,7 @@ tools-y += e2fsprogs fakeroot findutils firmware-utils flex gengetopt
 tools-y += libdeflate libressl libtool lzma m4 make-ext4fs meson missing-macros mkimage
 tools-y += mklibs mtd-utils mtools ninja padjffs2 patch-image
 tools-y += patchelf pkgconf quilt squashfskit4 sstrip zip zlib zstd
+tools-$(CONFIG_JSON_CHECKSEC_MITIGATIONS_REPORT) += checksec.sh
 tools-$(BUILD_B43_TOOLS) += b43-tools
 tools-$(BUILD_ISL) += isl
 tools-$(BUILD_TOOLCHAIN) += expat gmp mpc mpfr
