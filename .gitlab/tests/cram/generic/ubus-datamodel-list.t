@@ -21,6 +21,8 @@ Check that ubus has expected datamodels available:
   Bridging.Bridge.VLANPort
   Buttons
   Buttons.Button
+  CaptivePortal
+  CaptivePortal.LANInterface
   Cthulhu
   Cthulhu.Config
   Cthulhu.Container
@@ -261,6 +263,15 @@ Check that ubus has expected datamodels available:
   SoftwareModules.NetworkConfig
   SoftwareModules.NetworkConfig.Interfaces
   SoftwareModules.Plugins
+  Syslog
+  Syslog.Destination
+  Syslog.Filter
+  Syslog.Local
+  Syslog.Logger
+  Syslog.MQTT
+  Syslog.Remote
+  Syslog.Source
+  Syslog.Template
   Time
   Time.Client
   Time.Server
