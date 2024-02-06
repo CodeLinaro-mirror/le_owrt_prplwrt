@@ -21,6 +21,8 @@ Check that ubus has expected datamodels available:
   Bridging.Bridge.VLANPort
   Buttons
   Buttons.Button
+  CaptivePortal
+  CaptivePortal.LANInterface
   Cthulhu
   Cthulhu.Config
   Cthulhu.Container
@@ -67,6 +69,7 @@ Check that ubus has expected datamodels available:
   Device.BulkData
   Device.Buttons
   Device.CWMPManagementServer
+  Device.CaptivePortal
   Device.ConMon
   Device.DHCPv4
   Device.DHCPv4.Client
@@ -105,6 +108,7 @@ Check that ubus has expected datamodels available:
   Device.SSH
   Device.Security
   Device.SoftwareModules
+  Device.Syslog
   Device.Time
   Device.UPnP
   Device.UPnP.Description
@@ -120,6 +124,7 @@ Check that ubus has expected datamodels available:
   DeviceInfo.DeviceImageFile
   DeviceInfo.FirmwareImage
   DeviceInfo.Location
+  DeviceInfo.LogRotate
   DeviceInfo.MemoryStatus
   DeviceInfo.ProcessStatus
   DeviceInfo.ProcessStatus.Process
@@ -261,6 +266,12 @@ Check that ubus has expected datamodels available:
   SoftwareModules.NetworkConfig
   SoftwareModules.NetworkConfig.Interfaces
   SoftwareModules.Plugins
+  Syslog
+  Syslog.Action
+  Syslog.Filter
+  Syslog.Source
+  Syslog.Template
+  System
   Time
   Time.Client
   Time.Server
