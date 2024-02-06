@@ -84,3 +84,10 @@ CDRouter-USP-Certification URX851-HDK-3 eMMC:
   variables:
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
+
+CDRouter-IPv6-Top-100+mDNS+dslite URX851-HDK-3 initramfs:
+  <<: *urx851_cdrouter_ipv6
+  variables:
+    CDROUTER_TEST_CONFIG: generic-ipv6-dslite
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-configure-dslite.sh
