@@ -4426,6 +4426,28 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.X_PRPLWARE-COM_WANManager.setWANMode()                                                        proto::wan-manager
   Device.X_PRPLWARE-COM_WANManager.setWANMode() input:Autosensing
   Device.X_PRPLWARE-COM_WANManager.setWANMode() input:WANMode
+  Device.X_PRPLWARE-COM_WiFiScheduler.                                                                 proto::wifi-scheduler
+  Device.X_PRPLWARE-COM_WiFiScheduler.Enable                                                           proto::wifi-scheduler
+  Device.X_PRPLWARE-COM_WiFiScheduler.EnableMethod                                                     proto::wifi-scheduler
+  Device.X_PRPLWARE-COM_WiFiScheduler.GlobalTargetConfig                                               proto::wifi-scheduler
+  Device.X_PRPLWARE-COM_WiFiScheduler.Group.{i}.                                                       proto::wifi-scheduler
+  Device.X_PRPLWARE-COM_WiFiScheduler.Group.{i}.Alias                                                  proto::wifi-scheduler
+  Device.X_PRPLWARE-COM_WiFiScheduler.Group.{i}.Schedule.{i}.                                          proto::wifi-scheduler
+  Device.X_PRPLWARE-COM_WiFiScheduler.Group.{i}.Schedule.{i}.Alias                                     proto::wifi-scheduler
+  Device.X_PRPLWARE-COM_WiFiScheduler.Group.{i}.Schedule.{i}.Day                                       proto::wifi-scheduler
+  Device.X_PRPLWARE-COM_WiFiScheduler.Group.{i}.Schedule.{i}.Duration                                  proto::wifi-scheduler
+  Device.X_PRPLWARE-COM_WiFiScheduler.Group.{i}.Schedule.{i}.Enable                                    proto::wifi-scheduler
+  Device.X_PRPLWARE-COM_WiFiScheduler.Group.{i}.Schedule.{i}.Running                                   proto::wifi-scheduler
+  Device.X_PRPLWARE-COM_WiFiScheduler.Group.{i}.Schedule.{i}.StartTime                                 proto::wifi-scheduler
+  Device.X_PRPLWARE-COM_WiFiScheduler.GroupTargetConfig                                                proto::wifi-scheduler
+  Device.X_PRPLWARE-COM_WiFiScheduler.Network.                                                         proto::wifi-scheduler
+  Device.X_PRPLWARE-COM_WiFiScheduler.Network.Schedule.{i}.                                            proto::wifi-scheduler
+  Device.X_PRPLWARE-COM_WiFiScheduler.Network.Schedule.{i}.Alias                                       proto::wifi-scheduler
+  Device.X_PRPLWARE-COM_WiFiScheduler.Network.Schedule.{i}.Day                                         proto::wifi-scheduler
+  Device.X_PRPLWARE-COM_WiFiScheduler.Network.Schedule.{i}.Duration                                    proto::wifi-scheduler
+  Device.X_PRPLWARE-COM_WiFiScheduler.Network.Schedule.{i}.Enable                                      proto::wifi-scheduler
+  Device.X_PRPLWARE-COM_WiFiScheduler.Network.Schedule.{i}.Running                                     proto::wifi-scheduler
+  Device.X_PRPLWARE-COM_WiFiScheduler.Network.Schedule.{i}.StartTime                                   proto::wifi-scheduler
 
 Check that USP stack is handling the reconnection scenario properly PCF-1198/PPW-65 by restarting obuspa:
 
@@ -8855,3 +8877,25 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.X_PRPLWARE-COM_WANManager.setWANMode()                                                        proto::wan-manager
   Device.X_PRPLWARE-COM_WANManager.setWANMode() input:Autosensing
   Device.X_PRPLWARE-COM_WANManager.setWANMode() input:WANMode
+  Device.X_PRPLWARE-COM_WiFiScheduler.                                                                 proto::wifi-scheduler
+  Device.X_PRPLWARE-COM_WiFiScheduler.Enable                                                           proto::wifi-scheduler
+  Device.X_PRPLWARE-COM_WiFiScheduler.EnableMethod                                                     proto::wifi-scheduler
+  Device.X_PRPLWARE-COM_WiFiScheduler.GlobalTargetConfig                                               proto::wifi-scheduler
+  Device.X_PRPLWARE-COM_WiFiScheduler.Group.{i}.                                                       proto::wifi-scheduler
+  Device.X_PRPLWARE-COM_WiFiScheduler.Group.{i}.Alias                                                  proto::wifi-scheduler
+  Device.X_PRPLWARE-COM_WiFiScheduler.Group.{i}.Schedule.{i}.                                          proto::wifi-scheduler
+  Device.X_PRPLWARE-COM_WiFiScheduler.Group.{i}.Schedule.{i}.Alias                                     proto::wifi-scheduler
+  Device.X_PRPLWARE-COM_WiFiScheduler.Group.{i}.Schedule.{i}.Day                                       proto::wifi-scheduler
+  Device.X_PRPLWARE-COM_WiFiScheduler.Group.{i}.Schedule.{i}.Duration                                  proto::wifi-scheduler
+  Device.X_PRPLWARE-COM_WiFiScheduler.Group.{i}.Schedule.{i}.Enable                                    proto::wifi-scheduler
+  Device.X_PRPLWARE-COM_WiFiScheduler.Group.{i}.Schedule.{i}.Running                                   proto::wifi-scheduler
+  Device.X_PRPLWARE-COM_WiFiScheduler.Group.{i}.Schedule.{i}.StartTime                                 proto::wifi-scheduler
+  Device.X_PRPLWARE-COM_WiFiScheduler.GroupTargetConfig                                                proto::wifi-scheduler
+  Device.X_PRPLWARE-COM_WiFiScheduler.Network.                                                         proto::wifi-scheduler
+  Device.X_PRPLWARE-COM_WiFiScheduler.Network.Schedule.{i}.                                            proto::wifi-scheduler
+  Device.X_PRPLWARE-COM_WiFiScheduler.Network.Schedule.{i}.Alias                                       proto::wifi-scheduler
+  Device.X_PRPLWARE-COM_WiFiScheduler.Network.Schedule.{i}.Day                                         proto::wifi-scheduler
+  Device.X_PRPLWARE-COM_WiFiScheduler.Network.Schedule.{i}.Duration                                    proto::wifi-scheduler
+  Device.X_PRPLWARE-COM_WiFiScheduler.Network.Schedule.{i}.Enable                                      proto::wifi-scheduler
+  Device.X_PRPLWARE-COM_WiFiScheduler.Network.Schedule.{i}.Running                                     proto::wifi-scheduler
+  Device.X_PRPLWARE-COM_WiFiScheduler.Network.Schedule.{i}.StartTime                                   proto::wifi-scheduler
