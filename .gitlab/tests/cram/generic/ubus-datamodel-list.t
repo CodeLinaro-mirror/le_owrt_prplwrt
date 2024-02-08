@@ -115,6 +115,7 @@ Check that ubus has expected datamodels available:
   Device.X_PRPLWARE-COM_SFPs
   Device.X_PRPLWARE-COM_SoftwareModules
   Device.X_PRPLWARE-COM_WANManager
+  Device.X_PRPLWARE-COM_WiFiScheduler
   DeviceInfo
   DeviceInfo.DeviceImageFile
   DeviceInfo.FirmwareImage
@@ -343,6 +344,11 @@ Check that ubus has expected datamodels available:
   WiFi.SSID
   WiFi.Vendor
   WiFi.wps_DefParam
+  WiFiScheduler
+  WiFiScheduler.Group
+  WiFiScheduler.Group.Schedule
+  WiFiScheduler.Network
+  WiFiScheduler.Network.Schedule
   XPON
   XPON.ONU
   X_PRPLWARE-COM_Agent

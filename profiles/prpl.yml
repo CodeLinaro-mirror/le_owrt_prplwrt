@@ -11,7 +11,7 @@ feeds:
   
   - name: feed_prplmesh
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplmesh.git
-    revision: main@2e2efbce0cc34dca01b5da9152a8dd683b5aab30
+    revision: main@35cf35daa0d9e671ab3c7f10527c8ad8f1fba7d5
 
   - name: feed_prplos
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplos.git
@@ -201,6 +201,7 @@ packages:
   - tr181-xpon
   - wan-manager
   - wifi-sensing
+  - wifi-scheduler
 
 diffconfig: |
           CONFIG_DEVEL=y
