@@ -12,6 +12,7 @@ feeds:
     revision: c8db2f270349b8b4ade2d102cfd2e3cbde8cab3a
 
 packages:
+  - strace
   - ipq95xx
   - wireless-regdb
   - hostapd-utils-qca
