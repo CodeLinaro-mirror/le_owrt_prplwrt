@@ -12,7 +12,6 @@ Check that ubus has expected datamodels available:
   $ R "ubus list | grep '[[:upper:]]' | grep -v '\.[[:digit:]]'"
   ACLManager
   ACLManager.Role
-  Agent
   Bridging
   Bridging.Bridge
   Bridging.Bridge.Port
@@ -287,3 +286,6 @@ Check that ubus has expected datamodels available:
   WiFi.wps_DefParam
   XPON
   XPON.ONU
+  X_PRPL-ORG
+  X_PRPL-ORG.prplMeshAgent
+  X_PRPL-ORG.prplMeshAgent.Fronthaul
