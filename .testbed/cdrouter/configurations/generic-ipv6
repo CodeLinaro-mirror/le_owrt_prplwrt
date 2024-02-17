@@ -2490,7 +2490,7 @@ SECTION "CDRouter TR-069 Add-On" {
 
 SECTION "CDRouter USP Add-On" {
 
-      testvar supportsUSP                      yes
+    # testvar supportsUSP                      no
 
     SECTION "Basic Controller Configuration" {
 
@@ -2505,7 +2505,7 @@ SECTION "CDRouter USP Add-On" {
 
         # testvar uspControllerUseNonPayloadProtection no
         # testvar uspControllerUseSessionContext   no
-          testvar uspControllerMTP                 stomp
+        # testvar uspControllerMTP                 websocket
         # testvar uspControllerMTPEncryption       no
         # testvar uspControllerUSPEncryption       no
         # testvar uspControllerDomain              controller.cdroutertest.com
