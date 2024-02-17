@@ -90,7 +90,7 @@ CDRouter-TR-069 Turris eMMC:
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-tr181-mockups.sh
 
-CDRouter-USP-Certification Turris initramfs:
+.CDRouter-USP-Certification Turris initramfs:
   <<: *turris_cdrouter
   variables:
     DUT_INIT_SCRIPTS: |

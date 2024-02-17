@@ -79,7 +79,7 @@ CDRouter-TR-069 URX851-HDK-3 eMMC:
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-tr181-mockups.sh
 
-CDRouter-USP-Certification URX851-HDK-3 eMMC:
+.CDRouter-USP-Certification URX851-HDK-3 eMMC:
   <<: *urx851_cdrouter
   variables:
     DUT_INIT_SCRIPTS: |

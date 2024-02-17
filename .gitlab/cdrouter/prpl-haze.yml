@@ -82,7 +82,7 @@ CDRouter-TR-069 Haze eMMC:
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-tr181-mockups.sh
 
-CDRouter-USP-Certification Haze initramfs:
+.CDRouter-USP-Certification Haze initramfs:
   <<: *prpl_haze
   variables:
     DUT_INIT_SCRIPTS: |

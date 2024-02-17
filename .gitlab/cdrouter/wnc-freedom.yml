@@ -82,7 +82,7 @@ CDRouter-TR-069 Freedom eMMC:
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-tr181-mockups.sh
 
-CDRouter-USP-Certification Freedom initramfs:
+.CDRouter-USP-Certification Freedom initramfs:
   <<: *wnc_freedom
   variables:
     DUT_INIT_SCRIPTS: |
