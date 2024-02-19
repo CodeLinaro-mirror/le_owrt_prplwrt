@@ -244,3 +244,4 @@ diffconfig: |
           # CONFIG_PACKAGE_libwolfssl is not set
           # CONFIG_PACKAGE_libustream-wolfssl is not set
           CONFIG_PACKAGE_libustream-openssl=y
+          CONFIG_WPA_MBO_SUPPORT=y
