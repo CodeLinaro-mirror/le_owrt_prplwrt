@@ -4,7 +4,7 @@ feeds:
   - name: feed_prpl
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-prpl.git
     tracking_branch: bugfix/PCF-1084-obuspa
-    revision: e99a1cbbb258b2b38a94d946de40fc590d922df8
+    revision: 848fc343830b04dad2c51d5a6c5bddc1c742cc4e
 
 additional_packages:
   - feed: packages
