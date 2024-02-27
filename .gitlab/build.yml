@@ -35,10 +35,11 @@
 
     - |
       if [ -z "$CI_COMMIT_TAG" ] && [ "$CI_DESIGNATED_BRANCH" != "$CI_COMMIT_BRANCH" ]; then
-        echo "Enabling coredumps in the build."
+        echo "Enabling coredumps and exception tracing in the build."
         export CI_BUILD_ENABLE_COREDUMPS=1
+        export CI_BUILD_ENABLE_EXCEPTION_TRACE=1
       else
-        echo "Coredumps are disabled in this build."
+        echo "Coredumps and exception tracing are disabled in this build."
       fi
 
     - for script in .gitlab/scripts/build.d/*; do bash "$script"; done
