@@ -637,7 +637,15 @@ sub image_manifest_packages($)
 }
 
 sub dump_cyclonedxsbom_json {
-	my (@components) = @_;
+	my %params = @_;
+	my @components = $params{components};
+	my @dependencies = $params{dependencies};
+	if (!$params{dependencies}) {
+		@dependencies = []
+	};
+	if (!$params{components}) {
+		@components = []
+	};
 
 	my $uuid = sprintf(
 	    "%04x%04x-%04x-%04x-%04x-%04x%04x%04x",
@@ -654,27 +662,53 @@ sub dump_cyclonedxsbom_json {
 		version => 1,
 		metadata => {
 			timestamp => gmtime->datetime,
+			component => {
+				name => "prplos",
+				"bom-ref" => "prplos",
+			        type => "operating-system",
+			},
 		},
-		"components" => [@components],
+		components => @components,
+		dependencies => @dependencies,
 	};
 
-	return encode_json($cyclonedx);
+	return encode_json(scalar($cyclonedx));
+}
+
+sub parse_image_config($) {
+	my %config;
+	my $imgconfig = shift;
+
+
+	open FILE, "<$imgconfig" or return;
+	while (<FILE>) {
+		/^(.+?)=(.+)$/ and $config{$1} = $2;
+	}
+	close FILE;
+
+	return  %config;
 }
 
 sub gen_image_cyclonedxsbom() {
 	my $pkginfo = shift @ARGV;
 	my $imgmanifest = shift @ARGV;
+	my $imgconfig = shift @ARGV;
 	my @components;
+	my @dependencies;
+	my @config;
 	my %image_packages;
 
 	%image_packages = image_manifest_packages($imgmanifest);
 	%image_packages or exit 1;
 	parse_package_metadata($pkginfo) or exit 1;
 
+	@config=parse_image_config($imgconfig);
+
 	$package{"kernel"} = {
 		license => "GPL-2.0",
 		cpe_id  => "cpe:/o:linux:linux_kernel",
 		name    => "kernel",
+		"bom-ref" => "kernel"
 	};
 
 	my %abimap;
@@ -685,6 +719,7 @@ sub gen_image_cyclonedxsbom() {
 		$abimap{$abipkg} = $name;
 	}
 
+	my @deps_full = ();
 	foreach my $name (sort {uc($a) cmp uc($b)} keys %image_packages) {
 		my $pkg = $package{$name};
 		if (!$pkg) {
@@ -730,10 +765,46 @@ sub gen_image_cyclonedxsbom() {
 			$pkg->{cpe_id} ? (cpe => $pkg->{cpe_id}.":".$version) : (),
 			$type ? (type => $type) : (),
 			$version ? (version => $version) : (),
+			"bom-ref" => "$pkg->{name}"
+		};
+
+		if ($imgconfig) {
+			push @deps_full, "$pkg->{name}";
+
+			my @deps = ();
+			foreach my $dep ($pkg->{depends}->@*) {
+				if ($dep =~ /\+.*/){
+					substr($dep,0,1,"")
+				}
+				my @package = split(":", $dep);
+				if (scalar(@package) == "2"){
+					if ( grep(/CONFIG_@package[0]/, @config) ) {
+						if (!(@package[1] =~ /\@.*/)){
+							push @deps, @package[1];
+						}
+					}
+				}
+				else{
+					if (!(@package[0] =~ /\@.*/)) {
+						push @deps, @package[0];
+					}
+				}
+			}
+
+			push @dependencies, {
+				ref => "$pkg->{name}",
+				dependsOn => [@deps],
+			};
+		}
+	}
+	if ($imgconfig) {
+		push @dependencies, {
+			ref => "prplos",
+			dependsOn => [@deps_full],
 		};
 	}
 
-	print dump_cyclonedxsbom_json(@components);
+	print dump_cyclonedxsbom_json(components => \@components, dependencies => \@dependencies);
 }
 
 sub gen_package_cyclonedxsbom() {
@@ -783,10 +854,11 @@ sub gen_package_cyclonedxsbom() {
 			$pkg->{cpe_id} ? (cpe => $pkg->{cpe_id}.":".$version) : (),
 			$type ? (type => $type) : (),
 			$version ? (version => $version) : (),
+			"bom-ref" => "$pkg->{name}"
 		};
 	}
 
-	print dump_cyclonedxsbom_json(@components);
+	print dump_cyclonedxsbom_json(components => \@components, dependencies => undef);
 }
 
 sub parse_command() {

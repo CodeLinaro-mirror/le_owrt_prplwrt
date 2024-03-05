@@ -277,7 +277,8 @@ ifndef IB
 	$(if $(CONFIG_JSON_CYCLONEDX_SBOM), \
 		$(SCRIPT_DIR)/package-metadata.pl imgcyclonedxsbom \
 		$(TMP_DIR)/.packageinfo \
-		$(BIN_DIR)/$(IMG_PREFIX)$(if $(PROFILE_SANITIZED),-$(PROFILE_SANITIZED)).manifest > \
+		$(BIN_DIR)/$(IMG_PREFIX)$(if $(PROFILE_SANITIZED),-$(PROFILE_SANITIZED)).manifest \
+		$(TMP_DIR)/.config > \
 		$(BIN_DIR)/$(IMG_PREFIX)$(if $(PROFILE_SANITIZED),-$(PROFILE_SANITIZED)).bom.cdx.json)
 	$(if $(CONFIG_JSON_CHECKSEC_MITIGATIONS_REPORT), \
 		$(PYTHON) $(SCRIPT_DIR)/checksec-mitigation-report.py \
