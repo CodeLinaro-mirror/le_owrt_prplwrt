@@ -169,7 +169,7 @@ diffconfig: |
           CONFIG_DROPBEAR_ECC=y
           CONFIG_SAH_LUA_AMX_LUA_VERSION_OVERRIDE=y
           CONFIG_SAH_LUA_AMX_LUA_VERSION="5.1"
-          CONFIG_SAH_AMX_TR181_DEVICE_OBUSPA_SUPPORT
+          CONFIG_SAH_AMX_TR181_DEVICE_OBUSPA_SUPPORT=y
           CONFIG_PACKAGE_rpcd-mod-luci=y
           CONFIG_PACKAGE_ip-full=y
           CONFIG_PACKAGE_ip-bridge=y
