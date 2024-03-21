@@ -40,7 +40,7 @@ define Package/base-files
   SECTION:=base
   CATEGORY:=Base system
   DEPENDS:= \
-	+netifd +libc +jsonfilter +SIGNED_PACKAGES:usign +SIGNED_PACKAGES:openwrt-keyring \
+	+libc +jsonfilter +SIGNED_PACKAGES:usign +SIGNED_PACKAGES:openwrt-keyring \
 	+NAND_SUPPORT:ubi-utils +fstools +fwtool \
 	+SELINUX:procd-selinux +!SELINUX:procd +USE_SECCOMP:procd-seccomp \
 	+SELINUX:busybox-selinux +!SELINUX:busybox
