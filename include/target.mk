@@ -28,7 +28,7 @@ DEFAULT_PACKAGES:=\
 	libustream-openssl \
 	logd \
 	mtd \
-	netifd \
+	opkg \
 	uci \
 	uclient-fetch \
 	urandom-seed \
