@@ -104,6 +104,7 @@ ifeq ($(DUMP),)
     IPKG_$(1):=$$(PDIR_$(1))/$(1)$$(ABIV_$(1))_$(VERSION)_$(PKGARCH).ipk
     IDIR_$(1):=$(PKG_BUILD_DIR)/ipkg-$(PKGARCH)/$(1)
     KEEP_$(1):=$(strip $(call Package/$(1)/conffiles))
+    DBGINFO_$(1):=$$(PDIR_$(1))/$(1)$$(ABIV_$(1))_$(VERSION)_$(PKGARCH).debuginfo
 
     TARGET_VARIANT:=$$(if $(ALL_VARIANTS),$$(if $$(VARIANT),$$(filter-out *,$$(VARIANT)),$(firstword $(ALL_VARIANTS))))
     ifeq ($(BUILD_VARIANT),$$(if $$(TARGET_VARIANT),$$(TARGET_VARIANT),$(BUILD_VARIANT)))
@@ -230,7 +231,15 @@ $(_endef)
 			$(PKG_BUILD_DIR)/CHECKSEC/$(1)/checksec_report_formatted.json \
 	)
     endif
+
+    ifneq ($$(CONFIG_EXTRACT_DEBUGINFO),)
+	[ ! -d $$(DBGINFO_$(1)) ] || rm -rf $$(DBGINFO_$(1))
+	mkdir -p $$(DBGINFO_$(1))
+	export DEBUGINFO_DIR=$$(DBGINFO_$(1)); \
+		$(RSTRIP) $$(IDIR_$(1))
+    else
 	$(RSTRIP) $$(IDIR_$(1))
+    endif
 
     ifneq ($$(CONFIG_IPK_FILES_CHECKSUMS),)
 	(cd $$(IDIR_$(1)); \
