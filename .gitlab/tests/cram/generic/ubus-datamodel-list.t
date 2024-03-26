@@ -282,9 +282,11 @@ Check that ubus has expected datamodels available:
   WiFi
   WiFi.AccessPoint
   WiFi.AutoCommitMgr
+  WiFi.AutoNeighbourAddition
   WiFi.EndPoint
   WiFi.Radio
   WiFi.SSID
+  WiFi.Vendor
   WiFi.wps_DefParam
   XPON
   XPON.ONU
