@@ -169,9 +169,6 @@ Check that wireless is operating:
   Interface wlan4
   Interface wlan4.1
   Interface wlan4.2
-  ssid dummy_ssid_2.4GHz
-  ssid dummy_ssid_5GHz
-  ssid dummy_ssid_6GHz
   ssid prplOS
   ssid prplOS
   ssid prplOS
