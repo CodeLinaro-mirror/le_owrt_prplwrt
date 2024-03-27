@@ -26,6 +26,15 @@ Set channel to a non DFS one
 
   $ sleep 1
 
+Configure correctly endpoint for Radio 1 (need to be removed when PPM-2806 is fixed):
+
+  $ R "ubus -S call WiFi.Radio.1 _set '{\"parameters\":{\"STASupported_Mode\":1}}'"
+  {"WiFi.Radio.1.":{"STASupported_Mode":true}}
+  {}
+  {"amxd-error-code":0}
+
+  $ sleep 1
+
 Check that wireless has desired configuration and state after boot:
 
   $ R "ubus -S call WiFi.SSID _get | jsonfilter -e @[*].SSID -e @[*].Status | sort"
@@ -152,6 +161,7 @@ Check that wireless is operating:
   Interface wlan0
   Interface wlan0.1
   Interface wlan0.2
+  Interface wlan1
   Interface wlan2
   Interface wlan2.1
   Interface wlan2.2
