@@ -9,7 +9,7 @@
     DUT_CPU_SUBTYPE: neon-vfpv4
     DUT_WAN_INTERFACE: wan
     LABGRID_TARGET: wnc-freedom-initramfs
-    TFTP_IMAGE_FILENAME: prplos-ipq95xx-prpl_freedom-initramfs-uImage.itb
-    TFTP_IMAGE_FILENAME_PATTERN: /.*prplos-ipq95xx-prpl_freedom-initramfs-uImage.itb/
+    TFTP_IMAGE_FILENAME: prplos-ipq95xx-generic-prpl_freedom-initramfs-uImage.itb
+    TFTP_IMAGE_FILENAME_PATTERN: /.*prplos-ipq95xx-generic-prpl_freedom-initramfs-uImage.itb/
   tags:
     - dut-wnc-freedom
