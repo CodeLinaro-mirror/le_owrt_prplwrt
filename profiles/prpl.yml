@@ -4,7 +4,7 @@ feeds:
   - name: feed_prpl
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-prpl.git
     tracking_branch: prplos
-    revision: e63387972375fe1306b64aeaa1bf96ffc0ba5590
+    revision: c29f32c856bd9968dbcbb71a9cb4f5ae794af2d9
 
 additional_packages:
   - feed: packages
@@ -21,6 +21,7 @@ additional_packages:
 packages:
   - acl-manager
   - amx-cli
+  - amx-processmonitor
   - cthulhu
   - cthulhu-dhcpc
   - cthulhu-lxc
@@ -132,6 +133,7 @@ packages:
   - tr069-manager
   - tr181-bridging
   - tr181-button
+  - tr181-captiveportal
   - tr181-device
   - tr181-dhcpv4client
   - tr181-dhcpv6client
@@ -151,6 +153,7 @@ packages:
   - tr181-rest-api
   - tr181-routeradvertisement
   - tr181-security
+  - tr181-syslog
   - tr181-upnp
   - tr181-usermanagement
   - tr181-xpon
@@ -160,6 +163,7 @@ packages:
 diffconfig: |
           CONFIG_JSON_CYCLONEDX_SBOM=y
           CONFIG_PACKAGE_ppp-prpl=y
+          CONFIG_SAH_AMX_USERMANAGEMENT_DISABLE_PASSWORD_HASHED_FORMAT_STORAGE=y
           CONFIG_PACKAGE_unbound-daemon-prpl=y
           # CONFIG_PACKAGE_ppp is not set
           # CONFIG_PACKAGE_miniupnpd is not set
