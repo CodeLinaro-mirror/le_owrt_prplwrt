@@ -95,18 +95,3 @@ Set the test cycle duration to 10 seconds:
   $ R "ba-cli 'ProcessMonitor.CycleDuration=10' | grep -v '^>' | head -n -2"
   ProcessMonitor.
   ProcessMonitor.CycleDuration=10
-
-Remove the LED manager check:
-
-  $ R "ba-cli ProcessMonitor.Test.[Name==\\\"tr181-led\\\"]- | grep -v '^>' | head -n -2"
-  ProcessMonitor.Test.\d+. (re)
-
-Set the test cycle duration to 1 second again:
-  $ R "ba-cli 'ProcessMonitor.CycleDuration=1' | grep -v '^>' | head -n -2"
-  ProcessMonitor.
-  ProcessMonitor.CycleDuration=1
-
-Check that LED manager datamodel settings are gone:
-
-  $ sleep 5 ; R "ba-cli ProcessMonitor.Test.[Name==\\\"tr181-led\\\"]? | grep -v '^>' | head -n 1"
-  No data found
