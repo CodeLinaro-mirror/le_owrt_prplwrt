@@ -4,7 +4,7 @@ feeds:
   - name: feed_prpl
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-prpl.git
     tracking_branch: prplos-22.03
-    revision: 275b5ad5c2ab5b9e43fc4cee410518a0b7ef9d5b
+    revision: 16d61026733a7039510272f0a1610528ff02396c
 
 additional_packages:
   - feed: packages
@@ -21,6 +21,7 @@ additional_packages:
 packages:
   - acl-manager
   - amx-cli
+  - amx-processmonitor
   - cthulhu
   - cthulhu-dhcpc
   - cthulhu-lxc

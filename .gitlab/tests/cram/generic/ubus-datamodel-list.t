@@ -227,6 +227,8 @@ Check that ubus has expected datamodels available:
   PersistentConfiguration.Config
   PersistentConfiguration.Config.Security
   PersistentConfiguration.Service
+  ProcessMonitor
+  ProcessMonitor.Test
   ProxyManager
   QoS
   QoS.Classification
