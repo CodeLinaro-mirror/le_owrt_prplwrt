@@ -9,7 +9,7 @@ feeds:
   - name: feed_qca
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-qca.git
     tracking_branch: dev/ath12.4.0cs-ipq95xx
-    revision: 8474660a312228c543729a37a1566642ee2c257c
+    revision: fb659cb42b15184cafc75b0f03e36cd357c40b68
 
 packages:
   - ipq95xx
@@ -21,6 +21,7 @@ packages:
   - aq_phy
   - qca-ssdk-shell
   - io-expander-freedom
+  - wireless-freedom
   - mod-whm-qca-ipq95xx
   - kmod-usb-phy-ipq807x
   - kmod-usb-dwc3-internal
