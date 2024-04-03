@@ -17,7 +17,7 @@ Disable autochannel :
 
   $ sleep 1
 
-Set channel to a non DFS one
+Set channel to a non DFS one:
 
   $ R "ubus -S call WiFi.Radio.2 _set '{\"parameters\":{\"Channel\":36}}'"
   {"WiFi.Radio.2.":{"Channel":36}}
@@ -34,6 +34,15 @@ Configure correctly endpoint for Radio 1 (need to be removed when PPM-2806 is fi
   {"amxd-error-code":0}
 
   $ sleep 1
+
+
+Switch channel bandwith from 160 to 80 Mhz to avoid doing DFS CAC operation, that lead to long delay before vaps being up (to be removed when PPM 2810 is fixed):
+
+  $ R "ubus -S call WiFi.Radio.2 _set '{\"parameters\":{\"OperatingChannelBandwidth\":\"80MHz\"}}'"
+  {"WiFi.Radio.2.":{"OperatingChannelBandwidth":"80MHz"}}
+  {}
+  {"amxd-error-code":0}
+
 
 Check that wireless has desired configuration and state after boot:
 
