@@ -2,6 +2,24 @@ Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
+Set channel to a non DFS one:
+
+  $ R "ubus -S call WiFi.Radio.1 _set '{\"parameters\":{\"Channel\":36}}'"
+  {"WiFi.Radio.1.":{"Channel":36}}
+  {}
+  {"amxd-error-code":0}
+
+  $ sleep 1
+
+Switch channel bandwith from 160 to 80 Mhz to avoid doing DFS CAC operation, that lead to long delay before vaps being up (to be removed when PPM 2810 is fixed):
+
+  $ R "ubus -S call WiFi.Radio.1 _set '{\"parameters\":{\"OperatingChannelBandwidth\":\"80MHz\"}}'"
+  {"WiFi.Radio.1.":{"OperatingChannelBandwidth":"80MHz"}}
+  {}
+  {"amxd-error-code":0}
+
+  $ sleep 1
+
 Check that wireless has desired configuration and state after boot:
 
   $ R "ubus -S call WiFi.SSID _get | jsonfilter -e @[*].SSID -e @[*].Status | sort"
