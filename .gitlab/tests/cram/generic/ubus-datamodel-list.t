@@ -69,6 +69,7 @@ Check that ubus has expected datamodels available:
   Device.BulkData
   Device.Buttons
   Device.CWMPManagementServer
+  Device.CaptivePortal
   Device.ConMon
   Device.DHCPv4
   Device.DHCPv4.Client
@@ -122,6 +123,7 @@ Check that ubus has expected datamodels available:
   DeviceInfo.DeviceImageFile
   DeviceInfo.FirmwareImage
   DeviceInfo.Location
+  DeviceInfo.LogRotate
   DeviceInfo.MemoryStatus
   DeviceInfo.ProcessStatus
   DeviceInfo.ProcessStatus.Process
@@ -264,12 +266,8 @@ Check that ubus has expected datamodels available:
   SoftwareModules.NetworkConfig.Interfaces
   SoftwareModules.Plugins
   Syslog
-  Syslog.Destination
+  Syslog.Action
   Syslog.Filter
-  Syslog.Local
-  Syslog.Logger
-  Syslog.MQTT
-  Syslog.Remote
   Syslog.Source
   Syslog.Template
   Time
