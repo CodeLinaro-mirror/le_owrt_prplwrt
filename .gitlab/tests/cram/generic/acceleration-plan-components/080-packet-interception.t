@@ -5,7 +5,7 @@ Create R alias:
 Check PacketInterception root datamodel:
 
   $ R "ubus -S call PacketInterception _get"
-  {"PacketInterception.":{"InterceptionNumberOfEntries":1,"Enable":false,"PacketHandlerNumberOfEntries":1,"ConditionNumberOfEntries":5,"Status":"Disabled"}}
+  {"PacketInterception.":{"InterceptionNumberOfEntries":2,"Enable":false,"PacketHandlerNumberOfEntries":1,"ConditionNumberOfEntries":5,"Status":"Disabled"}}
   {}
   {"amxd-error-code":0}
 
