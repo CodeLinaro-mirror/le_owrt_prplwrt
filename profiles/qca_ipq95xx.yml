@@ -9,7 +9,7 @@ feeds:
   - name: feed_qca
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-qca.git
     tracking_branch: dev/ath12.4.0cs-ipq95xx
-    revision: fb659cb42b15184cafc75b0f03e36cd357c40b68
+    revision: 3896f5ffd55de2cd4e79401e6530425f4bf7eadc
 
 packages:
   - ipq95xx
