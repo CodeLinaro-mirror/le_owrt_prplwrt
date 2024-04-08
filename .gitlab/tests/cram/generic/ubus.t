@@ -77,7 +77,7 @@ Check that Users.Role component has expected setup:
 Check that we've correct hostname and release info:
 
   $ R "ubus -S call system board | jsonfilter -e '@.hostname' -e '@.release.distribution'"
-  prplOS
+  prplOS.lan
   prplOS
 
 Check that netifd service is running:
