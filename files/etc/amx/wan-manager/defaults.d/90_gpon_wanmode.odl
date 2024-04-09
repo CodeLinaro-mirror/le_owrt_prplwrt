@@ -1,0 +1,5 @@
+%populate {
+    object 'WANManager.WAN.[Alias=="demo_wanmode"]' {
+        parameter PhysicalType="GPON";
+    }
+}
