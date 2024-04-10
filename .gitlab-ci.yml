@@ -22,6 +22,7 @@ include:
   - local: .gitlab/testbed/turris-omnia.yml
   - local: .gitlab/testbed/urx851-hdk-3.yml
   - local: .gitlab/testbed/urx851-b0-dk-pon.yml
+  - local: .gitlab/testbed/mxl25641-hdk-6.yml
   - local: .gitlab/testbed/wnc-freedom.yml
 
 stages:
@@ -101,6 +102,12 @@ run test URX851-B0-DK-PON with system on eMMC:
     - job: build test mxl_x86 mxl_wlan_hostap_ng prpl security
       optional: true
   extends: .urx851-b0-dk-pon testbed
+
+run test MXL25641-HDK-6 with system on eMMC:
+  needs:
+    - job: build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl security
+      optional: true
+  extends: .mxl25641-hdk-6 testbed
 
 run test Freedom initramfs:
   needs:
