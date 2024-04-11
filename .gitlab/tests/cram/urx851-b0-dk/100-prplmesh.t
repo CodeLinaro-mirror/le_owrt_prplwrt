@@ -67,6 +67,15 @@ Check that wireless has desired configuration and state after boot:
   $ R "pgrep -f 'hostapd -ddt'"
   [1]
 
+
+!!!!FOR TEST!!!! 
+NEED TO BE REMOVED: take a snapshot of the WiFI DM
+
+  $ R "ubus-cli WiFi.? >> /etc/wifi_DM_snapshot_1.txt"
+
+!!!!END TEST LINE!!!!
+
+
 Restart prplmesh:
 
   $ R logger -t cram "Restart prplmesh"
@@ -75,6 +84,15 @@ Restart prplmesh:
   $ R "ubus -t 60 wait_for Device.WiFi"
 
 Start wireless:
+
+
+!!!!FOR TEST!!!! 
+NEED TO BE REMOVED: take a snapshot of the WiFI DM
+
+  $ R "ubus-cli WiFi.? >> /etc/wifi_DM_snapshot_2.txt"
+
+!!!!END TEST LINE!!!!
+
 
   $ R logger -t cram "Start wireless"
 
@@ -118,6 +136,14 @@ Start wireless:
   $ R "i=15 ; while [ \$i -gt 1 ]; do ubus -S call WiFi.SSID.4 _get '{\"rel_path\":\"Status\"}'| grep -q Up && echo 'SSID.4 Up' && i=0 ; i=\$(( i-1 )); sleep 2 ; done"
   SSID.4 Up
 
+
+!!!!FOR TEST!!!! 
+NEED TO BE REMOVED: take a snapshot of the WiFI DM
+
+  $ R "ubus-cli WiFi.? >> /etc/wifi_DM_snapshot_3.txt"
+
+!!!!END TEST LINE!!!!
+
   $ R "ubus -S call WiFi.AccessPoint.5 _set '{\"parameters\":{\"Enable\":1}}'"
   {"WiFi.AccessPoint.5.":{"Enable":true}}
   {}
@@ -137,6 +163,14 @@ Start wireless:
 
   $ R "i=15 ; while [ \$i -gt 1 ]; do ubus -S call WiFi.SSID.6 _get '{\"rel_path\":\"Status\"}'| grep -q Up && echo 'SSID.6 Up' && i=0 ; i=\$(( i-1 )); sleep 2 ; done"
   SSID.6 Up
+
+
+!!!!FOR TEST!!!! 
+NEED TO BE REMOVED: take a snapshot of the WiFI DM
+
+  $ R "ubus-cli WiFi.? >> /etc/wifi_DM_snapshot_4.txt"
+
+!!!!END TEST LINE!!!!
 
 Check that hostapd is operating as expected:
 
@@ -230,6 +264,14 @@ Check that prplmesh is in operational state:
   wlan4
   wlan4.0
   wlan4.1
+
+
+!!!!FOR TEST!!!! 
+NEED TO BE REMOVED: take a snapshot of the WiFI DM
+
+  $ R "ubus-cli WiFi.? >> /etc/wifi_DM_snapshot_5.txt"
+
+!!!!END TEST LINE!!!!
 
 Disable wireless:
 
