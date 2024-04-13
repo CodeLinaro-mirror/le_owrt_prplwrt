@@ -139,13 +139,14 @@ class TestbedDevice:
 
     def _init_lan_vlan(self):
         bridge_lan_ports = {
-            "mxl,lgm": "Bridging.Bridge.1.Port.3",
+            "mxl,lightning mountainmxl,lgp": "Bridging.Bridge.1.Port.3",
             "prpl,haze": "Bridging.Bridge.1.Port.4",
             "cznic,turris-omnia": "Bridging.Bridge.2.Port.5",
             "EASY350 ANYWAN (GRX350) Axepoint Asurada model": "Bridging.Bridge.1.Port.5",
         }
         bridge_vlan_port = bridge_lan_ports.get(
-            self.board_name, "Bridging.Bridge.1.Port.2"
+            self.board_name,
+            bridge_lan_ports.get(self.model, "Bridging.Bridge.1.Port.2"),
         )
 
         self.shell.run('ubus-cli Bridging.Bridge.1.Standard="802.1Q-2005"')
@@ -171,8 +172,9 @@ class TestbedDevice:
             logging.error("Unable to determine running DUT board!")
             return
 
+        self.model = system_info["model"]
         self.board_name = system_info["board_name"]
-        logging.info(f"Running on {self.board_name} board")
+        logging.info(f"Running on `{self.board_name}` board, model is `{self.model}`.")
 
         self.ubus_tr181 = UbusTR181(self.args, self.shell)
         self._init_wan_vlan()
