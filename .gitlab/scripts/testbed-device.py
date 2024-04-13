@@ -139,6 +139,7 @@ class TestbedDevice:
 
     def _init_lan_vlan(self):
         bridge_lan_ports = {
+            "mxl,lightning mountainmxl,octopusmxl,octopus-641": "Bridging.Bridge.1.Port.4",
             "mxl,lightning mountainmxl,lgp": "Bridging.Bridge.1.Port.3",
             "prpl,haze": "Bridging.Bridge.1.Port.4",
             "cznic,turris-omnia": "Bridging.Bridge.2.Port.5",
