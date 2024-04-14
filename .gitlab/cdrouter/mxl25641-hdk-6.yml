@@ -1,6 +1,6 @@
 .mxl25641-cdrouter: &mxl25641_cdrouter
   needs:
-    - job: mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl security
+    - job: build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl security
       optional: true
   extends:
     - .mxl25641-hdk-6 testbed
