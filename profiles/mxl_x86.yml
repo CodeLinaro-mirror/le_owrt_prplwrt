@@ -90,6 +90,14 @@ feeds:
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_mcast_service.git
     tracking_branch:  master
     revision: a2cb18bb1b8ba93d65461c8f7e9786decf837619
+  - name: ugw_sdk
+    uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_ugw_sdk.git
+    tracking_branch: updk_9.1.60
+    revision: 5313eed4ab679238d5d14f065d6a393f0ff0952c
+  - name: system_service
+    uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_system_service.git
+    tracking_branch: updk_9.1.60
+    revision: a04cd68f4f7c81d562a55104716b758132fa5a9d
 
 packages:
   - kmod-mxl_eth_drv
@@ -156,6 +164,10 @@ packages:
   - kmod-mcast-helper
   - libmcastdaemon
   - libmcastfapi
+  - libugwhelper
+  - libmsgapi
+  - sse_fapi_lgm
+  - sse_fapi_lgm-sse_test_app
   - mcastcli
     #voice
   - kmod-voice-tapi
@@ -172,6 +184,9 @@ packages:
   - voice-tapidemo-slic
   - voice-tapidump
   - kmod-mxl_gpy
+  #- secure-utils
+  - secure_upgrade_utils
+  - fwupgrade
 
 diffconfig: |
   CONFIG_DEVEL=y
@@ -193,4 +208,5 @@ diffconfig: |
   CONFIG_BUSYBOX_CONFIG_FEATURE_TFTP_GET=y
   CONFIG_BUSYBOX_CONFIG_FEATURE_TFTP_PUT=y
   CONFIG_BUSYBOX_CONFIG_TFTP=y
+  CONFIG_LGM_EIP123_SUPPORT=y
   CONFIG_KERNEL_FTRACE=y
