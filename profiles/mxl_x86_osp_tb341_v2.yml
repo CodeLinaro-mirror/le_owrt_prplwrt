@@ -12,12 +12,12 @@ description: Build images for the Maxlinear x86 devices - OSP TB341 v2
 feeds:
   - name: intel_x86
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_target_x86.git
-    tracking_branch: updk_9.1.55
-    revision: e9cf2af8532ec46ddb554c60a0dd35bf20713e0b
+    tracking_branch: updk_9.1.60
+    revision: 567954ab279015071be32e015cd4c664e0897bcc
   - name: rootfs
     uri: ssh://git@git.maxlinear.com/ugw/rootfs.git
-    tracking_branch: updk_9.1.55
-    revision: 305937c3176f78c5557dbfee3d807594538bba72
+    tracking_branch: updk_9.1.60
+    revision: f43f91d815f47e8b84afb9b67d88c1c4f74292ca
   - name: 3rdparty
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_3rdparty.git
     tracking_branch: master
@@ -53,7 +53,7 @@ feeds:
   - name: ppa
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_ppa.git
     tracking_branch: master
-    revision: 164a33b2ade7e25174598dbab59f04edceded608
+    revision: eeb4e7575d413eca3d79b8b6b00e2c310d2d59b5
   - name: pp_net_adapter
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_pp_net_adapter.git
     tracking_branch: master
@@ -68,12 +68,12 @@ feeds:
     revision: 8904e7fbb73db1d880d7f14139cb971296275c9b
   - name: utils
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_ugw_utils.git
-    tracking_branch: master
-    revision: 84e8f73931906e7c5208fdac00fd5181dd7fa16d
+    tracking_branch: updk_9.1.60
+    revision: 36194ccc5d21e3988689d0fdea91be4e6b5ff0f7
   - name: bootloader
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_uboot.git
-    tracking_branch: updk_9.1.50
-    revision: b53cb1932ae3c1a65a6c70b4759b206b5480a484
+    tracking_branch: u-boot-2022.01_prpl
+    revision: 6f17b620632364f1f7271b0f6fe3d02cb5222819
   - name: dpl
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_dpl.git
     tracking_branch:  master
@@ -94,11 +94,6 @@ feeds:
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_system_service.git
     tracking_branch: updk_9.1.60
     revision: a04cd68f4f7c81d562a55104716b758132fa5a9d
-
-additional_packages:
-  - feed: packages
-    packages:
-      - strongswan
 
 packages:
   - kmod-mxl_eth_drv
@@ -178,7 +173,7 @@ packages:
 diffconfig: |
   CONFIG_DEVEL=y
   CONFIG_KERNEL_GIT_CLONE_URI="git@git.maxlinear.com:mxl/linux.git"
-  CONFIG_KERNEL_GIT_REF="UPDK_9.1.55"
+  CONFIG_KERNEL_GIT_REF="UPDK_9.1.60"
   CONFIG_GPON_OMCI_ONU_UBUS_INTERFACE=y
   CONFIG_TARGET_MULTI_PROFILE=y
   CONFIG_TARGET_PER_DEVICE_ROOTFS=y
