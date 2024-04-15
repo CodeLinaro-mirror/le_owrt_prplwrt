@@ -102,6 +102,7 @@ packages:
   - kmod-packet_learn
   - ppv4-firmware-lgm
   - kmod-intel_ppv4_fw_lgm
+  - kmod-intel-extmark-x86
   - kmod-ppv4
   - kmod-p34x_phy_fwdl
   - mxl-gphy-fw-lgm
