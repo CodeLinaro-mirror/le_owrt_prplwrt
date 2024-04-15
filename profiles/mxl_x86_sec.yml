@@ -161,6 +161,8 @@ packages:
   - kmod-mxl_gpy
   - libhelper
   - libscapi
+  - libugwhelper
+  - libmsgapi
   - kmod-sse_driver_lgm
   - kmod-sse_ssal_driver_lgm
   - sse_fapi_lgm
@@ -169,6 +171,9 @@ packages:
   - libmcastdaemon
   - libmcastfapi
   - mcastcli
+  #- secure-utils
+  - secure_upgrade_utils
+  - fwupgrade
 
 diffconfig: |
   CONFIG_DEVEL=y
