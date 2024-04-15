@@ -108,6 +108,7 @@ Check that ubus has expected datamodels available:
   Device.SSH
   Device.Security
   Device.SoftwareModules
+  Device.Syslog
   Device.Time
   Device.UPnP
   Device.UPnP.Description
