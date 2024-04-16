@@ -16,16 +16,13 @@ Check logs appears in /var/log/messages with expected format:
 
 Check that filtering and command are working as expected (testing dhcp)
 
-  $ dhcplogfile=$(R "ubus call Syslog.Action _get '{\"rel_path\":\"[Alias==\\\"dhcp\\\"].LogFile.FilePath\"}' | jsonfilter -e @[*].FilePath")
-  $ dhcplogfile=$( echo $dhcplogfile | sed -E 's|.*file://(.*)|\1|' )
+  $ dhcplogfile=$(R "ba-cli 'Syslog.Action.[Alias==\"dhcp\"].LogFile.FilePath?'" | grep -v '^>' | head -n -2  | sed -E 's|.*"file://(.*)"|\1|')
   $ R "test -s $dhcplogfile && echo 'log file is non empty'"
   log file is non empty
 
-  $ dhcppattern=$(R "ubus call Syslog.Filter _get '{\"rel_path\":\"[Alias==\\\"dhcp\\\"].PatternMatch\"}' | jsonfilter -e @[*].PatternMatch")
-  $ dhcppattern=$( echo $dhcppattern |tr -d ^ )
-  $ R "grep -v -E '^$datepattern prplOS $dhcppattern' $dhcplogfile" || echo "Only expect filtered log found"
+  $ dhcppattern=$(R "ba-cli 'Syslog.Filter.[Alias==\"dhcp\"].PatternMatch?'" | grep -v '^>' | head -n -2 | sed -E 's|.*="\^?(.+?)"|\1|')
+  $ R "grep -v -E '^$datepattern [^ ]+ $dhcppattern' $dhcplogfile" || echo "Only expect filtered log found"
   Only expect filtered log found
-
 
 Following section will test network sources and remote logging:
 - source listen on br-lan 12345 (and open corresponding firewall port)
@@ -33,7 +30,7 @@ Following section will test network sources and remote logging:
 - localhost source configured by default as a ref for main
 - send a netcat message on first source and check it is written both in specific logfile and /var/log/messages
 
-setup all trhough TR181
+Setup all trhough TR181
 
   $ logmarker="CRAM remote log test"
   $ srcref=$(R "ba-cli 'Syslog.Source.+{Alias=\"cramRemoteSrc\",Network.Interface=\"Device.IP.Interface.3.\", Network.Port=\"12345\", Network.Enable=1}'| grep -E '^Syslog\.Source\.[0-9]+\.$'  ")
