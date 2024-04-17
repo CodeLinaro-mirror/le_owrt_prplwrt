@@ -226,7 +226,7 @@ diffconfig: |
           CONFIG_IMAGEOPT=y
           CONFIG_VERSIONOPT=y
           CONFIG_VERSION_DIST="prplOS"
-          CONFIG_VERSION_REPO="https://downloads.openwrt.org/releases/22.03-SNAPSHOT"
+          CONFIG_VERSION_REPO="https://downloads.openwrt.org/releases/23.05-SNAPSHOT"
           CONFIG_VERSION_HOME_URL="https://prplfoundation.org"
           CONFIG_VERSION_MANUFACTURER="prpl Foundation"
           CONFIG_VERSION_MANUFACTURER_URL="https://prplfoundation.org"
