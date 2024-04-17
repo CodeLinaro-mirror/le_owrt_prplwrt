@@ -3,8 +3,8 @@ description: Add the prpl features
 feeds:
   - name: feed_prpl
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-prpl.git
-    tracking_branch: prplos
-    revision: 31e306e321c8a8b75cf48bafde42da4d31fac985
+    tracking_branch: prpl/nightly
+    revision: 16ce1d6db36cb6d2ea659a5297c2be39b1beae8a
 
 additional_packages:
   - feed: packages
