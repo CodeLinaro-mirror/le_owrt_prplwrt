@@ -121,7 +121,6 @@ packages:
   - procps-ng-pkill
   - procps-ng-uptime
   - prpl-webui
-  - prplmesh
   - rlyeh
   - routing-manager
   - ssh-server
