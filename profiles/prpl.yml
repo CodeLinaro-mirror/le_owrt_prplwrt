@@ -12,10 +12,6 @@ additional_packages:
       - chrony
       - libnl-core
       - libnl-route
-      - lighttpd
-      - lighttpd-mod-auth
-      - lighttpd-mod-authn_file
-      - lighttpd-mod-fastcgi
       - syslog-ng2
 
 packages:
@@ -86,7 +82,6 @@ packages:
   - mod-dns-unbound
   - mod-fw-amx
   - mod-fw-host
-  - mod-httpaccess-lighttpd
   - mod-logical-api
   - mod-lua-amx
   - mod-ppp-daemon
@@ -120,7 +115,6 @@ packages:
   - procps-ng-pgrep
   - procps-ng-pkill
   - procps-ng-uptime
-  - prpl-webui
   - rlyeh
   - routing-manager
   - ssh-server
@@ -145,7 +139,6 @@ packages:
   - tr181-neighbordiscovery
   - tr181-ppp
   - tr181-qos
-  - tr181-rest-api
   - tr181-routeradvertisement
   - tr181-security
   - tr181-upnp
