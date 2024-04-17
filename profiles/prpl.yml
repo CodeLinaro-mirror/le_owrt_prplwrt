@@ -129,7 +129,6 @@ packages:
   - timingila
   - timingila-cthulhu
   - timingila-rlyeh
-  - tr069-manager
   - tr181-bridging
   - tr181-button
   - tr181-device
