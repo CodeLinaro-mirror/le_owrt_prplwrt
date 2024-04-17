@@ -172,6 +172,7 @@ packages:
 
 diffconfig: |
   CONFIG_DEVEL=y
+  CONFIG_EXTRA_OPTIMIZATION="-fno-caller-saves -fno-plt -Wno-error=deprecated-declarations -Wno-error=address"
   CONFIG_KERNEL_GIT_CLONE_URI="git@git.maxlinear.com:mxl/linux.git"
   CONFIG_KERNEL_GIT_REF="updk_9.1.60_openwrt_23.05"
   CONFIG_GPON_OMCI_ONU_UBUS_INTERFACE=y
