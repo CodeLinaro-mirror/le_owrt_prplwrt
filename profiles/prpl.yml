@@ -174,8 +174,7 @@ diffconfig: |
           CONFIG_PACKAGE_rpcd-mod-luci=y
           CONFIG_PACKAGE_ip-full=y
           CONFIG_PACKAGE_ip-bridge=y
-          CONFIG_SYSLOGNG_LOGROTATE=y
-          CONFIG_SYSLOGNG_LOGROTATE_MAXSIZE="5M"
+          CONFIG_PACKAGE_logrotate=y
           CONFIG_PACKAGE_mod-xpon-prpl-mock=m
           # CONFIG_PACKAGE_firewall4 is not set
           # CONFIG_PACKAGE_logd is not set
