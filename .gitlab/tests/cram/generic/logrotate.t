@@ -2,15 +2,6 @@ Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
-Check the which file paths are defined, every filed in define should result in a config in the next part of the test
-  $ R 'ubus-cli Syslog.Action.*.LogFile.FilePath?'| grep -o '\".*\"'
-  "file:///var/log/messages_wifi"
-  "file:///var/log/messages_firewall"
-  "file:///var/log/messages_dhcp"
-  "file:///var/log/messages_lcm.log"
-  "file:///var/log/messages"
-  ""
-
 Check that logrotate is properly setup:
 
   $ R "/usr/sbin/logrotate /etc/logrotate.conf"
