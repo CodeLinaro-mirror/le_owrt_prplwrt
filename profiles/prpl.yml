@@ -187,7 +187,7 @@ diffconfig: |
           CONFIG_USE_PRPLMESH_WHM=y
           CONFIG_SAH_WLD_INIT_SCRIPT="prplmesh_whm"
           CONFIG_PRPL_CONTROLLER_ROOT_PATH="X_PRPL-ORG_WiFiController"
-          CONFIG_PACKAGE_prplmesh-unit-tests=m
+          # CONFIG_PACKAGE_prplmesh-unit-tests is not set
           # kernel options for lcm
           CONFIG_KERNEL_ARM_PMU=y
           CONFIG_KERNEL_BLK_CGROUP=y
