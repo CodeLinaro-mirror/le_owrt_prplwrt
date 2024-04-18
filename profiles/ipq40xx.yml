@@ -10,3 +10,4 @@ packages:
 
 diffconfig: |
   CONFIG_TESTING_KERNEL=y
+  CONFIG_KERNEL_WERROR=y
