@@ -159,6 +159,7 @@ packages:
   - wan-manager
 
 diffconfig: |
+          CONFIG_KERNEL_WERROR=y
           CONFIG_JSON_CYCLONEDX_SBOM=y
           CONFIG_PACKAGE_ppp-prpl=y
           CONFIG_PACKAGE_unbound-daemon-prpl=y
