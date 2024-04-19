@@ -160,7 +160,7 @@ packages:
 
 diffconfig: |
           CONFIG_DEVEL=y
-          CONFIG_EXTRA_OPTIMIZATION="-fno-caller-saves -fno-plt -Wno-error=deprecated-declarations"
+          CONFIG_EXTRA_OPTIMIZATION="-fno-caller-saves -fno-plt -Wno-error=deprecated-declarations -Wno-error=address"
           CONFIG_KERNEL_WERROR=y
           CONFIG_JSON_CYCLONEDX_SBOM=y
           CONFIG_PACKAGE_ppp-prpl=y
