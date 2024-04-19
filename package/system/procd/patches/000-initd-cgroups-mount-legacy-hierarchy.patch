@@ -48,10 +48,10 @@
  early_mounts(void)
  {
  	unsigned int oldumask = umask(0);
-@@ -60,7 +94,9 @@ early_mounts(void)
- 	if (!is_container()) {
- 		mount("proc", "/proc", "proc", MS_NOATIME | MS_NODEV | MS_NOEXEC | MS_NOSUID, 0);
- 		mount("sysfs", "/sys", "sysfs", MS_NOATIME | MS_NODEV | MS_NOEXEC | MS_NOSUID, 0);
+@@ -61,7 +95,9 @@ early_mounts(void)
+ 		mount("proc", "/proc", "proc", MS_NOATIME | MS_NODEV | MS_NOEXEC | MS_NOSUID, NULL);
+ 		mount("sysfs", "/sys", "sysfs", MS_NOATIME | MS_NODEV | MS_NOEXEC | MS_NOSUID, NULL);
+ 		mount("efivars", "/sys/firmware/efi/efivars", "efivarfs", MS_NOATIME | MS_NODEV | MS_NOEXEC | MS_NOSUID, NULL);
 -		mount("cgroup2", "/sys/fs/cgroup", "cgroup2",  MS_NODEV | MS_NOEXEC | MS_NOSUID | MS_RELATIME, "nsdelegate");
 +		LOG("Attempting to mount cgroups (tmpfs + controller subdirs)\n");
 +		mount("cgroup2", PATH_CGROUP, "tmpfs", MS_NODEV | MS_NOEXEC | MS_NOSUID, "size=512K");

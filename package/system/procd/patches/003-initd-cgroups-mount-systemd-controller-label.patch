@@ -1,6 +1,6 @@
 --- a/initd/early.c
 +++ b/initd/early.c
-@@ -115,6 +115,13 @@ early_mounts(void)
+@@ -116,6 +116,13 @@ early_mounts(void)
  		mount("cgroup2", PATH_CGROUP, "tmpfs", MS_NODEV | MS_NOEXEC | MS_NOSUID, "size=512K");
  		mount_cgroup_controllers();
  		init_cpuset();
