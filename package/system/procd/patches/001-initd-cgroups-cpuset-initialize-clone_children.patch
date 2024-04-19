@@ -31,7 +31,7 @@
  early_mounts(void)
  {
  	unsigned int oldumask = umask(0);
-@@ -97,6 +114,7 @@ early_mounts(void)
+@@ -98,6 +115,7 @@ early_mounts(void)
  		LOG("Attempting to mount cgroups (tmpfs + controller subdirs)\n");
  		mount("cgroup2", PATH_CGROUP, "tmpfs", MS_NODEV | MS_NOEXEC | MS_NOSUID, "size=512K");
  		mount_cgroup_controllers();
