@@ -6,7 +6,7 @@ build Docker image sdk-mvebu-cortexa9:
     DOCKER_BUILD_EXTRA_ARGS: --build-arg DESIGNATED_BRANCH=$CI_DESIGNATED_BRANCH
   extends: .build Docker image
   before_script:
-    - tar xf bin/targets/mvebu/cortexa9/openwrt-sdk-mvebu-cortexa9_gcc*Linux-x86_64.tar.xz --strip=1 -C .gitlab/docker/sdk
+    - tar xf bin/targets/mvebu/cortexa9/prplos-sdk-mvebu-cortexa9_gcc*Linux-x86_64.tar.xz --strip=1 -C .gitlab/docker/sdk
 
 test Docker image sdk-mvebu-cortexa9:
   extends: .test Docker SDK image
@@ -26,7 +26,7 @@ build Docker image sdk-x86-64:
     DOCKER_BUILD_EXTRA_ARGS: --build-arg DESIGNATED_BRANCH=$CI_DESIGNATED_BRANCH
   extends: .build Docker image
   before_script:
-    - tar xf bin/targets/x86/64/openwrt-sdk-x86-64_gcc*.Linux-x86_64.tar.xz --strip=1 -C .gitlab/docker/sdk
+    - tar xf bin/targets/x86/64/prplos-sdk-x86-64_gcc*.Linux-x86_64.tar.xz --strip=1 -C .gitlab/docker/sdk
 
 test Docker image sdk-x86-64:
   extends: .test Docker SDK image
@@ -46,7 +46,7 @@ build Docker image sdk-ipq807x-generic:
     DOCKER_BUILD_EXTRA_ARGS: --build-arg DESIGNATED_BRANCH=$CI_DESIGNATED_BRANCH
   extends: .build Docker image
   before_script:
-    - tar xf bin/targets/ipq807x/generic/openwrt-sdk-ipq807x-generic_gcc*.Linux-x86_64.tar.xz --strip=1 -C .gitlab/docker/sdk
+    - tar xf bin/targets/ipq807x/generic/prplos-sdk-ipq807x-generic_gcc*.Linux-x86_64.tar.xz --strip=1 -C .gitlab/docker/sdk
 
 test Docker image sdk-ipq807x-generic:
   extends: .test Docker SDK image
@@ -66,7 +66,7 @@ build Docker image sdk-qca_ipq95xx-generic:
     DOCKER_BUILD_EXTRA_ARGS: --build-arg DESIGNATED_BRANCH=$CI_DESIGNATED_BRANCH
   extends: .build Docker image
   before_script:
-    - tar xf bin/targets/ipq95xx/generic/openwrt-sdk-ipq95xx-generic_gcc*.Linux-x86_64.tar.xz --strip=1 -C .gitlab/docker/sdk
+    - tar xf bin/targets/ipq95xx/generic/prplos-sdk-ipq95xx-generic_gcc*.Linux-x86_64.tar.xz --strip=1 -C .gitlab/docker/sdk
 
 test Docker image sdk-qca_ipq95xx-generic:
   extends: .test Docker SDK image
