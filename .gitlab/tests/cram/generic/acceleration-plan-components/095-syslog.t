@@ -58,6 +58,5 @@ Check log marker is in global message file (local action remote log --> default 
 Cleanup:
   $ R rm "/var/log/messages_cram"
   $ R "ba-cli 'Syslog.Action.[Alias==\"cramRemoteDst\"]-'" >/dev/null
-#FIXME : PCF-1166
-#$ R "ba-cli 'Syslog.Source.[Alias==\"cramRemoteSrc\"]-'" >/dev/null
+  $ R "ba-cli 'Syslog.Source.[Alias==\"cramRemoteSrc\"]-'" >/dev/null
   $ R "ba-cli 'Firewall.Service.[Alias==\"cram-syslog\"]-'" >/dev/null
