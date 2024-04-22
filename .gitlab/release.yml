@@ -20,46 +20,46 @@ upload:
     # mvebu
     - |
       curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
-        --upload-file bin/targets/mvebu/cortexa9/openwrt-mvebu-cortexa9-cznic_turris-omnia-initramfs-kernel.bin \
-        ${PACKAGE_REGISTRY_URL}/turris-omnia/${prplos_version}/openwrt-mvebu-cortexa9-cznic_turris-omnia-initramfs-kernel.bin
+        --upload-file bin/targets/mvebu/cortexa9/prplos-mvebu-cortexa9-cznic_turris-omnia-initramfs-kernel.bin \
+        ${PACKAGE_REGISTRY_URL}/turris-omnia/${prplos_version}/prplos-mvebu-cortexa9-cznic_turris-omnia-initramfs-kernel.bin
 
     - |
       curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
-        --upload-file bin/targets/mvebu/cortexa9/openwrt-mvebu-cortexa9-cznic_turris-omnia-sysupgrade.img.gz \
-        ${PACKAGE_REGISTRY_URL}/turris-omnia/${prplos_version}/openwrt-mvebu-cortexa9-cznic_turris-omnia-sysupgrade.img.gz
+        --upload-file bin/targets/mvebu/cortexa9/prplos-mvebu-cortexa9-cznic_turris-omnia-sysupgrade.img.gz \
+        ${PACKAGE_REGISTRY_URL}/turris-omnia/${prplos_version}/prplos-mvebu-cortexa9-cznic_turris-omnia-sysupgrade.img.gz
 
     # x86
     - |
       curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
-        --upload-file bin/targets/x86/64/openwrt-x86-64-generic-initramfs-kernel.bin \
-        ${PACKAGE_REGISTRY_URL}/x86-64/${prplos_version}/openwrt-x86-64-generic-initramfs-kernel.bin
+        --upload-file bin/targets/x86/64/prplos-x86-64-generic-initramfs-kernel.bin \
+        ${PACKAGE_REGISTRY_URL}/x86-64/${prplos_version}/prplos-x86-64-generic-initramfs-kernel.bin
 
     - |
       curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
-        --upload-file bin/targets/x86/64/openwrt-x86-64-generic-squashfs-combined-efi.img \
-        ${PACKAGE_REGISTRY_URL}/x86-64/${prplos_version}/openwrt-x86-64-generic-squashfs-combined-efi.img
+        --upload-file bin/targets/x86/64/prplos-x86-64-generic-squashfs-combined-efi.img \
+        ${PACKAGE_REGISTRY_URL}/x86-64/${prplos_version}/prplos-x86-64-generic-squashfs-combined-efi.img
 
     # ipq807x
     - |
       curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
-        --upload-file bin/targets/ipq807x/generic/openwrt-ipq807x-generic-prpl_haze-initramfs-uImage.itb \
-        ${PACKAGE_REGISTRY_URL}/prpl-haze/${prplos_version}/openwrt-ipq807x-generic-prpl_haze-initramfs-uImage.itb
+        --upload-file bin/targets/ipq807x/generic/prplos-ipq807x-generic-prpl_haze-initramfs-uImage.itb \
+        ${PACKAGE_REGISTRY_URL}/prpl-haze/${prplos_version}/prplos-ipq807x-generic-prpl_haze-initramfs-uImage.itb
 
     - |
       curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
-        --upload-file bin/targets/ipq807x/generic/openwrt-ipq807x-generic-prpl_haze-squashfs-sysupgrade.bin \
-        ${PACKAGE_REGISTRY_URL}/prpl-haze/${prplos_version}/openwrt-ipq807x-generic-prpl_haze-squashfs-sysupgrade.bin
+        --upload-file bin/targets/ipq807x/generic/prplos-ipq807x-generic-prpl_haze-squashfs-sysupgrade.bin \
+        ${PACKAGE_REGISTRY_URL}/prpl-haze/${prplos_version}/prplos-ipq807x-generic-prpl_haze-squashfs-sysupgrade.bin
 
     # qca_ipq95xx
     - |
       curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
-        --upload-file bin/targets/ipq95xx/generic/openwrt-ipq95xx-prpl_freedom-initramfs-uImage.itb \
-        ${PACKAGE_REGISTRY_URL}/wnc-freedom/${prplos_version}/openwrt-ipq95xx-prpl_freedom-initramfs-uImage.itb
+        --upload-file bin/targets/ipq95xx/generic/prplos-ipq95xx-prpl_freedom-initramfs-uImage.itb \
+        ${PACKAGE_REGISTRY_URL}/wnc-freedom/${prplos_version}/prplos-ipq95xx-prpl_freedom-initramfs-uImage.itb
 
     - |
       curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
-        --upload-file bin/targets/ipq95xx/generic/openwrt-ipq95xx-prpl_freedom-squashfs-sysupgrade.bin \
-        ${PACKAGE_REGISTRY_URL}/wnc-freedom/${prplos_version}/openwrt-ipq95xx-prpl_freedom-squashfs-sysupgrade.bin
+        --upload-file bin/targets/ipq95xx/generic/prplos-ipq95xx-prpl_freedom-squashfs-sysupgrade.bin \
+        ${PACKAGE_REGISTRY_URL}/wnc-freedom/${prplos_version}/prplos-ipq95xx-prpl_freedom-squashfs-sysupgrade.bin
 
 release:
   stage: release
@@ -76,13 +76,13 @@ release:
 
     - |
       release-cli create --name "prplOS release $prplos_version" --tag-name $CI_COMMIT_TAG \
-        --assets-link "{\"name\":\"MaxLinear OSP HDK-3 fullimage\",\"url\":\"https://storage.cloud.google.com/prplos-osp-releases/${CI_COMMIT_TAG}/targets/intel_x86/lgm/openwrt-intel_x86-lgm-PRPL_OSP_TB341-osp_tb341_fullimage.img\"}" \
-        --assets-link "{\"name\":\"MaxLinear LGP B0 PON fullimage\",\"url\":\"https://storage.cloud.google.com/prplos-osp-releases/${CI_COMMIT_TAG}/targets/intel_x86/lgm/openwrt-intel_x86-lgm-LGM_PRPL-lgp_b0_pon_fullimage.img\"}" \
-        --assets-link "{\"name\":\"prpl Haze sysupgrade\",\"url\":\"${PACKAGE_REGISTRY_URL}/prpl-haze/${prplos_version}/openwrt-ipq807x-generic-prpl_haze-squashfs-sysupgrade.bin\"}" \
-        --assets-link "{\"name\":\"prpl Haze initramfs\",\"url\":\"${PACKAGE_REGISTRY_URL}/prpl-haze/${prplos_version}/openwrt-ipq807x-generic-prpl_haze-initramfs-uImage.itb\"}" \
-        --assets-link "{\"name\":\"Turris Omnia sysupgrade\",\"url\":\"${PACKAGE_REGISTRY_URL}/turris-omnia/${prplos_version}/openwrt-mvebu-cortexa9-cznic_turris-omnia-initramfs-kernel.bin\"}" \
-        --assets-link "{\"name\":\"Turris Omnia initramfs\",\"url\":\"${PACKAGE_REGISTRY_URL}/turris-omnia/${prplos_version}/openwrt-mvebu-cortexa9-cznic_turris-omnia-sysupgrade.img.gz\"}" \
-        --assets-link "{\"name\":\"WNC Freedom sysupgrade\",\"url\":\"${PACKAGE_REGISTRY_URL}/wnc-freedom/${prplos_version}/openwrt-ipq95xx-prpl_freedom-squashfs-sysupgrade.bin\"}" \
-        --assets-link "{\"name\":\"WNC Freedom initramfs\",\"url\":\"${PACKAGE_REGISTRY_URL}/wnc-freedom/${prplos_version}/openwrt-ipq95xx-prpl_freedom-initramfs-uImage.itb\"}" \
-        --assets-link "{\"name\":\"x86/64 sysupgrade\",\"url\":\"${PACKAGE_REGISTRY_URL}/x86-64/${prplos_version}/openwrt-x86-64-generic-squashfs-combined-efi.img\"}" \
-        --assets-link "{\"name\":\"x86/64 initramfs\",\"url\":\"${PACKAGE_REGISTRY_URL}/x86-64/${prplos_version}/openwrt-x86-64-generic-initramfs-kernel.bin\"}"
+        --assets-link "{\"name\":\"MaxLinear OSP HDK-3 fullimage\",\"url\":\"https://storage.cloud.google.com/prplos-osp-releases/${CI_COMMIT_TAG}/targets/intel_x86/lgm/prplos-intel_x86-lgm-PRPL_OSP_TB341-osp_tb341_fullimage.img\"}" \
+        --assets-link "{\"name\":\"MaxLinear LGP B0 PON fullimage\",\"url\":\"https://storage.cloud.google.com/prplos-osp-releases/${CI_COMMIT_TAG}/targets/intel_x86/lgm/prplos-intel_x86-lgm-LGM_PRPL-lgp_b0_pon_fullimage.img\"}" \
+        --assets-link "{\"name\":\"prpl Haze sysupgrade\",\"url\":\"${PACKAGE_REGISTRY_URL}/prpl-haze/${prplos_version}/prplos-ipq807x-generic-prpl_haze-squashfs-sysupgrade.bin\"}" \
+        --assets-link "{\"name\":\"prpl Haze initramfs\",\"url\":\"${PACKAGE_REGISTRY_URL}/prpl-haze/${prplos_version}/prplos-ipq807x-generic-prpl_haze-initramfs-uImage.itb\"}" \
+        --assets-link "{\"name\":\"Turris Omnia sysupgrade\",\"url\":\"${PACKAGE_REGISTRY_URL}/turris-omnia/${prplos_version}/prplos-mvebu-cortexa9-cznic_turris-omnia-initramfs-kernel.bin\"}" \
+        --assets-link "{\"name\":\"Turris Omnia initramfs\",\"url\":\"${PACKAGE_REGISTRY_URL}/turris-omnia/${prplos_version}/prplos-mvebu-cortexa9-cznic_turris-omnia-sysupgrade.img.gz\"}" \
+        --assets-link "{\"name\":\"WNC Freedom sysupgrade\",\"url\":\"${PACKAGE_REGISTRY_URL}/wnc-freedom/${prplos_version}/prplos-ipq95xx-prpl_freedom-squashfs-sysupgrade.bin\"}" \
+        --assets-link "{\"name\":\"WNC Freedom initramfs\",\"url\":\"${PACKAGE_REGISTRY_URL}/wnc-freedom/${prplos_version}/prplos-ipq95xx-prpl_freedom-initramfs-uImage.itb\"}" \
+        --assets-link "{\"name\":\"x86/64 sysupgrade\",\"url\":\"${PACKAGE_REGISTRY_URL}/x86-64/${prplos_version}/prplos-x86-64-generic-squashfs-combined-efi.img\"}" \
+        --assets-link "{\"name\":\"x86/64 initramfs\",\"url\":\"${PACKAGE_REGISTRY_URL}/x86-64/${prplos_version}/prplos-x86-64-generic-initramfs-kernel.bin\"}"

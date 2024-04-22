@@ -8,7 +8,7 @@
     DUT_CPU_TYPE: cortex-a7
     DUT_CPU_SUBTYPE: neon-vfpv4
     LABGRID_TARGET: glinet-b1300-initramfs
-    TFTP_IMAGE_FILENAME: openwrt-ipq40xx-generic-glinet_gl-b1300-initramfs-fit-zImage.itb
-    TFTP_IMAGE_FILENAME_PATTERN: /.*openwrt-ipq40xx-generic-glinet_gl-b1300-initramfs-fit-zImage.itb/
+    TFTP_IMAGE_FILENAME: prplos-ipq40xx-generic-glinet_gl-b1300-initramfs-fit-zImage.itb
+    TFTP_IMAGE_FILENAME_PATTERN: /.*prplos-ipq40xx-generic-glinet_gl-b1300-initramfs-fit-zImage.itb/
   tags:
     - dut-glinet-b1300

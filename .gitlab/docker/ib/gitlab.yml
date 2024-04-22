@@ -6,7 +6,7 @@ build Docker image ib-mvebu-cortexa9:
     DOCKER_BUILD_EXTRA_ARGS: --build-arg DESIGNATED_BRANCH=$CI_DESIGNATED_BRANCH
   extends: .build Docker image
   before_script:
-    - tar xf bin/targets/mvebu/cortexa9/openwrt-imagebuilder-mvebu-cortexa9.Linux-x86_64.tar.xz --strip=1 -C .gitlab/docker/ib
+    - tar xf bin/targets/mvebu/cortexa9/prplos-imagebuilder-mvebu-cortexa9.Linux-x86_64.tar.xz --strip=1 -C .gitlab/docker/ib
 
 test Docker image ib-mvebu-cortexa9:
   extends: .test Docker IB image
@@ -29,7 +29,7 @@ build Docker image ib-x86-64:
     DOCKER_BUILD_EXTRA_ARGS: --build-arg DESIGNATED_BRANCH=$CI_DESIGNATED_BRANCH
   extends: .build Docker image
   before_script:
-    - tar xf bin/targets/x86/64/openwrt-imagebuilder-x86-64.Linux-x86_64.tar.xz --strip=1 -C .gitlab/docker/ib
+    - tar xf bin/targets/x86/64/prplos-imagebuilder-x86-64.Linux-x86_64.tar.xz --strip=1 -C .gitlab/docker/ib
 
 test Docker image ib-x86-64:
   stage: docker SDK and IB test
@@ -52,7 +52,7 @@ build Docker image ib-ipq807x-generic:
     DOCKER_BUILD_EXTRA_ARGS: --build-arg DESIGNATED_BRANCH=$CI_DESIGNATED_BRANCH
   extends: .build Docker image
   before_script:
-    - tar xf bin/targets/ipq807x/generic/openwrt-imagebuilder-ipq807x-generic.Linux-x86_64.tar.xz --strip=1 -C .gitlab/docker/ib
+    - tar xf bin/targets/ipq807x/generic/prplos-imagebuilder-ipq807x-generic.Linux-x86_64.tar.xz --strip=1 -C .gitlab/docker/ib
 
 test Docker image ib-ipq807x-generic:
   extends: .test Docker IB image

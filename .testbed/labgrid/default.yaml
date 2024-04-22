@@ -147,7 +147,7 @@ targets:
           - setenv ipaddr 192.168.1.1
           - setenv bootargs debug earlyprintk console=ttyS0,115200
           - ping 192.168.1.2; ping 192.168.1.2; ping 192.168.1.2
-          - tftpboot 0x81000000 openwrt-ath79-generic-tplink_archer-c6-v2-initramfs-kernel.bin
+          - tftpboot 0x81000000 prplos-ath79-generic-tplink_archer-c6-v2-initramfs-kernel.bin
       UBootStrategy: {}
 
   glinet-b1300-initramfs:
@@ -175,7 +175,7 @@ targets:
           - setenv ipaddr 192.168.1.1
         boot_command_delay: 5
         boot_timeout: 90
-        boot_command: tftpboot 0x88000000 openwrt-ipq40xx-generic-glinet_gl-b1300-initramfs-fit-zImage.itb && bootm 0x88000000
+        boot_command: tftpboot 0x88000000 prplos-ipq40xx-generic-glinet_gl-b1300-initramfs-fit-zImage.itb && bootm 0x88000000
       UBootStrategy: {}
 
   glinet-b1300-nor:
@@ -203,7 +203,7 @@ targets:
           - setenv ipaddr 192.168.1.1
         boot_command_delay: 5
         boot_timeout: 180
-        boot_command: tftpboot 0x84000000 openwrt-ipq40xx-generic-glinet_gl-b1300-squashfs-sysupgrade.bin && sf probe && sf erase 0x180000 0x1e80000 && sf write 0x84000000 0x180000 $filesize && bootipq
+        boot_command: tftpboot 0x84000000 prplos-ipq40xx-generic-glinet_gl-b1300-squashfs-sysupgrade.bin && sf probe && sf erase 0x180000 0x1e80000 && sf write 0x84000000 0x180000 $filesize && bootipq
       UBootStrategy: {}
 
   # needs patched u-boot for emmc r/w https://lists.denx.de/pipermail/u-boot/2021-February/441964.html
@@ -228,7 +228,7 @@ targets:
         init_commands:
           - setenv bootargs earlyprintk console=ttyS0,115200
           - setenv set_blkcnt 'setexpr blkcnt ${filesize} + 0x7ffff && setexpr blkcnt ${blkcnt} / 0x80000 && setexpr blkcnt ${blkcnt} * 0x400'
-          - dhcp ${kernel_addr_r} openwrt-mvebu-cortexa9-cznic_turris-omnia-sysupgrade.img
+          - dhcp ${kernel_addr_r} prplos-mvebu-cortexa9-cznic_turris-omnia-sysupgrade.img
         boot_command: run set_blkcnt && mmc dev 0 0 && mmc erase 0 ${blkcnt} && mmc write ${kernel_addr_r} 0 ${blkcnt} && run bootcmd
       UBootStrategy: {}
 
@@ -253,7 +253,7 @@ targets:
         init_commands:
           - setenv kernel_addr_r 0x2000000
           - setenv bootargs earlyprintk console=ttyS0,115200
-          - dhcp 0x2000000 openwrt-mvebu-cortexa9-cznic_turris-omnia-initramfs-kernel.bin
+          - dhcp 0x2000000 prplos-mvebu-cortexa9-cznic_turris-omnia-initramfs-kernel.bin
         boot_command: bootm 0x2000000
       UBootStrategy: {}
 
@@ -279,7 +279,7 @@ targets:
         init_commands:
           - setenv serverip 192.168.1.2
           - setenv ipaddr 192.168.1.1
-          - setenv fullimage openwrt-intel_x86-lgm-PRPL_OSP_TB341-osp_tb341_fullimage.img
+          - setenv fullimage prplos-intel_x86-lgm-PRPL_OSP_TB341-osp_tb341_fullimage.img
           - mmc dev 0 && mmc erase ${rootfs_data_block_start} ${rootfs_data_block_size} && run update_fullimage
       UBootStrategy: {}
 
@@ -303,7 +303,7 @@ targets:
         init_commands:
           - setenv serverip 10.0.0.1
           - setenv ipaddr 10.0.0.2
-        boot_command: tftpboot openwrt-ipq95xx-prpl_freedom-initramfs-uImage.itb && bootm
+        boot_command: tftpboot prplos-ipq95xx-prpl_freedom-initramfs-uImage.itb && bootm
         boot_command_delay: 3
       UBootStrategy: {}
 
@@ -328,7 +328,7 @@ targets:
           - setenv serverip 10.0.0.1
           - setenv ipaddr 10.0.0.2
           - sleep 5
-          - tftpboot 0x44000000 openwrt-ipq95xx-prpl_freedom-squashfs-sysupgrade.bin
+          - tftpboot 0x44000000 prplos-ipq95xx-prpl_freedom-squashfs-sysupgrade.bin
           - setenv untar_addr_kernel; setenv untar_addr_root; echo
           - untar 0x$fileaddr 0x$filesize kernel root
           - if test -n $untar_addr_kernel; then flash "0:HLOS" 0x$untar_addr_kernel 0x$untar_size_kernel; else echo "kernel is not found"; fi
