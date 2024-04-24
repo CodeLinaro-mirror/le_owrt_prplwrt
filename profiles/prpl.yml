@@ -4,7 +4,7 @@ feeds:
   - name: feed_prpl
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-prpl.git
     tracking_branch: prplos
-    revision: 590fca5e478a557becf1947307875acbe1408810
+    revision: 79c3ac62932e04548a1c24df5845f3eedf3bfb7b
 
 additional_packages:
   - feed: packages
@@ -79,6 +79,7 @@ packages:
   - miniupnpd-prpl
   - mod-amxb-ubus
   - mod-amxb-usp
+  - mod-usp-registration
   - mod-autosensing
   - mod-ba-cli
   - mod-dhcpv4c
