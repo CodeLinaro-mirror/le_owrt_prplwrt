@@ -116,12 +116,12 @@ Check default QoS configuration:
   qdisc htb 1: root refcnt (2|5|9) r2q 10 default 0x10003 direct_packets_stat [0-9]+ direct_qlen (532|1000|1024) (re)
 
   $ R "tc class show dev $DUT_WAN_INTERFACE" | sort
-  class htb 1:1 parent 1:32 prio 5 rate 25Mbit ceil 25Mbit burst *b cburst *b  (glob)
-  class htb 1:2 parent 1:32 rate 300Mbit ceil 300Mbit burst *b cburst *b  (glob)
-  class htb 1:3 parent 1:2 prio 3 rate 250Mbit ceil 250Mbit burst *b cburst *b  (glob)
-  class htb 1:32 root rate 325Mbit ceil 325Mbit burst *b cburst *b  (glob)
-  class htb 1:4 parent 1:2 prio 1 rate 10Mbit ceil 10Mbit burst *b cburst *b  (glob)
-  class htb 1:5 parent 1:2 prio 2 rate 40Mbit ceil 40Mbit burst *b cburst *b  (glob)
+  class htb 1:1 parent 1:32 prio 5 rate 25Mbit ceil 25Mbit burst *b cburst *b (glob)
+  class htb 1:2 parent 1:32 rate 300Mbit ceil 300Mbit burst *b cburst *b (glob)
+  class htb 1:3 parent 1:2 prio 3 rate 250Mbit ceil 250Mbit burst *b cburst *b (glob)
+  class htb 1:32 root rate 325Mbit ceil 325Mbit burst *b cburst *b (glob)
+  class htb 1:4 parent 1:2 prio 1 rate 10Mbit ceil 10Mbit burst *b cburst *b (glob)
+  class htb 1:5 parent 1:2 prio 2 rate 40Mbit ceil 40Mbit burst *b cburst *b (glob)
 
   $ R "tc filter show dev $DUT_WAN_INTERFACE" | sort
   filter parent 1: protocol all pref 1 fw.*  (re)
