@@ -3,7 +3,7 @@ build Docker image ib-mvebu-cortexa9:
   needs: ["build test mvebu prpl security"]
   variables:
     DOCKER_DOCKERFILE_PATH: .gitlab/docker/ib
-    DOCKER_BUILD_EXTRA_ARGS: --build-arg DESIGNATED_BRANCH=$CI_DESIGNATED_BRANCH
+    DOCKER_BUILD_EXTRA_ARGS: --build-arg DESIGNATED_BRANCH_SLUG=$CI_DESIGNATED_BRANCH_SLUG
   extends: .build Docker image
   before_script:
     - tar xf bin/targets/mvebu/cortexa9/prplos-imagebuilder-mvebu-cortexa9.Linux-x86_64.tar.xz --strip=1 -C .gitlab/docker/ib
@@ -26,7 +26,7 @@ build Docker image ib-x86-64:
   needs: ["build test x86_64 prpl security"]
   variables:
     DOCKER_DOCKERFILE_PATH: .gitlab/docker/ib
-    DOCKER_BUILD_EXTRA_ARGS: --build-arg DESIGNATED_BRANCH=$CI_DESIGNATED_BRANCH
+    DOCKER_BUILD_EXTRA_ARGS: --build-arg DESIGNATED_BRANCH_SLUG=$CI_DESIGNATED_BRANCH_SLUG
   extends: .build Docker image
   before_script:
     - tar xf bin/targets/x86/64/prplos-imagebuilder-x86-64.Linux-x86_64.tar.xz --strip=1 -C .gitlab/docker/ib
@@ -49,7 +49,7 @@ build Docker image ib-ipq807x-generic:
   needs: ["build test ipq807x prpl security"]
   variables:
     DOCKER_DOCKERFILE_PATH: .gitlab/docker/ib
-    DOCKER_BUILD_EXTRA_ARGS: --build-arg DESIGNATED_BRANCH=$CI_DESIGNATED_BRANCH
+    DOCKER_BUILD_EXTRA_ARGS: --build-arg DESIGNATED_BRANCH_SLUG=$CI_DESIGNATED_BRANCH_SLUG
   extends: .build Docker image
   before_script:
     - tar xf bin/targets/ipq807x/generic/prplos-imagebuilder-ipq807x-generic.Linux-x86_64.tar.xz --strip=1 -C .gitlab/docker/ib

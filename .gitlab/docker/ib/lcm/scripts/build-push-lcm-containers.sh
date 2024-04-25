@@ -25,7 +25,7 @@ build_rootfs()
   docker run \
     --volume "$(pwd)/bin":/home/builder/bin \
     --volume "$(pwd)/.gitlab":/home/builder/.gitlab \
-    "$CI_REGISTRY_IMAGE/$CI_DESIGNATED_BRANCH/$CI_IB_CONTAINER:$CI_COMMIT_REF_SLUG" sh -c "
+    "$CI_REGISTRY_IMAGE/$CI_DESIGNATED_BRANCH_SLUG/$CI_IB_CONTAINER:$CI_COMMIT_REF_SLUG" sh -c "
     cd /home/builder &&
     sudo chmod a+rwx bin &&
     for version in v1 v2; do
@@ -63,11 +63,11 @@ build_push_container()
       --tag "$container_name" \
       --file .gitlab/docker/ib/lcm/Dockerfile \
       "$rootfs_dir"
-    docker tag "$container_name" "$CI_REGISTRY_IMAGE/$CI_DESIGNATED_BRANCH/$container_name:$CI_COMMIT_REF_SLUG"
-    docker push "$CI_REGISTRY_IMAGE/$CI_DESIGNATED_BRANCH/$container_name:$CI_COMMIT_REF_SLUG"
+    docker tag "$container_name" "$CI_REGISTRY_IMAGE/$CI_DESIGNATED_BRANCH_SLUG/$container_name:$CI_COMMIT_REF_SLUG"
+    docker push "$CI_REGISTRY_IMAGE/$CI_DESIGNATED_BRANCH_SLUG/$container_name:$CI_COMMIT_REF_SLUG"
 
-    docker tag "$container_name" "$CI_REGISTRY_IMAGE/$CI_DESIGNATED_BRANCH/$CI_LCM_CONTAINER_NAME:${CI_COMMIT_REF_SLUG}-$version"
-    docker push "$CI_REGISTRY_IMAGE/$CI_DESIGNATED_BRANCH/$CI_LCM_CONTAINER_NAME:${CI_COMMIT_REF_SLUG}-$version"
+    docker tag "$container_name" "$CI_REGISTRY_IMAGE/$CI_DESIGNATED_BRANCH_SLUG/$CI_LCM_CONTAINER_NAME:${CI_COMMIT_REF_SLUG}-$version"
+    docker push "$CI_REGISTRY_IMAGE/$CI_DESIGNATED_BRANCH_SLUG/$CI_LCM_CONTAINER_NAME:${CI_COMMIT_REF_SLUG}-$version"
   done
 }
 

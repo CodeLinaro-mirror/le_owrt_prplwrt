@@ -1,5 +1,5 @@
-ARG DESIGNATED_BRANCH=prpl/nightly
-FROM registry.gitlab.com/prpl-foundation/prplos/prplos/$DESIGNATED_BRANCH/builder:latest
+ARG DESIGNATED_BRANCH_SLUG=prpl-nightly
+FROM registry.gitlab.com/prpl-foundation/prplos/prplos/$DESIGNATED_BRANCH_SLUG/builder:latest
 
 COPY --chown=builder:builder . /home/builder/
 
