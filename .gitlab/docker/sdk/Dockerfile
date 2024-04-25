@@ -1,4 +1,4 @@
-ARG DESIGNATED_BRANCH=prplos
+ARG DESIGNATED_BRANCH=prpl/nightly
 FROM registry.gitlab.com/prpl-foundation/prplos/prplos/$DESIGNATED_BRANCH/builder:latest
 
 COPY --chown=builder:builder . /home/builder/
