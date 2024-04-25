@@ -1,6 +1,6 @@
 .cdrouter:
   stage: cdrouter
-  image: "$CI_REGISTRY_IMAGE/$CI_DESIGNATED_BRANCH/testbed:latest"
+  image: "$CI_REGISTRY_IMAGE/$CI_DESIGNATED_BRANCH_SLUG/testbed:latest"
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
       when: never

@@ -1,7 +1,7 @@
-ARG DESIGNATED_BRANCH=prpl/nightly
+ARG DESIGNATED_BRANCH_SLUG=prpl-nightly
 
 # FIXME: its overkill to use this container
-FROM registry.gitlab.com/prpl-foundation/prplos/prplos/$DESIGNATED_BRANCH/builder:latest
+FROM registry.gitlab.com/prpl-foundation/prplos/prplos/$DESIGNATED_BRANCH_SLUG/builder:latest
 
 COPY --chown=builder:builder . /home/builder/
 
