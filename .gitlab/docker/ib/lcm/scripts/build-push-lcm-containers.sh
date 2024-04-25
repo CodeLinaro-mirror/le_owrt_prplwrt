@@ -2,7 +2,7 @@
 
 set -e
 
-CI_DESIGNATED_BRANCH=${CI_DESIGNATED_BRANCH:-prplos}
+CI_DESIGNATED_BRANCH=${CI_DESIGNATED_BRANCH:-prpl/nightly}
 CI_COMMIT_REF_SLUG=${CI_COMMIT_REF_SLUG:-ynezz-lcm-containers}
 CI_REGISTRY_IMAGE=${CI_REGISTRY_IMAGE:-registry.gitlab.com/prpl-foundation/prplos/prplos}
 
