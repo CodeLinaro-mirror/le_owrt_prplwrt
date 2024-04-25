@@ -1,4 +1,4 @@
-ARG DESIGNATED_BRANCH=prplos
+ARG DESIGNATED_BRANCH=prpl/nightly
 
 # FIXME: its overkill to use this container
 FROM registry.gitlab.com/prpl-foundation/prplos/prplos/$DESIGNATED_BRANCH/builder:latest
