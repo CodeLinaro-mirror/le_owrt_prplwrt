@@ -303,7 +303,7 @@ targets:
         init_commands:
           - setenv serverip 10.0.0.1
           - setenv ipaddr 10.0.0.2
-        boot_command: tftpboot prplos-ipq95xx-generic-prpl_freedom-initramfs-uImage.itb && bootm
+        boot_command: tftpboot prplos-ipq95xx-generic-prpl_freedom-initramfs-uImage.itb && aq_phy_reset && aq_load_fw 0x8 && bootm
         boot_command_delay: 3
       UBootStrategy: {}
 
@@ -329,6 +329,8 @@ targets:
           - setenv ipaddr 10.0.0.2
           - sleep 5
           - tftpboot 0x44000000 prplos-ipq95xx-generic-prpl_freedom-squashfs-sysupgrade.bin
+          - aq_phy_reset
+          - aq_load_fw 0x8
           - setenv untar_addr_kernel; setenv untar_addr_root; echo
           - untar 0x$fileaddr 0x$filesize kernel root
           - if test -n $untar_addr_kernel; then flash "0:HLOS" 0x$untar_addr_kernel 0x$untar_size_kernel; else echo "kernel is not found"; fi
