@@ -1,6 +1,54 @@
 ---
 description: Add the prpl features
 feeds:
+  - name: feed_opensource
+    uri: https://gitlab.com/soft.at.home/buildsystems/openwrt/feed_opensource.git
+    revision: 525df5dfe3d9e7615721e714b1bb27a1dd7751bc
+  - name: feed_amx
+    uri: https://gitlab.com/soft.at.home/buildsystems/openwrt/feed_amx.git
+    revision: v10.14.1
+  - name: feed_gmap
+    uri: https://gitlab.com/soft.at.home/buildsystems/openwrt/feed_gmap.git
+    revision: v1.6.5
+  - name: feed_net_core
+    uri: https://gitlab.com/soft.at.home/buildsystems/openwrt/feed_net_core.git
+    revision: v16.6.1
+  - name: feed_qos_firewall
+    uri: https://gitlab.com/soft.at.home/buildsystems/openwrt/feed_qos_firewall.git
+    revision: v6.5.1
+  - name: feed_net_services
+    uri: https://gitlab.com/soft.at.home/buildsystems/openwrt/feed_net_services.git
+    revision: v10.19.1
+  - name: feed_net_hl_services
+    uri: https://gitlab.com/soft.at.home/buildsystems/openwrt/feed_net_hl_services.git
+    revision: v0.19.2
+  - name: feed_peripheral
+    uri: https://gitlab.com/soft.at.home/buildsystems/openwrt/feed_peripheral.git
+    revision: v0.8.3
+  - name: feed_debug
+    uri: https://gitlab.com/soft.at.home/buildsystems/openwrt/feed_debug.git
+    revision: v2.0.6
+  - name: feed_board_configuration
+    uri: https://gitlab.com/soft.at.home/buildsystems/openwrt/feed_board_configuration.git
+    revision: v1.8.0
+  - name: feed_usp
+    uri: https://gitlab.com/soft.at.home/buildsystems/openwrt/feed_usp.git
+    revision: v8.16.4
+  - name: feed_lcm
+    uri: https://gitlab.com/soft.at.home/buildsystems/openwrt/feed_lcm.git
+    revision: v3.2.1
+  - name: feed_tr69
+    uri: https://gitlab.com/soft.at.home/buildsystems/openwrt/feed_tr69.git
+    revision: v0.24.31
+  - name: feed_netmodel
+    uri: https://gitlab.com/soft.at.home/buildsystems/openwrt/feed_netmodel.git
+    revision: v4.10.1
+  - name: feed_wifi_swl
+    uri: https://gitlab.com/soft.at.home/buildsystems/openwrt/feed_wifi_swl.git
+    revision: v0.1.54
+  - name: feed_wifi_core
+    uri: https://gitlab.com/soft.at.home/buildsystems/openwrt/feed_wifi_core.git
+    revision: v1.0.1
   - name: feed_prpl
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-prpl.git
     tracking_branch: prplos
