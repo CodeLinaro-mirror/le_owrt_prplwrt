@@ -167,12 +167,6 @@ if feeds_conf.is_file():
 
 feeds = []
 
-with open("feeds.conf.default", "r") as default_feeds:
-    for line in default_feeds:
-        feed = line.rstrip()
-        print(f"Adding default feed '{feed}'")
-        feeds.append(feed.replace(" ", ","))
-
 for p in profile.get("feeds", []):
     try:
         profile_feeds = profile["feeds"].get(p)
@@ -180,6 +174,12 @@ for p in profile.get("feeds", []):
     except:
         print(f"Badly configured feed: {profile_feeds}")
         quit(1)
+
+with open("feeds.conf.default", "r") as default_feeds:
+    for line in default_feeds:
+        feed = line.rstrip()
+        print(f"Adding default feed '{feed}'")
+        feeds.append(feed.replace(" ", ","))
 
 if run_cmd(["./scripts/feeds", "setup", *feeds]).returncode:
     die(f"Error setting up feeds")
