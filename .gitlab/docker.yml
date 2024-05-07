@@ -1,6 +1,6 @@
 .docker in docker:
   tags:
-    - gce
+    - saas-linux-small-amd64
   image: docker:19.03.7
   services:
     - docker:19.03.7-dind
