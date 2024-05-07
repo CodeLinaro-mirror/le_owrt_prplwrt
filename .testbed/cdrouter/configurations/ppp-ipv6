@@ -909,7 +909,7 @@ SECTION "Base Configuration" {
 
         # testvar startDelay                       3
         # testvar lanStartDelay                    3
-        # testvar startTimeout                     90
+          testvar startTimeout                    180
         # testvar wanCloseOnExit                   yes
         # testvar RestartDut                       none
         # testvar RestartDutDelay                  disabled
