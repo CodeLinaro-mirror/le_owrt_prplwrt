@@ -15,6 +15,7 @@ packages:
   - ipq95xx
   - wireless-regdb
   - hostapd-qca-utils
+  - hostapd-qca-openssl=y
   - ath12k-wifi-qcom-qcn92xx
   - ath12k-caldata
   - aq-fw-download
