@@ -313,8 +313,6 @@ diffconfig: |
           # CONFIG_PACKAGE_libwolfssl is not set
           # CONFIG_PACKAGE_libustream-wolfssl is not set
           CONFIG_PACKAGE_libustream-openssl=y
-          # CONFIG_LIGHTTPD_CRYPTOLIB_MBEDTLS is not set
-          CONFIG_LIGHTTPD_CRYPTOLIB_OPENSSL=y
           CONFIG_BUSYBOX_CUSTOM=y
           CONFIG_BUSYBOX_CONFIG_FLOAT_DURATION=y
           # CONFIG_BUSYBOX_CONFIG_NTPD is not set
@@ -322,3 +320,5 @@ diffconfig: |
           CONFIG_KERNEL_EXT4_FS_SECURITY=y
           CONFIG_SAH_AMX_TR069_MANAGER_USE_GSDM=y
           CONFIG_SAH_MOD_AMXB_USP_REQUIRES_DEVICE_PREFIX=y
+          CONFIG_LIGHTTPD_CRYPTOLIB_NONE=y
+          # CONFIG_LIGHTTPD_SSL is not set
