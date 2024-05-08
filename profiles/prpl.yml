@@ -211,6 +211,7 @@ packages:
 diffconfig: |
           CONFIG_JSON_CYCLONEDX_SBOM=y
           CONFIG_PACKAGE_ppp-prpl=y
+          CONFIG_SAH_AMX_USERMANAGEMENT_DISABLE_PASSWORD_HASHED_FORMAT_STORAGE=y
           CONFIG_PACKAGE_unbound-daemon-prpl=y
           # CONFIG_PACKAGE_ppp is not set
           # CONFIG_PACKAGE_miniupnpd is not set
