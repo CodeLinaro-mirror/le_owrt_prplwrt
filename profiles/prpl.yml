@@ -36,7 +36,7 @@ feeds:
     revision: v8.16.5
   - name: feed_lcm
     uri: https://gitlab.com/soft.at.home/buildsystems/openwrt/feed_lcm.git
-    revision: v3.2.1
+    revision: 32822d0eab6b78b5251c7c39b8b1dde1dbbf01fb
   - name: feed_tr69
     uri: https://gitlab.com/soft.at.home/buildsystems/openwrt/feed_tr69.git
     revision: v0.24.32
