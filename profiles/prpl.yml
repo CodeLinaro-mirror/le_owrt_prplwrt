@@ -4,7 +4,7 @@ feeds:
   - name: feed_prpl
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-prpl.git
     tracking_branch: scorby/summit2024
-    revision: f04748e00ff7fbfac95d6635d9e663efcc5d6762
+    revision: 80acdafd925fb268181c78ba069ae6aa7f9fcc23
 
 additional_packages:
   - feed: packages
