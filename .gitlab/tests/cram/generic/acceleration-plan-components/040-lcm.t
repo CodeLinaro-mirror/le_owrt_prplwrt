@@ -20,14 +20,14 @@ Check that random LXC binaries work:
 Check Cthulhu.Config datamodel:
 
   $ R "ubus -S call Cthulhu.Config _get"
-  {"Cthulhu.Config.":{"PluginLocation":"/usr/lib/amx/cthulhu/plugins","ImageLocation":"/usr/share/rlyeh/images","UseOverlayFS":true,"UseBundles":false,"OnboardingLocation":"/etc/amx/cthulhu/onboard","StorageLocation":"/usr/share/cthulhu","OnboardingFile":"/usr/share/cthulhu/cthulhu_onboarded","DefaultBackend":"/usr/lib/cthulhu-lxc/cthulhu-lxc.so","BundleLocation":"/usr/share/celephais/bundles","BlobLocation":"/usr/share/rlyeh/blobs"}}
+  {"Cthulhu.Config.":{"PluginLocation":"/usr/lib/amx/cthulhu/plugins","ImageLocation":"/lcm_data/rlyeh/images","UseOverlayFS":true,"UseBundles":false,"OnboardingLocation":"/etc/amx/cthulhu/onboard","StorageLocation":"/lcm_data/cthulhu","OnboardingFile":"/lcm_data/cthulhu/cthulhu_onboarded","DefaultBackend":"/usr/lib/cthulhu-lxc/cthulhu-lxc.so","BundleLocation":"/lcm_data/celephais/bundles","BlobLocation":"/lcm_data/rlyeh/blobs"}}
   {}
   {"amxd-error-code":0}
 
 Check Rlyeh datamodel:
 
   $ R "ubus -S call Rlyeh _get"
-  {"Rlyeh.":{"ImageLocation":"/usr/share/rlyeh/images","ROImageLocation":"/usr/rlyeh/images","ROStorageLocation":"/usr/rlyeh/blobs","CertificateVerification":true,"SignatureVerification":true,"RemainingDiskSpaceBytes":1000001,"StorageLocation":"/usr/share/rlyeh/blobs","OnboardingFile":"/usr/share/rlyeh_onboarded"}}
+  {"Rlyeh.":{"ImageLocation":"/lcm_data/rlyeh/images","ROImageLocation":"/usr/rlyeh/images","ROStorageLocation":"/usr/rlyeh/blobs","CertificateVerification":true,"SignatureVerification":true,"RemainingDiskSpaceBytes":1000001,"StorageLocation":"/lcm_data/rlyeh/blobs","OnboardingFile":"/lcm_data/rlyeh_onboarded"}}
   {}
   {"amxd-error-code":0}
 
@@ -95,6 +95,6 @@ Check that Rlyeh has no container images:
 
 Check that testing image is gone from the filesystem as well:
 
-  $ R "ls -al /usr/share/rlyeh/images/prplos/prplos-testing-container-intel_mips-xrx500"
-  ls: /usr/share/rlyeh/images/prplos/prplos-testing-container-intel_mips-xrx500: No such file or directory
+  $ R "ls -al /lcm_data/rlyeh/images/prplos/prplos-testing-container-intel_mips-xrx500"
+  ls: /lcm_data/rlyeh/images/prplos/prplos-testing-container-intel_mips-xrx500: No such file or directory
   [1]
