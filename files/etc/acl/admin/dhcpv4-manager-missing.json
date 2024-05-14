@@ -1,0 +1,6 @@
+{
+    "Device.DHCPv4.": {
+        "Order": 2,
+        "Param": "rw-n"
+    }
+}

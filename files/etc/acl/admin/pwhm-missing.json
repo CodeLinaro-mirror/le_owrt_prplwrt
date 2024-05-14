@@ -1,0 +1,10 @@
+{
+    "Device.WiFi.SSID.*.Enable": {
+        "Order": 2,
+        "Param": "rw-n"
+    },
+    "Device.WiFi.AccessPoint.*.Security.SAEPassphrase": {
+        "Order": 2,
+        "Param": "rw-n"
+    }
+}
