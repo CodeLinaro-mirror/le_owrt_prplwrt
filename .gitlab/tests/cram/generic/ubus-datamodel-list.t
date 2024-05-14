@@ -66,17 +66,12 @@ Check that ubus has expected datamodels available:
   DSLite.InterfaceSetting
   Device
   Device.Bridging
-  Device.BulkData
   Device.Buttons
   Device.CWMPManagementServer
   Device.CaptivePortal
-  Device.ConMon
   Device.DHCPv4
-  Device.DHCPv4.Client
-  Device.DHCPv4.Relay
   Device.DHCPv4.Server
   Device.DHCPv6
-  Device.DHCPv6.Client
   Device.DHCPv6.Server
   Device.DNS
   Device.DNS.SD
@@ -85,18 +80,13 @@ Check that ubus has expected datamodels available:
   Device.DynamicDNS
   Device.Ethernet
   Device.Firewall
-  Device.HomePlug
   Device.Hosts
   Device.IP
   Device.IP.Diagnostics
   Device.InterfaceStack
-  Device.LANConfigSecurity
   Device.LEDs
-  Device.LocalAgent
   Device.Logical
-  Device.MQTT
   Device.ManagementServer
-  Device.MoCA
   Device.NAT
   Device.NeighborDiscovery
   Device.PCP
@@ -111,8 +101,6 @@ Check that ubus has expected datamodels available:
   Device.Syslog
   Device.Time
   Device.UPnP
-  Device.UPnP.Description
-  Device.UPnP.Discovery
   Device.UserInterface
   Device.Users
   Device.WiFi
