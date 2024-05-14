@@ -4,7 +4,7 @@ feeds:
   - name: feed_prpl
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-prpl.git
     tracking_branch: scorby/summit2024
-    revision: 80f46359ec548ca08facae6f65287b645c83e696
+    revision: f04748e00ff7fbfac95d6635d9e663efcc5d6762
 
 additional_packages:
   - feed: packages
@@ -116,6 +116,7 @@ packages:
   - netmodel-vlan
   - netmodel-xpon
   - obuspa
+  - obuspa_usp_app
   - odl-generator
   - packet-interception
   - pcm-manager
