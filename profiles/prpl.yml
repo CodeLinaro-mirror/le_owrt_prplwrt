@@ -4,7 +4,7 @@ feeds:
   - name: feed_prpl
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-prpl.git
     tracking_branch: prplos
-    revision: bc156178568d8bcceed9eff3b83b6c2990eb042f
+    revision: b2c83a12d915c019afe607589a66df1fe19cc3a9 
 
 additional_packages:
   - feed: packages
@@ -116,6 +116,7 @@ packages:
   - netmodel-vlan
   - netmodel-xpon
   - obuspa
+  - obuspa-usp-app
   - odl-generator
   - packet-interception
   - pcm-manager
