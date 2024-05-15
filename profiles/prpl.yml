@@ -116,7 +116,7 @@ packages:
   - netmodel-vlan
   - netmodel-xpon
   - obuspa
-  - obuspa_usp_app
+  - obuspa-usp-app
   - odl-generator
   - packet-interception
   - pcm-manager
