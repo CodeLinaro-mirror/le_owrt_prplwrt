@@ -13,11 +13,11 @@ feeds:
   - name: intel_x86
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_target_x86.git
     tracking_branch: updk_9.1.60
-    revision: 567954ab279015071be32e015cd4c664e0897bcc
+    revision: 8e2ad0118b6dfdb1c8d1ff8cbc8586dc32cc1eee
   - name: rootfs
     uri: ssh://git@git.maxlinear.com/ugw/rootfs.git
     tracking_branch: updk_9.1.60
-    revision: f43f91d815f47e8b84afb9b67d88c1c4f74292ca
+    revision: 21bddb5687e36e9493bb672d9453b14db253c9af
   - name: 3rdparty
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_3rdparty.git
     tracking_branch: master
@@ -85,7 +85,7 @@ feeds:
   - name: system_service
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_system_service.git
     tracking_branch:  updk_9.1.60
-    revision: a04cd68f4f7c81d562a55104716b758132fa5a9d
+    revision: 1523a71470dcc056e41bed4a5514b0fcdef0e4da
   - name: speedtest
     uri: ssh://git@git.maxlinear.com/mxl/speedtest.git
     tracking_branch:  master
@@ -178,7 +178,7 @@ packages:
 diffconfig: |
   CONFIG_DEVEL=y
   CONFIG_KERNEL_GIT_CLONE_URI="git@git.maxlinear.com:mxl/linux.git"
-  CONFIG_KERNEL_GIT_REF="UPDK_9.1.60"
+  CONFIG_KERNEL_GIT_REF="UPDK_9.1.60.1"
   CONFIG_GPON_OMCI_ONU_UBUS_INTERFACE=y
   CONFIG_TARGET_MULTI_PROFILE=y
   CONFIG_TARGET_PER_DEVICE_ROOTFS=y
