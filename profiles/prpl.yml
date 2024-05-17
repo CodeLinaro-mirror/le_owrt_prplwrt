@@ -284,3 +284,4 @@ diffconfig: |
           CONFIG_PACKAGE_libustream-openssl=y
           CONFIG_LIGHTTPD_CRYPTOLIB_NONE=y
           # CONFIG_LIGHTTPD_SSL is not set
+          CONFIG_SAH_AMX_USERMANAGEMENT_DISABLE_PASSWORD_HASHED_FORMAT_STORAGE=y
