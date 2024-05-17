@@ -180,6 +180,7 @@ packages:
   - tr069-manager
   - tr181-bridging
   - tr181-button
+  - tr181-captiveportal
   - tr181-device
   - tr181-dhcpv4client
   - tr181-dhcpv6client
@@ -199,6 +200,7 @@ packages:
   - tr181-rest-api
   - tr181-routeradvertisement
   - tr181-security
+  - tr181-syslog
   - tr181-upnp
   - tr181-usermanagement
   - tr181-xpon
