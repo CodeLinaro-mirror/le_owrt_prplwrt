@@ -18,7 +18,7 @@ feeds:
     revision: v6.5.1
   - name: feed_net_services
     uri: https://gitlab.com/soft.at.home/buildsystems/openwrt/feed_net_services.git
-    revision: v10.20.3
+    revision: v11.0.1
   - name: feed_net_hl_services
     uri: https://gitlab.com/soft.at.home/buildsystems/openwrt/feed_net_hl_services.git
     revision: v0.19.2
