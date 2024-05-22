@@ -209,7 +209,6 @@ packages:
   - tr181-upnp
   - tr181-usermanagement
   - tr181-xpon
-  - umdns
   - wan-manager
 
 diffconfig: |
@@ -219,9 +218,15 @@ diffconfig: |
           CONFIG_JSON_CYCLONEDX_SBOM=y
           CONFIG_PACKAGE_ppp-prpl=y
           CONFIG_PACKAGE_unbound-daemon-prpl=y
+          CONFIG_PACKAGE_dnsmasq-prpl=y
+          CONFIG_PACKAGE_chrony-prpl=y
+          CONFIG_PACKAGE_umdns-prpl=y
           # CONFIG_PACKAGE_ppp is not set
           # CONFIG_PACKAGE_miniupnpd is not set
           # CONFIG_PACKAGE_unbound-daemon is not set
+          # CONFIG_PACKAGE_dnsmasq is not set
+          # CONFIG_PACKAGE_chrony is not set
+          # CONFIG_PACKAGE_umdns is not set
           CONFIG_DROPBEAR_ECC=y
           CONFIG_SAH_LUA_AMX_LUA_VERSION_OVERRIDE=y
           CONFIG_SAH_LUA_AMX_LUA_VERSION="5.1"
