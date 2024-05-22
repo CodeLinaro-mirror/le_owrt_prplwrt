@@ -230,7 +230,7 @@ class TestbedDevice:
     def check_network(self):
         host = self.args.remote_host
         shell = self.target.get_driver("ShellDriver")
-        shell.wait_for("ubus-cli 'IP.Interface.[Alias==\"lan\"].Status?0'", "Up", 60.0)
+        shell.wait_for("ubus-cli 'IP.Interface.[Alias==\"lan\"].Status?0'", "Up", 90.0)
 
         shell.wait_for("ping -c1 {} || true".format(host), ", 0% packet loss", 180.0)
 
