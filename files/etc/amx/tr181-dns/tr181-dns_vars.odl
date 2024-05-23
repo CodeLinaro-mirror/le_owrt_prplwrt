@@ -1,0 +1,12 @@
+%config {
+    %global modules = {
+        dns-directory = "/usr/lib/amx/tr181-dns/modules",
+        fw-directory = "/usr/lib/amx/modules",
+        dns-options = [
+            "log-queries: yes",
+            "log-replies: yes",
+            "verbosity: 4",
+            "cache-max-negative-ttl: 15"
+        ]
+    };
+}
