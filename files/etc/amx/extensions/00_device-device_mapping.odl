@@ -1,0 +1,8 @@
+
+%config {
+    %global proxy-object = {
+        "'Device.'" = "",
+        "'Device.WiFi.'" = "WiFi."
+    };
+    %global proxy-wait-time = 6;
+}
