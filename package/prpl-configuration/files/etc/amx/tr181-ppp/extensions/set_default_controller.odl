@@ -1,9 +1,0 @@
-%config {
-    define-behavior.existing-parameter = "update";
-}
-
-%define {
-    select PPP.Interface {
-        string Controller = "mod-ppp-daemon";
-    }
-}
