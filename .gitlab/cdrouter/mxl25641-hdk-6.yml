@@ -50,6 +50,7 @@ CDRouter-Wireless MXL25641-HDK-6 eMMC:
     - if: '$TFTP_IMAGE_DOWNLOAD_URL'
       when: never
     - if: '$CI_COMMIT_BRANCH == $CI_DESIGNATED_BRANCH'
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /^ci_s_.+_latest$/'
     - when: manual
 
 CDRouter-UPnP-IPv46 MXL25641-HDK-6 eMMC:

@@ -57,6 +57,7 @@ CDRouter-Wireless URX851-B0-DK PON eMMC:
       when: always
     - if: '$TFTP_IMAGE_DOWNLOAD_URL'
       when: never
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /^ci_s_.+_latest$/'
     - when: manual
 
 CDRouter-UPnP-IPv46 URX851-B0-DK PON eMMC:
