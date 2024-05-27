@@ -73,6 +73,8 @@
     - ssh root@$TARGET_LAN_IP "cat /var/log/messages" > syslog-$LABGRID_TARGET.txt 2> /dev/null || true
     - ssh root@$TARGET_LAN_IP "ubus call system board" | tee system-$LABGRID_TARGET.json
 
+    - ssh root@$TARGET_LAN_IP "ba-cli 'DNS.Relay.X_PRPL-COM_Config.[Alias==\"lan\"].FlushCache()'"
+
     - >
       for dut_init_script in $DUT_INIT_SCRIPTS;
         do echo "Running $dut_init_script"; /bin/sh "$dut_init_script";
