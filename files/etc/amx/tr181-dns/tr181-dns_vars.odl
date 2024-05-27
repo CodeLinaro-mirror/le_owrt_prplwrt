@@ -5,8 +5,7 @@
         dns-options = [
             "log-queries: yes",
             "log-replies: yes",
-            "verbosity: 4",
-            "cache-max-negative-ttl: 15"
+            "verbosity: 4"
         ]
     };
 }
