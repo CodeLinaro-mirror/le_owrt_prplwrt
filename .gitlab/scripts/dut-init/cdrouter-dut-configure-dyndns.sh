@@ -2,28 +2,24 @@
 
 ssh "root@$TARGET_LAN_IP" "sed -i 's/CHECK_SECONDS=300/CHECK_SECONDS=30/g' /usr/lib/ddns/dynamic_dns_updater.sh"
 ssh "root@$TARGET_LAN_IP" "ubus -t 200 wait_for DynamicDNS.Client"
+
+ssh "root@$TARGET_LAN_IP" "ba-cli 'DynamicDNS.Server.[Name==\"uci_dyndns.org\"].CheckInterval=60'"
+
+# Get server index from name because path search is not possible while adding a paramater
+# "DynamicDNS.Server.[Name=='uci_dyndns.org']." -> "DynamicDNS.Server.9."
+dnsServerPath="$(ssh "root@$TARGET_LAN_IP" "ba-cli \"DynamicDNS.Server.[Name=='uci_dyndns.org'].?\" | grep -v \"^>\" | head -1")"
 ssh "root@$TARGET_LAN_IP" "\
-	ubus call DynamicDNS.Server.9 _set \
-	'{\"parameters\":{ \
-		\"CheckInterval\":60, \
-  }}' \
+	ba-cli 'DynamicDNS.Client.+{ \
+		\"Alias\"=\"cdrouter\", \
+		\"Server\"=\"${dnsServerPath}\", \
+		\"Interface\"=\"Device.IP.Interface.2.\", \
+		\"Username\"=\"qacafe\", \
+		\"Password\"=\"qacafe123\", \
+		\"Enable\"=1}' \
 "
 ssh "root@$TARGET_LAN_IP" "\
-	ubus call DynamicDNS.Client _add \
-	'{\"parameters\":{ \
-		\"Alias\":\"cdrouter\", \
-		\"Server\":\"DynamicDNS.Server.9.\", \
-		\"Interface\":\"Device.IP.Interface.2.\", \
-		\"Username\":\"qacafe\", \
-		\"Password\":\"qacafe123\", \
-		\"Enable\":1} \
-	}' \
+	ba-cli 'DynamicDNS.Client.[Alias==\"cdrouter\"].Hostname.+{ \
+		\"Name\"=\"cpe01.prplOS.prplfoundation.org\", \
+		\"Enable\"=1}' \
 "
-ssh "root@$TARGET_LAN_IP" "\
-	ubus call DynamicDNS.Client.1.Hostname _add \
-	'{\"parameters\":{ \
-		\"Name\":\"cpe01.prplOS.prplfoundation.org\", \
-		\"Enable\":1} \
-	}' \
-"
-ssh "root@$TARGET_LAN_IP" "ubus call DynamicDNS.Client.1 _get '{\"depth\":2}'"
+ssh "root@$TARGET_LAN_IP" "ba-cli 'DynamicDNS.Client.[Alias==\"cdrouter\"].?2'"
