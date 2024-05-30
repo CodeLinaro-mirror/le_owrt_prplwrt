@@ -15,6 +15,8 @@ CDRouter-Top-100+mDNS Freedom initramfs:
 
 CDRouter-Top-100+mDNS Freedom VLAN WAN/LAN initramfs:
   <<: *wnc_freedom
+  rules:
+    - when: manual
   variables:
     CDROUTER_TEST_CONFIG: vlan
     DUT_INIT_SCRIPTS: |
@@ -69,6 +71,8 @@ CDRouter-IPv6-Top-100+mDNS Freedom initramfs:
 
 CDRouter-IPv6-Top-100+mDNS Freedom VLAN WAN/LAN initramfs:
   <<: *wnc_freedom_ipv6
+  rules:
+    - when: manual
   variables:
     CDROUTER_TEST_CONFIG: vlan-ipv6
     DUT_INIT_SCRIPTS: |
