@@ -29,7 +29,7 @@ Get current tr181-led manager PID:
 
 Add test for checking tr181-leds manager using PID:
 
-  $ R "ba-cli 'ProcessMonitor.Test+{Type=Process,Name=tr181-led,Subject=/var/run/tr181-led.pid,FailAction=RESTART,TestInterval=2,MaxFailNum=1}' | grep -v '^>' | head -n -2"
+  $ R "ba-cli 'ProcessMonitor.Test+{Type=Process,Name=tr181-led,Subject=/var/run/tr181-led.pid,FailAction=RESTART,TestInterval=2,MaxFailNum=1}' | grep -vE '^(>|$)'"
   ProcessMonitor.Test.\d+. (re)
 
 Check the LED manager check datamodel settings:
@@ -60,7 +60,7 @@ Check the LED manager check datamodel settings:
 
 Shorthen the test cycle duration to 1 second:
 
-  $ R "ba-cli 'ProcessMonitor.CycleDuration=1' | grep -v '^>' | head -n -2"
+  $ R "ba-cli 'ProcessMonitor.CycleDuration=1' | grep -vE '^(>|$)'"
   ProcessMonitor.
   ProcessMonitor.CycleDuration=1
 
@@ -92,6 +92,6 @@ Check that PIDs are different:
 
 Set the test cycle duration to 10 seconds:
 
-  $ R "ba-cli 'ProcessMonitor.CycleDuration=10' | grep -v '^>' | head -n -2"
+  $ R "ba-cli 'ProcessMonitor.CycleDuration=10' | grep -vE '^(>|$)'"
   ProcessMonitor.
   ProcessMonitor.CycleDuration=10
