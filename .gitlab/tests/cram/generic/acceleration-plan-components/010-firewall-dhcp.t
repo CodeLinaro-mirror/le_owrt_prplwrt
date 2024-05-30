@@ -12,7 +12,8 @@ Check that client is able to get new lease:
 
 Disable the dhcpv4s lan rule:
 
-  $ script --command "ssh -t root@$TARGET_LAN_IP ubus-cli Firewall.Service.[DestPort==67 && 'IP.Interface.3' in Interface].Enable=0" > /dev/null; sleep .5
+  $ R "ba-cli 'Firewall.Service.[DestPort==67 && \"IP.Interface.3\" in Interface].Enable=0'" >/dev/null
+  $ sleep .5
 
 Check that the firewall rule was actually removed:
 
@@ -27,7 +28,8 @@ Check that client is unable to get new lease:
 
 Enable back firewall rule for dhcpv4s lan access from LAN:
 
-  $ script --command "ssh -t root@$TARGET_LAN_IP ubus-cli Firewall.Service.[DestPort==67 && 'IP.Interface.3' in Interface].Enable=1" > /dev/null; sleep .5
+  $ R "ba-cli 'Firewall.Service.[DestPort==67 && \"IP.Interface.3\" in Interface].Enable=1'" >/dev/null
+  $ sleep .5
 
 Check that the firewall rule was actually created:
 
