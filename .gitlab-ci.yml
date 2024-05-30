@@ -8,7 +8,6 @@ include:
   - local: .gitlab/cdrouter/prpl-haze.yml
   - local: .gitlab/cdrouter/turris-omnia.yml
   - local: .gitlab/cdrouter/urx851-hdk-3.yml
-  - local: .gitlab/cdrouter/urx851-b0-dk-pon.yml
   - local: .gitlab/cdrouter/mxl25641-hdk-6.yml
   - local: .gitlab/cdrouter/wnc-freedom.yml
   - local: .gitlab/coverity.yml
@@ -40,7 +39,7 @@ stages:
   - cdrouter
   - coverity
 
-build test mxl_x86 mxl_wlan_hostap_ng prpl security:
+.build test mxl_x86 mxl_wlan_hostap_ng prpl security:
   image: registry.gitlab.com/prpl-foundation/prplos/prplos/prplos-next/builder-osp@sha256:c3e7d58f4ca821b78386da1a36c8a9646805cdc5b746500464411c245b95d049
   extends: .build test config
   artifacts:
@@ -98,7 +97,7 @@ run test URX851-HDK-3 with system on eMMC:
       optional: true
   extends: .urx851-hdk-3 testbed
 
-run test URX851-B0-DK-PON with system on eMMC:
+.run test URX851-B0-DK-PON with system on eMMC:
   needs:
     - job: build test mxl_x86 mxl_wlan_hostap_ng prpl security
       optional: true
