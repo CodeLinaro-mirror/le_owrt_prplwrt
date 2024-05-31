@@ -1,6 +1,6 @@
 .docker in docker:
   tags:
-    - gce
+    - saas-linux-small-amd64
   image: docker:26
   services:
     - docker:26-dind
