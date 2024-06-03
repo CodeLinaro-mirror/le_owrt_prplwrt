@@ -309,3 +309,5 @@ Check that wireless is disabled:
 
   $ R "pgrep -f 'hostapd -ddt'"
   [0-9]+ (re)
+  [0-9]+ (re)
+  [0-9]+ (re)
