@@ -26,6 +26,13 @@ Set channel to a non DFS one
 
   $ sleep 1
 
+Switch channel bandwith from 160 to 80 Mhz to avoid doing DFS CAC operation, that lead to long delay before vaps being up (to be removed when PPM 2810 is fixed):
+
+  $ R "ubus -S call WiFi.Radio.2 _set '{\"parameters\":{\"OperatingChannelBandwidth\":\"80MHz\"}}'"
+  {"WiFi.Radio.2.":{"OperatingChannelBandwidth":"80MHz"}}
+  {}
+  {"amxd-error-code":0}
+
 Check that wireless has desired configuration and state after boot:
 
   $ R "ubus -S call WiFi.SSID _get | jsonfilter -e @[*].SSID -e @[*].Status | sort"
