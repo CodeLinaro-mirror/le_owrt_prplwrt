@@ -30,7 +30,7 @@ Check that wireless has desired configuration and state after boot:
 
   $ R "ubus -S call WiFi.SSID _get | jsonfilter -e @[*].SSID -e @[*].Status | sort"
   Dormant
-  Down
+  Dormant
   Down
   Down
   Down
@@ -132,7 +132,7 @@ Check that wireless is operating:
 
   $ R "ubus -S call WiFi.SSID _get | jsonfilter -e @[*].SSID -e @[*].Status | sort"
   Dormant
-  Down
+  Dormant
   PWHM_SSID7
   PWHM_SSID8
   Up
@@ -152,6 +152,7 @@ Check that wireless is operating:
   Interface wlan0
   Interface wlan0.1
   Interface wlan0.2
+  Interface wlan1
   Interface wlan2
   Interface wlan2.1
   Interface wlan2.2
@@ -283,7 +284,7 @@ Check that wireless is disabled:
 
   $ R "ubus -S call WiFi.SSID _get | jsonfilter -e @[*].SSID -e @[*].Status | sort"
   Dormant
-  Down
+  Dormant
   Down
   Down
   Down
