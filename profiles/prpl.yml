@@ -36,7 +36,7 @@ feeds:
     revision: v8.17.5
   - name: feed_lcm
     uri: https://gitlab.com/prpl-foundation/prplos/feed_lcm.git
-    revision: v3.2.2
+    revision: v3.3.0
   - name: feed_tr69
     uri: https://gitlab.com/prpl-foundation/prplos/feed_tr69.git
     revision: v0.24.42
