@@ -59,6 +59,8 @@ build_push_container()
     mkdir -p "$rootfs_dir"
     tar -C "$rootfs_dir" -xf "$rootfs"
 
+    docker buildx prune --force
+
     docker build \
       --tag "$container_name" \
       --file .gitlab/docker/ib/lcm/Dockerfile \
