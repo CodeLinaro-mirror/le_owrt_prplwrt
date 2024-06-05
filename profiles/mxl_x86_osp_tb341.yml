@@ -40,8 +40,8 @@ feeds:
     revision: 3ab18477cfb96b7ae3a5bdc065ff0ba8a98ee843
   - name: opensource_apps_prpl
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_opensource_apps_prpl.git
-    tracking_branch:  master
-    revision: 5ed128166ca34d223214c5c5fc46da89c0485ab4
+    tracking_branch:  updk_9.1.55_openwrt-23.05-fix
+    revision: 83c32c6b7423695f57f39dbefb044c2744e93a65
   - name: packet_learn
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_packet_learn.git
     tracking_branch: master
@@ -52,12 +52,12 @@ feeds:
     revision: ff289aee92c4b677f93e6ee8351c2b8a16e8c932
   - name: ppa
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_ppa.git
-    tracking_branch: master
-    revision: 8bb4acb022ae7126b45407933bbd40cbf810d145
+    tracking_branch: updk_9.1.55_openwrt-23.05-fix
+    revision: 101f4e48579449e393fc81b7a58bc5ab8045ebca
   - name: pp_net_adapter
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_pp_net_adapter.git
-    tracking_branch: master
-    revision: bd7cdfb362cce97396757417586ea864f948e762
+    tracking_branch: updk_9.1.55_openwrt-23.05-fix
+    revision: a36288ad307696e697d263b3ce339ba2829536af
   - name: vpn_fw
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_vpn_fw.git
     tracking_branch: master
@@ -84,8 +84,8 @@ feeds:
     revision: e0c8e49ccf0bca8ce1c1390cdd3dc34780453d32
   - name: mcast_service
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_mcast_service.git
-    tracking_branch:  master
-    revision: a2cb18bb1b8ba93d65461c8f7e9786decf837619
+    tracking_branch:  updk_9.1.55_openwrt-23.05-fix
+    revision: 95b04837c5449a6b01a97fd3edd3411ba9e6530c
 
 packages:
   - kmod-mxl_eth_drv
@@ -157,7 +157,7 @@ packages:
 diffconfig: |
   CONFIG_DEVEL=y
   CONFIG_KERNEL_GIT_CLONE_URI="git@git.maxlinear.com:mxl/linux.git"
-  CONFIG_KERNEL_GIT_BRANCH="UPDK_9.1.50"
+  CONFIG_KERNEL_GIT_REF="UPDK_9.1.55_openwrt-23.05-fix"
   CONFIG_GPON_OMCI_ONU_UBUS_INTERFACE=y
   CONFIG_TARGET_MULTI_PROFILE=y
   CONFIG_TARGET_PER_DEVICE_ROOTFS=y
