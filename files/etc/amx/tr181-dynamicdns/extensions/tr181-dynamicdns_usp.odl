@@ -1,0 +1,9 @@
+%config {
+    %global usp.translate = {
+        "'DynamicDNS.'" = "Device.DynamicDNS."
+    };
+
+    %global backend-dir = [ "/usr/bin/mods/usp", "/usr/bin/mods/amxb" ];
+
+    %global usp.connect-retry = true;
+}
