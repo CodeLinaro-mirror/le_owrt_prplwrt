@@ -1333,7 +1333,6 @@ config KERNEL_JFFS2_FS_SECURITY
 
 config KERNEL_WERROR
 	bool "Compile the kernel with warnings as errors"
-	depends on !TARGET_ipq95xx_generic
 	help
 	  A kernel build should not cause any compiler warnings, and this
 	  enables the '-Werror' (for C) and '-Dwarnings' (for Rust) flags
