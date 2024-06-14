@@ -1,4 +1,12 @@
 .prpl-haze: &prpl_haze
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: never
+    - if: '$TFTP_IMAGE_DOWNLOAD_URL =~ $TFTP_IMAGE_FILENAME_PATTERN'
+      when: always
+    - if: '$TFTP_IMAGE_DOWNLOAD_URL'
+      when: never
+    - when: manual
   needs:
     - job: build test ipq807x prpl security
       optional: true
@@ -49,7 +57,6 @@ CDRouter-Wireless Haze initramfs:
       when: always
     - if: '$TFTP_IMAGE_DOWNLOAD_URL'
       when: never
-    - if: '$CI_COMMIT_BRANCH == $CI_DESIGNATED_BRANCH'
     - when: manual
 
 CDRouter-UPnP-IPv46 Haze initramfs:
