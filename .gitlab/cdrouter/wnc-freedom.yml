@@ -16,6 +16,8 @@ CDRouter-Top-100+mDNS Freedom initramfs:
 CDRouter-Top-100+mDNS Freedom VLAN WAN/LAN initramfs:
   <<: *wnc_freedom
   rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: never
     - when: manual
   variables:
     CDROUTER_TEST_CONFIG: vlan
@@ -72,6 +74,8 @@ CDRouter-IPv6-Top-100+mDNS Freedom initramfs:
 CDRouter-IPv6-Top-100+mDNS Freedom VLAN WAN/LAN initramfs:
   <<: *wnc_freedom_ipv6
   rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: never
     - when: manual
   variables:
     CDROUTER_TEST_CONFIG: vlan-ipv6
