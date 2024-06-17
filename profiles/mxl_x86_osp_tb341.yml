@@ -40,8 +40,8 @@ feeds:
     revision: 3ab18477cfb96b7ae3a5bdc065ff0ba8a98ee843
   - name: opensource_apps_prpl
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_opensource_apps_prpl.git
-    tracking_branch:  master
-    revision: 5ed128166ca34d223214c5c5fc46da89c0485ab4
+    tracking_branch: updk_9.1.60_openwrt_23.05
+    revision: 89e5b505fc160a59598e9041faff9984279b0231
   - name: packet_learn
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_packet_learn.git
     tracking_branch: master
@@ -52,12 +52,12 @@ feeds:
     revision: b0de0d1532b75c4358d0143ce726a435ad1329cd
   - name: ppa
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_ppa.git
-    tracking_branch: master
-    revision: eeb4e7575d413eca3d79b8b6b00e2c310d2d59b5
+    tracking_branch: updk_9.1.60_openwrt_23.05
+    revision: 8688a9221ea2e1b9c78c666ae005381038b43f2b
   - name: pp_net_adapter
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_pp_net_adapter.git
-    tracking_branch: master
-    revision: 66ebe86ca1350e3ef541abdb2091e6e027d2d6ce
+    tracking_branch: updk_9.1.60_openwrt_23.05
+    revision: 3ee058b1a2c5c327995d8a8fcb79dea9993a7d12
   - name: vpn_fw
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_vpn_fw.git
     tracking_branch: master
@@ -84,8 +84,8 @@ feeds:
     revision: e0c8e49ccf0bca8ce1c1390cdd3dc34780453d32
   - name: mcast_service
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_mcast_service.git
-    tracking_branch:  master
-    revision: 26cad4c4075fe0a69e3742f142701bff8cff2015
+    tracking_branch:  updk_9.1.60_openwrt_23.05
+    revision: 218b8e9195108d5e6688522071d24fe076c6b3a9
   - name: ugw_sdk
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_ugw_sdk.git
     tracking_branch: updk_9.1.60
@@ -173,7 +173,7 @@ packages:
 diffconfig: |
   CONFIG_DEVEL=y
   CONFIG_KERNEL_GIT_CLONE_URI="git@git.maxlinear.com:mxl/linux.git"
-  CONFIG_KERNEL_GIT_REF="UPDK_9.1.60.1"
+  CONFIG_KERNEL_GIT_REF="updk_9.1.60_openwrt_23.05"
   CONFIG_GPON_OMCI_ONU_UBUS_INTERFACE=y
   CONFIG_TARGET_MULTI_PROFILE=y
   CONFIG_TARGET_PER_DEVICE_ROOTFS=y
