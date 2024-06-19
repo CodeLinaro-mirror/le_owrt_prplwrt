@@ -175,6 +175,7 @@ packages:
   - procps-ng-pkill
   - procps-ng-uptime
   - prpl-webui
+  - reboot-service
   - rlyeh
   - routing-manager
   - ssh-server
