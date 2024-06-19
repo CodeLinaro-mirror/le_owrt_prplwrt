@@ -68,6 +68,7 @@ additional_packages:
 packages:
   - acl-manager
   - amx-cli
+  - amx-faultmonitor
   - amx-processmonitor
   - cthulhu
   - cthulhu-dhcpc
