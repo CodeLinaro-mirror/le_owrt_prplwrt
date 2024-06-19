@@ -14,27 +14,20 @@ Check that ubus has expected datamodels available:
   ACLManager.Role
   Bridging
   Bridging.Bridge
-  Bridging.Bridge.Port
-  Bridging.Bridge.Port.Stats
-  Bridging.Bridge.STP
-  Bridging.Bridge.VLAN
-  Bridging.Bridge.VLANPort
   Buttons
   Buttons.Button
+  CaptivePortal
+  CaptivePortal.LANInterface
   Cthulhu
   Cthulhu.Config
   Cthulhu.Container
   Cthulhu.Container.Instances
-  Cthulhu.Container.Instances.Plugins.NetworkConfig
-  Cthulhu.Container.Instances.Plugins.NetworkConfig.AccessInterfaces
-  Cthulhu.Container.Instances.Plugins.NetworkConfig.FirewallRules
-  Cthulhu.Container.Instances.Plugins.NetworkConfig.PortForwarding
   Cthulhu.Information
   Cthulhu.Plugins
-  Cthulhu.Plugins.NetworkConfig
-  Cthulhu.Plugins.NetworkConfig.FirewallRules
-  Cthulhu.Plugins.NetworkConfig.FirewallRules.Rules
-  Cthulhu.Plugins.NetworkConfig.Interfaces
+  Cthulhu.PluginsPrivate
+  Cthulhu.PluginsPrivate.NetworkConfig
+  Cthulhu.PluginsPrivate.NetworkConfig.FirewallRules
+  Cthulhu.PluginsPrivate.NetworkConfig.Interfaces
   Cthulhu.Sandbox
   Cthulhu.Sandbox.Instances
   Cthulhu.Sandbox.Instances.Plugins.DHCP
@@ -64,13 +57,9 @@ Check that ubus has expected datamodels available:
   DSLite.InterfaceSetting
   Device
   Device.Bridging
-  Device.BulkData
-  Device.Buttons
-  Device.CWMPManagementServer
-  Device.ConMon
+  Device.CaptivePortal
   Device.DHCPv4
   Device.DHCPv4.Client
-  Device.DHCPv4.Relay
   Device.DHCPv4.Server
   Device.DHCPv6
   Device.DHCPv6.Client
@@ -82,18 +71,13 @@ Check that ubus has expected datamodels available:
   Device.DynamicDNS
   Device.Ethernet
   Device.Firewall
-  Device.HomePlug
   Device.Hosts
   Device.IP
   Device.IP.Diagnostics
   Device.InterfaceStack
-  Device.LANConfigSecurity
   Device.LEDs
-  Device.LocalAgent
   Device.Logical
-  Device.MQTT
   Device.ManagementServer
-  Device.MoCA
   Device.NAT
   Device.NeighborDiscovery
   Device.PCP
@@ -105,14 +89,14 @@ Check that ubus has expected datamodels available:
   Device.SSH
   Device.Security
   Device.SoftwareModules
+  Device.Syslog
   Device.Time
   Device.UPnP
-  Device.UPnP.Description
-  Device.UPnP.Discovery
   Device.UserInterface
   Device.Users
   Device.WiFi
   Device.XPON
+  Device.X_PRPL-COM_Buttons
   Device.X_PRPL-COM_MultiSettings
   Device.X_PRPL-COM_PersistentConfiguration
   Device.X_PRPL-COM_WANManager
@@ -120,6 +104,7 @@ Check that ubus has expected datamodels available:
   DeviceInfo.DeviceImageFile
   DeviceInfo.FirmwareImage
   DeviceInfo.Location
+  DeviceInfo.LogRotate
   DeviceInfo.MemoryStatus
   DeviceInfo.ProcessStatus
   DeviceInfo.ProcessStatus.Process
@@ -129,6 +114,10 @@ Check that ubus has expected datamodels available:
   Devices
   Devices.Config
   Devices.Config.global
+  Devices.Config.location
+  Devices.Config.mDNSScanner
+  Devices.Config.mod-self
+  Devices.Config.priority
   Devices.Device
   Devices.Query
   DynamicDNS
@@ -137,9 +126,7 @@ Check that ubus has expected datamodels available:
   Ethernet
   Ethernet.Interface
   Ethernet.Link
-  Ethernet.Link.Stats
   Ethernet.VLANTermination
-  Ethernet.VLANTermination.Stats
   Firewall
   Firewall.Chain
   Firewall.ConnectionTracking
@@ -156,15 +143,22 @@ Check that ubus has expected datamodels available:
   Hosts
   Hosts.AccessControl
   Hosts.Host
+  Hosts.X_PRPL-COM_HostConfig
   IP
   IP.ActivePort
   IP.Interface
   IPDiagnostics
+  IPDiagnostics.DownloadDiagnostics
+  IPDiagnostics.DownloadDiagnostics.IncrementalResult
+  IPDiagnostics.DownloadDiagnostics.PerConnectionResult
   IPDiagnostics.IPPing
   IPDiagnostics.IPPing.Process
   IPDiagnostics.TraceRoute
   IPDiagnostics.TraceRoute.Process
   IPDiagnostics.TraceRoute.RouteHops
+  IPDiagnostics.UploadDiagnostics
+  IPDiagnostics.UploadDiagnostics.IncrementalResult
+  IPDiagnostics.UploadDiagnostics.PerConnectionResult
   IPDiagnostics.X_PRPL-COM_DownloadConfig
   IPDiagnostics.X_PRPL-COM_DownloadResult
   IPDiagnostics.X_PRPL-COM_DownloadResult.Config
@@ -186,17 +180,25 @@ Check that ubus has expected datamodels available:
   ManagementServer.ACSTransfers
   ManagementServer.ACSTransfers.ACSTransfer
   ManagementServer.ConnRequest
+  ManagementServer.HeartbeatPolicy
+  ManagementServer.InformParameter
   ManagementServer.InternalSettings
   ManagementServer.ManageableDevice
+  ManagementServer.SMM
+  ManagementServer.SMM.DUStateChangeComplete
   ManagementServer.State
   ManagementServer.Stats
   ManagementServer.Subscription
+  ManagementServer.Transfers
+  ManagementServer.Transfers.ScheduleDownload
   MultiSettings
   MultiSettings.Profile
   NAT
   NAT.InterfaceSetting
   NAT.PortMapping
   NAT.PortTrigger
+  NAT.X_PRPL-COM_StaticNAT
+  NAT.X_PRPL-COM_StaticNAT.Host
   NeighborDiscovery
   NeighborDiscovery.InterfaceSetting
   NetDev
@@ -212,10 +214,6 @@ Check that ubus has expected datamodels available:
   PCP.Client
   PPP
   PPP.Interface
-  PPP.Interface.IPCP
-  PPP.Interface.IPv6CP
-  PPP.Interface.PPPoE
-  PPP.Interface.Stats
   PacketInterception
   PacketInterception.CommunicationConfig
   PacketInterception.CommunicationConfig.Socket
@@ -246,9 +244,7 @@ Check that ubus has expected datamodels available:
   Routing.RIP.InterfaceSetting
   Routing.RouteInformation
   Routing.RouteInformation.InterfaceSetting
-  Routing.RouteInformation.InterfaceSetting.Option
   Routing.Router
-  Routing.Router.IPv6Forwarding
   SSH
   SSH.AuthorizedKey
   SSH.Server
@@ -260,15 +256,19 @@ Check that ubus has expected datamodels available:
   SoftwareModules.ExecutionUnit
   SoftwareModules.NetworkConfig
   SoftwareModules.NetworkConfig.Interfaces
-  SoftwareModules.Plugins
+  Syslog
+  Syslog.Action
+  Syslog.Filter
+  Syslog.Source
+  Syslog.Template
+  System
   Time
   Time.Client
   Time.Server
   Timingila
-  Timingila.ProxyManager
   UPnP
   UPnP.Device
-  UPnP.IGDConfig
+  UPnP.X_PRPL-COM_IGDConfig
   Unbound
   UserInterface
   UserInterface.HTTPAccess
@@ -283,6 +283,8 @@ Check that ubus has expected datamodels available:
   WiFi.AccessPoint
   WiFi.AutoCommitMgr
   WiFi.AutoNeighbourAddition
+  WiFi.DaemonMgt
+  WiFi.DaemonMgt.Daemon
   WiFi.EndPoint
   WiFi.Radio
   WiFi.SSID
@@ -290,6 +292,3 @@ Check that ubus has expected datamodels available:
   WiFi.wps_DefParam
   XPON
   XPON.ONU
-  X_PRPL-ORG
-  X_PRPL-ORG.prplMeshAgent
-  X_PRPL-ORG.prplMeshAgent.Fronthaul
