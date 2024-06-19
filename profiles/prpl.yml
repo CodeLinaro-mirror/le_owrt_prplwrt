@@ -176,6 +176,7 @@ packages:
   - procps-ng-uptime
   - prpl-webui
   - prplmesh
+  - reboot-service
   - rlyeh
   - routing-manager
   - ssh-server
