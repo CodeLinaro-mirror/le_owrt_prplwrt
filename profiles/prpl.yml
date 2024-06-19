@@ -200,6 +200,7 @@ packages:
   - tr181-ipdiagnostics
   - tr181-led
   - tr181-logical
+  - tr181-mqttbroker
   - tr181-neighbordiscovery
   - tr181-pcp
   - tr181-ppp
