@@ -77,6 +77,8 @@ Check that ubus has expected datamodels available:
   Device.InterfaceStack
   Device.LEDs
   Device.Logical
+  Device.MQTT
+  Device.MQTT.Broker
   Device.ManagementServer
   Device.NAT
   Device.NeighborDiscovery
@@ -126,6 +128,7 @@ Check that ubus has expected datamodels available:
   Ethernet
   Ethernet.Interface
   Ethernet.Link
+  Ethernet.RMONStats
   Ethernet.VLANTermination
   Firewall
   Firewall.Chain
@@ -176,6 +179,8 @@ Check that ubus has expected datamodels available:
   Logical.Interface
   Logical.X_PRPL-COM_Subnet
   Logical.X_PRPL-COM_Subnet.Config
+  MQTTBroker
+  MQTTBroker.Broker
   ManagementServer
   ManagementServer.ACSTransfers
   ManagementServer.ACSTransfers.ACSTransfer
@@ -225,6 +230,8 @@ Check that ubus has expected datamodels available:
   PersistentConfiguration.Config
   PersistentConfiguration.Config.Security
   PersistentConfiguration.Service
+  ProcessFaults
+  ProcessFaults.ProcessFault
   ProcessMonitor
   ProcessMonitor.Test
   ProxyManager
@@ -235,6 +242,8 @@ Check that ubus has expected datamodels available:
   QoS.QueueStats
   QoS.Scheduler
   QoS.Shaper
+  Reboot
+  Reboot.Reboot
   Rlyeh
   Rlyeh.Images
   RouterAdvertisement
