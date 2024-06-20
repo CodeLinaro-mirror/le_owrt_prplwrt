@@ -81,6 +81,8 @@ Check that ubus has expected datamodels available:
   Device.InterfaceStack
   Device.LEDs
   Device.Logical
+  Device.MQTT
+  Device.MQTT.Broker
   Device.ManagementServer
   Device.NAT
   Device.NeighborDiscovery
@@ -186,6 +188,8 @@ Check that ubus has expected datamodels available:
   MCASTD.Debug.Zone
   MCASTD.Intf
   MCASTD.Tuner
+  MQTTBroker
+  MQTTBroker.Broker
   ManagementServer
   ManagementServer.ACSTransfers
   ManagementServer.ACSTransfers.ACSTransfer
