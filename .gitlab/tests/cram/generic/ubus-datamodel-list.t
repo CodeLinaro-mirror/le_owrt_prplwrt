@@ -81,6 +81,8 @@ Check that ubus has expected datamodels available:
   Device.InterfaceStack
   Device.LEDs
   Device.Logical
+  Device.MQTT
+  Device.MQTT.Broker
   Device.ManagementServer
   Device.NAT
   Device.NeighborDiscovery
