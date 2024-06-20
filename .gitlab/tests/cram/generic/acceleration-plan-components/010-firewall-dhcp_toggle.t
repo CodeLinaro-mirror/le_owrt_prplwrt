@@ -10,9 +10,10 @@ Check that client is able to get new lease:
   |     Subnet Mask: 255.255.255.0
   |_    Domain Name Server: 192.168.1.1
 
-Remove cpe-dhcpv4s-lan rule:
+Disable the dhcpv4s lan rule:
 
-  $ script --command "ssh -t root@$TARGET_LAN_IP ubus-cli Firewall.Service.[DestPort==67 && \"IP.Interface.3\" in Interface]-" > /dev/null; sleep .5
+  $ R "ba-cli 'Firewall.Service.[DestPort==67 && \"IP.Interface.3\" in Interface].Enable=0'" >/dev/null
+  $ sleep .5
 
 Check that the firewall rule was actually removed:
 
@@ -25,18 +26,10 @@ Check that client is unable to get new lease:
   $ sudo nmap --script broadcast-dhcp-discover -e $TESTBED_LAN_INTERFACE 2>&1 | egrep '(Server|Router|Subnet)'
   [1]
 
-Add back firewall rule for cpe-dhcpv4s-lan access from LAN:
+Enable back firewall rule for dhcpv4s lan access from LAN:
 
-  $ printf "\
-  > ubus-cli Firewall.Service+{Alias='cpe-dhcpv4s-lan'}
-  > ubus-cli Firewall.Service.cpe-dhcpv4s-lan.Action=Accept
-  > ubus-cli Firewall.Service.cpe-dhcpv4s-lan.DestPort=67
-  > ubus-cli Firewall.Service.cpe-dhcpv4s-lan.IPVersion=4
-  > ubus-cli Firewall.Service.cpe-dhcpv4s-lan.Interface=Device.IP.Interface.3.
-  > ubus-cli Firewall.Service.cpe-dhcpv4s-lan.Protocol=17
-  > ubus-cli Firewall.Service.cpe-dhcpv4s-lan.Enable=1
-  > " > /tmp/cram
-  $ script --command "ssh -t root@$TARGET_LAN_IP '$(cat /tmp/cram)'" > /dev/null
+  $ R "ba-cli 'Firewall.Service.[DestPort==67 && \"IP.Interface.3\" in Interface].Enable=1'" >/dev/null
+  $ sleep .5
 
 Check that the firewall rule was actually created:
 
