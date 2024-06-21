@@ -4,7 +4,7 @@ feeds:
   - name: feed_prpl
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-prpl.git
     tracking_branch: prplos
-    revision: 8356084aa8083f93c8dcc354fec1feca68739930
+    revision: 4cf4c1407ae8ea852198c3651d561e7ecf932e3e
 
 additional_packages:
   - feed: packages
@@ -247,3 +247,4 @@ diffconfig: |
           CONFIG_BUSYBOX_CUSTOM=y
           CONFIG_BUSYBOX_CONFIG_FLOAT_DURATION=y
           # CONFIG_BUSYBOX_CONFIG_NTPD is not set
+          CONFIG_SAH_WLD_ENABLE_USP_SERVER_SOCKET=y
