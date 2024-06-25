@@ -2539,7 +2539,7 @@ SECTION "CDRouter USP Add-On" {
         # testvar uspAgentPort                     auto
         # testvar uspAgentPath                     /agent-path
 
-        # testvar uspMessageTimeout                30
+          testvar uspMessageTimeout                120
         # testvar uspNotificationTimeout           30
         # testvar uspRebootTimeout                 120
 
