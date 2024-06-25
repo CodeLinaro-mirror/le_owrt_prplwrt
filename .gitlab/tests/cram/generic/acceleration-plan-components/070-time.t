@@ -16,6 +16,9 @@ Check that we've expected datamodel:
   Time.Server.2
   Time.Server.2.Authentication
   Time.Server.2.Stats
+  Time.Server.3
+  Time.Server.3.Authentication
+  Time.Server.3.Stats
 
   $ R "ubus call Time.Client.1 _get | jsonfilter -e @[*].Port -e @[*].Status -e @[*].Servers -e @[*].Alias -e @[*].Mode | sort"
   0.europe.pool.ntp.org, 1.europe.pool.ntp.org
@@ -27,12 +30,16 @@ Check that we've expected datamodel:
   $ R "ubus call Time.Server _get | jsonfilter -e @[*].Port -e @[*].Status -e @[*].Alias -e @[*].Mode | sort"
   123
   123
+  123
   Unicast
   Unicast
+  Unicast
+  Up
   Up
   Up
   cpe-br-guest
   cpe-br-lan
+  cpe-br-lcm
 
 Check that we've correct Time.CurrentLocalTime:
 
