@@ -4,7 +4,7 @@ feeds:
   - name: feed_prpl
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-prpl.git
     tracking_branch: prplos
-    revision: 1c08ad7d35db0359280b16024977251ed5304bd0
+    revision: 79605f4dfc00dc93823abec714e850867dc1d42f
 
 additional_packages:
   - feed: packages
@@ -78,6 +78,8 @@ packages:
   - lxc-wait
   - miniupnpd-prpl
   - mod-amxb-ubus
+  - mod-amxb-usp
+  - mod-usp-registration
   - mod-autosensing
   - mod-ba-cli
   - mod-dhcpv4c
@@ -170,6 +172,7 @@ diffconfig: |
           CONFIG_DROPBEAR_ECC=y
           CONFIG_SAH_LUA_AMX_LUA_VERSION_OVERRIDE=y
           CONFIG_SAH_LUA_AMX_LUA_VERSION="5.1"
+          CONFIG_SAH_AMX_TR181_DEVICE_OBUSPA_SUPPORT=y
           CONFIG_PACKAGE_rpcd-mod-luci=y
           CONFIG_PACKAGE_ip-full=y
           CONFIG_PACKAGE_ip-bridge=y
