@@ -101,7 +101,7 @@ CDRouter-TR-069 Turris eMMC:
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
       .gitlab/scripts/dut-init/cdrouter-tr181-mockups.sh
 
-CDRouter-USP-Certification Turris initramfs:
+CDRouter-USP-prpl Turris initramfs:
   <<: *turris_cdrouter
   variables:
     DUT_INIT_SCRIPTS: |
