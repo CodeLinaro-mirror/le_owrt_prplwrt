@@ -92,6 +92,10 @@ CDRouter-TR-069 URX851-HDK-3 eMMC:
 
 CDRouter-USP-prpl URX851-HDK-3 eMMC:
   <<: *urx851_cdrouter
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: never
+    - when: manual
   variables:
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh

@@ -102,6 +102,10 @@ CDRouter-TR-069 Haze eMMC:
 
 CDRouter-USP-prpl Haze initramfs:
   <<: *prpl_haze
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: never
+    - when: manual
   variables:
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
