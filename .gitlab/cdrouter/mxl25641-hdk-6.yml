@@ -92,6 +92,10 @@ CDRouter-TR-069 MXL25641-HDK-6 eMMC:
 
 CDRouter-USP-prpl MXL25641-HDK-6 eMMC:
   <<: *mxl25641_cdrouter
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: never
+    - when: manual
   variables:
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
