@@ -103,6 +103,10 @@ CDRouter-TR-069 Turris eMMC:
 
 CDRouter-USP-prpl Turris initramfs:
   <<: *turris_cdrouter
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: never
+    - when: manual
   variables:
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh

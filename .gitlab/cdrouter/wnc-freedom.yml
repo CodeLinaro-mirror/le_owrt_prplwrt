@@ -95,6 +95,10 @@ CDRouter-TR-069 Freedom eMMC:
 
 CDRouter-USP-prpl Freedom initramfs:
   <<: *wnc_freedom
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: never
+    - when: manual
   variables:
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
