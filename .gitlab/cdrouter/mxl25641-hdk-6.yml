@@ -90,7 +90,7 @@ CDRouter-TR-069 MXL25641-HDK-6 eMMC:
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
       .gitlab/scripts/dut-init/cdrouter-tr181-mockups.sh
 
-CDRouter-USP-Certification MXL25641-HDK-6 eMMC:
+CDRouter-USP-prpl MXL25641-HDK-6 eMMC:
   <<: *mxl25641_cdrouter
   variables:
     DUT_INIT_SCRIPTS: |
