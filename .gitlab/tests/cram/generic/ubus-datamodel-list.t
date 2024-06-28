@@ -43,6 +43,9 @@ Check that ubus has expected datamodels available:
   DNS
   DNS.Client
   DNS.Client.Server
+  DNS.Diagnostics
+  DNS.Diagnostics.NSLookupDiagnostics
+  DNS.Diagnostics.NSLookupDiagnostics.Result
   DNS.Relay
   DNS.Relay.Forwarding
   DNS.Relay.X_PRPL-COM_Config
