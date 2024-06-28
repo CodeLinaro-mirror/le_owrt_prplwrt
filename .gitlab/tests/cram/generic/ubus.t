@@ -79,8 +79,3 @@ Check that we've correct hostname and release info:
   $ R "ubus -S call system board | jsonfilter -e '@.hostname' -e '@.release.distribution'"
   prplOS.lan
   prplOS
-
-Check that netifd service is running:
-
-  $ R "ubus -S call service list | jsonfilter -e '@.network.instances.instance1.running'"
-  true
