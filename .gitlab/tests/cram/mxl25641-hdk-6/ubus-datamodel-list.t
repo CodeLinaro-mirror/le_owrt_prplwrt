@@ -1,15 +1,10 @@
-Dont run on OSPv2 board because of WiFi.Vendor.Daemon, see PPM-2814:
-
-  $ [ "$DUT_BOARD" = "mxl25641-hdk-6" ] && exit 80
-  [1]
-
 Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
 Check that ubus has expected datamodels available:
 
-  $ R "ubus list | grep '[[:upper:]]' | grep -v '\.[[:digit:]]'"
+  $ R "ubus list | grep '[[:upper:]]' | grep -v -e '\.[[:digit:]]'"
   ACLManager
   ACLManager.Role
   Bridging
@@ -104,6 +99,7 @@ Check that ubus has expected datamodels available:
   Device.UserInterface
   Device.Users
   Device.WiFi
+  Device.WiFi.DataElements
   Device.XPON
   Device.X_PRPL-COM_MultiSettings
   Device.X_PRPL-COM_PersistentConfiguration
@@ -288,9 +284,26 @@ Check that ubus has expected datamodels available:
   WiFi.Radio
   WiFi.SSID
   WiFi.Vendor
+  WiFi.Vendor.Daemon
   WiFi.wps_DefParam
   XPON
   XPON.ONU
   X_PRPL-ORG
   X_PRPL-ORG.prplMeshAgent
   X_PRPL-ORG.prplMeshAgent.Fronthaul
+  X_PRPL-ORG_WiFiController
+  X_PRPL-ORG_WiFiController.AgentConnectedEvent
+  X_PRPL-ORG_WiFiController.AgentDisconnectedEvent
+  X_PRPL-ORG_WiFiController.AssociationEvent
+  X_PRPL-ORG_WiFiController.AssociationEvent.AssociationEventData
+  X_PRPL-ORG_WiFiController.Configuration
+  X_PRPL-ORG_WiFiController.Configuration.QoS
+  X_PRPL-ORG_WiFiController.DisassociationEvent
+  X_PRPL-ORG_WiFiController.DisassociationEvent.DisassociationEventData
+  X_PRPL-ORG_WiFiController.FailedConnectionEvent
+  X_PRPL-ORG_WiFiController.FailedConnectionEvent.FailedConnectionEventData
+  X_PRPL-ORG_WiFiController.Network
+  X_PRPL-ORG_WiFiController.Network.AccessPoint
+  X_PRPL-ORG_WiFiController.Network.Device
+  X_PRPL-ORG_WiFiController.Network.MultiAPSteeringSummaryStats
+  X_PRPL-ORG_WiFiController.SteerEvent
