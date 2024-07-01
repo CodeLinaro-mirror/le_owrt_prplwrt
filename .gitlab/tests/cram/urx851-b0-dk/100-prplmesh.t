@@ -191,7 +191,7 @@ Check that wireless is operating:
 Check that prplmesh processes are running:
 
   $ R logger -t cram "Check that prplmesh processes are running"
-  $ R "ps axw" | sed -nE 's/.*(\/opt\/prplmesh\/bin.*)/\1/p' | LC_ALL=C sort
+  $ R "ps axw" | grep -v 'prplmesh_utils.sh roll_logs' | sed -nE 's/.*(\/opt\/prplmesh\/bin.*)/\1/p' | LC_ALL=C sort
   /opt/prplmesh/bin/beerocks_agent
   /opt/prplmesh/bin/beerocks_controller
   /opt/prplmesh/bin/beerocks_fronthaul -i wlan0
