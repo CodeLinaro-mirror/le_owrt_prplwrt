@@ -20,7 +20,7 @@ feeds:
     uri: https://gitlab.com/prpl-foundation/prplos/feed_net_services.git
     revision: v11.0.1
   - name: feed_net_hl_services
-    uri: https://gitlab.com/prpl-foundation/prplos/feed_net_hl_services.git
+    uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_net_hl_services.git
     revision: v1.2.7
   - name: feed_peripheral
     uri: https://gitlab.com/prpl-foundation/prplos/feed_peripheral.git
@@ -41,7 +41,7 @@ feeds:
     uri: https://gitlab.com/prpl-foundation/prplos/feed_tr69.git
     revision: v0.24.35
   - name: feed_netmodel
-    uri: https://gitlab.com/prpl-foundation/prplos/feed_netmodel.git
+    uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_netmodel.git
     revision: v4.10.3
   - name: feed_wifi_swl
     uri: https://gitlab.com/prpl-foundation/prplos/feed_wifi_swl.git
@@ -50,7 +50,7 @@ feeds:
     uri: https://gitlab.com/prpl-foundation/prplos/feed_wifi_core.git
     revision: v1.0.5
   - name: feed_prpl
-    uri: https://gitlab.com/prpl-foundation/prplOS/feed-prpl.git
+    uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prpl.git
     tracking_branch: prplos
     revision: ff487523916257cb462d4e23f6ac700c96ec3059
 
