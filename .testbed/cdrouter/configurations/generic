@@ -276,9 +276,9 @@ SECTION "Base Configuration" {
         SECTION "NTP" {
 
             # testvar ntpServer1                       3.3.3.6
-            # testvar ntpServerName1                   time.nist.gov
+              testvar ntpServerName1                   0.europe.pool.ntp.org
             # testvar ntpServer2                       3.3.3.7
-            # testvar ntpServerName2                   time.foo.com
+              testvar ntpServerName2                   1.europe.pool.ntp.org
             # testvar ntpStartDate                     "6/2/2007 11:00 am UTC"
             # testvar ntpOffset                        0
             # testvar enableRFC868TimeProtocol         no
@@ -2537,9 +2537,9 @@ SECTION "CDRouter USP Add-On" {
         # testvar uspAgentIpv4                     auto
         # testvar uspAgentIpv6                     auto
         # testvar uspAgentPort                     auto
-        # testvar uspAgentPath                     /agent-path
+          testvar uspAgentPath                     /queue/agent-1
 
-        # testvar uspMessageTimeout                30
+          testvar uspMessageTimeout                120
         # testvar uspNotificationTimeout           30
         # testvar uspRebootTimeout                 120
 
