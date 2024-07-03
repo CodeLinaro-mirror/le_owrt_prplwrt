@@ -113,6 +113,7 @@ packages:
   - netmodel-ssid
   - netmodel-vlan
   - netmodel-xpon
+  - obuspa
   - odl-generator
   - packet-interception
   - pcm-manager
