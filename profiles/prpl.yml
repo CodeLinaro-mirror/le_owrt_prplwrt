@@ -15,7 +15,7 @@ feeds:
     revision: v16.11.7
   - name: feed_qos_firewall
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_qos_firewall.git
-    revision: v6.9.9
+    revision: v6.10.0
   - name: feed_net_services
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_net_services.git
     revision: v11.4.3
