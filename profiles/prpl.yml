@@ -27,7 +27,7 @@ feeds:
     revision: v0.9.0
   - name: feed_debug
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_debug.git
-    revision: v2.0.11
+    revision: v2.0.12
   - name: feed_board_configuration
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_board_configuration.git
     revision: v1.9.5
