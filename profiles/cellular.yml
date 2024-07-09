@@ -1,0 +1,15 @@
+---
+description: Add cellular features
+
+additional_packages:
+  - feed: packages
+    packages:
+      - glib2
+      - mbim-utils
+      - qmi-utils
+
+packages:
+  - kmod-usb-net-qmi-wwan
+  - kmod-usb-serial-option
+  - umbim
+  - uqmi
