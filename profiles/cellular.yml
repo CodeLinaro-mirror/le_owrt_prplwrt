@@ -1,0 +1,23 @@
+---
+description: Add cellular features
+
+additional_packages:
+  - feed: packages
+    packages:
+      - dbus
+      - dbus-utils
+      - glib2
+      - libqrtr-glib
+      - libxslt
+      - picocom
+
+packages:
+  - kmod-usb-net-qmi-wwan
+  - kmod-usb-serial-option
+  - libmbim
+  - libqmi
+  - mbim-utils
+  - modemmanager
+  - qmi-utils
+  - umbim
+  - uqmi
