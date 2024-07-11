@@ -20,7 +20,7 @@ Check that random LXC binaries work:
 Check Cthulhu.Config datamodel:
 
   $ R "ubus -S call Cthulhu.Config _get"
-  {"Cthulhu.Config.":{"PluginLocation":"/usr/lib/amx/cthulhu/plugins","ImageLocation":"/usr/share/rlyeh/images","UseOverlayFS":true,"UseBundles":false,"OnboardingLocation":"/etc/amx/cthulhu/onboard","StorageLocation":"/usr/share/cthulhu","OnboardingFile":"/usr/share/cthulhu/cthulhu_onboarded","DefaultBackend":"/usr/lib/cthulhu-lxc/cthulhu-lxc.so","BundleLocation":"/usr/share/celephais/bundles","BlobLocation":"/usr/share/rlyeh/blobs"}}
+  {"Cthulhu.Config.":{"PluginLocation":"/usr/lib/amx/cthulhu/plugins","ImageLocation":"/lcm/rlyeh/images","UseOverlayFS":true,"GracefulShutdownTimeoutSeconds":10,"UseBundles":false,"StorageLocation":"/lcm/cthulhu","DefaultBackend":"/usr/lib/cthulhu-lxc/cthulhu-lxc.so","BundleLocation":"/lcm/celephais/bundles","BlobLocation":"/lcm/rlyeh/blobs"}}
   {}
   {"amxd-error-code":0}
 
