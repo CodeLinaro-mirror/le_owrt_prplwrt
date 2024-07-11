@@ -12,8 +12,7 @@ Check that client is able to get new lease:
 
 Remove cpe-dhcpv4s-lan rule:
 
-  $ script --command "ssh -t root@$TARGET_LAN_IP ubus-cli Firewall.Service.[DestPort==67 && \"IP.Interface.3\" in Interface]-" > /dev/null; sleep .5
-
+  $ R "ba-cli 'Firewall.Service.[DestPort==67 && \"IP.Interface.3\" in Interface].-'" > /dev/null; sleep .5
 Check that the firewall rule was actually removed:
 
   $ R "iptables -vnL INPUT_Services | grep :67 | awk '/ACCEPT.*udp/ {print \$3, \$4, \$6, \$11}' | sort"
@@ -28,13 +27,13 @@ Check that client is unable to get new lease:
 Add back firewall rule for cpe-dhcpv4s-lan access from LAN:
 
   $ printf "\
-  > ubus-cli Firewall.Service+{Alias='cpe-dhcpv4s-lan'}
-  > ubus-cli Firewall.Service.cpe-dhcpv4s-lan.Action=Accept
-  > ubus-cli Firewall.Service.cpe-dhcpv4s-lan.DestPort=67
-  > ubus-cli Firewall.Service.cpe-dhcpv4s-lan.IPVersion=4
-  > ubus-cli Firewall.Service.cpe-dhcpv4s-lan.Interface=Device.IP.Interface.3.
-  > ubus-cli Firewall.Service.cpe-dhcpv4s-lan.Protocol=17
-  > ubus-cli Firewall.Service.cpe-dhcpv4s-lan.Enable=1
+  > ubus-cli 'Firewall.Service+{Alias=\"cpe-dhcpv4s-lan\"}'
+  > ubus-cli 'Firewall.Service.cpe-dhcpv4s-lan.Action=Accept'
+  > ubus-cli 'Firewall.Service.cpe-dhcpv4s-lan.DestPort=67'
+  > ubus-cli 'Firewall.Service.cpe-dhcpv4s-lan.IPVersion=4'
+  > ubus-cli 'Firewall.Service.cpe-dhcpv4s-lan.Interface=Device.IP.Interface.3.'
+  > ubus-cli 'Firewall.Service.cpe-dhcpv4s-lan.Protocol=17'
+  > ubus-cli 'Firewall.Service.cpe-dhcpv4s-lan.Enable=1'
   > " > /tmp/cram
   $ script --command "ssh -t root@$TARGET_LAN_IP '$(cat /tmp/cram)'" > /dev/null
 
