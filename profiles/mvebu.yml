@@ -9,6 +9,7 @@ description: Build image for the Linksys WRT3200ACM (Rango), WRT32X (Venom), Tur
 
 packages:
   - hostapd-utils
+  - iw-full
 
 diffconfig: |
   CONFIG_TESTING_KERNEL=y
