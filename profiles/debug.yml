@@ -7,7 +7,6 @@ packages:
   - gdb
   - gdbserver
   - wpa-cli
-  - iw-full
 
 diffconfig: |
   CONFIG_BUSYBOX_DEFAULT_FEATURE_REVERSE_SEARCH=y
