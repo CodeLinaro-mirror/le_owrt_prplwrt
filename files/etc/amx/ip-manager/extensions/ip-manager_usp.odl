@@ -4,17 +4,7 @@
     };
 
     %global usp.registrations = [
-        "Device.IP.ActivePortNumberOfEntries",
-        "Device.IP.IPv4Capable",
-        "Device.IP.IPv4Enable",
-        "Device.IP.IPv4Status",
-        "Device.IP.IPv6Capable",
-        "Device.IP.IPv6Enable",
-        "Device.IP.IPv6Status",
-        "Device.IP.InterfaceNumberOfEntries",
-        "Device.IP.ULAPrefix",
-        "Device.IP.ActivePort.",
-        "Device.IP.Interface."
+        "Device.IP."
     ];
 
     %global backend-dir = [ "/usr/bin/mods/usp", "/usr/bin/mods/amxb" ];
