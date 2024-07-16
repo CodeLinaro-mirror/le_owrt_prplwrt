@@ -66,7 +66,7 @@ additional_packages:
       - lighttpd-mod-auth
       - lighttpd-mod-authn_file
       - lighttpd-mod-fastcgi
-      - syslog-ng2
+      - syslog-ng
 
 packages:
   - acl-manager
