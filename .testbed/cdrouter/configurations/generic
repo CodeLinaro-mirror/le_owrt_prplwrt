@@ -2412,7 +2412,7 @@ SECTION "CDRouter TR-069 Add-On" {
         # testvar tr69DownloadImage                /path/to/image
         # testvar tr69DownloadImageVersion         1.0
         # testvar tr69DownloadOriginalImage        /path/to/original_image
-        # testvar tr69RebootTimeout                300
+        testvar tr69RebootTimeout                  400
         # testvar tr69RpcTimeout                   180
         # testvar tr69DownloadConfig               /path/to/config
         # testvar tr69MaxUserNameLen               256
