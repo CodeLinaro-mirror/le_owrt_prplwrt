@@ -64,6 +64,7 @@ additional_packages:
       - lighttpd-mod-authn_file
       - lighttpd-mod-fastcgi
       - syslog-ng
+      - logrotate
 
 packages:
   - acl-manager
