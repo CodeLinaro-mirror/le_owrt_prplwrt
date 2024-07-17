@@ -304,3 +304,6 @@ Check that ubus has expected datamodels available:
   WiFi.wps_DefParam
   XPON
   XPON.ONU
+  X_PRPL-ORG_WiFiController
+  X_PRPL-ORG_WiFiController.prplMeshAgent
+  X_PRPL-ORG_WiFiController.prplMeshAgent.Fronthaul
