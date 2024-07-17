@@ -1,0 +1,13 @@
+diff --git a/src/amxb_usp_common.c b/src/amxb_usp_common.c
+index 209ffef..965ebe2 100644
+--- a/src/amxb_usp_common.c
++++ b/src/amxb_usp_common.c
+@@ -158,7 +158,7 @@ static int amxb_usp_wait_for_handshake(amxb_usp_t* amxb_usp_ctx) {
+     fds[0].fd = amxb_usp_get_fd(amxb_usp_ctx);
+     fds[0].events = POLLIN;
+ 
+-    retval = poll(fds, 1, 2 * 1000);
++    retval = poll(fds, 1, 2 * 1500);
+     if(retval <= 0) {
+         retval = -1;
+         goto exit;
