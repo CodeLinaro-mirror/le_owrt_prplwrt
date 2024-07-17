@@ -1,0 +1,12 @@
+--- a/odl/tr181-httpaccess.odl
++++ b/odl/tr181-httpaccess.odl
+@@ -45,7 +45,8 @@
+ 
+ }
+    
+-requires "Firewall.";
++requires "Device.";
++requires "Firewall.Service.";
+ requires "Users.Role.";
+ 
+ include "tr181-httpaccess_target.odl";
