@@ -219,7 +219,7 @@ packages:
 
 diffconfig: |
           CONFIG_DEVEL=y
-          CONFIG_EXTRA_OPTIMIZATION="-fno-caller-saves -fno-plt -Wno-error=address"
+          CONFIG_EXTRA_OPTIMIZATION="-fno-caller-saves -fno-plt -Wno-error=address -Wno-error=deprecated-declarations"
           CONFIG_JSON_CYCLONEDX_SBOM=y
           CONFIG_PACKAGE_ppp-prpl=y
           CONFIG_PACKAGE_unbound-daemon-prpl=y
