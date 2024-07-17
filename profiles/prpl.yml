@@ -53,9 +53,9 @@ feeds:
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_mcastd.git
     revision: v0.1.6
   - name: feed_prpl
-    uri: https://gitlab.com/prpl-foundation/prplOS/feed-prpl.git
-    tracking_branch: prpl/nightly
-    revision: 81632aa3b8bb8d2b13c0c8482cd600f4d415bc57
+    uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prpl.git
+    tracking_branch: prplos
+    revision: e721e05562a76dddea822b2091559c3e5ae584c3
 
 additional_packages:
   - feed: packages
@@ -179,6 +179,7 @@ packages:
   - procps-ng-pgrep
   - procps-ng-pkill
   - procps-ng-uptime
+  - prplmesh
   - prpl-configuration
   - prpl-webui
   - reboot-service
@@ -253,6 +254,11 @@ diffconfig: |
           CONFIG_SAH_SERVICES_TIMINGILA_ADAPTER_PACKAGER="/usr/lib/timingila-rlyeh/timingila-rlyeh.so"
           CONFIG_SAH_SERVICES_TIMINGILA_ADAPTER_CONTAINER="/usr/lib/timingila-cthulhu/timingila-cthulhu.so"
           # CONFIG_SAH_LIB_CTHULHU-LXC_PRPL_OS_RPATH is not set
+          # pwhm options
+          CONFIG_USE_PRPLMESH_WHM=y
+          CONFIG_SAH_WLD_INIT_SCRIPT="prplmesh_whm"
+          CONFIG_PRPL_CONTROLLER_ROOT_PATH="X_PRPL-ORG_WiFiController"
+          CONFIG_PACKAGE_prplmesh-unit-tests=m
           # kernel options for lcm
           CONFIG_KERNEL_ARM_PMU=y
           CONFIG_KERNEL_BLK_CGROUP=y
