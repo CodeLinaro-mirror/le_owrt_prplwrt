@@ -3,8 +3,8 @@ description: Add the WLAN feature with opensource hostap for the Maxlinear devic
 feeds:
   - name: wlan_6x
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_wlan.git
-    tracking_branch: WLAN6.2.x
-    revision: 52b940d426a3b90323fa2f75779b08a66e668502
+    tracking_branch: updk_9.1.60_openwrt_23.05
+    revision: 5f78a9f07303d6cbe845f00fa6320d7569e60248
 
 packages:
   - dwpal_6x-uci-osp
