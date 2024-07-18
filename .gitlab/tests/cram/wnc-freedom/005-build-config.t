@@ -330,7 +330,6 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_mod-usp-registration=y
   CONFIG_PACKAGE_mod-vlan-ioctl=y
   CONFIG_PACKAGE_mod-vlan-uci=y
-  CONFIG_PACKAGE_mod-whm-qca-ipq95xx=y
   CONFIG_PACKAGE_mod-xpon-prpl=y
   CONFIG_PACKAGE_mod-xpon-prpl-mock=m
   CONFIG_PACKAGE_multisettings=y
