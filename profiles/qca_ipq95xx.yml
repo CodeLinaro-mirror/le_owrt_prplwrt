@@ -22,7 +22,6 @@ packages:
   - qca-ssdk-shell
   - io-expander-freedom
   - wireless-freedom
-  - mod-whm-qca-ipq95xx
   - kmod-usb-phy-ipq807x
   - kmod-usb-dwc3-internal
   - kmod-usb-dwc3-qcom-internal
