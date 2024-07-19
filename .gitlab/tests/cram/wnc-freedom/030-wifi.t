@@ -11,4 +11,3 @@ Check for correct SSID setup:
   \tInterface wlan1.1 (esc)
   \tInterface wlan2 (esc)
   \tInterface wlan2.1 (esc)
-  \tInterface wlan2.2 (esc)
