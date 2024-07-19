@@ -31,7 +31,7 @@ CDRouter-Top-100+mDNS Freedom PPPoE WAN initramfs:
 CDRouter-Wireless Freedom initramfs:
   <<: *wnc_freedom
   variables:
-    CDROUTER_TEST_CONFIG: wireless
+    CDROUTER_TEST_CONFIG: wireless-wifi7
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-configure-wireless.sh
 
