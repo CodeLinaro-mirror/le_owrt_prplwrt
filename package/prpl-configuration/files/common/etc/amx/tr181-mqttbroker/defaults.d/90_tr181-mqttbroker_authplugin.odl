@@ -1,0 +1,5 @@
+%populate {
+    object MQTTBroker.Broker.secure {
+        parameter AuthPlugin = "";
+    }
+}
