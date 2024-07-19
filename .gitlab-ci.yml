@@ -42,6 +42,8 @@ build test mxl_x86_osp_tb341 mxl_wlan_hostap_ng prpl security:
   artifacts:
   tags:
     - firmware-builder-osp
+  rules:
+    - when: manual
 
 run test URX851-HDK-3 with system on eMMC:
   needs:
