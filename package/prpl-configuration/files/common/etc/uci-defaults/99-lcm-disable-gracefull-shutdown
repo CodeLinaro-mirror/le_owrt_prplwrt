@@ -1,0 +1,5 @@
+#!/bin/sh
+
+sed -i 's|uint32 GracefulShutdownTimeoutSeconds = 10;|uint32 GracefulShutdownTimeoutSeconds = 0;|g' /etc/amx/cthulhu/cthulhu_definition.odl
+
+exit 0
