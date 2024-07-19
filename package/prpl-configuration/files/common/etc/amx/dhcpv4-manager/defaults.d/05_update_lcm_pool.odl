@@ -1,0 +1,8 @@
+%populate {
+    object 'DHCPv4Server.Pool.lcm' {
+        parameter 'DNSServers' = "192.168.3.1";
+        parameter 'IPRouters' = "192.168.3.1";
+        parameter 'MinAddress' = "192.168.3.100";
+        parameter 'MaxAddress' = "192.168.3.249";
+    }
+}
