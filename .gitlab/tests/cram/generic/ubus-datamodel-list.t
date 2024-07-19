@@ -64,6 +64,7 @@ Check that ubus has expected datamodels available:
   DNS.X_PRPL-COM_RebindProtection.DomainExceptions
   DNS.X_PRPL-COM_RebindProtection.IPExceptions
   DNSSD
+  DNSSD.Advertise
   DNSSD.Service
   DSLite
   DSLite.InterfaceSetting
