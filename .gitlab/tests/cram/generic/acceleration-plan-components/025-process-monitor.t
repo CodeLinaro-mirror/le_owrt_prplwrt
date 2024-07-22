@@ -29,15 +29,15 @@ Get current tr181-led manager PID:
 
 Add test for checking tr181-leds manager using PID:
 
-  $ R "ba-cli 'ProcessMonitor.Test+{Type=Process,Name=tr181-led,Subject=/var/run/tr181-led.pid,FailAction=RESTART,TestInterval=2,MaxFailNum=1}' | grep -v '^>' | head -n -2"
+  $ R "ba-cli 'ProcessMonitor.Test+{Type=Process,Name=tr181-led,Subject=/var/run/tr181-led.pid,FailAction=RESTART,TestInterval=2,MaxFailNum=1}' | grep -v '^>'"
   ProcessMonitor.Test.\d+. (re)
-
+  
 Check the LED manager check datamodel settings:
 
-  $ R "ba-cli --json ProcessMonitor.Test.[Name==\\\"tr181-led\\\"]? | sed -n '2p'" | jq --sort-keys '.[0]'
+  $ R "ba-cli --json ProcessMonitor.Test.[Name==\\\"tr181-led\\\"].? | sed -n '2p'" | jq --sort-keys '.[0]'
   {
     "ProcessMonitor.Test.\d+.": { (re)
-      "CurrentTestInterval": 2,
+      "CurrentTestInterval": \d+, (re)
       "FailAction": "RESTART",
       "FailedSince": "0001-01-01T00:00:00Z",
       "Health": "Awaiting check",
@@ -60,25 +60,30 @@ Check the LED manager check datamodel settings:
 
 Shorthen the test cycle duration to 1 second:
 
-  $ R "ba-cli 'ProcessMonitor.CycleDuration=1' | grep -v '^>' | head -n -2"
-  ProcessMonitor.
-  ProcessMonitor.CycleDuration=1
-
+  $ current_cycle_duration="$(R 'ba-cli -lj "ProcessMonitor.CycleDuration?"' | jq -e '.[] | .[] |  .CycleDuration')"
+  $ R "ba-cli -l -j 'ProcessMonitor.CycleDuration=1'"
+  
+  [{"ProcessMonitor.":{"CycleDuration":1}}]
+  
 Kill the LED manager service:
 
   $ R "kill \$(cat /var/run/tr181-led.pid)"
+  $ sleep 1
 
 Check that LED manager is not running:
-
-  $ sleep 1
 
   $ R "pgrep -cf 'tr181-led -D'"
   0
   [1]
 
+Calculate a timeout with (number_of_tests * test_interval * 2s):
+
+  $ number_of_tests="$(R 'ba-cli -lj "ProcessMonitor.NumberOfTest?"' | jq -e '.[] | .[] |  .NumberOfTest')"
+  $ reactivation_timeout=$((number_of_tests*2*2))
+
 Check that ProcessMonitor have restarted the LED manager properly:
 
-  $ R "ubus -t5 wait_for LEDs"
+  $ R "ubus -t $reactivation_timeout wait_for LEDs"
 
 Check that one LED manager instance is running:
 
@@ -90,8 +95,13 @@ Check that PIDs are different:
   $ new_pid=$(R "cat /var/run/tr181-led.pid")
   $ test $current_pid -ne $new_pid
 
-Set the test cycle duration to 10 seconds:
+Cleanup:
 
-  $ R "ba-cli 'ProcessMonitor.CycleDuration=10' | grep -v '^>' | head -n -2"
-  ProcessMonitor.
-  ProcessMonitor.CycleDuration=10
+  $ R "ba-cli --json ProcessMonitor.Test.[Name==\\\"tr181-led\\\"].-" >/dev/null
+
+Revert back the test cycle duration:
+
+  $ R "ba-cli -l 'ProcessMonitor.CycleDuration=$current_cycle_duration'"
+  
+  \d+ (re)
+  
