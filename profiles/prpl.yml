@@ -6,7 +6,7 @@ feeds:
     revision: gen_openwrt23.05_v0.8.0
   - name: feed_amx
     uri: https://gitlab.com/prpl-foundation/prplos/feed_amx.git
-    revision: af880ee2d39404210f4299a123132f6bdce9634b
+    revision: v11.8.0
   - name: feed_gmap
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_gmap.git
     revision: v1.7.0
@@ -15,7 +15,7 @@ feeds:
     revision: v16.11.9
   - name: feed_qos_firewall
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_qos_firewall.git
-    revision: cb06e4f24b2c5233d36e42fd268436668ab54fce
+    revision: v6.12.5
   - name: feed_net_services
     uri: https://gitlab.com/prpl-foundation/prplos/feed_net_services.git
     revision: a57890c58869837e7574d3a642e1d8d18ed88ede
@@ -33,7 +33,7 @@ feeds:
     revision: v1.9.6
   - name: feed_usp
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_usp.git
-    revision: 0e9095eb408b6c4314a49e0b4fb9aa071e3dbd96
+    revision: v9.0.1
   - name: feed_lcm
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_lcm.git
     revision: v3.3.1
