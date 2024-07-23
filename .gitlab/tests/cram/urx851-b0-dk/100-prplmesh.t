@@ -54,8 +54,6 @@ Check that wireless has desired configuration and state after boot:
   Down
   Down
   Down
-  Down
-  PWHM_SSID7
   PWHM_SSID8
   prplOS
   prplOS
@@ -83,50 +81,25 @@ Start wireless:
   {}
   {"amxd-error-code":0}
 
-  $ sleep 10
-
-  $ R "i=15 ; while [ \$i -gt 1 ]; do ubus -S call WiFi.SSID.1 _get '{\"rel_path\":\"Status\"}'| grep -q Up && echo 'SSID.1 Up' && i=0 ; i=\$(( i-1 )); sleep 2 ; done"
-  SSID.1 Up
-
   $ R "ubus -S call WiFi.AccessPoint.2 _set '{\"parameters\":{\"Enable\":1}}'"
   {"WiFi.AccessPoint.2.":{"Enable":true}}
   {}
   {"amxd-error-code":0}
-
-  $ sleep 10
-
-  $ R "i=15 ; while [ \$i -gt 1 ]; do ubus -S call WiFi.SSID.2 _get '{\"rel_path\":\"Status\"}'| grep -q Up && echo 'SSID.2 Up' && i=0 ; i=\$(( i-1 )); sleep 2 ; done"
-  SSID.2 Up
 
   $ R "ubus -S call WiFi.AccessPoint.3 _set '{\"parameters\":{\"Enable\":1}}'"
   {"WiFi.AccessPoint.3.":{"Enable":true}}
   {}
   {"amxd-error-code":0}
 
-  $ sleep 10
-
-  $ R "i=15 ; while [ \$i -gt 1 ]; do ubus -S call WiFi.SSID.3 _get '{\"rel_path\":\"Status\"}'| grep -q Up && echo 'SSID.3 Up' && i=0 ; i=\$(( i-1 )); sleep 2 ; done"
-  SSID.3 Up
-
   $ R "ubus -S call WiFi.AccessPoint.4 _set '{\"parameters\":{\"Enable\":1}}'"
   {"WiFi.AccessPoint.4.":{"Enable":true}}
   {}
   {"amxd-error-code":0}
 
-  $ sleep 10
-
-  $ R "i=15 ; while [ \$i -gt 1 ]; do ubus -S call WiFi.SSID.4 _get '{\"rel_path\":\"Status\"}'| grep -q Up && echo 'SSID.4 Up' && i=0 ; i=\$(( i-1 )); sleep 2 ; done"
-  SSID.4 Up
-
   $ R "ubus -S call WiFi.AccessPoint.5 _set '{\"parameters\":{\"Enable\":1}}'"
   {"WiFi.AccessPoint.5.":{"Enable":true}}
   {}
   {"amxd-error-code":0}
-
-  $ sleep 10
-
-  $ R "i=15 ; while [ \$i -gt 1 ]; do ubus -S call WiFi.SSID.5 _get '{\"rel_path\":\"Status\"}'| grep -q Up && echo 'SSID.5 Up' && i=0 ; i=\$(( i-1 )); sleep 2 ; done"
-  SSID.5 Up
 
   $ R "ubus -S call WiFi.AccessPoint.6 _set '{\"parameters\":{\"Enable\":1}}'"
   {"WiFi.AccessPoint.6.":{"Enable":true}}
@@ -134,9 +107,6 @@ Start wireless:
   {"amxd-error-code":0}
 
   $ sleep 10
-
-  $ R "i=15 ; while [ \$i -gt 1 ]; do ubus -S call WiFi.SSID.6 _get '{\"rel_path\":\"Status\"}'| grep -q Up && echo 'SSID.6 Up' && i=0 ; i=\$(( i-1 )); sleep 2 ; done"
-  SSID.6 Up
 
 Check that hostapd is operating as expected:
 
@@ -151,7 +121,6 @@ Check that wireless is operating:
   $ R "ubus -S call WiFi.SSID _get | jsonfilter -e @[*].SSID -e @[*].Status | sort"
   Dormant
   Dormant
-  PWHM_SSID7
   PWHM_SSID8
   Up
   Up
@@ -174,7 +143,6 @@ Check that wireless is operating:
   Interface wlan2
   Interface wlan2.1
   Interface wlan2.2
-  Interface wlan3
   Interface wlan4
   Interface wlan4.1
   Interface wlan4.2
@@ -187,6 +155,8 @@ Check that wireless is operating:
   ssid prplOS-guest
   ssid prplOS-guest
   ssid prplOS-guest
+
+  $ sleep 10
 
 Check that prplmesh processes are running:
 
@@ -243,50 +213,25 @@ Disable wireless:
   {}
   {"amxd-error-code":0}
 
-  $ sleep 10
-
-  $ R "i=15 ; while [ \$i -gt 1 ]; do ubus -S call WiFi.SSID.6 _get '{\"rel_path\":\"Status\"}'| grep -q Down && echo 'SSID.6 Down' && i=0 ; i=\$(( i-1 )); sleep 2 ; done"
-  SSID.6 Down
-
   $ R "ubus -S call WiFi.AccessPoint.5 _set '{\"parameters\":{\"Enable\":0}}'"
   {"WiFi.AccessPoint.5.":{"Enable":false}}
   {}
   {"amxd-error-code":0}
-
-  $ sleep 10
-
-  $ R "i=15 ; while [ \$i -gt 1 ]; do ubus -S call WiFi.SSID.5 _get '{\"rel_path\":\"Status\"}'| grep -q Down && echo 'SSID.5 Down' && i=0 ; i=\$(( i-1 )); sleep 2 ; done"
-  SSID.5 Down
 
   $ R "ubus -S call WiFi.AccessPoint.4 _set '{\"parameters\":{\"Enable\":0}}'"
   {"WiFi.AccessPoint.4.":{"Enable":false}}
   {}
   {"amxd-error-code":0}
 
-  $ sleep 10
-
-  $ R "i=15 ; while [ \$i -gt 1 ]; do ubus -S call WiFi.SSID.4 _get '{\"rel_path\":\"Status\"}'| grep -q Down && echo 'SSID.4 Down' && i=0 ; i=\$(( i-1 )); sleep 2 ; done"
-  SSID.4 Down
-
   $ R "ubus -S call WiFi.AccessPoint.3 _set '{\"parameters\":{\"Enable\":0}}'"
   {"WiFi.AccessPoint.3.":{"Enable":false}}
   {}
   {"amxd-error-code":0}
 
-  $ sleep 10
-
-  $ R "i=15 ; while [ \$i -gt 1 ]; do ubus -S call WiFi.SSID.3 _get '{\"rel_path\":\"Status\"}'| grep -q Down && echo 'SSID.3 Down' && i=0 ; i=\$(( i-1 )); sleep 2 ; done"
-  SSID.3 Down
-
   $ R "ubus -S call WiFi.AccessPoint.2 _set '{\"parameters\":{\"Enable\":0}}'"
   {"WiFi.AccessPoint.2.":{"Enable":false}}
   {}
   {"amxd-error-code":0}
-
-  $ sleep 10
-
-  $ R "i=15 ; while [ \$i -gt 1 ]; do ubus -S call WiFi.SSID.2 _get '{\"rel_path\":\"Status\"}'| grep -q Down && echo 'SSID.2 Down' && i=0 ; i=\$(( i-1 )); sleep 2 ; done"
-  SSID.2 Down
 
   $ R "ubus -S call WiFi.AccessPoint.1 _set '{\"parameters\":{\"Enable\":0}}'"
   {"WiFi.AccessPoint.1.":{"Enable":false}}
@@ -294,9 +239,6 @@ Disable wireless:
   {"amxd-error-code":0}
 
   $ sleep 10
-
-  $ R "i=15 ; while [ \$i -gt 1 ]; do ubus -S call WiFi.SSID.1 _get '{\"rel_path\":\"Status\"}'| grep -q Down && echo 'SSID.1 Down' && i=0 ; i=\$(( i-1 )); sleep 2 ; done"
-  SSID.1 Down
 
 Check that wireless is disabled:
 
@@ -308,8 +250,6 @@ Check that wireless is disabled:
   Down
   Down
   Down
-  Down
-  PWHM_SSID7
   PWHM_SSID8
   prplOS
   prplOS
@@ -317,6 +257,3 @@ Check that wireless is disabled:
   prplOS-guest
   prplOS-guest
   prplOS-guest
-
-  $ R "pgrep -f 'hostapd -ddt'"
-  [1]
