@@ -63,10 +63,8 @@ Check that ubus has expected datamodels available:
   Device.Bridging
   Device.CaptivePortal
   Device.DHCPv4
-  Device.DHCPv4.Client
   Device.DHCPv4.Server
   Device.DHCPv6
-  Device.DHCPv6.Client
   Device.DHCPv6.Server
   Device.DNS
   Device.DNS.SD
