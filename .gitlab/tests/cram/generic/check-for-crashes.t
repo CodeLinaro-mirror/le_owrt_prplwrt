@@ -4,7 +4,7 @@ Create R alias:
 
 Check that there are no signs of crashes:
 
-  $ R "logread" | \
+  $ R "getDebugInformation --log --output /dev/stdout" | \
   > grep -C10 -E \
   >      -e '(traps:.*general protection|segfault at [[:digit:]]+ ip.*error.*in)' \
   >      -e 'do_page_fault\(\): sending' \
