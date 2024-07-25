@@ -1,0 +1,10 @@
+%config {
+    %global usp.translate = {
+        "'Firewall.'" = "Device.Firewall.",
+        "'NAT.'" = "Device.NAT."
+    };
+
+    %global backend-dir = [ "/usr/bin/mods/usp", "/usr/bin/mods/amxb" ];
+
+    %global usp.connect-retry = true;
+}
