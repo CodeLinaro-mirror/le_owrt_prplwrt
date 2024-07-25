@@ -1,0 +1,9 @@
+%config {
+    %global usp.translate = {
+        "'DHCPv4Server.'" = "Device.DHCPv4.Server."
+    };
+
+    %global backend-dir = [ "/usr/bin/mods/usp", "/usr/bin/mods/amxb" ];
+
+    %global usp.connect-retry = true;
+}
