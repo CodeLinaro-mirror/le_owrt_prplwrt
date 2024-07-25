@@ -18,7 +18,7 @@ feeds:
     revision: v6.12.7
   - name: feed_net_services
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_net_services.git
-    revision: v12.0.9
+    revision: v12.0.11
   - name: feed_net_hl_services
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_net_hl_services.git
     revision: v1.3.2
