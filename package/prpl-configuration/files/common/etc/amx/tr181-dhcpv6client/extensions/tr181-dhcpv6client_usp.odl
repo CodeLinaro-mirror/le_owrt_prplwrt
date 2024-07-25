@@ -1,0 +1,11 @@
+%config {
+    %global usp.translate = {
+        "'DHCPv6Client.Client.'" = "Device.DHCPv6.Client."
+    };
+
+    %global usp.registrations = [ "Device.DHCPv6.Client." ];
+
+    %global backend-dir = [ "/usr/bin/mods/usp", "/usr/bin/mods/amxb" ];
+
+    %global usp.connect-retry = true;
+}

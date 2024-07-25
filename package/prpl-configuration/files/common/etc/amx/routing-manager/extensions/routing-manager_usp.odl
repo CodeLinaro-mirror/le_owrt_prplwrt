@@ -1,0 +1,9 @@
+%config {
+    %global usp.translate = {
+        "'Routing.'" = "Device.Routing."
+    };
+
+    %global backend-dir = [ "/usr/bin/mods/usp", "/usr/bin/mods/amxb" ];
+
+    %global usp.connect-retry = true;
+}

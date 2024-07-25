@@ -132,6 +132,7 @@ packages:
   - mcastd-routing
   - miniupnpd-prpl
   - mod-amxb-ubus
+  - mod-amxb-usp
   - mod-autosensing
   - mod-ba-cli
   - mod-dhcpv4c

@@ -1,0 +1,9 @@
+%config {
+    %global usp.translate = {
+        "'MultiSettings.'" = "Device.X_PRPL-COM_MultiSettings."
+    };
+
+    %global backend-dir = [ "/usr/bin/mods/usp", "/usr/bin/mods/amxb" ];
+
+    %global usp.connect-retry = true;
+}
