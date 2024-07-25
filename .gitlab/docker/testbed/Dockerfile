@@ -12,6 +12,7 @@ RUN \
 	iputils-ping \
 	jq \
 	locales \
+	mosquitto-clients \
 	netcat-openbsd \
 	nmap \
 	ntpdate \
