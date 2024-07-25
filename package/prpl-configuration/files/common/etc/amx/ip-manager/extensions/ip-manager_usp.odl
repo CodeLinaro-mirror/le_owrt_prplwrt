@@ -1,0 +1,13 @@
+%config {
+    %global usp.translate = {
+        "'IP.'" = "Device.IP."
+    };
+
+    %global usp.registrations = [
+        "Device.IP."
+    ];
+
+    %global backend-dir = [ "/usr/bin/mods/usp", "/usr/bin/mods/amxb" ];
+
+    %global usp.connect-retry = true;
+}
