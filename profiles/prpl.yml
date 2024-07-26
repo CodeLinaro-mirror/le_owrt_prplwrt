@@ -4,7 +4,13 @@ feeds:
   - name: feed_prpl
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-prpl.git
     tracking_branch: prpl/nightly
-    revision: 81632aa3b8bb8d2b13c0c8482cd600f4d415bc57
+    revision: 67cf846b44d56ada0eb92a07148fb05757a5e39c
+
+  - name: feed_mcastd
+    uri: https://gitlab.com/prpl-foundation/prplOS/feed_mcastd.git
+    tracking_branch: main
+    revision: fa7e05d99e205912b0536ed1631253f3f164759f
+
 
 additional_packages:
   - feed: packages
@@ -41,6 +47,8 @@ packages:
   - ip6tables-zz-legacy
   - iptables-mod-ipopt
   - iptables-zz-legacy
+  - kmod-mcastd-core
+  - kmod-mcastd-routing
   - libdhcpoptions
   - libfwinterface
   - libfwrules
@@ -76,6 +84,7 @@ packages:
   - lxc-user-nic
   - lxc-usernsexec
   - lxc-wait
+  - mcastd-noforward
   - miniupnpd-prpl
   - mod-amxb-ubus
   - mod-amxb-usp
@@ -148,6 +157,7 @@ packages:
   - tr181-ipdiagnostics
   - tr181-led
   - tr181-logical
+  - tr181-mcastd
   - tr181-neighbordiscovery
   - tr181-pcp
   - tr181-ppp
