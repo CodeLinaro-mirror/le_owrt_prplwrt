@@ -5,7 +5,7 @@ Create R alias:
 Enable Captive Portal (not activated by default):
 
   $ R "ba-cli 'CaptivePortal.Enable=1'" >/dev/null
-  $ R "ba-cli 'CaptivePortal.Status?'" | grep -v '^>' | head -n -2 
+  $ R "ba-cli 'CaptivePortal.Status?' | sed -n '2p'"
   CaptivePortal.Status="Enabled"
 
 Disable WAN using IP datamodel and check that Captive Portal starts intercepting:
@@ -20,16 +20,13 @@ Get a DHCP lease from the router (openNDS requires clients to be registered):
 Wait for status change:
 
   $ sleep 15
-  $ R "ba-cli 'ubus-protected;CaptivePortal.Status?' 2>&1" | grep -v '^>' | head -n -2 
-  * access ubus: protected * (glob)
-  * (glob)
-  CaptivePortal.Status="Enabled"
-  CaptivePortal.LANInterface.1.Status="Intercepting"
+  $ R "ba-cli -lj 'ubus-protected;CaptivePortal.Status?'" 2>&1 | grep -v "^>" | sed -n "4p" 
+  [{"CaptivePortal.LANInterface.1.":{"Status":"Intercepting"},"CaptivePortal.":{"Status":"Enabled"}}]
 
 Check openNDS http interface has been opened on br-lan:
 
-  $ R "ba-cli 'UserInterface.HTTPAccess.[Alias==\"captive\"].Interface?'" | grep -v '^>' | head -n -2 
-  UserInterface.HTTPAccess.3.Interface="Device.IP.Interface.3."
+  $ R "ba-cli 'UserInterface.HTTPAccess.[Alias==\"captive\"].Interface?' | sed -n '2p'"
+  UserInterface.HTTPAccess.3.Interface="Device.IP.Interface.3"
 
 Send a curl http request to detectportal.firefox.com and check we have a 307 temporary redirect:
 
@@ -38,8 +35,9 @@ Send a curl http request to detectportal.firefox.com and check we have a 307 tem
 
 Reenable WAN:
 
-  $ R "ba-cli 'Device.IP.Interface.[Alias==\"wan\"].Enable=1'" >/dev/null
-  $ R "ba-cli 'CaptivePortal.Status?'" | grep -v '^>' | head -n -2 
+  $ R "ba-cli -lj 'Device.IP.Interface.[Alias==\"wan\"].Enable=1' | sed -n '2p'"
+  [{"Device.IP.Interface.2.":{"Enable":1}}]
+  $ R "ba-cli 'CaptivePortal.Status?' | sed -n '2p'"
   CaptivePortal.Status="Enabled"
 
 Cleanup:
