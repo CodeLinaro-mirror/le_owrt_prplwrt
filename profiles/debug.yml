@@ -1,11 +1,20 @@
 ---
 description: Debugging tools and features
 
+additional_packages:
+  - feed: packages
+    packages:
+      - pciids
+      - pciutils
+      - usbids
+      - usbutils
+
 packages:
-  - tcpdump
-  - strace
+  - ethtool-full
   - gdb
   - gdbserver
+  - strace
+  - tcpdump
   - wpa-cli
 
 diffconfig: |
