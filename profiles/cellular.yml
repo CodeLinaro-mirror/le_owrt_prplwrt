@@ -12,6 +12,11 @@ additional_packages:
       - picocom
 
 packages:
+  - kmod-mhi-net
+  - kmod-mhi-wwan-ctrl
+  - kmod-mhi-wwan-mbim
+  - kmod-mhi-bus
+  - kmod-mhi-pci-generic
   - kmod-usb-net-qmi-wwan
   - kmod-usb-serial-option
   - libmbim
