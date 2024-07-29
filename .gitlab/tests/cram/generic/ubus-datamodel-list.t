@@ -1,15 +1,10 @@
-Dont run on OSPv2 board because of WiFi.Vendor.Daemon, see PPM-2814:
-
-  $ [ "$DUT_BOARD" = "mxl25641-hdk-6" ] && exit 80
-  [1]
-
 Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
 Check that ubus has expected datamodels available:
 
-  $ R "ubus list | grep '[[:upper:]]' | grep -v '\.[[:digit:]]'"
+  $ R "ubus list | grep '[[:upper:]]' | grep -v -e '\.[[:digit:]]' -e 'WiFi.Vendor.Daemon' -e 'WiFi.Vendor.ModuleMode'"
   ACLManager
   ACLManager.Role
   Bridging
