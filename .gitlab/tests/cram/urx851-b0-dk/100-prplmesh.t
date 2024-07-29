@@ -62,7 +62,7 @@ Check that wireless has desired configuration and state after boot:
   prplOS-guest
   prplOS-guest
 
-  $ R "pgrep -f 'hostapd -ddt'"
+  $ R "pgrep -f 'hostapd -t'"
   [1]
 
 Restart prplmesh:
@@ -112,9 +112,9 @@ Check that hostapd is operating as expected:
 
   $ R logger -t cram "Check that hostapd is operating after reboot"
   $ R "ps axw" | sed -nE 's/.*(hostapd.*)/\1/p' | head -3 | LC_ALL=C sort
-  hostapd -ddt /tmp/wlan0_hapd.conf
-  hostapd -ddt /tmp/wlan2_hapd.conf
-  hostapd -ddt /tmp/wlan4_hapd.conf
+  hostapd -t /tmp/wlan0_hapd.conf
+  hostapd -t /tmp/wlan2_hapd.conf
+  hostapd -t /tmp/wlan4_hapd.conf
 
 Check that wireless is operating:
 
@@ -257,3 +257,6 @@ Check that wireless is disabled:
   prplOS-guest
   prplOS-guest
   prplOS-guest
+
+  $ R "pgrep -f 'hostapd -t'"
+  [1]
