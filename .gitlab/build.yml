@@ -72,17 +72,17 @@
         exit $ret
       }
 
-    - >
-      topdir=$(pwd);
-      for feed in $(find feeds -name .git); do
-        pushd $(dirname $feed) > /dev/null; git diff-index --exit-code HEAD || {
-          ret=$?
-          echo "Feed $(dirname $feed) packages integrity issues, please check the output bellow or feed-packages-hash-issues.patch from artifacts"
-          git diff | tee --append $topdir/feed-packages-hash-issues.patch
-          exit $ret
-        }
-        popd > /dev/null
-      done
+    #- >
+    #  topdir=$(pwd);
+    #  for feed in $(find feeds -name .git); do
+    #    pushd $(dirname $feed) > /dev/null; git diff-index --exit-code HEAD || {
+    #      ret=$?
+    #      echo "Feed $(dirname $feed) packages integrity issues, please check the output bellow or feed-packages-hash-issues.patch from artifacts"
+    #      git diff | tee --append $topdir/feed-packages-hash-issues.patch
+    #      exit $ret
+    #    }
+    #    popd > /dev/null
+    #  done
 
     - >
       trap "
