@@ -195,6 +195,11 @@ menu "Target Images"
 			prompt "journal size" if TARGET_ROOTFS_UBIFS
 			default ""
 
+	config PRPL_STANDARD_FLASH_LAYOUT_IMAGES
+		bool "Build image using prpl Standard Flash Layout"
+		depends on TARGET_ROOTFS_EXT4FS || TARGET_ROOTFS_JFFS2 || TARGET_ROOTFS_SQUASHFS
+		default y
+
 	config GRUB_IMAGES
 		bool "Build GRUB images (Linux x86 or x86_64 host only)"
 		depends on TARGET_x86
