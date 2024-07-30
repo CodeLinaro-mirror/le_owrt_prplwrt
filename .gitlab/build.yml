@@ -1,5 +1,6 @@
 .build test config:
   stage: build
+  timeout: 2 hours
   image: "$CI_REGISTRY_IMAGE/$CI_DESIGNATED_BRANCH/builder:latest"
   tags:
     - firmware-builder
