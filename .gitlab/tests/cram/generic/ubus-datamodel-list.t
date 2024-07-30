@@ -70,6 +70,8 @@ Check that ubus has expected datamodels available:
   Device.DNS.SD
   Device.DSLite
   Device.DeviceInfo
+  Device.DeviceInfo.ProcessFaults
+  Device.DeviceInfo.Reboots
   Device.DynamicDNS
   Device.Ethernet
   Device.Firewall
