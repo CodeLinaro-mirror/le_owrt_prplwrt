@@ -11,6 +11,7 @@
     - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /^ci_s_.+_latest$/'
     - when: manual
   variables:
+    CDROUTER_CONFIG_WIFI_BEACON_PHY: 'ax b g n'
     CDROUTER_TEST_CONFIG: generic
     DUT_SLEEP_AFTER_BOOT: 90
     CDROUTER_LAN_INTERFACE: eth1
