@@ -12,10 +12,14 @@ additional_packages:
       - chrony
       - libnl-core
       - libnl-route
+      - libseccomp
       - lighttpd
       - lighttpd-mod-auth
       - lighttpd-mod-authn_file
       - lighttpd-mod-fastcgi
+      - shadow-newgidmap
+      - shadow-newuidmap
+      - shadow-utils
       - syslog-ng2
 
 packages:
