@@ -302,7 +302,7 @@ class TestbedCDRouter:
         filename = filename or self.args.filename
         src = os.path.join(path, filename)
         with open(src, "rb") as f:
-            content = f.read()
+            content = f.read().decode("utf-8")
         return content
 
     def config_check(self):
