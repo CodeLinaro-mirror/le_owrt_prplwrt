@@ -14,7 +14,7 @@ Skip test on urx851-b0-dk-pon as it has real PON and thus mocking is not needed:
 
 Install mod-xpon-prpl-mock package:
 
-  $ scp ${CI_PROJECT_DIR}/${DUT_ARCH_PACKAGES_PATH}/feed_prpl/mod-xpon-prpl-mock*.ipk "root@${TARGET_LAN_IP}:/tmp/"
+  $ scp ${CI_PROJECT_DIR}/${DUT_ARCH_PACKAGES_PATH}/feed_net_core/mod-xpon-prpl-mock*.ipk "root@${TARGET_LAN_IP}:/tmp/"
   $ R "opkg install --force-reinstall /tmp/mod-xpon-prpl-mock*.ipk"
   No packages removed.
   Installing mod-xpon-prpl-mock .* to root... (re)
