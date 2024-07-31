@@ -308,6 +308,7 @@ class TestbedCDRouter:
     def config_check(self):
         self.connect()
         content = self.file_content(self.configs_path)
+        content = self.replace_env_config_variables(content)
         check = self.cdr.configs.check_config(content)
         if not check.errors:
             logging.info("OK, no errors!")
@@ -322,6 +323,13 @@ class TestbedCDRouter:
 
         exit(1)
 
+    def replace_env_config_variables(self, text):
+        for var, value in os.environ.items():
+            if var.startswith('CDROUTER_CONFIG_'):
+                pattern = f'@{var}@'
+                text = re.sub(pattern, value, text)
+        return text
+
     def config_import(self):
         self.connect()
         name = self.args.name or self.args.filename
@@ -334,6 +342,7 @@ class TestbedCDRouter:
             pass
 
         content = self.file_content(self.configs_path)
+        content = self.replace_env_config_variables(content)
         config = Config(contents=content, name=name)
         self.cdr.configs.create(config)
         logging.info("Imported config '{}' from '{}'".format(name, self.args.filename))
