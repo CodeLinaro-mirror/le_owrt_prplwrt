@@ -9,7 +9,7 @@
     - if: '$TFTP_IMAGE_DOWNLOAD_URL'
       when: never
     - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /^ci_s_.+_latest$/'
-    - when: always
+    - when: manual
   variables:
     DUT_WAN_INTERFACE: eth1
     TESTBED_MNG_INTERFACE: enp1s0
