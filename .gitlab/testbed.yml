@@ -95,7 +95,7 @@
           local statuses=("${PIPESTATUS[@]}")
           for status in "${statuses[@]}"; do
             if [ "$status" -ne 0 ]; then
-              touch .run_check_failed
+              echo "run_check: $* | FAILED! (status: $status)" >> .run_check_failed
             fi
           done
         }
@@ -107,7 +107,9 @@
       run_check python3 -m cram --verbose $CRAM_TEST_SUITE_POST | tee --append cram-result-$LABGRID_TARGET.txt
       run_check ssh root@$TARGET_LAN_IP 'logger -t CI -p local0.info "Testing finished, $(uptime -p)"'
 
-      [ -f .run_check_failed ] && exit 1
+      [ -f .run_check_failed ] && cat .run_check_failed && exit 1
+
+    - rm .run_failed
 
   after_script:
     - >
