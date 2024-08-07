@@ -69,10 +69,14 @@ Check that aclmanager has expected setup:
 Check that Users.Role component has expected setup:
 
   $ R "ubus call Users.Role _get '{\"rel_path\":\"\"}' | jsonfilter -e @[*].Alias -e @[*].RoleName | sort"
+  acl
+  acl-role
   admin
   admin-role
   guest
   guest-role
+  untrusted
+  untrusted-role
 
 Check that we've correct hostname and release info:
 
