@@ -14,11 +14,6 @@ Check that ubus has expected datamodels available:
   ACLManager.Role
   Bridging
   Bridging.Bridge
-  Bridging.Bridge.Port
-  Bridging.Bridge.Port.Stats
-  Bridging.Bridge.STP
-  Bridging.Bridge.VLAN
-  Bridging.Bridge.VLANPort
   Buttons
   Buttons.Button
   CaptivePortal
@@ -66,8 +61,6 @@ Check that ubus has expected datamodels available:
   DSLite.InterfaceSetting
   Device
   Device.Bridging
-  Device.Buttons
-  Device.CWMPManagementServer
   Device.CaptivePortal
   Device.DHCPv4
   Device.DHCPv4.Server
@@ -88,6 +81,8 @@ Check that ubus has expected datamodels available:
   Device.InterfaceStack
   Device.LEDs
   Device.Logical
+  Device.MQTT
+  Device.MQTT.Broker
   Device.ManagementServer
   Device.NAT
   Device.NeighborDiscovery
@@ -107,6 +102,7 @@ Check that ubus has expected datamodels available:
   Device.Users
   Device.WiFi
   Device.XPON
+  Device.X_PRPL-COM_Buttons
   Device.X_PRPL-COM_MultiSettings
   Device.X_PRPL-COM_PersistentConfiguration
   Device.X_PRPL-COM_WANManager
@@ -124,6 +120,10 @@ Check that ubus has expected datamodels available:
   Devices
   Devices.Config
   Devices.Config.global
+  Devices.Config.location
+  Devices.Config.mDNSScanner
+  Devices.Config.mod-self
+  Devices.Config.priority
   Devices.Device
   Devices.Query
   DynamicDNS
@@ -132,9 +132,8 @@ Check that ubus has expected datamodels available:
   Ethernet
   Ethernet.Interface
   Ethernet.Link
-  Ethernet.Link.Stats
+  Ethernet.RMONStats
   Ethernet.VLANTermination
-  Ethernet.VLANTermination.Stats
   Firewall
   Firewall.Chain
   Firewall.ConnectionTracking
@@ -151,15 +150,22 @@ Check that ubus has expected datamodels available:
   Hosts
   Hosts.AccessControl
   Hosts.Host
+  Hosts.X_PRPL-COM_HostConfig
   IP
   IP.ActivePort
   IP.Interface
   IPDiagnostics
+  IPDiagnostics.DownloadDiagnostics
+  IPDiagnostics.DownloadDiagnostics.IncrementalResult
+  IPDiagnostics.DownloadDiagnostics.PerConnectionResult
   IPDiagnostics.IPPing
   IPDiagnostics.IPPing.Process
   IPDiagnostics.TraceRoute
   IPDiagnostics.TraceRoute.Process
   IPDiagnostics.TraceRoute.RouteHops
+  IPDiagnostics.UploadDiagnostics
+  IPDiagnostics.UploadDiagnostics.IncrementalResult
+  IPDiagnostics.UploadDiagnostics.PerConnectionResult
   IPDiagnostics.X_PRPL-COM_DownloadConfig
   IPDiagnostics.X_PRPL-COM_DownloadResult
   IPDiagnostics.X_PRPL-COM_DownloadResult.Config
@@ -182,21 +188,31 @@ Check that ubus has expected datamodels available:
   MCASTD.Debug.Zone
   MCASTD.Intf
   MCASTD.Tuner
+  MQTTBroker
+  MQTTBroker.Broker
   ManagementServer
   ManagementServer.ACSTransfers
   ManagementServer.ACSTransfers.ACSTransfer
   ManagementServer.ConnRequest
+  ManagementServer.HeartbeatPolicy
+  ManagementServer.InformParameter
   ManagementServer.InternalSettings
   ManagementServer.ManageableDevice
+  ManagementServer.SMM
+  ManagementServer.SMM.DUStateChangeComplete
   ManagementServer.State
   ManagementServer.Stats
   ManagementServer.Subscription
+  ManagementServer.Transfers
+  ManagementServer.Transfers.ScheduleDownload
   MultiSettings
   MultiSettings.Profile
   NAT
   NAT.InterfaceSetting
   NAT.PortMapping
   NAT.PortTrigger
+  NAT.X_PRPL-COM_StaticNAT
+  NAT.X_PRPL-COM_StaticNAT.Host
   NeighborDiscovery
   NeighborDiscovery.InterfaceSetting
   NetDev
@@ -212,10 +228,6 @@ Check that ubus has expected datamodels available:
   PCP.Client
   PPP
   PPP.Interface
-  PPP.Interface.IPCP
-  PPP.Interface.IPv6CP
-  PPP.Interface.PPPoE
-  PPP.Interface.Stats
   PacketInterception
   PacketInterception.CommunicationConfig
   PacketInterception.CommunicationConfig.Socket
@@ -227,6 +239,8 @@ Check that ubus has expected datamodels available:
   PersistentConfiguration.Config
   PersistentConfiguration.Config.Security
   PersistentConfiguration.Service
+  ProcessFaults
+  ProcessFaults.ProcessFault
   ProcessMonitor
   ProcessMonitor.Test
   ProxyManager
@@ -237,6 +251,8 @@ Check that ubus has expected datamodels available:
   QoS.QueueStats
   QoS.Scheduler
   QoS.Shaper
+  Reboot
+  Reboot.Reboot
   Rlyeh
   Rlyeh.Images
   RouterAdvertisement
@@ -246,9 +262,7 @@ Check that ubus has expected datamodels available:
   Routing.RIP.InterfaceSetting
   Routing.RouteInformation
   Routing.RouteInformation.InterfaceSetting
-  Routing.RouteInformation.InterfaceSetting.Option
   Routing.Router
-  Routing.Router.IPv6Forwarding
   SSH
   SSH.AuthorizedKey
   SSH.Server
@@ -272,7 +286,7 @@ Check that ubus has expected datamodels available:
   Timingila
   UPnP
   UPnP.Device
-  UPnP.IGDConfig
+  UPnP.X_PRPL-COM_IGDConfig
   Unbound
   UserInterface
   UserInterface.HTTPAccess
