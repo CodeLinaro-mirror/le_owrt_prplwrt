@@ -27,16 +27,12 @@ Check that ubus has expected datamodels available:
   Cthulhu.Config
   Cthulhu.Container
   Cthulhu.Container.Instances
-  Cthulhu.Container.Instances.Plugins.NetworkConfig
-  Cthulhu.Container.Instances.Plugins.NetworkConfig.AccessInterfaces
-  Cthulhu.Container.Instances.Plugins.NetworkConfig.FirewallRules
-  Cthulhu.Container.Instances.Plugins.NetworkConfig.PortForwarding
   Cthulhu.Information
   Cthulhu.Plugins
-  Cthulhu.Plugins.NetworkConfig
-  Cthulhu.Plugins.NetworkConfig.FirewallRules
-  Cthulhu.Plugins.NetworkConfig.FirewallRules.Rules
-  Cthulhu.Plugins.NetworkConfig.Interfaces
+  Cthulhu.PluginsPrivate
+  Cthulhu.PluginsPrivate.NetworkConfig
+  Cthulhu.PluginsPrivate.NetworkConfig.FirewallRules
+  Cthulhu.PluginsPrivate.NetworkConfig.Interfaces
   Cthulhu.Sandbox
   Cthulhu.Sandbox.Instances
   Cthulhu.Sandbox.Instances.Plugins.DHCP
@@ -264,7 +260,6 @@ Check that ubus has expected datamodels available:
   SoftwareModules.ExecutionUnit
   SoftwareModules.NetworkConfig
   SoftwareModules.NetworkConfig.Interfaces
-  SoftwareModules.Plugins
   Syslog
   Syslog.Action
   Syslog.Filter
@@ -275,7 +270,6 @@ Check that ubus has expected datamodels available:
   Time.Client
   Time.Server
   Timingila
-  Timingila.ProxyManager
   UPnP
   UPnP.Device
   UPnP.IGDConfig
