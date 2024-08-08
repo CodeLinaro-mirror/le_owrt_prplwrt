@@ -56,7 +56,7 @@ Check log marker is in local log file (remote source --> local action):
 
 Check log marker is in global message file (local action remote log --> default localhost remote source):
 
-  $ logmatch=$(R "tail -100 /var/log/messages | grep -E '^$datepattern \w+ $logmatch'")
+  $ logmatch=$(R "tail -100 /var/log/messages | grep -E '^$datepattern ([0-9]{1,3}\.){3}[0-9]{1,3} $logmarker'")
   $ test -n "$logmatch" && echo "Log marker found"
   Log marker found
 
