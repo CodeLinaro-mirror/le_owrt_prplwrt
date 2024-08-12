@@ -196,6 +196,7 @@ Check that ubus has expected datamodels available:
   ManagementServer.InformParameter
   ManagementServer.InternalSettings
   ManagementServer.ManageableDevice
+  ManagementServer.Mapping
   ManagementServer.SMM
   ManagementServer.SMM.DUStateChangeComplete
   ManagementServer.State
