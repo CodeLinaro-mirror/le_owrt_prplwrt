@@ -169,7 +169,6 @@ packages:
   #- secure-utils
   - secure_upgrade_utils
   - fwupgrade
-  - prpl-configuration-mxl-x86-osp-tb341
 
 diffconfig: |
   CONFIG_DEVEL=y

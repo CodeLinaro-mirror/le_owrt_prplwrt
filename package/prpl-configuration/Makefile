@@ -7,31 +7,26 @@ PKG_LICENSE:=BSD-2-Clause-Patent
 
 include $(INCLUDE_DIR)/package.mk
 
-define Package/prpl-configuration-qca-ipq95xx
-  TITLE:=prpl-configuration-qca-ipq95xx
+define Package/prpl-configuration
+  TITLE:=prpl-configuration
   CATEGORY:=prpl Foundation
 endef
 
-define Package/prpl-configuration-mxl-x86-osp-tb341
-  TITLE:=prpl-configuration-mxl-osp
+define Package/prpl-configuration-qca-ipq95xx
+  TITLE:=prpl-configuration-qca-ipq95xx
   CATEGORY:=prpl Foundation
 endef
 
 define Build/Compile
 endef
 
-define Package/prpl-configuration/install/Default
+define Package/prpl-configuration/install
 	$(CP) ./files/common/* $(1)/
 endef
 
 define Package/prpl-configuration-qca-ipq95xx/install
-  $(call Package/prpl-configuration/install/Default,$(1))
 	$(CP) ./files/wnc-freedom/* $(1)/
 endef
 
-define Package/prpl-configuration-mxl-x86-osp-tb341/install
-	$(call Package/prpl-configuration/install/Default,$(1))
-endef
-
+$(eval $(call BuildPackage,prpl-configuration))
 $(eval $(call BuildPackage,prpl-configuration-qca-ipq95xx))
-$(eval $(call BuildPackage,prpl-configuration-mxl-x86-osp-tb341))
