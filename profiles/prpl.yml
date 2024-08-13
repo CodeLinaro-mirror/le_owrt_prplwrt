@@ -9,7 +9,7 @@ feeds:
     revision: v11.10.1
   - name: feed_gmap
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_gmap.git
-    revision: v1.7.3
+    revision: v1.7.4
   - name: feed_net_core
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_net_core.git
     revision: v16.13.6
