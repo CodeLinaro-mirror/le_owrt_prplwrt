@@ -310,8 +310,8 @@ diffconfig: |
           # CONFIG_PACKAGE_libwolfssl is not set
           # CONFIG_PACKAGE_libustream-wolfssl is not set
           CONFIG_PACKAGE_libustream-openssl=y
-          CONFIG_LIGHTTPD_CRYPTOLIB_NONE=y
-          # CONFIG_LIGHTTPD_SSL is not set
+          # CONFIG_LIGHTTPD_CRYPTOLIB_MBEDTLS is not set
+          CONFIG_LIGHTTPD_CRYPTOLIB_OPENSSL=y
           CONFIG_SAH_AMX_USERMANAGEMENT_DISABLE_PASSWORD_HASHED_FORMAT_STORAGE=y
           CONFIG_KERNEL_EXT4_FS_SECURITY=y
           CONFIG_BUSYBOX_CUSTOM=y
