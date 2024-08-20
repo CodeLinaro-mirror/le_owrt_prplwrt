@@ -18,7 +18,7 @@ feeds:
     revision: v6.12.15
   - name: feed_net_services
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_net_services.git
-    revision: v12.1.8
+    revision: a453a17e48dc102f127a5fc141d76d716e9faeb3
   - name: feed_net_hl_services
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_net_hl_services.git
     revision: v1.3.6
@@ -60,6 +60,7 @@ feeds:
 additional_packages:
   - feed: packages
     packages:
+      - chrony
       - libnl-core
       - libnl-route
       - lighttpd
@@ -229,13 +230,11 @@ diffconfig: |
           CONFIG_PACKAGE_ppp-prpl=y
           CONFIG_PACKAGE_unbound-daemon-prpl=y
           CONFIG_PACKAGE_dnsmasq-prpl=y
-          CONFIG_PACKAGE_chrony-prpl=y
           CONFIG_PACKAGE_umdns-prpl=y
           # CONFIG_PACKAGE_ppp is not set
           # CONFIG_PACKAGE_miniupnpd is not set
           # CONFIG_PACKAGE_unbound-daemon is not set
           # CONFIG_PACKAGE_dnsmasq is not set
-          # CONFIG_PACKAGE_chrony is not set
           # CONFIG_PACKAGE_umdns is not set
           CONFIG_DROPBEAR_ECC=y
           CONFIG_SAH_LUA_AMX_LUA_VERSION_OVERRIDE=y
