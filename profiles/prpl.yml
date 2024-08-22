@@ -6,7 +6,7 @@ feeds:
     revision: gen_openwrt23.05_v0.11.0
   - name: feed_amx
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_amx.git
-    revision: v11.10.1
+    revision: v11.10.2
   - name: feed_gmap
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_gmap.git
     revision: v1.7.4
