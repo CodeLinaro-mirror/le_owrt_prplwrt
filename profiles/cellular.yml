@@ -10,6 +10,7 @@ additional_packages:
       - libqrtr-glib
       - libxslt
       - picocom
+      - qfirehose
 
 packages:
   - kmod-usb-net-qmi-wwan
