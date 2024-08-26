@@ -1,5 +1,0 @@
-%populate {
-    object 'Cthulhu.Config' {
-                parameter GracefulShutdownTimeoutSeconds = 0;
-    }
-}

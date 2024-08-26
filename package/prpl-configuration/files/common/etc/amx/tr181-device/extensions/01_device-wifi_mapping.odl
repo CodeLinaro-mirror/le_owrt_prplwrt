@@ -1,3 +1,0 @@
-%config {
-    %global "proxy-object.'Device.WiFi.'" = "WiFi.";
-}
