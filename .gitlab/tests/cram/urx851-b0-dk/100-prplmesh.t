@@ -48,7 +48,7 @@ Check that wireless has desired configuration and state after boot:
 
   $ R "ubus -S call WiFi.SSID _get | jsonfilter -e @[*].SSID -e @[*].Status | sort"
   Dormant
-  Dormant
+  Down
   Down
   Down
   Down
@@ -119,7 +119,6 @@ Check that hostapd is operating as expected:
 Check that wireless is operating:
 
   $ R "ubus -S call WiFi.SSID _get | jsonfilter -e @[*].SSID -e @[*].Status | sort"
-  Dormant
   Dormant
   PWHM_SSID8
   Up
@@ -244,7 +243,7 @@ Check that wireless is disabled:
 
   $ R "ubus -S call WiFi.SSID _get | jsonfilter -e @[*].SSID -e @[*].Status | sort"
   Dormant
-  Dormant
+  Down
   Down
   Down
   Down
