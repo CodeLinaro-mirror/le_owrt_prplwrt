@@ -36,7 +36,8 @@ feeds:
     revision: v9.0.4
   - name: feed_lcm
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_lcm.git
-    revision: v3.4.0
+    tracking_branch: lcm_crun
+    revision: ad159bd3d9532660bfbf5eb119310c54aea5addd
   - name: feed_tr69
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_tr69.git
     revision: v0.26.3
@@ -76,6 +77,7 @@ packages:
   - cthulhu
   - cthulhu-dhcpc
   - cthulhu-lxc
+  - cthulhu-crun
   - cthulhu-networking
   - debug-information
   - deviceinfo-manager
@@ -183,14 +185,14 @@ packages:
   - prpl-configuration
   - prpl-webui
   - reboot-service
-  - rlyeh
+  - celephais
   - routing-manager
   - ssh-server
   - tc-tiny
   - time-manager
   - timingila
   - timingila-cthulhu
-  - timingila-rlyeh
+  - timingila-celephais
   - tr069-manager
   - tr181-bridging
   - tr181-button
@@ -251,7 +253,7 @@ diffconfig: |
           # CONFIG_PACKAGE_logd is not set
           # lxc options for LCM
           CONFIG_SAH_SERVICES_TIMINGILA_INIT_ADAPTERS=y
-          CONFIG_SAH_SERVICES_TIMINGILA_ADAPTER_PACKAGER="/usr/lib/timingila-rlyeh/timingila-rlyeh.so"
+          CONFIG_SAH_SERVICES_TIMINGILA_ADAPTER_PACKAGER="/usr/lib/timingila-celephais/timingila-celephais.so"
           CONFIG_SAH_SERVICES_TIMINGILA_ADAPTER_CONTAINER="/usr/lib/timingila-cthulhu/timingila-cthulhu.so"
           # CONFIG_SAH_LIB_CTHULHU-LXC_PRPL_OS_RPATH is not set
           # pwhm options
