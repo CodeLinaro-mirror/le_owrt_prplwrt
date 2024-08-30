@@ -31,6 +31,7 @@ packages:
   - kmod-usb-storage-uas
   - kmod-fs-vfat
   - kmod-telemetry-agent
+  - prpl-configuration-qca-ipq95xx
 
 diffconfig: |
   CONFIG_TARGET_INITRAMFS_COMPRESSION_LZMA=y
