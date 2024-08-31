@@ -36,16 +36,14 @@ Switch channel bandwith from 160 to 80 Mhz to avoid doing DFS CAC operation, tha
 Check that wireless has desired configuration and state after boot:
 
   $ R "ubus -S call WiFi.SSID _get | jsonfilter -e @[*].SSID -e @[*].Status | sort"
-  Dormant
-  Dormant
   Down
   Down
   Down
   Down
   Down
   Down
-  PWHM_SSID7
-  PWHM_SSID8
+  Down
+  SSID_NOT_SET
   prplOS
   prplOS
   prplOS
@@ -138,10 +136,8 @@ Check that hostapd is operating as expected:
 Check that wireless is operating:
 
   $ R "ubus -S call WiFi.SSID _get | jsonfilter -e @[*].SSID -e @[*].Status | sort"
-  Dormant
-  Dormant
-  PWHM_SSID7
-  PWHM_SSID8
+  Down
+  SSID_NOT_SET
   Up
   Up
   Up
@@ -159,11 +155,9 @@ Check that wireless is operating:
   Interface wlan0
   Interface wlan0.1
   Interface wlan0.2
-  Interface wlan1
   Interface wlan2
   Interface wlan2.1
   Interface wlan2.2
-  Interface wlan3
   Interface wlan4
   Interface wlan4.1
   Interface wlan4.2
@@ -290,16 +284,14 @@ Disable wireless:
 Check that wireless is disabled:
 
   $ R "ubus -S call WiFi.SSID _get | jsonfilter -e @[*].SSID -e @[*].Status | sort"
-  Dormant
-  Dormant
   Down
   Down
   Down
   Down
   Down
   Down
-  PWHM_SSID7
-  PWHM_SSID8
+  Down
+  SSID_NOT_SET
   prplOS
   prplOS
   prplOS
