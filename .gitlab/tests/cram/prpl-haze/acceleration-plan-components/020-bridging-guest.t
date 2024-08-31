@@ -7,13 +7,13 @@ Get initial state of bridges:
   $ R "bridge -json link" | jq -r 'sort_by(.master,.ifname) | reverse | .[] | "\(.master)@\(.ifname)"'
   br-lan@wlan2
   br-lan@wlan1
-  br-lan@wlan0.1
+  br-lan@wlan0
   br-lan@lan3
   br-lan@lan2
   br-lan@lan1
   br-guest@wlan2.1
   br-guest@wlan1.1
-  br-guest@wlan0.2
+  br-guest@wlan0.1
 
 Remove lan1 from LAN bridge and add it to the Guest bridge:
 
@@ -31,12 +31,12 @@ Check that lan1 is added to Guest bridge:
   $ R "bridge -json link" | jq -r 'sort_by(.master,.ifname) | reverse | .[] | "\(.master)@\(.ifname)"'
   br-lan@wlan2
   br-lan@wlan1
-  br-lan@wlan0.1
+  br-lan@wlan0
   br-lan@lan3
   br-lan@lan2
   br-guest@wlan2.1
   br-guest@wlan1.1
-  br-guest@wlan0.2
+  br-guest@wlan0.1
   br-guest@lan1
 
 Remove lan1 from the Guest bridge and add it back to the LAN bridge:
@@ -55,10 +55,10 @@ Check for initial state of bridges again:
   $ R "bridge -json link" | jq -r 'sort_by(.master,.ifname) | reverse | .[] | "\(.master)@\(.ifname)"'
   br-lan@wlan2
   br-lan@wlan1
-  br-lan@wlan0.1
+  br-lan@wlan0
   br-lan@lan3
   br-lan@lan2
   br-lan@lan1
   br-guest@wlan2.1
   br-guest@wlan1.1
-  br-guest@wlan0.2
+  br-guest@wlan0.1
