@@ -12,7 +12,7 @@ Check Cthulhu.Sandbox datamodel:
 Check Cthulhu.Config datamodel:
 
   $ R "ubus -S call Cthulhu.Config _get | jsonfilter -e @[*].UseOverlayFS -e @[*].DefaultBackend -e @[*].ImageLocation | sort"
-  /lcm_data/rlyeh/images
+  /lcm/rlyeh/images
   /usr/lib/cthulhu-lxc/cthulhu-lxc.so
   true
 
@@ -42,8 +42,8 @@ Check that prplOS container v1 is running:
   $ container_ip=$(R "ubus call DHCPv4Server.Pool.3.Client.1.IPv4Address.1 _get | jsonfilter -e @[*].IPAddress")
   $ R "ssh -y root@$container_ip 'cat /etc/container-version ; ip r' 2> /dev/null"
   1
-  default via 192.168.5.1 dev lcm0 
-  192.168.5.0/24 dev lcm0 scope link  src 192.168.5.* (re)
+  default via 192.168.3.1 dev lcm0 
+  192.168.3.0/24 dev lcm0 scope link  src 192.168.3.100 
 
 Update to prplOS container v2:
 
@@ -71,8 +71,8 @@ Check that prplOS container v2 is running:
   $ container_ip=$(R "ubus call DHCPv4Server.Pool.3.Client.2.IPv4Address.1 _get | jsonfilter -e @[*].IPAddress")
   $ R "ssh -y root@$container_ip 'cat /etc/container-version ; ip r' 2> /dev/null"
   2
-  default via 192.168.5.1 dev lcm0 
-  192.168.5.0/24 dev lcm0 scope link  src 192.168.5.* (re)
+  default via 192.168.3.1 dev lcm0 
+  192.168.3.0/24 dev lcm0 scope link  src 192.168.3.100 
 
 Uninstall prplOS testing container:
 
