@@ -4,6 +4,7 @@ import yaml
 from pathlib import Path
 from shutil import rmtree
 import io
+import re
 import sys
 from subprocess import run
 from os import getenv
@@ -18,12 +19,10 @@ def run_cmd(cmd: list):
     return run(cmd)
 
 
-def die(msg: str):
-    """Quit script with error message
-
-    msg (str): Error message to print
-    """
-    print(msg)
+def die(*messages: str) -> None:
+    """Prints each message on a new line and exits the program."""
+    for message in messages:
+        print(message)
     quit(1)
 
 
@@ -74,6 +73,49 @@ def load_yaml(fname: str, profile: dict):
             profile["additional_packages"].extend(new.get(n))
 
     return profile
+
+
+def extract_sha1_from_revision(revision: str) -> str:
+    """
+    Validates the given revision string and extracts the SHA-1 hash.
+
+    A valid revision can be:
+
+     1. A full 40-character Git SHA-1 hash.
+     2. A human readable reference like Git tag followed by '@' and a full 40-character Git SHA-1 hash.
+
+    :param revision: The revision string to validate and extract the SHA-1 hash from.
+    :return: The extracted SHA-1 hash if valid, otherwise None.
+    """
+
+    full_sha1_pattern = r"^[a-f0-9]{40}$"
+    tag_full_sha1_pattern = r"^[^@]+@([a-f0-9]{40})$"
+
+    if re.match(full_sha1_pattern, revision):
+        return revision
+    elif re.match(tag_full_sha1_pattern, revision):
+        return re.match(tag_full_sha1_pattern, revision).group(1)
+    else:
+        return None
+
+
+def handle_feed_revision(profile_feed: dict, feeds: list):
+    revision = profile_feed.get("revision")
+    if not revision:
+        die(f"Please specify `revision` for the following feed: {profile_feed}")
+
+    sha1 = extract_sha1_from_revision(revision)
+    if not sha1:
+        die(
+            f"Invalid feed revision {revision} in {profile_feed} feed, valid `revision` is:",
+            " 1. A full 40-character Git SHA-1 hash.",
+            " 2. A human readable reference like Git tag followed by '@' and a full 40-character Git SHA-1 hash.",
+        )
+
+    f = profile_feed
+    feeds.append(
+        f'{f.get("method", "src-git")},{f["name"]},{f["uri"]}^{sha1}'
+    )
 
 
 if "list" in sys.argv:
@@ -133,14 +175,11 @@ with open("feeds.conf.default", "r") as default_feeds:
 
 for p in profile.get("feeds", []):
     try:
-        f = profile["feeds"].get(p)
-        if not "revision" in f:
-            die(f"Please specify revision for the following feed: {f}")
-        feeds.append(
-            f'{f.get("method", "src-git")},{f["name"]},{f["uri"]}^{f.get("revision")}'
-        )
+        profile_feeds = profile["feeds"].get(p)
+        handle_feed_revision(profile_feeds, feeds)
     except:
-        print(f"Badly configured feed: {f}")
+        print(f"Badly configured feed: {profile_feeds}")
+        quit(1)
 
 if run_cmd(["./scripts/feeds", "setup", *feeds]).returncode:
     die(f"Error setting up feeds")
