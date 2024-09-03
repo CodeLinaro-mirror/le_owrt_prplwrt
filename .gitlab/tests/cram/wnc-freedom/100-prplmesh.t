@@ -88,10 +88,12 @@ Start wireless:
 Check that hostapd is operating as expected:
 
   $ R logger -t cram "Check that hostapd is operating after reboot"
-  $ R "ps axw" | sed -nE 's/.*(hostapd.*)/\1/p' | head -3 | LC_ALL=C sort
-  hostapd -ddt /tmp/wlan0_hapd.conf
-  hostapd -ddt /tmp/wlan1_hapd.conf
-  hostapd -ddt /tmp/wlan2_hapd.conf
+  $ R "ps axw" | sed -nE 's/.*(hostapd.*)/\1/p' | head -1 | tr -s ' ' '\n' | LC_ALL=C sort
+  -ddt
+  /tmp/wlan0_hapd.conf
+  /tmp/wlan1_hapd.conf
+  /tmp/wlan2_hapd.conf
+  hostapd
 
   $ R "ubus list | grep hostapd. | sort"
   hostapd.wlan0
