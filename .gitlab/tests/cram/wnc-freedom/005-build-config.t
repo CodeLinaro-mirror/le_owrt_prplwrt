@@ -95,6 +95,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_dnsmasq-prpl=y
   CONFIG_PACKAGE_ebtables-legacy=y
   CONFIG_PACKAGE_ebtables-legacy-utils=y
+  CONFIG_PACKAGE_efr32-boot-config=y
   CONFIG_PACKAGE_ethernet-manager=y
   CONFIG_PACKAGE_fcgi=y
   # CONFIG_PACKAGE_firewall4 is not set
@@ -129,6 +130,10 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-ebtables-ipv4=y
   CONFIG_PACKAGE_kmod-ebtables-ipv6=y
   CONFIG_PACKAGE_kmod-fs-vfat=y
+  CONFIG_PACKAGE_kmod-gpio-pca953x=y
+  CONFIG_PACKAGE_kmod-i2c-core=y
+  CONFIG_PACKAGE_kmod-i2c-mux=y
+  CONFIG_PACKAGE_kmod-i2c-mux-pca954x=y
   CONFIG_PACKAGE_kmod-ifb=y
   CONFIG_PACKAGE_kmod-ip6-tunnel=y
   CONFIG_PACKAGE_kmod-ip6tables=y
@@ -170,6 +175,8 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-ppp=y
   CONFIG_PACKAGE_kmod-pppoe=y
   CONFIG_PACKAGE_kmod-pppox=y
+  CONFIG_PACKAGE_kmod-regmap-core=y
+  CONFIG_PACKAGE_kmod-regmap-i2c=y
   CONFIG_PACKAGE_kmod-sched=y
   CONFIG_PACKAGE_kmod-sched-act-vlan=y
   CONFIG_PACKAGE_kmod-sched-core=y
