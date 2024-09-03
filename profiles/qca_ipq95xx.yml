@@ -9,7 +9,7 @@ feeds:
   - name: feed_qca
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-qca.git
     tracking_branch: main
-    revision: 9dabcf038ee072d505a2cc21774a3e8cf57c4c21
+    revision: cb9d67808634be5c7614ba62b98aba5de433e5fb
 
 packages:
   - ipq95xx
@@ -21,6 +21,7 @@ packages:
   - aq_phy
   - qca-ssdk-shell
   - io-expander-freedom
+  - efr32-boot-config
   - wireless-freedom
   - kmod-usb-phy-ipq807x
   - kmod-usb-dwc3-internal
@@ -31,6 +32,8 @@ packages:
   - kmod-fs-vfat
   - kmod-telemetry-agent
   - prpl-configuration-qca-ipq95xx
+  - kmod-i2c-mux-pca954x
+  - kmod-gpio-pca953x
 
 diffconfig: |
   CONFIG_TARGET_INITRAMFS_COMPRESSION_LZMA=y
