@@ -108,6 +108,9 @@ Start wireless:
 
   $ sleep 10
 
+Additional delay to temporarily workaround OSP issue PPW-66:
+  $ sleep 5
+
 Check that hostapd is operating as expected:
 
   $ R logger -t cram "Check that hostapd is operating after reboot"
