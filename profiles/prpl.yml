@@ -48,7 +48,7 @@ feeds:
     revision: v0.1.70
   - name: feed_wifi_core
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_wifi_core.git
-    revision: v1.1.1
+    revision: v1.1.2
   - name: feed_mcastd
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_mcastd.git
     revision: v0.2.0
