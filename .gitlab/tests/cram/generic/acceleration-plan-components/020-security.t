@@ -23,6 +23,40 @@ Check that certs are in place as expected:
   true
   true
 
+Check that certificate can be disabled (PCF-1054):
+
+  $ R "ba-cli 'Security.Certificate.[SignatureAlgorithm==\"ecdsa-with-SHA512\"].Enable=0' | sed -n '3p'"
+  Security.Certificate.\d+.Enable=0 (re)
+
+  $ R "ba-cli --json 'Security.Certificate.[SignatureAlgorithm==\"ecdsa-with-SHA512\" && Enable==False].?' | sed -n '2p'" | jq --sort-keys .[0] | grep -v -E '(NotAfter|NotBefore|LastModif)'
+  {
+    "Security.Certificate.\d+.": { (re)
+      "Enable": 0,
+      "Issuer": "/C=US/O=PrplFoundation/OU=prplOS/CN=prplOS.lan",
+      "SerialNumber": "2022A6A3FDECA910242A18EFFB214776206F2ED8",
+      "SignatureAlgorithm": "ecdsa-with-SHA512",
+      "Subject": "/C=US/O=PrplFoundation/OU=prplOS/CN=prplOS.lan",
+      "SubjectAlt": ""
+    }
+  }
+
+Check that certificate can be enabled (PCF-1054):
+
+  $ R "ba-cli 'Security.Certificate.[SignatureAlgorithm==\"ecdsa-with-SHA512\"].Enable=1' | sed -n '3p'"
+  Security.Certificate.\d+.Enable=1 (re)
+
+  $ R "ba-cli --json 'Security.Certificate.[SignatureAlgorithm==\"ecdsa-with-SHA512\" && Enable==True].?' | sed -n '2p'" | jq --sort-keys .[0] | grep -v -E '(NotAfter|NotBefore|LastModif)'
+  {
+    "Security.Certificate.\d+.": { (re)
+      "Enable": 1,
+      "Issuer": "/C=US/O=PrplFoundation/OU=prplOS/CN=prplOS.lan",
+      "SerialNumber": "2022A6A3FDECA910242A18EFFB214776206F2ED8",
+      "SignatureAlgorithm": "ecdsa-with-SHA512",
+      "Subject": "/C=US/O=PrplFoundation/OU=prplOS/CN=prplOS.lan",
+      "SubjectAlt": ""
+    }
+  }
+
 Remove first certificate from the system:
 
   $ R "rm /etc/config/autocert/testing*1.pem"
