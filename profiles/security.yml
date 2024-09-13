@@ -1,6 +1,7 @@
 ---
 description: Add compiler security features
 diffconfig: |
+          CONFIG_DEVEL=y
           CONFIG_JSON_CHECKSEC_MITIGATIONS_REPORT=y
           CONFIG_BUSYBOX_DEFAULT_PIE=y
           CONFIG_GCC_DEFAULT_PIE=y
