@@ -37,7 +37,7 @@ feeds:
   - name: feed_lcm
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_lcm.git
     tracking_branch: lcm_crun
-    revision: dee7a33dc288627a874f25bec9cad62e13aa1764
+    revision: 807153dbc6980a6256eafd0cf456aec6c1cb1e1e
   - name: feed_tr69
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_tr69.git
     revision: v0.26.3
@@ -77,7 +77,6 @@ packages:
   - cthulhu
   - cthulhu-dhcpc
   - cthulhu-lxc
-  - cthulhu-crun
   - cthulhu-networking
   - debug-information
   - deviceinfo-manager
@@ -185,14 +184,14 @@ packages:
   - prpl-configuration
   - prpl-webui
   - reboot-service
-  - celephais
+  - rlyeh
   - routing-manager
   - ssh-server
   - tc-tiny
   - time-manager
   - timingila
   - timingila-cthulhu
-  - timingila-celephais
+  - timingila-rlyeh
   - tr069-manager
   - tr181-bridging
   - tr181-button
