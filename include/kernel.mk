@@ -43,7 +43,7 @@ else
     PATCH_DIR ?= $(CURDIR)/patches$(if $(wildcard ./patches-$(KERNEL_PATCHVER)),-$(KERNEL_PATCHVER))
     FILES_DIR ?= $(foreach dir,$(wildcard $(CURDIR)/files $(CURDIR)/files-$(KERNEL_PATCHVER)),"$(dir)")
   endif
-  KERNEL_BUILD_DIR ?= $(BUILD_DIR)/linux-$(BOARD)_$(SUBTARGET)
+  KERNEL_BUILD_DIR ?= $(BUILD_DIR)/linux-$(BOARD)$(if $(SUBTARGET),_$(SUBTARGET))
   LINUX_DIR ?= $(KERNEL_BUILD_DIR)/linux-$(LINUX_VERSION)
   LINUX_UAPI_DIR=uapi/
   LINUX_VERMAGIC:=$(strip $(shell cat $(LINUX_DIR)/.vermagic 2>/dev/null))
@@ -214,7 +214,7 @@ define KernelPackage
   $(eval $(call KernelPackage/Defaults))
   $(eval $(call KernelPackage/$(1)))
   $(eval $(call KernelPackage/$(1)/$(BOARD)))
-  $(eval $(call KernelPackage/$(1)/$(BOARD)/$(SUBTARGET)))
+  $(eval $(call KernelPackage/$(1)/$(BOARD)/$(if $(SUBTARGET),$(SUBTARGET),generic)))
 
   define Package/kmod-$(1)
     TITLE:=$(TITLE)
@@ -226,7 +226,7 @@ define KernelPackage
     PKGFLAGS:=$(PKGFLAGS)
     $(call KernelPackage/$(1))
     $(call KernelPackage/$(1)/$(BOARD))
-    $(call KernelPackage/$(1)/$(BOARD)/$(SUBTARGET))
+    $(call KernelPackage/$(1)/$(BOARD)/$(if $(SUBTARGET),$(SUBTARGET),generic))
   endef
 
   ifdef KernelPackage/$(1)/conffiles
