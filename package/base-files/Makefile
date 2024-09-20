@@ -17,6 +17,7 @@ PKG_RELEASE:=$(COMMITCOUNT)
 
 PKG_FILE_DEPENDS:=$(PLATFORM_DIR)/ $(GENERIC_PLATFORM_DIR)/base-files/
 PKG_BUILD_DEPENDS:=usign/host ucert/host
+PKG_CONFIG_DEPENDS:=CONFIG_PACKAGE_wifi-scripts
 PKG_LICENSE:=GPL-2.0
 
 # Extend depends from version.mk
@@ -240,6 +241,8 @@ endif
 
 	$(if $(CONFIG_TARGET_PREINIT_DISABLE_FAILSAFE), \
 		rm -f $(1)/etc/banner.failsafe,)
+	$(if $(CONFIG_PACKAGE_wifi-scripts), \
+		rm -f $(1)/sbin/wifi,)
 endef
 
 ifneq ($(DUMP),1)
