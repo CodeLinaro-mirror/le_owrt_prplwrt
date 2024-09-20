@@ -556,27 +556,6 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.DeviceInfo.ProcessorNumberOfEntries                                                           proto::deviceinfo-manager
   Device.DeviceInfo.ProductClass                                                                       proto::deviceinfo-manager
   Device.DeviceInfo.ProvisioningCode                                                                   proto::deviceinfo-manager
-  Device.DeviceInfo.Reboots.                                                                           proto::reboot-service
-  Device.DeviceInfo.Reboots.BootCounter                                                                proto::reboot-service
-  Device.DeviceInfo.Reboots.MaximumNumberOfReboots                                                     proto::reboot-service
-  Device.DeviceInfo.Reboots.NumberOfReboots                                                            proto::reboot-service
-  Device.DeviceInfo.Reboots.Reboot.{i}.                                                                proto::reboot-service
-  Device.DeviceInfo.Reboots.Reboot.{i}.BootDate                                                        proto::reboot-service
-  Device.DeviceInfo.Reboots.Reboot.{i}.BootReason                                                      proto::reboot-service
-  Device.DeviceInfo.Reboots.WatchdogRebootCounter                                                      proto::reboot-service
-  Device.DeviceInfo.Reboots.flush()                                                                    proto::reboot-service
-  Device.DeviceInfo.Reboots.reboot()                                                                   proto::reboot-service
-  Device.DeviceInfo.Reboots.reboot() input:Custom
-  Device.DeviceInfo.Reboots.reboot() input:Process
-  Device.DeviceInfo.Reboots.reboot() input:Reason
-  Device.DeviceInfo.Reboots.reset()                                                                    proto::reboot-service
-  Device.DeviceInfo.Reboots.reset() input:Custom
-  Device.DeviceInfo.Reboots.reset() input:Process
-  Device.DeviceInfo.Reboots.reset() input:Reason
-  Device.DeviceInfo.Reboots.shutdown()                                                                 proto::reboot-service
-  Device.DeviceInfo.Reboots.shutdown() input:Custom
-  Device.DeviceInfo.Reboots.shutdown() input:Process
-  Device.DeviceInfo.Reboots.shutdown() input:Reason
   Device.DeviceInfo.SerialNumber                                                                       proto::deviceinfo-manager
   Device.DeviceInfo.SoftwareVersion                                                                    proto::deviceinfo-manager
   Device.DeviceInfo.UpTime                                                                             proto::deviceinfo-manager
@@ -4323,27 +4302,6 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.DeviceInfo.ProcessorNumberOfEntries                                                           proto::deviceinfo-manager
   Device.DeviceInfo.ProductClass                                                                       proto::deviceinfo-manager
   Device.DeviceInfo.ProvisioningCode                                                                   proto::deviceinfo-manager
-  Device.DeviceInfo.Reboots.                                                                           proto::reboot-service
-  Device.DeviceInfo.Reboots.BootCounter                                                                proto::reboot-service
-  Device.DeviceInfo.Reboots.MaximumNumberOfReboots                                                     proto::reboot-service
-  Device.DeviceInfo.Reboots.NumberOfReboots                                                            proto::reboot-service
-  Device.DeviceInfo.Reboots.Reboot.{i}.                                                                proto::reboot-service
-  Device.DeviceInfo.Reboots.Reboot.{i}.BootDate                                                        proto::reboot-service
-  Device.DeviceInfo.Reboots.Reboot.{i}.BootReason                                                      proto::reboot-service
-  Device.DeviceInfo.Reboots.WatchdogRebootCounter                                                      proto::reboot-service
-  Device.DeviceInfo.Reboots.flush()                                                                    proto::reboot-service
-  Device.DeviceInfo.Reboots.reboot()                                                                   proto::reboot-service
-  Device.DeviceInfo.Reboots.reboot() input:Custom
-  Device.DeviceInfo.Reboots.reboot() input:Process
-  Device.DeviceInfo.Reboots.reboot() input:Reason
-  Device.DeviceInfo.Reboots.reset()                                                                    proto::reboot-service
-  Device.DeviceInfo.Reboots.reset() input:Custom
-  Device.DeviceInfo.Reboots.reset() input:Process
-  Device.DeviceInfo.Reboots.reset() input:Reason
-  Device.DeviceInfo.Reboots.shutdown()                                                                 proto::reboot-service
-  Device.DeviceInfo.Reboots.shutdown() input:Custom
-  Device.DeviceInfo.Reboots.shutdown() input:Process
-  Device.DeviceInfo.Reboots.shutdown() input:Reason
   Device.DeviceInfo.SerialNumber                                                                       proto::deviceinfo-manager
   Device.DeviceInfo.SoftwareVersion                                                                    proto::deviceinfo-manager
   Device.DeviceInfo.UpTime                                                                             proto::deviceinfo-manager
