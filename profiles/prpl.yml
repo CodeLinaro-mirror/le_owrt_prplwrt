@@ -142,7 +142,6 @@ packages:
   - mod-dhcpv4c
   - mod-dmext
   - mod-dmstats
-  - mod-dnssd-advertisement
   - mod-dns-unbound
   - mod-fw-amx
   - mod-fw-host

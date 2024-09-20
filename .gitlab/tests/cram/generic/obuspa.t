@@ -374,27 +374,6 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.DNS.Relay.X_PRPL-COM_Config.{i}.Interface                                                     proto::tr181-dns
   Device.DNS.Relay.X_PRPL-COM_ConfigNumberOfEntries                                                    proto::tr181-dns
   Device.DNS.SD.                                                                                       proto::tr181-dnssd
-  Device.DNS.SD.Advertise.{i}.                                                                         proto::tr181-dnssd
-  Device.DNS.SD.Advertise.{i}.Alias                                                                    proto::tr181-dnssd
-  Device.DNS.SD.Advertise.{i}.ApplicationProtocol                                                      proto::tr181-dnssd
-  Device.DNS.SD.Advertise.{i}.Enable                                                                   proto::tr181-dnssd
-  Device.DNS.SD.Advertise.{i}.InstanceName                                                             proto::tr181-dnssd
-  Device.DNS.SD.Advertise.{i}.Port                                                                     proto::tr181-dnssd
-  Device.DNS.SD.Advertise.{i}.Status                                                                   proto::tr181-dnssd
-  Device.DNS.SD.Advertise.{i}.TextRecord.{i}.                                                          proto::tr181-dnssd
-  Device.DNS.SD.Advertise.{i}.TextRecord.{i}.Key                                                       proto::tr181-dnssd
-  Device.DNS.SD.Advertise.{i}.TextRecord.{i}.Value                                                     proto::tr181-dnssd
-  Device.DNS.SD.Advertise.{i}.TextRecordNumberOfEntries                                                proto::tr181-dnssd
-  Device.DNS.SD.Advertise.{i}.TransportProtocol                                                        proto::tr181-dnssd
-  Device.DNS.SD.Advertise.{i}.service_start_advertise()                                                proto::tr181-dnssd
-  Device.DNS.SD.Advertise.{i}.service_start_advertise() input:application_protocol
-  Device.DNS.SD.Advertise.{i}.service_start_advertise() input:instance_name
-  Device.DNS.SD.Advertise.{i}.service_start_advertise() input:port
-  Device.DNS.SD.Advertise.{i}.service_start_advertise() input:text_record
-  Device.DNS.SD.Advertise.{i}.service_start_advertise() input:transport_protocol
-  Device.DNS.SD.Advertise.{i}.service_stop_advertise()                                                 proto::tr181-dnssd
-  Device.DNS.SD.Advertise.{i}.service_stop_advertise() input:instance_name
-  Device.DNS.SD.AdvertiseNumberOfEntries                                                               proto::tr181-dnssd
   Device.DNS.SD.AdvertisedInterfaces                                                                   proto::tr181-dnssd
   Device.DNS.SD.Enable                                                                                 proto::tr181-dnssd
   Device.DNS.SD.Service.{i}.                                                                           proto::tr181-dnssd
@@ -4120,27 +4099,6 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.DNS.Relay.X_PRPL-COM_Config.{i}.Interface                                                     proto::tr181-dns
   Device.DNS.Relay.X_PRPL-COM_ConfigNumberOfEntries                                                    proto::tr181-dns
   Device.DNS.SD.                                                                                       proto::tr181-dnssd
-  Device.DNS.SD.Advertise.{i}.                                                                         proto::tr181-dnssd
-  Device.DNS.SD.Advertise.{i}.Alias                                                                    proto::tr181-dnssd
-  Device.DNS.SD.Advertise.{i}.ApplicationProtocol                                                      proto::tr181-dnssd
-  Device.DNS.SD.Advertise.{i}.Enable                                                                   proto::tr181-dnssd
-  Device.DNS.SD.Advertise.{i}.InstanceName                                                             proto::tr181-dnssd
-  Device.DNS.SD.Advertise.{i}.Port                                                                     proto::tr181-dnssd
-  Device.DNS.SD.Advertise.{i}.Status                                                                   proto::tr181-dnssd
-  Device.DNS.SD.Advertise.{i}.TextRecord.{i}.                                                          proto::tr181-dnssd
-  Device.DNS.SD.Advertise.{i}.TextRecord.{i}.Key                                                       proto::tr181-dnssd
-  Device.DNS.SD.Advertise.{i}.TextRecord.{i}.Value                                                     proto::tr181-dnssd
-  Device.DNS.SD.Advertise.{i}.TextRecordNumberOfEntries                                                proto::tr181-dnssd
-  Device.DNS.SD.Advertise.{i}.TransportProtocol                                                        proto::tr181-dnssd
-  Device.DNS.SD.Advertise.{i}.service_start_advertise()                                                proto::tr181-dnssd
-  Device.DNS.SD.Advertise.{i}.service_start_advertise() input:application_protocol
-  Device.DNS.SD.Advertise.{i}.service_start_advertise() input:instance_name
-  Device.DNS.SD.Advertise.{i}.service_start_advertise() input:port
-  Device.DNS.SD.Advertise.{i}.service_start_advertise() input:text_record
-  Device.DNS.SD.Advertise.{i}.service_start_advertise() input:transport_protocol
-  Device.DNS.SD.Advertise.{i}.service_stop_advertise()                                                 proto::tr181-dnssd
-  Device.DNS.SD.Advertise.{i}.service_stop_advertise() input:instance_name
-  Device.DNS.SD.AdvertiseNumberOfEntries                                                               proto::tr181-dnssd
   Device.DNS.SD.AdvertisedInterfaces                                                                   proto::tr181-dnssd
   Device.DNS.SD.Enable                                                                                 proto::tr181-dnssd
   Device.DNS.SD.Service.{i}.                                                                           proto::tr181-dnssd
