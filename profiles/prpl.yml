@@ -176,7 +176,6 @@ packages:
   - prpl-configuration
   - prpl-webui
   - prplmesh
-  - reboot-service
   - rlyeh
   - routing-manager
   - ssh-server
