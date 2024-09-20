@@ -175,8 +175,6 @@ Assure expected build configuration (PCF-1413):
   CONFIG_LIGHTTPD_SSL_SELECT=m
   CONFIG_LOGROTATE_ACL=y
   CONFIG_LXC_SECCOMP=y
-  CONFIG_MCASTD_CORE=y
-  CONFIG_MCASTD_CORE_NICE=-18
   CONFIG_PACKAGE_acl=y
   CONFIG_PACKAGE_acl-manager=y
   CONFIG_PACKAGE_amx-cli=y
@@ -216,7 +214,6 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_dwpal_6x-uci-osp=y
   CONFIG_PACKAGE_e2fsprogs=y
   CONFIG_PACKAGE_ebtables-legacy=y
-  CONFIG_PACKAGE_ebtables-legacy-utils=y
   CONFIG_PACKAGE_eip197-firmware=y
   CONFIG_PACKAGE_ethernet-manager=y
   CONFIG_PACKAGE_ethtool=y
@@ -274,8 +271,6 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-dpl=y
   CONFIG_PACKAGE_kmod-ebt-prio=y
   CONFIG_PACKAGE_kmod-ebtables=y
-  CONFIG_PACKAGE_kmod-ebtables-ipv4=y
-  CONFIG_PACKAGE_kmod-ebtables-ipv6=y
   CONFIG_PACKAGE_kmod-fs-ext4=y
   CONFIG_PACKAGE_kmod-gre=y
   CONFIG_PACKAGE_kmod-gre6=y
@@ -314,7 +309,6 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-lib-zlib-inflate=y
   CONFIG_PACKAGE_kmod-loop=y
   CONFIG_PACKAGE_kmod-mcast-helper=y
-  CONFIG_PACKAGE_kmod-mcastd-core=y
   CONFIG_PACKAGE_kmod-mth-macdb=y
   CONFIG_PACKAGE_kmod-mxl_eth_drv=y
   CONFIG_PACKAGE_kmod-mxl_gpy=y
@@ -520,7 +514,6 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_lxc-wait=y
   CONFIG_PACKAGE_mcast_service=y
   CONFIG_PACKAGE_mcastcli=y
-  CONFIG_PACKAGE_mcastd-noforward=y
   CONFIG_PACKAGE_miniupnpd-prpl=y
   CONFIG_PACKAGE_mod-amxb-ubus=y
   CONFIG_PACKAGE_mod-amxb-usp=y
@@ -684,7 +677,6 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_tr181-ipdiagnostics=y
   CONFIG_PACKAGE_tr181-led=y
   CONFIG_PACKAGE_tr181-logical=y
-  CONFIG_PACKAGE_tr181-mcastd=y
   CONFIG_PACKAGE_tr181-neighbordiscovery=y
   CONFIG_PACKAGE_tr181-pcp=y
   CONFIG_PACKAGE_tr181-ppp=y
@@ -822,10 +814,6 @@ Assure expected build configuration (PCF-1413):
   CONFIG_SAH_AMX_TR181_LOGICAL_ORDER=21
   CONFIG_SAH_AMX_TR181_LOGICAL_RUN_AS_GROUP="tr181_app"
   CONFIG_SAH_AMX_TR181_LOGICAL_RUN_AS_USER="tr181_app"
-  CONFIG_SAH_AMX_TR181_MCASTD_CORE_PLUGIN=y
-  CONFIG_SAH_AMX_TR181_MCASTD_CORE_PLUGIN_ORDER=22
-  CONFIG_SAH_AMX_TR181_MCASTD_CORE_PLUGIN_RUN_AS_GROUP="tr181_app"
-  CONFIG_SAH_AMX_TR181_MCASTD_CORE_PLUGIN_RUN_AS_USER="tr181_app"
   CONFIG_SAH_AMX_TR181_NEIGHBORDISCOVERY=y
   CONFIG_SAH_AMX_TR181_NEIGHBORDISCOVERY_ORDER=50
   CONFIG_SAH_AMX_TR181_NEIGHBORDISCOVERY_RUN_AS_GROUP="tr181_app"
