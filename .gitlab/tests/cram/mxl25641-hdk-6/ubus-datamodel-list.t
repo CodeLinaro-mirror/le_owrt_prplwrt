@@ -177,11 +177,6 @@ Check that ubus has expected datamodels available:
   Logical.Interface
   Logical.X_PRPL-COM_Subnet
   Logical.X_PRPL-COM_Subnet.Config
-  MCASTD
-  MCASTD.Debug
-  MCASTD.Debug.Zone
-  MCASTD.Intf
-  MCASTD.Tuner
   ManagementServer
   ManagementServer.ACSTransfers
   ManagementServer.ACSTransfers.ACSTransfer
