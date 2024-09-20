@@ -304,7 +304,6 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_mod-dmproxy=y
   CONFIG_PACKAGE_mod-dmstats=y
   CONFIG_PACKAGE_mod-dns-unbound=y
-  CONFIG_PACKAGE_mod-dnssd-advertisement=y
   CONFIG_PACKAGE_mod-fw-amx=y
   CONFIG_PACKAGE_mod-fw-host=y
   CONFIG_PACKAGE_mod-httpaccess-lighttpd=y
