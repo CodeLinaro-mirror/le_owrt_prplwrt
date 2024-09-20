@@ -9,6 +9,7 @@ PKG_SOURCE_DATE:=2024-01-04
 PKG_SOURCE_VERSION:=c18cc79d50002ab8529c21184aceb016c61ac61c
 PKG_MIRROR_HASH:=0a1080ade51dc4a55249c8899d4d384f665e0d21075adab24ea23a2808165e05
 PKG_MAINTAINER:=Felix Fietkau <nbd@nbd.name>
+PKG_CONFIG_DEPENDS:=CONFIG_PACKAGE_wifi-scripts
 
 PKG_LICENSE:=GPL-2.0
 PKG_LICENSE_FILES:=
@@ -44,6 +45,8 @@ define Package/netifd/install
 	$(CP) ./files/* $(1)/
 	$(INSTALL_DIR) $(1)/etc/udhcpc.user.d/
 	$(CP) $(PKG_BUILD_DIR)/scripts/* $(1)/lib/netifd/
+	$(if $(CONFIG_PACKAGE_wifi-scripts), \
+		rm $(1)/lib/netifd/netifd-wireless.sh,)
 endef
 
 $(eval $(call BuildPackage,netifd))
