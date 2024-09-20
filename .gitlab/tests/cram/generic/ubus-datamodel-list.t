@@ -67,7 +67,6 @@ Check that ubus has expected datamodels available:
   Device.DSLite
   Device.DeviceInfo
   Device.DeviceInfo.ProcessFaults
-  Device.DeviceInfo.Reboots
   Device.DynamicDNS
   Device.Ethernet
   Device.Firewall
@@ -243,8 +242,6 @@ Check that ubus has expected datamodels available:
   QoS.QueueStats
   QoS.Scheduler
   QoS.Shaper
-  Reboot
-  Reboot.Reboot
   Rlyeh
   Rlyeh.Images
   RouterAdvertisement
