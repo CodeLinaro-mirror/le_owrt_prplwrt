@@ -36,7 +36,7 @@ feeds:
     revision: mainline-3.1@fb789adfd5068687d0158b666daa555d8fb54002
   - name: feed_lcm
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_lcm.git
-    revision: v3.5.1@f34ad0977ccd8849d028139103042d8bb2f3d52b
+    revision: stable-3.1@b248bfa7dfa4100d864199c970686d26143a3e40
   - name: feed_tr69
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_tr69.git
     revision: v0.26.3@a29ec1fd5379b7c215e4abbff2d0460de921d52f
@@ -77,6 +77,7 @@ packages:
   - cthulhu-dhcpc
   - cthulhu-lxc
   - cthulhu-networking
+  - cthulhu-plugin-usp
   - debug-information
   - deviceinfo-manager
   - dhcpv4-manager
