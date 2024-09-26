@@ -173,6 +173,7 @@ packages:
   - netmodel-vlan
   - netmodel-xpon
   - obuspa
+  - odhcp6c
   - odl-generator
   - packet-interception
   - pcm-manager
