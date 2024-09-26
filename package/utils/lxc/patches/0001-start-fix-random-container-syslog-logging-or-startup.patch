@@ -1,0 +1,101 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Petr=20=C5=A0tetiar?= <petr.stetiar@prplfoundation.org>
+Date: Thu, 26 Sep 2024 06:54:24 +0000
+Subject: [PATCH] start: fix random container syslog logging or startup
+ failures on musl libc
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+During container startup, child processes inherit and close unnecessary
+file descriptors, including the syslog socket (/dev/log). While glibc
+and other standard core libraries automatically reopen the syslog
+connection if the file descriptor is invalidated, musl's syslog
+implementation does not currently handle this scenario:
+
+  static int is_lost_conn(int e)
+  {
+  	return e==ECONNREFUSED || e==ECONNRESET || e==ENOTCONN || e==EPIPE;
+  }
+
+  static void _vsyslog(int priority, const char *message, va_list ap)
+  {
+  ...snip...
+		if (send(log_fd, buf, l, 0) < 0 && (!is_lost_conn(errno)
+		    || connect(log_fd, (void *)&log_addr, sizeof log_addr) < 0
+		    || send(log_fd, buf, l, 0) < 0)
+		    && (log_opt & LOG_CONS)) {
+			fd = open("/dev/console", O_WRONLY|O_NOCTTY|O_CLOEXEC);
+			if (fd >= 0) {
+				dprintf(fd, "%.*s", l-hlen, buf+hlen);
+				close(fd);
+			}
+		}
+
+This leads to situations where LXC child processes may continue to use
+closed syslog file descriptors, resulting in missing logs or erroneous
+log entries.
+
+In worst-case scenarios, these closed descriptors may be reused,
+potentially causing container creation or startup failures.
+
+To address this, we keep the inherited file descriptor for /dev/log open
+in the child process, ensuring that logging remains functional and
+reliable. This prevents potential LXC functionality disruptions and log
+inconsistencies on systems using the musl C standard library.
+
+References: https://git.musl-libc.org/cgit/musl/tree/src/misc/syslog.c#n80
+Reported-by: Nabil Bizid <nabil.bizid@softathome.com>
+Signed-off-by: Petr Štetiar <petr.stetiar@prplfoundation.org>
+---
+ src/lxc/start.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/src/lxc/start.c b/src/lxc/start.c
+index 9f68304bfbef..30662111ec91 100644
+--- a/src/lxc/start.c
++++ b/src/lxc/start.c
+@@ -182,8 +182,7 @@ static inline bool match_stdfds(int fd)
+ 	return (fd == STDIN_FILENO || fd == STDOUT_FILENO || fd == STDERR_FILENO);
+ }
+ 
+-#ifdef HAVE_DLOG
+-static bool match_dlog_fds(struct dirent *direntp)
++static bool match_logging_fds(struct dirent *direntp)
+ {
+ 	char path[PATH_MAX] = {0};
+ 	char link[PATH_MAX] = {0};
+@@ -200,14 +199,18 @@ static bool match_dlog_fds(struct dirent *direntp)
+ 	else if (linklen >= PATH_MAX)
+ 		return log_error(false, "The name of link path is too long - \"%s\"", path);
+ 
++#ifdef HAVE_DLOG
+ 	if (strequal(link, "/dev/log_main") ||
+ 	    strequal(link, "/dev/log_system") ||
+ 	    strequal(link, "/dev/log_radio"))
+ 		return true;
++#endif
++
++	if (current_config && current_config->syslog && strequal(link, "/dev/log"))
++		return true;
+ 
+ 	return false;
+ }
+-#endif
+ 
+ /* Parses the LISTEN_FDS environment variable value.
+  * The returned value is the highest fd number up to which the
+@@ -307,12 +310,9 @@ restart:
+ 		if (match_stdfds(fd))
+ 			continue;
+ 
+-#ifdef HAVE_DLOG
+-		if (match_dlog_fds(direntp))
++		if (match_logging_fds(direntp))
+ 			continue;
+ 
+-#endif
+-
+ 		if ((size_t)fd <= listen_fds_max) {
+ 			INFO("Inheriting fd %d (using the LISTEN_FDS environment variable)", fd);
+ 			continue;
