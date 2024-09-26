@@ -1,0 +1,26 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Petr=20=C5=A0tetiar?= <petr.stetiar@prplfoundation.org>
+Date: Thu, 26 Sep 2024 11:32:05 +0000
+Subject: [PATCH] test
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Signed-off-by: Petr Štetiar <petr.stetiar@prplfoundation.org>
+---
+ src/lxc/start.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/lxc/start.c b/src/lxc/start.c
+index 30662111ec91..a57c8da48d99 100644
+--- a/src/lxc/start.c
++++ b/src/lxc/start.c
+@@ -206,7 +206,7 @@ static bool match_logging_fds(struct dirent *direntp)
+ 		return true;
+ #endif
+ 
+-	if (current_config && current_config->syslog && strequal(link, "/dev/log"))
++	if (strequal(link, "/dev/log"))
+ 		return true;
+ 
+ 	return false;
