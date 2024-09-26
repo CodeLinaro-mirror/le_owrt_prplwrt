@@ -1,0 +1,102 @@
+From 447f0dc82d9729eb6a40953182ec4952ed15be9e Mon Sep 17 00:00:00 2001
+From: Nabil BIZID <nabil.bizid@softathome.com>
+Date: Tue, 24 Sep 2024 20:02:50 +0200
+Subject: [PATCH] LXC syslog patch
+
+During the setup/start of an LXC container, the LXC creates multiple forks of the main process
+for different purposes. Each fork inherits the file descriptors (fds) of the parent process.
+However, each child process closes the list of inherited file descriptors that it does not need,
+as these fds are irrelevant to the child process.
+This cleanup of fds occurs in the lxc_check_inherited().
+
+If logging to syslog is enabled, the socket used for logging to the syslog daemon
+(through the syslog device: /dev/log) is also closed, invalidating the corresponding file descriptor.
+LXC uses the standard syslog() function to log messages to the syslog daemon.
+
+Openwrt uses the musl library as its standard C library, and the musl implementation of syslog()
+is not resilient to the invalidation of previously obtained file descriptors (through calls to syslog() or openlog()).
+In contrast, the syslog() implementation in glibc and other C libraries is more robust: if an invalid
+file descriptor is detected, those libraries will automatically reopen the connection to the syslog device,
+obtaining a new, valid file descriptor to continue logging.
+
+Musl, on the other hand, only detects connection loss to the syslog device and does not handle cases where
+the file descriptor itself becomes invalid.
+This limitation can be seen in the musl implementation here: https://git.musl-libc.org/cgit/musl/tree/src/misc/syslog.c#n80.
+
+As a result of this behavior in musl, when an LXC child process tries to log information using syslog(),
+it continues to use the invalid file descriptor (which was closed earlier).
+This primarily results in some missing logs without functional impacts, when no other socket or file
+opening operation reuses the same file descriptor value. However, if the file descriptor is reused by
+another process or operation, logs may erroneously be written to that file or socket and can lead to
+container creation/startup failure.
+
+This commit aims to prevent forked processes from using invalid syslog file descriptors, which can
+lead to issues such as missing logs or, in worse cases, random failures in LXC
+functionality (e.g., when synchronization between LXC processes is disrupted).
+It also addresses musl's lack of resilience when handling invalid file descriptors.
+
+The changes work by caching the syslog connection information at the start and reusing it
+to reopen the syslog connection after child processes close all inherited file descriptors.
+---
+ src/lxc/log.c | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
+
+diff --git a/src/lxc/log.c b/src/lxc/log.c
+index cdd11ff1c..7cf44e52c 100644
+--- a/src/lxc/log.c
++++ b/src/lxc/log.c
+@@ -51,6 +51,9 @@ static char log_prefix[LXC_LOG_PREFIX_SIZE] = "lxc";
+ static char *log_fname = NULL;
+ static char *log_vmname = NULL;
+ 
++static bool syslog_initilized = false;
++static int syslog_facility = -EINVAL;
++
+ lxc_log_define(log, lxc);
+ 
+ static int lxc_log_priority_to_syslog(int priority)
+@@ -750,6 +753,8 @@ int lxc_log_syslog(int facility)
+ 		lxc_log_category_lxc.appender = &log_appender_syslog;
+ 		return 0;
+ 	}
++	syslog_initilized = true;
++	syslog_facility = facility;
+ 
+ 	appender = lxc_log_category_lxc.appender;
+ 	/* Check if syslog was already added, to avoid creating a loop */
+@@ -768,13 +773,32 @@ int lxc_log_syslog(int facility)
+ 	return 0;
+ }
+ 
++static void lxc_reconnect_syslog(void)
++{
++	if (syslog_initilized)
++	{
++		openlog(log_prefix, LOG_PID, syslog_initilized);
++	}
++}
++
++static void lxc_force_close_syslog(void)
++{
++	if (syslog_initilized)
++	{
++		closelog();
++	}
++}
++
++
+ void lxc_log_syslog_enable(void)
+ {
++	lxc_reconnect_syslog();
+ 	wants_syslog = true;
+ }
+ 
+ void lxc_log_syslog_disable(void)
+ {
++	lxc_force_close_syslog();
+ 	wants_syslog = false;
+ }
+ 
+-- 
+2.34.1
+
