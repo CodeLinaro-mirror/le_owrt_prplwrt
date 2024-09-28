@@ -5,10 +5,14 @@ Create R alias:
 Check that wireless has desired configuration and state after boot:
 
   $ R "ubus -S call WiFi.SSID _get | jsonfilter -e @[*].SSID -e @[*].Status | sort"
+  Dormant
+  Dormant
   Down
   Down
   Down
   Down
+  PWHM_SSID2
+  PWHM_SSID5
   prplOS
   prplOS
   prplOS-guest
@@ -80,14 +84,18 @@ Check that hostapd is operating as expected:
   hostapd -ddt /tmp/wlan1_hapd.conf
 
   $ R "ubus list | grep hostapd. | sort"
-  hostapd.wlan0
   hostapd.wlan0.1
-  hostapd.wlan1
+  hostapd.wlan0.2
   hostapd.wlan1.1
+  hostapd.wlan1.2
 
 Check that wireless is operating:
 
   $ R "ubus -S call WiFi.SSID _get | jsonfilter -e @[*].SSID -e @[*].Status | sort"
+  Dormant
+  Dormant
+  PWHM_SSID2
+  PWHM_SSID5
   Up
   Up
   Up
@@ -100,8 +108,10 @@ Check that wireless is operating:
   $ R "iw dev | grep -e Interface -e ssid | tr -d '\t' | sort"
   Interface wlan0
   Interface wlan0.1
+  Interface wlan0.2
   Interface wlan1
   Interface wlan1.1
+  Interface wlan1.2
   Interface wlan1p0
   ssid prplOS
   ssid prplOS
@@ -195,10 +205,14 @@ Disable wireless:
 Check that wireless is disabled:
 
   $ R "ubus -S call WiFi.SSID _get | jsonfilter -e @[*].SSID -e @[*].Status | sort"
+  Dormant
+  Dormant
   Down
   Down
   Down
   Down
+  PWHM_SSID2
+  PWHM_SSID5
   prplOS
   prplOS
   prplOS-guest
