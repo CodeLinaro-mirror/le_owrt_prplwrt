@@ -4,8 +4,8 @@ Create R alias:
 
 Set channel to a non DFS one:
 
-  $ R "ubus -S call WiFi.Radio.3 _set '{\"parameters\":{\"Channel\":36}}'"
-  {"WiFi.Radio.3.":{"Channel":36}}
+  $ R "ubus -S call WiFi.Radio.2 _set '{\"parameters\":{\"Channel\":36}}'"
+  {"WiFi.Radio.2.":{"Channel":36}}
   {}
   {"amxd-error-code":0}
 
@@ -13,8 +13,8 @@ Set channel to a non DFS one:
 
 Switch channel bandwith from 160 to 80 Mhz to avoid doing DFS CAC operation, that lead to long delay before vaps being up (to be removed when PPM 2810 is fixed):
 
-  $ R "ubus -S call WiFi.Radio.3 _set '{\"parameters\":{\"OperatingChannelBandwidth\":\"80MHz\"}}'"
-  {"WiFi.Radio.3.":{"OperatingChannelBandwidth":"80MHz"}}
+  $ R "ubus -S call WiFi.Radio.2 _set '{\"parameters\":{\"OperatingChannelBandwidth\":\"80MHz\"}}'"
+  {"WiFi.Radio.2.":{"OperatingChannelBandwidth":"80MHz"}}
   {}
   {"amxd-error-code":0}
 
@@ -29,6 +29,12 @@ Check that wireless has desired configuration and state after boot:
   Down
   Down
   Down
+  Down
+  Down
+  Down
+  PWHM_SSID2
+  PWHM_SSID5
+  PWHM_SSID8
   prplOS
   prplOS
   prplOS
@@ -96,16 +102,22 @@ Check that hostapd is operating as expected:
   hostapd
 
   $ R "ubus list | grep hostapd. | sort"
-  hostapd.wlan0
   hostapd.wlan0.1
-  hostapd.wlan1
+  hostapd.wlan0.2
   hostapd.wlan1.1
-  hostapd.wlan2
+  hostapd.wlan1.2
   hostapd.wlan2.1
+  hostapd.wlan2.2
 
 Check that wireless is operating:
 
   $ R "ubus -S call WiFi.SSID _get | jsonfilter -e @[*].SSID -e @[*].Status | sort"
+  Down
+  Down
+  Down
+  PWHM_SSID2
+  PWHM_SSID5
+  PWHM_SSID8
   Up
   Up
   Up
@@ -122,10 +134,13 @@ Check that wireless is operating:
   $ R "iw dev | grep -e Interface -e ssid | tr -d '\t' | sort"
   Interface wlan0
   Interface wlan0.1
+  Interface wlan0.2
   Interface wlan1
   Interface wlan1.1
+  Interface wlan1.2
   Interface wlan2
   Interface wlan2.1
+  Interface wlan2.2
   ssid prplOS
   ssid prplOS
   ssid prplOS
@@ -226,6 +241,12 @@ Check that wireless is disabled:
   Down
   Down
   Down
+  Down
+  Down
+  Down
+  PWHM_SSID2
+  PWHM_SSID5
+  PWHM_SSID8
   prplOS
   prplOS
   prplOS
