@@ -8,7 +8,7 @@
       when: always
     - if: '$TFTP_IMAGE_DOWNLOAD_URL'
       when: never
-    - when: manual
+    - when: always
   variables:
     DUT_WAN_INTERFACE: eth1
     TESTBED_MNG_INTERFACE: enp1s0
