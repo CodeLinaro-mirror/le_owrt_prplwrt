@@ -20,8 +20,10 @@ Get a DHCP lease from the router (openNDS requires clients to be registered):
 Wait for status change:
 
   $ sleep 15
-  $ R "ba-cli -lj 'ubus-protected;CaptivePortal.Status?'" 2>&1 | grep -v "^>" | sed -n "4p" 
-  [{"CaptivePortal.LANInterface.1.":{"Status":"Intercepting"},"CaptivePortal.":{"Status":"Enabled"}}]
+  $ R "ba-cli -lj 'ubus-protected;CaptivePortal.Status?'" 2>&1 | grep "Status"
+  [{"CaptivePortal.":{"Status":"Enabled"}}]
+  $ R "ba-cli -lj 'ubus-protected;CaptivePortal.LANInterface.1.Status?'" 2>&1 | grep "Status"
+  [{"CaptivePortal.LANInterface.1.":{"Status":"Intercepting"}}]
 
 Check openNDS http interface has been opened on br-lan:
 
