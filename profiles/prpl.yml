@@ -54,8 +54,8 @@ feeds:
     revision: v0.1.6@70db45513b9dbf642c9e29c348716fa285ee0f4c
   - name: feed_prpl
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prpl.git
-    tracking_branch: prplmesh/freedom-networklayout-update
-    revision: 1d1f14eb7d6ddf0a080b29cea01a48960b071d02
+    tracking_branch: prplmesh/upstep_prplmesh_to_43_freedom_networklayout
+    revision: 3d837a079ce3183acffab376fcabfb7376ce4a11
 
 additional_packages:
   - feed: packages
