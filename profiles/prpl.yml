@@ -30,7 +30,7 @@ feeds:
     revision: v2.0.14@ac141d7a43dff36545b2eba604111a95069e2e59
   - name: feed_board_configuration
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_board_configuration.git
-    revision: v1.10.0@410921f53d7805f6e92c9454e3845982b2220b39
+    revision: 2664f1072c4e7944f9e535b77790b64e8b3f0a2c
   - name: feed_usp
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_usp.git
     revision: mainline-3.1@fb789adfd5068687d0158b666daa555d8fb54002
@@ -45,10 +45,10 @@ feeds:
     revision: v4.10.3@5b25f5d8d954f15596f1e9d2c6e2c07ba7bfff19
   - name: feed_wifi_swl
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_wifi_swl.git
-    revision: v0.1.64@bc119ee53e4f8265a2a3d9d1a2dc8ea26908e975
+    revision: v0.1.71@3951c3707e921ace5e8ef7acf2d7d1adc8331890
   - name: feed_wifi_core
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_wifi_core.git
-    revision: v1.0.30@4b6310a03b620f3cbf6513def2b6ed1dd666a36f
+    revision: v1.1.1@b76746ff62996a0f8c4bb8022428ca53af1a6d46
   - name: feed_mcastd
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_mcastd.git
     revision: v0.1.6@70db45513b9dbf642c9e29c348716fa285ee0f4c
