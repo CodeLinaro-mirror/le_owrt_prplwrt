@@ -13,7 +13,7 @@ feeds:
   - name: intel_x86
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_target_x86.git
     tracking_branch: updk_9.1.60
-    revision: 8e2ad0118b6dfdb1c8d1ff8cbc8586dc32cc1eee
+    revision: b4830a55e173404589cb313278011d3bb5aae373
   - name: rootfs
     uri: ssh://git@git.maxlinear.com/ugw/rootfs.git
     tracking_branch: updk_9.1.60
@@ -32,8 +32,8 @@ feeds:
     revision: 7f53bcc7d43c8fe41417d21d50e290bb77f6c231
   - name: gwdpa_dpm
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_gwdpa-dpm.git
-    tracking_branch: master
-    revision: f0f5f96f7f75135359ab180898e676c3ad0b76e4
+    tracking_branch: updk_9.1.60.2
+    revision: ec0e6087e4aafd3bf0a32a2dd99b09be26dfaa13
   - name: misc
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_common.git
     tracking_branch: master
@@ -41,7 +41,7 @@ feeds:
   - name: opensource_apps_prpl
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_opensource_apps_prpl.git
     tracking_branch: updk_9.1.60_openwrt_23.05
-    revision: 89e5b505fc160a59598e9041faff9984279b0231
+    revision: aadcdfce9702c793a2810b6d1f94725795f376c8
   - name: packet_learn
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_packet_learn.git
     tracking_branch: master
@@ -147,6 +147,7 @@ packages:
   - kmod-pon-mcc-drv
   - kmod-pon-mcc-drv-filter
   - kmod-mxl_pon_hgu_vuni_lgm
+  - kmod-ebt-prio
   - ethtool
   - base-files-prpl
   - ppmd
