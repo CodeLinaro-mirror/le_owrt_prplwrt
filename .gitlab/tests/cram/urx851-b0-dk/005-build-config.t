@@ -259,6 +259,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-dnsresolver=y
   CONFIG_PACKAGE_kmod-dp-eth-reinsert=y
   CONFIG_PACKAGE_kmod-dpl=y
+  CONFIG_PACKAGE_kmod-ebt-prio=y
   CONFIG_PACKAGE_kmod-ebtables=y
   CONFIG_PACKAGE_kmod-ebtables-ipv4=y
   CONFIG_PACKAGE_kmod-ebtables-ipv6=y
