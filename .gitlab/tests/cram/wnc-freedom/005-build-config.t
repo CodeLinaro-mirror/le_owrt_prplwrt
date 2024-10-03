@@ -162,7 +162,10 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-pppoe=y
   CONFIG_PACKAGE_kmod-pppox=y
   CONFIG_PACKAGE_kmod-sched=y
+  CONFIG_PACKAGE_kmod-sched-act-vlan=y
   CONFIG_PACKAGE_kmod-sched-core=y
+  CONFIG_PACKAGE_kmod-sched-flower=y
+  CONFIG_PACKAGE_kmod-sched-prio=y
   CONFIG_PACKAGE_kmod-slhc=y
   CONFIG_PACKAGE_kmod-telemetry-agent=y
   CONFIG_PACKAGE_kmod-usb-storage=y
