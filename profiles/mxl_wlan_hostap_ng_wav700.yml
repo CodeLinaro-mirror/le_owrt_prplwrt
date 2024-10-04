@@ -4,7 +4,7 @@ feeds:
   - name: wlan_6x
     uri: git@git.maxlinear.com:ugw/feeds/feed_wlan.git
     tracking_branch: master
-    revision: e4f891f190561bc4c01c5d2f216867b9f4e999a7
+    revision: 5debcd679daf563a0d0a0eaee4706d4ecccd4169
 
 packages:
   - dwpal_6x-uci-osp
@@ -21,6 +21,7 @@ packages:
   - ltq-wlan-wave6x-rflib
   - kmod-lantiq-wlan-wave-support_6x
   - crda_wave_6x
+  - afcd
 
 diffconfig: |
   CONFIG_DEFAULT_WIRELESS_CONFIGURATION_TYPE="mesh"
