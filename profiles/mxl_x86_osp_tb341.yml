@@ -163,8 +163,6 @@ packages:
   - libmsgapi
   - sse_fapi_lgm
   - sse_fapi_lgm-sse_test_app
-  #- secure-utils
-  - secure_upgrade_utils
   - fwupgrade
 
 diffconfig: |
