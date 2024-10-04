@@ -76,8 +76,8 @@ release:
 
     - |
       release-cli create --name "prplOS release $prplos_version" --tag-name $CI_COMMIT_TAG \
-        --assets-link "{\"name\":\"MaxLinear OSP HDK-3 fullimage\",\"url\":\"https://storage.cloud.google.com/prplos-osp-releases/${CI_COMMIT_TAG}/targets/intel_x86/lgm/prplos-intel_x86-lgm-PRPL_OSP_TB341-osp_tb341_fullimage.img\"}" \
-        --assets-link "{\"name\":\"MaxLinear LGP B0 PON fullimage\",\"url\":\"https://storage.cloud.google.com/prplos-osp-releases/${CI_COMMIT_TAG}/targets/intel_x86/lgm/prplos-intel_x86-lgm-LGM_PRPL-lgp_b0_pon_fullimage.img\"}" \
+        --assets-link "{\"name\":\"MaxLinear/Gemtek OSPv1 fullimage (PON)\",\"url\":\"https://storage.cloud.google.com/prplos-osp-releases/${CI_COMMIT_TAG}/targets/intel_x86/lgm/openwrt-intel_x86-lgm-PRPL_OSP_TB341-osp_tb341_pon_fullimage.img\"}" \
+        --assets-link "{\"name\":\"MaxLinear/Gemtek OSPv1 fullimage (Ethernet)\",\"url\":\"https://storage.cloud.google.com/prplos-osp-releases/${CI_COMMIT_TAG}/targets/intel_x86/lgm/openwrt-intel_x86-lgm-PRPL_OSP_TB341-osp_tb341_fullimage.img\"}" \
         --assets-link "{\"name\":\"MaxLinear/Gemtek OSPv2 fullimage (PON)\",\"url\":\"https://storage.cloud.google.com/prplos-osp-releases/${CI_COMMIT_TAG}/targets/intel_x86/lgm/openwrt-intel_x86-lgm-PRPL_OSP_TB341_v2-osp_tb341_v2_wav700_pon_fullimage.img\"}" \
         --assets-link "{\"name\":\"MaxLinear/Gemtek OSPv2 fullimage (Ethernet)\",\"url\":\"https://storage.cloud.google.com/prplos-osp-releases/${CI_COMMIT_TAG}/targets/intel_x86/lgm/openwrt-intel_x86-lgm-PRPL_OSP_TB341_v2-osp_tb341_v2_wav700_eth_fullimage.img\"}" \
         --assets-link "{\"name\":\"prpl Haze sysupgrade\",\"url\":\"${PACKAGE_REGISTRY_URL}/prpl-haze/${prplos_version}/prplos-ipq807x-generic-prpl_haze-squashfs-sysupgrade.bin\"}" \
