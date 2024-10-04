@@ -155,19 +155,17 @@ packages:
   - kmod-ppv4
   - kmod-qos-tc
   - kmod-safexcel
-  - kmod-usb-acm
-  - kmod-usb-dwc3-intel
-  - kmod-usb-net-cdc-mbim
-  - kmod-usb-printer
-  - kmod-usb-storage-uas
-  - kmod-usb-xhci-hcd
-  - kmod-usb3
-  - libmsgapi
-  - libugwhelper
-  - mxl-gphy-fw-lgm
-  - obudpst
-  - partx-utils
-  - pm-util
+  - vpn-firmware-lgm
+  - kmod-ipsec4-offload
+  - kmod-ipsec6-offload
+  - pon-libnl
+  - gpon-omci-onu-binary
+  - pon-mcc-lib
+  - pon-lib
+  - pon-net-lib
+  - pon-img-lib
+  - pon-tools
+  - base-files-platform-lgm
   - pon-base-files
   - pon-base-files-debug
   - pon-base-files-prpl
@@ -181,12 +179,25 @@ packages:
   - pon-mcc-lib
   - pon-net-lib
   - pon-serdes-firmware-urx-b
-  - pon-tools
-  - pon-xpon-firmware-urx-b
-  - ppacmd
+  - kmod-pon-mbox-drv-eth
+  - kmod-dp-eth-reinsert
+  - kmod-pon-mcc-drv
+  - kmod-pon-mcc-drv-filter
+  - kmod-mxl_pon_hgu_vuni_lgm
+  - ethtool
+  - base-files-prpl
   - ppmd-bin
-  - ppv4-firmware-lgm
+  - pm-util
+  - kmod-intel-qos
+  - kmod-qos-tc
+  - partx-utils
+  - obudpst
   - speedtest-modules
+  - kmod-dpl
+  - kmod-gpio-button-hotplug
+  - kmod-mxl_gpy
+  - libugwhelper
+  - libmsgapi
   - sse_fapi_lgm
   - sse_fapi_lgm-sse_test_app
   - vpn-firmware-lgm
