@@ -84,7 +84,7 @@ release:
         --assets-link "{\"name\":\"prpl Haze initramfs\",\"url\":\"${PACKAGE_REGISTRY_URL}/prpl-haze/${prplos_version}/prplos-ipq807x-generic-prpl_haze-initramfs-uImage.itb\"}" \
         --assets-link "{\"name\":\"Turris Omnia sysupgrade\",\"url\":\"${PACKAGE_REGISTRY_URL}/turris-omnia/${prplos_version}/prplos-mvebu-cortexa9-cznic_turris-omnia-initramfs-kernel.bin\"}" \
         --assets-link "{\"name\":\"Turris Omnia initramfs\",\"url\":\"${PACKAGE_REGISTRY_URL}/turris-omnia/${prplos_version}/prplos-mvebu-cortexa9-cznic_turris-omnia-sysupgrade.img.gz\"}" \
-        --assets-link "{\"name\":\"WNC Freedom sysupgrade\",\"url\":\"${PACKAGE_REGISTRY_URL}/wnc-freedom/${prplos_version}/prplos-ipq95xx-generic-prpl_freedom-squashfs-sysupgrade.bin\"}" \
-        --assets-link "{\"name\":\"WNC Freedom initramfs\",\"url\":\"${PACKAGE_REGISTRY_URL}/wnc-freedom/${prplos_version}/prplos-ipq95xx-generic-prpl_freedom-initramfs-uImage.itb\"}" \
+        --assets-link "{\"name\":\"Qualcomm/WNC Freedom sysupgrade\",\"url\":\"${PACKAGE_REGISTRY_URL}/wnc-freedom/${prplos_version}/prplos-ipq95xx-generic-prpl_freedom-squashfs-sysupgrade.bin\"}" \
+        --assets-link "{\"name\":\"Qualcomm/WNC Freedom initramfs\",\"url\":\"${PACKAGE_REGISTRY_URL}/wnc-freedom/${prplos_version}/prplos-ipq95xx-generic-prpl_freedom-initramfs-uImage.itb\"}" \
         --assets-link "{\"name\":\"x86/64 sysupgrade\",\"url\":\"${PACKAGE_REGISTRY_URL}/x86-64/${prplos_version}/prplos-x86-64-generic-squashfs-combined-efi.img\"}" \
         --assets-link "{\"name\":\"x86/64 initramfs\",\"url\":\"${PACKAGE_REGISTRY_URL}/x86-64/${prplos_version}/prplos-x86-64-generic-initramfs-kernel.bin\"}"
