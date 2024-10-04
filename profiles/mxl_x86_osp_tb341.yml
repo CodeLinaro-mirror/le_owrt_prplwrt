@@ -92,9 +92,26 @@ feeds:
     revision: 6a645b341f8afa8c96223a161efa87e87dffead1
 
 packages:
-  - base-files-platform-lgm
-  - base-files-prpl
+  - kmod-mxl_eth_drv
+  - kmod-gwdpa-dpm
+  - kmod-pp_net_adapter
+  - kmod-packet_learn
   - blockd
+  - kmod-phy-lgm-usb
+  - kmod-usb-acm
+  - kmod-usb-dwc3-intel
+  - kmod-usb-net-cdc-mbim
+  - kmod-usb-printer
+  - kmod-usb-storage-uas
+  - kmod-usb-xhci-hcd
+  - kmod-usb3
+  - ppv4-firmware-lgm
+  - kmod-intel_ppv4_fw_lgm
+  - kmod-intel-extmark-x86
+  - kmod-ppv4
+  - kmod-p34x_phy_fwdl
+  - mxl-gphy-fw-lgm
+  #- netifd-ugw
   - e2fsprogs
   - eip197-firmware
   - ethtool
