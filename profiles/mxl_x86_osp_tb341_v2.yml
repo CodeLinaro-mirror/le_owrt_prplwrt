@@ -82,6 +82,14 @@ feeds:
     uri: ssh://git@git.maxlinear.com/mxl/speedtest.git
     tracking_branch:  master
     revision: 4054fd73777eec8f0319b3a6a0b936fefb815da0
+  - name: ugw_sdk
+    uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_ugw_sdk.git
+    tracking_branch:  updk_sdklib
+    revision: be2c71c5bfa2983277d55e77c75d812b4e05b3a7
+  - name: system_service
+    uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_system_service.git
+    tracking_branch:  updk_9.1.60
+    revision: 6a645b341f8afa8c96223a161efa87e87dffead1
 
 additional_packages:
   - feed: packages
@@ -150,6 +158,12 @@ packages:
   - speedtest-modules
   - kmod-dpl
   - kmod-mxl_gpy
+  - libugwhelper
+  - libmsgapi
+  - sse_fapi_lgm
+  - sse_fapi_lgm-sse_test_app
+  - fwupgrade
+
 
 diffconfig: |
   CONFIG_DEVEL=y
@@ -171,6 +185,7 @@ diffconfig: |
   CONFIG_BUSYBOX_CONFIG_FEATURE_TFTP_GET=y
   CONFIG_BUSYBOX_CONFIG_FEATURE_TFTP_PUT=y
   CONFIG_BUSYBOX_CONFIG_TFTP=y
+  CONFIG_LGM_EIP123_SUPPORT=y
   CONFIG_PACKAGE_strongswan-charon=y
   CONFIG_PACKAGE_strongswan-default=y
   CONFIG_PACKAGE_strongswan-ipsec=y
