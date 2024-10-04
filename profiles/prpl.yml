@@ -3,56 +3,56 @@ description: Add the prpl features
 feeds:
   - name: feed_opensource
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_opensource.git
-    revision: mainline-3.1@dfac84f24cad8f65219a57e15f4b5b2bf44edc7e
+    revision: prplos-v3.1.0@dfac84f24cad8f65219a57e15f4b5b2bf44edc7e
   - name: feed_amx
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_amx.git
-    revision: mainline-3.1@d2857bb993ed9b82b4620a8edbb9ebbc31151029
+    revision: prplos-v3.1.0@d2857bb993ed9b82b4620a8edbb9ebbc31151029
   - name: feed_gmap
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_gmap.git
-    revision: v1.7.2@f55d934ddf8461ed5bd8355ef4a1671fe9eabda5
+    revision: prplos-v3.1.0@f55d934ddf8461ed5bd8355ef4a1671fe9eabda5
   - name: feed_net_core
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_net_core.git
-    revision: mainline-3.1@6938b4e43f6e3366b8005925688ae4a03b4c0842
+    revision: prplos-v3.1.0@6938b4e43f6e3366b8005925688ae4a03b4c0842
   - name: feed_qos_firewall
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_qos_firewall.git
-    revision: v6.12.9@564db9cc19483a3db715221a2f070780daf5ba4b
+    revision: prplos-v3.1.0@564db9cc19483a3db715221a2f070780daf5ba4b
   - name: feed_net_services
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_net_services.git
-    revision: mainline-3.1@cdbaf7fd9eb930c18fc2c74df0b438c51ea6cbcd
+    revision: prplos-v3.1.0@cdbaf7fd9eb930c18fc2c74df0b438c51ea6cbcd
   - name: feed_net_hl_services
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_net_hl_services.git
-    revision: v1.3.4@78571abcce0419efc6fc4fd11da0090ea967ef0a
+    revision: prplos-v3.1.0@78571abcce0419efc6fc4fd11da0090ea967ef0a
   - name: feed_peripheral
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_peripheral.git
-    revision: v0.9.4@b3e64afb7e4c0e32c471d7f472e9f0e2dbf0f6ee
+    revision: prplos-v3.1.0@b3e64afb7e4c0e32c471d7f472e9f0e2dbf0f6ee
   - name: feed_debug
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_debug.git
-    revision: v2.0.14@ac141d7a43dff36545b2eba604111a95069e2e59
+    revision: prplos-v3.1.0@ac141d7a43dff36545b2eba604111a95069e2e59
   - name: feed_board_configuration
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_board_configuration.git
-    revision: v1.10.0@410921f53d7805f6e92c9454e3845982b2220b39
+    revision: prplos-v3.1.0@410921f53d7805f6e92c9454e3845982b2220b39
   - name: feed_usp
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_usp.git
-    revision: mainline-3.1@fb789adfd5068687d0158b666daa555d8fb54002
+    revision: prplos-v3.1.0@fb789adfd5068687d0158b666daa555d8fb54002
   - name: feed_lcm
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_lcm.git
-    revision: stable-3.1@b248bfa7dfa4100d864199c970686d26143a3e40
+    revision: prplos-v3.1.0@b248bfa7dfa4100d864199c970686d26143a3e40
   - name: feed_tr69
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_tr69.git
-    revision: v0.26.3@a29ec1fd5379b7c215e4abbff2d0460de921d52f
+    revision: prplos-v3.1.0@a29ec1fd5379b7c215e4abbff2d0460de921d52f
   - name: feed_netmodel
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_netmodel.git
-    revision: v4.10.3@5b25f5d8d954f15596f1e9d2c6e2c07ba7bfff19
+    revision: prplos-v3.1.0@5b25f5d8d954f15596f1e9d2c6e2c07ba7bfff19
   - name: feed_wifi_swl
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_wifi_swl.git
-    revision: v0.1.64@bc119ee53e4f8265a2a3d9d1a2dc8ea26908e975
+    revision: prplos-v3.1.0@bc119ee53e4f8265a2a3d9d1a2dc8ea26908e975
   - name: feed_wifi_core
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_wifi_core.git
-    revision: v1.0.30@4b6310a03b620f3cbf6513def2b6ed1dd666a36f
+    revision: prplos-v3.1.0@4b6310a03b620f3cbf6513def2b6ed1dd666a36f
   - name: feed_prpl
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prpl.git
     tracking_branch: mainline-3.1
-    revision: mainline-3.1@2274aae48347b59ab1436086372fb0536558df98
+    revision: prplos-v3.1.0@a1a3024a900b6e695b2b7798808bd35c383b91fd
 
 additional_packages:
   - feed: packages
