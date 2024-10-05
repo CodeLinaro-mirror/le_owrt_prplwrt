@@ -353,27 +353,6 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.DNS.Relay.X_PRPL-COM_Config.{i}.Interface
   Device.DNS.Relay.X_PRPL-COM_ConfigNumberOfEntries
   Device.DNS.SD.
-  Device.DNS.SD.Advertise.{i}.
-  Device.DNS.SD.Advertise.{i}.Alias
-  Device.DNS.SD.Advertise.{i}.ApplicationProtocol
-  Device.DNS.SD.Advertise.{i}.Enable
-  Device.DNS.SD.Advertise.{i}.InstanceName
-  Device.DNS.SD.Advertise.{i}.Port
-  Device.DNS.SD.Advertise.{i}.Status
-  Device.DNS.SD.Advertise.{i}.TextRecord.{i}.
-  Device.DNS.SD.Advertise.{i}.TextRecord.{i}.Key
-  Device.DNS.SD.Advertise.{i}.TextRecord.{i}.Value
-  Device.DNS.SD.Advertise.{i}.TextRecordNumberOfEntries
-  Device.DNS.SD.Advertise.{i}.TransportProtocol
-  Device.DNS.SD.Advertise.{i}.service_start_advertise()
-  Device.DNS.SD.Advertise.{i}.service_start_advertise() input:application_protocol
-  Device.DNS.SD.Advertise.{i}.service_start_advertise() input:instance_name
-  Device.DNS.SD.Advertise.{i}.service_start_advertise() input:port
-  Device.DNS.SD.Advertise.{i}.service_start_advertise() input:text_record
-  Device.DNS.SD.Advertise.{i}.service_start_advertise() input:transport_protocol
-  Device.DNS.SD.Advertise.{i}.service_stop_advertise()
-  Device.DNS.SD.Advertise.{i}.service_stop_advertise() input:instance_name
-  Device.DNS.SD.AdvertiseNumberOfEntries
   Device.DNS.SD.AdvertisedInterfaces
   Device.DNS.SD.Enable
   Device.DNS.SD.Service.{i}.
@@ -2307,7 +2286,6 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AffiliatedSta.{i}.BytesSent
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AffiliatedSta.{i}.DownlinkRateSpec
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AffiliatedSta.{i}.ErrorsSent
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AffiliatedSta.{i}.FrequencyBand
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AffiliatedSta.{i}.LastDataDownlinkRate
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AffiliatedSta.{i}.LastDataUplinkRate
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AffiliatedSta.{i}.LinkID
@@ -2510,9 +2488,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.AccessPoint.{i}.MLOStats.UnicastBytesReceived
   Device.WiFi.AccessPoint.{i}.MLOStats.UnicastBytesSent
   Device.WiFi.AccessPoint.{i}.MaxAssociatedDevices
-  Device.WiFi.AccessPoint.{i}.MultiAPProfile
   Device.WiFi.AccessPoint.{i}.MultiAPType
-  Device.WiFi.AccessPoint.{i}.MultiAPVlanId
   Device.WiFi.AccessPoint.{i}.Neighbour.{i}.
   Device.WiFi.AccessPoint.{i}.Neighbour.{i}.BSSID
   Device.WiFi.AccessPoint.{i}.Neighbour.{i}.Channel
@@ -2888,11 +2864,6 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.Radio.{i}.ExplicitBeamFormingSupported
   Device.WiFi.Radio.{i}.ExtensionChannel
   Device.WiFi.Radio.{i}.FirmwareVersion
-  Device.WiFi.Radio.{i}.FullScan()
-  Device.WiFi.Radio.{i}.FullScan() input:DFDSDwellTime
-  Device.WiFi.Radio.{i}.FullScan() input:DwellTime
-  Device.WiFi.Radio.{i}.FullScan() input:HomeTime
-  Device.WiFi.Radio.{i}.FullScan() input:SSID
   Device.WiFi.Radio.{i}.GuardInterval
   Device.WiFi.Radio.{i}.HECapabilities
   Device.WiFi.Radio.{i}.HTCapabilities
@@ -3749,27 +3720,6 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.DNS.Relay.X_PRPL-COM_Config.{i}.Interface
   Device.DNS.Relay.X_PRPL-COM_ConfigNumberOfEntries
   Device.DNS.SD.
-  Device.DNS.SD.Advertise.{i}.
-  Device.DNS.SD.Advertise.{i}.Alias
-  Device.DNS.SD.Advertise.{i}.ApplicationProtocol
-  Device.DNS.SD.Advertise.{i}.Enable
-  Device.DNS.SD.Advertise.{i}.InstanceName
-  Device.DNS.SD.Advertise.{i}.Port
-  Device.DNS.SD.Advertise.{i}.Status
-  Device.DNS.SD.Advertise.{i}.TextRecord.{i}.
-  Device.DNS.SD.Advertise.{i}.TextRecord.{i}.Key
-  Device.DNS.SD.Advertise.{i}.TextRecord.{i}.Value
-  Device.DNS.SD.Advertise.{i}.TextRecordNumberOfEntries
-  Device.DNS.SD.Advertise.{i}.TransportProtocol
-  Device.DNS.SD.Advertise.{i}.service_start_advertise()
-  Device.DNS.SD.Advertise.{i}.service_start_advertise() input:application_protocol
-  Device.DNS.SD.Advertise.{i}.service_start_advertise() input:instance_name
-  Device.DNS.SD.Advertise.{i}.service_start_advertise() input:port
-  Device.DNS.SD.Advertise.{i}.service_start_advertise() input:text_record
-  Device.DNS.SD.Advertise.{i}.service_start_advertise() input:transport_protocol
-  Device.DNS.SD.Advertise.{i}.service_stop_advertise()
-  Device.DNS.SD.Advertise.{i}.service_stop_advertise() input:instance_name
-  Device.DNS.SD.AdvertiseNumberOfEntries
   Device.DNS.SD.AdvertisedInterfaces
   Device.DNS.SD.Enable
   Device.DNS.SD.Service.{i}.
@@ -5703,7 +5653,6 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AffiliatedSta.{i}.BytesSent
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AffiliatedSta.{i}.DownlinkRateSpec
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AffiliatedSta.{i}.ErrorsSent
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AffiliatedSta.{i}.FrequencyBand
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AffiliatedSta.{i}.LastDataDownlinkRate
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AffiliatedSta.{i}.LastDataUplinkRate
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AffiliatedSta.{i}.LinkID
@@ -5906,9 +5855,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.AccessPoint.{i}.MLOStats.UnicastBytesReceived
   Device.WiFi.AccessPoint.{i}.MLOStats.UnicastBytesSent
   Device.WiFi.AccessPoint.{i}.MaxAssociatedDevices
-  Device.WiFi.AccessPoint.{i}.MultiAPProfile
   Device.WiFi.AccessPoint.{i}.MultiAPType
-  Device.WiFi.AccessPoint.{i}.MultiAPVlanId
   Device.WiFi.AccessPoint.{i}.Neighbour.{i}.
   Device.WiFi.AccessPoint.{i}.Neighbour.{i}.BSSID
   Device.WiFi.AccessPoint.{i}.Neighbour.{i}.Channel
@@ -6284,11 +6231,6 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.Radio.{i}.ExplicitBeamFormingSupported
   Device.WiFi.Radio.{i}.ExtensionChannel
   Device.WiFi.Radio.{i}.FirmwareVersion
-  Device.WiFi.Radio.{i}.FullScan()
-  Device.WiFi.Radio.{i}.FullScan() input:DFDSDwellTime
-  Device.WiFi.Radio.{i}.FullScan() input:DwellTime
-  Device.WiFi.Radio.{i}.FullScan() input:HomeTime
-  Device.WiFi.Radio.{i}.FullScan() input:SSID
   Device.WiFi.Radio.{i}.GuardInterval
   Device.WiFi.Radio.{i}.HECapabilities
   Device.WiFi.Radio.{i}.HTCapabilities
