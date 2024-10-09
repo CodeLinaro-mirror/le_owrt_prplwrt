@@ -106,10 +106,7 @@ Start wireless:
   {}
   {"amxd-error-code":0}
 
-  $ sleep 10
-
-Additional delay to temporarily workaround OSP issue PPW-66:
-  $ sleep 5
+  $ sleep 15
 
 Check that hostapd is operating as expected:
 
