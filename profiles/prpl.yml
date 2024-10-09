@@ -78,6 +78,7 @@ packages:
   - cthulhu-dhcpc
   - cthulhu-lxc
   - cthulhu-networking
+  - cthulhu-plugin-usp
   - debug-information
   - deviceinfo-manager
   - dhcpv4-manager
