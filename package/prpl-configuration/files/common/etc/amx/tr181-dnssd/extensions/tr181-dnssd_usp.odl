@@ -1,0 +1,9 @@
+%config {
+    %global usp.translate = {
+        "'DNSSD.'" = "Device.DNS.SD."
+    };
+
+    %global backend-dir = [ "/usr/bin/mods/usp", "/usr/bin/mods/amxb" ];
+
+    %global usp.connect-retry = true;
+}
