@@ -30,7 +30,7 @@ feeds:
     revision: v2.0.14@ac141d7a43dff36545b2eba604111a95069e2e59
   - name: feed_board_configuration
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_board_configuration.git
-    revision: v1.10.12@41918da0f5e7a3bb82db6b0cbe02c038d49656ca
+    revision: v1.10.14@9606cbb59c995ab7cd1c796e5e87022778eebd42
   - name: feed_usp
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_usp.git
     revision: mainline-3.1@fb789adfd5068687d0158b666daa555d8fb54002
