@@ -42,7 +42,7 @@ feeds:
     revision: v0.26.3@a29ec1fd5379b7c215e4abbff2d0460de921d52f
   - name: feed_netmodel
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_netmodel.git
-    revision: v4.10.3@5b25f5d8d954f15596f1e9d2c6e2c07ba7bfff19
+    revision: v4.12.2@bfacaccc8d46cd879b2dd7ecbdddd27a7d4b1b1f
   - name: feed_wifi_swl
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_wifi_swl.git
     revision: v0.1.71@3951c3707e921ace5e8ef7acf2d7d1adc8331890
