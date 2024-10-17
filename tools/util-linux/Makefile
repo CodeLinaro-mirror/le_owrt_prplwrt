@@ -26,12 +26,14 @@ HOST_CONFIGURE_ARGS += \
 	--disable-nls \
 	--disable-all-programs \
 	--enable-hexdump \
+	--enable-libsmartcols \
 	--enable-libuuid \
+	--enable-libfdisk \
+	--enable-fdisks \
 	--without-util \
 	--without-selinux \
 	--without-audit \
 	--without-udev \
-	--without-ncursesw \
 	--without-ncurses \
 	--without-slang \
 	--without-tinfo \
