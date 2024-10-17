@@ -39,7 +39,7 @@ feeds:
     revision: v3.7.0@ee9c7de7a23d92166bc7f9e19c70404c96ef7663
   - name: feed_tr69
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_tr69.git
-    revision: v0.26.20@ade230c46cb424cbea32588d8e327039f67fecb5
+    revision: v0.26.21@861b340e565e3feb2b7b0d47c9fdad2dd6d6e32b
   - name: feed_netmodel
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_netmodel.git
     revision: v4.12.2@bfacaccc8d46cd879b2dd7ecbdddd27a7d4b1b1f
