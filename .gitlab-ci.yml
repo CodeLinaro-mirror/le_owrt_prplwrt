@@ -64,6 +64,8 @@ build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl security:
   artifacts:
   tags:
     - firmware-builder-osp
+  rules:
+    - when: manual
 
 build test mvebu prpl security:
   extends: .build test config
