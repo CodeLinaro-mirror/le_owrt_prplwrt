@@ -51,7 +51,7 @@ feeds:
     revision: v1.1.1@b76746ff62996a0f8c4bb8022428ca53af1a6d46
   - name: feed_mcastd
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_mcastd.git
-    revision: v0.1.6@70db45513b9dbf642c9e29c348716fa285ee0f4c
+    revision: v0.2.1@851c1c6dba0eb303bec10a28178f1c266b819a91
   - name: feed_prpl
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prpl.git
     tracking_branch: mainline-3.2
