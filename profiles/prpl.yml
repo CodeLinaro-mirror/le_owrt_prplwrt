@@ -45,7 +45,7 @@ feeds:
     revision: v4.12.2@bfacaccc8d46cd879b2dd7ecbdddd27a7d4b1b1f
   - name: feed_wifi_swl
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_wifi_swl.git
-    revision: v0.1.76@9d6c62b609c275f4a091d2a8ce90768ce94fcc83
+    revision: v0.1.77@96d9ceab4e7f1236ae2822f6d547a8393a118165
   - name: feed_wifi_core
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_wifi_core.git
     revision: v1.1.1@b76746ff62996a0f8c4bb8022428ca53af1a6d46
