@@ -1,0 +1,56 @@
+#include "mod_sahtrace.odl";
+#include "global_amxb_timeouts.odl";
+
+%config {
+    name = "netmodel";
+
+    // Default MIB directory
+    default_mib_dir = "/etc/amx/netmodel/mibs";
+
+    // Handle events from entry point before making the dm available on the bus
+    dm-events-before-start = true;
+
+    storage-path = "${rw_data_path}/${name}/";
+    odl = {
+        dm-save = false,
+        dm-save-on-changed = false,
+        dm-save-delay = 1000,
+        dm-load = true,
+        load-dm-events = true,
+        dm-defaults = "${name}_defaults/",
+        directory = "${storage-path}/odl"
+    };
+
+    // main files
+    definition_file = "${name}_definition.odl";
+
+    // Other options
+    // SAHTRACE
+    sahtrace = {
+        type = "syslog",
+        level = "${default_log_level}"
+    };
+    trace-zones = {
+        netmodel = "${default_trace_zone_level}",
+        populate = "${default_trace_zone_level}"
+    };
+
+    ubus = {
+        register-on-start-event = true
+    };
+}
+
+#include "netmodel_caps.odl";
+
+import "mod-dmext.so";
+import "${name}.so" as "${name}";
+
+include "${definition_file}";
+
+%define {
+    entry-point netmodel.nm_main;
+}
+
+%populate {
+    on event "*" call count_event;
+}
