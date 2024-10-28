@@ -162,7 +162,7 @@ class TestbedDevice:
         self.shell.run(f"ubus-cli {bridge_vlan_port}.Enable=1")
 
         self.shell.run(
-            f"ubus-cli Bridging.Bridge.1.VLANPort+{{Alias='LAN', Name='vlan201', Port='Device.{bridge_vlan_port}.', VLAN='Device.Bridging.Bridge.1.VLAN.1.', Enable=1}}"
+            f"ubus-cli Bridging.Bridge.1.VLANPort+{{Alias='LAN', Name='vlan201', Port='Device.{bridge_vlan_port}', VLAN='Device.Bridging.Bridge.1.VLAN.1', Enable=1}}"
         )
 
     def init_vlans(self):
