@@ -1,0 +1,15 @@
+---
+profiles:
+  - mediatek_mt7988a-arcadyan-mozart
+target: mediatek
+subtarget: filogic
+external_target: True
+description: Build image for MediaTek / Arcadyan Mozart board
+feeds:
+  - name: feed_mtk
+    uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-mediatek
+    tracking_branch: embedd/add-mozart-board
+    revision: ae36e0dac7e40856c3d094474234944f4e567167
+
+packages:
+  - mediatek
