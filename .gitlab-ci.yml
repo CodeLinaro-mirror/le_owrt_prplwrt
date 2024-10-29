@@ -49,6 +49,9 @@ build test ipq807x prpl security:
 build test qca_ipq95xx prpl cellular security thread:
   extends: .build test config
 
+build test filogic prpl security:
+  extends: .build test config
+
 coverity scan ipq807x prpl:
   extends: .coverity scan config
   variables:
