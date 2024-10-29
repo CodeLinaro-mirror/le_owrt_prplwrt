@@ -74,6 +74,9 @@ build test x86_64 prpl security:
 build test ipq807x prpl security:
   extends: .build test config
 
+build test filogic prpl security:
+  extends: .build test config
+
 build test qca_ipq95xx prpl security:
   extends: .build test config
   rules:
