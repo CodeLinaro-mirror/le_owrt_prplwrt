@@ -5,18 +5,17 @@ Create R alias:
 Assure expected build configuration (PCF-1413):
 
   $ R "cat /etc/build.config"
-  # Build configuration for board ipq95xx/generic/DEVICE_prpl_freedom
+  # Build configuration for board mediatek/filogic/DEVICE_mediatek_mt7988a-arcadyan-mozart
   
-  CONFIG_TARGET_ipq95xx=y
-  CONFIG_TARGET_ipq95xx_generic=y
-  CONFIG_TARGET_ipq95xx_generic_DEVICE_prpl_freedom=y
+  CONFIG_TARGET_mediatek=y
+  CONFIG_TARGET_mediatek_filogic=y
+  CONFIG_TARGET_mediatek_filogic_DEVICE_mediatek_mt7988a-arcadyan-mozart=y
   CONFIG_DEVEL=y
   CONFIG_TOOLCHAINOPTS=y
   CONFIG_BUSYBOX_CUSTOM=y
   CONFIG_BIND_ENABLE_DOH=y
   CONFIG_BUILD_LOG=y
   CONFIG_BUSYBOX_CONFIG_FLOAT_DURATION=y
-  CONFIG_BUSYBOX_CONFIG_I2CSET=y
   # CONFIG_BUSYBOX_CONFIG_NTPD is not set
   CONFIG_BUSYBOX_CONFIG_PIE=y
   CONFIG_BUSYBOX_DEFAULT_PIE=y
@@ -54,17 +53,12 @@ Assure expected build configuration (PCF-1413):
   CONFIG_LIGHTTPD_SSL=y
   CONFIG_LIGHTTPD_SSL_SELECT=m
   CONFIG_LXC_SECCOMP=y
-  CONFIG_MCASTD_CORE=y
-  CONFIG_MCASTD_CORE_NICE=-18
   CONFIG_PACKAGE_acl-manager=y
   CONFIG_PACKAGE_amx-cli=y
   CONFIG_PACKAGE_amx-faultmonitor=y
   CONFIG_PACKAGE_amx-fcgi=y
   CONFIG_PACKAGE_amx-processmonitor=y
   CONFIG_PACKAGE_amxrt=y
-  CONFIG_PACKAGE_aq-fw-download=y
-  CONFIG_PACKAGE_aq_phy=y
-  CONFIG_PACKAGE_ath12k-caldata=y
   CONFIG_PACKAGE_bind-client=y
   CONFIG_PACKAGE_bind-libs=y
   CONFIG_PACKAGE_ca-certificates=y
@@ -91,7 +85,6 @@ Assure expected build configuration (PCF-1413):
   # CONFIG_PACKAGE_dnsmasq is not set
   CONFIG_PACKAGE_dnsmasq-prpl=y
   CONFIG_PACKAGE_ebtables-legacy=y
-  CONFIG_PACKAGE_ebtables-legacy-utils=y
   CONFIG_PACKAGE_ethernet-manager=y
   CONFIG_PACKAGE_fcgi=y
   # CONFIG_PACKAGE_firewall4 is not set
@@ -104,10 +97,8 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_gmap-mod-name-selector=y
   CONFIG_PACKAGE_gmap-mod-self=y
   CONFIG_PACKAGE_gmap-server=y
-  CONFIG_PACKAGE_hostapd-qca-openssl=y
-  CONFIG_PACKAGE_hostapd-qca-utils=y
+  CONFIG_PACKAGE_hostapd-openssl=y
   CONFIG_PACKAGE_hosts-manager=y
-  CONFIG_PACKAGE_io-expander-freedom=y
   CONFIG_PACKAGE_ip-bridge=y
   CONFIG_PACKAGE_ip-full=y
   CONFIG_PACKAGE_ip-manager=y
@@ -121,11 +112,8 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_iputils-ping=y
   # CONFIG_PACKAGE_jansson is not set
   CONFIG_PACKAGE_kmod-asn1-decoder=y
-  CONFIG_PACKAGE_kmod-crypto-md5=y
   CONFIG_PACKAGE_kmod-ebtables=y
-  CONFIG_PACKAGE_kmod-ebtables-ipv4=y
-  CONFIG_PACKAGE_kmod-ebtables-ipv6=y
-  CONFIG_PACKAGE_kmod-fs-vfat=y
+  CONFIG_PACKAGE_kmod-fs-ext4=y
   CONFIG_PACKAGE_kmod-ifb=y
   CONFIG_PACKAGE_kmod-ip6-tunnel=y
   CONFIG_PACKAGE_kmod-ip6tables=y
@@ -141,7 +129,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-ipt-raw=y
   CONFIG_PACKAGE_kmod-ipt-raw6=y
   CONFIG_PACKAGE_kmod-iptunnel6=y
-  CONFIG_PACKAGE_kmod-lib-crc-ccitt=y
+  CONFIG_PACKAGE_kmod-lib-crc16=y
   CONFIG_PACKAGE_kmod-lib-textsearch=y
   CONFIG_PACKAGE_kmod-loop=y
   CONFIG_PACKAGE_kmod-mcastd-core=y
@@ -155,9 +143,6 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-nfnetlink-log=y
   CONFIG_PACKAGE_kmod-nfnetlink-queue=y
   # CONFIG_PACKAGE_kmod-nft-fib is not set
-  CONFIG_PACKAGE_kmod-nls-cp437=y
-  CONFIG_PACKAGE_kmod-nls-iso8859-1=y
-  CONFIG_PACKAGE_kmod-nls-utf8=y
   CONFIG_PACKAGE_kmod-ppp=y
   CONFIG_PACKAGE_kmod-pppoe=y
   CONFIG_PACKAGE_kmod-pppox=y
@@ -167,10 +152,6 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-sched-flower=y
   CONFIG_PACKAGE_kmod-sched-prio=y
   CONFIG_PACKAGE_kmod-slhc=y
-  CONFIG_PACKAGE_kmod-telemetry-agent=y
-  CONFIG_PACKAGE_kmod-usb-storage=y
-  CONFIG_PACKAGE_kmod-usb-storage-extras=y
-  CONFIG_PACKAGE_kmod-usb-storage-uas=y
   CONFIG_PACKAGE_kmod-veth=y
   CONFIG_PACKAGE_libamxa=y
   CONFIG_PACKAGE_libamxb=y
@@ -330,7 +311,6 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_mod-usp-registration=y
   CONFIG_PACKAGE_mod-vlan-ioctl=y
   CONFIG_PACKAGE_mod-vlan-uci=y
-  CONFIG_PACKAGE_mod-whm-qca-ipq95xx=y
   CONFIG_PACKAGE_mod-xpon-prpl=y
   CONFIG_PACKAGE_mod-xpon-prpl-mock=m
   CONFIG_PACKAGE_multisettings=y
@@ -366,12 +346,10 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_procps-ng-ps=y
   CONFIG_PACKAGE_procps-ng-uptime=y
   CONFIG_PACKAGE_prpl-configuration=y
-  CONFIG_PACKAGE_prpl-configuration-qca-ipq95xx=y
   CONFIG_PACKAGE_prpl-webui=y
   CONFIG_PACKAGE_prplmesh=y
   CONFIG_PACKAGE_prplmesh-unit-tests=m
   CONFIG_PACKAGE_pwhm=y
-  CONFIG_PACKAGE_qca-ssdk-shell=y
   CONFIG_PACKAGE_radvd=y
   CONFIG_PACKAGE_reboot-service=y
   CONFIG_PACKAGE_resize2fs=y
@@ -450,15 +428,15 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_tr181-upnp=y
   CONFIG_PACKAGE_tr181-usermanagement=y
   CONFIG_PACKAGE_tr181-xpon=y
-  # CONFIG_PACKAGE_ucode-mod-fs is not set
-  # CONFIG_PACKAGE_ucode-mod-ubus is not set
+  CONFIG_PACKAGE_ucode-mod-nl80211=y
+  CONFIG_PACKAGE_ucode-mod-rtnl=y
   # CONFIG_PACKAGE_ucode-mod-uci is not set
+  CONFIG_PACKAGE_ucode-mod-uloop=y
   CONFIG_PACKAGE_umdns-prpl=y
   CONFIG_PACKAGE_unbound-daemon-prpl=y
   CONFIG_PACKAGE_uriparser=y
   CONFIG_PACKAGE_wan-manager=y
-  CONFIG_PACKAGE_wireless-freedom=y
-  CONFIG_PACKAGE_wpa-supplicant-qca-openssl=y
+  CONFIG_PACKAGE_wpa-supplicant-openssl=y
   CONFIG_PACKAGE_xtables-legacy=y
   CONFIG_PACKAGE_yajl=y
   CONFIG_PACKAGE_zlib=y
@@ -677,8 +655,6 @@ Assure expected build configuration (PCF-1413):
   CONFIG_SQLITE3_FTS4=y
   CONFIG_SQLITE3_FTS5=y
   CONFIG_SQLITE3_RTREE=y
-  CONFIG_TARGET_INITRAMFS_COMPRESSION_LZMA=y
-  # CONFIG_TARGET_INITRAMFS_COMPRESSION_NONE is not set
   CONFIG_USE_PRPLMESH_WHM=y
   CONFIG_VERSIONOPT=y
   CONFIG_VERSION_BUG_URL="https://jira.prplfoundation.org"
@@ -692,7 +668,6 @@ Assure expected build configuration (PCF-1413):
   CONFIG_VERSION_PRODUCT=""
   CONFIG_VERSION_REPO="https://downloads.openwrt.org/releases/23.05-SNAPSHOT"
   CONFIG_VERSION_SUPPORT_URL="https://jira.prplfoundation.org"
-  CONFIG_WPA_MSG_MIN_PRIORITY=3
   CONFIG_shadow-all=y
   # CONFIG_VERSION_CODE_FILENAMES is not set
   # CONFIG_VERSION_FILENAMES is not set
