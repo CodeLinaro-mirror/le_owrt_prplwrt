@@ -1,5 +1,36 @@
 targets:
 
+  arcadyan-mozart-initramfs:
+    resources:
+      ModbusTCPCoil:
+        host: quido.testbed-02.vpn.true.cz
+        coil: 7
+        managed_coils: 8
+        exclusive_coil_mode: True
+        write_multiple_coils: True
+      RawSerialPort:
+        port: "/dev/arcadyan-mozart"
+    drivers:
+      ModbusCoilDriver: {}
+      DigitalOutputPowerDriver: {}
+      SerialDriver:
+        txdelay: 0.01
+      ShellDriver:
+        console_ready: Please press Enter to activate this console.
+        prompt: 'root@[\w()]+:[^ ]+ '
+        login_prompt: built-in shell (ash)
+        await_login_timeout: 15
+        username: kingbanik
+      UBootDriver:
+        prompt: 'MT7988> '
+        interrupt: '0'
+        init_commands:
+          - setenv ipaddr 192.168.1.1
+          - setenv serverip 192.168.1.2
+          - tftpboot $loadaddr prplos-mediatek-filogic-mediatek_mt7988a-arcadyan-mozart-initramfs.itb
+        boot_command: bootm $loadaddr
+      UBootStrategy: {}
+
   glinet-b1300-initramfs:
     resources:
       ModbusTCPCoil:

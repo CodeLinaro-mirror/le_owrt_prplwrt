@@ -1,0 +1,15 @@
+.arcadyan-mozart testbed:
+  extends: .testbed true.cz
+  variables:
+    DUT_ARCH: aarch64
+    DUT_TARGET: mediatek
+    DUT_SUBTARGET: filogic
+    DUT_BOARD: arcadyan-mozart
+    DUT_CPU_TYPE: cortex-a53
+    DUT_WAN_INTERFACE: eth2
+    LABGRID_TARGET: arcadyan-mozart-initramfs
+    TFTP_IMAGE_FILENAME: prplos-mediatek-filogic-arcadyan_mozart-initramfs.itb
+    TFTP_IMAGE_FILENAME_PATTERN: /.*prplos-mediatek-filogic-arcadyan_mozart-initramfs.itb/
+    DUT_ARCH_PACKAGES_PATH: $PACKAGE_DIR/${DUT_ARCH}_${DUT_CPU_TYPE}
+  tags:
+    - dut-arcadyan-mozart
