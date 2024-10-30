@@ -6,10 +6,10 @@ subtarget: filogic
 external_target: True
 description: Build image for MediaTek / Arcadyan Mozart board
 feeds:
-  - name: feed_mtk
+  - name: feed_mediatek
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-mediatek
     tracking_branch: embedd/add-mozart-board
-    revision: ae36e0dac7e40856c3d094474234944f4e567167
+    revision: 11f8329fdf0e5f735078470d6c8c030e8905e952
 
 packages:
   - mediatek
