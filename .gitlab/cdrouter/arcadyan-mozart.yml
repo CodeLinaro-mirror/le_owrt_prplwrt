@@ -1,0 +1,106 @@
+.arcadyan-mozart: &arcadyan_mozart
+  needs:
+    - job: build test mtk_filogic prpl security
+      optional: true
+  extends:
+    - .arcadyan-mozart testbed
+    - .cdrouter
+
+CDRouter-Top-100+mDNS Mozart initramfs:
+  <<: *arcadyan_mozart
+  variables:
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
+      .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
+
+CDRouter-Top-100+mDNS Mozart VLAN WAN/LAN initramfs:
+  <<: *arcadyan_mozart
+  variables:
+    CDROUTER_TEST_CONFIG: vlan
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
+      .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
+      .gitlab/scripts/dut-init/cdrouter-dut-enable-vlans.sh
+
+CDRouter-Top-100+mDNS Mozart PPPoE WAN initramfs:
+  <<: *arcadyan_mozart
+  variables:
+    CDROUTER_TEST_CONFIG: ppp
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
+      .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
+      .gitlab/scripts/dut-init/cdrouter-dut-enable-pppoe.sh
+
+CDRouter-Wireless Mozart initramfs:
+  <<: *arcadyan_mozart
+  variables:
+    CDROUTER_TEST_CONFIG: wireless
+    CDROUTER_CONFIG_WIFI_BEACON_PHY: 'ax b be g n'
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
+      .gitlab/scripts/dut-init/cdrouter-dut-configure-wireless.sh
+
+
+.arcadyan-mozart-ipv6: &arcadyan_mozart_ipv6
+  <<: *arcadyan_mozart
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: never
+    - if: '$TFTP_IMAGE_DOWNLOAD_URL =~ $TFTP_IMAGE_FILENAME_PATTERN'
+      when: always
+    - if: '$TFTP_IMAGE_DOWNLOAD_URL'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == $CI_DESIGNATED_BRANCH'
+    - when: manual
+
+CDRouter-UPnP-IPv46 Mozart initramfs:
+  <<: *arcadyan_mozart_ipv6
+  allow_failure: true
+  variables:
+    CDROUTER_TEST_CONFIG: generic-ipv6-upnp
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
+
+CDRouter-IPv6-Top-100+mDNS Mozart initramfs:
+  <<: *arcadyan_mozart_ipv6
+  variables:
+    CDROUTER_TEST_CONFIG: generic-ipv6
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
+
+CDRouter-IPv6-Top-100+mDNS Mozart VLAN WAN/LAN initramfs:
+  <<: *arcadyan_mozart_ipv6
+  variables:
+    CDROUTER_TEST_CONFIG: vlan-ipv6
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
+      .gitlab/scripts/dut-init/cdrouter-dut-enable-vlans.sh
+
+.CDRouter-IPv6-Top-100+mDNS Mozart PPPoE WAN initramfs:
+  <<: *arcadyan_mozart_ipv6
+  variables:
+    CDROUTER_TEST_CONFIG: ppp-ipv6
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
+      .gitlab/scripts/dut-init/cdrouter-dut-enable-pppoe.sh
+
+CDRouter-TR-069 Mozart eMMC:
+  <<: *arcadyan_mozart
+  variables:
+    LABGRID_TARGET: arcadyan-mozart-emmc
+    TFTP_IMAGE_FILENAME: prplos-mediatek-filogic-arcadyan_mozart-squashfs-sysupgrade.itb
+    TFTP_IMAGE_FILENAME_PATTERN: /.*prplos-mediatek-filogic-arcadyan_mozart-squashfs-sysupgrade.itb/
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
+      .gitlab/scripts/dut-init/cdrouter-tr181-mockups.sh
+
+CDRouter-USP-prpl Mozart initramfs:
+  <<: *arcadyan_mozart
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: never
+    - when: manual
+  variables:
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
+      .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
