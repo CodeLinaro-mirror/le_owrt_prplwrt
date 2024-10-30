@@ -114,6 +114,7 @@ class TestbedDevice:
             "mxl,osp-tb341-v2": "Bridging.Bridge.1.Port.4",
             "mxl,osp-tb341": "Bridging.Bridge.1.Port.3",
             "prpl,haze": "Bridging.Bridge.1.Port.4",
+            "arcadyan,mozart": "Bridging.Bridge.1.Port.3",
             "cznic,turris-omnia": "Bridging.Bridge.2.Port.5",
             "EASY350 ANYWAN (GRX350) Axepoint Asurada model": "Bridging.Bridge.1.Port.5",
         }
