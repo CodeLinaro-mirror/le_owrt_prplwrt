@@ -1,6 +1,10 @@
 ---
 profiles:
   - prpl_freedom
+  - qcom_rdp433
+  - qcom_rdp433-mht-phy
+  - qcom_rdp475
+  - qcom_rdp476
 target: ipq95xx
 subtarget: generic
 external_target: True
