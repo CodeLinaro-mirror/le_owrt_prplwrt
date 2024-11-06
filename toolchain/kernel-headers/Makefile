@@ -171,7 +171,10 @@ define Host/Prepare
 	cd -;
 	cd $(TOPDIR)/src/kernel-$(LINUX_VERSION)/kernel_platform; \
 	BUILD_CONFIG=msm-kernel/$(BUILD_CONFIG_NAME) KERNEL_KIT=../out/$(OUT_DIR_NAME)/ OUT_DIR=temp_out_dir ./build/build_module.sh; \
+	if [ "$(LINUX_VERSION)" = "6.6" ]; then \
+	cp ../out/$(OUT_DIR_NAME)/dist/kernel-headers/include/generated/utsrelease.h temp_out_dir/msm-kernel/include/generated/; else \
 	cp ../out/$(OUT_DIR_NAME)/msm-kernel/include/generated/utsrelease.h temp_out_dir/msm-kernel/include/generated/; \
+	fi
 	cd -;
 endef
 
