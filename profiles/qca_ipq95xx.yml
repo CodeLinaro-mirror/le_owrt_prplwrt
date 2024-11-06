@@ -1,6 +1,5 @@
 ---
 profiles:
-  - prpl_freedom
   - qcom_rdp433
   - qcom_rdp433-mht-phy
   - qcom_rdp475
@@ -25,12 +24,7 @@ packages:
   - ipq95xx
   - wireless-regdb
   - hostapd-qca-utils
-  - ath12k-wifi-qcom-qcn92xx
-  - ath12k-caldata
-  - aq-fw-download
-  - aq_phy
   - qca-ssdk-shell
-  - io-expander-freedom
   - wireless-freedom
   - mod-whm-qca-ipq95xx
   - kmod-usb-phy-ipq807x
