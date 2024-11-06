@@ -1,0 +1,38 @@
+---
+profiles:
+  - qcom_rdp441
+  - qcom_rdp484
+target: ipq53xx
+subtarget: generic
+external_target: True
+description: Build image for prpl Foundation Freedom board
+feeds:
+  - name: feed_qca
+    uri: https://gitlab.com/prpl-foundation/prplOS/feed-qca.git
+    tracking_branch: dev/ath12.4.0cs-ipq95xx
+    revision: 35f8b94ec708382bc4416b842d3fbbee36a65db1
+
+packages:
+  - ipq53xx
+  - wireless-regdb
+  - hostapd-qca-utils
+  - ath12k-wifi-qcom-qcn92xx
+  - ath12k-caldata
+  - aq-fw-download
+  - aq_phy
+  - qca-ssdk-shell
+  - io-expander-freedom
+  - wireless-freedom
+  - kmod-usb-phy-ipq807x
+  - kmod-usb-dwc3-internal
+  - kmod-usb-dwc3-qcom-internal
+  - kmod-usb-storage
+  - kmod-usb-storage-extras
+  - kmod-usb-storage-uas
+  - kmod-fs-vfat
+  - kmod-telemetry-agent
+
+diffconfig: |
+  CONFIG_TARGET_INITRAMFS_COMPRESSION_LZMA=y
+  CONFIG_BUSYBOX_CUSTOM=y
+  CONFIG_BUSYBOX_CONFIG_I2CSET=y
