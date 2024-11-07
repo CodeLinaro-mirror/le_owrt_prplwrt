@@ -104,6 +104,15 @@ packages:
   - kmod-gwdpa-dpm
   - kmod-pp_net_adapter
   - kmod-packet_learn
+  - blockd
+  - kmod-phy-lgm-usb
+  - kmod-usb-acm
+  - kmod-usb-dwc3-intel
+  - kmod-usb-net-cdc-mbim
+  - kmod-usb-printer
+  - kmod-usb-storage-uas
+  - kmod-usb-xhci-hcd
+  - kmod-usb3
   - ppv4-firmware-lgm
   - kmod-intel_ppv4_fw_lgm
   - kmod-intel-extmark-x86
