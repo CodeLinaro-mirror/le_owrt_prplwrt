@@ -135,7 +135,7 @@ packages:
   - kmod-ipsec4-offload
   - kmod-ipsec6-offload
   - pon-libnl
-  - gpon-omci-onu
+  - gpon-omci-onu-binary
   - pon-mcc-lib
   - pon-lib
   - pon-net-lib
@@ -158,7 +158,7 @@ packages:
   - kmod-mxl_pon_hgu_vuni_lgm
   - ethtool
   - base-files-prpl
-  - ppmd
+  - ppmd-bin
   - pm-util
   #- signingutil
   - kmod-intel-qos
@@ -167,6 +167,7 @@ packages:
   - obudpst
   - speedtest-modules
   - kmod-dpl
+  - kmod-gpio-button-hotplug
   - kmod-mxl_gpy
   - libhelper
   - libscapi
@@ -181,7 +182,6 @@ packages:
   - libmcastfapi
   - mcastcli
   #- secure-utils
-  - secure_upgrade_utils
   - fwupgrade
 
 diffconfig: |
