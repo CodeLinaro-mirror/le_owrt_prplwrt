@@ -21,7 +21,7 @@ feeds:
     revision: v12.6.4@5a56e9c53136ec4562b91717f463c0e5ce53ed58
   - name: feed_net_hl_services
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_net_hl_services.git
-    revision: v1.4.9@5372998004243946817ed814dd7de34442ea4725
+    revision: v1.4.10@01f8e8c122923f9949b9b25e9fdfae3774495d41
   - name: feed_peripheral
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_peripheral.git
     revision: v0.9.11@941487617871652624d91db4c720871890d78089
