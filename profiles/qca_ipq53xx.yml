@@ -12,6 +12,12 @@ feeds:
     tracking_branch: dev/ath12.4.0cs-ipq95xx
     revision: 35f8b94ec708382bc4416b842d3fbbee36a65db1
 
+additional_packages:
+  - feed: packages
+    packages:
+      - i2c-tools
+      - sysstat
+
 packages:
   - ipq53xx
   - wireless-regdb
@@ -31,8 +37,18 @@ packages:
   - kmod-usb-storage-uas
   - kmod-fs-vfat
   - kmod-telemetry-agent
+  - wpa-qca-cli
+  - ethtool
+  - tcpdump
+  - taskset
 
 diffconfig: |
   CONFIG_TARGET_INITRAMFS_COMPRESSION_LZMA=y
   CONFIG_BUSYBOX_CUSTOM=y
-  CONFIG_BUSYBOX_CONFIG_I2CSET=y
+  CONFIG_BUSYBOX_CONFIG_USLEEP=y
+  CONFIG_BUSYBOX_CONFIG_BLOCKDEV=y
+  CONFIG_BUSYBOX_CONFIG_TFTPD=y
+  CONFIG_BUSYBOX_CONFIG_FEATURE_TFTP_GET=y
+  CONFIG_BUSYBOX_CONFIG_FEATURE_TFTP_PUT=y
+  CONFIG_BUSYBOX_CONFIG_TFTP=y
+  CONFIG_BUSYBOX_CONFIG_TELNET=y
