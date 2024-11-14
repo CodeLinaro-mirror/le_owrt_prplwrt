@@ -893,7 +893,6 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.Hosts.Host.{i}.
   Device.Hosts.Host.{i}.Active
   Device.Hosts.Host.{i}.ActiveLastChange
-  Device.Hosts.Host.{i}.Alias
   Device.Hosts.Host.{i}.AssociatedDevice
   Device.Hosts.Host.{i}.DHCPClient
   Device.Hosts.Host.{i}.HostName
@@ -909,10 +908,10 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.Hosts.Host.{i}.Layer3Interface
   Device.Hosts.Host.{i}.PhysAddress
   Device.Hosts.Host.{i}.WANStats.
-  Device.Hosts.Host.{i}.WANStats.RxBytes
-  Device.Hosts.Host.{i}.WANStats.RxPackets
-  Device.Hosts.Host.{i}.WANStats.TxBytes
-  Device.Hosts.Host.{i}.WANStats.TxPackets
+  Device.Hosts.Host.{i}.WANStats.BytesReceived
+  Device.Hosts.Host.{i}.WANStats.BytesSent
+  Device.Hosts.Host.{i}.WANStats.PacketsReceived
+  Device.Hosts.Host.{i}.WANStats.PacketsSent
   Device.Hosts.Host.{i}.X_PRPL-COM_Protected
   Device.Hosts.HostNumberOfEntries
   Device.Hosts.X_PRPL-COM_HostConfig.
@@ -4289,7 +4288,6 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.Hosts.Host.{i}.
   Device.Hosts.Host.{i}.Active
   Device.Hosts.Host.{i}.ActiveLastChange
-  Device.Hosts.Host.{i}.Alias
   Device.Hosts.Host.{i}.AssociatedDevice
   Device.Hosts.Host.{i}.DHCPClient
   Device.Hosts.Host.{i}.HostName
@@ -4305,10 +4303,10 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.Hosts.Host.{i}.Layer3Interface
   Device.Hosts.Host.{i}.PhysAddress
   Device.Hosts.Host.{i}.WANStats.
-  Device.Hosts.Host.{i}.WANStats.RxBytes
-  Device.Hosts.Host.{i}.WANStats.RxPackets
-  Device.Hosts.Host.{i}.WANStats.TxBytes
-  Device.Hosts.Host.{i}.WANStats.TxPackets
+  Device.Hosts.Host.{i}.WANStats.BytesReceived
+  Device.Hosts.Host.{i}.WANStats.BytesSent
+  Device.Hosts.Host.{i}.WANStats.PacketsReceived
+  Device.Hosts.Host.{i}.WANStats.PacketsSent
   Device.Hosts.Host.{i}.X_PRPL-COM_Protected
   Device.Hosts.HostNumberOfEntries
   Device.Hosts.X_PRPL-COM_HostConfig.
