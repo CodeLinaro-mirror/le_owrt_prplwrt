@@ -109,6 +109,8 @@ define KernelPackage/nf-conntrack
         CONFIG_NF_CONNTRACK_ZONES=y \
 	$(KCONFIG_NF_CONNTRACK)
   FILES:=$(foreach mod,$(NF_CONNTRACK-m),$(LINUX_DIR)/net/$(mod).ko)
+# Netfilter GRE module depends on PPTP driver if PPTP is enabled
+  DEPENDS:=+PACKAGE_kmod-pptp:kmod-pptp +PACKAGE_kmod-ipt-sctp:kmod-lib-crc32c
   AUTOLOAD:=$(call AutoProbe,$(notdir $(NF_CONNTRACK-m)))
 endef
 
@@ -327,6 +329,7 @@ $(eval $(call KernelPackage,ipt-offload))
 
 define KernelPackage/ipt-ipopt
   TITLE:=Modules for matching/changing IP packet options
+  DEPENDS:=+kmod-nf-conntrack
   KCONFIG:=$(KCONFIG_IPT_IPOPT)
   FILES:=$(foreach mod,$(IPT_IPOPT-m),$(LINUX_DIR)/net/$(mod).ko)
   AUTOLOAD:=$(call AutoProbe,$(notdir $(IPT_IPOPT-m)))
