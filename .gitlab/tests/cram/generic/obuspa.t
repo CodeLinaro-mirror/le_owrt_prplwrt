@@ -250,12 +250,12 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.DHCPv6.Client.{i}.SuggestedT1
   Device.DHCPv6.Client.{i}.SuggestedT2
   Device.DHCPv6.Client.{i}.SupportedOptions
-  Device.DHCPv6.Client.{i}.X_PRPL-COM_DeviceConfig.
-  Device.DHCPv6.Client.{i}.X_PRPL-COM_DeviceConfig.LastT1SentWhen
-  Device.DHCPv6.Client.{i}.X_PRPL-COM_DeviceConfig.LastT2SentWhen
-  Device.DHCPv6.Client.{i}.X_PRPL-COM_DeviceConfig.LeaseRenewedWhen
-  Device.DHCPv6.Client.{i}.X_PRPL-COM_DeviceConfig.T1Renewed
-  Device.DHCPv6.Client.{i}.X_PRPL-COM_DeviceConfig.T2Renewed
+  Device.DHCPv6.Client.{i}.X_PRPL-COM_Config.
+  Device.DHCPv6.Client.{i}.X_PRPL-COM_Config.LastT1SentWhen
+  Device.DHCPv6.Client.{i}.X_PRPL-COM_Config.LastT2SentWhen
+  Device.DHCPv6.Client.{i}.X_PRPL-COM_Config.LeaseRenewedWhen
+  Device.DHCPv6.Client.{i}.X_PRPL-COM_Config.T1Renewed
+  Device.DHCPv6.Client.{i}.X_PRPL-COM_Config.T2Renewed
   Device.DHCPv6.Client.{i}.X_PRPL-COM_Release
   Device.DHCPv6.Client.{i}.X_PRPL-COM_Release()
   Device.DHCPv6.Server.
@@ -3646,12 +3646,12 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.DHCPv6.Client.{i}.SuggestedT1
   Device.DHCPv6.Client.{i}.SuggestedT2
   Device.DHCPv6.Client.{i}.SupportedOptions
-  Device.DHCPv6.Client.{i}.X_PRPL-COM_DeviceConfig.
-  Device.DHCPv6.Client.{i}.X_PRPL-COM_DeviceConfig.LastT1SentWhen
-  Device.DHCPv6.Client.{i}.X_PRPL-COM_DeviceConfig.LastT2SentWhen
-  Device.DHCPv6.Client.{i}.X_PRPL-COM_DeviceConfig.LeaseRenewedWhen
-  Device.DHCPv6.Client.{i}.X_PRPL-COM_DeviceConfig.T1Renewed
-  Device.DHCPv6.Client.{i}.X_PRPL-COM_DeviceConfig.T2Renewed
+  Device.DHCPv6.Client.{i}.X_PRPL-COM_Config.
+  Device.DHCPv6.Client.{i}.X_PRPL-COM_Config.LastT1SentWhen
+  Device.DHCPv6.Client.{i}.X_PRPL-COM_Config.LastT2SentWhen
+  Device.DHCPv6.Client.{i}.X_PRPL-COM_Config.LeaseRenewedWhen
+  Device.DHCPv6.Client.{i}.X_PRPL-COM_Config.T1Renewed
+  Device.DHCPv6.Client.{i}.X_PRPL-COM_Config.T2Renewed
   Device.DHCPv6.Client.{i}.X_PRPL-COM_Release
   Device.DHCPv6.Client.{i}.X_PRPL-COM_Release()
   Device.DHCPv6.Server.
