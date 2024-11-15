@@ -131,7 +131,6 @@ packages:
   - lxc-usernsexec
   - lxc-wait
   - mcastd-core
-  - mcastd-noforward
   - mcastd-routing
   - miniupnpd-prpl
   - mod-amxb-ubus
@@ -208,7 +207,6 @@ packages:
   - tr181-ipdiagnostics
   - tr181-led
   - tr181-logical
-  - tr181-mcastd
   - tr181-neighbordiscovery
   - tr181-pcp
   - tr181-ppp
@@ -320,3 +318,9 @@ diffconfig: |
           CONFIG_SAH_AMX_TR069_MANAGER_USE_GSDM=y
           CONFIG_SAH_MOD_AMXB_USP_REQUIRES_DEVICE_PREFIX=y
           CONFIG_INCLUDE_CONFIG=y
+          CONFIG_PACKAGE_ebtables-legacy-utils=y
+          CONFIG_PACKAGE_kmod-ebtables-ipv4=y
+          CONFIG_PACKAGE_kmod-ebtables-ipv6=y
+          CONFIG_PACKAGE_kmod-mcastd-core=y
+          CONFIG_MCASTD_CORE=y
+          CONFIG_MCASTD_CORE_NICE=-18
