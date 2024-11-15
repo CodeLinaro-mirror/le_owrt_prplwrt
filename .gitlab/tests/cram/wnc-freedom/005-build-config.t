@@ -172,6 +172,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-usb-storage-extras=y
   CONFIG_PACKAGE_kmod-usb-storage-uas=y
   CONFIG_PACKAGE_kmod-veth=y
+  CONFIG_PACKAGE_libacl=y
   CONFIG_PACKAGE_libamxa=y
   CONFIG_PACKAGE_libamxb=y
   CONFIG_PACKAGE_libamxc=y

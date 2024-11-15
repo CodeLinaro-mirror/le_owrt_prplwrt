@@ -354,6 +354,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-udptunnel6=y
   CONFIG_PACKAGE_kmod-veth=y
   CONFIG_PACKAGE_lib-cli=y
+  CONFIG_PACKAGE_libacl=y
   CONFIG_PACKAGE_libamxa=y
   CONFIG_PACKAGE_libamxb=y
   CONFIG_PACKAGE_libamxc=y
