@@ -166,6 +166,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-sched-prio=y
   CONFIG_PACKAGE_kmod-slhc=y
   CONFIG_PACKAGE_kmod-veth=y
+  CONFIG_PACKAGE_libacl=y
   CONFIG_PACKAGE_libamxa=y
   CONFIG_PACKAGE_libamxb=y
   CONFIG_PACKAGE_libamxc=y
