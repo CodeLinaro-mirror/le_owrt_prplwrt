@@ -2134,6 +2134,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.Syslog.Source.{i}.Network.X_PRPL-COM_CACertificate
   Device.Syslog.Source.{i}.Network.X_PRPL-COM_Certificate
   Device.Syslog.Source.{i}.Network.X_PRPL-COM_PeerVerify
+  Device.Syslog.Source.{i}.Network.X_PRPL-COM_StructuredData
   Device.Syslog.Source.{i}.Severity
   Device.Syslog.Source.{i}.SystemMessages
   Device.Syslog.SourceNumberOfEntries
@@ -5540,6 +5541,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.Syslog.Source.{i}.Network.X_PRPL-COM_CACertificate
   Device.Syslog.Source.{i}.Network.X_PRPL-COM_Certificate
   Device.Syslog.Source.{i}.Network.X_PRPL-COM_PeerVerify
+  Device.Syslog.Source.{i}.Network.X_PRPL-COM_StructuredData
   Device.Syslog.Source.{i}.Severity
   Device.Syslog.Source.{i}.SystemMessages
   Device.Syslog.SourceNumberOfEntries
