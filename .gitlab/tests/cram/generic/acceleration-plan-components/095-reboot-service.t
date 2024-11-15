@@ -8,11 +8,15 @@ Check the root datamodel settings:
   {
     "Reboot.": {
       "BootCounter": 1,
+      "ColdBootCount": 0,
       "MaximumNumberOfReboots": 10,
       "NumberOfReboots": 1,
-      "WatchdogRebootCounter": 0
+      "WarmBootcount": 0,
+      "WatchdogRebootCounter": 0,
+      "X_PRPL-COM_CurrentBootCycle": ""
     },
     "Reboot.Reboot.1.": {
+      "Alias": "cpe-Reboot-1",
       "BootDate": "\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d+Z", (re)
       "BootReason": "Planned reboot - initiated by \"LocalFactoryReset\""
     }
@@ -28,8 +32,11 @@ Check if counters are flushed:
   {
     "Reboot.": {
       "BootCounter": 0,
+      "ColdBootCount": 0,
       "MaximumNumberOfReboots": 10,
       "NumberOfReboots": 0,
-      "WatchdogRebootCounter": 0
+      "WarmBootcount": 0,
+      "WatchdogRebootCounter": 0,
+      "X_PRPL-COM_CurrentBootCycle": ""
     }
   }
