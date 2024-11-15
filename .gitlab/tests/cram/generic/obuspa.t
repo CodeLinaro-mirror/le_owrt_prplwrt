@@ -1960,8 +1960,10 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.SoftwareModules.DeploymentUnit.{i}.Update() input:HostObject
   Device.SoftwareModules.DeploymentUnit.{i}.Update() input:ModuleVersion
   Device.SoftwareModules.DeploymentUnit.{i}.Update() input:NetworkConfig
+  Device.SoftwareModules.DeploymentUnit.{i}.Update() input:NumRequiredUIDs
   Device.SoftwareModules.DeploymentUnit.{i}.Update() input:OptionalRoles
   Device.SoftwareModules.DeploymentUnit.{i}.Update() input:Password
+  Device.SoftwareModules.DeploymentUnit.{i}.Update() input:Privileged
   Device.SoftwareModules.DeploymentUnit.{i}.Update() input:RequiredRoles
   Device.SoftwareModules.DeploymentUnit.{i}.Update() input:RetainData
   Device.SoftwareModules.DeploymentUnit.{i}.Update() input:URL
@@ -2011,11 +2013,16 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.SoftwareModules.ExecutionUnit.{i}.Alias
   Device.SoftwareModules.ExecutionUnit.{i}.AllocatedCPUPercent
   Device.SoftwareModules.ExecutionUnit.{i}.AllocatedDiskSpace
+  Device.SoftwareModules.ExecutionUnit.{i}.AllocatedEUGID
+  Device.SoftwareModules.ExecutionUnit.{i}.AllocatedEUUID
+  Device.SoftwareModules.ExecutionUnit.{i}.AllocatedHostGID
+  Device.SoftwareModules.ExecutionUnit.{i}.AllocatedHostUID
   Device.SoftwareModules.ExecutionUnit.{i}.AllocatedMemory
   Device.SoftwareModules.ExecutionUnit.{i}.AssociatedProcessList
   Device.SoftwareModules.ExecutionUnit.{i}.AutoStart
   Device.SoftwareModules.ExecutionUnit.{i}.AvailableDiskSpace
   Device.SoftwareModules.ExecutionUnit.{i}.AvailableMemory
+  Device.SoftwareModules.ExecutionUnit.{i}.CreationTime
   Device.SoftwareModules.ExecutionUnit.{i}.Description
   Device.SoftwareModules.ExecutionUnit.{i}.DiskSpaceInUse
   Device.SoftwareModules.ExecutionUnit.{i}.EUID
@@ -2051,6 +2058,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.SoftwareModules.ExecutionUnit.{i}.SetRequestedState()
   Device.SoftwareModules.ExecutionUnit.{i}.SetRequestedState() input:RequestedState
   Device.SoftwareModules.ExecutionUnit.{i}.Status
+  Device.SoftwareModules.ExecutionUnit.{i}.Uptime
   Device.SoftwareModules.ExecutionUnit.{i}.Vendor
   Device.SoftwareModules.ExecutionUnit.{i}.VendorConfigList
   Device.SoftwareModules.ExecutionUnit.{i}.VendorLogList
@@ -2067,8 +2075,10 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.SoftwareModules.InstallDU() input:HostObject
   Device.SoftwareModules.InstallDU() input:ModuleVersion
   Device.SoftwareModules.InstallDU() input:NetworkConfig
+  Device.SoftwareModules.InstallDU() input:NumRequiredUIDs
   Device.SoftwareModules.InstallDU() input:OptionalRoles
   Device.SoftwareModules.InstallDU() input:Password
+  Device.SoftwareModules.InstallDU() input:Privileged
   Device.SoftwareModules.InstallDU() input:RequiredRoles
   Device.SoftwareModules.InstallDU() input:Signature
   Device.SoftwareModules.InstallDU() input:URL
@@ -5356,8 +5366,10 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.SoftwareModules.DeploymentUnit.{i}.Update() input:HostObject
   Device.SoftwareModules.DeploymentUnit.{i}.Update() input:ModuleVersion
   Device.SoftwareModules.DeploymentUnit.{i}.Update() input:NetworkConfig
+  Device.SoftwareModules.DeploymentUnit.{i}.Update() input:NumRequiredUIDs
   Device.SoftwareModules.DeploymentUnit.{i}.Update() input:OptionalRoles
   Device.SoftwareModules.DeploymentUnit.{i}.Update() input:Password
+  Device.SoftwareModules.DeploymentUnit.{i}.Update() input:Privileged
   Device.SoftwareModules.DeploymentUnit.{i}.Update() input:RequiredRoles
   Device.SoftwareModules.DeploymentUnit.{i}.Update() input:RetainData
   Device.SoftwareModules.DeploymentUnit.{i}.Update() input:URL
@@ -5407,11 +5419,16 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.SoftwareModules.ExecutionUnit.{i}.Alias
   Device.SoftwareModules.ExecutionUnit.{i}.AllocatedCPUPercent
   Device.SoftwareModules.ExecutionUnit.{i}.AllocatedDiskSpace
+  Device.SoftwareModules.ExecutionUnit.{i}.AllocatedEUGID
+  Device.SoftwareModules.ExecutionUnit.{i}.AllocatedEUUID
+  Device.SoftwareModules.ExecutionUnit.{i}.AllocatedHostGID
+  Device.SoftwareModules.ExecutionUnit.{i}.AllocatedHostUID
   Device.SoftwareModules.ExecutionUnit.{i}.AllocatedMemory
   Device.SoftwareModules.ExecutionUnit.{i}.AssociatedProcessList
   Device.SoftwareModules.ExecutionUnit.{i}.AutoStart
   Device.SoftwareModules.ExecutionUnit.{i}.AvailableDiskSpace
   Device.SoftwareModules.ExecutionUnit.{i}.AvailableMemory
+  Device.SoftwareModules.ExecutionUnit.{i}.CreationTime
   Device.SoftwareModules.ExecutionUnit.{i}.Description
   Device.SoftwareModules.ExecutionUnit.{i}.DiskSpaceInUse
   Device.SoftwareModules.ExecutionUnit.{i}.EUID
@@ -5447,6 +5464,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.SoftwareModules.ExecutionUnit.{i}.SetRequestedState()
   Device.SoftwareModules.ExecutionUnit.{i}.SetRequestedState() input:RequestedState
   Device.SoftwareModules.ExecutionUnit.{i}.Status
+  Device.SoftwareModules.ExecutionUnit.{i}.Uptime
   Device.SoftwareModules.ExecutionUnit.{i}.Vendor
   Device.SoftwareModules.ExecutionUnit.{i}.VendorConfigList
   Device.SoftwareModules.ExecutionUnit.{i}.VendorLogList
@@ -5463,8 +5481,10 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.SoftwareModules.InstallDU() input:HostObject
   Device.SoftwareModules.InstallDU() input:ModuleVersion
   Device.SoftwareModules.InstallDU() input:NetworkConfig
+  Device.SoftwareModules.InstallDU() input:NumRequiredUIDs
   Device.SoftwareModules.InstallDU() input:OptionalRoles
   Device.SoftwareModules.InstallDU() input:Password
+  Device.SoftwareModules.InstallDU() input:Privileged
   Device.SoftwareModules.InstallDU() input:RequiredRoles
   Device.SoftwareModules.InstallDU() input:Signature
   Device.SoftwareModules.InstallDU() input:URL
