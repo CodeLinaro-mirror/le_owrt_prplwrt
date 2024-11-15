@@ -21,7 +21,7 @@ Wait for status change:
 
   $ sleep 15
   $ R "ba-cli -lj 'ubus-protected;CaptivePortal.Status?'" 2>&1 | grep -v "^>" | sed -n "4p" 
-  [{"CaptivePortal.LANInterface.1.":{"Status":"Intercepting"},"CaptivePortal.":{"Status":"Enabled"}}]
+  [{"CaptivePortal.":{"Status":"Enabled"}}]
 
 Check openNDS http interface has been opened on br-lan:
 
