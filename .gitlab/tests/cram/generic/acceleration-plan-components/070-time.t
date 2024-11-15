@@ -59,7 +59,7 @@ Disable outgoing NTP traffic:
 
 Disable and enable the Time manager to force time synchronization:
 
-  $ R "ubus -S call Time _set '{\"parameters\":{\"Enable\":False}}'" ; sleep 1
+  $ R "ubus -S call Time _set '{\"parameters\":{\"Enable\":False}}'" ; sleep 5
   {"Time.":{"Enable":false}}
   {}
   {"amxd-error-code":0}
@@ -89,7 +89,7 @@ Enable outgoing NTP traffic:
 
 Disable and enable the Time manager to force time synchronization:
 
-  $ R "ubus -S call Time _set '{\"parameters\":{\"Enable\":False}}'" ; sleep 1
+  $ R "ubus -S call Time _set '{\"parameters\":{\"Enable\":False}}'" ; sleep 5
   {"Time.":{"Enable":false}}
   {}
   {"amxd-error-code":0}
