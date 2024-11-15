@@ -1005,6 +1005,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.IP.Interface.{i}.X_PRPL-COM_IPv4Config.NeighborReachableTime
   Device.IP.Interface.{i}.X_PRPL-COM_IPv6Config.
   Device.IP.Interface.{i}.X_PRPL-COM_IPv6Config.NeighborReachableTime
+  Device.IP.Interface.{i}.X_PRPL-COM_MTUMode
   Device.IP.InterfaceNumberOfEntries
   Device.IP.ULAPrefix
   Device.InterfaceStack.{i}.
@@ -4400,6 +4401,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.IP.Interface.{i}.X_PRPL-COM_IPv4Config.NeighborReachableTime
   Device.IP.Interface.{i}.X_PRPL-COM_IPv6Config.
   Device.IP.Interface.{i}.X_PRPL-COM_IPv6Config.NeighborReachableTime
+  Device.IP.Interface.{i}.X_PRPL-COM_MTUMode
   Device.IP.InterfaceNumberOfEntries
   Device.IP.ULAPrefix
   Device.InterfaceStack.{i}.
