@@ -2240,6 +2240,8 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.UnixDomainSockets.UnixDomainSocket.{i}.Path
   Device.UnixDomainSockets.UnixDomainSocketNumberOfEntries
   Device.UserInterface.
+  Device.UserInterface.AvailableLanguages
+  Device.UserInterface.CurrentLanguage
   Device.UserInterface.HTTPAccess.{i}.
   Device.UserInterface.HTTPAccess.{i}.AccessType
   Device.UserInterface.HTTPAccess.{i}.Alias
@@ -5662,6 +5664,8 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.UnixDomainSockets.UnixDomainSocket.{i}.Path
   Device.UnixDomainSockets.UnixDomainSocketNumberOfEntries
   Device.UserInterface.
+  Device.UserInterface.AvailableLanguages
+  Device.UserInterface.CurrentLanguage
   Device.UserInterface.HTTPAccess.{i}.
   Device.UserInterface.HTTPAccess.{i}.AccessType
   Device.UserInterface.HTTPAccess.{i}.Alias
