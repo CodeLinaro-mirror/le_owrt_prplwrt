@@ -2204,11 +2204,26 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.Time.update_status()
   Device.UPnP.
   Device.UPnP.Device.
+  Device.UPnP.Device.Capabilities.
+  Device.UPnP.Device.Capabilities.UPnPArchitecture
+  Device.UPnP.Device.Capabilities.UPnPArchitectureMinorVer
+  Device.UPnP.Device.Capabilities.UPnPBasicDevice
+  Device.UPnP.Device.Capabilities.UPnPDMBasicMgmt
+  Device.UPnP.Device.Capabilities.UPnPDMConfigurationMgmt
+  Device.UPnP.Device.Capabilities.UPnPDMSoftwareMgmt
+  Device.UPnP.Device.Capabilities.UPnPIGD
+  Device.UPnP.Device.Capabilities.UPnPMediaRenderer
+  Device.UPnP.Device.Capabilities.UPnPMediaServer
+  Device.UPnP.Device.Capabilities.UPnPQoSDevice
+  Device.UPnP.Device.Capabilities.UPnPQoSPolicyHolder
+  Device.UPnP.Device.Capabilities.UPnPWLANAccessPoint
   Device.UPnP.Device.Enable
   Device.UPnP.Device.UPnPIGD
   Device.UPnP.X_PRPL-COM_IGDConfig.
+  Device.UPnP.X_PRPL-COM_IGDConfig.AllowReservedAddr
   Device.UPnP.X_PRPL-COM_IGDConfig.AutoCleanupEnable
   Device.UPnP.X_PRPL-COM_IGDConfig.CleanupInterval
+  Device.UPnP.X_PRPL-COM_IGDConfig.EnableIPv6
   Device.UPnP.X_PRPL-COM_IGDConfig.MaxLifetime
   Device.UPnP.X_PRPL-COM_IGDConfig.UPnPInterface
   Device.USPServices.
@@ -5611,11 +5626,26 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.Time.update_status()
   Device.UPnP.
   Device.UPnP.Device.
+  Device.UPnP.Device.Capabilities.
+  Device.UPnP.Device.Capabilities.UPnPArchitecture
+  Device.UPnP.Device.Capabilities.UPnPArchitectureMinorVer
+  Device.UPnP.Device.Capabilities.UPnPBasicDevice
+  Device.UPnP.Device.Capabilities.UPnPDMBasicMgmt
+  Device.UPnP.Device.Capabilities.UPnPDMConfigurationMgmt
+  Device.UPnP.Device.Capabilities.UPnPDMSoftwareMgmt
+  Device.UPnP.Device.Capabilities.UPnPIGD
+  Device.UPnP.Device.Capabilities.UPnPMediaRenderer
+  Device.UPnP.Device.Capabilities.UPnPMediaServer
+  Device.UPnP.Device.Capabilities.UPnPQoSDevice
+  Device.UPnP.Device.Capabilities.UPnPQoSPolicyHolder
+  Device.UPnP.Device.Capabilities.UPnPWLANAccessPoint
   Device.UPnP.Device.Enable
   Device.UPnP.Device.UPnPIGD
   Device.UPnP.X_PRPL-COM_IGDConfig.
+  Device.UPnP.X_PRPL-COM_IGDConfig.AllowReservedAddr
   Device.UPnP.X_PRPL-COM_IGDConfig.AutoCleanupEnable
   Device.UPnP.X_PRPL-COM_IGDConfig.CleanupInterval
+  Device.UPnP.X_PRPL-COM_IGDConfig.EnableIPv6
   Device.UPnP.X_PRPL-COM_IGDConfig.MaxLifetime
   Device.UPnP.X_PRPL-COM_IGDConfig.UPnPInterface
   Device.USPServices.
