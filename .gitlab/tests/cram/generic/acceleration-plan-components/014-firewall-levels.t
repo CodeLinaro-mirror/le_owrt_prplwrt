@@ -4,24 +4,28 @@ Create R alias:
 
 Set firewall level to High:
 
-  $ script --command "ssh -t root@$TARGET_LAN_IP ubus-cli Firewall.Config=High" > /dev/null; sleep 1
+  $ script --command "ssh -t root@$TARGET_LAN_IP ubus-cli Firewall.PolicyLevel='Firewall.Level.High'" > /dev/null; sleep 1
 
 Check that it is set properly:
 
-  $ R "iptables -n -L FORWARD_L_Low | grep references"
-  Chain FORWARD_L_Low (3 references)
+  $ R "iptables -L FORWARD_Firewall -nv | grep Low"
+      0     0 FORWARD_L_Low  all  --  $DUT_WAN_INTERFACE    br-lcm  0.0.0.0/0            0.0.0.0/0           
+      0     0 FORWARD_L_Low  all  --  br-lan br-lcm  0.0.0.0/0            0.0.0.0/0           
 
-  $ R "iptables -n -L FORWARD_L_High | grep references"
-  Chain FORWARD_L_High (0 references)
+  $ R "iptables -L FORWARD_Firewall -nv | grep High"
+      0     0 FORWARD_L_High  all  --  $DUT_WAN_INTERFACE    br-lan  0.0.0.0/0            0.0.0.0/0           
+      0     0 FORWARD_L_High_Out  all  --  br-lan $DUT_WAN_INTERFACE     0.0.0.0/0            0.0.0.0/0           
 
 Set firewall level to Low:
 
-  $ script --command "ssh -t root@$TARGET_LAN_IP ubus-cli Firewall.Config=Low" > /dev/null; sleep 1
+  $ script --command "ssh -t root@$TARGET_LAN_IP ubus-cli Firewall.PolicyLevel='Firewall.Level.Low'" > /dev/null; sleep 1
 
 Check that it is set properly:
 
-  $ R "iptables -n -L FORWARD_L_Low | grep references"
-  Chain FORWARD_L_Low (3 references)
+  $ R "iptables -L FORWARD_Firewall -nv | grep Low"
+      0     0 FORWARD_L_Low  all  --  $DUT_WAN_INTERFACE    br-lan  0.0.0.0/0            0.0.0.0/0           
+      0     0 FORWARD_L_Low  all  --  $DUT_WAN_INTERFACE    br-lcm  0.0.0.0/0            0.0.0.0/0           
+      0     0 FORWARD_L_Low  all  --  br-lan br-lcm  0.0.0.0/0            0.0.0.0/0           
 
-  $ R "iptables -n -L FORWARD_L_High | grep references"
-  Chain FORWARD_L_High (0 references)
+  $ R "iptables -L FORWARD_Firewall -nv | grep High"
+  [1]
