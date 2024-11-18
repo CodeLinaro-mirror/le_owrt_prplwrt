@@ -559,6 +559,9 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.DynamicDNS.Client.{i}.Server
   Device.DynamicDNS.Client.{i}.Status
   Device.DynamicDNS.Client.{i}.Username
+  Device.DynamicDNS.Client.{i}.X_PRPL-COM_DNSServer
+  Device.DynamicDNS.Client.{i}.X_PRPL-COM_IP
+  Device.DynamicDNS.Client.{i}.X_PRPL-COM_IPVersion
   Device.DynamicDNS.ClientNumberOfEntries
   Device.DynamicDNS.Server.{i}.
   Device.DynamicDNS.Server.{i}.Alias
@@ -3984,6 +3987,9 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.DynamicDNS.Client.{i}.Server
   Device.DynamicDNS.Client.{i}.Status
   Device.DynamicDNS.Client.{i}.Username
+  Device.DynamicDNS.Client.{i}.X_PRPL-COM_DNSServer
+  Device.DynamicDNS.Client.{i}.X_PRPL-COM_IP
+  Device.DynamicDNS.Client.{i}.X_PRPL-COM_IPVersion
   Device.DynamicDNS.ClientNumberOfEntries
   Device.DynamicDNS.Server.{i}.
   Device.DynamicDNS.Server.{i}.Alias
