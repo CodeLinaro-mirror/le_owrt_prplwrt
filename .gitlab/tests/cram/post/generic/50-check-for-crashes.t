@@ -19,11 +19,11 @@ Check that there are no signs of crashes:
   >      -e 'RIP: [[:xdigit:]]{4}:(\[<[[:xdigit:]]+>\] \[<[[:xdigit:]]+>\] )?([^+ ]+)\+0x.*'
   [1]
 
-Ensure that ProcessFaults does not contain any crashes:
+Ensure that ProcessFaults does not contain any crashes, expected LastUpgradeCount to be 1 because of the simulated crash in generic/acceleration-plan-components/026-processfaults-monitor.t:
 
   $ R "ba-cli ProcessFaults.? | grep -v '^>' | head -n -1 | sort"
   ProcessFaults.
-  ProcessFaults.LastUpgradeCount=0
+  ProcessFaults.LastUpgradeCount=1
   ProcessFaults.MaxProcessFaultEntries=5
   ProcessFaults.MinFreeSpace=3000
   ProcessFaults.PreviousBootCount=0
