@@ -69,7 +69,7 @@ Check that Rlyeh has downloaded the testing container:
 
   $ R "ubus -S call Rlyeh.Images _get | jsonfilter -e @[*].Name -e @[*].Status | sort"
   Downloaded
-  prplos/prplos/prplos-testing-container-intel_mips-xrx500
+  prpl-foundation/prplos/prplos/prplos-testing-container-intel_mips-xrx500
 
 Remove testing container:
 
