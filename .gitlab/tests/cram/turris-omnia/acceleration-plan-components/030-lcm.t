@@ -23,6 +23,7 @@ Install testing prplOS container v1:
   > URL="docker://registry.gitlab.com/prpl-foundation/prplos/prplos/prplos/lcm-test-mvebu-cortexa9:prplos-v1", \
   > UUID="0f032bd7-54bd-5b81-b14e-9441d730092f", \
   > ExecutionEnvRef="generic", \
+  > Privileged=True, \
   > NetworkConfig = { "AccessInterfaces" = [{"Reference" = "Lan"}] } \
   > \)
   > EOF
@@ -52,6 +53,7 @@ Update to prplOS container v2:
   > URL="docker://registry.gitlab.com/prpl-foundation/prplos/prplos/prplos/lcm-test-mvebu-cortexa9:prplos-v2", \
   > UUID="0f032bd7-54bd-5b81-b14e-9441d730092f", \
   > ExecutionEnvRef="generic", \
+  > Privileged=True, \
   > NetworkConfig = { "AccessInterfaces" = [{"Reference" = "Lan"}] } \
   > \)
   > EOF
