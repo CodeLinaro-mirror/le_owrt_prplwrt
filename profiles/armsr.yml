@@ -1,0 +1,10 @@
+---
+profiles:
+  - generic
+target: armsr
+subtarget: armv8
+description: Build image for armsr armv8 generic target
+
+diffconfig: |
+  # CONFIG_TARGET_IMAGES_GZIP is not set
+  CONFIG_TARGET_ROOTFS_PARTSIZE=130
