@@ -53,6 +53,13 @@ define Build/combined
 		256
 endef
 
+define Build/prpl-layout
+	$(SCRIPT_DIR)/gen_image_prpl.sh \
+	$@ \
+	$(CONFIG_TARGET_KERNEL_PARTSIZE) $(IMAGE_KERNEL) \
+	$(CONFIG_TARGET_ROOTFS_PARTSIZE) $(IMAGE_ROOTFS)
+endef
+
 define Build/grub-config
 	rm -fR $@.boot
 	$(INSTALL_DIR) $@.boot/efi/openwrt/
@@ -80,12 +87,16 @@ define Device/efi-default
   IMAGE/combined.img := grub-config efi | combined efi | grub-install efi | append-metadata
   IMAGE/combined.img.gz := grub-config efi | combined efi | grub-install efi | gzip | append-metadata
   IMAGE/combined.vmdk := grub-config efi | combined efi | grub-install efi | qemu-image vmdk
- ifeq ($(CONFIG_TARGET_IMAGES_GZIP),y)
+  IMAGE/prpl-layout.img := prpl-layout
+  IMAGE/prpl-layout.img.gz := prpl-layout | gzip
+  ifeq ($(CONFIG_TARGET_IMAGES_GZIP),y)
     IMAGES-y := rootfs.img.gz
     IMAGES-y += combined.img.gz
+    IMAGES-$$(CONFIG_PRPL_STANDARD_FLASH_LAYOUT_IMAGES) += prpl-layout.img.gz
   else
     IMAGES-y := rootfs.img
     IMAGES-y += combined.img
+    IMAGES-$$(CONFIG_PRPL_STANDARD_FLASH_LAYOUT_IMAGES) += prpl-layout.img
   endif
   ifeq ($(CONFIG_VMDK_IMAGES),y)
     IMAGES-y += combined.vmdk
