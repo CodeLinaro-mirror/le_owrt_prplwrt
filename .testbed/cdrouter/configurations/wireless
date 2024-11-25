@@ -407,7 +407,7 @@ SECTION "Base Configuration" {
 
                 testvar wpaMode                            WPA2-Personal
                 testvar wpaKey                             password
-                # testvar wpaSaePassword                   "sae secret"
+                testvar wpaSaePassword                     password
                 # testvar wpaKeyMgmt                       PSK
                 # testvar wpaCipher                        auto
                 # testvar wpaGroupCipher                   auto
@@ -447,7 +447,7 @@ SECTION "Base Configuration" {
             SECTION "Expected Beacon Information" {
 
                 testvar wifiBeaconWpaMode                  RSN
-                # testvar wifiBeaconWpaKeyMgmt             PSK
+                testvar wifiBeaconWpaKeyMgmt               "PSK SAE"
                 # testvar wifiBeaconWpaCipher              CCMP-128
                 # testvar wifiBeaconRsnCipher              CCMP-128
                 # testvar wifiBeaconWpaGroupCipher         CCMP-128

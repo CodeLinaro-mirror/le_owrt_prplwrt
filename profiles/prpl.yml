@@ -45,10 +45,10 @@ feeds:
     revision: v4.13.2@aafe5dc749e90f4b2361b5c9d6cf89bd2c0d45b8
   - name: feed_wifi_swl
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_wifi_swl.git
-    revision: v0.1.71@3951c3707e921ace5e8ef7acf2d7d1adc8331890
+    revision: v0.1.83@8a4a752bfdf8a261127ee50a08b0abc395bdcc36
   - name: feed_wifi_core
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_wifi_core.git
-    revision: mainline-3.2@04b7b585317fa097705c1cb835a571f4deccf258
+    revision: v1.3.0@e19f828b6a6799e8b4d9a5c4f0209782d9941720
   - name: feed_mcastd
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_mcastd.git
     revision: v0.2.1@851c1c6dba0eb303bec10a28178f1c266b819a91
