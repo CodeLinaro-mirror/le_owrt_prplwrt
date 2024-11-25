@@ -405,7 +405,7 @@ SECTION "Base Configuration" {
 
             SECTION "WPA Configuration Options" {
 
-                testvar wpaMode                            WPA2-Personal
+                testvar wpaMode                            auto
                 testvar wpaKey                             password
                 # testvar wpaSaePassword                   "sae secret"
                 # testvar wpaKeyMgmt                       PSK

@@ -2330,6 +2330,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.DownlinkMCS
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.DownlinkRateSpec
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.DownlinkShortGuard
+  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.EhtCapabilities
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.EncryptionMode
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.FrequencyCapabilities
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.HeCapabilities
@@ -2358,6 +2359,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.OperatingStandard
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.PowerSave
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.
+  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.EhtCapabilities
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.EncryptionMode
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.FrequencyCapabilities
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.HeCapabilities
@@ -2385,6 +2387,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.RrmOffChannelMaxDuration
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.RrmOnChannelMaxDuration
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.RxBytes
+  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.RxErrors
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.RxMulticastPacketCount
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.RxPacketCount
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.RxSupportedHe160MCS
@@ -2680,6 +2683,8 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.EndPoint.{i}.IntfName
   Device.WiFi.EndPoint.{i}.LastError
   Device.WiFi.EndPoint.{i}.MultiAPEnable
+  Device.WiFi.EndPoint.{i}.MultiAPProfile
+  Device.WiFi.EndPoint.{i}.MultiAPVlanId
   Device.WiFi.EndPoint.{i}.Profile.{i}.
   Device.WiFi.EndPoint.{i}.Profile.{i}.Alias
   Device.WiFi.EndPoint.{i}.Profile.{i}.Enable
@@ -2705,6 +2710,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.EndPoint.{i}.Security.ModeEnabled
   Device.WiFi.EndPoint.{i}.Security.ModesSupported
   Device.WiFi.EndPoint.{i}.Stats.
+  Device.WiFi.EndPoint.{i}.Stats.EhtCapabilities
   Device.WiFi.EndPoint.{i}.Stats.EncryptionMode
   Device.WiFi.EndPoint.{i}.Stats.FrequencyCapabilities
   Device.WiFi.EndPoint.{i}.Stats.HeCapabilities
@@ -3096,7 +3102,6 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.Radio.{i}.TxBeamformingCapsEnabled
   Device.WiFi.Radio.{i}.TxChainCtrl
   Device.WiFi.Radio.{i}.Upstream
-  Device.WiFi.Radio.{i}.VHTCapabilities
   Device.WiFi.Radio.{i}.WDS_Mode
   Device.WiFi.Radio.{i}.WET_Mode
   Device.WiFi.Radio.{i}.WPS_Enrollee_Mode
@@ -5726,6 +5731,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.DownlinkMCS
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.DownlinkRateSpec
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.DownlinkShortGuard
+  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.EhtCapabilities
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.EncryptionMode
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.FrequencyCapabilities
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.HeCapabilities
@@ -5754,6 +5760,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.OperatingStandard
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.PowerSave
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.
+  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.EhtCapabilities
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.EncryptionMode
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.FrequencyCapabilities
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.HeCapabilities
@@ -5781,6 +5788,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.RrmOffChannelMaxDuration
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.RrmOnChannelMaxDuration
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.RxBytes
+  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.RxErrors
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.RxMulticastPacketCount
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.RxPacketCount
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.RxSupportedHe160MCS
@@ -6076,6 +6084,8 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.EndPoint.{i}.IntfName
   Device.WiFi.EndPoint.{i}.LastError
   Device.WiFi.EndPoint.{i}.MultiAPEnable
+  Device.WiFi.EndPoint.{i}.MultiAPProfile
+  Device.WiFi.EndPoint.{i}.MultiAPVlanId
   Device.WiFi.EndPoint.{i}.Profile.{i}.
   Device.WiFi.EndPoint.{i}.Profile.{i}.Alias
   Device.WiFi.EndPoint.{i}.Profile.{i}.Enable
@@ -6101,6 +6111,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.EndPoint.{i}.Security.ModeEnabled
   Device.WiFi.EndPoint.{i}.Security.ModesSupported
   Device.WiFi.EndPoint.{i}.Stats.
+  Device.WiFi.EndPoint.{i}.Stats.EhtCapabilities
   Device.WiFi.EndPoint.{i}.Stats.EncryptionMode
   Device.WiFi.EndPoint.{i}.Stats.FrequencyCapabilities
   Device.WiFi.EndPoint.{i}.Stats.HeCapabilities
@@ -6492,7 +6503,6 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.Radio.{i}.TxBeamformingCapsEnabled
   Device.WiFi.Radio.{i}.TxChainCtrl
   Device.WiFi.Radio.{i}.Upstream
-  Device.WiFi.Radio.{i}.VHTCapabilities
   Device.WiFi.Radio.{i}.WDS_Mode
   Device.WiFi.Radio.{i}.WET_Mode
   Device.WiFi.Radio.{i}.WPS_Enrollee_Mode
