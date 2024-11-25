@@ -7,9 +7,9 @@ external_target: True
 description: Build image for prpl Foundation Freedom board
 feeds:
   - name: feed_qca
-    uri: https://gitlab.com/prpl-foundation/prplOS/feed-qca.git
-    tracking_branch: dev/ath12.4.0cs-ipq95xx
-    revision: 35f8b94ec708382bc4416b842d3fbbee36a65db1
+    uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-qca.git
+    tracking_branch: latest-3.2
+    revision: c740af3de60ef566e55363f11ed210302f0a53e9
 
 packages:
   - ipq95xx
