@@ -294,6 +294,7 @@ Check that ubus has expected datamodels available:
   WiFi.AccessPoint
   WiFi.AutoCommitMgr
   WiFi.AutoNeighbourAddition
+  WiFi.Config
   WiFi.DaemonMgt
   WiFi.DaemonMgt.Daemon
   WiFi.EndPoint

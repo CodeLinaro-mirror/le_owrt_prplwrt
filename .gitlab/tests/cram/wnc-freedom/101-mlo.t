@@ -10,7 +10,7 @@ Provide common helpers:
   $ get_ssid_ref() { msg=$(R "ba-cli -j -l WiFi.AccessPoint.${1}.SSIDReference+.Status?"); echo "$msg" | sed '/^$/d';}
   $ get_ssid_status() { R "ba-cli -j -l WiFi.SSID.?0 | jsonfilter -e @[0]'[@.Alias != \"ep2g0\" && @.Alias != \"ep5g0\" && @.Alias != \"ep6g0\"].Status'" | LC_ALL=C sort;}
 
-  $ R logger -t cram "Starting PWHM test ..."
+  $ R logger -t cram "Starting MLO test ..."
 
 Wait for Device.WiFi. datamodel availability:
 
@@ -59,6 +59,34 @@ Check that no hostapd instance is running:
 
   $ R "pgrep -f 'hostapd -ddt'"
   [1]
+
+Check default MLDUnit configuration:
+
+  $ R "ba-cli -j -l WiFi.SSID.?0 | jsonfilter -e @[0]'[*].MLDUnit'" | LC_ALL=C sort
+  -1
+  -1
+  -1
+  0
+  0
+  0
+  1
+  1
+  1
+
+
+Disable MLO on private and guest vaps:
+  $ R logger -t cram "Disable MLO for all interfaces"
+
+  $ R "ba-cli -j -l WiFi.SSID.*.MLDUnit=-1 | jsonfilter -e @[0]'[*].MLDUnit'"
+  -1
+  -1
+  -1
+  -1
+  -1
+  -1
+  -1
+  -1
+  -1
 
 Test activation of access point 1:
 
@@ -192,6 +220,10 @@ Check that hostapd is operating as expected:
   hostapd
 
   $ R "ubus list | grep hostapd. | sort"
+  hostapd.wlan0.1
+  hostapd.wlan0.2
+  hostapd.wlan1.1
+  hostapd.wlan1.2
   hostapd.wlan2.1
   hostapd.wlan2.2
 
@@ -208,23 +240,11 @@ Check iw interfaces and beaconing:
   Interface wlan2.1
   Interface wlan2.2
   ssid prplOS
+  ssid prplOS
+  ssid prplOS
   ssid prplOS-guest
-
-Check that the tree interfaces are present in the main link interface:
-
-  $ R "iw dev" | grep -e link -e channel | sed 's/^[ \t]*//'
-  link 0:
-  channel.* (re)
-  link 1:
-  channel.* (re)
-  link 2:
-  channel.* (re)
-  link 0:
-  channel.* (re)
-  link 1:
-  channel.* (re)
-  link 2:
-  channel.* (re)
+  ssid prplOS-guest
+  ssid prplOS-guest
 
 Test deactivation of access point 6:
 
@@ -351,16 +371,36 @@ Check if hostapd process is stopped:
   $ R "pgrep -f 'hostapd -ddt'"
   [1]
 
+Restore defautlt MLDUnit values:
+
+  $ R logger -t cram "Restore default MLD configuration"
+
+  $ R "ba-cli -j -l WiFi.AccessPoint.1.SSIDReference+.MLDUnit=0 |jsonfilter -e @[0]'[*].MLDUnit' "
+  0
+
+  $ R "ba-cli -j -l WiFi.AccessPoint.2.SSIDReference+.MLDUnit=1 |jsonfilter -e @[0]'[*].MLDUnit' "
+  1
+
+  $ R "ba-cli -j -l WiFi.AccessPoint.3.SSIDReference+.MLDUnit=0 |jsonfilter -e @[0]'[*].MLDUnit' "
+  0
+
+  $ R "ba-cli -j -l WiFi.AccessPoint.4.SSIDReference+.MLDUnit=1 |jsonfilter -e @[0]'[*].MLDUnit' "
+  1
+
+  $ R "ba-cli -j -l WiFi.AccessPoint.5.SSIDReference+.MLDUnit=0 |jsonfilter -e @[0]'[*].MLDUnit' "
+  0
+
+  $ R "ba-cli -j -l WiFi.AccessPoint.6.SSIDReference+.MLDUnit=1 |jsonfilter -e @[0]'[*].MLDUnit' "
+  1
+
 Resume prplMesh processes:
 
   $ R "killall -SIGCONT beerocks_agent > /dev/null 2>&1 || true"
   $ R "killall -SIGCONT beerocks_fronthaul > /dev/null 2>&1 || true"
 
-  $ R logger -t cram "Stopping PWHM test .."
+  $ R logger -t cram "Stopping MLO test .."
 
 Wait 20s before leaving the test:
 
   $ sleep 20
-
-  $ R logger -t cram "Test finished!"
-
+  $ R logger -t cram "MLO test finished!"
