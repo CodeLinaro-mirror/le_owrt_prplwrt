@@ -1,0 +1,14 @@
+---
+description: Add qca gpon related packages
+
+packages:
+  - omciibc
+  - sw-hook
+  - swacl-if
+  - trex-drv
+  - apps-scripts
+  - util-ubus
+  - omci
+  - ipq-gpon
+  - libnl-ppe
+  - ppecfg
