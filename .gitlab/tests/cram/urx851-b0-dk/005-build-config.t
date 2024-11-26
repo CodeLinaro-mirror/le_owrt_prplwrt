@@ -384,6 +384,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_libdiscoping=y
   CONFIG_PACKAGE_libedit=y
   CONFIG_PACKAGE_libelf=y
+  CONFIG_PACKAGE_libevdev=y
   CONFIG_PACKAGE_libevent2=y
   CONFIG_PACKAGE_libexpat=y
   CONFIG_PACKAGE_libext2fs=y
@@ -406,6 +407,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_libiwinfo=y
   CONFIG_PACKAGE_libiwinfo-data=y
   CONFIG_PACKAGE_libkeyutils=y
+  CONFIG_PACKAGE_libkmod=y
   CONFIG_PACKAGE_liblcm=y
   CONFIG_PACKAGE_liblua=y
   CONFIG_PACKAGE_liblxc=y
@@ -433,6 +435,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_libocispec=y
   CONFIG_PACKAGE_libopenssl-conf=y
   CONFIG_PACKAGE_libpacket-interception=y
+  CONFIG_PACKAGE_libpci=y
   CONFIG_PACKAGE_libpcp=y
   CONFIG_PACKAGE_libpcre2=y
   CONFIG_PACKAGE_libpopt=y
@@ -454,8 +457,10 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_libswlc=y
   CONFIG_PACKAGE_libtr181-schedules=y
   CONFIG_PACKAGE_libtr69-engine=y
+  CONFIG_PACKAGE_libudev-zero=y
   CONFIG_PACKAGE_libugwhelper=y
   CONFIG_PACKAGE_libunbound-prpl=y
+  CONFIG_PACKAGE_libusb-1.0=y
   CONFIG_PACKAGE_libusp=y
   CONFIG_PACKAGE_libuspi=y
   CONFIG_PACKAGE_libuspprotobuf=y
@@ -567,7 +572,10 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_openssl-util=y
   CONFIG_PACKAGE_packet-interception=y
   CONFIG_PACKAGE_partx-utils=y
+  CONFIG_PACKAGE_pciids=y
+  CONFIG_PACKAGE_pciutils=y
   CONFIG_PACKAGE_pcm-manager=y
+  CONFIG_PACKAGE_picocom=y
   CONFIG_PACKAGE_pm-util=y
   CONFIG_PACKAGE_pon-adapter=y
   CONFIG_PACKAGE_pon-base-files=y
@@ -695,6 +703,8 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_umdns-prpl=y
   CONFIG_PACKAGE_unbound-daemon-prpl=y
   CONFIG_PACKAGE_uriparser=y
+  CONFIG_PACKAGE_usbids=y
+  CONFIG_PACKAGE_usbutils=y
   CONFIG_PACKAGE_uuidgen=y
   CONFIG_PACKAGE_vpn-firmware-lgm=y
   CONFIG_PACKAGE_wan-manager=y

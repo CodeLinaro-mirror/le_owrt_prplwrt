@@ -191,6 +191,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_libdhcpoptions=y
   CONFIG_PACKAGE_libdiscoping=y
   CONFIG_PACKAGE_libelf=y
+  CONFIG_PACKAGE_libevdev=y
   CONFIG_PACKAGE_libevent2=y
   CONFIG_PACKAGE_libexpat=y
   CONFIG_PACKAGE_libffi=y
@@ -206,6 +207,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_libiperf3=y
   CONFIG_PACKAGE_libiptext=y
   CONFIG_PACKAGE_libiptext6=y
+  CONFIG_PACKAGE_libkmod=y
   CONFIG_PACKAGE_liblcm=y
   CONFIG_PACKAGE_liblua=y
   CONFIG_PACKAGE_liblxc=y
@@ -232,6 +234,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_libopenssl-conf=y
   CONFIG_PACKAGE_libopenssl-legacy=y
   CONFIG_PACKAGE_libpacket-interception=y
+  CONFIG_PACKAGE_libpci=y
   CONFIG_PACKAGE_libpcp=y
   CONFIG_PACKAGE_libpcre2=y
   CONFIG_PACKAGE_libpopt=y
@@ -248,7 +251,9 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_libswlc=y
   CONFIG_PACKAGE_libtr181-schedules=y
   CONFIG_PACKAGE_libtr69-engine=y
+  CONFIG_PACKAGE_libudev-zero=y
   CONFIG_PACKAGE_libunbound-prpl=y
+  CONFIG_PACKAGE_libusb-1.0=y
   CONFIG_PACKAGE_libusp=y
   CONFIG_PACKAGE_libuspi=y
   CONFIG_PACKAGE_libuspprotobuf=y
@@ -351,7 +356,10 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_opennds-prpl=y
   CONFIG_PACKAGE_openssl-util=y
   CONFIG_PACKAGE_packet-interception=y
+  CONFIG_PACKAGE_pciids=y
+  CONFIG_PACKAGE_pciutils=y
   CONFIG_PACKAGE_pcm-manager=y
+  CONFIG_PACKAGE_picocom=y
   CONFIG_PACKAGE_ppp-prpl=y
   CONFIG_PACKAGE_procps-ng=y
   CONFIG_PACKAGE_procps-ng-pgrep=y
@@ -446,6 +454,8 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_umdns-prpl=y
   CONFIG_PACKAGE_unbound-daemon-prpl=y
   CONFIG_PACKAGE_uriparser=y
+  CONFIG_PACKAGE_usbids=y
+  CONFIG_PACKAGE_usbutils=y
   CONFIG_PACKAGE_wan-manager=y
   CONFIG_PACKAGE_wpa-supplicant-openssl=y
   CONFIG_PACKAGE_wpad-basic-mbedtls=m
