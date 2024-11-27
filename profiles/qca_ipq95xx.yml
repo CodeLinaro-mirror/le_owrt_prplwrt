@@ -34,7 +34,6 @@ packages:
   - kmod-usb-storage-uas
   - kmod-fs-vfat
   - kmod-telemetry-agent
-  - prpl-configuration-qca-ipq95xx
   - wpa-qca-cli
   - ethtool
   - tcpdump
@@ -50,3 +49,4 @@ diffconfig: |
   CONFIG_BUSYBOX_CONFIG_FEATURE_TFTP_PUT=y
   CONFIG_BUSYBOX_CONFIG_TFTP=y
   CONFIG_BUSYBOX_CONFIG_TELNET=y
+  CONFIG_KERNEL_UBIFS_FS_SECURITY=y
