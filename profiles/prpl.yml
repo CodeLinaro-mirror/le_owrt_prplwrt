@@ -27,7 +27,7 @@ feeds:
     revision: v0.9.11@941487617871652624d91db4c720871890d78089
   - name: feed_debug
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_debug.git
-    revision: v2.1.7@96bcee42e06dd26e4d212dd1d9cb21260b3ba7db
+    revision: v2.1.8@7e0fd270b257de91a915b9793753dbb97f2996e1
   - name: feed_board_configuration
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_board_configuration.git
     revision: v2.0.2@9101fc744306da1263400f2e8dcb47050e202d7a
