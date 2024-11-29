@@ -32,8 +32,8 @@ feeds:
     revision: 7f53bcc7d43c8fe41417d21d50e290bb77f6c231
   - name: gwdpa_dpm
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_gwdpa-dpm.git
-    tracking_branch: updk_9.1.60.2
-    revision: ec0e6087e4aafd3bf0a32a2dd99b09be26dfaa13
+    tracking_branch: master
+    revision: f0f5f96f7f75135359ab180898e676c3ad0b76e4
   - name: misc
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_common.git
     tracking_branch: master
