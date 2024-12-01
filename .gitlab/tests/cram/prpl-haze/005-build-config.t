@@ -294,6 +294,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_lighttpd-mod-setenv=y
   # CONFIG_PACKAGE_logd is not set
   CONFIG_PACKAGE_logrotate=y
+  CONFIG_PACKAGE_lrzsz=y
   CONFIG_PACKAGE_lua=y
   CONFIG_PACKAGE_lua-amx=y
   CONFIG_PACKAGE_lxc=y
