@@ -2,3 +2,8 @@
 description: Add thread dependencies
 packages:
   - kmod-tun
+
+additional_packages:
+  - feed: packages
+    packages:
+      - lrzsz
