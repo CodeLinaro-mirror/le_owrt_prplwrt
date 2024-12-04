@@ -96,6 +96,13 @@
       " ERR
     - make -j $(nproc) 2>&1 | tee --append logs/build.log
     - rm .build_failed
+    - sbom=$(find bin/targets* -name prplos-*.bom.cdx.json)
+    - target_name=$(echo "$sbom" | sed -n 's/.*prplos-\(.*\)\.bom\.cdx\.json$/\1/p')
+    - >
+      if [[ "$CI_COMMIT_REF_PROTECTED" == "true" ]]; then
+        echo "Uploading firmware image SBOM to Dependency-Track for analysis..."
+        curl -X "POST" https://dependencytrack.softathome.com/api/api/v1/bom -H "Content-Type:multipart/form-data" -H "X-Api-key:$DEPENDENCYTRACK_TOKEN" -F "projectName=$CI_COMMIT_REF_NAME" -F "projectVersion=$target_name" -F "bom=@$sbom" -F "autoCreate=true" || true
+      fi
 
   after_script:
     - >
