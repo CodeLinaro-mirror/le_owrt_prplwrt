@@ -33,7 +33,7 @@ feeds:
     revision: v1.10.12@41918da0f5e7a3bb82db6b0cbe02c038d49656ca
   - name: feed_usp
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_usp.git
-    revision: mainline-3.1@fb789adfd5068687d0158b666daa555d8fb54002
+    revision: mainline-3.2@4ff64bbc8e6a535b48bc5c8a12ce9abc3a7c9456
   - name: feed_lcm
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_lcm.git
     revision: stable-3.1@b248bfa7dfa4100d864199c970686d26143a3e40
