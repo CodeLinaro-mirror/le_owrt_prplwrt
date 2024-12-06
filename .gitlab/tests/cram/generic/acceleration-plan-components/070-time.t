@@ -25,7 +25,7 @@ Check that we've expected datamodel:
   123
   Synchronized
   Unicast
-  cpe-client-1
+  cpe-Client-1
 
   $ R "ubus call Time.Server _get | jsonfilter -e @[*].Port -e @[*].Status -e @[*].Alias -e @[*].Mode | sort"
   123
