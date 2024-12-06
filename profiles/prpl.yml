@@ -24,7 +24,7 @@ feeds:
     revision: v1.4.12@8a857368d2a62bec0a021b411a176939edb5e778
   - name: feed_peripheral
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_peripheral.git
-    revision: v0.9.11@941487617871652624d91db4c720871890d78089
+    revision: v1.0.0@32fd4f464e86a2aac4fb37d7edf75632e04150bc
   - name: feed_debug
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_debug.git
     revision: v2.1.8@7e0fd270b257de91a915b9793753dbb97f2996e1
