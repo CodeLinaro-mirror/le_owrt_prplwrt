@@ -6,19 +6,19 @@ feeds:
     revision: mainline-3.2@2f96a3a4f71f1db5320ee9087488da7b76577ec5
   - name: feed_amx
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_amx.git
-    revision: v11.13.0@01c9c3a1c00c6b5ffadc8922c2e2c8cfca9f6787
+    revision: v11.15.1@ea7ae177ebacca7ba8ce0300b5b4f4eef24b70af
   - name: feed_gmap
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_gmap.git
     revision: v1.10.7@f0630821ff534668775d7d844670bd39b34a8189
   - name: feed_net_core
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_net_core.git
-    revision: v17.2.3@058966639d7771ad07b35a9ad347c7533c1755c7
+    revision: v17.3.4@164b3724fe84ad4eae7e2a6a8be0ffd799066242
   - name: feed_qos_firewall
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_qos_firewall.git
     revision: v6.13.11@3dbe4dcf9fafb4ad0c2213f0c0d054ff71aae5d5
   - name: feed_net_services
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_net_services.git
-    revision: v12.6.4@5a56e9c53136ec4562b91717f463c0e5ce53ed58
+    revision: v12.9.6@741a0140348519786afbe223e7253318f7519dfd
   - name: feed_net_hl_services
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_net_hl_services.git
     revision: v1.4.12@8a857368d2a62bec0a021b411a176939edb5e778
@@ -27,13 +27,13 @@ feeds:
     revision: v1.0.0@32fd4f464e86a2aac4fb37d7edf75632e04150bc
   - name: feed_debug
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_debug.git
-    revision: v2.1.8@7e0fd270b257de91a915b9793753dbb97f2996e1
+    revision: v2.1.9@9cbe6e26dc8dfb06cf372235027e6fae3b323b38
   - name: feed_board_configuration
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_board_configuration.git
     revision: v2.0.2@9101fc744306da1263400f2e8dcb47050e202d7a
   - name: feed_usp
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_usp.git
-    revision: v9.0.14@608772dcee13d42234d77b13b351337443ca5131
+    revision: main@90d39110ec63c68ea803d3ac7f873f697e88e484
   - name: feed_lcm
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_lcm.git
     revision: v4.0.1@d0d22ace58bed94860be7715a40039c6b9946838
