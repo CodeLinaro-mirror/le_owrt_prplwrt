@@ -6,10 +6,6 @@ Check that obuspa has expected datamodel available (minus the platform specific 
 
   $ R "obuspa -f /etc/obuspa.db -c dump datamodel | grep '^Device.' | grep -v -e 'Device.WiFi.AccessPoint.{i}.Vendor.' -e 'Device.WiFi.EndPoint.{i}.Vendor.' -e 'Device.WiFi.Radio.{i}.Vendor.' -e 'Device.WiFi.Radio.{i}.NaStaMonitor.'"
   Device.
-  Device.Boot! event_arg:Cause
-  Device.Boot! event_arg:CommandKey
-  Device.Boot! event_arg:FirmwareUpdated
-  Device.Boot! event_arg:ParameterMap
   Device.Boot!                                                                                         proto::tr181-device
   Device.Bridging.                                                                                     proto::tr181-bridging
   Device.Bridging.Bridge.{i}.                                                                          proto::tr181-bridging
@@ -3760,10 +3756,6 @@ Check that obuspa provides the same datamodel again (minus the platform specific
 
   $ R "obuspa -f /etc/obuspa.db -c dump datamodel | grep '^Device.' | grep -v -e 'Device.WiFi.AccessPoint.{i}.Vendor.' -e 'Device.WiFi.EndPoint.{i}.Vendor.' -e 'Device.WiFi.Radio.{i}.Vendor.' -e 'Device.WiFi.Radio.{i}.NaStaMonitor.'"
   Device.
-  Device.Boot! event_arg:Cause
-  Device.Boot! event_arg:CommandKey
-  Device.Boot! event_arg:FirmwareUpdated
-  Device.Boot! event_arg:ParameterMap
   Device.Boot!                                                                                         proto::tr181-device
   Device.Bridging.                                                                                     proto::tr181-bridging
   Device.Bridging.Bridge.{i}.                                                                          proto::tr181-bridging
