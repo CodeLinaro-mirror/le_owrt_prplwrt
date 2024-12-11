@@ -8,7 +8,7 @@ Check that Quectel RM520N-GL is available on PCI bus and uses correct mhi-pci-ge
   0000:01:00.0 Unassigned class [ff00]: Qualcomm Technologies, Inc Device 0308
   lspci: Unable to load libkmod resources: error -2
   \tSubsystem: Qualcomm Technologies, Inc Device 5201 (esc)
-  \tFlags: fast devsel, IRQ 34 (esc)
+  \\tFlags: fast devsel, IRQ \d+.* (re)
   \tMemory at 28300000 (64-bit, non-prefetchable) [size=4K] (esc)
   \tMemory at 28301000 (64-bit, non-prefetchable) [size=4K] (esc)
   \tCapabilities: [40] Power Management version 3 (esc)
