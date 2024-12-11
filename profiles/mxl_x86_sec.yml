@@ -17,7 +17,7 @@ feeds:
   - name: rootfs
     uri: ssh://git@git.maxlinear.com/ugw/rootfs.git
     tracking_branch: updk_9.1.70
-    revision: 1b868fbdf85deeca25071fc7c9cdd2ac53a1f3ef
+    revision: 279be7e422894f621f937b782a83f823fc570e32
   - name: 3rdparty
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_3rdparty.git
     tracking_branch: master
@@ -41,7 +41,7 @@ feeds:
   - name: opensource_apps_prpl
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_opensource_apps_prpl.git
     tracking_branch:  master
-    revision: 6fba76dc8db1d900e9a18ee1d17b6b638ca705a5
+    revision: 46ba64f3bb9a60c6855e140bb8eb87ca14ff4f96
   - name: packet_learn
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_packet_learn.git
     tracking_branch: updk_9.1.70_2305
