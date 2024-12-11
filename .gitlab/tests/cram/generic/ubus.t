@@ -62,7 +62,9 @@ Check that aclmanager has expected setup:
   cpe-Role-2
   cpe-Role-3
   cpe-Role-4
+  cpe-Role-5
   cwmp
+  cwmpd
   operator
   untrusted
 
