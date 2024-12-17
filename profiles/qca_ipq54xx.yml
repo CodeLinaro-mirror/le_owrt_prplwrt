@@ -1,7 +1,6 @@
 ---
 profiles:
-  - qcom_rdp466
-  - qcom_rdp485
+  - qcom_maxx
 target: ipq54xx
 subtarget: generic
 external_target: True

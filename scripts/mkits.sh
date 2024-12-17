@@ -45,9 +45,13 @@ FDTNUM=1
 ROOTFSNUM=1
 INITRDNUM=1
 HASH=sha1
+CONFIG_ID="1";
+COMPRESS="none";
+CONFIG="config${REFERENCE_CHAR}1"
 LOADABLES=
 DTOVERLAY=
 DTADDR=
+COMPATIBLE_PROP=""
 
 while getopts ":A:a:c:C:D:d:e:f:i:k:l:n:o:O:v:r:s:H:" OPTION
 do
@@ -57,7 +61,7 @@ do
 		c ) CONFIG=$OPTARG;;
 		C ) COMPRESS=$OPTARG;;
 		D ) DEVICE=$OPTARG;;
-		d ) DTB=$OPTARG;;
+		d ) DTB="$DTB $OPTARG";;
 		e ) ENTRY_ADDR=$OPTARG;;
 		f ) COMPATIBLE=$OPTARG;;
 		i ) INITRD=$OPTARG;;
@@ -92,27 +96,6 @@ fi
 	DTADDR="$FDTADDR"
 }
 
-# Conditionally create fdt information
-if [ -n "${DTB}" ]; then
-	FDT_NODE="
-		fdt${REFERENCE_CHAR}$FDTNUM {
-			description = \"${ARCH_UPPER} OpenWrt ${DEVICE} device tree blob\";
-			${COMPATIBLE_PROP}
-			data = /incbin/(\"${DTB}\");
-			type = \"flat_dt\";
-			${DTADDR:+load = <${DTADDR}>;}
-			arch = \"${ARCH}\";
-			compression = \"none\";
-			hash${REFERENCE_CHAR}1 {
-				algo = \"crc32\";
-			};
-			hash${REFERENCE_CHAR}2 {
-				algo = \"${HASH}\";
-			};
-		};
-"
-	FDT_PROP="fdt = \"fdt${REFERENCE_CHAR}$FDTNUM\";"
-fi
 
 if [ -n "${INITRD}" ]; then
 	INITRD_NODE="
@@ -192,6 +175,63 @@ OVCONFIGS=""
 	"
 done
 
+GEN_CONF_FUNC_USED=""
+Generate_Config() {
+	GEN_CONF_FUNC_USED=1
+
+	CONFIG_CONCATENATED_OUTPUT="$CONFIG_CONCATENATED_OUTPUT
+		config${REFERENCE_CHAR}$CONFIG_ID {
+			description = \"OpenWrt\";
+			kernel = \"kernel${REFERENCE_CHAR}1\";
+			${FDT_PROP}
+			${LOADABLES:+loadables = ${LOADABLES};}
+			${COMPATIBLE_PROP}
+			${INITRD_PROP}
+		};
+"
+}
+
+# Conditionally create fdt information
+if [ -n "${DTB}" ]; then
+	CONFIG_ID=$DTB
+	multiDTB=$(echo $DTB | wc -w)
+	for dtb in $DTB
+	do
+	if [ $multiDTB -gt 1 ]; then
+		CONFIG_ID=$(basename ${dtb%%.gz} .dtb | sed -e 's/^\([^-]*-\)\{1\}//g');
+	else
+		CONFIG_ID=1
+	fi
+	COMPRESSION_DATA_FIELD=""
+	if [ "${COMPRESS}" != "none" ]; then
+		COMPRESSION_DATA_FIELD="compression= \"${DTB_COMPRESS}\"
+			load = <${DTB_LOAD_ADDR}>;"
+	else
+		COMPRESSION_DATA_FIELD="compression = \"none\";"
+	fi
+	COMPRESSION_DATA_FIELD="compression = \"none\";"
+
+	FDT_NODE="$FDT_NODE
+		fdt${REFERENCE_CHAR}$CONFIG_ID {
+			description = \"${ARCH_UPPER} OpenWrt ${DEVICE} device tree blob\";
+			data = /incbin/(\"${dtb}\");
+			type = \"flat_dt\";
+			${DTADDR:+load = <${DTADDR}>;}
+			arch = \"${ARCH}\";
+			$COMPRESSION_DATA_FIELD
+			hash${REFERENCE_CHAR}1 {
+				algo = \"crc32\";
+			};
+			hash${REFERENCE_CHAR}2 {
+				algo = \"${HASH}\";
+			};
+		};
+"
+	FDT_PROP="fdt = \"fdt${REFERENCE_CHAR}$CONFIG_ID\";"
+	Generate_Config
+	done
+fi
+
 # Create a default, fully populated DTS file
 DATA="/dts-v1/;
 
@@ -224,6 +264,12 @@ ${ROOTFS_NODE}
 
 	configurations {
 		default = \"${CONFIG}\";
+"
+
+if [ $GEN_CONF_FUNC_USED -eq 1 ]; then
+	CONFIG_DATA=$CONFIG_CONCATENATED_OUTPUT
+else
+	CONFIG_DATA="
 		${CONFIG} {
 			description = \"OpenWrt ${DEVICE}\";
 			kernel = \"kernel${REFERENCE_CHAR}1\";
@@ -232,9 +278,17 @@ ${ROOTFS_NODE}
 			${COMPATIBLE_PROP}
 			${INITRD_PROP}
 		};
+"
+fi
+
+DATA="$DATA
+$CONFIG_DATA"
+
+DATA="$DATA
 		${OVCONFIGS}
 	};
 };"
+
 
 # Write .its file to disk
 echo "$DATA" > "${OUTPUT}"

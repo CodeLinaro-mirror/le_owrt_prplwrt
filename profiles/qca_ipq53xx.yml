@@ -1,7 +1,6 @@
 ---
 profiles:
-  - qcom_rdp441
-  - qcom_rdp484
+  - qcom_mixx
 target: ipq53xx
 subtarget: generic
 external_target: True
