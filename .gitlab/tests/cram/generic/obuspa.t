@@ -2680,6 +2680,8 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.EndPoint.{i}.IntfName
   Device.WiFi.EndPoint.{i}.LastError
   Device.WiFi.EndPoint.{i}.MultiAPEnable
+  Device.WiFi.EndPoint.{i}.MultiAPProfile
+  Device.WiFi.EndPoint.{i}.MultiAPVlanId
   Device.WiFi.EndPoint.{i}.Profile.{i}.
   Device.WiFi.EndPoint.{i}.Profile.{i}.Alias
   Device.WiFi.EndPoint.{i}.Profile.{i}.Enable
@@ -6076,6 +6078,8 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.EndPoint.{i}.IntfName
   Device.WiFi.EndPoint.{i}.LastError
   Device.WiFi.EndPoint.{i}.MultiAPEnable
+  Device.WiFi.EndPoint.{i}.MultiAPProfile
+  Device.WiFi.EndPoint.{i}.MultiAPVlanId
   Device.WiFi.EndPoint.{i}.Profile.{i}.
   Device.WiFi.EndPoint.{i}.Profile.{i}.Alias
   Device.WiFi.EndPoint.{i}.Profile.{i}.Enable
