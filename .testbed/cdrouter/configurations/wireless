@@ -898,7 +898,7 @@ SECTION "Base Configuration" {
 
             # testvar wirelessRetry                    3
             # testvar lanWirelessMaxClients            auto
-            # testvar wifiCapture                      off
+            testvar wifiCapture                        on
             # testvar wifiCaptureFilter                {}
 
         }
