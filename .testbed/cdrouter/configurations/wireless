@@ -397,8 +397,8 @@ SECTION "Base Configuration" {
 
         SECTION "802.11 Wireless" {
 
-            testvar lanSSID                            prplOS
-            # testvar lanChannel                       auto
+            testvar lanSSID                            @CDROUTER_CONFIG_WIFI_LAN_SSID@
+            testvar lanChannel                         @CDROUTER_CONFIG_WIFI_LAN_CHANNEL@
             # testvar lan80211Phy                      auto
             # testvar lanBSSID                         auto
             # testvar lan80211BandSteering             none
