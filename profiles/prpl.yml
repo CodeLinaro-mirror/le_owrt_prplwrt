@@ -18,7 +18,7 @@ feeds:
     revision: mainline-3.2@06031a81a6527e4d1cc89b68d3b01a834a9561b8
   - name: feed_net_services
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_net_services.git
-    revision: mainline-3.1@cdbaf7fd9eb930c18fc2c74df0b438c51ea6cbcd
+    revision: mainline-3.2@9a837f55309a82d5add35f7f5f070da56b592132
   - name: feed_net_hl_services
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_net_hl_services.git
     revision: v1.3.4@78571abcce0419efc6fc4fd11da0090ea967ef0a
