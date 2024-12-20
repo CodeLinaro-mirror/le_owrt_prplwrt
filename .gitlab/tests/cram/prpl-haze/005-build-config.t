@@ -153,13 +153,11 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-loop=y
   CONFIG_PACKAGE_kmod-mcastd-core=y
   CONFIG_PACKAGE_kmod-nf-conncount=y
-  CONFIG_PACKAGE_kmod-nf-conntrack-netlink=y
   CONFIG_PACKAGE_kmod-nf-ipt=y
   CONFIG_PACKAGE_kmod-nf-ipt6=y
   CONFIG_PACKAGE_kmod-nf-nat6=y
   CONFIG_PACKAGE_kmod-nf-nathelper=y
   CONFIG_PACKAGE_kmod-nf-nathelper-extra=y
-  CONFIG_PACKAGE_kmod-nfnetlink-log=y
   CONFIG_PACKAGE_kmod-nfnetlink-queue=y
   # CONFIG_PACKAGE_kmod-nft-fib is not set
   CONFIG_PACKAGE_kmod-ppp=y
@@ -224,8 +222,6 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_libmicrohttpd-no-ssl=y
   CONFIG_PACKAGE_libmosquitto-ssl=y
   CONFIG_PACKAGE_libncurses=y
-  CONFIG_PACKAGE_libnetfilter-conntrack=y
-  CONFIG_PACKAGE_libnetfilter-log=y
   CONFIG_PACKAGE_libnetfilter-queue=y
   CONFIG_PACKAGE_libnetlink-utils=y
   CONFIG_PACKAGE_libnetmodel=y
