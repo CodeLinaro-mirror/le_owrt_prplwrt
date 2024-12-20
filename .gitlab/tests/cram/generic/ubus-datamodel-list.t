@@ -15,6 +15,7 @@ Check that ubus has expected datamodels available:
   CaptivePortal.LANInterface
   Cthulhu
   Cthulhu.Config
+  Cthulhu.Config.Debug
   Cthulhu.Container
   Cthulhu.Container.Instances
   Cthulhu.Information
