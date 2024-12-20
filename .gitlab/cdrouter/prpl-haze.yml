@@ -7,9 +7,6 @@
     - if: '$TFTP_IMAGE_DOWNLOAD_URL'
       when: never
     - when: manual
-  needs:
-    - job: build test ipq807x prpl security
-      optional: true
   extends:
     - .prpl-haze testbed
     - .cdrouter

@@ -1,7 +1,4 @@
 .urx851-cdrouter: &urx851_cdrouter
-  needs:
-    - job: build test mxl_x86_osp_tb341 mxl_wlan_hostap_ng prpl security
-      optional: true
   extends:
     - .urx851-hdk-3 testbed
     - .cdrouter
