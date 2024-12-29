@@ -35,7 +35,7 @@ CDRouter-Wireless MXL25641-HDK-6 eMMC:
   <<: *mxl25641_cdrouter
   variables:
     CDROUTER_TEST_CONFIG: wireless
-    CDROUTER_CONFIG_WIFI_BEACON_PHY: 'a ac ax be n'
+    CDROUTER_CONFIG_WIFI_BEACON_PHY: 'ax b be g n'
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
       .gitlab/scripts/dut-init/cdrouter-dut-configure-wireless.sh
