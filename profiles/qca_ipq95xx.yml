@@ -8,8 +8,8 @@ description: Build image for prpl Foundation Freedom board
 feeds:
   - name: feed_qca
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-qca.git
-    tracking_branch: main
-    revision: 9dabcf038ee072d505a2cc21774a3e8cf57c4c21
+    tracking_branch: marvin/ppw-233-Freedom-hostapd-patches-leads-to-inconsistent-hostapd-code
+    revision: b7ae474bd0cde76c180393712ab37df928e5c602
 
 packages:
   - ipq95xx
