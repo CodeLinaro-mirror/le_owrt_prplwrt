@@ -3,46 +3,46 @@ description: Add the prpl features
 feeds:
   - name: feed_opensource
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_opensource.git
-    revision: mainline-3.1@dfac84f24cad8f65219a57e15f4b5b2bf44edc7e
+    revision: mainline-23.05@cf967a564ccc907e03a39ba4ac0ff010bfa25d84
   - name: feed_amx
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_amx.git
-    revision: mainline-3.1@d2857bb993ed9b82b4620a8edbb9ebbc31151029
+    revision: main@d0cca925e73b0c6672c45266df0e1881ddba8e14
   - name: feed_gmap
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_gmap.git
-    revision: v1.7.2@f55d934ddf8461ed5bd8355ef4a1671fe9eabda5
+    revision: v1.10.12@0dad44d978df390a94365da2e94cf3f6f9c6d6e3
   - name: feed_net_core
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_net_core.git
-    revision: mainline-3.1@6938b4e43f6e3366b8005925688ae4a03b4c0842
+    revision: main@7efbc2baf58f1d8a6bea70111d06104cb07493a9
   - name: feed_qos_firewall
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_qos_firewall.git
-    revision: v6.12.9@564db9cc19483a3db715221a2f070780daf5ba4b
+    revision: v6.13.11@3dbe4dcf9fafb4ad0c2213f0c0d054ff71aae5d5
   - name: feed_net_services
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_net_services.git
-    revision: mainline-3.1@cdbaf7fd9eb930c18fc2c74df0b438c51ea6cbcd
+    revision: v12.9.12@0e987271c561ac7f6ee142588d6890c48523282e
   - name: feed_net_hl_services
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_net_hl_services.git
-    revision: v1.3.4@78571abcce0419efc6fc4fd11da0090ea967ef0a
+    revision: v1.4.13@bb29aa7c02a3dfdfda518759ef92e49868e115cc
   - name: feed_peripheral
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_peripheral.git
-    revision: v0.9.4@b3e64afb7e4c0e32c471d7f472e9f0e2dbf0f6ee
+    revision: v1.0.2@d74f346a92608d49437bdced412a806fa3fa6da8
   - name: feed_debug
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_debug.git
-    revision: v2.0.14@ac141d7a43dff36545b2eba604111a95069e2e59
+    revision: v2.3.0@7cfbdecff18d08c336944d881668612a8d555a6c
   - name: feed_board_configuration
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_board_configuration.git
-    revision: v1.10.12@41918da0f5e7a3bb82db6b0cbe02c038d49656ca
+    revision: v2.0.3@6191e6a333702a049fe8193fabc5945232f8eef8
   - name: feed_usp
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_usp.git
-    revision: mainline-3.2@78e23d661111de1210715753dc2a0870d899db7f
+    revision: v10.0.3@727601d9c85f5397882a1bd0ca7421638882ca5a
   - name: feed_lcm
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_lcm.git
-    revision: stable-3.1@b248bfa7dfa4100d864199c970686d26143a3e40
+    revision: prplos-v3.2.0@6f8a24177ed1845d6c74649dfb0e82e38c2936f2
   - name: feed_tr69
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_tr69.git
     revision: v0.26.3@a29ec1fd5379b7c215e4abbff2d0460de921d52f
   - name: feed_netmodel
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_netmodel.git
-    revision: v4.10.3@5b25f5d8d954f15596f1e9d2c6e2c07ba7bfff19
+    revision: v4.13.2@aafe5dc749e90f4b2361b5c9d6cf89bd2c0d45b8
   - name: feed_wifi_swl
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_wifi_swl.git
     revision: v0.1.71@3951c3707e921ace5e8ef7acf2d7d1adc8331890
@@ -51,7 +51,7 @@ feeds:
     revision: mainline-3.2@04b7b585317fa097705c1cb835a571f4deccf258
   - name: feed_mcastd
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_mcastd.git
-    revision: v0.1.6@70db45513b9dbf642c9e29c348716fa285ee0f4c
+    revision: v0.2.1@851c1c6dba0eb303bec10a28178f1c266b819a91
   - name: feed_prpl
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prpl.git
     revision: main@fd9ebdd9f22495f2da721a0e8b3f8b26cf9efb40
