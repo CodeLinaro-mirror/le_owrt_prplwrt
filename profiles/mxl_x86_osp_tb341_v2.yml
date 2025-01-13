@@ -11,9 +11,9 @@ description: Build images for the Maxlinear x86 devices - OSP TB341 v2
              please check https://gitlab.com/prpl-foundation/prplos/prplos/-/wikis/MaxLinear-Open-Service-Platform
 feeds:
   - name: intel_x86
-    uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_target_x86.git
-    tracking_branch: updk_9.1.70
-    revision: e08e0de31e5bb92cdc2f87ca4c6b42183fbe56c5
+    uri: ssh://git@git.maxlinear.com/ugw-oss/feeds/feed_target_x86.git
+    tracking_branch: updk_9.1.80
+    revision: 86ba10fcda72087b1bce98e0b9e369d2c0cca021
   - name: rootfs
     uri: ssh://git@git.maxlinear.com/ugw/rootfs.git
     tracking_branch: updk_9.1.70
@@ -188,6 +188,8 @@ diffconfig: |
   CONFIG_VERSION_CODE_FILENAMES=n
   # CONFIG_PACKAGE_bios_images is not set
   CONFIG_BUILD_SDK="prplos"
+  CONFIG_INTEL_X86_IMAGE_FORMAT_FIT=y
+  CONFIG_INTEL_X86_IMAGE_FORMAT_MKIMAGE=y
   CONFIG_BUSYBOX_CUSTOM=y
   CONFIG_BUSYBOX_CONFIG_TFTPD=y
   CONFIG_BUSYBOX_CONFIG_FEATURE_TFTP_GET=y
