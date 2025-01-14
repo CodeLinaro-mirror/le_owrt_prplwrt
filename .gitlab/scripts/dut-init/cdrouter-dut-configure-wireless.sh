@@ -104,8 +104,8 @@ configure_wireless_for_testbed_one() {
 configure_wireless_for_testbed_two() {
 	log_info "Configuring DUT with wireless settings for testbed-02"
 
-	dm_wifi_radio_2g Channel=12
-	dm_wifi_ssid_2g prplOS SSID=prplOS-2g-12
+	dm_wifi_radio_2g Channel=11
+	dm_wifi_ssid_2g prplOS SSID=prplOS-2g-11
 }
 
 running_on_testbed_one() {
@@ -144,8 +144,8 @@ configure_regulatory_domain() {
 
 main() {
 	wait_till_dm_ready
-	configure_regulatory_domain
-	wait_till_regulatory_domain_change
+	# configure_regulatory_domain
+	# wait_till_regulatory_domain_change
 
 	log_info "Enabling SSID in 2.4GHz band"
 	dm_wifi_ssid_2g prplOS Enable=1
