@@ -216,8 +216,6 @@ if len(profiles) > 1:
 else:
     config_output += f"""CONFIG_TARGET_{profile["target"]}_{profile["subtarget"]}_DEVICE_{profiles[0]}=y\n"""
 
-config_output += f"{profile.get('diffconfig', '')}"
-
 for package in profile.get("packages", []):
     print(f"Add package to .config: {package}")
     config_output += f"CONFIG_PACKAGE_{package}=y\n"
@@ -226,6 +224,8 @@ for ap in profile.get("additional_packages"):
     for package in ap["packages"]:
         print(f"Add additional package to .config: {package}")
         config_output += f"CONFIG_PACKAGE_{package}=y\n"
+
+config_output += f"{profile.get('diffconfig', '')}"
 
 Path(".config").write_text(config_output)
 print("Configuration written to .config")
