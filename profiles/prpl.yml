@@ -12,7 +12,7 @@ feeds:
     revision: v1.7.2@f55d934ddf8461ed5bd8355ef4a1671fe9eabda5
   - name: feed_net_core
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_net_core.git
-    revision: mainline-3.2@a3d9cce38bebd0c1f3bc4b465bfb13898dd45251
+    revision: 0d9ff02c8f6c6619a77d7b241a141304644ce8e5
   - name: feed_qos_firewall
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_qos_firewall.git
     revision: mainline-3.2@06031a81a6527e4d1cc89b68d3b01a834a9561b8
