@@ -49,9 +49,6 @@ feeds:
   - name: feed_wifi_core
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_wifi_core.git
     revision: mainline-3.2@f7fcd814718533cfbce609bb0bf61069dc1bdcd9
-  - name: feed_mcastd
-    uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_mcastd.git
-    revision: v0.1.6@70db45513b9dbf642c9e29c348716fa285ee0f4c
   - name: feed_prpl
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prpl.git
     revision: main@fd9ebdd9f22495f2da721a0e8b3f8b26cf9efb40
@@ -129,9 +126,6 @@ packages:
   - lxc-user-nic
   - lxc-usernsexec
   - lxc-wait
-  - mcastd-core
-  - mcastd-noforward
-  - mcastd-routing
   - miniupnpd-prpl
   - mod-amxb-ubus
   - mod-amxb-usp
@@ -207,7 +201,6 @@ packages:
   - tr181-ipdiagnostics
   - tr181-led
   - tr181-logical
-  - tr181-mcastd
   - tr181-neighbordiscovery
   - tr181-pcp
   - tr181-ppp
