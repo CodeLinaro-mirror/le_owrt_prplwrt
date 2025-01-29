@@ -36,6 +36,6 @@
  		mount("cgroup2", PATH_CGROUP, "tmpfs", MS_NODEV | MS_NOEXEC | MS_NOSUID, "size=512K");
  		mount_cgroup_controllers();
 +		init_cpuset();
- 		mount("tmpfs", "/dev", "tmpfs", MS_NOATIME | MS_NOEXEC | MS_NOSUID, "mode=0755,size=512K");
+ 		mount("tmpfs", "/dev", "tmpfs", MS_NOEXEC | MS_NOSUID | MS_RELATIME, "mode=0755,size=512K");
  		ignore(symlink("/tmp/shm", "/dev/shm"));
  		mkdir("/dev/pts", 0755);
