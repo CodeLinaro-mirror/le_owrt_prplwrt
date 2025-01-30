@@ -247,12 +247,12 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.DHCPv6.Client.{i}.SuggestedT1                                                                 proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.SuggestedT2                                                                 proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.SupportedOptions                                                            proto::tr181-dhcpv6client
-  Device.DHCPv6.Client.{i}.X_PRPL-COM_DeviceConfig.                                                    proto::tr181-dhcpv6client
-  Device.DHCPv6.Client.{i}.X_PRPL-COM_DeviceConfig.LastT1SentWhen                                      proto::tr181-dhcpv6client
-  Device.DHCPv6.Client.{i}.X_PRPL-COM_DeviceConfig.LastT2SentWhen                                      proto::tr181-dhcpv6client
-  Device.DHCPv6.Client.{i}.X_PRPL-COM_DeviceConfig.LeaseRenewedWhen                                    proto::tr181-dhcpv6client
-  Device.DHCPv6.Client.{i}.X_PRPL-COM_DeviceConfig.T1Renewed                                           proto::tr181-dhcpv6client
-  Device.DHCPv6.Client.{i}.X_PRPL-COM_DeviceConfig.T2Renewed                                           proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.X_PRPL-COM_Config.                                                          proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.X_PRPL-COM_Config.LastT1SentWhen                                            proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.X_PRPL-COM_Config.LastT2SentWhen                                            proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.X_PRPL-COM_Config.LeaseRenewedWhen                                          proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.X_PRPL-COM_Config.T1Renewed                                                 proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.X_PRPL-COM_Config.T2Renewed                                                 proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.X_PRPL-COM_Release                                                          proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.X_PRPL-COM_Release()                                                        proto::tr181-dhcpv6client
   Device.DHCPv6.ClientNumberOfEntries                                                                  proto::tr181-dhcpv6client
@@ -3999,12 +3999,12 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.DHCPv6.Client.{i}.SuggestedT1                                                                 proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.SuggestedT2                                                                 proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.SupportedOptions                                                            proto::tr181-dhcpv6client
-  Device.DHCPv6.Client.{i}.X_PRPL-COM_DeviceConfig.                                                    proto::tr181-dhcpv6client
-  Device.DHCPv6.Client.{i}.X_PRPL-COM_DeviceConfig.LastT1SentWhen                                      proto::tr181-dhcpv6client
-  Device.DHCPv6.Client.{i}.X_PRPL-COM_DeviceConfig.LastT2SentWhen                                      proto::tr181-dhcpv6client
-  Device.DHCPv6.Client.{i}.X_PRPL-COM_DeviceConfig.LeaseRenewedWhen                                    proto::tr181-dhcpv6client
-  Device.DHCPv6.Client.{i}.X_PRPL-COM_DeviceConfig.T1Renewed                                           proto::tr181-dhcpv6client
-  Device.DHCPv6.Client.{i}.X_PRPL-COM_DeviceConfig.T2Renewed                                           proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.X_PRPL-COM_Config.                                                          proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.X_PRPL-COM_Config.LastT1SentWhen                                            proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.X_PRPL-COM_Config.LastT2SentWhen                                            proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.X_PRPL-COM_Config.LeaseRenewedWhen                                          proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.X_PRPL-COM_Config.T1Renewed                                                 proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.X_PRPL-COM_Config.T2Renewed                                                 proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.X_PRPL-COM_Release                                                          proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.X_PRPL-COM_Release()                                                        proto::tr181-dhcpv6client
   Device.DHCPv6.ClientNumberOfEntries                                                                  proto::tr181-dhcpv6client
