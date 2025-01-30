@@ -1,0 +1,12 @@
+---
+profiles:
+  - arcadyan_mozart
+  - bananapi_bpi-r4
+  - openwrt_one
+target: mediatek
+subtarget: filogic
+description: Build images for MediaTek/Arcadyan Mozart, BPI-R4 and One boards
+
+packages:
+  - hostapd-utils
+  - iw-full
