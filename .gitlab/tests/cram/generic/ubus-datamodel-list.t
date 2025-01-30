@@ -277,6 +277,7 @@ Check that ubus has expected datamodels available:
   Timingila
   UPnP
   UPnP.Device
+  UPnP.Device.Capabilities
   UPnP.X_PRPL-COM_IGDConfig
   Unbound
   UserInterface
