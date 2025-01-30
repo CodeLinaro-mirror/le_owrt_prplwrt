@@ -25,7 +25,7 @@ targets:
         init_commands:
           - setenv serverip 10.0.0.1
           - setenv ipaddr 10.0.0.2
-        boot_command: tftpboot prplos-ipq807x-generic-prpl_haze-initramfs-uImage.itb && bootm
+        boot_command: tftpboot prplos-qualcommax-ipq807x-prpl_haze-initramfs-uImage.itb && bootm
         boot_command_delay: 3
       UBootStrategy: {}
 

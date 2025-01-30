@@ -20,13 +20,13 @@ deploy lcm-test-mvebu-cortexa9:
   needs: ["build lcm-test-mvebu-cortexa9"]
 
 
-build lcm-test-ipq807x-generic:
+build lcm-test-qualcommax-ipq807x:
   extends: .build LCM container
-  needs: ["test Docker image ib-ipq807x-generic"]
+  needs: ["test Docker image ib-qualcommax-ipq807x"]
   variables:
-    CI_IB_CONTAINER: ib-ipq807x-generic
+    CI_IB_CONTAINER: ib-qualcommax-ipq807x
     CI_IB_PROFILE: prpl_haze
-    CI_IB_ROOTFS_PATH: bin/targets/ipq807x/generic
+    CI_IB_ROOTFS_PATH: bin/targets/qualcommax/ipq807x
     CI_IB_PACKAGES: >
       -ath11k-firmware-ipq8074 -ath11k-firmware-qcn9074 -ca-bundle
       -dnsmasq -e2fsprogs -f2fsck -firewall4 -fstools -ipq-wifi-prpl_haze
@@ -36,9 +36,9 @@ build lcm-test-ipq807x-generic:
       -logd -losetup -mkf2fs -mtd -nftables -odhcp6c -odhcpd-ipv6only -opkg
       -uboot-envtools -uclient-fetch -urandom-seed -urngd -wpad-basic-mbedtls
 
-deploy lcm-test-ipq807x-generic:
+deploy lcm-test-qualcommax-ipq807x:
   extends: .deploy LCM container
-  needs: ["build lcm-test-ipq807x-generic"]
+  needs: ["build lcm-test-qualcommax-ipq807x"]
 
 
 build lcm-test-x86-64:

@@ -44,7 +44,7 @@ deploy Docker image ib-x86-64:
   needs: ["test Docker image ib-x86-64"]
 
 
-build Docker image ib-ipq807x-generic:
+build Docker image ib-qualcommax-ipq807x:
   stage: docker SDK and IB
   needs: ["build test ipq807x prpl security"]
   variables:
@@ -52,16 +52,16 @@ build Docker image ib-ipq807x-generic:
     DOCKER_BUILD_EXTRA_ARGS: --build-arg DESIGNATED_BRANCH_SLUG=$CI_DESIGNATED_BRANCH_SLUG
   extends: .build Docker image
   before_script:
-    - tar xf bin/targets/ipq807x/generic/prplos-imagebuilder-ipq807x-generic.Linux-x86_64.tar.xz --strip=1 -C .gitlab/docker/ib
+    - tar xf bin/targets/qualcommax/ipq807x/prplos-imagebuilder-qualcommax-ipq807x.Linux-x86_64.tar.xz --strip=1 -C .gitlab/docker/ib
 
-test Docker image ib-ipq807x-generic:
+test Docker image ib-qualcommax-ipq807x:
   extends: .test Docker IB image
-  needs: ["build Docker image ib-ipq807x-generic"]
+  needs: ["build Docker image ib-qualcommax-ipq807x"]
   variables:
     CI_IB_PROFILE: prpl_haze
     CI_IB_PACKAGES: -firewall4 -kmod-phy-aquantia -logd -nftables -wpad-basic-mbedtls
 
-deploy Docker image ib-ipq807x-generic:
+deploy Docker image ib-qualcommax-ipq807x:
   stage: docker SDK and IB deploy
   extends: .deploy Docker image
-  needs: ["test Docker image ib-ipq807x-generic"]
+  needs: ["test Docker image ib-qualcommax-ipq807x"]
