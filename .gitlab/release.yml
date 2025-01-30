@@ -42,13 +42,13 @@ upload:
     # ipq807x
     - |
       curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
-        --upload-file bin/targets/ipq807x/generic/prplos-ipq807x-generic-prpl_haze-initramfs-uImage.itb \
-        ${PACKAGE_REGISTRY_URL}/prpl-haze/${prplos_version}/prplos-ipq807x-generic-prpl_haze-initramfs-uImage.itb
+        --upload-file bin/targets/qualcommax/ipq807x/prplos-qualcommax-ipq807x-prpl_haze-initramfs-uImage.itb \
+        ${PACKAGE_REGISTRY_URL}/prpl-haze/${prplos_version}/prplos-qualcommax-ipq807x-prpl_haze-initramfs-uImage.itb
 
     - |
       curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
-        --upload-file bin/targets/ipq807x/generic/prplos-ipq807x-generic-prpl_haze-squashfs-sysupgrade.bin \
-        ${PACKAGE_REGISTRY_URL}/prpl-haze/${prplos_version}/prplos-ipq807x-generic-prpl_haze-squashfs-sysupgrade.bin
+        --upload-file bin/targets/qualcommax/ipq807x/prplos-qualcommax-ipq807x-prpl_haze-squashfs-sysupgrade.bin \
+        ${PACKAGE_REGISTRY_URL}/prpl-haze/${prplos_version}/prplos-qualcommax-ipq807x-prpl_haze-squashfs-sysupgrade.bin
 
     # qca_ipq95xx
     - |
@@ -80,8 +80,8 @@ release:
         --assets-link "{\"name\":\"MaxLinear/Gemtek OSPv1 fullimage (Ethernet)\",\"url\":\"https://storage.cloud.google.com/prplos-osp-releases/${CI_COMMIT_TAG}/targets/intel_x86/lgm/prplos-intel_x86-lgm-PRPL_OSP_TB341-osp_tb341_fullimage.img\"}" \
         --assets-link "{\"name\":\"MaxLinear/Gemtek OSPv2 fullimage (PON)\",\"url\":\"https://storage.cloud.google.com/prplos-osp-releases/${CI_COMMIT_TAG}/targets/intel_x86/lgm/prplos-intel_x86-lgm-PRPL_OSP_TB341_v2-osp_tb341_v2_wav700_pon_fullimage.img\"}" \
         --assets-link "{\"name\":\"MaxLinear/Gemtek OSPv2 fullimage (Ethernet)\",\"url\":\"https://storage.cloud.google.com/prplos-osp-releases/${CI_COMMIT_TAG}/targets/intel_x86/lgm/prplos-intel_x86-lgm-PRPL_OSP_TB341_v2-osp_tb341_v2_wav700_eth_fullimage.img\"}" \
-        --assets-link "{\"name\":\"prpl Haze sysupgrade\",\"url\":\"${PACKAGE_REGISTRY_URL}/prpl-haze/${prplos_version}/prplos-ipq807x-generic-prpl_haze-squashfs-sysupgrade.bin\"}" \
-        --assets-link "{\"name\":\"prpl Haze initramfs\",\"url\":\"${PACKAGE_REGISTRY_URL}/prpl-haze/${prplos_version}/prplos-ipq807x-generic-prpl_haze-initramfs-uImage.itb\"}" \
+        --assets-link "{\"name\":\"prpl Haze sysupgrade\",\"url\":\"${PACKAGE_REGISTRY_URL}/prpl-haze/${prplos_version}/prplos-qualcommax-ipq807x-prpl_haze-squashfs-sysupgrade.bin\"}" \
+        --assets-link "{\"name\":\"prpl Haze initramfs\",\"url\":\"${PACKAGE_REGISTRY_URL}/prpl-haze/${prplos_version}/prplos-qualcommax-ipq807x-prpl_haze-initramfs-uImage.itb\"}" \
         --assets-link "{\"name\":\"Turris Omnia sysupgrade\",\"url\":\"${PACKAGE_REGISTRY_URL}/turris-omnia/${prplos_version}/prplos-mvebu-cortexa9-cznic_turris-omnia-initramfs-kernel.bin\"}" \
         --assets-link "{\"name\":\"Turris Omnia initramfs\",\"url\":\"${PACKAGE_REGISTRY_URL}/turris-omnia/${prplos_version}/prplos-mvebu-cortexa9-cznic_turris-omnia-sysupgrade.img.gz\"}" \
         --assets-link "{\"name\":\"Qualcomm/WNC Freedom sysupgrade\",\"url\":\"${PACKAGE_REGISTRY_URL}/wnc-freedom/${prplos_version}/prplos-ipq95xx-generic-prpl_freedom-squashfs-sysupgrade.bin\"}" \
