@@ -1,0 +1,88 @@
+#include "mod_sahtrace.odl";
+#include "global_amxb_timeouts.odl";
+
+// default value(s) for Device.IP.Interface reference
+%config {
+    %global ip_intf_wan = "Device.IP.Interface.2.";
+}
+#include "global_ip_interfaces.odl";
+
+%config {
+    name = "cwmp_plugin";
+    import-dbg = false;
+    system-signals = [ 17 ];
+
+    // SAHTRACE
+    sahtrace = {
+        type = "auto",
+        level = 500
+    };
+
+    // main files
+    definition_file = "${name}-definition.odl";
+    save_file = "${rw_data_path}/${name}/odl/${name}.odl";
+    prefix_file = "${name}-prefix.odl";
+    
+    // Use ODL persistent storage
+    storage-type = "odl";
+    storage-path = "${rw_data_path}/${name}/";
+    %global odl = {
+        dm-load = true,
+        dm-save = true,
+        dm-save-on-changed = true,
+        dm-save-delay = 1000,
+        dm-defaults = "defaults.d/",
+        directory = "${storage-path}/odl"
+    };
+
+    firewall = {
+        controller = "/usr/lib/amx/modules/mod-fw-amx.so"
+    };
+
+    odl_config = "${cfg-dir}/${name}/cwmpd-config.odl";
+    auto-detect = false;
+    uris = ["ubus:"];
+    backends = ["/usr/bin/mods/amxb/mod-amxb-ubus.so"];
+
+    trace-zones = {
+        CWMP_PLUGIN = 500,
+        mod_pcm_svc = 500,
+        ftx = 500,
+        ftx_func = 500
+    };
+
+    pcm_svc_config = {
+        "Objects" = "ManagementServer",
+        "BackupFiles" = "${name}"
+    };
+}
+
+import "${name}.so" as "${name}";
+
+include "${prefix_file}";
+include "${definition_file}";
+
+requires "Device.";
+requires "DeviceInfo.";
+requires "Time.";
+requires "NetModel.Intf.";
+requires "Firewall.";
+
+%define {
+    entry-point cwmp_plugin.cwmp_plugin_main;
+}
+
+%populate {
+    on event "dm:object-changed" call updateConnectionRequestURL
+        filter 'path == "ManagementServer.ConnRequest." && (contains("parameters.ConnRequestHost"))';
+    on event "dm:object-changed" call updateConnectionRequestPath
+        filter 'path == "ManagementServer.ConnRequest." && contains("parameters.ConnRequestPath")';
+    on event "dm:object-changed" call updateConnectionRequestPort
+        filter 'path == "ManagementServer.ConnRequest." && contains("parameters.ConnRequestPort")';
+    on event "dm:object-changed" call writeInterface
+        filter 'path == "ManagementServer." && contains("parameters.Interface")';
+    on event "dm:object-changed" call writePreferredIPVersion
+        filter 'path == "ManagementServer.InternalSettings." && contains("parameters.PreferredIPVersion")';
+}
+
+#include "mod_pcm_svc.odl";
