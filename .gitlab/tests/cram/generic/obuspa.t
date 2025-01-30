@@ -2594,6 +2594,8 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.UnixDomainSockets.UnixDomainSocket.{i}.Path
   Device.UnixDomainSockets.UnixDomainSocketNumberOfEntries
   Device.UserInterface.                                                                                proto::tr181-httpaccess
+  Device.UserInterface.AvailableLanguages                                                              proto::tr181-httpaccess
+  Device.UserInterface.CurrentLanguage                                                                 proto::tr181-httpaccess
   Device.UserInterface.HTTPAccess.{i}.                                                                 proto::tr181-httpaccess
   Device.UserInterface.HTTPAccess.{i}.AccessType                                                       proto::tr181-httpaccess
   Device.UserInterface.HTTPAccess.{i}.Alias                                                            proto::tr181-httpaccess
@@ -6372,6 +6374,8 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.UnixDomainSockets.UnixDomainSocket.{i}.Path
   Device.UnixDomainSockets.UnixDomainSocketNumberOfEntries
   Device.UserInterface.                                                                                proto::tr181-httpaccess
+  Device.UserInterface.AvailableLanguages                                                              proto::tr181-httpaccess
+  Device.UserInterface.CurrentLanguage                                                                 proto::tr181-httpaccess
   Device.UserInterface.HTTPAccess.{i}.                                                                 proto::tr181-httpaccess
   Device.UserInterface.HTTPAccess.{i}.AccessType                                                       proto::tr181-httpaccess
   Device.UserInterface.HTTPAccess.{i}.Alias                                                            proto::tr181-httpaccess
