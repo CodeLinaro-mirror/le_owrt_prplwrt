@@ -2488,6 +2488,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.Syslog.Source.{i}.Network.X_PRPL-COM_CACertificate                                            proto::tr181-syslog
   Device.Syslog.Source.{i}.Network.X_PRPL-COM_Certificate                                              proto::tr181-syslog
   Device.Syslog.Source.{i}.Network.X_PRPL-COM_PeerVerify                                               proto::tr181-syslog
+  Device.Syslog.Source.{i}.Network.X_PRPL-COM_StructuredData                                           proto::tr181-syslog
   Device.Syslog.Source.{i}.Severity                                                                    proto::tr181-syslog
   Device.Syslog.Source.{i}.SystemMessages                                                              proto::tr181-syslog
   Device.Syslog.SourceNumberOfEntries                                                                  proto::tr181-syslog
@@ -6250,6 +6251,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.Syslog.Source.{i}.Network.X_PRPL-COM_CACertificate                                            proto::tr181-syslog
   Device.Syslog.Source.{i}.Network.X_PRPL-COM_Certificate                                              proto::tr181-syslog
   Device.Syslog.Source.{i}.Network.X_PRPL-COM_PeerVerify                                               proto::tr181-syslog
+  Device.Syslog.Source.{i}.Network.X_PRPL-COM_StructuredData                                           proto::tr181-syslog
   Device.Syslog.Source.{i}.Severity                                                                    proto::tr181-syslog
   Device.Syslog.Source.{i}.SystemMessages                                                              proto::tr181-syslog
   Device.Syslog.SourceNumberOfEntries                                                                  proto::tr181-syslog
