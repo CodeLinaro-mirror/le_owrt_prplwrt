@@ -2558,11 +2558,26 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.Time.update_status()                                                                          proto::time-manager
   Device.UPnP.                                                                                         proto::tr181-upnp
   Device.UPnP.Device.                                                                                  proto::tr181-upnp
+  Device.UPnP.Device.Capabilities.                                                                     proto::tr181-upnp
+  Device.UPnP.Device.Capabilities.UPnPArchitecture                                                     proto::tr181-upnp
+  Device.UPnP.Device.Capabilities.UPnPArchitectureMinorVer                                             proto::tr181-upnp
+  Device.UPnP.Device.Capabilities.UPnPBasicDevice                                                      proto::tr181-upnp
+  Device.UPnP.Device.Capabilities.UPnPDMBasicMgmt                                                      proto::tr181-upnp
+  Device.UPnP.Device.Capabilities.UPnPDMConfigurationMgmt                                              proto::tr181-upnp
+  Device.UPnP.Device.Capabilities.UPnPDMSoftwareMgmt                                                   proto::tr181-upnp
+  Device.UPnP.Device.Capabilities.UPnPIGD                                                              proto::tr181-upnp
+  Device.UPnP.Device.Capabilities.UPnPMediaRenderer                                                    proto::tr181-upnp
+  Device.UPnP.Device.Capabilities.UPnPMediaServer                                                      proto::tr181-upnp
+  Device.UPnP.Device.Capabilities.UPnPQoSDevice                                                        proto::tr181-upnp
+  Device.UPnP.Device.Capabilities.UPnPQoSPolicyHolder                                                  proto::tr181-upnp
+  Device.UPnP.Device.Capabilities.UPnPWLANAccessPoint                                                  proto::tr181-upnp
   Device.UPnP.Device.Enable                                                                            proto::tr181-upnp
   Device.UPnP.Device.UPnPIGD                                                                           proto::tr181-upnp
   Device.UPnP.X_PRPL-COM_IGDConfig.                                                                    proto::tr181-upnp
+  Device.UPnP.X_PRPL-COM_IGDConfig.AllowReservedAddr                                                   proto::tr181-upnp
   Device.UPnP.X_PRPL-COM_IGDConfig.AutoCleanupEnable                                                   proto::tr181-upnp
   Device.UPnP.X_PRPL-COM_IGDConfig.CleanupInterval                                                     proto::tr181-upnp
+  Device.UPnP.X_PRPL-COM_IGDConfig.EnableIPv6                                                          proto::tr181-upnp
   Device.UPnP.X_PRPL-COM_IGDConfig.MaxLifetime                                                         proto::tr181-upnp
   Device.UPnP.X_PRPL-COM_IGDConfig.UPnPInterface                                                       proto::tr181-upnp
   Device.USPServices.
@@ -6321,11 +6336,26 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.Time.update_status()                                                                          proto::time-manager
   Device.UPnP.                                                                                         proto::tr181-upnp
   Device.UPnP.Device.                                                                                  proto::tr181-upnp
+  Device.UPnP.Device.Capabilities.                                                                     proto::tr181-upnp
+  Device.UPnP.Device.Capabilities.UPnPArchitecture                                                     proto::tr181-upnp
+  Device.UPnP.Device.Capabilities.UPnPArchitectureMinorVer                                             proto::tr181-upnp
+  Device.UPnP.Device.Capabilities.UPnPBasicDevice                                                      proto::tr181-upnp
+  Device.UPnP.Device.Capabilities.UPnPDMBasicMgmt                                                      proto::tr181-upnp
+  Device.UPnP.Device.Capabilities.UPnPDMConfigurationMgmt                                              proto::tr181-upnp
+  Device.UPnP.Device.Capabilities.UPnPDMSoftwareMgmt                                                   proto::tr181-upnp
+  Device.UPnP.Device.Capabilities.UPnPIGD                                                              proto::tr181-upnp
+  Device.UPnP.Device.Capabilities.UPnPMediaRenderer                                                    proto::tr181-upnp
+  Device.UPnP.Device.Capabilities.UPnPMediaServer                                                      proto::tr181-upnp
+  Device.UPnP.Device.Capabilities.UPnPQoSDevice                                                        proto::tr181-upnp
+  Device.UPnP.Device.Capabilities.UPnPQoSPolicyHolder                                                  proto::tr181-upnp
+  Device.UPnP.Device.Capabilities.UPnPWLANAccessPoint                                                  proto::tr181-upnp
   Device.UPnP.Device.Enable                                                                            proto::tr181-upnp
   Device.UPnP.Device.UPnPIGD                                                                           proto::tr181-upnp
   Device.UPnP.X_PRPL-COM_IGDConfig.                                                                    proto::tr181-upnp
+  Device.UPnP.X_PRPL-COM_IGDConfig.AllowReservedAddr                                                   proto::tr181-upnp
   Device.UPnP.X_PRPL-COM_IGDConfig.AutoCleanupEnable                                                   proto::tr181-upnp
   Device.UPnP.X_PRPL-COM_IGDConfig.CleanupInterval                                                     proto::tr181-upnp
+  Device.UPnP.X_PRPL-COM_IGDConfig.EnableIPv6                                                          proto::tr181-upnp
   Device.UPnP.X_PRPL-COM_IGDConfig.MaxLifetime                                                         proto::tr181-upnp
   Device.UPnP.X_PRPL-COM_IGDConfig.UPnPInterface                                                       proto::tr181-upnp
   Device.USPServices.
