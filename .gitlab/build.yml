@@ -32,6 +32,8 @@
         exit 1
       fi
 
+    - sudo apt-get update && sudo apt-get install --yes --no-install-recommends python3-pyelftools swig
+
     - |
       if [ -z "$CI_COMMIT_TAG" ] && [ "$CI_DESIGNATED_BRANCH" != "$CI_COMMIT_BRANCH" ]; then
         echo "Enabling coredumps and exception tracing in the build."
