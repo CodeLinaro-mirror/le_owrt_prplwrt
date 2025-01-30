@@ -180,10 +180,10 @@ stages:
   variables:
     CI_SDK_IMAGE: registry.gitlab.com/prpl-foundation/prplos/prplos/$CI_DESIGNATED_BRANCH_SLUG/sdk-x86-64:latest
 
-.build feed with ipq807x-generic SDK:
+.build feed with qualcommax-ipq807x SDK:
   extends: .build feed with SDK
   variables:
-    CI_SDK_IMAGE: registry.gitlab.com/prpl-foundation/prplos/prplos/$CI_DESIGNATED_BRANCH_SLUG/sdk-ipq807x-generic:latest
+    CI_SDK_IMAGE: registry.gitlab.com/prpl-foundation/prplos/prplos/$CI_DESIGNATED_BRANCH_SLUG/sdk-qualcommax-ipq807x:latest
 
 .build feed with qca_ipq95xx-generic SDK:
   extends: .build feed with SDK
@@ -200,10 +200,10 @@ stages:
    variables:
      CI_SDK_IMAGE: registry.gitlab.com/prpl-foundation/prplos/prplos/prplos-next/sdk-x86-64:latest
 
-.build feed with ipq807x-generic-prplos-next SDK:
+.build feed with qualcommax-ipq807x-prplos-next SDK:
    extends: .build feed with SDK
    variables:
-     CI_SDK_IMAGE: registry.gitlab.com/prpl-foundation/prplos/prplos/prplos-next/sdk-ipq807x-generic:latest
+     CI_SDK_IMAGE: registry.gitlab.com/prpl-foundation/prplos/prplos/prplos-next/sdk-qualcommax-ipq807x:latest
 
 .build feed with qca_ipq95xx-generic-prplos-next SDK:
    extends: .build feed with SDK

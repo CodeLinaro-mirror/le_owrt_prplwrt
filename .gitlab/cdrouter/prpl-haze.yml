@@ -110,8 +110,8 @@ CDRouter-TR-069 Haze eMMC:
   <<: *prpl_haze
   variables:
     LABGRID_TARGET: prpl-haze-emmc
-    TFTP_IMAGE_FILENAME: prplos-ipq807x-generic-prpl_haze-squashfs-sysupgrade.bin
-    TFTP_IMAGE_FILENAME_PATTERN: /.*prplos-ipq807x-generic-prpl_haze-squashfs-sysupgrade.bin/
+    TFTP_IMAGE_FILENAME: prplos-qualcommax-ipq807x-prpl_haze-squashfs-sysupgrade.bin
+    TFTP_IMAGE_FILENAME_PATTERN: /.*prplos-qualcommax-ipq807x-prpl_haze-squashfs-sysupgrade.bin/
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
       .gitlab/scripts/dut-init/cdrouter-tr181-mockups.sh
