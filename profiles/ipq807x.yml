@@ -1,8 +1,8 @@
 ---
 profiles:
   - prpl_haze
-target: ipq807x
-subtarget: generic
+target: qualcommax
+subtarget: ipq807x
 description: Build image for prpl Foundation Haze board
 
 packages:
