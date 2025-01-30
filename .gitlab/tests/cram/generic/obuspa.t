@@ -1355,6 +1355,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.IP.Interface.{i}.X_PRPL-COM_IPv4Config.NeighborReachableTime                                  proto::ip-manager
   Device.IP.Interface.{i}.X_PRPL-COM_IPv6Config.                                                       proto::ip-manager
   Device.IP.Interface.{i}.X_PRPL-COM_IPv6Config.NeighborReachableTime                                  proto::ip-manager
+  Device.IP.Interface.{i}.X_PRPL-COM_MTUMode                                                           proto::ip-manager
   Device.IP.InterfaceNumberOfEntries                                                                   proto::ip-manager
   Device.IP.ULAPrefix                                                                                  proto::ip-manager
   Device.InterfaceStack.{i}.                                                                           proto::tr181-device
@@ -5106,6 +5107,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.IP.Interface.{i}.X_PRPL-COM_IPv4Config.NeighborReachableTime                                  proto::ip-manager
   Device.IP.Interface.{i}.X_PRPL-COM_IPv6Config.                                                       proto::ip-manager
   Device.IP.Interface.{i}.X_PRPL-COM_IPv6Config.NeighborReachableTime                                  proto::ip-manager
+  Device.IP.Interface.{i}.X_PRPL-COM_MTUMode                                                           proto::ip-manager
   Device.IP.InterfaceNumberOfEntries                                                                   proto::ip-manager
   Device.IP.ULAPrefix                                                                                  proto::ip-manager
   Device.InterfaceStack.{i}.                                                                           proto::tr181-device
