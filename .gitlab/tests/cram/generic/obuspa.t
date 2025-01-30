@@ -2314,8 +2314,10 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.SoftwareModules.DeploymentUnit.{i}.Update() input:HostObject
   Device.SoftwareModules.DeploymentUnit.{i}.Update() input:ModuleVersion
   Device.SoftwareModules.DeploymentUnit.{i}.Update() input:NetworkConfig
+  Device.SoftwareModules.DeploymentUnit.{i}.Update() input:NumRequiredUIDs
   Device.SoftwareModules.DeploymentUnit.{i}.Update() input:OptionalRoles
   Device.SoftwareModules.DeploymentUnit.{i}.Update() input:Password
+  Device.SoftwareModules.DeploymentUnit.{i}.Update() input:Privileged
   Device.SoftwareModules.DeploymentUnit.{i}.Update() input:RequiredRoles
   Device.SoftwareModules.DeploymentUnit.{i}.Update() input:RetainData
   Device.SoftwareModules.DeploymentUnit.{i}.Update() input:URL
@@ -2365,11 +2367,16 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.SoftwareModules.ExecutionUnit.{i}.Alias                                                       proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.AllocatedCPUPercent                                         proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.AllocatedDiskSpace                                          proto::timingila
+  Device.SoftwareModules.ExecutionUnit.{i}.AllocatedEUGID                                              proto::timingila
+  Device.SoftwareModules.ExecutionUnit.{i}.AllocatedEUUID                                              proto::timingila
+  Device.SoftwareModules.ExecutionUnit.{i}.AllocatedHostGID                                            proto::timingila
+  Device.SoftwareModules.ExecutionUnit.{i}.AllocatedHostUID                                            proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.AllocatedMemory                                             proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.AssociatedProcessList                                       proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.AutoStart                                                   proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.AvailableDiskSpace                                          proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.AvailableMemory                                             proto::timingila
+  Device.SoftwareModules.ExecutionUnit.{i}.CreationTime                                                proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.Description                                                 proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.DiskSpaceInUse                                              proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.EUID                                                        proto::timingila
@@ -2405,6 +2412,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.SoftwareModules.ExecutionUnit.{i}.SetRequestedState()                                         proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.SetRequestedState() input:RequestedState
   Device.SoftwareModules.ExecutionUnit.{i}.Status                                                      proto::timingila
+  Device.SoftwareModules.ExecutionUnit.{i}.Uptime                                                      proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.Vendor                                                      proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.VendorConfigList                                            proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.VendorLogList                                               proto::timingila
@@ -2421,8 +2429,10 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.SoftwareModules.InstallDU() input:HostObject
   Device.SoftwareModules.InstallDU() input:ModuleVersion
   Device.SoftwareModules.InstallDU() input:NetworkConfig
+  Device.SoftwareModules.InstallDU() input:NumRequiredUIDs
   Device.SoftwareModules.InstallDU() input:OptionalRoles
   Device.SoftwareModules.InstallDU() input:Password
+  Device.SoftwareModules.InstallDU() input:Privileged
   Device.SoftwareModules.InstallDU() input:RequiredRoles
   Device.SoftwareModules.InstallDU() input:Signature
   Device.SoftwareModules.InstallDU() input:URL
@@ -6066,8 +6076,10 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.SoftwareModules.DeploymentUnit.{i}.Update() input:HostObject
   Device.SoftwareModules.DeploymentUnit.{i}.Update() input:ModuleVersion
   Device.SoftwareModules.DeploymentUnit.{i}.Update() input:NetworkConfig
+  Device.SoftwareModules.DeploymentUnit.{i}.Update() input:NumRequiredUIDs
   Device.SoftwareModules.DeploymentUnit.{i}.Update() input:OptionalRoles
   Device.SoftwareModules.DeploymentUnit.{i}.Update() input:Password
+  Device.SoftwareModules.DeploymentUnit.{i}.Update() input:Privileged
   Device.SoftwareModules.DeploymentUnit.{i}.Update() input:RequiredRoles
   Device.SoftwareModules.DeploymentUnit.{i}.Update() input:RetainData
   Device.SoftwareModules.DeploymentUnit.{i}.Update() input:URL
@@ -6117,11 +6129,16 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.SoftwareModules.ExecutionUnit.{i}.Alias                                                       proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.AllocatedCPUPercent                                         proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.AllocatedDiskSpace                                          proto::timingila
+  Device.SoftwareModules.ExecutionUnit.{i}.AllocatedEUGID                                              proto::timingila
+  Device.SoftwareModules.ExecutionUnit.{i}.AllocatedEUUID                                              proto::timingila
+  Device.SoftwareModules.ExecutionUnit.{i}.AllocatedHostGID                                            proto::timingila
+  Device.SoftwareModules.ExecutionUnit.{i}.AllocatedHostUID                                            proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.AllocatedMemory                                             proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.AssociatedProcessList                                       proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.AutoStart                                                   proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.AvailableDiskSpace                                          proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.AvailableMemory                                             proto::timingila
+  Device.SoftwareModules.ExecutionUnit.{i}.CreationTime                                                proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.Description                                                 proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.DiskSpaceInUse                                              proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.EUID                                                        proto::timingila
@@ -6157,6 +6174,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.SoftwareModules.ExecutionUnit.{i}.SetRequestedState()                                         proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.SetRequestedState() input:RequestedState
   Device.SoftwareModules.ExecutionUnit.{i}.Status                                                      proto::timingila
+  Device.SoftwareModules.ExecutionUnit.{i}.Uptime                                                      proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.Vendor                                                      proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.VendorConfigList                                            proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.VendorLogList                                               proto::timingila
@@ -6173,8 +6191,10 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.SoftwareModules.InstallDU() input:HostObject
   Device.SoftwareModules.InstallDU() input:ModuleVersion
   Device.SoftwareModules.InstallDU() input:NetworkConfig
+  Device.SoftwareModules.InstallDU() input:NumRequiredUIDs
   Device.SoftwareModules.InstallDU() input:OptionalRoles
   Device.SoftwareModules.InstallDU() input:Password
+  Device.SoftwareModules.InstallDU() input:Privileged
   Device.SoftwareModules.InstallDU() input:RequiredRoles
   Device.SoftwareModules.InstallDU() input:Signature
   Device.SoftwareModules.InstallDU() input:URL
