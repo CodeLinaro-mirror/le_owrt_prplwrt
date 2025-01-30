@@ -243,6 +243,20 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.DHCPv6.Client.{i}.Server.{i}.InformationRefreshTime                                           proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.Server.{i}.SourceAddress                                                    proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.ServerNumberOfEntries                                                       proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Stats.                                                                      proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Stats.Advertise                                                             proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Stats.Confirm                                                               proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Stats.Decline                                                               proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Stats.DiscardedPackets                                                      proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Stats.InformationRequest                                                    proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Stats.Rebind                                                                proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Stats.Reconfigure                                                           proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Stats.Release                                                               proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Stats.Renew                                                                 proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Stats.Reply                                                                 proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Stats.Request                                                               proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Stats.Solicit                                                               proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Stats.TransmitFailure                                                       proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.Status                                                                      proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.SuggestedT1                                                                 proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.SuggestedT2                                                                 proto::tr181-dhcpv6client
@@ -4026,6 +4040,20 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.DHCPv6.Client.{i}.Server.{i}.InformationRefreshTime                                           proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.Server.{i}.SourceAddress                                                    proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.ServerNumberOfEntries                                                       proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Stats.                                                                      proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Stats.Advertise                                                             proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Stats.Confirm                                                               proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Stats.Decline                                                               proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Stats.DiscardedPackets                                                      proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Stats.InformationRequest                                                    proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Stats.Rebind                                                                proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Stats.Reconfigure                                                           proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Stats.Release                                                               proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Stats.Renew                                                                 proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Stats.Reply                                                                 proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Stats.Request                                                               proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Stats.Solicit                                                               proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Stats.TransmitFailure                                                       proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.Status                                                                      proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.SuggestedT1                                                                 proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.SuggestedT2                                                                 proto::tr181-dhcpv6client
