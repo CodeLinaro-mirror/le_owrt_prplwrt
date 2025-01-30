@@ -968,7 +968,6 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.Hosts.Host.{i}.                                                                               proto::hosts-manager
   Device.Hosts.Host.{i}.Active                                                                         proto::hosts-manager
   Device.Hosts.Host.{i}.ActiveLastChange                                                               proto::hosts-manager
-  Device.Hosts.Host.{i}.Alias                                                                          proto::hosts-manager
   Device.Hosts.Host.{i}.AssociatedDevice                                                               proto::hosts-manager
   Device.Hosts.Host.{i}.DHCPClient                                                                     proto::hosts-manager
   Device.Hosts.Host.{i}.HostName                                                                       proto::hosts-manager
@@ -984,10 +983,10 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.Hosts.Host.{i}.Layer3Interface                                                                proto::hosts-manager
   Device.Hosts.Host.{i}.PhysAddress                                                                    proto::hosts-manager
   Device.Hosts.Host.{i}.WANStats.                                                                      proto::hosts-manager
-  Device.Hosts.Host.{i}.WANStats.RxBytes                                                               proto::hosts-manager
-  Device.Hosts.Host.{i}.WANStats.RxPackets                                                             proto::hosts-manager
-  Device.Hosts.Host.{i}.WANStats.TxBytes                                                               proto::hosts-manager
-  Device.Hosts.Host.{i}.WANStats.TxPackets                                                             proto::hosts-manager
+  Device.Hosts.Host.{i}.WANStats.BytesReceived                                                         proto::hosts-manager
+  Device.Hosts.Host.{i}.WANStats.BytesSent                                                             proto::hosts-manager
+  Device.Hosts.Host.{i}.WANStats.PacketsReceived                                                       proto::hosts-manager
+  Device.Hosts.Host.{i}.WANStats.PacketsSent                                                           proto::hosts-manager
   Device.Hosts.Host.{i}.X_PRPL-COM_Protected                                                           proto::hosts-manager
   Device.Hosts.HostNumberOfEntries                                                                     proto::hosts-manager
   Device.Hosts.X_PRPL-COM_HostConfig.                                                                  proto::hosts-manager
@@ -4720,7 +4719,6 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.Hosts.Host.{i}.                                                                               proto::hosts-manager
   Device.Hosts.Host.{i}.Active                                                                         proto::hosts-manager
   Device.Hosts.Host.{i}.ActiveLastChange                                                               proto::hosts-manager
-  Device.Hosts.Host.{i}.Alias                                                                          proto::hosts-manager
   Device.Hosts.Host.{i}.AssociatedDevice                                                               proto::hosts-manager
   Device.Hosts.Host.{i}.DHCPClient                                                                     proto::hosts-manager
   Device.Hosts.Host.{i}.HostName                                                                       proto::hosts-manager
@@ -4736,10 +4734,10 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.Hosts.Host.{i}.Layer3Interface                                                                proto::hosts-manager
   Device.Hosts.Host.{i}.PhysAddress                                                                    proto::hosts-manager
   Device.Hosts.Host.{i}.WANStats.                                                                      proto::hosts-manager
-  Device.Hosts.Host.{i}.WANStats.RxBytes                                                               proto::hosts-manager
-  Device.Hosts.Host.{i}.WANStats.RxPackets                                                             proto::hosts-manager
-  Device.Hosts.Host.{i}.WANStats.TxBytes                                                               proto::hosts-manager
-  Device.Hosts.Host.{i}.WANStats.TxPackets                                                             proto::hosts-manager
+  Device.Hosts.Host.{i}.WANStats.BytesReceived                                                         proto::hosts-manager
+  Device.Hosts.Host.{i}.WANStats.BytesSent                                                             proto::hosts-manager
+  Device.Hosts.Host.{i}.WANStats.PacketsReceived                                                       proto::hosts-manager
+  Device.Hosts.Host.{i}.WANStats.PacketsSent                                                           proto::hosts-manager
   Device.Hosts.Host.{i}.X_PRPL-COM_Protected                                                           proto::hosts-manager
   Device.Hosts.HostNumberOfEntries                                                                     proto::hosts-manager
   Device.Hosts.X_PRPL-COM_HostConfig.                                                                  proto::hosts-manager
