@@ -21,6 +21,50 @@ Check the root datamodel settings:
       "FirmwareUpdated": 0,
       "Reason": "Initiated by Unknown",
       "TimeStamp": "\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d+Z" (re)
+    },
+    "Reboot.X_PRPL-COM_Reasons.1.": {
+      "Alias": "REASON_FIRMWARE_UPGRADE",
+      "Format": "Firmware Upgrade"
+    },
+    "Reboot.X_PRPL-COM_Reasons.10.": {
+      "Alias": "REASON_INITIATED_BY_SOURCE",
+      "Format": "Initiated by %s"
+    },
+    "Reboot.X_PRPL-COM_Reasons.11.": {
+      "Alias": "REASON_UNKNOWN",
+      "Format": "Unknown"
+    },
+    "Reboot.X_PRPL-COM_Reasons.2.": {
+      "Alias": "REASON_FIRMWARE_DOWNGRADE",
+      "Format": "Firmware Downgrade"
+    },
+    "Reboot.X_PRPL-COM_Reasons.3.": {
+      "Alias": "REASON_POWER_LOST",
+      "Format": "Power lost"
+    },
+    "Reboot.X_PRPL-COM_Reasons.4.": {
+      "Alias": "REASON_OVERHEAT",
+      "Format": "Overheat"
+    },
+    "Reboot.X_PRPL-COM_Reasons.5.": {
+      "Alias": "REASON_AUTOMATIC_PLANNED_REBOOT",
+      "Format": "Automatic planned reboot"
+    },
+    "Reboot.X_PRPL-COM_Reasons.6.": {
+      "Alias": "REASON_USERSPACE_CRASH",
+      "Format": "Userspace crash in %s %s"
+    },
+    "Reboot.X_PRPL-COM_Reasons.7.": {
+      "Alias": "REASON_KERNEL_CRASH",
+      "Format": "Kernel crash %s"
+    },
+    "Reboot.X_PRPL-COM_Reasons.8.": {
+      "Alias": "REASON_HARDWARE_WATCHDOG",
+      "Format": "Hardware watchdog %s"
+    },
+    "Reboot.X_PRPL-COM_Reasons.9.": {
+      "Alias": "REASON_CRASH_LOOP_PROTECTION_DETECTION",
+      "Format": "Crash loop Protection detected on %s %s"
     }
   }
 
