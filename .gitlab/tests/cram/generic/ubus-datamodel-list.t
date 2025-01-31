@@ -245,6 +245,7 @@ Check that ubus has expected datamodels available:
   QoS.Shaper
   Reboot
   Reboot.Reboot
+  Reboot.X_PRPL-COM_Reasons
   Rlyeh
   Rlyeh.Images
   RouterAdvertisement
