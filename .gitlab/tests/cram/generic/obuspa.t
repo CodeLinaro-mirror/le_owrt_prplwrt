@@ -2732,6 +2732,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.DownlinkMCS                                         proto::wld
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.DownlinkRateSpec                                    proto::wld
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.DownlinkShortGuard                                  proto::wld
+  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.EhtCapabilities                                     proto::wld
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.EncryptionMode                                      proto::wld
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.FrequencyCapabilities                               proto::wld
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.HeCapabilities                                      proto::wld
@@ -2760,6 +2761,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.OperatingStandard                                   proto::wld
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.PowerSave                                           proto::wld
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.                                       proto::wld
+  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.EhtCapabilities                        proto::wld
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.EncryptionMode                         proto::wld
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.FrequencyCapabilities                  proto::wld
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.HeCapabilities                         proto::wld
@@ -2787,6 +2789,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.RrmOffChannelMaxDuration                            proto::wld
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.RrmOnChannelMaxDuration                             proto::wld
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.RxBytes                                             proto::wld
+  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.RxErrors                                            proto::wld
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.RxMulticastPacketCount                              proto::wld
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.RxPacketCount                                       proto::wld
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.RxSupportedHe160MCS                                 proto::wld
@@ -3109,6 +3112,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.EndPoint.{i}.Security.ModeEnabled                                                        proto::wld
   Device.WiFi.EndPoint.{i}.Security.ModesSupported                                                     proto::wld
   Device.WiFi.EndPoint.{i}.Stats.                                                                      proto::wld
+  Device.WiFi.EndPoint.{i}.Stats.EhtCapabilities                                                       proto::wld
   Device.WiFi.EndPoint.{i}.Stats.EncryptionMode                                                        proto::wld
   Device.WiFi.EndPoint.{i}.Stats.FrequencyCapabilities                                                 proto::wld
   Device.WiFi.EndPoint.{i}.Stats.HeCapabilities                                                        proto::wld
@@ -6531,6 +6535,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.DownlinkMCS                                         proto::wld
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.DownlinkRateSpec                                    proto::wld
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.DownlinkShortGuard                                  proto::wld
+  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.EhtCapabilities                                     proto::wld
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.EncryptionMode                                      proto::wld
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.FrequencyCapabilities                               proto::wld
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.HeCapabilities                                      proto::wld
@@ -6559,6 +6564,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.OperatingStandard                                   proto::wld
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.PowerSave                                           proto::wld
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.                                       proto::wld
+  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.EhtCapabilities                        proto::wld
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.EncryptionMode                         proto::wld
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.FrequencyCapabilities                  proto::wld
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.HeCapabilities                         proto::wld
@@ -6586,6 +6592,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.RrmOffChannelMaxDuration                            proto::wld
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.RrmOnChannelMaxDuration                             proto::wld
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.RxBytes                                             proto::wld
+  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.RxErrors                                            proto::wld
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.RxMulticastPacketCount                              proto::wld
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.RxPacketCount                                       proto::wld
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.RxSupportedHe160MCS                                 proto::wld
@@ -6908,6 +6915,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.EndPoint.{i}.Security.ModeEnabled                                                        proto::wld
   Device.WiFi.EndPoint.{i}.Security.ModesSupported                                                     proto::wld
   Device.WiFi.EndPoint.{i}.Stats.                                                                      proto::wld
+  Device.WiFi.EndPoint.{i}.Stats.EhtCapabilities                                                       proto::wld
   Device.WiFi.EndPoint.{i}.Stats.EncryptionMode                                                        proto::wld
   Device.WiFi.EndPoint.{i}.Stats.FrequencyCapabilities                                                 proto::wld
   Device.WiFi.EndPoint.{i}.Stats.HeCapabilities                                                        proto::wld
