@@ -452,9 +452,11 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.DNS.X_PRPL-COM_RebindProtection.                                                              proto::tr181-dns
   Device.DNS.X_PRPL-COM_RebindProtection.DomainExceptions.{i}.                                         proto::tr181-dns
   Device.DNS.X_PRPL-COM_RebindProtection.DomainExceptions.{i}.Address                                  proto::tr181-dns
+  Device.DNS.X_PRPL-COM_RebindProtection.DomainExceptionsNumberOfEntries                               proto::tr181-dns
   Device.DNS.X_PRPL-COM_RebindProtection.Enable                                                        proto::tr181-dns
   Device.DNS.X_PRPL-COM_RebindProtection.IPExceptions.{i}.                                             proto::tr181-dns
   Device.DNS.X_PRPL-COM_RebindProtection.IPExceptions.{i}.Address                                      proto::tr181-dns
+  Device.DNS.X_PRPL-COM_RebindProtection.IPExceptionsNumberOfEntries                                   proto::tr181-dns
   Device.DSLite.                                                                                       proto::tr181-dslite
   Device.DSLite.Enable                                                                                 proto::tr181-dslite
   Device.DSLite.InterfaceSetting.{i}.                                                                  proto::tr181-dslite
@@ -4250,9 +4252,11 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.DNS.X_PRPL-COM_RebindProtection.                                                              proto::tr181-dns
   Device.DNS.X_PRPL-COM_RebindProtection.DomainExceptions.{i}.                                         proto::tr181-dns
   Device.DNS.X_PRPL-COM_RebindProtection.DomainExceptions.{i}.Address                                  proto::tr181-dns
+  Device.DNS.X_PRPL-COM_RebindProtection.DomainExceptionsNumberOfEntries                               proto::tr181-dns
   Device.DNS.X_PRPL-COM_RebindProtection.Enable                                                        proto::tr181-dns
   Device.DNS.X_PRPL-COM_RebindProtection.IPExceptions.{i}.                                             proto::tr181-dns
   Device.DNS.X_PRPL-COM_RebindProtection.IPExceptions.{i}.Address                                      proto::tr181-dns
+  Device.DNS.X_PRPL-COM_RebindProtection.IPExceptionsNumberOfEntries                                   proto::tr181-dns
   Device.DSLite.                                                                                       proto::tr181-dslite
   Device.DSLite.Enable                                                                                 proto::tr181-dslite
   Device.DSLite.InterfaceSetting.{i}.                                                                  proto::tr181-dslite
