@@ -48,6 +48,7 @@ IMG_PREFIX_VERCODE:=$(if $(CONFIG_VERSION_CODE_FILENAMES),$(call sanitize,$(VERS
 IMG_PREFIX:=$(VERSION_DIST_SANITIZED)-$(IMG_PREFIX_VERNUM)$(IMG_PREFIX_VERCODE)$(IMG_PREFIX_EXTRA)$(BOARD)-$(SUBTARGET)
 IMG_ROOTFS:=$(IMG_PREFIX)-rootfs
 IMG_COMBINED:=$(IMG_PREFIX)-combined
+IMG_SECURE_INITRAMFS:=$(IMG_PREFIX)-secure-initramfs$(shell $(TOPDIR)/scripts/gen-secure-initramfs.sh show-extension $(call get_initramfs_compression,CONFIG_TARGET_SECURE_INITRAMFS_COMPRESSION_))
 ifeq ($(DUMP),)
 IMG_PART_SIGNATURE:=$(shell echo $(SOURCE_DATE_EPOCH)$(LINUX_VERMAGIC) | $(MKHASH) md5 | cut -b1-8)
 IMG_PART_DISKGUID:=$(shell echo $(SOURCE_DATE_EPOCH)$(LINUX_VERMAGIC) | $(MKHASH) md5 | sed -E 's/(.{8})(.{4})(.{4})(.{4})(.{10})../\1-\2-\3-\4-\500/')
@@ -154,6 +155,15 @@ endef
 # pad to 4k, 8k, 16k, 64k, 128k, 256k and add jffs2 end-of-filesystem mark
 define prepare_generic_squashfs
 	$(STAGING_DIR_HOST)/bin/padjffs2 $(1) 4 8 16 64 128 256
+endef
+
+define Image/SecureInitramfs
+	UNSTRIPPED_FOLDER=$(STAGING_DIR_ROOT) \
+	BINARIES_PATH=$(CONFIG_TARGET_INIT_PATH) \
+	$(TOPDIR)/scripts/gen-secure-initramfs.sh build \
+		$(call get_initramfs_compression,CONFIG_TARGET_SECURE_INITRAMFS_COMPRESSION_) \
+		$(BIN_DIR)/$(IMG_SECURE_INITRAMFS) \
+		$(STAGING_DIR_IMAGE)/initramfs $(TARGET_DIR)
 endef
 
 define Image/BuildKernel/Initramfs
@@ -971,6 +981,7 @@ define BuildImage
 	$(call Image/BuildKernel)
 	$(if $(CONFIG_TARGET_ROOTFS_INITRAMFS),$(if $(IB),,$(call Image/BuildKernel/Initramfs)))
 	$(call Image/InstallKernel)
+  $(if $(CONFIG_TARGET_SECURE_INITRAMFS),$(call Image/SecureInitramfs))
 
   $(foreach device,$(TARGET_DEVICES),$(call Device,$(device)))
 
