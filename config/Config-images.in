@@ -70,6 +70,44 @@ menu "Target Images"
 			  Generate separate initrd.cpio instead of embedding it.
 			  This is useful for generating images with a dedicated
 			  ramdisk e.g. in U-Boot's uImage and uImage.FIT formats.
+	menuconfig TARGET_SECURE_INITRAMFS
+		bool "pivoting initramfs"
+		help
+		  Build a pivoting initramfs archive the kernel can start.
+		  It will be used to set things up before a rootfs is started,
+		  like authenticate a rootfs image.
+
+		choice
+			prompt "Compression"
+			depends on TARGET_SECURE_INITRAMFS
+			help
+			  Select initramfs compression mode.
+
+			config TARGET_SECURE_INITRAMFS_COMPRESSION_NONE
+				bool "none"
+
+			config TARGET_SECURE_INITRAMFS_COMPRESSION_GZIP
+				bool "gzip"
+
+			config TARGET_SECURE_INITRAMFS_COMPRESSION_BZIP2
+				bool "bzip2"
+
+			config TARGET_SECURE_INITRAMFS_COMPRESSION_LZMA
+				bool "lzma"
+
+			config TARGET_SECURE_INITRAMFS_COMPRESSION_LZO
+				bool "lzo"
+
+			config TARGET_SECURE_INITRAMFS_COMPRESSION_LZ4
+				bool "lz4"
+
+			config TARGET_SECURE_INITRAMFS_COMPRESSION_XZ
+				bool "xz"
+
+			config TARGET_SECURE_INITRAMFS_COMPRESSION_ZSTD
+				depends on !LINUX_5_4 && !LINUX_4_19
+				bool "zstd"
+		endchoice
 
 	comment "Root filesystem archives"
 
