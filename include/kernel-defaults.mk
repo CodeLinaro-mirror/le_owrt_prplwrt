@@ -45,6 +45,26 @@ else
   endef
 endif
 
+
+# Convenience function to only enable selected initramfs compression mode
+# $1: compression variable prefix (e.g. "CONFIG_TARGET_INITRAMFS_COMPRESSION_")
+# $2: output file
+define Kernel/SetInitramfsCompressions
+	{ \
+		$(if $(CONFIG_TARGET_INITRAMFS_COMPRESSION_NONE), \
+				echo "CONFIG_INITRAMFS_COMPRESSION_NONE=y" >> $(2);, \
+				echo "# CONFIG_INITRAMFS_COMPRESSION_NONE is not set" >> $(2); ) \
+		$(foreach ALGO,GZIP BZIP2 LZMA LZO XZ LZ4 ZSTD, \
+			$(if $(CONFIG_TARGET_INITRAMFS_COMPRESSION_$(ALGO)), \
+				echo "CONFIG_INITRAMFS_COMPRESSION_$(ALGO)=y" >> $(2); $\, \
+				echo "# CONFIG_INITRAMFS_COMPRESSION_$(ALGO) is not set" >> $(2); $\) \
+			$(if $(CONFIG_TARGET_INITRAMFS_COMPRESSION_$(ALGO)), \
+				echo "CONFIG_RD_$(ALGO)=y" >> $(2); $\, \
+				echo "# CONFIG_RD_$(ALGO) is not set" >> $(2); $\) \
+		) \
+	}
+endef
+
 ifeq ($(CONFIG_TARGET_ROOTFS_INITRAMFS),y)
   ifeq ($(CONFIG_TARGET_ROOTFS_INITRAMFS_SEPARATE),y)
     define Kernel/SetInitramfs/PreConfigure
@@ -86,21 +106,23 @@ ifeq ($(CONFIG_TARGET_ROOTFS_INITRAMFS),y)
 			$(if $(CONFIG_TARGET_INITRAMFS_FORCE), \
 				echo "CONFIG_INITRAMFS_FORCE=y" >> $(2)/.config;, \
 				echo "# CONFIG_INITRAMFS_FORCE is not set" >> $(2)/.config;)) \
-		$(if $(CONFIG_TARGET_INITRAMFS_COMPRESSION_NONE), \
-			echo "CONFIG_INITRAMFS_COMPRESSION_NONE=y" >> $(2)/.config;, \
-			echo "# CONFIG_INITRAMFS_COMPRESSION_NONE is not set" >> $(2)/.config; ) \
-		$(foreach ALGO,GZIP BZIP2 LZMA LZO XZ LZ4 ZSTD, \
-			$(if $(CONFIG_TARGET_INITRAMFS_COMPRESSION_$(ALGO)), \
-				echo "CONFIG_INITRAMFS_COMPRESSION_$(ALGO)=y" >> $(2)/.config; $\, \
-				echo "# CONFIG_INITRAMFS_COMPRESSION_$(ALGO) is not set" >> $(2)/.config; $\) \
-			$(if $(CONFIG_TARGET_INITRAMFS_COMPRESSION_$(ALGO)), \
-				echo "CONFIG_RD_$(ALGO)=y" >> $(2)/.config; $\, \
-				echo "# CONFIG_RD_$(ALGO) is not set" >> $(2)/.config; $\) \
-		) \
+		$(call Kernel/SetInitramfsCompressions,CONFIG_TARGET_INITRAMFS_COMPRESSION_,$(LINUX_DIR)/.config); \
 	}
   endef
 else
 endif
+
+ifeq ($(CONFIG_TARGET_SECURE_INITRAMFS),y)
+  define Kernel/SetNoInitramfs/CustomSupportInitramfs
+	echo 'CONFIG_BLK_DEV_INITRD=y' >> $(LINUX_DIR)/.config.set
+	echo 'CONFIG_DECOMPRESS_GZIP=y' >> $(LINUX_DIR)/.config.set
+	echo 'CONFIG_RD_GZIP=y' >> $(LINUX_DIR)/.config.set
+  endef
+else
+  define Kernel/SetNoInitramfs/CustomSupportInitramfs
+  endef
+endif
+
 
 define Kernel/SetNoInitramfs
 	mv $(LINUX_DIR)/.config.set $(LINUX_DIR)/.config.old
@@ -108,6 +130,7 @@ define Kernel/SetNoInitramfs
 	echo 'CONFIG_INITRAMFS_SOURCE=""' >> $(LINUX_DIR)/.config.set
 	echo '# CONFIG_INITRAMFS_FORCE is not set' >> $(LINUX_DIR)/.config.set
 	echo "# CONFIG_INITRAMFS_PRESERVE_MTIME is not set" >> $(LINUX_DIR)/.config.set
+	$(call Kernel/SetNoInitramfs/CustomSupportInitramfs)
 endef
 
 define Kernel/Configure/Default
