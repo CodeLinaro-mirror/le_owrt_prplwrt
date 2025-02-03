@@ -48,7 +48,7 @@ dm_wifi_2g_ssid_path() {
 	local ssid="$1"
 	[ -n "$radio_2g_path" ] || radio_2g_path=$(dm_wifi_radio_2g_path)
 	ba_cli_json \
-		"Device.WiFi.SSID.[LowerLayers == \"${radio_2g_path}.\" && SSID == \"$ssid\"].Alias?0" |
+		"Device.WiFi.SSID.[LowerLayers == \"${radio_2g_path}\" && SSID == \"$ssid\"].Alias?0" |
 		jq -r '.[0] | keys[]' 2>/dev/null |
 		sed 's/\.$//'
 }
