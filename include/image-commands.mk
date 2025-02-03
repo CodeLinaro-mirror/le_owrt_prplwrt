@@ -3,6 +3,10 @@
 IMAGE_KERNEL = $(word 1,$^)
 IMAGE_ROOTFS = $(word 2,$^)
 
+define get_initramfs_compression
+$(firstword $(foreach compression,NONE GZIP BZIP2 LZMA LZO XZ LZ4 ZSTD,$(if $($1$(compression)),$(compression) ,)))
+endef
+
 define ModelNameLimit16
 $(shell printf %.16s "$(word 2, $(subst _, ,$(1)))")
 endef
