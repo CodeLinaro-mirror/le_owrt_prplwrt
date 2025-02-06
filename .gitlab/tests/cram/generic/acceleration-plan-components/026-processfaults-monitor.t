@@ -57,3 +57,14 @@ Cleanup only if entry is from this test:
 Check if dump files have really been removed:
 
   $ if [ "$number_of_entries" -eq 1 ]; then R "! test -f \"${core_dump_location}core.gz\""; fi
+
+Ensure that ProcessFaults does not contain any crashes, expected LastUpgradeCount to be 1 because of the simulated crash
+
+  $ R "ba-cli ProcessFaults.? | grep -v '^>' | head -n -1 | sort"
+  ProcessFaults.
+  ProcessFaults.LastUpgradeCount=1
+  ProcessFaults.MaxProcessFaultEntries=5
+  ProcessFaults.MinFreeSpace=3000
+  ProcessFaults.PreviousBootCount=0
+  ProcessFaults.ProcessFaultNumberOfEntries=0
+  ProcessFaults.StoragePath="/ext/faults"
