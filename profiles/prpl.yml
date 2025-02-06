@@ -6,7 +6,7 @@ feeds:
     revision: mainline-23.05@2ee3460c42dba1e392e113e860fa27e9928c3211
   - name: feed_amx
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_amx.git
-    revision: v11.16.1@999646866403ee864efb8c15cbca4cecbe3a94fd
+    revision: main@d0cca925e73b0c6672c45266df0e1881ddba8e14
   - name: feed_gmap
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_gmap.git
     revision: v1.10.12@0dad44d978df390a94365da2e94cf3f6f9c6d6e3
