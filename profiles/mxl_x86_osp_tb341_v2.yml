@@ -49,7 +49,7 @@ feeds:
   - name: pon
     uri: ssh://git@git.maxlinear.com/ugw-oss/feeds/feed_pon.git
     tracking_branch: updk_9.1.80
-    revision: c9ae541b70010b85c876f70b290ba74718c14dea
+    revision: c90b7792b70ca8e8bef7081b99b528961eab8315
   - name: ppa
     uri: ssh://git@git.maxlinear.com/ugw-oss/feeds/feed_ppa.git
     tracking_branch: updk_9.1.80
@@ -69,7 +69,7 @@ feeds:
   - name: utils
     uri: ssh://git@git.maxlinear.com/ugw-oss/feeds/feed_ugw_utils.git
     tracking_branch: updk_9.1.80
-    revision: f738055f3d610be05476abd1067b313bb44adf67
+    revision: 0737ccdcbf0bceabbd516185ddfa9ebb8f3be061
   - name: bootloader
     uri: ssh://git@git.maxlinear.com/ugw-oss/feeds/feed_uboot.git
     tracking_branch: u-boot-2022.01_prpl_4.0.254
@@ -201,7 +201,7 @@ diffconfig: |
   CONFIG_VERSION_CODE_FILENAMES=n
   # CONFIG_PACKAGE_bios_images is not set
   CONFIG_BUILD_SDK="prplos"
-  CONFIG_INTEL_X86_IMAGE_FORMAT_FIT=y
+  # CONFIG_INTEL_X86_IMAGE_FORMAT_FIT is not set
   CONFIG_INTEL_X86_IMAGE_FORMAT_MKIMAGE=y
   CONFIG_BUSYBOX_CUSTOM=y
   CONFIG_BUSYBOX_CONFIG_TFTPD=y
