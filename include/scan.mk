@@ -78,14 +78,15 @@ $(FILELIST): $(OVERRIDELIST)
 
 $(TMP_DIR)/info/.files-$(SCAN_TARGET).mk: $(FILELIST)
 	( \
-		cat $< | awk '{print "$(SCAN_DIR)/" $$0 "/Makefile" }' | xargs grep -HE '^ *SCAN_DEPS *= *' | awk -F: '{ gsub(/^.*DEPS *= */, "", $$2); print "DEPS_" $$1 "=" $$2 }'; \
+		cat $< | grep -v '^[$$]' | awk '{print "$(SCAN_DIR)/" $$0 "/Makefile" }' | xargs grep -HE '^ *SCAN_DEPS *= *' | awk -F: '{ gsub(/^.*DEPS *= */, "", $$2); print "DEPS_" $$1 "=" $$2 }'; \
+		cat $< | grep '^[$$]' -B1 | awk '/^[^$$]/ {MAKEFILE="$(SCAN_DIR)/" $$0 "/Makefile"} /^[$$]/ {print "DEPS_" MAKEFILE "+=" $$0}'; \
 		awk -F/ -v deps="$$DEPS" -v of="$(OVERRIDELIST)" ' \
 		BEGIN { \
 			while (getline < (of)) \
 				override[$$NF]=$$0; \
 			close(of) \
 		} \
-		{ \
+		/^[^$$]/ { \
 			info=$$0; \
 			gsub(/\//, "_", info); \
 			dir=$$0; \
@@ -113,7 +114,7 @@ $(TARGET_STAMP)::
 
 $(TMP_DIR)/.$(SCAN_TARGET): $(TARGET_STAMP)
 	$(call progress,Collecting $(SCAN_NAME) info: merging...)
-	-cat $(FILELIST) | awk '{gsub(/\//, "_", $$0);print "$(TMP_DIR)/info/.$(SCAN_TARGET)-" $$0}' | xargs cat > $@ 2>/dev/null
+	-cat $(FILELIST) | grep -v '^[$$]' | awk '{gsub(/\//, "_", $$1);print "$(TMP_DIR)/info/.$(SCAN_TARGET)-" $$1}' | xargs cat > $@ 2>/dev/null
 	$(call progress,Collecting $(SCAN_NAME) info: done)
 	echo
 
