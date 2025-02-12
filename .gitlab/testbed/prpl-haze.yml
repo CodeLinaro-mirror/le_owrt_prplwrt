@@ -11,5 +11,6 @@
     TFTP_IMAGE_FILENAME: prplos-ipq807x-generic-prpl_haze-initramfs-uImage.itb
     TFTP_IMAGE_FILENAME_PATTERN: /.*prplos-ipq807x-generic-prpl_haze-initramfs-uImage.itb/
     DUT_ARCH_PACKAGES_PATH: $PACKAGE_DIR/${DUT_ARCH}_${DUT_CPU_TYPE}
+    CDROUTER_CONFIG_LAN_IFACE_ALIAS: LAN3
   tags:
     - dut-prpl-haze
