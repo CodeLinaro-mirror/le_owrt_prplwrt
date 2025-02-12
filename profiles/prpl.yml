@@ -3,7 +3,7 @@ description: Add the prpl features
 feeds:
   - name: feed_opensource
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_opensource.git
-    revision: mainline-23.05@2ee3460c42dba1e392e113e860fa27e9928c3211
+    revision: dev_upstep_unbound@62a0b7c9b0247bd7fe324e3ca6d6ea5e456c6131
   - name: feed_amx
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_amx.git
     revision: main@d0cca925e73b0c6672c45266df0e1881ddba8e14
@@ -12,7 +12,7 @@ feeds:
     revision: v1.10.12@0dad44d978df390a94365da2e94cf3f6f9c6d6e3
   - name: feed_net_core
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_net_core.git
-    revision: v17.3.10@9a4f7f20adca44ebe14d57391b8f934c8b1db5cb
+    revision: backstep_mod_dns-unbound@248680a11b2e6d2af821054685f669fc0b8495e9
   - name: feed_qos_firewall
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_qos_firewall.git
     revision: v6.13.11@3dbe4dcf9fafb4ad0c2213f0c0d054ff71aae5d5
