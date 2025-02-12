@@ -163,7 +163,6 @@ Check that ubus has expected datamodels available:
   IPDiagnostics.X_PRPL-COM_DownloadConfig
   IPDiagnostics.X_PRPL-COM_DownloadResult
   IPDiagnostics.X_PRPL-COM_DownloadResult.Config
-  IPDiagnostics.X_PRPL-COM_DownloadResult.IncrementalResult
   IPDiagnostics.X_PRPL-COM_DownloadResult.Process
   IPDiagnostics.X_PRPL-COM_UploadConfig
   IPDiagnostics.X_PRPL-COM_UploadResult
