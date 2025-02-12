@@ -1736,7 +1736,7 @@ SECTION "CDRouter Multiport Add-On" {
 
     SECTION "Additional LAN Interface Setup" {
 
-        # testvar useSameLanInterface              no
+          testvar useSameLanInterface              yes
 
         IGNORE testvar_group lan2 {
 
@@ -2596,6 +2596,14 @@ SECTION "CDRouter USP Add-On" {
         # testvar uspInactiveFirmwareSlot          Device.DeviceInfo.FirmwareImage.1
 
     }
+
+}
+
+SECTION "CDRouter prpl Certification Expansion" {
+
+    # testvar prplosCmdTimeout                 10
+      testvar prplosLanInterfaceAlias          @CDROUTER_CONFIG_LAN_IFACE_ALIAS@
+    # testvar prplosProtocol                   usp
 
 }
 
