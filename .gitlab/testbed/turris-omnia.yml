@@ -11,5 +11,6 @@
     LABGRID_TARGET: turris-omnia-initramfs
     TFTP_IMAGE_FILENAME: prplos-mvebu-cortexa9-cznic_turris-omnia-initramfs-kernel.bin
     TFTP_IMAGE_FILENAME_PATTERN: /.*prplos-mvebu-cortexa9-cznic_turris-omnia-initramfs-kernel.bin/
+    CDROUTER_CONFIG_LAN_IFACE_ALIAS: LAN3
   tags:
     - dut-turris-omnia
