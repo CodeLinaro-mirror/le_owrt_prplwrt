@@ -106,6 +106,7 @@ Check that ubus has expected datamodels available:
   Device.UserInterface
   Device.Users
   Device.WiFi
+  Device.WiFi.DataElements
   Device.WiFi.Sensing
   Device.XPON
   Device.X_PRPLWARE-COM_Buttons

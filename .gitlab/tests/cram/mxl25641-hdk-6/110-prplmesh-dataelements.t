@@ -262,3 +262,39 @@ Check the default ChipsetVendor param configurations:
   MaxLinear
   MaxLinear
   MaxLinear
+
+PrplMesh Controller datamodel REST API accessibility test:
+
+  $ unset session_id
+  $ unset target
+  $ target=${TARGET_LAN_IP:-192.168.1.1}
+
+Generate session ID:
+
+  $ session_id=$(curl --silent -X POST "http://${target}/session" --data '{"username":"admin","password":"admin"}' --max-time 3 | jq -r .sessionID)
+  $ echo ${session_id:+Session ID generated}
+  Session ID generated
+
+Check the proxypath accessibility:
+
+  $ curl -X GET "http://${target}/serviceElements/Device.WiFi.DataElements.Network.Device.1.SupportsVBSS" \
+  > -H "Authorization: bearer ${session_id}" --silent --max-time 3
+  [{"parameters":{"SupportsVBSS":0},"path":"Device.WiFi.DataElements.Network.Device.1."}] (no-eol)
+
+Check the BSS color endpoint (function trigger):
+
+  $ curl --silent --max-time 3 \
+  > -H "Authorization: bearer ${session_id}" \
+  > -H "Content-type: application/json" "http://${target}/commands" \
+  > --data '{ "sendresp": true, "command": "Device.WiFi.DataElements.Network.Device.1.Radio.1.SetSpatialReuse()", "inputArgs": {"bss_color": "2", "srg_information_valid": "true", "srg_bss_color_bitmap": "1 2 3 10", "srg_partial_bssid_bitmap": "0 1 3 63"}}'
+  [{"outputArgs":{"SetSpatialReuse":""},"executed":"Device.WiFi.DataElements.Network.Device.1.Radio.1.SetSpatialReuse()"}] (no-eol)
+
+Check BSS color endpoint ACL is working (no authentication):
+
+  $ curl -i -silent --max-time 3 \
+  > -H "Content-type: application/json" "http://${target}/commands" \
+  > --data '{ "sendresp": true, "command": "Device.WiFi.DataElements.Network.Device.1.Radio.1.SetSpatialReuse()", "inputArgs": {"bss_color": "2", "srg_information_valid": "true", "srg_bss_color_bitmap": "1 2 3 10", "srg_partial_bssid_bitmap": "0 1 3 63"}}' | grep Forbidden
+  HTTP/1.1 403 Forbidden\r (esc)
+
+  $ unset session_id
+  $ unset target
