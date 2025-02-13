@@ -147,13 +147,13 @@
         ssh root@$TARGET_LAN_IP "cat /var/log/messages" > syslog-$LABGRID_TARGET.txt
         ssh root@$TARGET_LAN_IP opkg list > opkg_list-$LABGRID_TARGET.txt
         script --quiet --command "ssh -t root@$TARGET_LAN_IP /bin/getDebugInformation --all"
-        scp -r root@${TARGET_LAN_IP}:/tmp/debug_all.tar.gz . > /dev/null
+        scp -r root@${TARGET_LAN_IP}:/tmp/debug-*_all.tar.gz . > /dev/null
         scp -r root@${TARGET_LAN_IP}:/etc etc > /dev/null
         scp -r root@${TARGET_LAN_IP}:/tmp/beerocks/logs prplmesh_beerocks_logs > /dev/null
       } || true
 
     - .gitlab/scripts/testbed-device.py --target $LABGRID_TARGET power off
-    - tar xzf debug_all.tar.gz || true
+    - tar xzf debug-*_all.tar.gz || true
     - mv debug-*.txt debug-information-$LABGRID_TARGET.txt || true
     - ( [ $(tar -tf coredumps_all.tar.gz | wc -l) -eq 0 ] && rm coredumps_all.tar.gz || true ) 2>/dev/null
     - mv coredumps_all.tar.gz coredumps-$LABGRID_TARGET.tar.gz 2> /dev/null || true
