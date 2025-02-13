@@ -71,6 +71,7 @@
       libsahtrace
       moca-manager
       mod-amxb-ubus
+      mod-autosensing
       mod-ba-cli
       mod-dm-cli
       mod-dmext
@@ -102,7 +103,6 @@
       tr181-usermanagement
       umdns
       uriparser
-      wan-autosensing
       wan-manager
 
   rules:
