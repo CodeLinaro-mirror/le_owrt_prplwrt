@@ -167,6 +167,7 @@
     - tar czf cov-int.tar.gz ./cov-int
     - >
       curl
+      --fail
       --form token="$(cat ./coverity-api-token)"
       --form email=ynezz@true.cz
       --form file=@cov-int.tar.gz
