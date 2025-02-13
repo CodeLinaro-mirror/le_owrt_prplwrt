@@ -16,13 +16,10 @@
     CI_COVERITY_OPENWRT_PACKAGE_LIST: >
       dropbear
       dnsmasq
-      firewall
       fstools
-      iwinfo
       jsonfilter
       libnl-tiny
       libubox
-      netifd
       odhcp6c
       odhcpd
       opkg
