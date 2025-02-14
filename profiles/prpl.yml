@@ -183,6 +183,7 @@ packages:
   - tr181-routeradvertisement
   - tr181-security
   - tr181-syslog
+  - tr181-temperature
   - tr181-upnp
   - tr181-usermanagement
   - tr181-xpon
