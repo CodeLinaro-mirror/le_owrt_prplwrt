@@ -12,8 +12,8 @@ description: Build secure boot images for the Maxlinear x86 devices - URX.
 feeds:
   - name: intel_x86
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_target_x86.git
-    tracking_branch: updk_9.1.60
-    revision: 8e2ad0118b6dfdb1c8d1ff8cbc8586dc32cc1eee
+    tracking_branch: updk_9.1.60_owrt_24.10
+    revision: 3bacc66dcf1cb3f984024461706ed6e2b2be90fe
   - name: rootfs
     uri: ssh://git@git.maxlinear.com/ugw/rootfs.git
     tracking_branch: updk_9.1.60
@@ -68,8 +68,8 @@ feeds:
     revision: 8904e7fbb73db1d880d7f14139cb971296275c9b
   - name: utils
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_ugw_utils.git
-    tracking_branch: updk_9.1.60
-    revision: 36194ccc5d21e3988689d0fdea91be4e6b5ff0f7
+    tracking_branch: updk_9.1.60_owrt_24.10
+    revision: 729e0fcaa566d9f824a23a2a15115aeb7650d3fd
   - name: bootloader
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_uboot.git
     tracking_branch:  u-boot-2022.01_prpl
@@ -80,8 +80,8 @@ feeds:
     revision: d381a96bad0b4f05be744b9d1b595beffc5b225e
   - name: ugw_sdk
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_ugw_sdk.git
-    tracking_branch:  updk_9.1.60
-    revision: 5313eed4ab679238d5d14f065d6a393f0ff0952c
+    tracking_branch:  updk_9.1.60_owrt_24.10
+    revision: 0a9d6dec7fe99f931300642fc234f02c0c6487f8
   - name: system_service
     uri: ssh://git@git.maxlinear.com/ugw/feeds/feed_system_service.git
     tracking_branch:  updk_9.1.60
@@ -178,7 +178,7 @@ packages:
 diffconfig: |
   CONFIG_DEVEL=y
   CONFIG_KERNEL_GIT_CLONE_URI="git@git.maxlinear.com:mxl/linux.git"
-  CONFIG_KERNEL_GIT_REF="updk_9.1.60_openwrt_23.05"
+  CONFIG_KERNEL_GIT_REF="UPDK_9.1.60_OWRT_2410"
   CONFIG_GPON_OMCI_ONU_UBUS_INTERFACE=y
   CONFIG_TARGET_MULTI_PROFILE=y
   CONFIG_TARGET_PER_DEVICE_ROOTFS=y
