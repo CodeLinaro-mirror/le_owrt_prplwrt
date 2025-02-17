@@ -38,15 +38,23 @@
       acl-manager
       amxb-inspect
       amx-cli
+      amx-faultmonitor
       amx-fcgi
       amxo-cg
+      amx-processmonitor
       amxrt
+      chrony-prpl
       cthulhu
+      cthulhu-dhcpc
       cthulhu-lxc
+      cthulhu-networking
+      cthulhu-plugin-usp
       deviceinfo-manager
       dhcpv4-manager
       dhcpv6s-manager
+      dnsmasq-prpl
       ethernet-manager
+      gmap-client
       gmap-mibs-common
       gmap-mod-ethernet-dev
       gmap-mod-name-selector
@@ -61,50 +69,127 @@
       libamxm
       libamxo
       libamxp
+      libamxrt
       libamxs
       libamxt
+      libcthulhu
       libdhcpoptions
+      libdiscoping
       libfwinterface
       libfwrules
       libgmap-client
+      libgmap-ext
+      libimtp
+      liblcm
       libnetmodel
+      libpacket-interception
+      libqoscommon
+      libqosmodule
+      libqosnode
+      librlyeh
       libsahtrace
-      moca-manager
+      libswla
+      libswlc
+      libtr181-schedules
+      libtr69-engine
+      libusp
+      libuspi
+      libuspprotobuf
+      lua-amx
+      mcastd-noforward
+      miniupnpd-prpl
       mod-amxb-ubus
+      mod-amxb-usp
       mod-autosensing
       mod-ba-cli
+      mod-dhcpv4c
       mod-dm-cli
       mod-dmext
       mod-dmproxy
       mod-dmstats
+      mod-dns-unbound
+      mod-fw-amx
+      mod-fw-host
+      mod-httpaccess-lighttpd
+      mod-logical-api
+      mod-lua-amx
       mod-netmodel
       mod-pcm-svc
+      mod-ppp-daemon
+      mod-qos-tc
+      mod-ra-radvd
       mod-sahtrace
+      mod-usp-registration
       mod-vlan-ioctl
       mod-vlan-uci
+      mod-xpon-prpl
+      multisettings
       netdev-plugin
       netmodel
+      netmodel-bridge
+      netmodel-clients
+      netmodel-dhcpv4
+      netmodel-dhcpv6
+      netmodel-dslite
+      netmodel-ethernet
       netmodel-ip
+      netmodel-iprouter
+      netmodel-logical
+      netmodel-netdev
+      netmodel-ppp
+      netmodel-radio
+      netmodel-ssid
+      netmodel-vlan
+      netmodel-xpon
+      obuspa
+      odhcp6c
+      opennds-prpl
+      packet-interception
       pcm-manager
+      ppp-prpl
       prplmesh
+      pwhm
+      radvd
       rlyeh
       routing-manager
+      ssh-server
       time-manager
       timingila
       timingila-cthulhu
       timingila-rlyeh
+      tr069-manager
       tr181-bridging
+      tr181-button
+      tr181-captiveportal
       tr181-device
       tr181-dhcpv4client
       tr181-dhcpv6client
+      tr181-dns
+      tr181-dnssd
+      tr181-dslite
+      tr181-dynamicdns
       tr181-firewall
+      tr181-httpaccess
+      tr181-ipdiagnostics
+      tr181-led
+      tr181-logical
+      tr181-mcastd
+      tr181-mqttbroker
+      tr181-neighbordiscovery
+      tr181-pcp
+      tr181-ppp
       tr181-qos
+      tr181-rest-api
       tr181-routeradvertisement
+      tr181-security
+      tr181-syslog
+      tr181-upnp
       tr181-usermanagement
-      umdns
+      tr181-xpon
+      umdns-prpl
+      unbound-prpl
       uriparser
       wan-manager
-
   rules:
     - if: $CI_PIPELINE_SOURCE == "schedule"
 
