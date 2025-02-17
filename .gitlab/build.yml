@@ -59,7 +59,11 @@
         make defconfig | tee --append logs/build.log
 
         make -j $(nproc) tools/tar/compile 2>&1 | tee --append logs/build.log
-        make -j $(nproc) download check FIXUP=1 2>&1 | tee --append logs/build.log
+        if [[ "$CI_MERGE_REQUEST_LABELS" == *"skip_integrity_check"* ]]; then
+          make -j $(nproc) download 2>&1 | tee --append logs/build.log
+        else
+          make -j $(nproc) download check FIXUP=1 2>&1 | tee --append logs/build.log
+        fi
       else
         grep --color -e "Error updating feeds" -e "ERROR:.*failed to build." logs/build.log && exit 1
       fi
