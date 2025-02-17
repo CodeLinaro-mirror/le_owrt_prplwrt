@@ -68,6 +68,7 @@ Check that ubus has expected datamodels available:
   Device.DeviceInfo
   Device.DeviceInfo.ProcessFaults
   Device.DeviceInfo.Reboots
+  Device.DeviceInfo.TemperatureStatus
   Device.DynamicDNS
   Device.Ethernet
   Device.Firewall
@@ -277,6 +278,8 @@ Check that ubus has expected datamodels available:
   Syslog.Source
   Syslog.Template
   System
+  TemperatureStatus
+  TemperatureStatus.TemperatureSensor
   Time
   Time.Client
   Time.Server
