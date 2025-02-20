@@ -449,7 +449,7 @@ SECTION "Base Configuration" {
                 testvar wifiBeaconWpaMode                  RSN
                 testvar wifiBeaconWpaKeyMgmt               "PSK SAE"
                 # testvar wifiBeaconWpaCipher              CCMP-128
-                # testvar wifiBeaconRsnCipher              CCMP-128
+                testvar wifiBeaconRsnCipher                "@CDROUTER_CONFIG_WIFI_BEACON_RSN_CIPHER@"
                 # testvar wifiBeaconWpaGroupCipher         CCMP-128
                 testvar wifiBeaconPhy                      "@CDROUTER_CONFIG_WIFI_BEACON_PHY@"
 
