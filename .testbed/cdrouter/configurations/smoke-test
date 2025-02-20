@@ -50,7 +50,7 @@ SECTION "Base Configuration" {
 
         SECTION "DHCP Server" {
 
-            # testvar dhcpLeaseTime                    300
+              testvar dhcpLeaseTime                    180
             # testvar dhcpServerBroadcast              no
             # testvar dhcpServerRapidCommit            yes
             # testvar dhcpServerClientIDBehavior       rfc6842
