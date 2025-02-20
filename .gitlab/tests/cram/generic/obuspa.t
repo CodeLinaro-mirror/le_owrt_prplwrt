@@ -714,6 +714,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.Ethernet.Link.{i}.LowerLayers                                                                 proto::ethernet-manager
   Device.Ethernet.Link.{i}.MACAddress                                                                  proto::ethernet-manager
   Device.Ethernet.Link.{i}.Name                                                                        proto::ethernet-manager
+  Device.Ethernet.Link.{i}.NoARP                                                                       proto::ethernet-manager
   Device.Ethernet.Link.{i}.PriorityTagging                                                             proto::ethernet-manager
   Device.Ethernet.Link.{i}.Stats.                                                                      proto::ethernet-manager
   Device.Ethernet.Link.{i}.Stats.BroadcastPacketsReceived                                              proto::ethernet-manager
@@ -4527,6 +4528,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.Ethernet.Link.{i}.LowerLayers                                                                 proto::ethernet-manager
   Device.Ethernet.Link.{i}.MACAddress                                                                  proto::ethernet-manager
   Device.Ethernet.Link.{i}.Name                                                                        proto::ethernet-manager
+  Device.Ethernet.Link.{i}.NoARP                                                                       proto::ethernet-manager
   Device.Ethernet.Link.{i}.PriorityTagging                                                             proto::ethernet-manager
   Device.Ethernet.Link.{i}.Stats.                                                                      proto::ethernet-manager
   Device.Ethernet.Link.{i}.Stats.BroadcastPacketsReceived                                              proto::ethernet-manager
