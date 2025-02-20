@@ -596,6 +596,27 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.DeviceInfo.Reboots.reboot() input:Reason
   Device.DeviceInfo.SerialNumber                                                                       proto::deviceinfo-manager
   Device.DeviceInfo.SoftwareVersion                                                                    proto::deviceinfo-manager
+  Device.DeviceInfo.TemperatureStatus.                                                                 proto::tr181-temperature
+  Device.DeviceInfo.TemperatureStatus.HighTemperatureAlarm!                                            proto::tr181-temperature
+  Device.DeviceInfo.TemperatureStatus.TemperatureSensor.{i}.                                           proto::tr181-temperature
+  Device.DeviceInfo.TemperatureStatus.TemperatureSensor.{i}.Alias                                      proto::tr181-temperature
+  Device.DeviceInfo.TemperatureStatus.TemperatureSensor.{i}.Enable                                     proto::tr181-temperature
+  Device.DeviceInfo.TemperatureStatus.TemperatureSensor.{i}.HighAlarmTime                              proto::tr181-temperature
+  Device.DeviceInfo.TemperatureStatus.TemperatureSensor.{i}.HighAlarmValue                             proto::tr181-temperature
+  Device.DeviceInfo.TemperatureStatus.TemperatureSensor.{i}.LastUpdate                                 proto::tr181-temperature
+  Device.DeviceInfo.TemperatureStatus.TemperatureSensor.{i}.LowAlarmTime                               proto::tr181-temperature
+  Device.DeviceInfo.TemperatureStatus.TemperatureSensor.{i}.LowAlarmValue                              proto::tr181-temperature
+  Device.DeviceInfo.TemperatureStatus.TemperatureSensor.{i}.MaxTime                                    proto::tr181-temperature
+  Device.DeviceInfo.TemperatureStatus.TemperatureSensor.{i}.MaxValue                                   proto::tr181-temperature
+  Device.DeviceInfo.TemperatureStatus.TemperatureSensor.{i}.MinTime                                    proto::tr181-temperature
+  Device.DeviceInfo.TemperatureStatus.TemperatureSensor.{i}.MinValue                                   proto::tr181-temperature
+  Device.DeviceInfo.TemperatureStatus.TemperatureSensor.{i}.Name                                       proto::tr181-temperature
+  Device.DeviceInfo.TemperatureStatus.TemperatureSensor.{i}.PollingInterval                            proto::tr181-temperature
+  Device.DeviceInfo.TemperatureStatus.TemperatureSensor.{i}.Reset()                                    proto::tr181-temperature
+  Device.DeviceInfo.TemperatureStatus.TemperatureSensor.{i}.ResetTime                                  proto::tr181-temperature
+  Device.DeviceInfo.TemperatureStatus.TemperatureSensor.{i}.Status                                     proto::tr181-temperature
+  Device.DeviceInfo.TemperatureStatus.TemperatureSensor.{i}.Value                                      proto::tr181-temperature
+  Device.DeviceInfo.TemperatureStatus.TemperatureSensorNumberOfEntries                                 proto::tr181-temperature
   Device.DeviceInfo.UpTime                                                                             proto::deviceinfo-manager
   Device.DeviceInfo.VendorConfigFile.{i}.                                                              proto::deviceinfo-manager
   Device.DeviceInfo.VendorConfigFile.{i}.Alias                                                         proto::deviceinfo-manager
@@ -4505,6 +4526,27 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.DeviceInfo.Reboots.reboot() input:Reason
   Device.DeviceInfo.SerialNumber                                                                       proto::deviceinfo-manager
   Device.DeviceInfo.SoftwareVersion                                                                    proto::deviceinfo-manager
+  Device.DeviceInfo.TemperatureStatus.                                                                 proto::tr181-temperature
+  Device.DeviceInfo.TemperatureStatus.HighTemperatureAlarm!                                            proto::tr181-temperature
+  Device.DeviceInfo.TemperatureStatus.TemperatureSensor.{i}.                                           proto::tr181-temperature
+  Device.DeviceInfo.TemperatureStatus.TemperatureSensor.{i}.Alias                                      proto::tr181-temperature
+  Device.DeviceInfo.TemperatureStatus.TemperatureSensor.{i}.Enable                                     proto::tr181-temperature
+  Device.DeviceInfo.TemperatureStatus.TemperatureSensor.{i}.HighAlarmTime                              proto::tr181-temperature
+  Device.DeviceInfo.TemperatureStatus.TemperatureSensor.{i}.HighAlarmValue                             proto::tr181-temperature
+  Device.DeviceInfo.TemperatureStatus.TemperatureSensor.{i}.LastUpdate                                 proto::tr181-temperature
+  Device.DeviceInfo.TemperatureStatus.TemperatureSensor.{i}.LowAlarmTime                               proto::tr181-temperature
+  Device.DeviceInfo.TemperatureStatus.TemperatureSensor.{i}.LowAlarmValue                              proto::tr181-temperature
+  Device.DeviceInfo.TemperatureStatus.TemperatureSensor.{i}.MaxTime                                    proto::tr181-temperature
+  Device.DeviceInfo.TemperatureStatus.TemperatureSensor.{i}.MaxValue                                   proto::tr181-temperature
+  Device.DeviceInfo.TemperatureStatus.TemperatureSensor.{i}.MinTime                                    proto::tr181-temperature
+  Device.DeviceInfo.TemperatureStatus.TemperatureSensor.{i}.MinValue                                   proto::tr181-temperature
+  Device.DeviceInfo.TemperatureStatus.TemperatureSensor.{i}.Name                                       proto::tr181-temperature
+  Device.DeviceInfo.TemperatureStatus.TemperatureSensor.{i}.PollingInterval                            proto::tr181-temperature
+  Device.DeviceInfo.TemperatureStatus.TemperatureSensor.{i}.Reset()                                    proto::tr181-temperature
+  Device.DeviceInfo.TemperatureStatus.TemperatureSensor.{i}.ResetTime                                  proto::tr181-temperature
+  Device.DeviceInfo.TemperatureStatus.TemperatureSensor.{i}.Status                                     proto::tr181-temperature
+  Device.DeviceInfo.TemperatureStatus.TemperatureSensor.{i}.Value                                      proto::tr181-temperature
+  Device.DeviceInfo.TemperatureStatus.TemperatureSensorNumberOfEntries                                 proto::tr181-temperature
   Device.DeviceInfo.UpTime                                                                             proto::deviceinfo-manager
   Device.DeviceInfo.VendorConfigFile.{i}.                                                              proto::deviceinfo-manager
   Device.DeviceInfo.VendorConfigFile.{i}.Alias                                                         proto::deviceinfo-manager
