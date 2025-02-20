@@ -36,6 +36,7 @@ stages:
   - docker SDK and IB deploy
   - docker IB LCM container
   - run
+  - cdrouter smoke
   - cdrouter
   - coverity
 
