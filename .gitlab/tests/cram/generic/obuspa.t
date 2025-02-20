@@ -1691,6 +1691,58 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.MQTT.Client.{i}.TransportProtocol
   Device.MQTT.Client.{i}.Username
   Device.MQTT.ClientNumberOfEntries
+  Device.MQTTBroker.                                                                                   proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.                                                                        proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Alias                                                                   proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Bridge.{i}.                                                             proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Bridge.{i}.Alias                                                        proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Bridge.{i}.CleanSession                                                 proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Bridge.{i}.ClientID                                                     proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Bridge.{i}.Enable                                                       proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Bridge.{i}.KeepAliveTime                                                proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Bridge.{i}.Name                                                         proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Bridge.{i}.Password                                                     proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Bridge.{i}.ProtocolVersion                                              proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Bridge.{i}.Server.{i}.                                                  proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Bridge.{i}.Server.{i}.Address                                           proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Bridge.{i}.Server.{i}.Alias                                             proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Bridge.{i}.Server.{i}.Enable                                            proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Bridge.{i}.Server.{i}.Port                                              proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Bridge.{i}.Server.{i}.Priority                                          proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Bridge.{i}.Server.{i}.Weight                                            proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Bridge.{i}.ServerNumberOfEntries                                        proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Bridge.{i}.ServerSelectionAlgorithm                                     proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Bridge.{i}.Status                                                       proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Bridge.{i}.Subscription.{i}.                                            proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Bridge.{i}.Subscription.{i}.Alias                                       proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Bridge.{i}.Subscription.{i}.Direction                                   proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Bridge.{i}.Subscription.{i}.Enable                                      proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Bridge.{i}.Subscription.{i}.LocalPrefix                                 proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Bridge.{i}.Subscription.{i}.QoS                                         proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Bridge.{i}.Subscription.{i}.RemotePrefix                                proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Bridge.{i}.Subscription.{i}.Status                                      proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Bridge.{i}.Subscription.{i}.Topic                                       proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Bridge.{i}.SubscriptionNumberOfEntries                                  proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Bridge.{i}.Username                                                     proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.BridgeNumberOfEntries                                                   proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Enable                                                                  proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Interface                                                               proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Name                                                                    proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Password                                                                proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Port                                                                    proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Status                                                                  proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Username                                                                proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.X_PRPL-COM_User.{i}.                                                    proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.X_PRPL-COM_User.{i}.ACL.{i}.                                            proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.X_PRPL-COM_User.{i}.ACL.{i}.AccessRights                                proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.X_PRPL-COM_User.{i}.ACL.{i}.Alias                                       proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.X_PRPL-COM_User.{i}.ACL.{i}.Topic                                       proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.X_PRPL-COM_User.{i}.ACLNumberOfEntries                                  proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.X_PRPL-COM_User.{i}.Alias                                               proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.X_PRPL-COM_User.{i}.Password                                            proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.X_PRPL-COM_User.{i}.Username                                            proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.X_PRPL-COM_UserNumberOfEntries                                          proto::tr181-mqttbroker
+  Device.MQTTBroker.BrokerNumberOfEntries                                                              proto::tr181-mqttbroker
   Device.NAT.                                                                                          proto::tr181-firewall
   Device.NAT.InterfaceSetting.{i}.                                                                     proto::tr181-firewall
   Device.NAT.InterfaceSetting.{i}.Alias                                                                proto::tr181-firewall
@@ -5505,6 +5557,58 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.MQTT.Client.{i}.TransportProtocol
   Device.MQTT.Client.{i}.Username
   Device.MQTT.ClientNumberOfEntries
+  Device.MQTTBroker.                                                                                   proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.                                                                        proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Alias                                                                   proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Bridge.{i}.                                                             proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Bridge.{i}.Alias                                                        proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Bridge.{i}.CleanSession                                                 proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Bridge.{i}.ClientID                                                     proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Bridge.{i}.Enable                                                       proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Bridge.{i}.KeepAliveTime                                                proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Bridge.{i}.Name                                                         proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Bridge.{i}.Password                                                     proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Bridge.{i}.ProtocolVersion                                              proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Bridge.{i}.Server.{i}.                                                  proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Bridge.{i}.Server.{i}.Address                                           proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Bridge.{i}.Server.{i}.Alias                                             proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Bridge.{i}.Server.{i}.Enable                                            proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Bridge.{i}.Server.{i}.Port                                              proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Bridge.{i}.Server.{i}.Priority                                          proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Bridge.{i}.Server.{i}.Weight                                            proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Bridge.{i}.ServerNumberOfEntries                                        proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Bridge.{i}.ServerSelectionAlgorithm                                     proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Bridge.{i}.Status                                                       proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Bridge.{i}.Subscription.{i}.                                            proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Bridge.{i}.Subscription.{i}.Alias                                       proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Bridge.{i}.Subscription.{i}.Direction                                   proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Bridge.{i}.Subscription.{i}.Enable                                      proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Bridge.{i}.Subscription.{i}.LocalPrefix                                 proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Bridge.{i}.Subscription.{i}.QoS                                         proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Bridge.{i}.Subscription.{i}.RemotePrefix                                proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Bridge.{i}.Subscription.{i}.Status                                      proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Bridge.{i}.Subscription.{i}.Topic                                       proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Bridge.{i}.SubscriptionNumberOfEntries                                  proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Bridge.{i}.Username                                                     proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.BridgeNumberOfEntries                                                   proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Enable                                                                  proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Interface                                                               proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Name                                                                    proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Password                                                                proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Port                                                                    proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Status                                                                  proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Username                                                                proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.X_PRPL-COM_User.{i}.                                                    proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.X_PRPL-COM_User.{i}.ACL.{i}.                                            proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.X_PRPL-COM_User.{i}.ACL.{i}.AccessRights                                proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.X_PRPL-COM_User.{i}.ACL.{i}.Alias                                       proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.X_PRPL-COM_User.{i}.ACL.{i}.Topic                                       proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.X_PRPL-COM_User.{i}.ACLNumberOfEntries                                  proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.X_PRPL-COM_User.{i}.Alias                                               proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.X_PRPL-COM_User.{i}.Password                                            proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.X_PRPL-COM_User.{i}.Username                                            proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.X_PRPL-COM_UserNumberOfEntries                                          proto::tr181-mqttbroker
+  Device.MQTTBroker.BrokerNumberOfEntries                                                              proto::tr181-mqttbroker
   Device.NAT.                                                                                          proto::tr181-firewall
   Device.NAT.InterfaceSetting.{i}.                                                                     proto::tr181-firewall
   Device.NAT.InterfaceSetting.{i}.Alias                                                                proto::tr181-firewall
