@@ -2951,6 +2951,11 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.AccessPoint.{i}.MBOAssocDisallowReason                                                   proto::wld
   Device.WiFi.AccessPoint.{i}.MBOEnable                                                                proto::wld
   Device.WiFi.AccessPoint.{i}.MCEnable                                                                 proto::wld
+  Device.WiFi.AccessPoint.{i}.MLDConfig.                                                               proto::wld
+  Device.WiFi.AccessPoint.{i}.MLDConfig.EMLMREnable                                                    proto::wld
+  Device.WiFi.AccessPoint.{i}.MLDConfig.EMLSREnable                                                    proto::wld
+  Device.WiFi.AccessPoint.{i}.MLDConfig.NSTREnable                                                     proto::wld
+  Device.WiFi.AccessPoint.{i}.MLDConfig.STREnable                                                      proto::wld
   Device.WiFi.AccessPoint.{i}.MLOStats.                                                                proto::wld
   Device.WiFi.AccessPoint.{i}.MLOStats.BroadcastBytesReceived                                          proto::wld
   Device.WiFi.AccessPoint.{i}.MLOStats.BroadcastBytesSent                                              proto::wld
@@ -3376,9 +3381,6 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.Radio.{i}.IEEE80211ax.SRGOBSSPDMaxOffset                                                 proto::wld
   Device.WiFi.Radio.{i}.IEEE80211ax.SRGOBSSPDMinOffset                                                 proto::wld
   Device.WiFi.Radio.{i}.IEEE80211ax.SRGPartialBSSIDBitmap                                              proto::wld
-  Device.WiFi.Radio.{i}.IEEE80211be.                                                                   proto::wld
-  Device.WiFi.Radio.{i}.IEEE80211be.EMLMREnable                                                        proto::wld
-  Device.WiFi.Radio.{i}.IEEE80211be.EMLSREnable                                                        proto::wld
   Device.WiFi.Radio.{i}.IEEE80211hEnabled                                                              proto::wld
   Device.WiFi.Radio.{i}.IEEE80211hSupported                                                            proto::wld
   Device.WiFi.Radio.{i}.IEEE80211kSupported                                                            proto::wld
@@ -6817,6 +6819,11 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.AccessPoint.{i}.MBOAssocDisallowReason                                                   proto::wld
   Device.WiFi.AccessPoint.{i}.MBOEnable                                                                proto::wld
   Device.WiFi.AccessPoint.{i}.MCEnable                                                                 proto::wld
+  Device.WiFi.AccessPoint.{i}.MLDConfig.                                                               proto::wld
+  Device.WiFi.AccessPoint.{i}.MLDConfig.EMLMREnable                                                    proto::wld
+  Device.WiFi.AccessPoint.{i}.MLDConfig.EMLSREnable                                                    proto::wld
+  Device.WiFi.AccessPoint.{i}.MLDConfig.NSTREnable                                                     proto::wld
+  Device.WiFi.AccessPoint.{i}.MLDConfig.STREnable                                                      proto::wld
   Device.WiFi.AccessPoint.{i}.MLOStats.                                                                proto::wld
   Device.WiFi.AccessPoint.{i}.MLOStats.BroadcastBytesReceived                                          proto::wld
   Device.WiFi.AccessPoint.{i}.MLOStats.BroadcastBytesSent                                              proto::wld
@@ -7242,9 +7249,6 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.Radio.{i}.IEEE80211ax.SRGOBSSPDMaxOffset                                                 proto::wld
   Device.WiFi.Radio.{i}.IEEE80211ax.SRGOBSSPDMinOffset                                                 proto::wld
   Device.WiFi.Radio.{i}.IEEE80211ax.SRGPartialBSSIDBitmap                                              proto::wld
-  Device.WiFi.Radio.{i}.IEEE80211be.                                                                   proto::wld
-  Device.WiFi.Radio.{i}.IEEE80211be.EMLMREnable                                                        proto::wld
-  Device.WiFi.Radio.{i}.IEEE80211be.EMLSREnable                                                        proto::wld
   Device.WiFi.Radio.{i}.IEEE80211hEnabled                                                              proto::wld
   Device.WiFi.Radio.{i}.IEEE80211hSupported                                                            proto::wld
   Device.WiFi.Radio.{i}.IEEE80211kSupported                                                            proto::wld
