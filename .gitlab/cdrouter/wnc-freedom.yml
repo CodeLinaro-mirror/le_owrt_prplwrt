@@ -33,6 +33,7 @@ CDRouter-Top-100+mDNS Freedom PPPoE WAN initramfs:
 
 CDRouter-Wireless Freedom initramfs:
   <<: *wnc_freedom
+  stage: cdrouter smoke
   variables:
     CDROUTER_TEST_CONFIG: wireless
     CDROUTER_CONFIG_WIFI_BEACON_PHY: 'ax b be g n'
