@@ -22,7 +22,6 @@ include:
   - local: .gitlab/testbed/prpl-haze.yml
   - local: .gitlab/testbed/turris-omnia.yml
   - local: .gitlab/testbed/urx851-hdk-3.yml
-  - local: .gitlab/testbed/urx851-b0-dk-pon.yml
   - local: .gitlab/testbed/mxl25641-hdk-6.yml
   - local: .gitlab/testbed/wnc-freedom.yml
 
@@ -39,15 +38,6 @@ stages:
   - run
   - cdrouter
   - coverity
-
-.build test mxl_x86 mxl_wlan_hostap_ng prpl security:
-  image: registry.gitlab.com/prpl-foundation/prplos/prplos/prplos-nightly/builder-osp@sha256:081488878a834952dbfd223f90dba987052082019f5816a0798f72bc4b3a95a1
-  extends: .build test config
-  artifacts:
-  tags:
-    - firmware-builder-osp
-  rules:
-    - when: manual
 
 build test mxl_x86_osp_tb341 mxl_wlan_hostap_ng prpl security:
   image: registry.gitlab.com/prpl-foundation/prplos/prplos/prplos-nightly/builder-osp@sha256:081488878a834952dbfd223f90dba987052082019f5816a0798f72bc4b3a95a1
@@ -103,12 +93,6 @@ run test URX851-HDK-3 with system on eMMC:
     - job: build test mxl_x86_osp_tb341 mxl_wlan_hostap_ng prpl security
       optional: true
   extends: .urx851-hdk-3 testbed
-
-.run test URX851-B0-DK-PON with system on eMMC:
-  needs:
-    - job: build test mxl_x86 mxl_wlan_hostap_ng prpl security
-      optional: true
-  extends: .urx851-b0-dk-pon testbed
 
 run test MXL25641-HDK-6 with system on eMMC:
   needs:
