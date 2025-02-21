@@ -12,6 +12,17 @@ Check that miniupnpd is enabled and running by default:
   {}
   {"amxd-error-code":0}
 
+  $ R "netstat -tulpn | grep miniupnpd | grep tcp"
+  tcp        0      0 :::5000                 :::\*                    LISTEN      .*\/miniupnpd (re)
+
+  $ R "netstat -tulpn | grep miniupnpd | grep 1900 | sort"
+  udp        0      0 0.0.0.0:1900            0.0.0.0:\*                           .*\/miniupnpd (re)
+  udp        0      0 :::1900                 :::\*                                .*\/miniupnpd (re)
+
+  $ R "netstat -tulpn | grep miniupnpd | grep 5351"
+  udp        0      0 192.168.1.1:5351        0.0.0.0:\*                           .*\/miniupnpd (re)
+  udp        0      0 :::5351                 :::\*                                .*\/miniupnpd (re)
+
 Disable miniupnpd:
 
   $ R "ubus -S call UPnP.Device _set '{\"parameters\":{\"UPnPIGD\":False}}'" ; sleep 2
@@ -30,6 +41,9 @@ Check that miniupnpd is disabled and not running:
   {}
   {"amxd-error-code":0}
 
+  $ R "netstat -tulpn | grep miniupnpd"
+  [1]
+
 Enable miniupnpd:
 
   $ R "ubus -S call UPnP.Device _set '{\"parameters\":{\"UPnPIGD\":True}}'" ; sleep 2
@@ -46,3 +60,14 @@ Check that miniupnpd is enabled and running again:
   {"UPnP.Device.":{"UPnPIGD":true}}
   {}
   {"amxd-error-code":0}
+
+  $ R "netstat -tulpn | grep miniupnpd | grep tcp"
+  tcp        0      0 :::5000                 :::\*                    LISTEN      .*\/miniupnpd (re)
+
+  $ R "netstat -tulpn | grep miniupnpd | grep 1900 | sort"
+  udp        0      0 0.0.0.0:1900            0.0.0.0:\*                           .*\/miniupnpd (re)
+  udp        0      0 :::1900                 :::\*                                .*\/miniupnpd (re)
+
+  $ R "netstat -tulpn | grep miniupnpd | grep 5351"
+  udp        0      0 192.168.1.1:5351        0.0.0.0:\*                           .*\/miniupnpd (re)
+  udp        0      0 :::5351                 :::\*                                .*\/miniupnpd (re)
