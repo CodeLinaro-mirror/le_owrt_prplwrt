@@ -101,34 +101,6 @@ class TestbedDevice:
         self.shell_driver = self.target.get_driver("ShellDriver")
         self.shell = OpenWrtConsoleShell(self.args, self.shell_driver)
 
-    def init_swconfig_glinet(self):
-        self.shell.run("swconfig dev switch0 vlan 1 set vid 201")
-        self.shell.run("swconfig dev switch0 vlan 1 set ports '0t 3t 4t'")
-
-        self.shell.run("swconfig dev switch0 vlan 2 set vid 101")
-        self.shell.run("swconfig dev switch0 vlan 2 set ports '0t 5t'")
-
-        self.shell.run("swconfig dev switch0 vlan 1 show")
-        self.shell.run("swconfig dev switch0 vlan 2 show")
-
-        self.shell.run(
-            """
-          uci add network switch_vlan &&
-          uci set network.@switch_vlan[-1]=switch_vlan &&
-          uci set network.@switch_vlan[-1].device='switch0' &&
-          uci set network.@switch_vlan[-1].vlan='2' &&
-          uci set network.@switch_vlan[-1].vid='101' &&
-          uci set network.@switch_vlan[-1].ports='0t 5t' &&
-          uci set network.@switch_vlan[0].vid='201' &&
-          uci set network.@switch_vlan[0].ports='3t 4t 0t' &&
-          uci commit network
-            """
-        )
-
-    def _init_swconfig(self):
-        if self.board_name.startswith("glinet"):
-            self.init_swconfig_glinet()
-
     def _init_wan_vlan(self):
         self.shell.run("ubus -t 60 wait_for WANManager.WAN")
         self.shell.run("ubus-cli WANManager.WAN.2.Intf.1.VlanID=101")
@@ -180,7 +152,6 @@ class TestbedDevice:
         self.ubus_tr181 = UbusTR181(self.args, self.shell)
         self._init_wan_vlan()
         self._init_lan_vlan()
-        self._init_swconfig()
 
         logging.info(
             "Let the system apply the new configuration, waiting 15 seconds..."
