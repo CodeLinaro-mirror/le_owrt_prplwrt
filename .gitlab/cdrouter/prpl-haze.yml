@@ -41,6 +41,7 @@ CDRouter-Top-100+mDNS Haze PPPoE WAN initramfs:
 
 CDRouter-Wireless Haze initramfs:
   <<: *prpl_haze
+  stage: cdrouter smoke
   variables:
     CDROUTER_TEST_CONFIG: wireless
     DUT_INIT_SCRIPTS: |

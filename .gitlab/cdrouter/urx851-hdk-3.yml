@@ -33,6 +33,7 @@ CDRouter-Top-100+mDNS-OSP URX851-HDK-3 PPPoE WAN eMMC:
 
 CDRouter-Wireless-OSPv1 URX851-HDK-3 eMMC:
   <<: *urx851_cdrouter
+  stage: cdrouter smoke
   variables:
     CDROUTER_TEST_CONFIG: wireless
     DUT_INIT_SCRIPTS: |
