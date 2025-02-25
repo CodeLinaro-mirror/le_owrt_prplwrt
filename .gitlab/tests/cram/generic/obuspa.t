@@ -2382,6 +2382,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.SoftwareModules.DeploymentUnit.{i}.Update() input:AllocatedCPUPercent
   Device.SoftwareModules.DeploymentUnit.{i}.Update() input:AllocatedDiskSpace
   Device.SoftwareModules.DeploymentUnit.{i}.Update() input:AllocatedMemory
+  Device.SoftwareModules.DeploymentUnit.{i}.Update() input:ApplicationData
   Device.SoftwareModules.DeploymentUnit.{i}.Update() input:Data
   Device.SoftwareModules.DeploymentUnit.{i}.Update() input:EnvVariable
   Device.SoftwareModules.DeploymentUnit.{i}.Update() input:HostObject
@@ -2406,6 +2407,15 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.SoftwareModules.ExecEnv.{i}.AllocatedCPUPercent                                               proto::timingila
   Device.SoftwareModules.ExecEnv.{i}.AllocatedDiskSpace                                                proto::timingila
   Device.SoftwareModules.ExecEnv.{i}.AllocatedMemory                                                   proto::timingila
+  Device.SoftwareModules.ExecEnv.{i}.ApplicationData.{i}.                                              proto::timingila
+  Device.SoftwareModules.ExecEnv.{i}.ApplicationData.{i}.AccessPath                                    proto::timingila
+  Device.SoftwareModules.ExecEnv.{i}.ApplicationData.{i}.Alias                                         proto::timingila
+  Device.SoftwareModules.ExecEnv.{i}.ApplicationData.{i}.ApplicationUUID                               proto::timingila
+  Device.SoftwareModules.ExecEnv.{i}.ApplicationData.{i}.Capacity                                      proto::timingila
+  Device.SoftwareModules.ExecEnv.{i}.ApplicationData.{i}.Encrypted                                     proto::timingila
+  Device.SoftwareModules.ExecEnv.{i}.ApplicationData.{i}.Name                                          proto::timingila
+  Device.SoftwareModules.ExecEnv.{i}.ApplicationData.{i}.Retain                                        proto::timingila
+  Device.SoftwareModules.ExecEnv.{i}.ApplicationData.{i}.Utilization                                   proto::timingila
   Device.SoftwareModules.ExecEnv.{i}.AvailableDiskSpace                                                proto::timingila
   Device.SoftwareModules.ExecEnv.{i}.AvailableMemory                                                   proto::timingila
   Device.SoftwareModules.ExecEnv.{i}.AvailableRoles                                                    proto::timingila
@@ -2446,6 +2456,16 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.SoftwareModules.ExecutionUnit.{i}.AllocatedHostUID                                            proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.AllocatedMemory                                             proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.AssociatedProcessList                                       proto::timingila
+  Device.SoftwareModules.ExecutionUnit.{i}.AutoRestart.                                                proto::timingila
+  Device.SoftwareModules.ExecutionUnit.{i}.AutoRestart.Enable                                          proto::timingila
+  Device.SoftwareModules.ExecutionUnit.{i}.AutoRestart.LastRestarted                                   proto::timingila
+  Device.SoftwareModules.ExecutionUnit.{i}.AutoRestart.MaximumRetryCount                               proto::timingila
+  Device.SoftwareModules.ExecutionUnit.{i}.AutoRestart.NextRestart                                     proto::timingila
+  Device.SoftwareModules.ExecutionUnit.{i}.AutoRestart.ResetPeriod                                     proto::timingila
+  Device.SoftwareModules.ExecutionUnit.{i}.AutoRestart.RetryCount                                      proto::timingila
+  Device.SoftwareModules.ExecutionUnit.{i}.AutoRestart.RetryIntervalMultiplier                         proto::timingila
+  Device.SoftwareModules.ExecutionUnit.{i}.AutoRestart.RetryMaximumWaitInterval                        proto::timingila
+  Device.SoftwareModules.ExecutionUnit.{i}.AutoRestart.RetryMinimumWaitInterval                        proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.AutoStart                                                   proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.AvailableDiskSpace                                          proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.AvailableMemory                                             proto::timingila
@@ -2495,6 +2515,8 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.SoftwareModules.InstallDU() input:AllocatedCPUPercent
   Device.SoftwareModules.InstallDU() input:AllocatedDiskSpace
   Device.SoftwareModules.InstallDU() input:AllocatedMemory
+  Device.SoftwareModules.InstallDU() input:ApplicationData
+  Device.SoftwareModules.InstallDU() input:AutoRestart
   Device.SoftwareModules.InstallDU() input:AutoStart
   Device.SoftwareModules.InstallDU() input:Data
   Device.SoftwareModules.InstallDU() input:EnvVariable
@@ -6250,6 +6272,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.SoftwareModules.DeploymentUnit.{i}.Update() input:AllocatedCPUPercent
   Device.SoftwareModules.DeploymentUnit.{i}.Update() input:AllocatedDiskSpace
   Device.SoftwareModules.DeploymentUnit.{i}.Update() input:AllocatedMemory
+  Device.SoftwareModules.DeploymentUnit.{i}.Update() input:ApplicationData
   Device.SoftwareModules.DeploymentUnit.{i}.Update() input:Data
   Device.SoftwareModules.DeploymentUnit.{i}.Update() input:EnvVariable
   Device.SoftwareModules.DeploymentUnit.{i}.Update() input:HostObject
@@ -6274,6 +6297,15 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.SoftwareModules.ExecEnv.{i}.AllocatedCPUPercent                                               proto::timingila
   Device.SoftwareModules.ExecEnv.{i}.AllocatedDiskSpace                                                proto::timingila
   Device.SoftwareModules.ExecEnv.{i}.AllocatedMemory                                                   proto::timingila
+  Device.SoftwareModules.ExecEnv.{i}.ApplicationData.{i}.                                              proto::timingila
+  Device.SoftwareModules.ExecEnv.{i}.ApplicationData.{i}.AccessPath                                    proto::timingila
+  Device.SoftwareModules.ExecEnv.{i}.ApplicationData.{i}.Alias                                         proto::timingila
+  Device.SoftwareModules.ExecEnv.{i}.ApplicationData.{i}.ApplicationUUID                               proto::timingila
+  Device.SoftwareModules.ExecEnv.{i}.ApplicationData.{i}.Capacity                                      proto::timingila
+  Device.SoftwareModules.ExecEnv.{i}.ApplicationData.{i}.Encrypted                                     proto::timingila
+  Device.SoftwareModules.ExecEnv.{i}.ApplicationData.{i}.Name                                          proto::timingila
+  Device.SoftwareModules.ExecEnv.{i}.ApplicationData.{i}.Retain                                        proto::timingila
+  Device.SoftwareModules.ExecEnv.{i}.ApplicationData.{i}.Utilization                                   proto::timingila
   Device.SoftwareModules.ExecEnv.{i}.AvailableDiskSpace                                                proto::timingila
   Device.SoftwareModules.ExecEnv.{i}.AvailableMemory                                                   proto::timingila
   Device.SoftwareModules.ExecEnv.{i}.AvailableRoles                                                    proto::timingila
@@ -6314,6 +6346,16 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.SoftwareModules.ExecutionUnit.{i}.AllocatedHostUID                                            proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.AllocatedMemory                                             proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.AssociatedProcessList                                       proto::timingila
+  Device.SoftwareModules.ExecutionUnit.{i}.AutoRestart.                                                proto::timingila
+  Device.SoftwareModules.ExecutionUnit.{i}.AutoRestart.Enable                                          proto::timingila
+  Device.SoftwareModules.ExecutionUnit.{i}.AutoRestart.LastRestarted                                   proto::timingila
+  Device.SoftwareModules.ExecutionUnit.{i}.AutoRestart.MaximumRetryCount                               proto::timingila
+  Device.SoftwareModules.ExecutionUnit.{i}.AutoRestart.NextRestart                                     proto::timingila
+  Device.SoftwareModules.ExecutionUnit.{i}.AutoRestart.ResetPeriod                                     proto::timingila
+  Device.SoftwareModules.ExecutionUnit.{i}.AutoRestart.RetryCount                                      proto::timingila
+  Device.SoftwareModules.ExecutionUnit.{i}.AutoRestart.RetryIntervalMultiplier                         proto::timingila
+  Device.SoftwareModules.ExecutionUnit.{i}.AutoRestart.RetryMaximumWaitInterval                        proto::timingila
+  Device.SoftwareModules.ExecutionUnit.{i}.AutoRestart.RetryMinimumWaitInterval                        proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.AutoStart                                                   proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.AvailableDiskSpace                                          proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.AvailableMemory                                             proto::timingila
@@ -6363,6 +6405,8 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.SoftwareModules.InstallDU() input:AllocatedCPUPercent
   Device.SoftwareModules.InstallDU() input:AllocatedDiskSpace
   Device.SoftwareModules.InstallDU() input:AllocatedMemory
+  Device.SoftwareModules.InstallDU() input:ApplicationData
+  Device.SoftwareModules.InstallDU() input:AutoRestart
   Device.SoftwareModules.InstallDU() input:AutoStart
   Device.SoftwareModules.InstallDU() input:Data
   Device.SoftwareModules.InstallDU() input:EnvVariable
