@@ -513,7 +513,6 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_tr181-upnp=y
   CONFIG_PACKAGE_tr181-usermanagement=y
   CONFIG_PACKAGE_tr181-xpon=y
-  # CONFIG_PACKAGE_ucode-mod-fs is not set
   # CONFIG_PACKAGE_ucode-mod-ubus is not set
   # CONFIG_PACKAGE_ucode-mod-uci is not set
   CONFIG_PACKAGE_umbim=y
