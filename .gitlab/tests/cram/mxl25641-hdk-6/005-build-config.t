@@ -303,6 +303,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-ipt-core=y
   CONFIG_PACKAGE_kmod-ipt-extra=y
   CONFIG_PACKAGE_kmod-ipt-ipopt=y
+  CONFIG_PACKAGE_kmod-ipt-ipset=y
   CONFIG_PACKAGE_kmod-ipt-nat=y
   CONFIG_PACKAGE_kmod-ipt-nat6=y
   CONFIG_PACKAGE_kmod-ipt-nfqueue=y
@@ -420,6 +421,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_libip6tc=y
   CONFIG_PACKAGE_libipat=y
   CONFIG_PACKAGE_libiperf3=y
+  CONFIG_PACKAGE_libipset=y
   CONFIG_PACKAGE_libiptext=y
   CONFIG_PACKAGE_libiptext6=y
   CONFIG_PACKAGE_libiwinfo=y
@@ -891,7 +893,6 @@ Assure expected build configuration (PCF-1413):
   CONFIG_SAH_LIB_AMXB_UBUS_ORDER="05-"
   CONFIG_SAH_LIB_AMXRT=y
   CONFIG_SAH_LIB_CTHULHU-LXC=y
-  CONFIG_SAH_LIB_FWINTERFACE=y
   CONFIG_SAH_LIB_FWINTERFACE_INTERFACE_IPTC=y
   CONFIG_SAH_LIB_NETLINK-UTILS=y
   CONFIG_SAH_LIB_NETMODEL=y

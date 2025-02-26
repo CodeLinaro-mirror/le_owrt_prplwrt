@@ -139,6 +139,7 @@ Check that ubus has expected datamodels available:
   Firewall.Pinhole
   Firewall.Policy
   Firewall.Service
+  Firewall.Set
   Firewall.X_PRPL-COM_InterfaceSetting
   Firewall.X_PRPL-COM_Log
   Firewall.X_PRPL-COM_WANAccess
