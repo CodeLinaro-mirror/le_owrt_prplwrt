@@ -808,6 +808,8 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.Firewall.Chain.{i}.Rule.{i}.DestInterface                                                     proto::tr181-firewall
   Device.Firewall.Chain.{i}.Rule.{i}.DestInterfaceExclude                                              proto::tr181-firewall
   Device.Firewall.Chain.{i}.Rule.{i}.DestMask                                                          proto::tr181-firewall
+  Device.Firewall.Chain.{i}.Rule.{i}.DestMatchSet                                                      proto::tr181-firewall
+  Device.Firewall.Chain.{i}.Rule.{i}.DestMatchSetExclude                                               proto::tr181-firewall
   Device.Firewall.Chain.{i}.Rule.{i}.DestPort                                                          proto::tr181-firewall
   Device.Firewall.Chain.{i}.Rule.{i}.DestPortExclude                                                   proto::tr181-firewall
   Device.Firewall.Chain.{i}.Rule.{i}.DestPortRangeMax                                                  proto::tr181-firewall
@@ -826,6 +828,8 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.Firewall.Chain.{i}.Rule.{i}.SourceMAC                                                         proto::tr181-firewall
   Device.Firewall.Chain.{i}.Rule.{i}.SourceMACExclude                                                  proto::tr181-firewall
   Device.Firewall.Chain.{i}.Rule.{i}.SourceMask                                                        proto::tr181-firewall
+  Device.Firewall.Chain.{i}.Rule.{i}.SourceMatchSet                                                    proto::tr181-firewall
+  Device.Firewall.Chain.{i}.Rule.{i}.SourceMatchSetExclude                                             proto::tr181-firewall
   Device.Firewall.Chain.{i}.Rule.{i}.SourcePort                                                        proto::tr181-firewall
   Device.Firewall.Chain.{i}.Rule.{i}.SourcePortExclude                                                 proto::tr181-firewall
   Device.Firewall.Chain.{i}.Rule.{i}.SourcePortRangeMax                                                proto::tr181-firewall
@@ -919,6 +923,21 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.Firewall.Service.{i}.Status                                                                   proto::tr181-firewall
   Device.Firewall.Service.{i}.X_PRPL-COM_Log                                                           proto::tr181-firewall
   Device.Firewall.ServiceNumberOfEntries                                                               proto::tr181-firewall
+  Device.Firewall.Set.{i}.                                                                             proto::tr181-firewall
+  Device.Firewall.Set.{i}.Alias                                                                        proto::tr181-firewall
+  Device.Firewall.Set.{i}.Enable                                                                       proto::tr181-firewall
+  Device.Firewall.Set.{i}.IPVersion                                                                    proto::tr181-firewall
+  Device.Firewall.Set.{i}.Name                                                                         proto::tr181-firewall
+  Device.Firewall.Set.{i}.Origin                                                                       proto::tr181-firewall
+  Device.Firewall.Set.{i}.Rule.{i}.                                                                    proto::tr181-firewall
+  Device.Firewall.Set.{i}.Rule.{i}.Alias                                                               proto::tr181-firewall
+  Device.Firewall.Set.{i}.Rule.{i}.Exclude                                                             proto::tr181-firewall
+  Device.Firewall.Set.{i}.Rule.{i}.IPAddressList                                                       proto::tr181-firewall
+  Device.Firewall.Set.{i}.Rule.{i}.MACAddressList                                                      proto::tr181-firewall
+  Device.Firewall.Set.{i}.Rule.{i}.PortList                                                            proto::tr181-firewall
+  Device.Firewall.Set.{i}.RuleNumberOfEntries                                                          proto::tr181-firewall
+  Device.Firewall.Set.{i}.Type                                                                         proto::tr181-firewall
+  Device.Firewall.SetNumberOfEntries                                                                   proto::tr181-firewall
   Device.Firewall.Type                                                                                 proto::tr181-firewall
   Device.Firewall.Version                                                                              proto::tr181-firewall
   Device.Firewall.X_PRPL-COM_Enable                                                                    proto::tr181-firewall
@@ -4698,6 +4717,8 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.Firewall.Chain.{i}.Rule.{i}.DestInterface                                                     proto::tr181-firewall
   Device.Firewall.Chain.{i}.Rule.{i}.DestInterfaceExclude                                              proto::tr181-firewall
   Device.Firewall.Chain.{i}.Rule.{i}.DestMask                                                          proto::tr181-firewall
+  Device.Firewall.Chain.{i}.Rule.{i}.DestMatchSet                                                      proto::tr181-firewall
+  Device.Firewall.Chain.{i}.Rule.{i}.DestMatchSetExclude                                               proto::tr181-firewall
   Device.Firewall.Chain.{i}.Rule.{i}.DestPort                                                          proto::tr181-firewall
   Device.Firewall.Chain.{i}.Rule.{i}.DestPortExclude                                                   proto::tr181-firewall
   Device.Firewall.Chain.{i}.Rule.{i}.DestPortRangeMax                                                  proto::tr181-firewall
@@ -4716,6 +4737,8 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.Firewall.Chain.{i}.Rule.{i}.SourceMAC                                                         proto::tr181-firewall
   Device.Firewall.Chain.{i}.Rule.{i}.SourceMACExclude                                                  proto::tr181-firewall
   Device.Firewall.Chain.{i}.Rule.{i}.SourceMask                                                        proto::tr181-firewall
+  Device.Firewall.Chain.{i}.Rule.{i}.SourceMatchSet                                                    proto::tr181-firewall
+  Device.Firewall.Chain.{i}.Rule.{i}.SourceMatchSetExclude                                             proto::tr181-firewall
   Device.Firewall.Chain.{i}.Rule.{i}.SourcePort                                                        proto::tr181-firewall
   Device.Firewall.Chain.{i}.Rule.{i}.SourcePortExclude                                                 proto::tr181-firewall
   Device.Firewall.Chain.{i}.Rule.{i}.SourcePortRangeMax                                                proto::tr181-firewall
@@ -4809,6 +4832,21 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.Firewall.Service.{i}.Status                                                                   proto::tr181-firewall
   Device.Firewall.Service.{i}.X_PRPL-COM_Log                                                           proto::tr181-firewall
   Device.Firewall.ServiceNumberOfEntries                                                               proto::tr181-firewall
+  Device.Firewall.Set.{i}.                                                                             proto::tr181-firewall
+  Device.Firewall.Set.{i}.Alias                                                                        proto::tr181-firewall
+  Device.Firewall.Set.{i}.Enable                                                                       proto::tr181-firewall
+  Device.Firewall.Set.{i}.IPVersion                                                                    proto::tr181-firewall
+  Device.Firewall.Set.{i}.Name                                                                         proto::tr181-firewall
+  Device.Firewall.Set.{i}.Origin                                                                       proto::tr181-firewall
+  Device.Firewall.Set.{i}.Rule.{i}.                                                                    proto::tr181-firewall
+  Device.Firewall.Set.{i}.Rule.{i}.Alias                                                               proto::tr181-firewall
+  Device.Firewall.Set.{i}.Rule.{i}.Exclude                                                             proto::tr181-firewall
+  Device.Firewall.Set.{i}.Rule.{i}.IPAddressList                                                       proto::tr181-firewall
+  Device.Firewall.Set.{i}.Rule.{i}.MACAddressList                                                      proto::tr181-firewall
+  Device.Firewall.Set.{i}.Rule.{i}.PortList                                                            proto::tr181-firewall
+  Device.Firewall.Set.{i}.RuleNumberOfEntries                                                          proto::tr181-firewall
+  Device.Firewall.Set.{i}.Type                                                                         proto::tr181-firewall
+  Device.Firewall.SetNumberOfEntries                                                                   proto::tr181-firewall
   Device.Firewall.Type                                                                                 proto::tr181-firewall
   Device.Firewall.Version                                                                              proto::tr181-firewall
   Device.Firewall.X_PRPL-COM_Enable                                                                    proto::tr181-firewall
