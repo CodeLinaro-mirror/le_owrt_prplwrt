@@ -3,6 +3,7 @@
   image: "$CI_REGISTRY_IMAGE/$CI_DESIGNATED_BRANCH_SLUG/builder:latest"
   tags:
     - firmware-builder
+  timeout: 6h
   dependencies: []
   variables:
     CI_BUILD_CONFIG: >
