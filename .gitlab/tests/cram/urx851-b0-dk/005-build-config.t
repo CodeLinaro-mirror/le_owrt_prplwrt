@@ -721,7 +721,6 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_tr181-xpon=y
   CONFIG_PACKAGE_uboot-envtools=y
   CONFIG_PACKAGE_uboot-osp-tb341-p34x-phy-emmc=y
-  CONFIG_PACKAGE_ucode-mod-fs=m
   CONFIG_PACKAGE_ucode-mod-ubus=m
   CONFIG_PACKAGE_ucode-mod-uci=m
   CONFIG_PACKAGE_umdns-prpl=y
