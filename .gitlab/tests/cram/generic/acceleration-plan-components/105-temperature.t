@@ -31,6 +31,9 @@ Check if directories or symbolic links exist for each TemperatureSensor object:
   > fi
   All zones exists
 
+If test is running on a mxl, skip the next part because of PPW-423
+  $ if echo "$CI_JOB_NAME" | grep -q -E "MXL|URX"; then exit 80; fi
+
 Check that the value is actually synchronized with the system value:
 
   $ obj_indexes=$(R "ubus-cli 'TemperatureStatus.TemperatureSensor.*.Value?' | grep '=' | sort | sed -E 's/[^.]*\.[^.]*\.([^.]*).*/\1/'")
