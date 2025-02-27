@@ -140,6 +140,7 @@ packages:
   - netmodel-xpon
   - obuspa
   - odl-generator
+  - oopsmonitor
   - packet-interception
   - pcm-manager
   - procps-ng-pgrep
