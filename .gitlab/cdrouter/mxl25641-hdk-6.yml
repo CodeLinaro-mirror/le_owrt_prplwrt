@@ -73,6 +73,8 @@ CDRouter-IPv6-Top-100+mDNS MXL25641-HDK-6 eMMC:
 prpl-Certification MXL25641-HDK-6 eMMC:
   <<: *mxl25641_cdrouter_ipv6
   rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: never
     - when: manual
   variables:
     CDROUTER_TEST_CONFIG: generic-ipv6

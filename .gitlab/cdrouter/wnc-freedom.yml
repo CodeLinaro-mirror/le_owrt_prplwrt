@@ -73,6 +73,8 @@ CDRouter-IPv6-Top-100+mDNS Freedom initramfs:
 prpl-Certification Freedom initramfs:
   <<: *wnc_freedom_ipv6
   rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: never
     - when: manual
   variables:
     CDROUTER_TEST_CONFIG: generic-ipv6

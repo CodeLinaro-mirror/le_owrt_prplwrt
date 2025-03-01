@@ -78,6 +78,8 @@ CDRouter-IPv6-Top-100+mDNS Haze initramfs:
 prpl-Certification Haze initramfs:
   <<: *prpl_haze_ipv6
   rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: never
     - when: manual
   variables:
     CDROUTER_TEST_CONFIG: generic-ipv6
