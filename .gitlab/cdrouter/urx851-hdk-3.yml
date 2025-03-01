@@ -71,6 +71,8 @@ CDRouter-IPv6-Top-100+mDNS URX851-HDK-3 eMMC:
 prpl-Certification URX851-HDK-3 eMMC:
   <<: *urx851_cdrouter_ipv6
   rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: never
     - when: manual
   variables:
     CDROUTER_TEST_CONFIG: generic-ipv6
