@@ -104,6 +104,9 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.BulkData.Profile.{i}.JSONEncoding.
   Device.BulkData.Profile.{i}.JSONEncoding.ReportFormat
   Device.BulkData.Profile.{i}.JSONEncoding.ReportTimestamp
+  Device.BulkData.Profile.{i}.MQTT.
+  Device.BulkData.Profile.{i}.MQTT.PublishTopic
+  Device.BulkData.Profile.{i}.MQTT.Reference
   Device.BulkData.Profile.{i}.Name
   Device.BulkData.Profile.{i}.NumberOfRetainedFailedReports
   Device.BulkData.Profile.{i}.Parameter.{i}.
@@ -4034,6 +4037,9 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.BulkData.Profile.{i}.JSONEncoding.
   Device.BulkData.Profile.{i}.JSONEncoding.ReportFormat
   Device.BulkData.Profile.{i}.JSONEncoding.ReportTimestamp
+  Device.BulkData.Profile.{i}.MQTT.
+  Device.BulkData.Profile.{i}.MQTT.PublishTopic
+  Device.BulkData.Profile.{i}.MQTT.Reference
   Device.BulkData.Profile.{i}.Name
   Device.BulkData.Profile.{i}.NumberOfRetainedFailedReports
   Device.BulkData.Profile.{i}.Parameter.{i}.
