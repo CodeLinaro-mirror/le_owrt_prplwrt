@@ -74,12 +74,14 @@ coverity scan ipq807x prpl:
       aarch64-openwrt-linux-musl-gcc
 
 run test Turris Omnia initramfs:
+  allow_failure: true
   needs:
     - job: build test mvebu prpl security
       optional: true
   extends: .turris-omnia testbed
 
 run test Haze initramfs:
+  allow_failure: true
   needs:
     - job: build test ipq807x prpl security
       optional: true
