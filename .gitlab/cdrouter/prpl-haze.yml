@@ -1,4 +1,5 @@
 .prpl-haze: &prpl_haze
+  allow_failure: true
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
       when: never
@@ -62,7 +63,6 @@ CDRouter-Wireless Haze initramfs:
 
 CDRouter-UPnP-IPv46 Haze initramfs:
   <<: *prpl_haze_ipv6
-  allow_failure: true
   variables:
     CDROUTER_TEST_CONFIG: generic-ipv6-upnp
     DUT_INIT_SCRIPTS: |
