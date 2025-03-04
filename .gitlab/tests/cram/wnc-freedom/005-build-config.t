@@ -20,6 +20,7 @@ Assure expected build configuration (PCF-1413):
   # CONFIG_BUSYBOX_CONFIG_NTPD is not set
   CONFIG_BUSYBOX_CONFIG_PIE=y
   CONFIG_BUSYBOX_DEFAULT_PIE=y
+  CONFIG_DMM_DATA_MODEL_MAPPER_ORDER=54
   CONFIG_DROPBEAR_ECC=y
   CONFIG_FORCE_RUNNING_AS_ROOT=y
   CONFIG_GCC_DEFAULT_PIE=y
@@ -103,6 +104,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_cthulhu-networking=y
   CONFIG_PACKAGE_cthulhu-plugin-usp=y
   CONFIG_PACKAGE_curl=y
+  CONFIG_PACKAGE_data-model-mapper=m
   CONFIG_PACKAGE_ddns-scripts=y
   CONFIG_PACKAGE_ddns-scripts-cloudflare=y
   CONFIG_PACKAGE_ddns-scripts-freedns=y
