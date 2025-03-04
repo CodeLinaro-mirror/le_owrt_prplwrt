@@ -35,6 +35,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_COMMON_CLI_SUPPORT_CONSOLE=y
   CONFIG_COMMON_CLI_SUPPORT_PIPE=y
   CONFIG_DEFAULT_WIRELESS_CONFIGURATION_TYPE="mesh"
+  CONFIG_DMM_DATA_MODEL_MAPPER_ORDER=54
   CONFIG_DROPBEAR_ECC=y
   CONFIG_EXTRA_OPTIMIZATION="-fno-caller-saves -fno-plt -Wno-error=deprecated-declarations -Wno-error=address"
   CONFIG_FEATURE_LED=y
@@ -202,6 +203,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_cthulhu-networking=y
   CONFIG_PACKAGE_cthulhu-plugin-usp=y
   CONFIG_PACKAGE_curl=y
+  CONFIG_PACKAGE_data-model-mapper=m
   CONFIG_PACKAGE_ddns-scripts=y
   CONFIG_PACKAGE_ddns-scripts-cloudflare=y
   CONFIG_PACKAGE_ddns-scripts-freedns=y
