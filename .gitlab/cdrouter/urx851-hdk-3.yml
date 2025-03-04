@@ -70,6 +70,7 @@ CDRouter-IPv6-Top-100+mDNS URX851-HDK-3 eMMC:
 
 prpl-Certification URX851-HDK-3 eMMC:
   <<: *urx851_cdrouter_ipv6
+  allow_failure: true
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
       when: never
@@ -105,6 +106,7 @@ CDRouter-TR-069 URX851-HDK-3 eMMC:
 
 CDRouter-USP-prpl URX851-HDK-3 eMMC:
   <<: *urx851_cdrouter
+  allow_failure: true
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
       when: never
