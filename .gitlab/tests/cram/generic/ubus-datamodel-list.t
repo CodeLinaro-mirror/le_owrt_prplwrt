@@ -105,6 +105,7 @@ Check that ubus has expected datamodels available:
   Device.X_PRPL-COM_MultiSettings
   Device.X_PRPL-COM_PersistentConfiguration
   Device.X_PRPL-COM_WANManager
+  Device.X_PRPLWARE-COM_SoftwareModules
   DeviceInfo
   DeviceInfo.DeviceImageFile
   DeviceInfo.FirmwareImage
@@ -319,6 +320,38 @@ Check that ubus has expected datamodels available:
   X_PRPL-ORG
   X_PRPL-ORG.prplMeshAgent
   X_PRPL-ORG.prplMeshAgent.Fronthaul
+  X_PRPLWARE-COM_Device
+  X_PRPLWARE-COM_Device.SelfTestDiagnosticsCmd
+  X_PRPLWARE-COM_Device.SelfTestDiagnosticsCmd.Output
+  X_PRPLWARE-COM_SoftwareModules
+  X_PRPLWARE-COM_SoftwareModules.AddExecEnvCmd
+  X_PRPLWARE-COM_SoftwareModules.AddExecEnvCmd.Input
+  X_PRPLWARE-COM_SoftwareModules.DeploymentUnitUninstallCmd
+  X_PRPLWARE-COM_SoftwareModules.DeploymentUnitUninstallCmd.Input
+  X_PRPLWARE-COM_SoftwareModules.DeploymentUnitUpdateCmd
+  X_PRPLWARE-COM_SoftwareModules.DeploymentUnitUpdateCmd.Input
+  X_PRPLWARE-COM_SoftwareModules.DeploymentUnitUpdateCmd.Input.EnvVariable
+  X_PRPLWARE-COM_SoftwareModules.DeploymentUnitUpdateCmd.Input.HostObject
+  X_PRPLWARE-COM_SoftwareModules.DeploymentUnitUpdateCmd.Input.NetworkConfig
+  X_PRPLWARE-COM_SoftwareModules.ExecEnvDeleteCmd
+  X_PRPLWARE-COM_SoftwareModules.ExecEnvRestartCmd
+  X_PRPLWARE-COM_SoftwareModules.ExecEnvRestartCmd.Input
+  X_PRPLWARE-COM_SoftwareModules.InstallDUCmd
+  X_PRPLWARE-COM_SoftwareModules.InstallDUCmd.Input
+  X_PRPLWARE-COM_SoftwareModules.InstallDUCmd.Input.EnvVariable
+  X_PRPLWARE-COM_SoftwareModules.InstallDUCmd.Input.HostObject
+  X_PRPLWARE-COM_SoftwareModules.InstallDUCmd.Input.NetworkConfig
+  X_PRPLWARE-COM_SoftwareModules.ModifyAvailableRolesCmd
+  X_PRPLWARE-COM_SoftwareModules.ModifyAvailableRolesCmd.Input
+  X_PRPLWARE-COM_SoftwareModules.ModifyConstraintsCmd
+  X_PRPLWARE-COM_SoftwareModules.ModifyConstraintsCmd.Input
+  X_PRPLWARE-COM_SoftwareModules.ModifyNetworkConfigCmd
+  X_PRPLWARE-COM_SoftwareModules.ModifyNetworkConfigCmd.Input
+  X_PRPLWARE-COM_SoftwareModules.ModifyNetworkConfigCmd.Input.NetworkConfig
+  X_PRPLWARE-COM_SoftwareModules.SetRequestedStateCmd
+  X_PRPLWARE-COM_SoftwareModules.SetRequestedStateCmd.Input
+  X_PRPLWARE-COM_SoftwareModules.SetRunLevelCmd
+  X_PRPLWARE-COM_SoftwareModules.SetRunLevelCmd.Input
   X_PRPLWARE-COM_WiFiSensing
   X_PRPLWARE-COM_WiFiSensing.Session
   X_PRPLWARE-COM_WiFiSensing.Session.Exchange
