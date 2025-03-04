@@ -78,6 +78,7 @@ prpl-Certification URX851-HDK-3 eMMC:
     CDROUTER_TEST_CONFIG: generic-ipv6
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
+      .gitlab/scripts/dut-init/cdrouter-dut-configure-cwmpd.sh
 
 CDRouter-IPv6-Top-100+mDNS URX851-HDK-3 VLAN WAN/LAN eMMC:
   <<: *urx851_cdrouter_ipv6
