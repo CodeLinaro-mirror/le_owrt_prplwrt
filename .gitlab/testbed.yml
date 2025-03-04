@@ -26,6 +26,7 @@
     DUT_TR181_WAN_INTERFACE: Device.Ethernet.Link.2.
     DUT_TR181_LAN_INTERFACE: Device.Ethernet.Link.3.
     CRAM_REMOTE_COMMAND: ssh root@$TARGET_LAN_IP
+    CRAM_REMOTE_COPY: scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
     CRAM_TEST_SUITE: |
       .gitlab/tests/cram/generic/acceleration-plan-components
       .gitlab/tests/cram/$DUT_BOARD/acceleration-plan-components
