@@ -1,0 +1,10 @@
+config dropbear 'main'
+	option enable '1'
+	option PasswordAuth 'on'
+	option RootPasswordAuth 'on'
+	option Port '22'
+
+config dropbear 'lcm_unprivileged_container'
+	option RootPasswordAuth '1'
+	option PasswordAuth '0'
+	option Port '1922'
