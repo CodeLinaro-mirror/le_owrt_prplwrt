@@ -15,7 +15,7 @@ feeds:
 
   - name: feed_prplos
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplos.git
-    revision: main@7e325734eeca850062781780d7d6bdd19e0eff7c
+    revision: main@9705c7ccd24d4163d7444c925b5b11f00a10eab1
 
 additional_packages:
   - feed: packages
@@ -205,6 +205,7 @@ diffconfig: |
           # CONFIG_PACKAGE_miniupnpd is not set
           # CONFIG_PACKAGE_unbound-daemon is not set
           # CONFIG_PACKAGE_dnsmasq is not set
+          CONFIG_PACKAGE_data-model-mapper=m
           # CONFIG_PACKAGE_chrony is not set
           # CONFIG_PACKAGE_umdns is not set
           CONFIG_DROPBEAR_ECC=y
