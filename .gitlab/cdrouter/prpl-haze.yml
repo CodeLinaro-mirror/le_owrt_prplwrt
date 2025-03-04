@@ -85,6 +85,7 @@ prpl-Certification Haze initramfs:
     CDROUTER_TEST_CONFIG: generic-ipv6
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
+      .gitlab/scripts/dut-init/cdrouter-dut-configure-cwmpd.sh
 
 CDRouter-IPv6-Top-100+mDNS Haze VLAN WAN/LAN initramfs:
   <<: *prpl_haze_ipv6
