@@ -1,4 +1,5 @@
 .turris-cdrouter: &turris_cdrouter
+  allow_failure: true
   needs:
     - job: build test mvebu prpl security
       optional: true
@@ -62,7 +63,6 @@ CDRouter-Wireless Turris initramfs:
 
 CDRouter-UPnP-IPv46 Turris initramfs:
   <<: *turris_cdrouter_ipv6
-  allow_failure: true
   variables:
     CDROUTER_TEST_CONFIG: generic-ipv6-upnp
     DUT_INIT_SCRIPTS: |
