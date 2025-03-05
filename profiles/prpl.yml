@@ -11,11 +11,11 @@ feeds:
   
   - name: feed_prplmesh
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplmesh.git
-    revision: main@d11bd7e54b72fb8b102e6ae225fe5c013d656f38
+    revision: main@7c5f57d341426b22142c18548a68e08e2403bdac
 
   - name: feed_prplos
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplos.git
-    revision: main@0c4a444b8c6d482ad3448e90bdfa719e2eb25c53
+    revision: main@e626fe118b0f757f8703aa8637be646c058cf71c
 
 additional_packages:
   - feed: packages
@@ -32,6 +32,7 @@ additional_packages:
       - syslog-ng
       - usbids
       - usbutils
+      - miniupnpd-prpl
 
 packages:
   - acl-manager
@@ -95,7 +96,6 @@ packages:
   - lxc-user-nic
   - lxc-usernsexec
   - lxc-wait
-  - miniupnpd-prpl
   - mod-amxb-ubus
   - mod-amxb-usp
   - mod-usp-registration
@@ -209,7 +209,6 @@ diffconfig: |
           CONFIG_PACKAGE_chrony-prpl=y
           CONFIG_PACKAGE_umdns-prpl=y
           # CONFIG_PACKAGE_ppp is not set
-          # CONFIG_PACKAGE_miniupnpd is not set
           # CONFIG_PACKAGE_unbound-daemon is not set
           # CONFIG_PACKAGE_dnsmasq is not set
           CONFIG_PACKAGE_data-model-mapper=m
