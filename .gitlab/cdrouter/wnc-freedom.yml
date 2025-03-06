@@ -34,6 +34,7 @@ CDRouter-Top-100+mDNS Freedom PPPoE WAN initramfs:
 CDRouter-Wireless Freedom initramfs:
   <<: *wnc_freedom
   stage: cdrouter smoke
+  timeout: 15 minutes
   variables:
     CDROUTER_TEST_CONFIG: wireless
     CDROUTER_CONFIG_WIFI_BEACON_PHY: 'ax b be g n'
@@ -57,6 +58,7 @@ CDRouter-Wireless Freedom initramfs:
 
 CDRouter-UPnP-IPv46 Freedom initramfs:
   <<: *wnc_freedom_ipv6
+  timeout: 70 minutes
   allow_failure: true
   variables:
     CDROUTER_TEST_CONFIG: generic-ipv6-upnp
@@ -72,6 +74,7 @@ CDRouter-IPv6-Top-100+mDNS Freedom initramfs:
 
 prpl-Certification Freedom initramfs:
   <<: *wnc_freedom_ipv6
+  timeout: 120 minutes
   allow_failure: true
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'

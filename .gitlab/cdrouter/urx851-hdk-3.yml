@@ -34,6 +34,7 @@ CDRouter-Top-100+mDNS-OSP URX851-HDK-3 PPPoE WAN eMMC:
 CDRouter-Wireless-OSPv1 URX851-HDK-3 eMMC:
   <<: *urx851_cdrouter
   stage: cdrouter smoke
+  timeout: 15 minutes
   variables:
     CDROUTER_TEST_CONFIG: wireless
     DUT_INIT_SCRIPTS: |
@@ -55,6 +56,7 @@ CDRouter-Wireless-OSPv1 URX851-HDK-3 eMMC:
 
 CDRouter-UPnP-IPv46 URX851-HDK-3 eMMC:
   <<: *urx851_cdrouter_ipv6
+  timeout: 70 minutes
   allow_failure: true
   variables:
     CDROUTER_TEST_CONFIG: generic-ipv6-upnp
@@ -70,6 +72,7 @@ CDRouter-IPv6-Top-100+mDNS URX851-HDK-3 eMMC:
 
 prpl-Certification URX851-HDK-3 eMMC:
   <<: *urx851_cdrouter_ipv6
+  timeout: 120 minutes
   allow_failure: true
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'

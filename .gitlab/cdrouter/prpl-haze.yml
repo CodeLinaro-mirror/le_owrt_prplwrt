@@ -43,6 +43,7 @@ CDRouter-Top-100+mDNS Haze PPPoE WAN initramfs:
 CDRouter-Wireless Haze initramfs:
   <<: *prpl_haze
   stage: cdrouter smoke
+  timeout: 15 minutes
   variables:
     CDROUTER_TEST_CONFIG: wireless
     DUT_INIT_SCRIPTS: |
@@ -63,6 +64,7 @@ CDRouter-Wireless Haze initramfs:
 
 CDRouter-UPnP-IPv46 Haze initramfs:
   <<: *prpl_haze_ipv6
+  timeout: 70 minutes
   variables:
     CDROUTER_TEST_CONFIG: generic-ipv6-upnp
     DUT_INIT_SCRIPTS: |
@@ -77,6 +79,7 @@ CDRouter-IPv6-Top-100+mDNS Haze initramfs:
 
 prpl-Certification Haze initramfs:
   <<: *prpl_haze_ipv6
+  timeout: 120 minutes
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
       when: never
