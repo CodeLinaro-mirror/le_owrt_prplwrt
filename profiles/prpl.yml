@@ -121,6 +121,7 @@ packages:
   - mod-vlan-ioctl
   - mod-xpon-prpl
   - kmod-input-gpio-keys
+  - kmod-input-evdev
   - multisettings
   - netdev-plugin
   - netmodel
