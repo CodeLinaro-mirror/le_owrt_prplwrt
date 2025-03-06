@@ -120,6 +120,7 @@ packages:
   - mod-sahtrace
   - mod-vlan-ioctl
   - mod-xpon-prpl
+  - kmod-input-gpio-keys
   - multisettings
   - netdev-plugin
   - netmodel
