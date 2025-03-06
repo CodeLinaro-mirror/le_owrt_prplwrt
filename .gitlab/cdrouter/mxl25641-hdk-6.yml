@@ -34,6 +34,7 @@ CDRouter-Top-100+mDNS-OSP MXL25641-HDK-6 PPPoE WAN eMMC:
 CDRouter-Wireless MXL25641-HDK-6 eMMC:
   <<: *mxl25641_cdrouter
   stage: cdrouter smoke
+  timeout: 15 minutes
   variables:
     CDROUTER_TEST_CONFIG: wireless
     CDROUTER_CONFIG_WIFI_BEACON_PHY: 'ax b be g n'
@@ -57,6 +58,7 @@ CDRouter-Wireless MXL25641-HDK-6 eMMC:
 
 CDRouter-UPnP-IPv46 MXL25641-HDK-6 eMMC:
   <<: *mxl25641_cdrouter_ipv6
+  timeout: 70 minutes
   allow_failure: true
   variables:
     CDROUTER_TEST_CONFIG: generic-ipv6-upnp
@@ -72,6 +74,7 @@ CDRouter-IPv6-Top-100+mDNS MXL25641-HDK-6 eMMC:
 
 prpl-Certification MXL25641-HDK-6 eMMC:
   <<: *mxl25641_cdrouter_ipv6
+  timeout: 120 minutes
   allow_failure: true
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'

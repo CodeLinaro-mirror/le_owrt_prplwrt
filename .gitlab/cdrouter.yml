@@ -1,5 +1,6 @@
 .cdrouter:
   stage: cdrouter
+  timeout: 40 minutes
   image: "$CI_REGISTRY_IMAGE/$CI_DESIGNATED_BRANCH_SLUG/testbed:latest"
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
