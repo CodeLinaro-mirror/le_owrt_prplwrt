@@ -20,7 +20,7 @@ CLI="ba-cli"
 MAX_WAIT_CTR_UP=60
 
 ## Return default container name based on target.
-## Default is ARM container
+## Default is Cortex-A53 based ARM 64-bit container
 get_container_name() {
 	board_name=$(cut -d',' -f2 </tmp/sysinfo/board_name)
 	case "${board_name}" in
@@ -31,6 +31,9 @@ get_container_name() {
 	"lgm" | \
 		"qemu-standard-pc-i440fx-piix-1996")
 		echo lcm-test-x86-64
+		;;
+	"turris-omnia")
+		echo lcm-test-mvebu-cortexa9
 		;;
 	*)
 		echo lcm-test-ipq807x-generic
