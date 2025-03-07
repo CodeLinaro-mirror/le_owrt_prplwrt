@@ -29,7 +29,7 @@ get_container_name() {
 		echo lcm-test-ipq807x-generic
 		;;
 	"lgm" | \
-		"qemu-standard-pc-i440fx-piix-1996")
+		"qemu-standard-pc-"*)
 		echo lcm-test-x86-64
 		;;
 	"turris-omnia")
