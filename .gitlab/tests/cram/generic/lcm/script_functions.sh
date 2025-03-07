@@ -19,606 +19,602 @@ CLI="ba-cli"
 
 MAX_WAIT_CTR_UP=60
 
-
-## Return default container name based on target. 
+## Return default container name based on target.
 ## Default is ARM container
-get_container_name(){
-    board_name=$(cat /tmp/sysinfo/board_name | cut -d ',' -f 2)
-    if [ "${board_name}" = "haze" ] || [ "${board_name}" = "freedom" ]; then 
-        echo lcm-test-ipq807x-generic
-    elif [ "${board_name}" = "lgm" ] || [ "${board_name}" = "qemu-standard-pc-i440fx-piix-1996" ]; then
-        echo lcm-test-x86-64
-    else 
-        echo lcm-test-ipq807x-generic
-    fi
+get_container_name() {
+	board_name=$(cat /tmp/sysinfo/board_name | cut -d ',' -f 2)
+	if [ "${board_name}" = "haze" ] || [ "${board_name}" = "freedom" ]; then
+		echo lcm-test-ipq807x-generic
+	elif [ "${board_name}" = "lgm" ] || [ "${board_name}" = "qemu-standard-pc-i440fx-piix-1996" ]; then
+		echo lcm-test-x86-64
+	else
+		echo lcm-test-ipq807x-generic
+	fi
 }
 
-
 concat_comma_string() {
-    _concat_global_str="$1"
-    _concat_param="$2"
+	_concat_global_str="$1"
+	_concat_param="$2"
 
-    if [ -n "${_concat_global_str}" ]; then
-        _concat_global_str="${_concat_global_str}, "
-    fi 
+	if [ -n "${_concat_global_str}" ]; then
+		_concat_global_str="${_concat_global_str}, "
+	fi
 
-    _concat_global_str="${_concat_global_str}${_concat_param}"
+	_concat_global_str="${_concat_global_str}${_concat_param}"
 
-    echo "${_concat_global_str}"
+	echo "${_concat_global_str}"
 }
 
 ## waits for a container to go up or timeout
-wait_ctr_up(){
-    uuid=""
-    while [ $# -gt 0 ]; do
-        key="$1"
-        value=""
-        value_missing=false
-        case $key in
-            --*)  # If argument starts with "--"
-                key="${key#--}"
-                shift
-                if [ $# -gt 0 ] && case "$1" in --*) false;; *) true;; esac; then
-                    value="$1"
-                    shift
-                elif [ $# -eq 0 ] || case "$1" in --*) true;; *) false;; esac; then 
-                    value_missing=true
-                fi
+wait_ctr_up() {
+	uuid=""
+	while [ $# -gt 0 ]; do
+		key="$1"
+		value=""
+		value_missing=false
+		case $key in
+		--*) # If argument starts with "--"
+			key="${key#--}"
+			shift
+			if [ $# -gt 0 ] && case "$1" in --*) false ;; *) true ;; esac then
+				value="$1"
+				shift
+			elif [ $# -eq 0 ] || case "$1" in --*) true ;; *) false ;; esac then
+				value_missing=true
+			fi
 
-                if [ "${key}" = "uuid" ]; then
-                    uuid=$(value_or_default "${value_missing}" "${DEFAULT_UUID}" "${value}")
-                else
-                    echo "Unknown argument: ${key}=${value}"
-                fi
-                ;;
-            *)
-                echo "Unknown argument: $1"
-                shift
-                ;;
-        esac
-    done
+			if [ "${key}" = "uuid" ]; then
+				uuid=$(value_or_default "${value_missing}" "${DEFAULT_UUID}" "${value}")
+			else
+				echo "Unknown argument: ${key}=${value}"
+			fi
+			;;
+		*)
+			echo "Unknown argument: $1"
+			shift
+			;;
+		esac
+	done
 
-    if [ -z "${uuid}" ]; then
-        echo "Missing UUID parameter: Cannot wait for container up"
-    else
-        duid=$(${CLI_JSON} "SoftwareModules.DeploymentUnit.[ UUID == \"${uuid}\" ].DUID?" | jsonfilter -e @[*].*.DUID)
-        if [ -z "${duid}" ]; then
-            echo "Container with UUID=${uuid} is not found"
-            return
-        fi
-        i=0
-        while [ $i -le ${MAX_WAIT_CTR_UP} ]; do
-            status=$(${CLI_JSON} "SoftwareModules.ExecutionUnit.[ EUID == \"${duid}\" ].Status?" | jsonfilter -e @[*].*.Status)
-            if [ "${status}" != "Active" ]; then
-                i=$((i+2))
-                sleep 2
-            else
-                break
-            fi
-            # timeout
-        done
-    fi
+	if [ -z "${uuid}" ]; then
+		echo "Missing UUID parameter: Cannot wait for container up"
+	else
+		duid=$(${CLI_JSON} "SoftwareModules.DeploymentUnit.[ UUID == \"${uuid}\" ].DUID?" | jsonfilter -e @[*].*.DUID)
+		if [ -z "${duid}" ]; then
+			echo "Container with UUID=${uuid} is not found"
+			return
+		fi
+		i=0
+		while [ $i -le ${MAX_WAIT_CTR_UP} ]; do
+			status=$(${CLI_JSON} "SoftwareModules.ExecutionUnit.[ EUID == \"${duid}\" ].Status?" | jsonfilter -e @[*].*.Status)
+			if [ "${status}" != "Active" ]; then
+				i=$((i + 2))
+				sleep 2
+			else
+				break
+			fi
+			# timeout
+		done
+	fi
 }
 
 ## waits for a container to go down or timeout
-wait_ctr_down(){
-    # Read max shutdown delay
-    shutdowndelay=$(${CLI_JSON} Cthulhu.Config.GracefulShutdownTimeoutSeconds? | jsonfilter -e @[*].*.GracefulShutdownTimeoutSeconds)
-    if [ -z "$shutdowndelay" ]; then
-        shutdowndelay=10
-    fi
+wait_ctr_down() {
+	# Read max shutdown delay
+	shutdowndelay=$(${CLI_JSON} Cthulhu.Config.GracefulShutdownTimeoutSeconds? | jsonfilter -e @[*].*.GracefulShutdownTimeoutSeconds)
+	if [ -z "$shutdowndelay" ]; then
+		shutdowndelay=10
+	fi
 
-    # Add extra 3 seconds delay
-    shutdowndelay=$((shutdowndelay+3)) 
+	# Add extra 3 seconds delay
+	shutdowndelay=$((shutdowndelay + 3))
 
-    sleep ${shutdowndelay}
+	sleep ${shutdowndelay}
 }
 
-## Return default value if no value is given 
+## Return default value if no value is given
 ## or the value provided
-value_or_default(){
-    _assign_value_missing="$1"
-    _assign_default="$2"
-    _assign_value="$3"
+value_or_default() {
+	_assign_value_missing="$1"
+	_assign_default="$2"
+	_assign_value="$3"
 
-    if [ "${_assign_value_missing}" = "true" ]; then
-        echo "${_assign_default}"
-    else 
-        echo "${_assign_value}"
-    fi
+	if [ "${_assign_value_missing}" = "true" ]; then
+		echo "${_assign_default}"
+	else
+		echo "${_assign_value}"
+	fi
 }
 
 install_update_ctr_with_params() {
-    operation=$1
-    if [ "${operation}" != "install" ] && [ "${operation}" != "update" ]; then
-        echo "Unknown operation: $operation"
-        return
-    fi
+	operation=$1
+	if [ "${operation}" != "install" ] && [ "${operation}" != "update" ]; then
+		echo "Unknown operation: $operation"
+		return
+	fi
 
-    shift
-    str_params=""
-    uuid=""
+	shift
+	str_params=""
+	uuid=""
 
-    while [ $# -gt 0 ]; do
-        key="$1"
-        value=""
-        value_missing=false
-        case $key in
-            --*)  # If argument starts with "--"
-                key="${key#--}"
-                shift
-                if [ $# -gt 0 ] && case "$1" in --*) false;; *) true;; esac; then
-                    value="$1"
-                    shift
-                elif [ $# -eq 0 ] || case "$1" in --*) true;; *) false;; esac; then 
-                    value_missing=true
-                fi
+	while [ $# -gt 0 ]; do
+		key="$1"
+		value=""
+		value_missing=false
+		case $key in
+		--*) # If argument starts with "--"
+			key="${key#--}"
+			shift
+			if [ $# -gt 0 ] && case "$1" in --*) false ;; *) true ;; esac then
+				value="$1"
+				shift
+			elif [ $# -eq 0 ] || case "$1" in --*) true ;; *) false ;; esac then
+				value_missing=true
+			fi
 
-                if [ "${key}" = "url" ]; then
-                    #value=$(value_or_default "${value_missing}" "$(get_container_url)" "${value}")
-                    str_params=$(concat_comma_string "${str_params}" "URL = \"${value}\"")
-                elif [ "${key}" = "version" ]; then
-                    ctr_name=$(get_container_name)                  
-                    str_params=$(concat_comma_string "${str_params}" "URL = \"${DEFAULT_URL}/${ctr_name}:${value}\"")
-                elif [ "${key}" = "uuid" ]; then
-                    value=$(value_or_default "${value_missing}" "${DEFAULT_UUID}" "${value}")
-                    str_params=$(concat_comma_string "${str_params}" "UUID = ${value}")
-                    uuid=${value}
-                elif [ "${key}" = "ee" ]; then
-                    value=$(value_or_default "${value_missing}" "${DEFAULT_EE}" "${value}")
-                    str_params=$(concat_comma_string "${str_params}" "ExecutionEnvRef = \"${value}\"")
-                elif [ "${key}" = "network" ]; then
-                    value=$(value_or_default "${value_missing}" "${DEFAULT_NETWORK}" "${value}")
-                    str_params=$(concat_comma_string "${str_params}" "NetworkConfig = ${value}")
-                elif [ "${key}" = "hostobject" ]; then
-                    value=$(value_or_default "${value_missing}" "${DEFAULT_HOSTOBJECT}" "${value}")
-                    str_params=$(concat_comma_string "${str_params}" "HostObject = ${value}")
-                elif [ "${key}" = "appdata" ]; then
-                    value=$(value_or_default "${value_missing}" "${DEFAULT_APPDATA}" "${value}")
-                    str_params=$(concat_comma_string "${str_params}" "ApplicationData = ${value}")
-                elif [ "${key}" = "usprequired" ]; then
-                    value=$(value_or_default "${value_missing}" "${DEFAULT_USPREQUIRED}" "${value}")
-                    str_params=$(concat_comma_string "${str_params}" "RequiredRoles = \"${value}\"")
-                elif [ "${key}" = "uspeoptional" ]; then
-                    value=$(value_or_default "${value_missing}" "${DEFAULT_USPOPTIONAL}" "${value}")
-                    str_params=$(concat_comma_string "${str_params}" "OptionalRoles = \"${value}\"")
-                elif [ "${key}" = "privileged" ]; then
-                    value=$(value_or_default "${value_missing}" "${DEFAULT_PRIVILEGED}" "${value}")
-                    str_params=$(concat_comma_string "${str_params}" "Privileged = ${value}")
-                    if [ "${value}" = "false" ]; then
-                        str_params=$(concat_comma_string "${str_params}" "NumRequiredUIDs = 10")
-                    fi
-                elif [ "${key}" = "retaindata" ]; then
-                    retaindata=$(value_or_default "${value_missing}" "${DEFAULT_RETAINDATA}" "${value}")
-                    str_params=$(concat_comma_string "${str_params}" "RetainData = $retaindata")
-                elif [ "${key}" = "envvar" ]; then
-                    value=$(value_or_default "${value_missing}" "${DEFAULT_ENVVAR}" "${value}")
-                    str_params=$(concat_comma_string "${str_params}" "EnvVariable = ${value}")
-                else
-                    echo "Unknown paramter: ${key}"
-                fi
+			if [ "${key}" = "url" ]; then
+				#value=$(value_or_default "${value_missing}" "$(get_container_url)" "${value}")
+				str_params=$(concat_comma_string "${str_params}" "URL = \"${value}\"")
+			elif [ "${key}" = "version" ]; then
+				ctr_name=$(get_container_name)
+				str_params=$(concat_comma_string "${str_params}" "URL = \"${DEFAULT_URL}/${ctr_name}:${value}\"")
+			elif [ "${key}" = "uuid" ]; then
+				value=$(value_or_default "${value_missing}" "${DEFAULT_UUID}" "${value}")
+				str_params=$(concat_comma_string "${str_params}" "UUID = ${value}")
+				uuid=${value}
+			elif [ "${key}" = "ee" ]; then
+				value=$(value_or_default "${value_missing}" "${DEFAULT_EE}" "${value}")
+				str_params=$(concat_comma_string "${str_params}" "ExecutionEnvRef = \"${value}\"")
+			elif [ "${key}" = "network" ]; then
+				value=$(value_or_default "${value_missing}" "${DEFAULT_NETWORK}" "${value}")
+				str_params=$(concat_comma_string "${str_params}" "NetworkConfig = ${value}")
+			elif [ "${key}" = "hostobject" ]; then
+				value=$(value_or_default "${value_missing}" "${DEFAULT_HOSTOBJECT}" "${value}")
+				str_params=$(concat_comma_string "${str_params}" "HostObject = ${value}")
+			elif [ "${key}" = "appdata" ]; then
+				value=$(value_or_default "${value_missing}" "${DEFAULT_APPDATA}" "${value}")
+				str_params=$(concat_comma_string "${str_params}" "ApplicationData = ${value}")
+			elif [ "${key}" = "usprequired" ]; then
+				value=$(value_or_default "${value_missing}" "${DEFAULT_USPREQUIRED}" "${value}")
+				str_params=$(concat_comma_string "${str_params}" "RequiredRoles = \"${value}\"")
+			elif [ "${key}" = "uspeoptional" ]; then
+				value=$(value_or_default "${value_missing}" "${DEFAULT_USPOPTIONAL}" "${value}")
+				str_params=$(concat_comma_string "${str_params}" "OptionalRoles = \"${value}\"")
+			elif [ "${key}" = "privileged" ]; then
+				value=$(value_or_default "${value_missing}" "${DEFAULT_PRIVILEGED}" "${value}")
+				str_params=$(concat_comma_string "${str_params}" "Privileged = ${value}")
+				if [ "${value}" = "false" ]; then
+					str_params=$(concat_comma_string "${str_params}" "NumRequiredUIDs = 10")
+				fi
+			elif [ "${key}" = "retaindata" ]; then
+				retaindata=$(value_or_default "${value_missing}" "${DEFAULT_RETAINDATA}" "${value}")
+				str_params=$(concat_comma_string "${str_params}" "RetainData = $retaindata")
+			elif [ "${key}" = "envvar" ]; then
+				value=$(value_or_default "${value_missing}" "${DEFAULT_ENVVAR}" "${value}")
+				str_params=$(concat_comma_string "${str_params}" "EnvVariable = ${value}")
+			else
+				echo "Unknown paramter: ${key}"
+			fi
 
-                ;;
-            *)
-                echo "Unknown argument: $1"
-                shift
-                ;;
-        esac
-    done
+			;;
+		*)
+			echo "Unknown argument: $1"
+			shift
+			;;
+		esac
+	done
 
+	if [ "${operation}" = "install" ]; then
+		${CLI} "SoftwareModules.InstallDU($str_params)"
+	elif [ "${operation}" = "update" ]; then
+		${CLI} "SoftwareModules.DeploymentUnit.[ UUID == \"${uuid}\" ].Update($str_params)"
+		wait_ctr_down
+	fi
 
-    if [ "${operation}" = "install" ]; then
-        ${CLI} "SoftwareModules.InstallDU($str_params)"
-    elif [ "${operation}" = "update" ]; then
-        ${CLI} "SoftwareModules.DeploymentUnit.[ UUID == \"${uuid}\" ].Update($str_params)"
-        wait_ctr_down
-    fi
-    
-    wait_ctr_up --uuid "${uuid}"
+	wait_ctr_up --uuid "${uuid}"
 }
 
 uninstall_ctr() {
-    uuid=""
-    while [ $# -gt 0 ]; do
-        key="$1"
-        value=""
-        value_missing=false
-        case $key in
-            --*)  # If argument starts with "--"
-                key="${key#--}"
-                shift
-                if [ $# -gt 0 ] && case "$1" in --*) false;; *) true;; esac; then
-                    value="$1"
-                    shift
-                elif [ $# -eq 0 ] || case "$1" in --*) true;; *) false;; esac; then 
-                    value_missing=true
-                fi
+	uuid=""
+	while [ $# -gt 0 ]; do
+		key="$1"
+		value=""
+		value_missing=false
+		case $key in
+		--*) # If argument starts with "--"
+			key="${key#--}"
+			shift
+			if [ $# -gt 0 ] && case "$1" in --*) false ;; *) true ;; esac then
+				value="$1"
+				shift
+			elif [ $# -eq 0 ] || case "$1" in --*) true ;; *) false ;; esac then
+				value_missing=true
+			fi
 
-                if [ "${key}" = "uuid" ]; then
-                    uuid=$(value_or_default "${value_missing}" "${DEFAULT_UUID}" "${value}")
-                elif [ "${key}" = "retaindata" ]; then
-                    retaindata=$(value_or_default "${value_missing}" "${DEFAULT_RETAINDATA}" "${value}")
-                else
-                    echo "Unknown argument: $key=${value}"
-                fi
-                ;;
-            *)
-                echo "Unknown argument: $1"
-                shift
-                ;;
-        esac
-    done
+			if [ "${key}" = "uuid" ]; then
+				uuid=$(value_or_default "${value_missing}" "${DEFAULT_UUID}" "${value}")
+			elif [ "${key}" = "retaindata" ]; then
+				retaindata=$(value_or_default "${value_missing}" "${DEFAULT_RETAINDATA}" "${value}")
+			else
+				echo "Unknown argument: $key=${value}"
+			fi
+			;;
+		*)
+			echo "Unknown argument: $1"
+			shift
+			;;
+		esac
+	done
 
-    if [ -z "${uuid}" ]; then
-        echo "Missing UUID paramter: Uninstall not possible"
-    else
-        ${CLI} "SoftwareModules.DeploymentUnit.[ UUID == \"${uuid}\" ].Uninstall(RetainData = ${retaindata})"
-    fi
+	if [ -z "${uuid}" ]; then
+		echo "Missing UUID paramter: Uninstall not possible"
+	else
+		${CLI} "SoftwareModules.DeploymentUnit.[ UUID == \"${uuid}\" ].Uninstall(RetainData = ${retaindata})"
+	fi
 
 }
 
 uninstall_ctr_and_check() {
-    save_params="$*"
-    uuid=""
-    while [ $# -gt 0 ]; do
-        key="$1"
-        value=""
-        value_missing=false
-        case $key in
-            --*)  # If argument starts with "--"
-                key="${key#--}"
-                shift
-                if [ $# -gt 0 ] && case "$1" in --*) false;; *) true;; esac; then
-                    value="$1"
-                    shift
-                elif [ $# -eq 0 ] || case "$1" in --*) true;; *) false;; esac; then 
-                    value_missing=true
-                fi
+	save_params="$*"
+	uuid=""
+	while [ $# -gt 0 ]; do
+		key="$1"
+		value=""
+		value_missing=false
+		case $key in
+		--*) # If argument starts with "--"
+			key="${key#--}"
+			shift
+			if [ $# -gt 0 ] && case "$1" in --*) false ;; *) true ;; esac then
+				value="$1"
+				shift
+			elif [ $# -eq 0 ] || case "$1" in --*) true ;; *) false ;; esac then
+				value_missing=true
+			fi
 
-                if [ "${key}" = "uuid" ]; then
-                    uuid=$(value_or_default "${value_missing}" "${DEFAULT_UUID}" "${value}")              
-                elif [ "${key}" = "retaindata" ]; then
-                    retaindata=$(value_or_default "${value_missing}" "${DEFAULT_RETAINDATA}" "${value}")
-                else
-                    echo "Unknown argument: $key=${value}"
-                fi
-                ;;
-            *)
-                echo "Unknown argument: $1"
-                shift
-                ;;
-        esac
-    done
+			if [ "${key}" = "uuid" ]; then
+				uuid=$(value_or_default "${value_missing}" "${DEFAULT_UUID}" "${value}")
+			elif [ "${key}" = "retaindata" ]; then
+				retaindata=$(value_or_default "${value_missing}" "${DEFAULT_RETAINDATA}" "${value}")
+			else
+				echo "Unknown argument: $key=${value}"
+			fi
+			;;
+		*)
+			echo "Unknown argument: $1"
+			shift
+			;;
+		esac
+	done
 
-    if [ -z "${uuid}" ]; then
-        echo "Missing UUID parameter. Cannot uninstall ctr"
-    else
-        duid=$(${CLI_JSON} "SoftwareModules.DeploymentUnit.[ UUID == \"${uuid}\" ].DUID?" | jsonfilter -e @[*].*.DUID)
-               
-        # uninstall the container and then check that both the DU and EU instances are gone
-        # shellcheck disable=SC2086
-        uninstall_ctr ${save_params} >> /dev/null
-        wait_ctr_down
-        ${CLI_JSON} "SoftwareModules.DeploymentUnit.[ DUID == \"$duid\" ].?0"  | jsonfilter -e @[*].*.UUID \
-            && ${CLI_JSON} "SoftwareModules.ExecutionUnit.[ EUID == \"$duid\" ].?0" | jsonfilter -e @[*].*.EUID \
-            && ${CLI_JSON} "Rlyeh.Images.[ DUID == \"$duid\" ].?0" | jsonfilter -e @[*].*.DUID 
-    fi
+	if [ -z "${uuid}" ]; then
+		echo "Missing UUID parameter. Cannot uninstall ctr"
+	else
+		duid=$(${CLI_JSON} "SoftwareModules.DeploymentUnit.[ UUID == \"${uuid}\" ].DUID?" | jsonfilter -e @[*].*.DUID)
+
+		# uninstall the container and then check that both the DU and EU instances are gone
+		# shellcheck disable=SC2086
+		uninstall_ctr ${save_params} >>/dev/null
+		wait_ctr_down
+		${CLI_JSON} "SoftwareModules.DeploymentUnit.[ DUID == \"$duid\" ].?0" | jsonfilter -e @[*].*.UUID &&
+			${CLI_JSON} "SoftwareModules.ExecutionUnit.[ EUID == \"$duid\" ].?0" | jsonfilter -e @[*].*.EUID &&
+			${CLI_JSON} "Rlyeh.Images.[ DUID == \"$duid\" ].?0" | jsonfilter -e @[*].*.DUID
+	fi
 }
 
 ## returns container status, version and name
-get_container_info(){
-    uuid=""
-    while [ $# -gt 0 ]; do
-        key="$1"
-        value=""
-        value_missing=false
-        case $key in
-            --*)  # If argument starts with "--"
-                key="${key#--}"
-                shift
-                if [ $# -gt 0 ] && case "$1" in --*) false;; *) true;; esac; then
-                    value="$1"
-                    shift
-                elif [ $# -eq 0 ] || case "$1" in --*) true;; *) false;; esac; then 
-                    value_missing=true
-                fi
+get_container_info() {
+	uuid=""
+	while [ $# -gt 0 ]; do
+		key="$1"
+		value=""
+		value_missing=false
+		case $key in
+		--*) # If argument starts with "--"
+			key="${key#--}"
+			shift
+			if [ $# -gt 0 ] && case "$1" in --*) false ;; *) true ;; esac then
+				value="$1"
+				shift
+			elif [ $# -eq 0 ] || case "$1" in --*) true ;; *) false ;; esac then
+				value_missing=true
+			fi
 
-                if [ "${key}" = "uuid" ]; then
-                    uuid=$(value_or_default "${value_missing}" "${DEFAULT_UUID}" "${value}")
-                else
-                    echo "Unknown argument: $key=${value}"
-                fi
-                ;;
-            *)
-                echo "Unknown argument: $1"
-                shift
-                ;;
-        esac
-    done
+			if [ "${key}" = "uuid" ]; then
+				uuid=$(value_or_default "${value_missing}" "${DEFAULT_UUID}" "${value}")
+			else
+				echo "Unknown argument: $key=${value}"
+			fi
+			;;
+		*)
+			echo "Unknown argument: $1"
+			shift
+			;;
+		esac
+	done
 
-    if [ -z "${uuid}" ]; then
-        echo "Missing UUID parameter: Cannot get info"
-    else
-        duid=$(${CLI_JSON} "SoftwareModules.DeploymentUnit.[ UUID == \"${uuid}\" ].DUID?" | jsonfilter -e @[*].*.DUID)
-        ${CLI_JSON} "SoftwareModules.ExecutionUnit.[ EUID == \"${duid}\" ].?0" | jsonfilter -e @[*].*.Status -e @[*].*.Version | sort
-        ${CLI_JSON} "SoftwareModules.DeploymentUnit.[ UUID == \"${uuid}\"].Name?0" | jsonfilter -e @[*].*.Name
-    fi
+	if [ -z "${uuid}" ]; then
+		echo "Missing UUID parameter: Cannot get info"
+	else
+		duid=$(${CLI_JSON} "SoftwareModules.DeploymentUnit.[ UUID == \"${uuid}\" ].DUID?" | jsonfilter -e @[*].*.DUID)
+		${CLI_JSON} "SoftwareModules.ExecutionUnit.[ EUID == \"${duid}\" ].?0" | jsonfilter -e @[*].*.Status -e @[*].*.Version | sort
+		${CLI_JSON} "SoftwareModules.DeploymentUnit.[ UUID == \"${uuid}\"].Name?0" | jsonfilter -e @[*].*.Name
+	fi
 }
 
+set_ee_usp_roles() {
+	roles=""
+	ee=${DEFAULT_EE}
 
-set_ee_usp_roles(){
-    roles=""
-    ee=${DEFAULT_EE}
+	while [ $# -gt 0 ]; do
+		key="$1"
+		value=""
+		value_missing=false
+		case $key in
+		--*) # If argument starts with "--"
+			key="${key#--}"
+			shift
+			if [ $# -gt 0 ] && case "$1" in --*) false ;; *) true ;; esac then
+				value="$1"
+				shift
+			elif [ $# -eq 0 ] || case "$1" in --*) true ;; *) false ;; esac then
+				value_missing=true
+			fi
 
-    while [ $# -gt 0 ]; do
-        key="$1"
-        value=""
-        value_missing=false
-        case $key in
-            --*)  # If argument starts with "--"
-                key="${key#--}"
-                shift
-                if [ $# -gt 0 ] && case "$1" in --*) false;; *) true;; esac; then
-                    value="$1"
-                    shift
-                elif [ $# -eq 0 ] || case "$1" in --*) true;; *) false;; esac; then 
-                    value_missing=true
-                fi
-                
-                if [ "${key}" = "roles" ]; then
-                    roles=$(value_or_default "${value_missing}" "${DEFAULT_USPROLES}" "${value}")
-                elif [ "${key}" = "ee" ]; then
-                    ee=$(value_or_default "${value_missing}" "${DEFAULT_EE}" "${value}")
-                else
-                    echo "Unknown argument: ${key}=${value}"
-                fi
-                ;;
-            *)
-                echo "Unknown argument: $1"
-                shift
-                ;;
-        esac
-    done
+			if [ "${key}" = "roles" ]; then
+				roles=$(value_or_default "${value_missing}" "${DEFAULT_USPROLES}" "${value}")
+			elif [ "${key}" = "ee" ]; then
+				ee=$(value_or_default "${value_missing}" "${DEFAULT_EE}" "${value}")
+			else
+				echo "Unknown argument: ${key}=${value}"
+			fi
+			;;
+		*)
+			echo "Unknown argument: $1"
+			shift
+			;;
+		esac
+	done
 
-    ## Roles list can be empty
-    ${CLI} "SoftwareModules.ExecEnv.[ Name == \"${ee}\" ].ModifyAvailableRoles(AvailableRoles = \"${roles}\")"
+	## Roles list can be empty
+	${CLI} "SoftwareModules.ExecEnv.[ Name == \"${ee}\" ].ModifyAvailableRoles(AvailableRoles = \"${roles}\")"
 }
 
 check_available_roles() {
-    roles=""
-    ee=${DEFAULT_EE}
+	roles=""
+	ee=${DEFAULT_EE}
 
-    while [ $# -gt 0 ]; do
-        key="$1"
-        value=""
-        value_missing=false
+	while [ $# -gt 0 ]; do
+		key="$1"
+		value=""
+		value_missing=false
 
-        case $key in
-            --*)  # If argument starts with "--"
-                key="${key#--}"
-                shift
-                if [ $# -gt 0 ] && case "$1" in --*) false;; *) true;; esac; then
-                    value="$1"
-                    shift
-                elif [ $# -eq 0 ] || case "$1" in --*) true;; *) false;; esac; then 
-                    value_missing=true
-                fi
+		case $key in
+		--*) # If argument starts with "--"
+			key="${key#--}"
+			shift
+			if [ $# -gt 0 ] && case "$1" in --*) false ;; *) true ;; esac then
+				value="$1"
+				shift
+			elif [ $# -eq 0 ] || case "$1" in --*) true ;; *) false ;; esac then
+				value_missing=true
+			fi
 
-                if [ "${key}" = "ee" ]; then
-                    ee=$(value_or_default "${value_missing}" "${DEFAULT_EE}" "${value}")
-                else
-                    echo "Unknown argument: ${key}=${value}"
-                fi
-                ;;
-            *)
-                echo "Unknown argument: $1"
-                shift
-                ;;
-        esac
-    done
+			if [ "${key}" = "ee" ]; then
+				ee=$(value_or_default "${value_missing}" "${DEFAULT_EE}" "${value}")
+			else
+				echo "Unknown argument: ${key}=${value}"
+			fi
+			;;
+		*)
+			echo "Unknown argument: $1"
+			shift
+			;;
+		esac
+	done
 
-    if [ -z "$ee" ]; then
-        echo "Missing EE parameter."
-    else
-        ${CLI_JSON} "SoftwareModules.ExecEnv.[ Name == \"${ee}\" ].AvailableRoles?" | jsonfilter -e @[*].*.AvailableRoles
-    fi
+	if [ -z "$ee" ]; then
+		echo "Missing EE parameter."
+	else
+		${CLI_JSON} "SoftwareModules.ExecEnv.[ Name == \"${ee}\" ].AvailableRoles?" | jsonfilter -e @[*].*.AvailableRoles
+	fi
 }
 
 execute_in_container() {
-    uuid=""
-    cmd=""
+	uuid=""
+	cmd=""
 
-    while [ $# -gt 0 ]; do
-        key="$1"
-        value=""
-        value_missing=false
-        case $key in
-            --*)  # If argument starts with "--"
-                key="${key#--}"
-                shift
-                if [ $# -gt 0 ] && case "$1" in --*) false;; *) true;; esac; then
-                    value="$1"
-                    shift
-                elif [ $# -eq 0 ] || case "$1" in --*) true;; *) false;; esac; then 
-                    value_missing=true
-                fi
+	while [ $# -gt 0 ]; do
+		key="$1"
+		value=""
+		value_missing=false
+		case $key in
+		--*) # If argument starts with "--"
+			key="${key#--}"
+			shift
+			if [ $# -gt 0 ] && case "$1" in --*) false ;; *) true ;; esac then
+				value="$1"
+				shift
+			elif [ $# -eq 0 ] || case "$1" in --*) true ;; *) false ;; esac then
+				value_missing=true
+			fi
 
-                if [ "${key}" = "uuid" ]; then
-                    uuid=$(value_or_default "${value_missing}" "${DEFAULT_UUID}" "${value}")
-                elif [ "${key}" = "cmd" ]; then
-                    cmd="${value}"
-                else
-                    echo "Unknown argument: $key=${value}"
-                fi
-                ;;
-            *)
-                echo "Unknown argument: $1"
-                shift
-                ;;
-        esac
-    done
+			if [ "${key}" = "uuid" ]; then
+				uuid=$(value_or_default "${value_missing}" "${DEFAULT_UUID}" "${value}")
+			elif [ "${key}" = "cmd" ]; then
+				cmd="${value}"
+			else
+				echo "Unknown argument: $key=${value}"
+			fi
+			;;
+		*)
+			echo "Unknown argument: $1"
+			shift
+			;;
+		esac
+	done
 
-    if [ -z "${uuid}" ]; then
-        echo "Missing UUID parameter."
-    else
-        duid=$(${CLI_JSON} "SoftwareModules.DeploymentUnit.[ UUID == \"${uuid}\" ].DUID?" | jsonfilter -e @[*].*.DUID)
-        lxc-attach "${duid}" -- sh -c "${cmd}"
-    fi
+	if [ -z "${uuid}" ]; then
+		echo "Missing UUID parameter."
+	else
+		duid=$(${CLI_JSON} "SoftwareModules.DeploymentUnit.[ UUID == \"${uuid}\" ].DUID?" | jsonfilter -e @[*].*.DUID)
+		lxc-attach "${duid}" -- sh -c "${cmd}"
+	fi
 
 }
 
-check_ee_status(){
-    ee=""
-    while [ $# -gt 0 ]; do
-        key="$1"
-        value=""
-        ee=${DEFAULT_EE}
-        value_missing=false
-        case $key in
-            --*)  # If argument starts with "--"
-                key="${key#--}"
-                shift
-                if [ $# -gt 0 ] && case "$1" in --*) false;; *) true;; esac; then
-                    value="$1"
-                    shift
-                elif [ $# -eq 0 ] || case "$1" in --*) true;; *) false;; esac; then 
-                    value_missing=true
-                fi
+check_ee_status() {
+	ee=""
+	while [ $# -gt 0 ]; do
+		key="$1"
+		value=""
+		ee=${DEFAULT_EE}
+		value_missing=false
+		case $key in
+		--*) # If argument starts with "--"
+			key="${key#--}"
+			shift
+			if [ $# -gt 0 ] && case "$1" in --*) false ;; *) true ;; esac then
+				value="$1"
+				shift
+			elif [ $# -eq 0 ] || case "$1" in --*) true ;; *) false ;; esac then
+				value_missing=true
+			fi
 
-                if [ "${key}" = "ee" ]; then
-                    ee=$(value_or_default "${value_missing}" "${DEFAULT_EE}" "${value}")
-                else
-                    echo "Unknown argument: ${key}=${value}"
-                fi
-                ;;
-            *)
-                echo "Unknown argument: $1"
-                shift
-                ;;
-        esac
-    done
+			if [ "${key}" = "ee" ]; then
+				ee=$(value_or_default "${value_missing}" "${DEFAULT_EE}" "${value}")
+			else
+				echo "Unknown argument: ${key}=${value}"
+			fi
+			;;
+		*)
+			echo "Unknown argument: $1"
+			shift
+			;;
+		esac
+	done
 
-    if [ -z "${ee}" ]; then
-        echo "Missing EE parameter."
-    else
-        ${CLI_JSON} "SoftwareModules.ExecEnv.[ Name == \"${ee}\" ].?0" | jsonfilter -e @[*].*.Status -e @[*].*.Enable | sort
-    fi
+	if [ -z "${ee}" ]; then
+		echo "Missing EE parameter."
+	else
+		${CLI_JSON} "SoftwareModules.ExecEnv.[ Name == \"${ee}\" ].?0" | jsonfilter -e @[*].*.Status -e @[*].*.Enable | sort
+	fi
 }
 
-check_cthulhu_config(){
-    ${CLI_JSON} "Cthulhu.Config.?0" | jsonfilter -e @[*].*.UseOverlayFS -e @[*].*.DefaultBackend -e @[*].*.ImageLocation | sort
+check_cthulhu_config() {
+	${CLI_JSON} "Cthulhu.Config.?0" | jsonfilter -e @[*].*.UseOverlayFS -e @[*].*.DefaultBackend -e @[*].*.ImageLocation | sort
 }
 
-get_ctr_ip(){
-    uuid=""
-    while [ $# -gt 0 ]; do
-        key="$1"
-        value=""
-        value_missing=false
-        case $key in
-            --*)  # If argument starts with "--"
-                key="${key#--}"
-                shift
-                if [ $# -gt 0 ] && case "$1" in --*) false;; *) true;; esac; then
-                    value="$1"
-                    shift
-                elif [ $# -eq 0 ] || case "$1" in --*) true;; *) false;; esac; then 
-                    value_missing=true
-                fi
+get_ctr_ip() {
+	uuid=""
+	while [ $# -gt 0 ]; do
+		key="$1"
+		value=""
+		value_missing=false
+		case $key in
+		--*) # If argument starts with "--"
+			key="${key#--}"
+			shift
+			if [ $# -gt 0 ] && case "$1" in --*) false ;; *) true ;; esac then
+				value="$1"
+				shift
+			elif [ $# -eq 0 ] || case "$1" in --*) true ;; *) false ;; esac then
+				value_missing=true
+			fi
 
-                if [ "${key}" = "uuid" ]; then
-                    uuid=$(value_or_default "${value_missing}" "${DEFAULT_UUID}" "${value}")
-                else
-                    echo "Unknown argument: $key=${value}"
-                fi
-                ;;
-            *)
-                echo "Unknown argument: $1"
-                shift
-                ;;
-        esac
-    done
+			if [ "${key}" = "uuid" ]; then
+				uuid=$(value_or_default "${value_missing}" "${DEFAULT_UUID}" "${value}")
+			else
+				echo "Unknown argument: $key=${value}"
+			fi
+			;;
+		*)
+			echo "Unknown argument: $1"
+			shift
+			;;
+		esac
+	done
 
-    if [ -z "${uuid}" ]; then
-        echo "Missing UUID parameter: Cannot retrieve IP"
-    else
-        ${CLI_JSON} "Cthulhu.Container.Instances.[ LinkedUUID == \"${uuid}\" ].Interfaces.[Name == \"lcm0\"].Addresses.1.?" | jsonfilter -e @[*].*.Address
-    fi
+	if [ -z "${uuid}" ]; then
+		echo "Missing UUID parameter: Cannot retrieve IP"
+	else
+		${CLI_JSON} "Cthulhu.Container.Instances.[ LinkedUUID == \"${uuid}\" ].Interfaces.[Name == \"lcm0\"].Addresses.1.?" | jsonfilter -e @[*].*.Address
+	fi
 }
 
-get_ctr_type(){
-    uuid=""
-    while [ $# -gt 0 ]; do
-        key="$1"
-        value=""
-        value_missing=false
-        case $key in
-            --*)  # If argument starts with "--"
-                key="${key#--}"
-                shift
-                if [ $# -gt 0 ] && case "$1" in --*) false;; *) true;; esac; then
-                    value="$1"
-                    shift
-                elif [ $# -eq 0 ] || case "$1" in --*) true;; *) false;; esac; then 
-                    value_missing=true
-                fi
+get_ctr_type() {
+	uuid=""
+	while [ $# -gt 0 ]; do
+		key="$1"
+		value=""
+		value_missing=false
+		case $key in
+		--*) # If argument starts with "--"
+			key="${key#--}"
+			shift
+			if [ $# -gt 0 ] && case "$1" in --*) false ;; *) true ;; esac then
+				value="$1"
+				shift
+			elif [ $# -eq 0 ] || case "$1" in --*) true ;; *) false ;; esac then
+				value_missing=true
+			fi
 
-                if [ "${key}" = "uuid" ]; then
-                    uuid=$(value_or_default "${value_missing}" "${DEFAULT_UUID}" "${value}")
-                else
-                    echo "Unknown argument: $key=${value}"
-                fi
-                ;;
-            *)
-                echo "Unknown argument: $1"
-                shift
-                ;;
-        esac
-    done
+			if [ "${key}" = "uuid" ]; then
+				uuid=$(value_or_default "${value_missing}" "${DEFAULT_UUID}" "${value}")
+			else
+				echo "Unknown argument: $key=${value}"
+			fi
+			;;
+		*)
+			echo "Unknown argument: $1"
+			shift
+			;;
+		esac
+	done
 
-    if [ -z "${uuid}" ]; then
-        echo "Missing UUID parameter: Cannot retrieve IP"
-    else
-        duid=$(${CLI_JSON} "SoftwareModules.DeploymentUnit.[ UUID == \"${uuid}\" ].DUID?" | jsonfilter -e @[*].*.DUID)
-        uid=$(${CLI_JSON} "SoftwareModules.ExecutionUnit.[ EUID == \"${duid}\" ].?0" | jsonfilter -e @[*].*.AllocatedHostUID)
-        gid=$(${CLI_JSON} "SoftwareModules.ExecutionUnit.[ EUID == \"${duid}\" ].?0" | jsonfilter -e @[*].*.AllocatedHostGID)
+	if [ -z "${uuid}" ]; then
+		echo "Missing UUID parameter: Cannot retrieve IP"
+	else
+		duid=$(${CLI_JSON} "SoftwareModules.DeploymentUnit.[ UUID == \"${uuid}\" ].DUID?" | jsonfilter -e @[*].*.DUID)
+		uid=$(${CLI_JSON} "SoftwareModules.ExecutionUnit.[ EUID == \"${duid}\" ].?0" | jsonfilter -e @[*].*.AllocatedHostUID)
+		gid=$(${CLI_JSON} "SoftwareModules.ExecutionUnit.[ EUID == \"${duid}\" ].?0" | jsonfilter -e @[*].*.AllocatedHostGID)
 
-        if [ "${uid}" -ne 0 ] && [ "${gid}" -ne 0 ]; then
-            echo "Unprivileged container"
-        elif [ "${uid}" -eq 0 ] && [ "${gid}" -eq 0 ]; then
-            echo "Privileged container" 
-        else
-            echo "Unknown container"
-        fi
-    fi
+		if [ "${uid}" -ne 0 ] && [ "${gid}" -ne 0 ]; then
+			echo "Unprivileged container"
+		elif [ "${uid}" -eq 0 ] && [ "${gid}" -eq 0 ]; then
+			echo "Privileged container"
+		else
+			echo "Unknown container"
+		fi
+	fi
 
 }
 
 install_ctr() {
-    install_update_ctr_with_params install "$@"
+	install_update_ctr_with_params install "$@"
 }
 
 update_ctr() {
-    install_update_ctr_with_params update "$@"
+	install_update_ctr_with_params update "$@"
 }
 
 ## Create the host object resources used for the default HostObject config
 setup_hostobjects() {
-    mkdir /tmp/testdir
-    echo 'test sharing a dir' > /tmp/testdir/testfile
-    echo 'test sharing file' > /tmp/testfile
+	mkdir /tmp/testdir
+	echo 'test sharing a dir' >/tmp/testdir/testfile
+	echo 'test sharing file' >/tmp/testfile
 
-    chmod -R 777 /tmp/testdir
-    chmod -R 777 /tmp/testfile
+	chmod -R 777 /tmp/testdir
+	chmod -R 777 /tmp/testfile
 }
 
 cleanup_hostobjects() {
-    rm -rf /tmp/testdir
-    rm -f /tmp/testfile
+	rm -rf /tmp/testdir
+	rm -f /tmp/testfile
 }
 
 get_hostobjects() {
-    execute_in_container --uuid --cmd "ls -R /testdir/"
-    execute_in_container --uuid --cmd "cat /testfile"
-    execute_in_container --uuid --cmd "ls /dev/host_serial"
+	execute_in_container --uuid --cmd "ls -R /testdir/"
+	execute_in_container --uuid --cmd "cat /testfile"
+	execute_in_container --uuid --cmd "ls /dev/host_serial"
 }
