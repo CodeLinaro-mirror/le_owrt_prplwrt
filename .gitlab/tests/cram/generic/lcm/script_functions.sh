@@ -22,14 +22,20 @@ MAX_WAIT_CTR_UP=60
 ## Return default container name based on target.
 ## Default is ARM container
 get_container_name() {
-	board_name=$(cut -d',' -f2 < /tmp/sysinfo/board_name)
-	if [ "${board_name}" = "haze" ] || [ "${board_name}" = "freedom" ]; then
+	board_name=$(cut -d',' -f2 </tmp/sysinfo/board_name)
+	case "${board_name}" in
+	"haze" | \
+		"freedom")
 		echo lcm-test-ipq807x-generic
-	elif [ "${board_name}" = "lgm" ] || [ "${board_name}" = "qemu-standard-pc-i440fx-piix-1996" ]; then
+		;;
+	"lgm" | \
+		"qemu-standard-pc-i440fx-piix-1996")
 		echo lcm-test-x86-64
-	else
+		;;
+	*)
 		echo lcm-test-ipq807x-generic
-	fi
+		;;
+	esac
 }
 
 concat_comma_string() {
