@@ -1,0 +1,7 @@
+---
+packages:
+  - iw-full
+
+diffconfig: |
+  CONFIG_TESTING_KERNEL=y
+
