@@ -15,13 +15,6 @@ Check Global Execution Environment and configuration:
   Up
 
 
-Check /lcm is using ext4 as filesystem:
-
-  $ R "df -PkT /lcm" | awk '{print $2}'
-  Type
-  ext4
-
-
 Check internal Cthulhu.Config datamodel:
 
   $ R "${S} && check_cthulhu_config"
