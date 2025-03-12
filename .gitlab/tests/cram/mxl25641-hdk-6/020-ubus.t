@@ -6,5 +6,5 @@ Check that we've correct system info:
 
   $ R "ubus call system board | jsonfilter -e @.system -e @.model -e @.board_name"
   Intel(R) Atom(TM) Quad IA CPU  @ 2.49GHz
-  mxl,lightning mountainmxl,octopusmxl,octopus-641
+  mxl,osp-tb341-v2
   mxl,lgm
