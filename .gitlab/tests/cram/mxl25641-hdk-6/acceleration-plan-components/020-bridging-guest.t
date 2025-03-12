@@ -5,8 +5,11 @@ Create R alias:
 Get initial state of bridges:
 
   $ R "bridge -json link" | jq -r 'sort_by(.master,.ifname) | reverse | .[] | "\(.master)@\(.ifname)"'
+  br-lan@wlan5
   br-lan@wlan4.1
+  br-lan@wlan3
   br-lan@wlan2.1
+  br-lan@wlan1
   br-lan@wlan0.1
   br-lan@eth0_5
   br-lan@eth0_4
@@ -31,8 +34,11 @@ Remove eth0_1 from LAN bridge and add it to the Guest bridge:
 Check that eth0_1 is added to Guest bridge:
 
   $ R "bridge -json link" | jq -r 'sort_by(.master,.ifname) | reverse | .[] | "\(.master)@\(.ifname)"'
+  br-lan@wlan5
   br-lan@wlan4.1
+  br-lan@wlan3
   br-lan@wlan2.1
+  br-lan@wlan1
   br-lan@wlan0.1
   br-lan@eth0_5
   br-lan@eth0_4
@@ -57,8 +63,11 @@ Remove eth0_1 from the Guest bridge and add it back to the LAN bridge:
 Check for initial state of bridges again:
 
   $ R "bridge -json link" | jq -r 'sort_by(.master,.ifname) | reverse | .[] | "\(.master)@\(.ifname)"'
+  br-lan@wlan5
   br-lan@wlan4.1
+  br-lan@wlan3
   br-lan@wlan2.1
+  br-lan@wlan1
   br-lan@wlan0.1
   br-lan@eth0_5
   br-lan@eth0_4
