@@ -36,7 +36,7 @@ CDRouter-Wireless MXL25641-HDK-6 eMMC:
   stage: cdrouter smoke
   variables:
     CDROUTER_TEST_CONFIG: wireless
-    CDROUTER_CONFIG_WIFI_BEACON_PHY: 'ax b g n'
+    CDROUTER_CONFIG_WIFI_BEACON_PHY: 'ax b be g n'
     CDROUTER_CONFIG_WIFI_BEACON_RSN_CIPHER: 'CCMP-128 GCMP-256'
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
