@@ -154,6 +154,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_ip6tables-extra=y
   CONFIG_PACKAGE_ip6tables-zz-legacy=y
   CONFIG_PACKAGE_iperf3=y
+  CONFIG_PACKAGE_ipset=y
   CONFIG_PACKAGE_iptables-mod-conntrack-extra=y
   CONFIG_PACKAGE_iptables-mod-ipopt=y
   CONFIG_PACKAGE_iptables-mod-nfqueue=y
