@@ -991,3 +991,6 @@ Assure expected build configuration (PCF-1413):
   CONFIG_shadow-all=y
   # CONFIG_VERSION_CODE_FILENAMES is not set
   # CONFIG_VERSION_FILENAMES is not set
+  CONFIG_FORCE_RUNNING_AS_ROOT=y
+  CONFIG_REMOVE_CAPS_ODLS=y
+  
