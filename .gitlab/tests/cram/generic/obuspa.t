@@ -511,6 +511,27 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.DeviceInfo.FriendlyName                                                                       proto::deviceinfo-manager
   Device.DeviceInfo.HardwareVersion                                                                    proto::deviceinfo-manager
   Device.DeviceInfo.HostName                                                                           proto::deviceinfo-manager
+  Device.DeviceInfo.KernelFaults.                                                                      proto::oopsmonitor
+  Device.DeviceInfo.KernelFaults.KernelFault.{i}.                                                      proto::oopsmonitor
+  Device.DeviceInfo.KernelFaults.KernelFault.{i}.Alias                                                 proto::oopsmonitor
+  Device.DeviceInfo.KernelFaults.KernelFault.{i}.FaultLocation                                         proto::oopsmonitor
+  Device.DeviceInfo.KernelFaults.KernelFault.{i}.FirmwareVersion                                       proto::oopsmonitor
+  Device.DeviceInfo.KernelFaults.KernelFault.{i}.LastInstruction                                       proto::oopsmonitor
+  Device.DeviceInfo.KernelFaults.KernelFault.{i}.ProcessName                                           proto::oopsmonitor
+  Device.DeviceInfo.KernelFaults.KernelFault.{i}.Reason                                                proto::oopsmonitor
+  Device.DeviceInfo.KernelFaults.KernelFault.{i}.Remove()                                              proto::oopsmonitor
+  Device.DeviceInfo.KernelFaults.KernelFault.{i}.TimeStamp                                             proto::oopsmonitor
+  Device.DeviceInfo.KernelFaults.KernelFault.{i}.Upload()                                              proto::oopsmonitor
+  Device.DeviceInfo.KernelFaults.KernelFault.{i}.Upload() input:Password
+  Device.DeviceInfo.KernelFaults.KernelFault.{i}.Upload() input:URL
+  Device.DeviceInfo.KernelFaults.KernelFault.{i}.Upload() input:Username
+  Device.DeviceInfo.KernelFaults.KernelFaultNumberOfEntries                                            proto::oopsmonitor
+  Device.DeviceInfo.KernelFaults.LastUpgradeCount                                                      proto::oopsmonitor
+  Device.DeviceInfo.KernelFaults.MaxKernelFaultEntries                                                 proto::oopsmonitor
+  Device.DeviceInfo.KernelFaults.MinFreeSpace                                                          proto::oopsmonitor
+  Device.DeviceInfo.KernelFaults.PreviousBootCount                                                     proto::oopsmonitor
+  Device.DeviceInfo.KernelFaults.RemoveAllKernelFaults()                                               proto::oopsmonitor
+  Device.DeviceInfo.KernelFaults.StoragePath                                                           proto::oopsmonitor
   Device.DeviceInfo.Location.{i}.                                                                      proto::deviceinfo-manager
   Device.DeviceInfo.LocationNumberOfEntries                                                            proto::deviceinfo-manager
   Device.DeviceInfo.LogRotate.{i}.                                                                     proto::deviceinfo-manager
@@ -4444,6 +4465,27 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.DeviceInfo.FriendlyName                                                                       proto::deviceinfo-manager
   Device.DeviceInfo.HardwareVersion                                                                    proto::deviceinfo-manager
   Device.DeviceInfo.HostName                                                                           proto::deviceinfo-manager
+  Device.DeviceInfo.KernelFaults.                                                                      proto::oopsmonitor
+  Device.DeviceInfo.KernelFaults.KernelFault.{i}.                                                      proto::oopsmonitor
+  Device.DeviceInfo.KernelFaults.KernelFault.{i}.Alias                                                 proto::oopsmonitor
+  Device.DeviceInfo.KernelFaults.KernelFault.{i}.FaultLocation                                         proto::oopsmonitor
+  Device.DeviceInfo.KernelFaults.KernelFault.{i}.FirmwareVersion                                       proto::oopsmonitor
+  Device.DeviceInfo.KernelFaults.KernelFault.{i}.LastInstruction                                       proto::oopsmonitor
+  Device.DeviceInfo.KernelFaults.KernelFault.{i}.ProcessName                                           proto::oopsmonitor
+  Device.DeviceInfo.KernelFaults.KernelFault.{i}.Reason                                                proto::oopsmonitor
+  Device.DeviceInfo.KernelFaults.KernelFault.{i}.Remove()                                              proto::oopsmonitor
+  Device.DeviceInfo.KernelFaults.KernelFault.{i}.TimeStamp                                             proto::oopsmonitor
+  Device.DeviceInfo.KernelFaults.KernelFault.{i}.Upload()                                              proto::oopsmonitor
+  Device.DeviceInfo.KernelFaults.KernelFault.{i}.Upload() input:Password
+  Device.DeviceInfo.KernelFaults.KernelFault.{i}.Upload() input:URL
+  Device.DeviceInfo.KernelFaults.KernelFault.{i}.Upload() input:Username
+  Device.DeviceInfo.KernelFaults.KernelFaultNumberOfEntries                                            proto::oopsmonitor
+  Device.DeviceInfo.KernelFaults.LastUpgradeCount                                                      proto::oopsmonitor
+  Device.DeviceInfo.KernelFaults.MaxKernelFaultEntries                                                 proto::oopsmonitor
+  Device.DeviceInfo.KernelFaults.MinFreeSpace                                                          proto::oopsmonitor
+  Device.DeviceInfo.KernelFaults.PreviousBootCount                                                     proto::oopsmonitor
+  Device.DeviceInfo.KernelFaults.RemoveAllKernelFaults()                                               proto::oopsmonitor
+  Device.DeviceInfo.KernelFaults.StoragePath                                                           proto::oopsmonitor
   Device.DeviceInfo.Location.{i}.                                                                      proto::deviceinfo-manager
   Device.DeviceInfo.LocationNumberOfEntries                                                            proto::deviceinfo-manager
   Device.DeviceInfo.LogRotate.{i}.                                                                     proto::deviceinfo-manager
