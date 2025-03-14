@@ -66,6 +66,7 @@ Check that ubus has expected datamodels available:
   Device.DNS.SD
   Device.DSLite
   Device.DeviceInfo
+  Device.DeviceInfo.KernelFaults
   Device.DeviceInfo.ProcessFaults
   Device.DeviceInfo.Reboots
   Device.DeviceInfo.TemperatureStatus
@@ -174,6 +175,8 @@ Check that ubus has expected datamodels available:
   IPDiagnostics.X_PRPL-COM_UploadResult.IncrementalResult
   IPDiagnostics.X_PRPL-COM_UploadResult.PerConnectionResult
   IPDiagnostics.X_PRPL-COM_UploadResult.Process
+  KernelFaults
+  KernelFaults.KernelFault
   LEDs
   LEDs.LED
   Logical
