@@ -99,6 +99,7 @@ Check that ubus has expected datamodels available:
   Device.UserInterface
   Device.Users
   Device.WiFi
+  Device.WiFi.Sensing
   Device.XPON
   Device.X_PRPL-COM_Buttons
   Device.X_PRPL-COM_MultiSettings
@@ -318,3 +319,6 @@ Check that ubus has expected datamodels available:
   X_PRPL-ORG
   X_PRPL-ORG.prplMeshAgent
   X_PRPL-ORG.prplMeshAgent.Fronthaul
+  X_PRPLWARE-COM_WiFiSensing
+  X_PRPLWARE-COM_WiFiSensing.Session
+  X_PRPLWARE-COM_WiFiSensing.Session.Exchange
