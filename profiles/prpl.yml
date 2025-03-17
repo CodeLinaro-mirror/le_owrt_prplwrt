@@ -11,7 +11,7 @@ feeds:
 
   - name: feed_prplmesh
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplmesh.git
-    revision: main@621e9a3a6462c3ad546c041a5e12e74a18f04e43
+    revision: main@4df6607fcebd5ac022edd7ca8a2dbeab46276aba
 
   - name: feed_prplos
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplos.git
@@ -189,6 +189,7 @@ packages:
   - tr181-usermanagement
   - tr181-xpon
   - wan-manager
+  - wifi-sensing
 
 diffconfig: |
           CONFIG_DEVEL=y
