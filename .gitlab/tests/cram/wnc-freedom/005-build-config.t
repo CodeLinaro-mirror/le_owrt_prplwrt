@@ -528,6 +528,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_usbids=y
   CONFIG_PACKAGE_usbutils=y
   CONFIG_PACKAGE_wan-manager=y
+  CONFIG_PACKAGE_wifi-sensing=y
   CONFIG_PACKAGE_wireless-freedom=y
   CONFIG_PACKAGE_wpa-supplicant-qca-openssl=y
   CONFIG_PACKAGE_wwan=y

@@ -743,6 +743,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_uuidgen=y
   CONFIG_PACKAGE_vpn-firmware-lgm=y
   CONFIG_PACKAGE_wan-manager=y
+  CONFIG_PACKAGE_wifi-sensing=y
   CONFIG_PACKAGE_xtables-legacy=y
   CONFIG_PACKAGE_yajl=y
   CONFIG_PACKAGE_zlib=y

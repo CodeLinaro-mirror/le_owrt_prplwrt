@@ -3211,6 +3211,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.AccessPoint.{i}.setNeighbourAP() input:PhyType
   Device.WiFi.AccessPoint.{i}.setNeighbourAP() input:R0KHKey
   Device.WiFi.AccessPoint.{i}.setNeighbourAP() input:SSID
+  Device.WiFi.AccessPointNumberOfEntries                                                               proto::wld
   Device.WiFi.AutoCommitMgr.                                                                           proto::wld
   Device.WiFi.AutoCommitMgr.BootDelayTime                                                              proto::wld
   Device.WiFi.AutoCommitMgr.DelayTime                                                                  proto::wld
@@ -3312,6 +3313,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.EndPoint.{i}.sendManagementFrame() input:data
   Device.WiFi.EndPoint.{i}.sendManagementFrame() input:fc
   Device.WiFi.EndPoint.{i}.sendManagementFrame() input:mac
+  Device.WiFi.EndPointNumberOfEntries                                                                  proto::wld
   Device.WiFi.FSM_Start()                                                                              proto::wld
   Device.WiFi.FSM_Start() input:bitnr
   Device.WiFi.FSM_Start() input:vap
@@ -3399,6 +3401,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.Radio.{i}.ChannelMgt.TargetChanspec.Reason                                               proto::wld
   Device.WiFi.Radio.{i}.ChannelMgt.TargetChanspec.ReasonExt                                            proto::wld
   Device.WiFi.Radio.{i}.ChannelsInUse                                                                  proto::wld
+  Device.WiFi.Radio.{i}.ChipsetVendor                                                                  proto::wld
   Device.WiFi.Radio.{i}.CurrentOperatingChannelBandwidth                                               proto::wld
   Device.WiFi.Radio.{i}.DFS.                                                                           proto::wld
   Device.WiFi.Radio.{i}.DFS.Event.{i}.                                                                 proto::wld
@@ -3569,8 +3572,14 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.Radio.{i}.Sensing.CSIClient.{i}.MonitorInterval                                          proto::wld
   Device.WiFi.Radio.{i}.Sensing.Enable                                                                 proto::wld
   Device.WiFi.Radio.{i}.Sensing.addClient()                                                            proto::wld
+  Device.WiFi.Radio.{i}.Sensing.addClient() input:Bandwidth
+  Device.WiFi.Radio.{i}.Sensing.addClient() input:DataType
+  Device.WiFi.Radio.{i}.Sensing.addClient() input:ExchangeType
   Device.WiFi.Radio.{i}.Sensing.addClient() input:MACAddress
   Device.WiFi.Radio.{i}.Sensing.addClient() input:MonitorInterval
+  Device.WiFi.Radio.{i}.Sensing.addClient() input:NRx
+  Device.WiFi.Radio.{i}.Sensing.addClient() input:NTx
+  Device.WiFi.Radio.{i}.Sensing.addClient() input:Receiver
   Device.WiFi.Radio.{i}.Sensing.csiStats()                                                             proto::wld
   Device.WiFi.Radio.{i}.Sensing.debug()                                                                proto::wld
   Device.WiFi.Radio.{i}.Sensing.delClient()                                                            proto::wld
@@ -3642,6 +3651,8 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.Radio.{i}.SupportedDataTransmitRates                                                     proto::wld
   Device.WiFi.Radio.{i}.SupportedFrequencyBands                                                        proto::wld
   Device.WiFi.Radio.{i}.SupportedOperatingChannelBandwidth                                             proto::wld
+  Device.WiFi.Radio.{i}.SupportedSensingDataTypes                                                      proto::wld
+  Device.WiFi.Radio.{i}.SupportedSensingExchangeTypes                                                  proto::wld
   Device.WiFi.Radio.{i}.SupportedStandards                                                             proto::wld
   Device.WiFi.Radio.{i}.TargetWakeTimeEnable                                                           proto::wld
   Device.WiFi.Radio.{i}.TransmitPower                                                                  proto::wld
@@ -3700,6 +3711,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.Radio.{i}.startScan() input:scanReason
   Device.WiFi.Radio.{i}.startScan() input:updateUsage
   Device.WiFi.Radio.{i}.stopScan()                                                                     proto::wld
+  Device.WiFi.RadioNumberOfEntries                                                                     proto::wld
   Device.WiFi.Reset()                                                                                  proto::wld
   Device.WiFi.SSID.{i}.                                                                                proto::wld
   Device.WiFi.SSID.{i}.Alias                                                                           proto::wld
@@ -3776,6 +3788,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.SSID.{i}.Status                                                                          proto::wld
   Device.WiFi.SSID.{i}.getSSIDStats()                                                                  proto::wld
   Device.WiFi.SSID.{i}.getStatusHistogram()                                                            proto::wld
+  Device.WiFi.SSIDNumberOfEntries                                                                      proto::wld
   Device.WiFi.Vendor.                                                                                  proto::wld
   Device.WiFi.addEndPointIntf()                                                                        proto::wld
   Device.WiFi.addEndPointIntf() input:endpoint
@@ -7177,6 +7190,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.AccessPoint.{i}.setNeighbourAP() input:PhyType
   Device.WiFi.AccessPoint.{i}.setNeighbourAP() input:R0KHKey
   Device.WiFi.AccessPoint.{i}.setNeighbourAP() input:SSID
+  Device.WiFi.AccessPointNumberOfEntries                                                               proto::wld
   Device.WiFi.AutoCommitMgr.                                                                           proto::wld
   Device.WiFi.AutoCommitMgr.BootDelayTime                                                              proto::wld
   Device.WiFi.AutoCommitMgr.DelayTime                                                                  proto::wld
@@ -7278,6 +7292,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.EndPoint.{i}.sendManagementFrame() input:data
   Device.WiFi.EndPoint.{i}.sendManagementFrame() input:fc
   Device.WiFi.EndPoint.{i}.sendManagementFrame() input:mac
+  Device.WiFi.EndPointNumberOfEntries                                                                  proto::wld
   Device.WiFi.FSM_Start()                                                                              proto::wld
   Device.WiFi.FSM_Start() input:bitnr
   Device.WiFi.FSM_Start() input:vap
@@ -7365,6 +7380,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.Radio.{i}.ChannelMgt.TargetChanspec.Reason                                               proto::wld
   Device.WiFi.Radio.{i}.ChannelMgt.TargetChanspec.ReasonExt                                            proto::wld
   Device.WiFi.Radio.{i}.ChannelsInUse                                                                  proto::wld
+  Device.WiFi.Radio.{i}.ChipsetVendor                                                                  proto::wld
   Device.WiFi.Radio.{i}.CurrentOperatingChannelBandwidth                                               proto::wld
   Device.WiFi.Radio.{i}.DFS.                                                                           proto::wld
   Device.WiFi.Radio.{i}.DFS.Event.{i}.                                                                 proto::wld
@@ -7535,8 +7551,14 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.Radio.{i}.Sensing.CSIClient.{i}.MonitorInterval                                          proto::wld
   Device.WiFi.Radio.{i}.Sensing.Enable                                                                 proto::wld
   Device.WiFi.Radio.{i}.Sensing.addClient()                                                            proto::wld
+  Device.WiFi.Radio.{i}.Sensing.addClient() input:Bandwidth
+  Device.WiFi.Radio.{i}.Sensing.addClient() input:DataType
+  Device.WiFi.Radio.{i}.Sensing.addClient() input:ExchangeType
   Device.WiFi.Radio.{i}.Sensing.addClient() input:MACAddress
   Device.WiFi.Radio.{i}.Sensing.addClient() input:MonitorInterval
+  Device.WiFi.Radio.{i}.Sensing.addClient() input:NRx
+  Device.WiFi.Radio.{i}.Sensing.addClient() input:NTx
+  Device.WiFi.Radio.{i}.Sensing.addClient() input:Receiver
   Device.WiFi.Radio.{i}.Sensing.csiStats()                                                             proto::wld
   Device.WiFi.Radio.{i}.Sensing.debug()                                                                proto::wld
   Device.WiFi.Radio.{i}.Sensing.delClient()                                                            proto::wld
@@ -7608,6 +7630,8 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.Radio.{i}.SupportedDataTransmitRates                                                     proto::wld
   Device.WiFi.Radio.{i}.SupportedFrequencyBands                                                        proto::wld
   Device.WiFi.Radio.{i}.SupportedOperatingChannelBandwidth                                             proto::wld
+  Device.WiFi.Radio.{i}.SupportedSensingDataTypes                                                      proto::wld
+  Device.WiFi.Radio.{i}.SupportedSensingExchangeTypes                                                  proto::wld
   Device.WiFi.Radio.{i}.SupportedStandards                                                             proto::wld
   Device.WiFi.Radio.{i}.TargetWakeTimeEnable                                                           proto::wld
   Device.WiFi.Radio.{i}.TransmitPower                                                                  proto::wld
@@ -7666,6 +7690,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.Radio.{i}.startScan() input:scanReason
   Device.WiFi.Radio.{i}.startScan() input:updateUsage
   Device.WiFi.Radio.{i}.stopScan()                                                                     proto::wld
+  Device.WiFi.RadioNumberOfEntries                                                                     proto::wld
   Device.WiFi.Reset()                                                                                  proto::wld
   Device.WiFi.SSID.{i}.                                                                                proto::wld
   Device.WiFi.SSID.{i}.Alias                                                                           proto::wld
@@ -7742,6 +7767,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.SSID.{i}.Status                                                                          proto::wld
   Device.WiFi.SSID.{i}.getSSIDStats()                                                                  proto::wld
   Device.WiFi.SSID.{i}.getStatusHistogram()                                                            proto::wld
+  Device.WiFi.SSIDNumberOfEntries                                                                      proto::wld
   Device.WiFi.Vendor.                                                                                  proto::wld
   Device.WiFi.addEndPointIntf()                                                                        proto::wld
   Device.WiFi.addEndPointIntf() input:endpoint
