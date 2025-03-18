@@ -3911,6 +3911,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.X_PRPL-COM_WANManager.WAN.{i}.Intf.{i}.BridgeReference                                        proto::wan-manager
   Device.X_PRPL-COM_WANManager.WAN.{i}.Intf.{i}.DHCPv4Reference                                        proto::wan-manager
   Device.X_PRPL-COM_WANManager.WAN.{i}.Intf.{i}.DHCPv6Reference                                        proto::wan-manager
+  Device.X_PRPL-COM_WANManager.WAN.{i}.Intf.{i}.DSLiteReference                                        proto::wan-manager
   Device.X_PRPL-COM_WANManager.WAN.{i}.Intf.{i}.DefaultRouteReference                                  proto::wan-manager
   Device.X_PRPL-COM_WANManager.WAN.{i}.Intf.{i}.DeferredIPv6Instances                                  proto::wan-manager
   Device.X_PRPL-COM_WANManager.WAN.{i}.Intf.{i}.IPv4Address.{i}.                                       proto::wan-manager
@@ -3931,16 +3932,27 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.X_PRPL-COM_WANManager.WAN.{i}.Intf.{i}.IPv6Mode                                               proto::wan-manager
   Device.X_PRPL-COM_WANManager.WAN.{i}.Intf.{i}.IPv6Reference                                          proto::wan-manager
   Device.X_PRPL-COM_WANManager.WAN.{i}.Intf.{i}.Name                                                   proto::wan-manager
+  Device.X_PRPL-COM_WANManager.WAN.{i}.Intf.{i}.NeighborDiscoveryReference                             proto::wan-manager
+  Device.X_PRPL-COM_WANManager.WAN.{i}.Intf.{i}.PCPReference                                           proto::wan-manager
+  Device.X_PRPL-COM_WANManager.WAN.{i}.Intf.{i}.PPPv4Reference                                         proto::wan-manager
+  Device.X_PRPL-COM_WANManager.WAN.{i}.Intf.{i}.PPPv6Reference                                         proto::wan-manager
   Device.X_PRPL-COM_WANManager.WAN.{i}.Intf.{i}.Password                                               proto::wan-manager
   Device.X_PRPL-COM_WANManager.WAN.{i}.Intf.{i}.Type                                                   proto::wan-manager
   Device.X_PRPL-COM_WANManager.WAN.{i}.Intf.{i}.UserName                                               proto::wan-manager
   Device.X_PRPL-COM_WANManager.WAN.{i}.Intf.{i}.VlanID                                                 proto::wan-manager
   Device.X_PRPL-COM_WANManager.WAN.{i}.Intf.{i}.VlanPriority                                           proto::wan-manager
   Device.X_PRPL-COM_WANManager.WAN.{i}.Origin                                                          proto::wan-manager
+  Device.X_PRPL-COM_WANManager.WAN.{i}.PhysicalReference                                               proto::wan-manager
   Device.X_PRPL-COM_WANManager.WAN.{i}.PhysicalType                                                    proto::wan-manager
+  Device.X_PRPL-COM_WANManager.WAN.{i}.SensingPriority                                                 proto::wan-manager
   Device.X_PRPL-COM_WANManager.WAN.{i}.Status                                                          proto::wan-manager
   Device.X_PRPL-COM_WANManager.WANMode                                                                 proto::wan-manager
-  Device.X_PRPL-COM_WANManager.getCurrentWANModeStatus()                                               proto::wan-manager
+  Device.X_PRPL-COM_WANManager.WANModeDisable()                                                        proto::wan-manager
+  Device.X_PRPL-COM_WANManager.WANModeDisable() input:Autosensing
+  Device.X_PRPL-COM_WANManager.WANModeDisable() input:WANMode
+  Device.X_PRPL-COM_WANManager.WANModeEnable()                                                         proto::wan-manager
+  Device.X_PRPL-COM_WANManager.WANModeEnable() input:Autosensing
+  Device.X_PRPL-COM_WANManager.WANModeEnable() input:WANMode
   Device.X_PRPL-COM_WANManager.getWANMode()                                                            proto::wan-manager
   Device.X_PRPL-COM_WANManager.setIPv4Mode()                                                           proto::wan-manager
   Device.X_PRPL-COM_WANManager.setIPv4Mode() input:IPv4Mode
@@ -7865,6 +7877,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.X_PRPL-COM_WANManager.WAN.{i}.Intf.{i}.BridgeReference                                        proto::wan-manager
   Device.X_PRPL-COM_WANManager.WAN.{i}.Intf.{i}.DHCPv4Reference                                        proto::wan-manager
   Device.X_PRPL-COM_WANManager.WAN.{i}.Intf.{i}.DHCPv6Reference                                        proto::wan-manager
+  Device.X_PRPL-COM_WANManager.WAN.{i}.Intf.{i}.DSLiteReference                                        proto::wan-manager
   Device.X_PRPL-COM_WANManager.WAN.{i}.Intf.{i}.DefaultRouteReference                                  proto::wan-manager
   Device.X_PRPL-COM_WANManager.WAN.{i}.Intf.{i}.DeferredIPv6Instances                                  proto::wan-manager
   Device.X_PRPL-COM_WANManager.WAN.{i}.Intf.{i}.IPv4Address.{i}.                                       proto::wan-manager
@@ -7885,16 +7898,27 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.X_PRPL-COM_WANManager.WAN.{i}.Intf.{i}.IPv6Mode                                               proto::wan-manager
   Device.X_PRPL-COM_WANManager.WAN.{i}.Intf.{i}.IPv6Reference                                          proto::wan-manager
   Device.X_PRPL-COM_WANManager.WAN.{i}.Intf.{i}.Name                                                   proto::wan-manager
+  Device.X_PRPL-COM_WANManager.WAN.{i}.Intf.{i}.NeighborDiscoveryReference                             proto::wan-manager
+  Device.X_PRPL-COM_WANManager.WAN.{i}.Intf.{i}.PCPReference                                           proto::wan-manager
+  Device.X_PRPL-COM_WANManager.WAN.{i}.Intf.{i}.PPPv4Reference                                         proto::wan-manager
+  Device.X_PRPL-COM_WANManager.WAN.{i}.Intf.{i}.PPPv6Reference                                         proto::wan-manager
   Device.X_PRPL-COM_WANManager.WAN.{i}.Intf.{i}.Password                                               proto::wan-manager
   Device.X_PRPL-COM_WANManager.WAN.{i}.Intf.{i}.Type                                                   proto::wan-manager
   Device.X_PRPL-COM_WANManager.WAN.{i}.Intf.{i}.UserName                                               proto::wan-manager
   Device.X_PRPL-COM_WANManager.WAN.{i}.Intf.{i}.VlanID                                                 proto::wan-manager
   Device.X_PRPL-COM_WANManager.WAN.{i}.Intf.{i}.VlanPriority                                           proto::wan-manager
   Device.X_PRPL-COM_WANManager.WAN.{i}.Origin                                                          proto::wan-manager
+  Device.X_PRPL-COM_WANManager.WAN.{i}.PhysicalReference                                               proto::wan-manager
   Device.X_PRPL-COM_WANManager.WAN.{i}.PhysicalType                                                    proto::wan-manager
+  Device.X_PRPL-COM_WANManager.WAN.{i}.SensingPriority                                                 proto::wan-manager
   Device.X_PRPL-COM_WANManager.WAN.{i}.Status                                                          proto::wan-manager
   Device.X_PRPL-COM_WANManager.WANMode                                                                 proto::wan-manager
-  Device.X_PRPL-COM_WANManager.getCurrentWANModeStatus()                                               proto::wan-manager
+  Device.X_PRPL-COM_WANManager.WANModeDisable()                                                        proto::wan-manager
+  Device.X_PRPL-COM_WANManager.WANModeDisable() input:Autosensing
+  Device.X_PRPL-COM_WANManager.WANModeDisable() input:WANMode
+  Device.X_PRPL-COM_WANManager.WANModeEnable()                                                         proto::wan-manager
+  Device.X_PRPL-COM_WANManager.WANModeEnable() input:Autosensing
+  Device.X_PRPL-COM_WANManager.WANModeEnable() input:WANMode
   Device.X_PRPL-COM_WANManager.getWANMode()                                                            proto::wan-manager
   Device.X_PRPL-COM_WANManager.setIPv4Mode()                                                           proto::wan-manager
   Device.X_PRPL-COM_WANManager.setIPv4Mode() input:IPv4Mode
