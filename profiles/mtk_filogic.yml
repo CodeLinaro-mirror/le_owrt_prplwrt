@@ -1,0 +1,73 @@
+---
+profiles:
+  - mediatek_mt7988a-arcadyan-mozart
+target: mediatek
+subtarget: filogic
+external_target: True
+description: Build image for MediaTek / Arcadyan Mozart board
+feeds:
+  - name: feed_mediatek
+    uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-mediatek.git
+    tracking_branch: arcadyan-mozart-v2
+    revision: a514b74f01a28586ab41e4bd9efcdcf146956868
+  - name: feed_prplos
+    uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplos.git
+    tracking_branch: arcadyan-mozart
+    revision: 78e714129897534f41119675b5559e4c04584b5e
+  - name: feed_mfg
+    uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_mfg.git
+    tracking_branch: master
+    revision: 610b8b614af86e0d69446efb75cfa938412963c8
+
+additional_packages:
+  - feed: packages
+    packages:
+      - cryptsetup
+
+packages:
+  - mediatek
+  - kmod-mt7996-firmware
+  - kmod-mt7996-233-firmware
+  - kmod-mt7996e
+  - kmod-br-netfilter
+  - kmod-ipt-offload
+  - ucode-mod-uci
+  - netifd
+  - wifi-scripts
+  - wpa-cli
+  - hostapd-utils
+  - libudebug
+  - iptables
+  - iptables-mod-conntrack-extra
+  - iptables-mod-extra
+  - iptables-mod-ipopt
+  - mtkhnat_util
+  - mt7988-2p5g-phy-firmware
+  - mt7988-wo-firmware
+  - u-boot-mt7988_arcadyan_mozart
+  - aqr10g-phy-firmware
+  - smp_util
+  - regs
+  - mt76-test
+  - tcpdump
+  - mpstat
+  - tftp
+  - wifi_shutdown_util
+  - netfilter-flowtable
+  - libmfg
+  - readmfg
+
+diffconfig: |
+  CONFIG_TARGET_ROOTFS_PARTSIZE=256
+  CONFIG_TARGET_MULTI_PROFILE=y
+  CONFIG_TARGET_DEVICE_mediatek_filogic_DEVICE_mediatek_mt7988a-rfb=y
+  CONFIG_TARGET_DEVICE_mediatek_filogic_DEVICE_mediatek_mt7988d-rfb=y
+  CONFIG_TARGET_DEVICE_mediatek_filogic_DEVICE_arcadyan_mozart=y
+  # CONFIG_PACKAGE_trusted-firmware-a-mt7981-ram-ddr3 is not set
+  # CONFIG_PACKAGE_trusted-firmware-a-mt7981-ram-ddr4 is not set
+  # CONFIG_PACKAGE_trusted-firmware-a-mt7986-ram-ddr3 is not set
+  # CONFIG_PACKAGE_trusted-firmware-a-mt7986-ram-ddr4 is not set
+  # CONFIG_PACKAGE_trusted-firmware-a-mt7988-ram-comb is not set
+  CONFIG_PACKAGE_CFG80211_TESTMODE=y
+  # CONFIG_PACKAGE_wpad-basic-mbedtls is not set
+  CONFIG_BUSYBOX_CONFIG_DEVMEM=y
