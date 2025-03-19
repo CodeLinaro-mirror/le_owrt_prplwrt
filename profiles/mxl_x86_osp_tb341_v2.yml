@@ -13,7 +13,7 @@ feeds:
   - name: intel_x86
     uri: ssh://git@git.maxlinear.com/ugw-oss/feeds/feed_target_x86.git
     tracking_branch: updk_9.1.80
-    revision: 1cfea14a996fc08ce991d6e2d0a07097a5bf30c1
+    revision: 16d6c3caf53e79074aad224543f0b4cc26680f05
   - name: rootfs
     uri: ssh://git@git.maxlinear.com/ugw-oss/rootfs.git
     tracking_branch: updk_9.1.80
@@ -72,8 +72,8 @@ feeds:
     revision: 0737ccdcbf0bceabbd516185ddfa9ebb8f3be061
   - name: bootloader
     uri: ssh://git@git.maxlinear.com/ugw-oss/feeds/feed_uboot.git
-    tracking_branch: u-boot-2022.01_prpl_4.0.254
-    revision: 7d50fe6999f10ca8d82a71654d92225bf45b91a7
+    tracking_branch: u-boot-2022.01_updk
+    revision: 632076ef2d4d489afd58ae026f430b2b3521f7d6
   - name: dpl
     uri: ssh://git@git.maxlinear.com/ugw-oss/feeds/feed_dpl.git
     tracking_branch: updk_9.1.80
@@ -184,6 +184,7 @@ diffconfig: |
   # CONFIG_TARGET_ROOTFS_EXT4FS is not set
   CONFIG_BUILD_LOG=y
   CONFIG_PACKAGE_uboot-octopus-urx641-p34x-phy-emmc-prpl=y
+  # CONFIG_PACKAGE_uboot-octopus-urx641-p34x-phy-emmc-prpl_overlay is not set
   CONFIG_VERSION_FILENAMES=n
   CONFIG_VERSION_CODE_FILENAMES=n
   # CONFIG_PACKAGE_bios_images is not set
