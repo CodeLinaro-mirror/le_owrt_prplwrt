@@ -360,7 +360,10 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-pppoe=y
   CONFIG_PACKAGE_kmod-pppox=y
   CONFIG_PACKAGE_kmod-ppv4=y
+  CONFIG_PACKAGE_kmod-pstore=y
   CONFIG_PACKAGE_kmod-qos-tc=y
+  CONFIG_PACKAGE_kmod-ramoops=y
+  CONFIG_PACKAGE_kmod-reed-solomon=y
   CONFIG_PACKAGE_kmod-safexcel=y
   CONFIG_PACKAGE_kmod-sched=y
   CONFIG_PACKAGE_kmod-sched-act-colmark=y
