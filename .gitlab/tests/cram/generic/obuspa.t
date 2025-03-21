@@ -228,13 +228,42 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.DHCPv6.Client.{i}.ReceivedOption.{i}.Tag                                                      proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.ReceivedOption.{i}.Value                                                    proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.ReceivedOptionNumberOfEntries                                               proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Release                                                                     proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Release()                                                                   proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.Renew                                                                       proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.Renew()                                                                     proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.RequestAddresses                                                            proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.RequestPrefixes                                                             proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.RequestedOptions                                                            proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.Retransmission.                                                             proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Retransmission.ConfirmInitialTimeout                                        proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Retransmission.ConfirmMaxDelay                                              proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Retransmission.ConfirmMaxDuration                                           proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Retransmission.ConfirmMaxTimeout                                            proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Retransmission.DeclineInitialTimeout                                        proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Retransmission.DeclineMaxAttempts                                           proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Retransmission.HopCountLimit                                                proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Retransmission.InformationRefreshTime                                       proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Retransmission.InformationRequestInitialTimeout                             proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Retransmission.InformationRequestMaxDelay                                   proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Retransmission.InformationRequestMaxTimeout                                 proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Retransmission.MaxWaitTime                                                  proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Retransmission.MinInformationRefreshTime                                    proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Retransmission.RebindInitialTimeout                                         proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Retransmission.RebindMaxTimeout                                             proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Retransmission.ReconfigureInitialTimeout                                    proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Retransmission.ReconfigureMaxAttempts                                       proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Retransmission.ReleaseInitialTimeout                                        proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Retransmission.ReleaseMaxAttempts                                           proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Retransmission.RenewInitialTimeout                                          proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Retransmission.RenewMaxTimeout                                              proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Retransmission.RequestInitialTimeout                                        proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Retransmission.RequestMaxRetry                                              proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Retransmission.RequestMaxTimeout                                            proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Retransmission.SolicitInitialTimeout                                        proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Retransmission.SolicitMaxDelay                                              proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.Retransmission.SolicitMaxTimeout                                            proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Retransmission.TimeoutRandomize                                             proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.SentOption.{i}.                                                             proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.SentOption.{i}.Alias                                                        proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.SentOption.{i}.Enable                                                       proto::tr181-dhcpv6client
@@ -270,8 +299,6 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.DHCPv6.Client.{i}.X_PRPL-COM_Config.LeaseRenewedWhen                                          proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.X_PRPL-COM_Config.T1Renewed                                                 proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.X_PRPL-COM_Config.T2Renewed                                                 proto::tr181-dhcpv6client
-  Device.DHCPv6.Client.{i}.X_PRPL-COM_Release                                                          proto::tr181-dhcpv6client
-  Device.DHCPv6.Client.{i}.X_PRPL-COM_Release()                                                        proto::tr181-dhcpv6client
   Device.DHCPv6.ClientNumberOfEntries                                                                  proto::tr181-dhcpv6client
   Device.DHCPv6.Server.                                                                                proto::dhcpv6s-manager
   Device.DHCPv6.Server.Enable                                                                          proto::dhcpv6s-manager
@@ -4207,13 +4234,42 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.DHCPv6.Client.{i}.ReceivedOption.{i}.Tag                                                      proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.ReceivedOption.{i}.Value                                                    proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.ReceivedOptionNumberOfEntries                                               proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Release                                                                     proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Release()                                                                   proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.Renew                                                                       proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.Renew()                                                                     proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.RequestAddresses                                                            proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.RequestPrefixes                                                             proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.RequestedOptions                                                            proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.Retransmission.                                                             proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Retransmission.ConfirmInitialTimeout                                        proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Retransmission.ConfirmMaxDelay                                              proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Retransmission.ConfirmMaxDuration                                           proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Retransmission.ConfirmMaxTimeout                                            proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Retransmission.DeclineInitialTimeout                                        proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Retransmission.DeclineMaxAttempts                                           proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Retransmission.HopCountLimit                                                proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Retransmission.InformationRefreshTime                                       proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Retransmission.InformationRequestInitialTimeout                             proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Retransmission.InformationRequestMaxDelay                                   proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Retransmission.InformationRequestMaxTimeout                                 proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Retransmission.MaxWaitTime                                                  proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Retransmission.MinInformationRefreshTime                                    proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Retransmission.RebindInitialTimeout                                         proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Retransmission.RebindMaxTimeout                                             proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Retransmission.ReconfigureInitialTimeout                                    proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Retransmission.ReconfigureMaxAttempts                                       proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Retransmission.ReleaseInitialTimeout                                        proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Retransmission.ReleaseMaxAttempts                                           proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Retransmission.RenewInitialTimeout                                          proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Retransmission.RenewMaxTimeout                                              proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Retransmission.RequestInitialTimeout                                        proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Retransmission.RequestMaxRetry                                              proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Retransmission.RequestMaxTimeout                                            proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Retransmission.SolicitInitialTimeout                                        proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Retransmission.SolicitMaxDelay                                              proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.Retransmission.SolicitMaxTimeout                                            proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.Retransmission.TimeoutRandomize                                             proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.SentOption.{i}.                                                             proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.SentOption.{i}.Alias                                                        proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.SentOption.{i}.Enable                                                       proto::tr181-dhcpv6client
@@ -4249,8 +4305,6 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.DHCPv6.Client.{i}.X_PRPL-COM_Config.LeaseRenewedWhen                                          proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.X_PRPL-COM_Config.T1Renewed                                                 proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.X_PRPL-COM_Config.T2Renewed                                                 proto::tr181-dhcpv6client
-  Device.DHCPv6.Client.{i}.X_PRPL-COM_Release                                                          proto::tr181-dhcpv6client
-  Device.DHCPv6.Client.{i}.X_PRPL-COM_Release()                                                        proto::tr181-dhcpv6client
   Device.DHCPv6.ClientNumberOfEntries                                                                  proto::tr181-dhcpv6client
   Device.DHCPv6.Server.                                                                                proto::dhcpv6s-manager
   Device.DHCPv6.Server.Enable                                                                          proto::dhcpv6s-manager
