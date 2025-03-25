@@ -43,7 +43,7 @@ Store SessionID and DataSocketPath for next operations
 Check socket presence:
 
   $ R "ls $DataSocketPath >/dev/null 2>&1 && echo found || echo not_found"
-  not_found
+  found
 
 Check sessions number:
 
