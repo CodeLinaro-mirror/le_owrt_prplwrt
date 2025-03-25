@@ -19,7 +19,6 @@ packages:
   - aq-fw-download
   - aq_phy
   - qca-ssdk-shell
-  - io-expander-freedom
   - efr32-boot-config
   - wireless-freedom
   - kmod-usb-phy-ipq807x
