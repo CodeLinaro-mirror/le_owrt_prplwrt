@@ -9,6 +9,20 @@ PKG_SSP ?= 1
 PKG_FORTIFY_SOURCE ?= 1
 PKG_RELRO ?= 1
 
+TARGET_CFLAGS += -I$(STAGING_DIR)/usr/include/
+ifdef CONFIG_GCC_USE_VERSION_12
+  TARGET_CFLAGS += -fcommon -D_LARGEFILE64_SOURCE
+endif
+
+ifdef CONFIG_USE_MUSL
+  TARGET_CFLAGS += -DUSE_MUSL
+endif
+
+# add common optimize flags from yocto.
+ifeq ($(ARCH),arm)
+  TARGET_CFLAGS += -Wa,--noexecstack -fexpensive-optimizations -frename-registers -ftree-vectorize -finline-functions -finline-limit=64 -Wno-error=maybe-uninitialized -Wno-error=stringop-overflow -Wno-error=unused-result -mthumb
+endif
+
 ifdef CONFIG_PKG_CHECK_FORMAT_SECURITY
   ifeq ($(strip $(PKG_CHECK_FORMAT_SECURITY)),1)
     TARGET_CFLAGS += -Wformat -Werror=format-security
