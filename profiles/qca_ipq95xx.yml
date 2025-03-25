@@ -8,7 +8,7 @@ description: Build image for prpl Foundation Freedom board
 feeds:
   - name: feed_qca
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-qca.git
-    revision: main@44cd282835210a35d5b37fb8cd0964719cf16ffe
+    revision: main@73f48bb8a75b1cee22869bc20879bedc89aa894a
 
 packages:
   - ipq95xx
@@ -31,6 +31,7 @@ packages:
   - kmod-telemetry-agent
   - kmod-i2c-mux-pca954x
   - kmod-gpio-pca953x
+  - kmod-leds-lp5562
 
 diffconfig: |
   CONFIG_TARGET_INITRAMFS_COMPRESSION_LZMA=y
