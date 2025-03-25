@@ -139,7 +139,6 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_hostapd-qca-openssl=y
   CONFIG_PACKAGE_hostapd-qca-utils=y
   CONFIG_PACKAGE_hosts-manager=y
-  CONFIG_PACKAGE_io-expander-freedom=y
   CONFIG_PACKAGE_ip-bridge=y
   CONFIG_PACKAGE_ip-full=y
   CONFIG_PACKAGE_ip-manager=y
