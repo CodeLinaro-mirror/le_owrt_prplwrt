@@ -22,7 +22,7 @@ Get initial state of bridges:
 Remove lan4 from LAN bridge and add it to the Guest bridge:
 
   $ printf ' \
-  > ba-cli Bridging.Bridge.lan.Port.LAN4-\n
+  > ba-cli Bridging.Bridge.lan.Port.cpe-lan4.-\n
   > ba-cli Bridging.Bridge.guest.Port.+{Name="LAN4", Alias="LAN4", LowerLayers="Device.Ethernet.Interface.5."}\n
   > sleep 1\n
   > ba-cli Bridging.Bridge.guest.Port.LAN4.Enable=1\n
