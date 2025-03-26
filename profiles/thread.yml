@@ -1,0 +1,4 @@
+---
+description: Add thread dependencies
+packages:
+  - kmod-tun
