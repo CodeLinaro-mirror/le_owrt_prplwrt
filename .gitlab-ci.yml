@@ -63,7 +63,7 @@ build test x86_64 prpl security:
 build test ipq807x prpl security:
   extends: .build test config
 
-build test qca_ipq95xx prpl cellular security:
+build test qca_ipq95xx prpl cellular security thread:
   extends: .build test config
 
 coverity scan ipq807x prpl:
@@ -99,6 +99,6 @@ run test MXL25641-HDK-6 with system on eMMC:
 
 run test Freedom initramfs:
   needs:
-    - job: build test qca_ipq95xx prpl cellular security
+    - job: build test qca_ipq95xx prpl cellular security thread
       optional: true
   extends: .wnc-freedom testbed
