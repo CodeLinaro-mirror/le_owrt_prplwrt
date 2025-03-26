@@ -210,6 +210,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-sched-prio=y
   CONFIG_PACKAGE_kmod-slhc=y
   CONFIG_PACKAGE_kmod-telemetry-agent=y
+  CONFIG_PACKAGE_kmod-tun=y
   CONFIG_PACKAGE_kmod-usb-net=y
   CONFIG_PACKAGE_kmod-usb-net-cdc-ether=y
   CONFIG_PACKAGE_kmod-usb-net-cdc-mbim=y
