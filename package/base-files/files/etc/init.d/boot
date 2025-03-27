@@ -47,6 +47,8 @@ boot() {
 		sleep 1
 	}
 
+	touch /etc/config/wireless
+	wifi config
 	/bin/config_generate
 	uci_apply_defaults
 	sync
