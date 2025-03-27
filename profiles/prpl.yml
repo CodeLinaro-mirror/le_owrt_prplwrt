@@ -123,6 +123,7 @@ packages:
   - multisettings
   - netdev-plugin
   - netmodel
+  - netmodel-cellular
   - netmodel-bridge
   - netmodel-clients
   - netmodel-dhcpv4
