@@ -31,6 +31,7 @@ packages:
   - kmod-usb-storage-uas
   - kmod-fs-vfat
   - kmod-telemetry-agent
+  - kmod-bootconfig
   - wpa-qca-cli
   - ethtool
   - tcpdump
@@ -48,3 +49,7 @@ diffconfig: |
   CONFIG_BUSYBOX_CONFIG_TELNET=y
   CONFIG_KERNEL_UBIFS_FS_SECURITY=y
   CONFIG_KERNEL_DYNAMIC_DEBUG=y
+  # CONFIG_KERNEL_DEBUG_INFO_REDUCED is not set
+  CONFIG_PACKAGE_ATH_DEBUG=y
+  CONFIG_PACKAGE_ppecfg=y
+  CONFIG_PACKAGE_libnl-ppe=y
