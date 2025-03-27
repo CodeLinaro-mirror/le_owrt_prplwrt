@@ -9,6 +9,7 @@ additional_packages:
       - qmi-utils
 
 packages:
+  - cellular-manager
   - kmod-mhi-net
   - kmod-mhi-wwan-ctrl
   - kmod-mhi-wwan-mbim
@@ -16,5 +17,6 @@ packages:
   - kmod-mhi-pci-generic
   - kmod-usb-net-qmi-wwan
   - kmod-usb-serial-option
+  - mod-cellular-libmm
   - umbim
   - uqmi
