@@ -198,6 +198,7 @@ packages:
   - tr181-xpon
   - wan-manager
   - wifi-sensing
+  - cellular-manager
 
 diffconfig: |
           CONFIG_DEVEL=y
