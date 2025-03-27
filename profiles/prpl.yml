@@ -12,7 +12,8 @@ feeds:
     revision: v1.7.2@f55d934ddf8461ed5bd8355ef4a1671fe9eabda5
   - name: feed_net_core
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_net_core.git
-    revision: mainline-3.1@6938b4e43f6e3366b8005925688ae4a03b4c0842
+    tracking_branch: dev_ath13.0-ipq95xx
+    revision: e41e26eb5fc39664f873bebaa35e5ad58d92c192
   - name: feed_qos_firewall
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_qos_firewall.git
     revision: v6.12.9@564db9cc19483a3db715221a2f070780daf5ba4b
@@ -45,10 +46,12 @@ feeds:
     revision: v4.10.3@5b25f5d8d954f15596f1e9d2c6e2c07ba7bfff19
   - name: feed_wifi_swl
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_wifi_swl.git
-    revision: v0.1.71@3951c3707e921ace5e8ef7acf2d7d1adc8331890
+    tracking_branch: dev_ath13.0-ipq95xx
+    revision: 8065eef1a10fae6078c3ab7d2e43b657ef6e40ce
   - name: feed_wifi_core
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_wifi_core.git
-    revision: v1.1.1@b76746ff62996a0f8c4bb8022428ca53af1a6d46
+    tracking_branch: dev_ath13.0-ipq95xx
+    revision: a907f4be82cbcee11b96476083f13b9088ea9e9a
   - name: feed_mcastd
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_mcastd.git
     revision: v0.1.6@70db45513b9dbf642c9e29c348716fa285ee0f4c
