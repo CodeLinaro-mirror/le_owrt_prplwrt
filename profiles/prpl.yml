@@ -120,6 +120,7 @@ packages:
   - mod-sahtrace
   - mod-vlan-ioctl
   - mod-xpon-prpl
+  - mod-cellular-libmm
   - multisettings
   - netdev-plugin
   - netmodel
