@@ -124,6 +124,7 @@ packages:
   - mod-wanmgr-sfp
   - mod-wanmgr-system
   - mod-xpon-prpl
+  - mod-cellular-libmm
   - multisettings
   - netdev-plugin
   - netmodel
