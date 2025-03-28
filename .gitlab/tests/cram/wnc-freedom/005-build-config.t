@@ -370,6 +370,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_mod-amxb-usp=y
   CONFIG_PACKAGE_mod-autosensing=y
   CONFIG_PACKAGE_mod-ba-cli=y
+  CONFIG_PACKAGE_mod-busstats=y
   CONFIG_PACKAGE_mod-dhcpv4c=y
   CONFIG_PACKAGE_mod-dmext=y
   CONFIG_PACKAGE_mod-dmproxy=y
