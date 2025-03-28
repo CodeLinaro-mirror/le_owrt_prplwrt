@@ -104,6 +104,7 @@ packages:
   - mod-usp-registration
   - mod-autosensing
   - mod-ba-cli
+  - mod-busstats
   - mod-dhcpv4c
   - mod-dmext
   - mod-dmstats
