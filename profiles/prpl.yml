@@ -15,7 +15,7 @@ feeds:
 
   - name: feed_prplos
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplos.git
-    revision: PCF-1131-sfp-plugin@7db8a2f15402097eb2a80a6b11d3d49e251dd269
+    revision: PCF-1131-sfp-plugin@f3e190b92532b7ff93114e2f273410a15125f6f9
 
 additional_packages:
   - feed: packages
