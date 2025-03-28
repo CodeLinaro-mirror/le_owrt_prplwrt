@@ -15,7 +15,7 @@ feeds:
 
   - name: feed_prplos
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplos.git
-    revision: main@d3cd496fe7828c9117211a3bfd3692a401c9970c
+    revision: main@5a0c4e6acfbb133e7826020e207d6944d137b5fe
 
 additional_packages:
   - feed: packages
@@ -115,11 +115,14 @@ packages:
   - mod-httpaccess-lighttpd
   - mod-logical-api
   - mod-lua-amx
+  - mod-network-selector
   - mod-ppp-daemon
   - mod-qos-tc
   - mod-ra-radvd
   - mod-sahtrace
   - mod-vlan-ioctl
+  - mod-wanmgr-sfp
+  - mod-wanmgr-system
   - mod-xpon-prpl
   - multisettings
   - netdev-plugin
