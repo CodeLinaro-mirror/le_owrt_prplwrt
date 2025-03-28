@@ -15,7 +15,7 @@ feeds:
 
   - name: feed_prplos
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplos.git
-    revision: main@7e325734eeca850062781780d7d6bdd19e0eff7c
+    revision: feature/PCF-1132-mod-support-wanmgr-makefiles@15c4aec39781493ab578ef5235c2a08b889928a6
 
 additional_packages:
   - feed: packages
@@ -115,11 +115,14 @@ packages:
   - mod-httpaccess-lighttpd
   - mod-logical-api
   - mod-lua-amx
+  - mod-network-selector
   - mod-ppp-daemon
   - mod-qos-tc
   - mod-ra-radvd
   - mod-sahtrace
   - mod-vlan-ioctl
+  - mod-wanmgr-sfp
+  - mod-wanmgr-system
   - mod-xpon-prpl
   - multisettings
   - netdev-plugin
