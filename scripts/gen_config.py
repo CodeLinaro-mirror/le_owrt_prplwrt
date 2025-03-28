@@ -10,7 +10,7 @@ from subprocess import run
 from os import getenv
 
 sys.stdout = io.TextIOWrapper(open(sys.stdout.fileno(), "wb", 0), write_through=True)
-profile_folder = Path(getenv("PROFILES", "./profiles"))
+profile_folders = getenv("GENCONFIG_PROFILE_DIRS", "./profiles")
 
 
 def run_cmd(cmd: list):
@@ -42,37 +42,41 @@ def usage(code: int = 0):
 
 
 def load_yaml(fname: str, profile: dict):
-    profile_file = (profile_folder / fname).with_suffix(".yml")
+    # Allow profile overriding by searching in reverse order
+    for folder in profile_folders.split(':')[::-1]:
+        profile_file = (Path(folder) / fname).with_suffix(".yml")
+
+        if not profile_file.is_file():
+            continue
+
+        new = yaml.safe_load(profile_file.read_text())
+        for n in new:
+            if n in {"target", "subtarget", "external_target"}:
+                if profile.get(n):
+                    die(f"Duplicate tag found {n}")
+                profile.update({n: new.get(n)})
+            elif n in {"description"}:
+                profile["description"].append(new.get(n))
+            elif n in {"packages"}:
+                profile["packages"].extend(new.get(n))
+            elif n in {"profiles"}:
+                profile["profiles"].extend(new.get(n))
+            elif n in {"diffconfig"}:
+                profile["diffconfig"] += new.get(n)
+            elif n in {"feeds"}:
+                for f in new.get(n):
+                    if f.get("name", "") == "" or f.get("uri", "") == "":
+                        die(f"Found bad feed {f}")
+                    profile["feeds"][f.get("name")] = f
+            elif n in {"additional_packages"}:
+                for f in new.get(n):
+                    if not f.get("feed") or not f.get("packages"):
+                        die(f"Found bad additional_packages {f}")
+                profile["additional_packages"].extend(new.get(n))
+        return profile
 
     if not profile_file.is_file():
         die(f"Profile {fname} not found")
-
-    new = yaml.safe_load(profile_file.read_text())
-    for n in new:
-        if n in {"target", "subtarget", "external_target"}:
-            if profile.get(n):
-                die(f"Duplicate tag found {n}")
-            profile.update({n: new.get(n)})
-        elif n in {"description"}:
-            profile["description"].append(new.get(n))
-        elif n in {"packages"}:
-            profile["packages"].extend(new.get(n))
-        elif n in {"profiles"}:
-            profile["profiles"].extend(new.get(n))
-        elif n in {"diffconfig"}:
-            profile["diffconfig"] += new.get(n)
-        elif n in {"feeds"}:
-            for f in new.get(n):
-                if f.get("name", "") == "" or f.get("uri", "") == "":
-                    die(f"Found bad feed {f}")
-                profile["feeds"][f.get("name")] = f
-        elif n in {"additional_packages"}:
-            for f in new.get(n):
-                if not f.get("feed") or not f.get("packages"):
-                    die(f"Found bad additional_packages {f}")
-            profile["additional_packages"].extend(new.get(n))
-
-    return profile
 
 
 def extract_sha1_from_revision(revision: str) -> str:
