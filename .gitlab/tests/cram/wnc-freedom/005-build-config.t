@@ -432,7 +432,6 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_procps-ng-ps=y
   CONFIG_PACKAGE_procps-ng-uptime=y
   CONFIG_PACKAGE_prpl-configuration=y
-  CONFIG_PACKAGE_prpl-configuration-qca-ipq95xx=y
   CONFIG_PACKAGE_prpl-webui=y
   CONFIG_PACKAGE_prplmesh=y
   CONFIG_PACKAGE_prplmesh-unit-tests=m
