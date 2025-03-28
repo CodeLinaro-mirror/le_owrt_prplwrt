@@ -15,7 +15,7 @@ feeds:
 
   - name: feed_prplos
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplos.git
-    revision: main@9705c7ccd24d4163d7444c925b5b11f00a10eab1
+    revision: main@194f4807652117078fa4eb9593e5626865d05c91
 
 additional_packages:
   - feed: packages
@@ -161,6 +161,7 @@ packages:
   - timingila-rlyeh
   - tr069-manager
   - tr181-bridging
+  - tr181-bulkdata
   - tr181-button
   - tr181-captiveportal
   - tr181-device
