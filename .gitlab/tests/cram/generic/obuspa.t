@@ -789,6 +789,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.Ethernet.Interface.{i}.X_PRPL-COM_LED.Status                                                  proto::ethernet-manager
   Device.Ethernet.Interface.{i}.X_PRPL-COM_MTU                                                         proto::ethernet-manager
   Device.Ethernet.Interface.{i}.X_PRPL-COM_MTUMode                                                     proto::ethernet-manager
+  Device.Ethernet.Interface.{i}.X_PRPLWARE-COM_SFPReference                                            proto::ethernet-manager
   Device.Ethernet.InterfaceNumberOfEntries                                                             proto::ethernet-manager
   Device.Ethernet.Link.{i}.                                                                            proto::ethernet-manager
   Device.Ethernet.Link.{i}.Alias                                                                       proto::ethernet-manager
@@ -4015,6 +4016,115 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.X_PRPL-COM_WANManager.setWANMode()                                                            proto::wan-manager
   Device.X_PRPL-COM_WANManager.setWANMode() input:Autosensing
   Device.X_PRPL-COM_WANManager.setWANMode() input:WANMode
+  Device.X_PRPLWARE-COM_SFPs.                                                                          proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.                                                                 proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.                                                             proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.                                                 proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Alarms.                                          proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Alarms.RxPowerHigh                               proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Alarms.RxPowerLow                                proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Alarms.TemperatureHigh                           proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Alarms.TemperatureLow                            proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Alarms.TxBiasHigh                                proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Alarms.TxBiasLow                                 proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Alarms.TxPowerHigh                               proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Alarms.TxPowerLow                                proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Alarms.VccHigh                                   proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Alarms.VccLow                                    proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.BRMax                                            proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.BRMin                                            proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.BRNominal                                        proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Connector                                        proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.DMCtypeExternalCal                               proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.DMCtypeImplemented                               proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.DMCtypeInternalCal                               proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.DMCtypeRxAvgPwr                                  proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.DateCode                                         proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.EMCSPowerLvlOp                                   proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.EMCSPowerLvlSelect                               proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.EMCSSoftRS1Select                                proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.EOCSoftRateSelect                                proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.EOCSoftRxLOS                                     proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.EOCSoftTxDisable                                 proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.EOCSoftTxFault                                   proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.EOCalarmsImplemented                             proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Encoding                                         proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Length50uM                                       proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Length62dot5uM                                   proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.LengthOM3                                        proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.LengthSMF                                        proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.LengthSMFkm                                      proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.OptInvertedLOS                                   proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.OptLOS                                           proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.OptRateSelect                                    proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.OptTxDisable                                     proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.OptTxFault                                       proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.OptlCooledTrans                                  proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.OptlLinearRcvr                                   proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.OptlPowerlvl                                     proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.RateIdentifier                                   proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.SFF8079AppSelect                                 proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.SFF8431SoftRateSelect                            proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.SFPType                                          proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Status.                                          proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Status.DataReadyBarState                         proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Status.RS1State                                  proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Status.RateSelectState                           proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Status.RxLOSState                                proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Status.RxPower                                   proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Status.SoftRateSelectSelect                      proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Status.SoftTxDisableSelect                       proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Status.TXFaultState                              proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Status.Temperature                               proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Status.TxBias                                    proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Status.TxDisableState                            proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Status.TxPower                                   proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Status.Vcc                                       proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Thresholds.                                      proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Thresholds.HighRxPowerAlarm                      proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Thresholds.HighRxPowerWarning                    proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Thresholds.HighTempAlarm                         proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Thresholds.HighTempWarning                       proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Thresholds.HighTxBiasAlarm                       proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Thresholds.HighTxBiasWarning                     proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Thresholds.HighTxPowerAlarm                      proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Thresholds.HighTxPowerWarning                    proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Thresholds.HighVccAlarm                          proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Thresholds.HighVccWarning                        proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Thresholds.LowRxPowerAlarm                       proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Thresholds.LowRxPowerWarning                     proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Thresholds.LowTempAlarm                          proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Thresholds.LowTempWarning                        proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Thresholds.LowTxBiasAlarm                        proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Thresholds.LowTxBiasWarning                      proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Thresholds.LowTxPowerAlarm                       proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Thresholds.LowTxPowerWarning                     proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Thresholds.LowVccAlarm                           proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Thresholds.LowVccWarning                         proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Transceiver                                      proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.TransceiverType                                  proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.VendorName                                       proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.VendorOUI                                        proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.VendorPN                                         proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.VendorRev                                        proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.VendorSN                                         proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.VerCompliance                                    proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Warnings.                                        proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Warnings.RxPowerHigh                             proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Warnings.RxPowerLow                              proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Warnings.TemperatureHigh                         proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Warnings.TemperatureLow                          proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Warnings.TxBiasHigh                              proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Warnings.TxBiasLow                               proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Warnings.TxPowerHigh                             proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Warnings.TxPowerLow                              proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Warnings.VccHigh                                 proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Warnings.VccLow                                  proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Wavelength                                       proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.sfpmgr_get_ifname()                              proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.sfpmgr_get_ifname() input:index
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.sfpmgr_get_ifname() output:ifname
+  Device.X_PRPLWARE-COM_SFPs.CageNumberOfEntries                                                       proto::tr181-sfp
 
 Check that USP stack is handling the reconnection scenario properly PCF-1198/PPW-65 by restarting obuspa:
 
@@ -4807,6 +4917,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.Ethernet.Interface.{i}.X_PRPL-COM_LED.Status                                                  proto::ethernet-manager
   Device.Ethernet.Interface.{i}.X_PRPL-COM_MTU                                                         proto::ethernet-manager
   Device.Ethernet.Interface.{i}.X_PRPL-COM_MTUMode                                                     proto::ethernet-manager
+  Device.Ethernet.Interface.{i}.X_PRPLWARE-COM_SFPReference                                            proto::ethernet-manager
   Device.Ethernet.InterfaceNumberOfEntries                                                             proto::ethernet-manager
   Device.Ethernet.Link.{i}.                                                                            proto::ethernet-manager
   Device.Ethernet.Link.{i}.Alias                                                                       proto::ethernet-manager
@@ -8013,6 +8124,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.X_PRPL-COM_WANManager.WAN.{i}.Origin                                                          proto::wan-manager
   Device.X_PRPL-COM_WANManager.WAN.{i}.PhysicalReference                                               proto::wan-manager
   Device.X_PRPL-COM_WANManager.WAN.{i}.PhysicalType                                                    proto::wan-manager
+  Device.X_PRPL-COM_WANManager.WAN.{i}.SFPType                                                         proto::wan-manager
   Device.X_PRPL-COM_WANManager.WAN.{i}.SensingPriority                                                 proto::wan-manager
   Device.X_PRPL-COM_WANManager.WAN.{i}.Status                                                          proto::wan-manager
   Device.X_PRPL-COM_WANManager.WANMode                                                                 proto::wan-manager
@@ -8032,3 +8144,112 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.X_PRPL-COM_WANManager.setWANMode()                                                            proto::wan-manager
   Device.X_PRPL-COM_WANManager.setWANMode() input:Autosensing
   Device.X_PRPL-COM_WANManager.setWANMode() input:WANMode
+  Device.X_PRPLWARE-COM_SFPs.                                                                          proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.                                                                 proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.                                                             proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.                                                 proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Alarms.                                          proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Alarms.RxPowerHigh                               proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Alarms.RxPowerLow                                proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Alarms.TemperatureHigh                           proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Alarms.TemperatureLow                            proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Alarms.TxBiasHigh                                proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Alarms.TxBiasLow                                 proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Alarms.TxPowerHigh                               proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Alarms.TxPowerLow                                proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Alarms.VccHigh                                   proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Alarms.VccLow                                    proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.BRMax                                            proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.BRMin                                            proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.BRNominal                                        proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Connector                                        proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.DMCtypeExternalCal                               proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.DMCtypeImplemented                               proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.DMCtypeInternalCal                               proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.DMCtypeRxAvgPwr                                  proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.DateCode                                         proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.EMCSPowerLvlOp                                   proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.EMCSPowerLvlSelect                               proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.EMCSSoftRS1Select                                proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.EOCSoftRateSelect                                proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.EOCSoftRxLOS                                     proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.EOCSoftTxDisable                                 proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.EOCSoftTxFault                                   proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.EOCalarmsImplemented                             proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Encoding                                         proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Length50uM                                       proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Length62dot5uM                                   proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.LengthOM3                                        proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.LengthSMF                                        proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.LengthSMFkm                                      proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.OptInvertedLOS                                   proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.OptLOS                                           proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.OptRateSelect                                    proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.OptTxDisable                                     proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.OptTxFault                                       proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.OptlCooledTrans                                  proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.OptlLinearRcvr                                   proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.OptlPowerlvl                                     proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.RateIdentifier                                   proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.SFF8079AppSelect                                 proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.SFF8431SoftRateSelect                            proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.SFPType                                          proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Status.                                          proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Status.DataReadyBarState                         proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Status.RS1State                                  proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Status.RateSelectState                           proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Status.RxLOSState                                proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Status.RxPower                                   proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Status.SoftRateSelectSelect                      proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Status.SoftTxDisableSelect                       proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Status.TXFaultState                              proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Status.Temperature                               proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Status.TxBias                                    proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Status.TxDisableState                            proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Status.TxPower                                   proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Status.Vcc                                       proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Thresholds.                                      proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Thresholds.HighRxPowerAlarm                      proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Thresholds.HighRxPowerWarning                    proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Thresholds.HighTempAlarm                         proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Thresholds.HighTempWarning                       proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Thresholds.HighTxBiasAlarm                       proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Thresholds.HighTxBiasWarning                     proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Thresholds.HighTxPowerAlarm                      proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Thresholds.HighTxPowerWarning                    proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Thresholds.HighVccAlarm                          proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Thresholds.HighVccWarning                        proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Thresholds.LowRxPowerAlarm                       proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Thresholds.LowRxPowerWarning                     proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Thresholds.LowTempAlarm                          proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Thresholds.LowTempWarning                        proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Thresholds.LowTxBiasAlarm                        proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Thresholds.LowTxBiasWarning                      proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Thresholds.LowTxPowerAlarm                       proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Thresholds.LowTxPowerWarning                     proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Thresholds.LowVccAlarm                           proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Thresholds.LowVccWarning                         proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Transceiver                                      proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.TransceiverType                                  proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.VendorName                                       proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.VendorOUI                                        proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.VendorPN                                         proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.VendorRev                                        proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.VendorSN                                         proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.VerCompliance                                    proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Warnings.                                        proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Warnings.RxPowerHigh                             proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Warnings.RxPowerLow                              proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Warnings.TemperatureHigh                         proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Warnings.TemperatureLow                          proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Warnings.TxBiasHigh                              proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Warnings.TxBiasLow                               proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Warnings.TxPowerHigh                             proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Warnings.TxPowerLow                              proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Warnings.VccHigh                                 proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Warnings.VccLow                                  proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.Wavelength                                       proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.sfpmgr_get_ifname()                              proto::tr181-sfp
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.sfpmgr_get_ifname() input:index
+  Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.Transceiver.sfpmgr_get_ifname() output:ifname
+  Device.X_PRPLWARE-COM_SFPs.CageNumberOfEntries                                                       proto::tr181-sfp
