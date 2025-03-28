@@ -109,6 +109,7 @@ Check that ubus has expected datamodels available:
   Device.X_PRPL-COM_MultiSettings
   Device.X_PRPL-COM_PersistentConfiguration
   Device.X_PRPL-COM_WANManager
+  Device.X_PRPLWARE-COM_SFPs
   Device.X_PRPLWARE-COM_SoftwareModules
   DeviceInfo
   DeviceInfo.DeviceImageFile
@@ -230,6 +231,8 @@ Check that ubus has expected datamodels available:
   NetDev.Stats
   NetModel
   NetModel.Intf
+  Optical
+  Optical.Interface
   PCP
   PCP.Client
   PPP
@@ -272,6 +275,8 @@ Check that ubus has expected datamodels available:
   Routing.RouteInformation
   Routing.RouteInformation.InterfaceSetting
   Routing.Router
+  SFPs
+  SFPs.Cage
   SSH
   SSH.AuthorizedKey
   SSH.Server

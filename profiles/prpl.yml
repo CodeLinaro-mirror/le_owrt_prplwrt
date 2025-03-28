@@ -15,7 +15,7 @@ feeds:
 
   - name: feed_prplos
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplos.git
-    revision: main@c996ce4003237c929278c87377231a6af50480de
+    revision: main@ddf0cf9af9373d51c446033b8fbb762052d237af
 
 additional_packages:
   - feed: packages
@@ -190,6 +190,7 @@ packages:
   - tr181-routeradvertisement
   - tr181-security
   - tr181-syslog
+  - tr181-sfp
   - tr181-temperature
   - tr181-upnp
   - tr181-usermanagement
