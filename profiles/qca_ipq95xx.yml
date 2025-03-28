@@ -30,7 +30,6 @@ packages:
   - kmod-usb-storage-uas
   - kmod-fs-vfat
   - kmod-telemetry-agent
-  - prpl-configuration-qca-ipq95xx
   - kmod-i2c-mux-pca954x
   - kmod-gpio-pca953x
 
