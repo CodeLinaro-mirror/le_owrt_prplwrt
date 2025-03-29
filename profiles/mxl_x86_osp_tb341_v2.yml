@@ -13,11 +13,11 @@ feeds:
   - name: intel_x86
     uri: ssh://git@git.maxlinear.com/ugw-oss/feeds/feed_target_x86.git
     tracking_branch: updk_9.1.80
-    revision: 16d6c3caf53e79074aad224543f0b4cc26680f05
+    revision: 570a962a561dcadf4cc4bd2591b37f1e8b65f3df
   - name: rootfs
     uri: ssh://git@git.maxlinear.com/ugw-oss/rootfs.git
     tracking_branch: updk_9.1.80
-    revision: 3768ee6f1dd4c0c1cc5f4bda48a6033105f7148f
+    revision: 82ea7780b1ed2e792a9bc60a4bad0650561849cd
   - name: 3rdparty
     uri: ssh://git@git.maxlinear.com/ugw-oss/feeds/feed_3rdparty.git
     tracking_branch: updk_9.1.80
