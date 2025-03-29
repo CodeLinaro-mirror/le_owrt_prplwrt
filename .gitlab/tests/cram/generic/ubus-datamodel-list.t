@@ -9,6 +9,8 @@ Check that ubus has expected datamodels available:
   ACLManager.Role
   Bridging
   Bridging.Bridge
+  BulkData
+  BulkData.Profile
   Buttons
   Buttons.Button
   CaptivePortal
@@ -57,6 +59,7 @@ Check that ubus has expected datamodels available:
   DSLite.InterfaceSetting
   Device
   Device.Bridging
+  Device.BulkData
   Device.CaptivePortal
   Device.DHCPv4
   Device.DHCPv4.Server
