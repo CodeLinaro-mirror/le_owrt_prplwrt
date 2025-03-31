@@ -1468,7 +1468,8 @@ $(eval $(call KernelPackage,sfc-falcon))
 define KernelPackage/wwan
   SUBMENU:=$(NETWORK_DEVICES_MENU)
   TITLE:=WWAN Driver Core
-  KCONFIG:=CONFIG_WWAN
+  KCONFIG:=CONFIG_WWAN \
+           CONFIG_WWAN_DEBUGFS=y
   FILES:=$(LINUX_DIR)/drivers/net/wwan/wwan.ko
   AUTOLOAD:=$(call AutoProbe,wwan)
 endef
