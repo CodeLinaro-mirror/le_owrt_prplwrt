@@ -226,7 +226,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_ebtables-legacy-utils=y
   CONFIG_PACKAGE_eip197-firmware=y
   CONFIG_PACKAGE_ethernet-manager=y
-  CONFIG_PACKAGE_ethtool=y
+  CONFIG_PACKAGE_ethtool-full=y
   CONFIG_PACKAGE_f2fsck=y
   CONFIG_PACKAGE_fcgi=y
   CONFIG_PACKAGE_firewall4=m
