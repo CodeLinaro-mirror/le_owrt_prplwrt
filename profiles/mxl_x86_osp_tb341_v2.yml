@@ -153,7 +153,7 @@ packages:
   - kmod-pon-mcc-drv-filter
   - kmod-mxl_pon_hgu_vuni_lgm
   - kmod-ebt-prio
-  - ethtool
+  - ethtool-full
   - base-files-prpl
   - ppmd-bin
   - pm-util
