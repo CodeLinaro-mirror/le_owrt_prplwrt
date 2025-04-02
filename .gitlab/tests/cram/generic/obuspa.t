@@ -3984,6 +3984,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.X_PRPL-COM_WANManager.WAN.{i}.Origin                                                          proto::wan-manager
   Device.X_PRPL-COM_WANManager.WAN.{i}.PhysicalReference                                               proto::wan-manager
   Device.X_PRPL-COM_WANManager.WAN.{i}.PhysicalType                                                    proto::wan-manager
+  Device.X_PRPL-COM_WANManager.WAN.{i}.SFPType                                                         proto::wan-manager
   Device.X_PRPL-COM_WANManager.WAN.{i}.SensingPriority                                                 proto::wan-manager
   Device.X_PRPL-COM_WANManager.WAN.{i}.Status                                                          proto::wan-manager
   Device.X_PRPL-COM_WANManager.WANMode                                                                 proto::wan-manager
@@ -7990,6 +7991,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.X_PRPL-COM_WANManager.WAN.{i}.Origin                                                          proto::wan-manager
   Device.X_PRPL-COM_WANManager.WAN.{i}.PhysicalReference                                               proto::wan-manager
   Device.X_PRPL-COM_WANManager.WAN.{i}.PhysicalType                                                    proto::wan-manager
+  Device.X_PRPL-COM_WANManager.WAN.{i}.SFPType                                                         proto::wan-manager
   Device.X_PRPL-COM_WANManager.WAN.{i}.SensingPriority                                                 proto::wan-manager
   Device.X_PRPL-COM_WANManager.WAN.{i}.Status                                                          proto::wan-manager
   Device.X_PRPL-COM_WANManager.WANMode                                                                 proto::wan-manager
