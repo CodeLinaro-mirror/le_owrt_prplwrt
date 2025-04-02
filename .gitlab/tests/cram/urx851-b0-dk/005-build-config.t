@@ -568,6 +568,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_mod-logical-api=y
   CONFIG_PACKAGE_mod-lua-amx=y
   CONFIG_PACKAGE_mod-netmodel=y
+  CONFIG_PACKAGE_mod-network-selector=y
   CONFIG_PACKAGE_mod-pcm-svc=y
   CONFIG_PACKAGE_mod-ppp-daemon=y
   CONFIG_PACKAGE_mod-qos-tc=y
@@ -576,6 +577,8 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_mod-usp-registration=y
   CONFIG_PACKAGE_mod-vlan-ioctl=y
   CONFIG_PACKAGE_mod-vlan-uci=y
+  CONFIG_PACKAGE_mod-wanmgr-sfp=y
+  CONFIG_PACKAGE_mod-wanmgr-system=y
   CONFIG_PACKAGE_mod-whm=y
   CONFIG_PACKAGE_mod-xpon-prpl=y
   CONFIG_PACKAGE_mod-xpon-prpl-mock=m
