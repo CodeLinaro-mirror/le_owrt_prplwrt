@@ -51,7 +51,7 @@ feeds:
   - name: feed_wifi_core
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_wifi_core.git
     tracking_branch: dev_ath13.0-ipq95xx
-    revision: a907f4be82cbcee11b96476083f13b9088ea9e9a
+    revision: a19e9b2b077ab2321ead4fffe8846c3058b1930f
   - name: feed_mcastd
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_mcastd.git
     revision: v0.1.6@70db45513b9dbf642c9e29c348716fa285ee0f4c
