@@ -2,6 +2,11 @@ Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
+Disable time synchronization and restart tr181-bulkdata to test BulkData module:
+
+  $ R "sed -i 's/needs-time-sync = true/needs-time-sync = false/' /etc/amx/tr181-bulkdata/tr181-bulkdata.odl"
+  $ R "/etc/init.d/tr181-bulkdata restart"
+
 Check BulkData root datamodel:
 
   $ R "ubus-cli 'BulkData.?' | sort | grep '=' | grep -v 'Profile'"

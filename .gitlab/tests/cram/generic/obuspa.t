@@ -74,54 +74,64 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.Bridging.MaxDBridgeEntries                                                                    proto::tr181-bridging
   Device.Bridging.MaxQBridgeEntries                                                                    proto::tr181-bridging
   Device.Bridging.MaxVLANEntries                                                                       proto::tr181-bridging
-  Device.BulkData.
-  Device.BulkData.Enable
-  Device.BulkData.EncodingTypes
-  Device.BulkData.MaxNumberOfParameterReferences
-  Device.BulkData.MaxNumberOfProfiles
-  Device.BulkData.MinReportingInterval
-  Device.BulkData.ParameterWildCardSupported
-  Device.BulkData.Profile.{i}.
-  Device.BulkData.Profile.{i}.Alias
-  Device.BulkData.Profile.{i}.Enable
-  Device.BulkData.Profile.{i}.EncodingType
-  Device.BulkData.Profile.{i}.HTTP.
-  Device.BulkData.Profile.{i}.HTTP.Compression
-  Device.BulkData.Profile.{i}.HTTP.CompressionsSupported
-  Device.BulkData.Profile.{i}.HTTP.Method
-  Device.BulkData.Profile.{i}.HTTP.MethodsSupported
-  Device.BulkData.Profile.{i}.HTTP.Password
-  Device.BulkData.Profile.{i}.HTTP.RequestURIParameter.{i}.
-  Device.BulkData.Profile.{i}.HTTP.RequestURIParameter.{i}.Name
-  Device.BulkData.Profile.{i}.HTTP.RequestURIParameter.{i}.Reference
-  Device.BulkData.Profile.{i}.HTTP.RequestURIParameterNumberOfEntries
-  Device.BulkData.Profile.{i}.HTTP.RetryEnable
-  Device.BulkData.Profile.{i}.HTTP.RetryIntervalMultiplier
-  Device.BulkData.Profile.{i}.HTTP.RetryMinimumWaitInterval
-  Device.BulkData.Profile.{i}.HTTP.URL
-  Device.BulkData.Profile.{i}.HTTP.UseDateHeader
-  Device.BulkData.Profile.{i}.HTTP.Username
-  Device.BulkData.Profile.{i}.JSONEncoding.
-  Device.BulkData.Profile.{i}.JSONEncoding.ReportFormat
-  Device.BulkData.Profile.{i}.JSONEncoding.ReportTimestamp
-  Device.BulkData.Profile.{i}.MQTT.
-  Device.BulkData.Profile.{i}.MQTT.PublishTopic
-  Device.BulkData.Profile.{i}.MQTT.Reference
-  Device.BulkData.Profile.{i}.Name
-  Device.BulkData.Profile.{i}.NumberOfRetainedFailedReports
-  Device.BulkData.Profile.{i}.Parameter.{i}.
-  Device.BulkData.Profile.{i}.Parameter.{i}.Name
-  Device.BulkData.Profile.{i}.Parameter.{i}.Reference
-  Device.BulkData.Profile.{i}.ParameterNumberOfEntries
-  Device.BulkData.Profile.{i}.Protocol
-  Device.BulkData.Profile.{i}.Push!
-  Device.BulkData.Profile.{i}.Push! event_arg:Data
-  Device.BulkData.Profile.{i}.ReportingInterval
-  Device.BulkData.Profile.{i}.TimeReference
-  Device.BulkData.Profile.{i}.X_ARRIS-COM_Status
-  Device.BulkData.ProfileNumberOfEntries
-  Device.BulkData.Protocols
-  Device.BulkData.Status
+  Device.BulkData.                                                                                     proto::tr181-bulkdata
+  Device.BulkData.Enable                                                                               proto::tr181-bulkdata
+  Device.BulkData.EncodingTypes                                                                        proto::tr181-bulkdata
+  Device.BulkData.MaxNumberOfParameterReferences                                                       proto::tr181-bulkdata
+  Device.BulkData.MaxNumberOfProfiles                                                                  proto::tr181-bulkdata
+  Device.BulkData.MinReportingInterval                                                                 proto::tr181-bulkdata
+  Device.BulkData.ParameterWildCardSupported                                                           proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.                                                                         proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.Alias                                                                    proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.CSVEncoding.                                                             proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.CSVEncoding.EscapeCharacter                                              proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.CSVEncoding.FieldSeparator                                               proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.CSVEncoding.ReportFormat                                                 proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.CSVEncoding.RowSeparator                                                 proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.CSVEncoding.RowTimestamp                                                 proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.Controller                                                               proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.Enable                                                                   proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.EncodingType                                                             proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.ForceCollection()                                                        proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.HTTP.                                                                    proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.HTTP.CACertificate                                                       proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.HTTP.Compression                                                         proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.HTTP.CompressionsSupported                                               proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.HTTP.Method                                                              proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.HTTP.MethodsSupported                                                    proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.HTTP.Password                                                            proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.HTTP.PersistAcrossReboot                                                 proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.HTTP.RequestURIParameter.{i}.                                            proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.HTTP.RequestURIParameter.{i}.Name                                        proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.HTTP.RequestURIParameter.{i}.Reference                                   proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.HTTP.RequestURIParameterNumberOfEntries                                  proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.HTTP.RetryEnable                                                         proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.HTTP.RetryIntervalMultiplier                                             proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.HTTP.RetryMinimumWaitInterval                                            proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.HTTP.URL                                                                 proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.HTTP.UseDateHeader                                                       proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.HTTP.Username                                                            proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.JSONEncoding.                                                            proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.JSONEncoding.ReportFormat                                                proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.JSONEncoding.ReportTimestamp                                             proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.MQTT.                                                                    proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.MQTT.PublishQoS                                                          proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.MQTT.PublishRetain                                                       proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.MQTT.PublishTopic                                                        proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.MQTT.Reference                                                           proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.Name                                                                     proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.NumberOfRetainedFailedReports                                            proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.Parameter.{i}.                                                           proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.Parameter.{i}.Name                                                       proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.Parameter.{i}.Reference                                                  proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.ParameterNumberOfEntries                                                 proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.Protocol                                                                 proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.Push!                                                                    proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.ReportingInterval                                                        proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.TimeReference                                                            proto::tr181-bulkdata
+  Device.BulkData.ProfileNumberOfEntries                                                               proto::tr181-bulkdata
+  Device.BulkData.Protocols                                                                            proto::tr181-bulkdata
+  Device.BulkData.Status                                                                               proto::tr181-bulkdata
   Device.CaptivePortal.                                                                                proto::tr181-captiveportal
   Device.CaptivePortal.AllowedList                                                                     proto::tr181-captiveportal
   Device.CaptivePortal.Enable                                                                          proto::tr181-captiveportal
@@ -4071,54 +4081,64 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.Bridging.MaxDBridgeEntries                                                                    proto::tr181-bridging
   Device.Bridging.MaxQBridgeEntries                                                                    proto::tr181-bridging
   Device.Bridging.MaxVLANEntries                                                                       proto::tr181-bridging
-  Device.BulkData.
-  Device.BulkData.Enable
-  Device.BulkData.EncodingTypes
-  Device.BulkData.MaxNumberOfParameterReferences
-  Device.BulkData.MaxNumberOfProfiles
-  Device.BulkData.MinReportingInterval
-  Device.BulkData.ParameterWildCardSupported
-  Device.BulkData.Profile.{i}.
-  Device.BulkData.Profile.{i}.Alias
-  Device.BulkData.Profile.{i}.Enable
-  Device.BulkData.Profile.{i}.EncodingType
-  Device.BulkData.Profile.{i}.HTTP.
-  Device.BulkData.Profile.{i}.HTTP.Compression
-  Device.BulkData.Profile.{i}.HTTP.CompressionsSupported
-  Device.BulkData.Profile.{i}.HTTP.Method
-  Device.BulkData.Profile.{i}.HTTP.MethodsSupported
-  Device.BulkData.Profile.{i}.HTTP.Password
-  Device.BulkData.Profile.{i}.HTTP.RequestURIParameter.{i}.
-  Device.BulkData.Profile.{i}.HTTP.RequestURIParameter.{i}.Name
-  Device.BulkData.Profile.{i}.HTTP.RequestURIParameter.{i}.Reference
-  Device.BulkData.Profile.{i}.HTTP.RequestURIParameterNumberOfEntries
-  Device.BulkData.Profile.{i}.HTTP.RetryEnable
-  Device.BulkData.Profile.{i}.HTTP.RetryIntervalMultiplier
-  Device.BulkData.Profile.{i}.HTTP.RetryMinimumWaitInterval
-  Device.BulkData.Profile.{i}.HTTP.URL
-  Device.BulkData.Profile.{i}.HTTP.UseDateHeader
-  Device.BulkData.Profile.{i}.HTTP.Username
-  Device.BulkData.Profile.{i}.JSONEncoding.
-  Device.BulkData.Profile.{i}.JSONEncoding.ReportFormat
-  Device.BulkData.Profile.{i}.JSONEncoding.ReportTimestamp
-  Device.BulkData.Profile.{i}.MQTT.
-  Device.BulkData.Profile.{i}.MQTT.PublishTopic
-  Device.BulkData.Profile.{i}.MQTT.Reference
-  Device.BulkData.Profile.{i}.Name
-  Device.BulkData.Profile.{i}.NumberOfRetainedFailedReports
-  Device.BulkData.Profile.{i}.Parameter.{i}.
-  Device.BulkData.Profile.{i}.Parameter.{i}.Name
-  Device.BulkData.Profile.{i}.Parameter.{i}.Reference
-  Device.BulkData.Profile.{i}.ParameterNumberOfEntries
-  Device.BulkData.Profile.{i}.Protocol
-  Device.BulkData.Profile.{i}.Push!
-  Device.BulkData.Profile.{i}.Push! event_arg:Data
-  Device.BulkData.Profile.{i}.ReportingInterval
-  Device.BulkData.Profile.{i}.TimeReference
-  Device.BulkData.Profile.{i}.X_ARRIS-COM_Status
-  Device.BulkData.ProfileNumberOfEntries
-  Device.BulkData.Protocols
-  Device.BulkData.Status
+  Device.BulkData.                                                                                     proto::tr181-bulkdata
+  Device.BulkData.Enable                                                                               proto::tr181-bulkdata
+  Device.BulkData.EncodingTypes                                                                        proto::tr181-bulkdata
+  Device.BulkData.MaxNumberOfParameterReferences                                                       proto::tr181-bulkdata
+  Device.BulkData.MaxNumberOfProfiles                                                                  proto::tr181-bulkdata
+  Device.BulkData.MinReportingInterval                                                                 proto::tr181-bulkdata
+  Device.BulkData.ParameterWildCardSupported                                                           proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.                                                                         proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.Alias                                                                    proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.CSVEncoding.                                                             proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.CSVEncoding.EscapeCharacter                                              proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.CSVEncoding.FieldSeparator                                               proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.CSVEncoding.ReportFormat                                                 proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.CSVEncoding.RowSeparator                                                 proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.CSVEncoding.RowTimestamp                                                 proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.Controller                                                               proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.Enable                                                                   proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.EncodingType                                                             proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.ForceCollection()                                                        proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.HTTP.                                                                    proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.HTTP.CACertificate                                                       proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.HTTP.Compression                                                         proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.HTTP.CompressionsSupported                                               proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.HTTP.Method                                                              proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.HTTP.MethodsSupported                                                    proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.HTTP.Password                                                            proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.HTTP.PersistAcrossReboot                                                 proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.HTTP.RequestURIParameter.{i}.                                            proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.HTTP.RequestURIParameter.{i}.Name                                        proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.HTTP.RequestURIParameter.{i}.Reference                                   proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.HTTP.RequestURIParameterNumberOfEntries                                  proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.HTTP.RetryEnable                                                         proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.HTTP.RetryIntervalMultiplier                                             proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.HTTP.RetryMinimumWaitInterval                                            proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.HTTP.URL                                                                 proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.HTTP.UseDateHeader                                                       proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.HTTP.Username                                                            proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.JSONEncoding.                                                            proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.JSONEncoding.ReportFormat                                                proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.JSONEncoding.ReportTimestamp                                             proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.MQTT.                                                                    proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.MQTT.PublishQoS                                                          proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.MQTT.PublishRetain                                                       proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.MQTT.PublishTopic                                                        proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.MQTT.Reference                                                           proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.Name                                                                     proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.NumberOfRetainedFailedReports                                            proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.Parameter.{i}.                                                           proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.Parameter.{i}.Name                                                       proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.Parameter.{i}.Reference                                                  proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.ParameterNumberOfEntries                                                 proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.Protocol                                                                 proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.Push!                                                                    proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.ReportingInterval                                                        proto::tr181-bulkdata
+  Device.BulkData.Profile.{i}.TimeReference                                                            proto::tr181-bulkdata
+  Device.BulkData.ProfileNumberOfEntries                                                               proto::tr181-bulkdata
+  Device.BulkData.Protocols                                                                            proto::tr181-bulkdata
+  Device.BulkData.Status                                                                               proto::tr181-bulkdata
   Device.CaptivePortal.                                                                                proto::tr181-captiveportal
   Device.CaptivePortal.AllowedList                                                                     proto::tr181-captiveportal
   Device.CaptivePortal.Enable                                                                          proto::tr181-captiveportal
