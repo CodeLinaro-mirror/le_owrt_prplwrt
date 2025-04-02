@@ -234,7 +234,6 @@ diffconfig: |
           # pwhm options
           CONFIG_USE_PRPLMESH_WHM=y
           CONFIG_SAH_WLD_INIT_SCRIPT="prplmesh_whm"
-          CONFIG_PRPL_CONTROLLER_ROOT_PATH="X_PRPL-ORG_WiFiController"
           CONFIG_PACKAGE_prplmesh-unit-tests=m
           # kernel options for lcm
           CONFIG_KERNEL_ARM_PMU=y
