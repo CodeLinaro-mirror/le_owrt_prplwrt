@@ -15,7 +15,7 @@ feeds:
 
   - name: feed_prplos
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplos.git
-    revision: main@af996602239cd9cc2d083abc102b018578f4a873
+    revision: main@5e06f4944c6c68967be6d70e9af49e1a23c41334
 
 additional_packages:
   - feed: packages
@@ -178,6 +178,7 @@ packages:
   - tr181-httpaccess
   - tr181-ipdiagnostics
   - tr181-led
+  - tr181-powerstatus
   - tr181-logical
   - tr181-mcastd
   - tr181-mqttbroker
