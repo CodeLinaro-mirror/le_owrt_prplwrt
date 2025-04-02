@@ -11,7 +11,7 @@ feeds:
 
   - name: feed_prplmesh
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplmesh.git
-    revision: main@7f57a2372d84e5d812eda55dc52cc55602e599f7
+    revision: main@d6e32b13a4dfee79fe0ece2fd417fa9cb233c760
 
   - name: feed_prplos
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplos.git
@@ -228,7 +228,6 @@ diffconfig: |
           # pwhm options
           CONFIG_USE_PRPLMESH_WHM=y
           CONFIG_SAH_WLD_INIT_SCRIPT="prplmesh_whm"
-          CONFIG_PRPL_CONTROLLER_ROOT_PATH="X_PRPL-ORG_WiFiController"
           CONFIG_PACKAGE_prplmesh-unit-tests=m
           # kernel options for lcm
           CONFIG_KERNEL_ARM_PMU=y
