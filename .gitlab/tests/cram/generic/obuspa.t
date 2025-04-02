@@ -1555,11 +1555,6 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.LocalAgent.Controller.{i}.InheritedRole
   Device.LocalAgent.Controller.{i}.MTP.{i}.
   Device.LocalAgent.Controller.{i}.MTP.{i}.Alias
-  Device.LocalAgent.Controller.{i}.MTP.{i}.CoAP.
-  Device.LocalAgent.Controller.{i}.MTP.{i}.CoAP.EnableEncryption
-  Device.LocalAgent.Controller.{i}.MTP.{i}.CoAP.Host
-  Device.LocalAgent.Controller.{i}.MTP.{i}.CoAP.Path
-  Device.LocalAgent.Controller.{i}.MTP.{i}.CoAP.Port
   Device.LocalAgent.Controller.{i}.MTP.{i}.Enable
   Device.LocalAgent.Controller.{i}.MTP.{i}.MQTT.
   Device.LocalAgent.Controller.{i}.MTP.{i}.MQTT.Reference
@@ -1628,10 +1623,6 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.LocalAgent.EndpointID
   Device.LocalAgent.MTP.{i}.
   Device.LocalAgent.MTP.{i}.Alias
-  Device.LocalAgent.MTP.{i}.CoAP.
-  Device.LocalAgent.MTP.{i}.CoAP.EnableEncryption
-  Device.LocalAgent.MTP.{i}.CoAP.Path
-  Device.LocalAgent.MTP.{i}.CoAP.Port
   Device.LocalAgent.MTP.{i}.Enable
   Device.LocalAgent.MTP.{i}.MQTT.
   Device.LocalAgent.MTP.{i}.MQTT.PublishQoS
@@ -5979,11 +5970,6 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.LocalAgent.Controller.{i}.InheritedRole
   Device.LocalAgent.Controller.{i}.MTP.{i}.
   Device.LocalAgent.Controller.{i}.MTP.{i}.Alias
-  Device.LocalAgent.Controller.{i}.MTP.{i}.CoAP.
-  Device.LocalAgent.Controller.{i}.MTP.{i}.CoAP.EnableEncryption
-  Device.LocalAgent.Controller.{i}.MTP.{i}.CoAP.Host
-  Device.LocalAgent.Controller.{i}.MTP.{i}.CoAP.Path
-  Device.LocalAgent.Controller.{i}.MTP.{i}.CoAP.Port
   Device.LocalAgent.Controller.{i}.MTP.{i}.Enable
   Device.LocalAgent.Controller.{i}.MTP.{i}.MQTT.
   Device.LocalAgent.Controller.{i}.MTP.{i}.MQTT.Reference
@@ -6052,10 +6038,6 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.LocalAgent.EndpointID
   Device.LocalAgent.MTP.{i}.
   Device.LocalAgent.MTP.{i}.Alias
-  Device.LocalAgent.MTP.{i}.CoAP.
-  Device.LocalAgent.MTP.{i}.CoAP.EnableEncryption
-  Device.LocalAgent.MTP.{i}.CoAP.Path
-  Device.LocalAgent.MTP.{i}.CoAP.Port
   Device.LocalAgent.MTP.{i}.Enable
   Device.LocalAgent.MTP.{i}.MQTT.
   Device.LocalAgent.MTP.{i}.MQTT.PublishQoS
