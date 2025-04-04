@@ -2,7 +2,7 @@
 
 import yaml
 from pathlib import Path
-from shutil import rmtree
+from shutil import rmtree, copy
 import io
 import re
 import sys
@@ -186,6 +186,16 @@ if run_cmd(["./scripts/feeds", "setup", *feeds]).returncode:
 
 if run_cmd(["./scripts/feeds", "update"]).returncode:
     die(f"Error updating feeds")
+
+if getenv("LOCAL_COMPONENT"):
+    print(f'Installing local component {getenv("LOCAL_COMPONENT")}')
+    feeddir = str([p for p in Path('feeds').rglob('*') if p.is_dir() and
+                   p.name == getenv("LOCAL_COMPONENT")][0])
+    copy(getenv("CI_PROJECT_DIR") + "/openwrt/Makefile",
+         feeddir + "/Makefile")
+    if Path(getenv("CI_PROJECT_DIR") + "/Config.in").is_file():
+        copy(getenv("CI_PROJECT_DIR") + "/openwrt/Config.in",
+             feeddir + "/Config.in")
 
 for p in profile.get("feeds", []):
     f = profile["feeds"].get(p)
