@@ -156,7 +156,9 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-ebtables-ipv4=y
   CONFIG_PACKAGE_kmod-ebtables-ipv6=y
   CONFIG_PACKAGE_kmod-fs-ext4=y
+  # CONFIG_PACKAGE_kmod-gpio-button-hotplug is not set
   CONFIG_PACKAGE_kmod-ifb=y
+  CONFIG_PACKAGE_kmod-input-gpio-keys=y
   CONFIG_PACKAGE_kmod-ip6-tunnel=y
   CONFIG_PACKAGE_kmod-ip6tables=y
   CONFIG_PACKAGE_kmod-ip6tables-extra=y
