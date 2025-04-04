@@ -12,6 +12,7 @@ Check that ubus has expected datamodels available:
   BulkData
   BulkData.Profile
   Buttons
+  Buttons.Action
   Buttons.Button
   CaptivePortal
   CaptivePortal.LANInterface
@@ -60,6 +61,7 @@ Check that ubus has expected datamodels available:
   Device
   Device.Bridging
   Device.BulkData
+  Device.Buttons
   Device.CaptivePortal
   Device.DHCPv4
   Device.DHCPv4.Server
@@ -107,7 +109,6 @@ Check that ubus has expected datamodels available:
   Device.WiFi
   Device.WiFi.Sensing
   Device.XPON
-  Device.X_PRPL-COM_Buttons
   Device.X_PRPL-COM_MultiSettings
   Device.X_PRPL-COM_PersistentConfiguration
   Device.X_PRPL-COM_WANManager

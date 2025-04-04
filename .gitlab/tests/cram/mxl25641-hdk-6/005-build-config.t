@@ -286,11 +286,13 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-ebtables-ipv6=y
   CONFIG_PACKAGE_kmod-fs-autofs4=y
   CONFIG_PACKAGE_kmod-fs-ext4=y
-  CONFIG_PACKAGE_kmod-gpio-button-hotplug=y
   CONFIG_PACKAGE_kmod-gre=y
   CONFIG_PACKAGE_kmod-gre6=y
   CONFIG_PACKAGE_kmod-i2c-core=y
   CONFIG_PACKAGE_kmod-ifb=y
+  CONFIG_PACKAGE_kmod-input-core=y
+  CONFIG_PACKAGE_kmod-input-evdev=y
+  CONFIG_PACKAGE_kmod-input-gpio-keys=y
   CONFIG_PACKAGE_kmod-intel-extmark-x86=y
   CONFIG_PACKAGE_kmod-intel-qos=y
   CONFIG_PACKAGE_kmod-intel_ppv4_fw_lgm=y
