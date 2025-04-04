@@ -900,7 +900,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.Firewall.Chain.{i}.Rule.{i}.Enable                                                            proto::tr181-firewall
   Device.Firewall.Chain.{i}.Rule.{i}.ExpiryDate                                                        proto::tr181-firewall
   Device.Firewall.Chain.{i}.Rule.{i}.IPVersion                                                         proto::tr181-firewall
-  Device.Firewall.Chain.{i}.Rule.{i}.LogTarget                                                         proto::tr181-firewall
+  Device.Firewall.Chain.{i}.Rule.{i}.Log                                                               proto::tr181-firewall
   Device.Firewall.Chain.{i}.Rule.{i}.Order                                                             proto::tr181-firewall
   Device.Firewall.Chain.{i}.Rule.{i}.Protocol                                                          proto::tr181-firewall
   Device.Firewall.Chain.{i}.Rule.{i}.ProtocolExclude                                                   proto::tr181-firewall
@@ -920,7 +920,6 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.Firewall.Chain.{i}.Rule.{i}.Status                                                            proto::tr181-firewall
   Device.Firewall.Chain.{i}.Rule.{i}.Target                                                            proto::tr181-firewall
   Device.Firewall.Chain.{i}.Rule.{i}.TargetChain                                                       proto::tr181-firewall
-  Device.Firewall.Chain.{i}.Rule.{i}.X_PRPL-COM_Log                                                    proto::tr181-firewall
   Device.Firewall.Chain.{i}.Rule.{i}.X_PRPL-COM_VendorClassID                                          proto::tr181-firewall
   Device.Firewall.Chain.{i}.RuleNumberOfEntries                                                        proto::tr181-firewall
   Device.Firewall.ChainNumberOfEntries                                                                 proto::tr181-firewall
@@ -1858,6 +1857,8 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.NAT.InterfaceSetting.{i}.X_PRPL-COM_NATInterface.{i}.Interface                                proto::tr181-firewall
   Device.NAT.InterfaceSetting.{i}.X_PRPL-COM_NATInterfaceNumberOfEntries                               proto::tr181-firewall
   Device.NAT.InterfaceSettingNumberOfEntries                                                           proto::tr181-firewall
+  Device.NAT.MaxNumberOfPortMappings                                                                   proto::tr181-firewall
+  Device.NAT.MaxNumberOfPortTriggers                                                                   proto::tr181-firewall
   Device.NAT.PortMapping.{i}.                                                                          proto::tr181-firewall
   Device.NAT.PortMapping.{i}.Alias                                                                     proto::tr181-firewall
   Device.NAT.PortMapping.{i}.AllInterfaces                                                             proto::tr181-firewall
@@ -1876,7 +1877,6 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.NAT.PortMapping.{i}.ScheduleRef                                                               proto::tr181-firewall
   Device.NAT.PortMapping.{i}.Status                                                                    proto::tr181-firewall
   Device.NAT.PortMapping.{i}.X_PRPL-COM_Log                                                            proto::tr181-firewall
-  Device.NAT.PortMappingAllowedOrigins                                                                 proto::tr181-firewall
   Device.NAT.PortMappingNumberOfEntries                                                                proto::tr181-firewall
   Device.NAT.PortTrigger.{i}.                                                                          proto::tr181-firewall
   Device.NAT.PortTrigger.{i}.ActivationDate                                                            proto::tr181-firewall
@@ -1899,8 +1899,6 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.NAT.PortTrigger.{i}.ScheduleRef                                                               proto::tr181-firewall
   Device.NAT.PortTrigger.{i}.Status                                                                    proto::tr181-firewall
   Device.NAT.PortTriggerNumberOfEntries                                                                proto::tr181-firewall
-  Device.NAT.X_PRPL-COM_MaxPortMappingNumberOfEntries                                                  proto::tr181-firewall
-  Device.NAT.X_PRPL-COM_MaxPortTriggerNumberOfEntries                                                  proto::tr181-firewall
   Device.NAT.X_PRPL-COM_MaximumConntrackEntries                                                        proto::tr181-firewall
   Device.NAT.X_PRPL-COM_NumberOfConntrackEntries                                                       proto::tr181-firewall
   Device.NAT.X_PRPL-COM_StaticNAT.                                                                     proto::tr181-firewall
@@ -4920,7 +4918,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.Firewall.Chain.{i}.Rule.{i}.Enable                                                            proto::tr181-firewall
   Device.Firewall.Chain.{i}.Rule.{i}.ExpiryDate                                                        proto::tr181-firewall
   Device.Firewall.Chain.{i}.Rule.{i}.IPVersion                                                         proto::tr181-firewall
-  Device.Firewall.Chain.{i}.Rule.{i}.LogTarget                                                         proto::tr181-firewall
+  Device.Firewall.Chain.{i}.Rule.{i}.Log                                                               proto::tr181-firewall
   Device.Firewall.Chain.{i}.Rule.{i}.Order                                                             proto::tr181-firewall
   Device.Firewall.Chain.{i}.Rule.{i}.Protocol                                                          proto::tr181-firewall
   Device.Firewall.Chain.{i}.Rule.{i}.ProtocolExclude                                                   proto::tr181-firewall
@@ -4940,7 +4938,6 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.Firewall.Chain.{i}.Rule.{i}.Status                                                            proto::tr181-firewall
   Device.Firewall.Chain.{i}.Rule.{i}.Target                                                            proto::tr181-firewall
   Device.Firewall.Chain.{i}.Rule.{i}.TargetChain                                                       proto::tr181-firewall
-  Device.Firewall.Chain.{i}.Rule.{i}.X_PRPL-COM_Log                                                    proto::tr181-firewall
   Device.Firewall.Chain.{i}.Rule.{i}.X_PRPL-COM_VendorClassID                                          proto::tr181-firewall
   Device.Firewall.Chain.{i}.RuleNumberOfEntries                                                        proto::tr181-firewall
   Device.Firewall.ChainNumberOfEntries                                                                 proto::tr181-firewall
@@ -5878,6 +5875,8 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.NAT.InterfaceSetting.{i}.X_PRPL-COM_NATInterface.{i}.Interface                                proto::tr181-firewall
   Device.NAT.InterfaceSetting.{i}.X_PRPL-COM_NATInterfaceNumberOfEntries                               proto::tr181-firewall
   Device.NAT.InterfaceSettingNumberOfEntries                                                           proto::tr181-firewall
+  Device.NAT.MaxNumberOfPortMappings                                                                   proto::tr181-firewall
+  Device.NAT.MaxNumberOfPortTriggers                                                                   proto::tr181-firewall
   Device.NAT.PortMapping.{i}.                                                                          proto::tr181-firewall
   Device.NAT.PortMapping.{i}.Alias                                                                     proto::tr181-firewall
   Device.NAT.PortMapping.{i}.AllInterfaces                                                             proto::tr181-firewall
@@ -5896,7 +5895,6 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.NAT.PortMapping.{i}.ScheduleRef                                                               proto::tr181-firewall
   Device.NAT.PortMapping.{i}.Status                                                                    proto::tr181-firewall
   Device.NAT.PortMapping.{i}.X_PRPL-COM_Log                                                            proto::tr181-firewall
-  Device.NAT.PortMappingAllowedOrigins                                                                 proto::tr181-firewall
   Device.NAT.PortMappingNumberOfEntries                                                                proto::tr181-firewall
   Device.NAT.PortTrigger.{i}.                                                                          proto::tr181-firewall
   Device.NAT.PortTrigger.{i}.ActivationDate                                                            proto::tr181-firewall
@@ -5919,8 +5917,6 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.NAT.PortTrigger.{i}.ScheduleRef                                                               proto::tr181-firewall
   Device.NAT.PortTrigger.{i}.Status                                                                    proto::tr181-firewall
   Device.NAT.PortTriggerNumberOfEntries                                                                proto::tr181-firewall
-  Device.NAT.X_PRPL-COM_MaxPortMappingNumberOfEntries                                                  proto::tr181-firewall
-  Device.NAT.X_PRPL-COM_MaxPortTriggerNumberOfEntries                                                  proto::tr181-firewall
   Device.NAT.X_PRPL-COM_MaximumConntrackEntries                                                        proto::tr181-firewall
   Device.NAT.X_PRPL-COM_NumberOfConntrackEntries                                                       proto::tr181-firewall
   Device.NAT.X_PRPL-COM_StaticNAT.                                                                     proto::tr181-firewall
