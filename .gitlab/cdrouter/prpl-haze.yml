@@ -132,3 +132,13 @@ prplWare-Smoke-Test-Suite Haze initramfs:
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
       .gitlab/scripts/dut-init/cdrouter-tr181-mockups.sh
       .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
+
+bulkdata-testing Haze initramfs:
+  <<: *prpl_haze_ipv6
+  stage: cdrouter smoke
+  variables:
+    CDROUTER_TEST_CONFIG: smoke-test
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
+      .gitlab/scripts/dut-init/cdrouter-tr181-mockups.sh
+      .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
