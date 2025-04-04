@@ -4054,12 +4054,28 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.XPON.ONU.{i}.Version                                                                          proto::tr181-xpon
   Device.XPON.ONUNumberOfEntries                                                                       proto::tr181-xpon
   Device.X_PRPL-COM_Buttons.                                                                           proto::tr181-button
+  Device.X_PRPL-COM_Buttons.Action.{i}.                                                                proto::tr181-button
+  Device.X_PRPL-COM_Buttons.Action.{i}.Alias                                                           proto::tr181-button
+  Device.X_PRPL-COM_Buttons.Action.{i}.Message                                                         proto::tr181-button
+  Device.X_PRPL-COM_Buttons.Action.{i}.Method                                                          proto::tr181-button
+  Device.X_PRPL-COM_Buttons.Action.{i}.Name                                                            proto::tr181-button
+  Device.X_PRPL-COM_Buttons.Action.{i}.Object                                                          proto::tr181-button
+  Device.X_PRPL-COM_Buttons.ActionNumberOfEntries                                                      proto::tr181-button
   Device.X_PRPL-COM_Buttons.Button.{i}.                                                                proto::tr181-button
   Device.X_PRPL-COM_Buttons.Button.{i}.Alias                                                           proto::tr181-button
-  Device.X_PRPL-COM_Buttons.Button.{i}.MaxInterval                                                     proto::tr181-button
-  Device.X_PRPL-COM_Buttons.Button.{i}.MinInterval                                                     proto::tr181-button
+  Device.X_PRPL-COM_Buttons.Button.{i}.Event.{i}.                                                      proto::tr181-button
+  Device.X_PRPL-COM_Buttons.Button.{i}.Event.{i}.ActionsReference                                      proto::tr181-button
+  Device.X_PRPL-COM_Buttons.Button.{i}.Event.{i}.Alias                                                 proto::tr181-button
+  Device.X_PRPL-COM_Buttons.Button.{i}.Event.{i}.Enable                                                proto::tr181-button
+  Device.X_PRPL-COM_Buttons.Button.{i}.Event.{i}.Max                                                   proto::tr181-button
+  Device.X_PRPL-COM_Buttons.Button.{i}.Event.{i}.Min                                                   proto::tr181-button
+  Device.X_PRPL-COM_Buttons.Button.{i}.Event.{i}.Name                                                  proto::tr181-button
+  Device.X_PRPL-COM_Buttons.Button.{i}.Event.{i}.Timeout                                               proto::tr181-button
+  Device.X_PRPL-COM_Buttons.Button.{i}.Event.{i}.Type                                                  proto::tr181-button
+  Device.X_PRPL-COM_Buttons.Button.{i}.EventNumberOfEntries                                            proto::tr181-button
+  Device.X_PRPL-COM_Buttons.Button.{i}.Location                                                        proto::tr181-button
+  Device.X_PRPL-COM_Buttons.Button.{i}.Name                                                            proto::tr181-button
   Device.X_PRPL-COM_Buttons.Button.{i}.Push()                                                          proto::tr181-button
-  Device.X_PRPL-COM_Buttons.Button.{i}.Push() input:duration
   Device.X_PRPL-COM_Buttons.Button.{i}.Release()                                                       proto::tr181-button
   Device.X_PRPL-COM_Buttons.Button.{i}.Status                                                          proto::tr181-button
   Device.X_PRPL-COM_Buttons.ButtonNumberOfEntries                                                      proto::tr181-button
@@ -8374,12 +8390,28 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.XPON.ONU.{i}.Version                                                                          proto::tr181-xpon
   Device.XPON.ONUNumberOfEntries                                                                       proto::tr181-xpon
   Device.X_PRPL-COM_Buttons.                                                                           proto::tr181-button
+  Device.X_PRPL-COM_Buttons.Action.{i}.                                                                proto::tr181-button
+  Device.X_PRPL-COM_Buttons.Action.{i}.Alias                                                           proto::tr181-button
+  Device.X_PRPL-COM_Buttons.Action.{i}.Message                                                         proto::tr181-button
+  Device.X_PRPL-COM_Buttons.Action.{i}.Method                                                          proto::tr181-button
+  Device.X_PRPL-COM_Buttons.Action.{i}.Name                                                            proto::tr181-button
+  Device.X_PRPL-COM_Buttons.Action.{i}.Object                                                          proto::tr181-button
+  Device.X_PRPL-COM_Buttons.ActionNumberOfEntries                                                      proto::tr181-button
   Device.X_PRPL-COM_Buttons.Button.{i}.                                                                proto::tr181-button
   Device.X_PRPL-COM_Buttons.Button.{i}.Alias                                                           proto::tr181-button
-  Device.X_PRPL-COM_Buttons.Button.{i}.MaxInterval                                                     proto::tr181-button
-  Device.X_PRPL-COM_Buttons.Button.{i}.MinInterval                                                     proto::tr181-button
+  Device.X_PRPL-COM_Buttons.Button.{i}.Event.{i}.                                                      proto::tr181-button
+  Device.X_PRPL-COM_Buttons.Button.{i}.Event.{i}.ActionsReference                                      proto::tr181-button
+  Device.X_PRPL-COM_Buttons.Button.{i}.Event.{i}.Alias                                                 proto::tr181-button
+  Device.X_PRPL-COM_Buttons.Button.{i}.Event.{i}.Enable                                                proto::tr181-button
+  Device.X_PRPL-COM_Buttons.Button.{i}.Event.{i}.Max                                                   proto::tr181-button
+  Device.X_PRPL-COM_Buttons.Button.{i}.Event.{i}.Min                                                   proto::tr181-button
+  Device.X_PRPL-COM_Buttons.Button.{i}.Event.{i}.Name                                                  proto::tr181-button
+  Device.X_PRPL-COM_Buttons.Button.{i}.Event.{i}.Timeout                                               proto::tr181-button
+  Device.X_PRPL-COM_Buttons.Button.{i}.Event.{i}.Type                                                  proto::tr181-button
+  Device.X_PRPL-COM_Buttons.Button.{i}.EventNumberOfEntries                                            proto::tr181-button
+  Device.X_PRPL-COM_Buttons.Button.{i}.Location                                                        proto::tr181-button
+  Device.X_PRPL-COM_Buttons.Button.{i}.Name                                                            proto::tr181-button
   Device.X_PRPL-COM_Buttons.Button.{i}.Push()                                                          proto::tr181-button
-  Device.X_PRPL-COM_Buttons.Button.{i}.Push() input:duration
   Device.X_PRPL-COM_Buttons.Button.{i}.Release()                                                       proto::tr181-button
   Device.X_PRPL-COM_Buttons.Button.{i}.Status                                                          proto::tr181-button
   Device.X_PRPL-COM_Buttons.ButtonNumberOfEntries                                                      proto::tr181-button

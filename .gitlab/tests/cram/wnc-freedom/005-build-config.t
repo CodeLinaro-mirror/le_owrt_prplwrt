@@ -164,6 +164,9 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-i2c-mux=y
   CONFIG_PACKAGE_kmod-i2c-mux-pca954x=y
   CONFIG_PACKAGE_kmod-ifb=y
+  CONFIG_PACKAGE_kmod-input-core=y
+  CONFIG_PACKAGE_kmod-input-evdev=y
+  CONFIG_PACKAGE_kmod-input-gpio-keys=y
   CONFIG_PACKAGE_kmod-ip6-tunnel=y
   CONFIG_PACKAGE_kmod-ip6tables=y
   CONFIG_PACKAGE_kmod-ip6tables-extra=y
