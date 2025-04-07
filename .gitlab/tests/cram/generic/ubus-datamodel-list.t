@@ -70,6 +70,7 @@ Check that ubus has expected datamodels available:
   Device.DSLite
   Device.DeviceInfo
   Device.DeviceInfo.KernelFaults
+  Device.DeviceInfo.PowerStatus
   Device.DeviceInfo.ProcessFaults
   Device.DeviceInfo.Reboots
   Device.DeviceInfo.TemperatureStatus
@@ -244,6 +245,8 @@ Check that ubus has expected datamodels available:
   PersistentConfiguration.Config
   PersistentConfiguration.Config.Security
   PersistentConfiguration.Service
+  PowerStatus
+  PowerStatus.PowerSensor
   ProcessFaults
   ProcessFaults.ProcessFault
   ProcessMonitor
