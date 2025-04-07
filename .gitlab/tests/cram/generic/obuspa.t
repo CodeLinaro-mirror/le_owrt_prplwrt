@@ -1485,21 +1485,22 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.LEDs.LED.{i}.CurrentCycleElement.CycleElementReference                                        proto::tr181-led
   Device.LEDs.LED.{i}.CycleElement.{i}.                                                                proto::tr181-led
   Device.LEDs.LED.{i}.CycleElement.{i}.Alias                                                           proto::tr181-led
+  Device.LEDs.LED.{i}.CycleElement.{i}.Brightness                                                      proto::tr181-led
   Device.LEDs.LED.{i}.CycleElement.{i}.Color                                                           proto::tr181-led
   Device.LEDs.LED.{i}.CycleElement.{i}.Duration                                                        proto::tr181-led
   Device.LEDs.LED.{i}.CycleElement.{i}.Enable                                                          proto::tr181-led
   Device.LEDs.LED.{i}.CycleElement.{i}.FadeInterval                                                    proto::tr181-led
   Device.LEDs.LED.{i}.CycleElement.{i}.Order                                                           proto::tr181-led
-  Device.LEDs.LED.{i}.CycleElement.{i}.X_PRPL-COM_Brightness                                           proto::tr181-led
   Device.LEDs.LED.{i}.CycleElementNumberOfEntries                                                      proto::tr181-led
   Device.LEDs.LED.{i}.CyclePeriodRepetitions                                                           proto::tr181-led
+  Device.LEDs.LED.{i}.Enable                                                                           proto::tr181-led
   Device.LEDs.LED.{i}.Location                                                                         proto::tr181-led
+  Device.LEDs.LED.{i}.MaxBrightness                                                                    proto::tr181-led
   Device.LEDs.LED.{i}.Name                                                                             proto::tr181-led
   Device.LEDs.LED.{i}.Reason                                                                           proto::tr181-led
   Device.LEDs.LED.{i}.RelativeXPosition                                                                proto::tr181-led
   Device.LEDs.LED.{i}.RelativeYPosition                                                                proto::tr181-led
   Device.LEDs.LED.{i}.Status                                                                           proto::tr181-led
-  Device.LEDs.LED.{i}.X_PRPL-COM_MaxBrightness                                                         proto::tr181-led
   Device.LEDs.LEDNumberOfEntries                                                                       proto::tr181-led
   Device.LocalAgent.
   Device.LocalAgent.Certificate.{i}.
@@ -5493,21 +5494,22 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.LEDs.LED.{i}.CurrentCycleElement.CycleElementReference                                        proto::tr181-led
   Device.LEDs.LED.{i}.CycleElement.{i}.                                                                proto::tr181-led
   Device.LEDs.LED.{i}.CycleElement.{i}.Alias                                                           proto::tr181-led
+  Device.LEDs.LED.{i}.CycleElement.{i}.Brightness                                                      proto::tr181-led
   Device.LEDs.LED.{i}.CycleElement.{i}.Color                                                           proto::tr181-led
   Device.LEDs.LED.{i}.CycleElement.{i}.Duration                                                        proto::tr181-led
   Device.LEDs.LED.{i}.CycleElement.{i}.Enable                                                          proto::tr181-led
   Device.LEDs.LED.{i}.CycleElement.{i}.FadeInterval                                                    proto::tr181-led
   Device.LEDs.LED.{i}.CycleElement.{i}.Order                                                           proto::tr181-led
-  Device.LEDs.LED.{i}.CycleElement.{i}.X_PRPL-COM_Brightness                                           proto::tr181-led
   Device.LEDs.LED.{i}.CycleElementNumberOfEntries                                                      proto::tr181-led
   Device.LEDs.LED.{i}.CyclePeriodRepetitions                                                           proto::tr181-led
+  Device.LEDs.LED.{i}.Enable                                                                           proto::tr181-led
   Device.LEDs.LED.{i}.Location                                                                         proto::tr181-led
+  Device.LEDs.LED.{i}.MaxBrightness                                                                    proto::tr181-led
   Device.LEDs.LED.{i}.Name                                                                             proto::tr181-led
   Device.LEDs.LED.{i}.Reason                                                                           proto::tr181-led
   Device.LEDs.LED.{i}.RelativeXPosition                                                                proto::tr181-led
   Device.LEDs.LED.{i}.RelativeYPosition                                                                proto::tr181-led
   Device.LEDs.LED.{i}.Status                                                                           proto::tr181-led
-  Device.LEDs.LED.{i}.X_PRPL-COM_MaxBrightness                                                         proto::tr181-led
   Device.LEDs.LEDNumberOfEntries                                                                       proto::tr181-led
   Device.LocalAgent.
   Device.LocalAgent.Certificate.{i}.
