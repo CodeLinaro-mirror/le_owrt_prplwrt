@@ -100,3 +100,6 @@ diffconfig: |
   CONFIG_PACKAGE_kmod-wwan=y
   CONFIG_PACKAGE_kmod-nls-base=y
   CONFIG_PACKAGE_kmod-scsi-core=y
+  CONFIG_PACKAGE_kmod-i2c-algo-bit=y
+  CONFIG_PACKAGE_kmod-i2c-core=y
+  CONFIG_PACKAGE_kmod-i2c-gpio=y
