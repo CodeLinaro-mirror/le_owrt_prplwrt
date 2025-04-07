@@ -742,8 +742,12 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.Ethernet.Interface.{i}.CurrentBitRate                                                         proto::ethernet-manager
   Device.Ethernet.Interface.{i}.CurrentDuplexMode                                                      proto::ethernet-manager
   Device.Ethernet.Interface.{i}.DuplexMode                                                             proto::ethernet-manager
+  Device.Ethernet.Interface.{i}.EDPDCapability                                                         proto::ethernet-manager
+  Device.Ethernet.Interface.{i}.EDPDEnable                                                             proto::ethernet-manager
+  Device.Ethernet.Interface.{i}.EDPDStatus                                                             proto::ethernet-manager
   Device.Ethernet.Interface.{i}.EEECapability                                                          proto::ethernet-manager
   Device.Ethernet.Interface.{i}.EEEEnable                                                              proto::ethernet-manager
+  Device.Ethernet.Interface.{i}.EEEStatus                                                              proto::ethernet-manager
   Device.Ethernet.Interface.{i}.Enable                                                                 proto::ethernet-manager
   Device.Ethernet.Interface.{i}.LastChange                                                             proto::ethernet-manager
   Device.Ethernet.Interface.{i}.LowerLayers                                                            proto::ethernet-manager
@@ -4746,8 +4750,12 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.Ethernet.Interface.{i}.CurrentBitRate                                                         proto::ethernet-manager
   Device.Ethernet.Interface.{i}.CurrentDuplexMode                                                      proto::ethernet-manager
   Device.Ethernet.Interface.{i}.DuplexMode                                                             proto::ethernet-manager
+  Device.Ethernet.Interface.{i}.EDPDCapability                                                         proto::ethernet-manager
+  Device.Ethernet.Interface.{i}.EDPDEnable                                                             proto::ethernet-manager
+  Device.Ethernet.Interface.{i}.EDPDStatus                                                             proto::ethernet-manager
   Device.Ethernet.Interface.{i}.EEECapability                                                          proto::ethernet-manager
   Device.Ethernet.Interface.{i}.EEEEnable                                                              proto::ethernet-manager
+  Device.Ethernet.Interface.{i}.EEEStatus                                                              proto::ethernet-manager
   Device.Ethernet.Interface.{i}.Enable                                                                 proto::ethernet-manager
   Device.Ethernet.Interface.{i}.LastChange                                                             proto::ethernet-manager
   Device.Ethernet.Interface.{i}.LowerLayers                                                            proto::ethernet-manager
