@@ -361,10 +361,18 @@ TARGET_CONFIGURE_OPTS = \
   OBJDUMP=$(TARGET_CROSS)objdump \
   SIZE=$(TARGET_CROSS)size
 
-SIGN_KEY:= LD_LIBRARY_PATH=$(TOPDIR)/src/kernel-$(LINUX_VERSION)/kernel_platform/prebuilts/kernel-build-tools/linux-x86/lib64/ \
-           $(TOPDIR)/src/kernel-$(LINUX_VERSION)/out/msm-kernel-$(KERNEL_PLATFORM_TARGET)-$(TARGET_VARIANT)_defconfig/msm-kernel/scripts/sign-file sha512 \
-	   $(TOPDIR)/src/kernel-$(LINUX_VERSION)/out/msm-kernel-$(KERNEL_PLATFORM_TARGET)-$(TARGET_VARIANT)_defconfig/msm-kernel/certs/signing_key.pem \
-	   $(TOPDIR)/src/kernel-$(LINUX_VERSION)/out/msm-kernel-$(KERNEL_PLATFORM_TARGET)-$(TARGET_VARIANT)_defconfig/msm-kernel/certs/signing_key.x509
+
+ifeq ($(BOARD), sdx85)
+    SIGN_KEY:= LD_LIBRARY_PATH=$(TOPDIR)/src/kernel-$(LINUX_VERSION)/kernel_platform/out/msm-kernel-$(KERNEL_PLATFORM_TARGET)-$(TARGET_VARIANT)_defconfig/dist/openssl/lib64 \
+          $(TOPDIR)/src/kernel-$(LINUX_VERSION)/out/msm-kernel-$(KERNEL_PLATFORM_TARGET)-$(TARGET_VARIANT)_defconfig/dist/sign-file sha512 \
+          $(TOPDIR)/src/kernel-$(LINUX_VERSION)/out/msm-kernel-$(KERNEL_PLATFORM_TARGET)-$(TARGET_VARIANT)_defconfig/dist/signing_key.pem \
+          $(TOPDIR)/src/kernel-$(LINUX_VERSION)/out/msm-kernel-$(KERNEL_PLATFORM_TARGET)-$(TARGET_VARIANT)_defconfig/dist/signing_key.x509
+else 
+    SIGN_KEY:= LD_LIBRARY_PATH=$(TOPDIR)/src/kernel-$(LINUX_VERSION)/kernel_platform/prebuilts/kernel-build-tools/linux-x86/lib64/ \
+          $(TOPDIR)/src/kernel-$(LINUX_VERSION)/out/msm-kernel-$(KERNEL_PLATFORM_TARGET)-$(TARGET_VARIANT)_defconfig/msm-kernel/scripts/sign-file sha512 \
+	        $(TOPDIR)/src/kernel-$(LINUX_VERSION)/out/msm-kernel-$(KERNEL_PLATFORM_TARGET)-$(TARGET_VARIANT)_defconfig/msm-kernel/certs/signing_key.pem \
+	        $(TOPDIR)/src/kernel-$(LINUX_VERSION)/out/msm-kernel-$(KERNEL_PLATFORM_TARGET)-$(TARGET_VARIANT)_defconfig/msm-kernel/certs/signing_key.x509
+endif
 
 ifneq ($(CONFIG_NO_STRIP),)
   RSTRIP:=:
