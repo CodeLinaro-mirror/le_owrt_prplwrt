@@ -5,8 +5,7 @@ Create R alias:
 Add DMZ host:
 
   $ printf "\
-  > ubus-cli Firewall.DMZ+{Alias='test'}
-  > ubus-cli Firewall.DMZ.test.DestIP=192.168.1.186
+  > ubus-cli Firewall.DMZ+{Alias='test', DestIP='192.168.1.186'}
   > ubus-cli Firewall.DMZ.test.Enable=1
   > ubus-cli Firewall.DMZ.test.Interface="Device.Logical.Interface.1."
   > " > /tmp/cram
