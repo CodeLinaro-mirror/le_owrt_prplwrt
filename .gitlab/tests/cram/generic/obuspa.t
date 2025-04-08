@@ -395,6 +395,15 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.DNS.Diagnostics.NSLookupDiagnostics.SuccessCount                                              proto::tr181-dns
   Device.DNS.Diagnostics.NSLookupDiagnostics.Timeout                                                   proto::tr181-dns
   Device.DNS.Relay.                                                                                    proto::tr181-dns
+  Device.DNS.Relay.Config.{i}.                                                                         proto::tr181-dns
+  Device.DNS.Relay.Config.{i}.Alias                                                                    proto::tr181-dns
+  Device.DNS.Relay.Config.{i}.CacheMaxTTL                                                              proto::tr181-dns
+  Device.DNS.Relay.Config.{i}.CacheMinTTL                                                              proto::tr181-dns
+  Device.DNS.Relay.Config.{i}.CacheSize                                                                proto::tr181-dns
+  Device.DNS.Relay.Config.{i}.FlushCache()                                                             proto::tr181-dns
+  Device.DNS.Relay.Config.{i}.Forwarders                                                               proto::tr181-dns
+  Device.DNS.Relay.Config.{i}.Interface                                                                proto::tr181-dns
+  Device.DNS.Relay.ConfigNumberOfEntries                                                               proto::tr181-dns
   Device.DNS.Relay.Enable                                                                              proto::tr181-dns
   Device.DNS.Relay.ForwardNumberOfEntries                                                              proto::tr181-dns
   Device.DNS.Relay.Forwarding.{i}.                                                                     proto::tr181-dns
@@ -405,18 +414,6 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.DNS.Relay.Forwarding.{i}.Status                                                               proto::tr181-dns
   Device.DNS.Relay.Forwarding.{i}.Type                                                                 proto::tr181-dns
   Device.DNS.Relay.Status                                                                              proto::tr181-dns
-  Device.DNS.Relay.X_PRPL-COM_Config.{i}.                                                              proto::tr181-dns
-  Device.DNS.Relay.X_PRPL-COM_Config.{i}.Alias                                                         proto::tr181-dns
-  Device.DNS.Relay.X_PRPL-COM_Config.{i}.CacheMaxTTL                                                   proto::tr181-dns
-  Device.DNS.Relay.X_PRPL-COM_Config.{i}.CacheMinTTL                                                   proto::tr181-dns
-  Device.DNS.Relay.X_PRPL-COM_Config.{i}.CacheSize                                                     proto::tr181-dns
-  Device.DNS.Relay.X_PRPL-COM_Config.{i}.DNSMode                                                       proto::tr181-dns
-  Device.DNS.Relay.X_PRPL-COM_Config.{i}.DomainName                                                    proto::tr181-dns
-  Device.DNS.Relay.X_PRPL-COM_Config.{i}.FlushCache()                                                  proto::tr181-dns
-  Device.DNS.Relay.X_PRPL-COM_Config.{i}.ForwardingRef                                                 proto::tr181-dns
-  Device.DNS.Relay.X_PRPL-COM_Config.{i}.IPv6DNSMode                                                   proto::tr181-dns
-  Device.DNS.Relay.X_PRPL-COM_Config.{i}.Interface                                                     proto::tr181-dns
-  Device.DNS.Relay.X_PRPL-COM_ConfigNumberOfEntries                                                    proto::tr181-dns
   Device.DNS.SD.                                                                                       proto::tr181-dnssd
   Device.DNS.SD.Advertise.{i}.                                                                         proto::tr181-dnssd
   Device.DNS.SD.Advertise.{i}.Alias                                                                    proto::tr181-dnssd
@@ -4402,6 +4399,15 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.DNS.Diagnostics.NSLookupDiagnostics.SuccessCount                                              proto::tr181-dns
   Device.DNS.Diagnostics.NSLookupDiagnostics.Timeout                                                   proto::tr181-dns
   Device.DNS.Relay.                                                                                    proto::tr181-dns
+  Device.DNS.Relay.Config.{i}.                                                                         proto::tr181-dns
+  Device.DNS.Relay.Config.{i}.Alias                                                                    proto::tr181-dns
+  Device.DNS.Relay.Config.{i}.CacheMaxTTL                                                              proto::tr181-dns
+  Device.DNS.Relay.Config.{i}.CacheMinTTL                                                              proto::tr181-dns
+  Device.DNS.Relay.Config.{i}.CacheSize                                                                proto::tr181-dns
+  Device.DNS.Relay.Config.{i}.FlushCache()                                                             proto::tr181-dns
+  Device.DNS.Relay.Config.{i}.Forwarders                                                               proto::tr181-dns
+  Device.DNS.Relay.Config.{i}.Interface                                                                proto::tr181-dns
+  Device.DNS.Relay.ConfigNumberOfEntries                                                               proto::tr181-dns
   Device.DNS.Relay.Enable                                                                              proto::tr181-dns
   Device.DNS.Relay.ForwardNumberOfEntries                                                              proto::tr181-dns
   Device.DNS.Relay.Forwarding.{i}.                                                                     proto::tr181-dns
@@ -4412,18 +4418,6 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.DNS.Relay.Forwarding.{i}.Status                                                               proto::tr181-dns
   Device.DNS.Relay.Forwarding.{i}.Type                                                                 proto::tr181-dns
   Device.DNS.Relay.Status                                                                              proto::tr181-dns
-  Device.DNS.Relay.X_PRPL-COM_Config.{i}.                                                              proto::tr181-dns
-  Device.DNS.Relay.X_PRPL-COM_Config.{i}.Alias                                                         proto::tr181-dns
-  Device.DNS.Relay.X_PRPL-COM_Config.{i}.CacheMaxTTL                                                   proto::tr181-dns
-  Device.DNS.Relay.X_PRPL-COM_Config.{i}.CacheMinTTL                                                   proto::tr181-dns
-  Device.DNS.Relay.X_PRPL-COM_Config.{i}.CacheSize                                                     proto::tr181-dns
-  Device.DNS.Relay.X_PRPL-COM_Config.{i}.DNSMode                                                       proto::tr181-dns
-  Device.DNS.Relay.X_PRPL-COM_Config.{i}.DomainName                                                    proto::tr181-dns
-  Device.DNS.Relay.X_PRPL-COM_Config.{i}.FlushCache()                                                  proto::tr181-dns
-  Device.DNS.Relay.X_PRPL-COM_Config.{i}.ForwardingRef                                                 proto::tr181-dns
-  Device.DNS.Relay.X_PRPL-COM_Config.{i}.IPv6DNSMode                                                   proto::tr181-dns
-  Device.DNS.Relay.X_PRPL-COM_Config.{i}.Interface                                                     proto::tr181-dns
-  Device.DNS.Relay.X_PRPL-COM_ConfigNumberOfEntries                                                    proto::tr181-dns
   Device.DNS.SD.                                                                                       proto::tr181-dnssd
   Device.DNS.SD.Advertise.{i}.                                                                         proto::tr181-dnssd
   Device.DNS.SD.Advertise.{i}.Alias                                                                    proto::tr181-dnssd
@@ -7991,7 +7985,6 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.X_PRPL-COM_WANManager.WAN.{i}.Origin                                                          proto::wan-manager
   Device.X_PRPL-COM_WANManager.WAN.{i}.PhysicalReference                                               proto::wan-manager
   Device.X_PRPL-COM_WANManager.WAN.{i}.PhysicalType                                                    proto::wan-manager
-  Device.X_PRPL-COM_WANManager.WAN.{i}.SFPType                                                         proto::wan-manager
   Device.X_PRPL-COM_WANManager.WAN.{i}.SensingPriority                                                 proto::wan-manager
   Device.X_PRPL-COM_WANManager.WAN.{i}.Status                                                          proto::wan-manager
   Device.X_PRPL-COM_WANManager.WANMode                                                                 proto::wan-manager
