@@ -40,7 +40,7 @@ First call of AccessPointCommit, controller should push empty config to agents:
 
   $ R logger -t cram "first call of AccessPointCommit pushes empty config, global teardown"
 
-  $ R "ubus -S call X_PRPL-ORG_WiFiController.Network AccessPointCommit"
+  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network AccessPointCommit"
   {"retval":""}
   {}
   {"amxd-error-code":0}
@@ -70,72 +70,72 @@ Create instances of Network.AccessPoint and push them to the agent:
 
   $ R logger -t cram "create instances of Network.AccessPoint and push them to the agent"
 
-  $ R "ubus -S call X_PRPL-ORG_WiFiController.Network.AccessPoint _add"
-  {"object":"X_PRPL-ORG_WiFiController.Network.AccessPoint.1.","index":1,"name":"1","parameters":{},"path":"X_PRPL-ORG_WiFiController.Network.AccessPoint.1."}
+  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint _add"
+  {"object":"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.","index":1,"name":"1","parameters":{},"path":"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1."}
   {}
   {"amxd-error-code":0}
 
 Since no persistent storage of NbAPI Network subsection, always index:1 after controller restart:
 
-  $ R "ubus -S call X_PRPL-ORG_WiFiController.Network.AccessPoint.1 _set '{\"parameters\":{\"Band2_4G\":1,\"Band5GH\":1,\"Band5GL\":1,\"Band6G\":1}}'"
-  {"X_PRPL-ORG_WiFiController.Network.AccessPoint.1.":{"Band5GH":true,"Band6G":true,"Band2_4G":true,"Band5GL":true}}
+  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1 _set '{\"parameters\":{\"Band2_4G\":1,\"Band5GH\":1,\"Band5GL\":1,\"Band6G\":1}}'"
+  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.":{"Band5GH":true,"Band6G":true,"Band2_4G":true,"Band5GL":true}}
   {}
   {"amxd-error-code":0}
 
-  $ R "ubus -S call X_PRPL-ORG_WiFiController.Network.AccessPoint.1 _set '{\"parameters\":{\"MultiApMode\":\"Fronthaul+Backhaul\"}}'"
-  {"X_PRPL-ORG_WiFiController.Network.AccessPoint.1.":{"MultiApMode":"Fronthaul+Backhaul"}}
+  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1 _set '{\"parameters\":{\"MultiApMode\":\"Fronthaul+Backhaul\"}}'"
+  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.":{"MultiApMode":"Fronthaul+Backhaul"}}
   {}
   {"amxd-error-code":0}
 
-  $ R "ubus -S call X_PRPL-ORG_WiFiController.Network.AccessPoint.1.Security _set '{\"parameters\":{\"ModeEnabled\":\"WPA2-Personal\",\"KeyPassphrase\":\"password\"}}'"
-  {"X_PRPL-ORG_WiFiController.Network.AccessPoint.1.Security.":{"KeyPassphrase":"password","ModeEnabled":"WPA2-Personal"}}
+  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.Security _set '{\"parameters\":{\"ModeEnabled\":\"WPA2-Personal\",\"KeyPassphrase\":\"password\"}}'"
+  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.Security.":{"KeyPassphrase":"password","ModeEnabled":"WPA2-Personal"}}
   {}
   {"amxd-error-code":0}
 
-  $ R "ubus -S call X_PRPL-ORG_WiFiController.Network.AccessPoint.1 _set '{\"parameters\":{\"SSID\":\"prplOSpriv\"}}'"
-  {"X_PRPL-ORG_WiFiController.Network.AccessPoint.1.":{"SSID":"prplOSpriv"}}
+  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1 _set '{\"parameters\":{\"SSID\":\"prplOSpriv\"}}'"
+  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.":{"SSID":"prplOSpriv"}}
   {}
   {"amxd-error-code":0}
 
 In case the controller does not yet have this parameter, catch error here isof later during teardown test:
-  $ R "ubus -S call X_PRPL-ORG_WiFiController.Network.AccessPoint.1 _set '{\"parameters\":{\"Enable\":1}}'"
-  {"X_PRPL-ORG_WiFiController.Network.AccessPoint.1.":{"Enable":true}}
+  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1 _set '{\"parameters\":{\"Enable\":1}}'"
+  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.":{"Enable":true}}
   {}
   {"amxd-error-code":0}
 
 Create second instance of Network.AccessPoint for guest VAPs:
 
-  $ R "ubus -S call X_PRPL-ORG_WiFiController.Network.AccessPoint _add"
-  {"object":"X_PRPL-ORG_WiFiController.Network.AccessPoint.2.","index":2,"name":"2","parameters":{},"path":"X_PRPL-ORG_WiFiController.Network.AccessPoint.2."}
+  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint _add"
+  {"object":"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.","index":2,"name":"2","parameters":{},"path":"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2."}
   {}
   {"amxd-error-code":0}
-  $ R "ubus -S call X_PRPL-ORG_WiFiController.Network.AccessPoint.2 _set '{\"parameters\":{\"Band2_4G\":1,\"Band5GH\":1,\"Band5GL\":1,\"Band6G\":1}}'"
-  {"X_PRPL-ORG_WiFiController.Network.AccessPoint.2.":{"Band5GH":true,"Band6G":true,"Band2_4G":true,"Band5GL":true}}
-  {}
-  {"amxd-error-code":0}
-
-  $ R "ubus -S call X_PRPL-ORG_WiFiController.Network.AccessPoint.2 _set '{\"parameters\":{\"MultiApMode\":\"Fronthaul\"}}'"
-  {"X_PRPL-ORG_WiFiController.Network.AccessPoint.2.":{"MultiApMode":"Fronthaul"}}
+  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2 _set '{\"parameters\":{\"Band2_4G\":1,\"Band5GH\":1,\"Band5GL\":1,\"Band6G\":1}}'"
+  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.":{"Band5GH":true,"Band6G":true,"Band2_4G":true,"Band5GL":true}}
   {}
   {"amxd-error-code":0}
 
-  $ R "ubus -S call X_PRPL-ORG_WiFiController.Network.AccessPoint.2.Security _set '{\"parameters\":{\"ModeEnabled\":\"WPA2-Personal\",\"KeyPassphrase\":\"passwordGUEST\"}}'"
-  {"X_PRPL-ORG_WiFiController.Network.AccessPoint.2.Security.":{"KeyPassphrase":"passwordGUEST","ModeEnabled":"WPA2-Personal"}}
+  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2 _set '{\"parameters\":{\"MultiApMode\":\"Fronthaul\"}}'"
+  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.":{"MultiApMode":"Fronthaul"}}
   {}
   {"amxd-error-code":0}
 
-  $ R "ubus -S call X_PRPL-ORG_WiFiController.Network.AccessPoint.2 _set '{\"parameters\":{\"SSID\":\"prplOSguest\"}}'"
-  {"X_PRPL-ORG_WiFiController.Network.AccessPoint.2.":{"SSID":"prplOSguest"}}
+  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.Security _set '{\"parameters\":{\"ModeEnabled\":\"WPA2-Personal\",\"KeyPassphrase\":\"passwordGUEST\"}}'"
+  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.Security.":{"KeyPassphrase":"passwordGUEST","ModeEnabled":"WPA2-Personal"}}
+  {}
+  {"amxd-error-code":0}
+
+  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2 _set '{\"parameters\":{\"SSID\":\"prplOSguest\"}}'"
+  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.":{"SSID":"prplOSguest"}}
   {}
   {"amxd-error-code":0}
 
 In case the controller does not yet have this parameter, catch error here isof later during teardown test:
-  $ R "ubus -S call X_PRPL-ORG_WiFiController.Network.AccessPoint.2 _set '{\"parameters\":{\"Enable\":1}}'"
-  {"X_PRPL-ORG_WiFiController.Network.AccessPoint.2.":{"Enable":true}}
+  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2 _set '{\"parameters\":{\"Enable\":1}}'"
+  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.":{"Enable":true}}
   {}
   {"amxd-error-code":0}
 
-  $ R "ubus -S call X_PRPL-ORG_WiFiController.Network AccessPointCommit"
+  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network AccessPointCommit"
   {"retval":""}
   {}
   {"amxd-error-code":0}
@@ -173,6 +173,7 @@ Check that prplmesh processes are running:
   /opt/prplmesh/bin/beerocks_fronthaul -i wlan0
   /opt/prplmesh/bin/beerocks_fronthaul -i wlan1
   /opt/prplmesh/bin/beerocks_fronthaul -i wlan2
+  /opt/prplmesh/bin/beerocks_vendor_message
   /opt/prplmesh/bin/ieee1905_transport
 
 Check that prplmesh is operational:
@@ -186,6 +187,7 @@ Check that prplmesh is operational:
   /opt/prplmesh/scripts/prplmesh_utils.sh: status
   [0-9]+ beerocks_contro (re)
   [0-9]+ beerocks_agent (re)
+  [0-9]+ beerocks_vendor (re)
   [0-9]+ beerocks_fronth (re)
   [0-9]+ beerocks_fronth (re)
   [0-9]+ beerocks_fronth (re)
@@ -216,17 +218,17 @@ To disable wireless, disable instances of Network.AccessPoint{i} and call Access
 
   $ R logger -t cram "Stop wireless"
 
-  $ R "ubus -S call X_PRPL-ORG_WiFiController.Network.AccessPoint.1 _set '{\"parameters\":{\"Enable\":0}}'"
-  {"X_PRPL-ORG_WiFiController.Network.AccessPoint.1.":{"Enable":false}}
+  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1 _set '{\"parameters\":{\"Enable\":0}}'"
+  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.":{"Enable":false}}
   {}
   {"amxd-error-code":0}
 
-  $ R "ubus -S call X_PRPL-ORG_WiFiController.Network.AccessPoint.2 _set '{\"parameters\":{\"Enable\":0}}'"
-  {"X_PRPL-ORG_WiFiController.Network.AccessPoint.2.":{"Enable":false}}
+  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2 _set '{\"parameters\":{\"Enable\":0}}'"
+  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.":{"Enable":false}}
   {}
   {"amxd-error-code":0}
 
-  $ R "ubus -S call X_PRPL-ORG_WiFiController.Network AccessPointCommit"
+  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network AccessPointCommit"
   {"retval":""}
   {}
   {"amxd-error-code":0}
