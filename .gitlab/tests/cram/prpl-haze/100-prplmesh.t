@@ -185,6 +185,7 @@ Check that prplmesh processes are running:
   /opt/prplmesh/bin/beerocks_fronthaul -i wlan0
   /opt/prplmesh/bin/beerocks_fronthaul -i wlan1
   /opt/prplmesh/bin/beerocks_fronthaul -i wlan2
+  /opt/prplmesh/bin/beerocks_vendor_message
   /opt/prplmesh/bin/ieee1905_transport
 
 Check that prplmesh is operational:
@@ -197,6 +198,7 @@ Check that prplmesh is operational:
   /opt/prplmesh/scripts/prplmesh_utils.sh: status
   [0-9]+ beerocks_contro (re)
   [0-9]+ beerocks_agent (re)
+  [0-9]+ beerocks_vendor (re)
   [0-9]+ beerocks_fronth (re)
   [0-9]+ beerocks_fronth (re)
   [0-9]+ beerocks_fronth (re)
