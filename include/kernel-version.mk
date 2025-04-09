@@ -10,6 +10,9 @@ KERNEL_DETAILS_FILE=$(GENERIC_PLATFORM_DIR)/kernel-$(KERNEL_PATCHVER)
 ifeq ($(wildcard $(KERNEL_DETAILS_FILE)),)
   $(error Missing kernel version/hash file for $(KERNEL_PATCHVER). Please create $(KERNEL_DETAILS_FILE))
 endif
+ifneq ($(KERNEL_DETAILS_FILE_CUSTOM),)
+  KERNEL_DETAILS_FILE=$(KERNEL_DETAILS_FILE_CUSTOM)
+endif
 
 include $(KERNEL_DETAILS_FILE)
 
