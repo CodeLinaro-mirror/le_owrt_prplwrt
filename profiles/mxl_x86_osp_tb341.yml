@@ -163,7 +163,6 @@ packages:
   - obudpst
   - speedtest-modules
   - kmod-dpl
-  - kmod-gpio-button-hotplug
   - kmod-mxl_gpy
   - libugwhelper
   - libmsgapi
