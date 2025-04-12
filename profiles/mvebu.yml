@@ -13,3 +13,4 @@ packages:
 
 diffconfig: |
   CONFIG_TESTING_KERNEL=y
+  # CONFIG_PACKAGE_kmod-gpio-button-hotplug is not set
