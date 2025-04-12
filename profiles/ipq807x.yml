@@ -8,3 +8,6 @@ description: Build image for prpl Foundation Haze board
 packages:
   - hostapd-utils
   - iw-full
+
+diffconfig: |
+  # CONFIG_PACKAGE_kmod-gpio-button-hotplug is not set
