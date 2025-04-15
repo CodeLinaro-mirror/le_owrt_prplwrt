@@ -11,7 +11,6 @@ Get initial state of bridges:
   br-lan@wlan2.1
   br-lan@wlan1
   br-lan@wlan0.1
-  br-lan@eth0_5
   br-lan@eth0_4
   br-lan@eth0_3
   br-lan@eth0_2
@@ -40,7 +39,6 @@ Check that eth0_1 is added to Guest bridge:
   br-lan@wlan2.1
   br-lan@wlan1
   br-lan@wlan0.1
-  br-lan@eth0_5
   br-lan@eth0_4
   br-lan@eth0_3
   br-lan@eth0_2
@@ -69,7 +67,6 @@ Check for initial state of bridges again:
   br-lan@wlan2.1
   br-lan@wlan1
   br-lan@wlan0.1
-  br-lan@eth0_5
   br-lan@eth0_4
   br-lan@eth0_3
   br-lan@eth0_2
