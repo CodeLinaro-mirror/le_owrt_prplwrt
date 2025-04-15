@@ -219,6 +219,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.DHCPv6.
   Device.DHCPv6.Client.{i}.                                                                            proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.Alias                                                                       proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.AuthenticationProtocol                                                      proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.DUID                                                                        proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.Enable                                                                      proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.Interface                                                                   proto::tr181-dhcpv6client
@@ -4347,6 +4348,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.DHCPv6.
   Device.DHCPv6.Client.{i}.                                                                            proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.Alias                                                                       proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.AuthenticationProtocol                                                      proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.DUID                                                                        proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.Enable                                                                      proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.Interface                                                                   proto::tr181-dhcpv6client
