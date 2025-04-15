@@ -91,6 +91,7 @@ Check that ubus has expected datamodels available:
   Device.PCP
   Device.PPP
   Device.PacketInterception
+  Device.PeriodicFileUpload
   Device.QoS
   Device.RouterAdvertisement
   Device.Routing
@@ -244,6 +245,9 @@ Check that ubus has expected datamodels available:
   PacketInterception.Condition
   PacketInterception.Interception
   PacketInterception.PacketHandler
+  PeriodicFileUpload
+  PeriodicFileUpload.File
+  PeriodicFileUpload.Profile
   PersistentConfiguration
   PersistentConfiguration.BackupFile
   PersistentConfiguration.Config
