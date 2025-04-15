@@ -99,6 +99,14 @@
         exit 1
       " ERR
     - make -j $(nproc) 2>&1 | tee --append logs/build.log
+    - >
+      if [ -n "$CI_BUILD_EXPORT_STAGING_ROOTFS" ]; then
+        root_dir=$(find $(pwd)/staging_dir -maxdepth 2 -type d -name root-*)
+        tar cfJ "rootfs-debug.tar.xz" -C "$root_dir" .
+        echo "Export of staging_dir/root-* completed in rootfs-debug.tar.xz"
+      else
+        echo "Skipping export of staging/root-* as `CI_BUILD_EXPORT_STAGING_ROOTFS` is not set."
+      fi
     - rm .build_failed
 
   after_script:
@@ -118,3 +126,4 @@
       - bin
       - logs
       - ./*packages-hash-issues.patch
+      - rootfs-debug.tar.xz
