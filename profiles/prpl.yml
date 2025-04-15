@@ -11,7 +11,7 @@ feeds:
 
   - name: feed_prplmesh
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplmesh.git
-    revision: main@c92e71e578c41d80752c040ac76e69480416e9d3
+    revision: bugfix/PPM-3239-FSM-sync-fix@1f5e468c5e34fc73ca7edfe9ea1a6e45328b7c07
 
   - name: feed_prplos
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplos.git
