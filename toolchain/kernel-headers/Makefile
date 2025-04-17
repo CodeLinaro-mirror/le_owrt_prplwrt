@@ -145,6 +145,7 @@ define Host/Prepare
 	sed -i '4iOUT_DIR_NAME=$(OUT_DIR_NAME)' linux-$(LINUX_VERSION)/kernel-modules/Makefile; \
 	sed -i '5iLINUX_VERSION=$(LINUX_VERSION)' linux-$(LINUX_VERSION)/kernel-modules/Makefile; \
 	sed -i '6iTARGET_VARIANT=$(TARGET_VARIANT)' linux-$(LINUX_VERSION)/kernel-modules/Makefile; \
+	sed -i '7iKERNEL_PLATFORM_TARGET=$(KERNEL_PLATFORM_TARGET)' linux-$(LINUX_VERSION)/kernel-modules/Makefile; \
 	if [ "$(BOARD)" = "sdx35" ]; then \
 	cp -r $(KERNEL_DIST_DIR)/zImage .; \
 	sed -i '1iARCH=\"$(ARCH)\"' linux-$(LINUX_VERSION)/Makefile; \
