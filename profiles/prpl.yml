@@ -11,7 +11,7 @@ feeds:
 
   - name: feed_prplmesh
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplmesh.git
-    revision: main@c76fae9cf82a2e290f6b029185e609a7a0d17e19
+    revision: prplmesh/bump-prplmesh-to-v5.0-rc2-and-add-whm-sync-fix@27ca3fddef73414337bfcbae6c5b18c965f541f6
 
   - name: feed_prplos
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplos.git
