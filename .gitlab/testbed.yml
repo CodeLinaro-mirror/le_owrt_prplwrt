@@ -100,6 +100,11 @@
     - rm .run_failed
 
   after_script:
+    - .gitlab/scripts/cram-xunit-merger.py \
+      --output "${CI_PROJECT_DIR}/cram-result-$LABGRID_TARGET.junit.xml" \
+      "${CI_PROJECT_DIR}/cram-result-$LABGRID_TARGET.xunit.xml" \
+      "${CI_PROJECT_DIR}/cram-result-post-$LABGRID_TARGET.xunit.xml" || true
+
     - >
       [ "$TMATE_ENABLE_SHELL" = "YES" ] && {
         echo "Starting tmate session..."
@@ -163,6 +168,8 @@
       - cram-result-*
       - opkg_list-$LABGRID_TARGET.txt
       - coredumps-$LABGRID_TARGET.tar.gz
+    reports:
+      junit: cram-result-$LABGRID_TARGET.junit.xml
 
 .testbed true.cz:
   extends: .testbed
