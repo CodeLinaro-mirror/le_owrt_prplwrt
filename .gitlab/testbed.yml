@@ -105,8 +105,8 @@
 
       run_check ssh root@$TARGET_LAN_IP 'f=$(logread | grep "procd.*init complete"); echo "${f:-Warning: init is not complete yet,} $(uptime -p)"'
       run_check ssh root@$TARGET_LAN_IP 'logger -t CI -p local0.info "Testing starts, $(uptime -p)"'
-      run_check python3 -m cram --verbose $CRAM_TEST_SUITE $CRAM_TEST_SUITE_EXTRA | tee cram-result-$LABGRID_TARGET.txt
-      run_check python3 -m cram --verbose $CRAM_TEST_SUITE_POST | tee --append cram-result-$LABGRID_TARGET.txt
+      run_check python3 -m cram --xunit-file=cram-result-$LABGRID_TARGET.xunit.xml --verbose $CRAM_TEST_SUITE $CRAM_TEST_SUITE_EXTRA | tee cram-result-$LABGRID_TARGET.txt
+      run_check python3 -m cram --xunit-file=cram-result-post-$LABGRID_TARGET.xunit.xml --verbose $CRAM_TEST_SUITE_POST | tee --append cram-result-$LABGRID_TARGET.txt
       run_check ssh root@$TARGET_LAN_IP 'logger -t CI -p local0.info "Testing finished, $(uptime -p)"'
 
       [ -f .run_check_failed ] && cat .run_check_failed && exit 1
@@ -114,6 +114,11 @@
     - rm .run_failed
 
   after_script:
+    - .gitlab/scripts/cram-xunit-merger.py \
+      --output "${CI_PROJECT_DIR}/cram-result-$LABGRID_TARGET.junit.xml" \
+      "${CI_PROJECT_DIR}/cram-result-$LABGRID_TARGET.xunit.xml" \
+      "${CI_PROJECT_DIR}/cram-result-post-$LABGRID_TARGET.xunit.xml" || true
+
     - >
       [ "$TMATE_ENABLE_SHELL" = "YES" ] && {
         echo "Starting tmate session..."
@@ -174,9 +179,11 @@
       - syslog-$LABGRID_TARGET.txt
       - system-$LABGRID_TARGET.json
       - console_$LABGRID_TARGET.txt
-      - cram-result-$LABGRID_TARGET.txt
+      - cram-result-*
       - opkg_list-$LABGRID_TARGET.txt
       - coredumps-$LABGRID_TARGET.tar.gz
+    reports:
+      junit: cram-result-$LABGRID_TARGET.junit.xml
 
 .testbed true.cz:
   extends: .testbed
