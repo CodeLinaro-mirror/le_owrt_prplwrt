@@ -128,6 +128,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_fcgi=y
   # CONFIG_PACKAGE_firewall4 is not set
   CONFIG_PACKAGE_flock=y
+  CONFIG_PACKAGE_freedom-lcm-partitioner=y
   CONFIG_PACKAGE_getopt=y
   CONFIG_PACKAGE_glib2=y
   CONFIG_PACKAGE_gmap-client=y
@@ -453,6 +454,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_rlyeh=y
   CONFIG_PACKAGE_routing-manager=y
   CONFIG_PACKAGE_rpcd=y
+  CONFIG_PACKAGE_sgdisk=y
   CONFIG_PACKAGE_shadow=y
   CONFIG_PACKAGE_shadow-chage=y
   CONFIG_PACKAGE_shadow-chfn=y
