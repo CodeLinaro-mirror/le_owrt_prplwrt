@@ -16,6 +16,8 @@ Assure expected build configuration (PCF-1413):
   CONFIG_TOOLCHAINOPTS=y
   CONFIG_BUSYBOX_CUSTOM=y
   CONFIG_TARGET_PER_DEVICE_ROOTFS=y
+  CONFIG_AMX_TR181_USB=y
+  CONFIG_AMX_TR181_USB_ORDER=81
   CONFIG_BIND_ENABLE_DOH=y
   CONFIG_BUILD_LOG=y
   CONFIG_BUILD_SDK="prplos"
@@ -410,6 +412,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_libattr=y
   CONFIG_PACKAGE_libblkid=y
   CONFIG_PACKAGE_libbpf=y
+  CONFIG_PACKAGE_libbsd=y
   CONFIG_PACKAGE_libbz2=y
   CONFIG_PACKAGE_libcap=y
   CONFIG_PACKAGE_libcap-ng=y
@@ -490,6 +493,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_libstdcpp=y
   CONFIG_PACKAGE_libswla=y
   CONFIG_PACKAGE_libswlc=y
+  CONFIG_PACKAGE_libsysfs=y
   CONFIG_PACKAGE_libtr181-schedules=y
   CONFIG_PACKAGE_libtr69-engine=y
   CONFIG_PACKAGE_libudev-zero=y
@@ -740,6 +744,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_tr181-syslog=y
   CONFIG_PACKAGE_tr181-temperature=y
   CONFIG_PACKAGE_tr181-upnp=y
+  CONFIG_PACKAGE_tr181-usb=y
   CONFIG_PACKAGE_tr181-usermanagement=y
   CONFIG_PACKAGE_tr181-xpon=y
   CONFIG_PACKAGE_uboot-envtools=y
