@@ -15,7 +15,7 @@ feeds:
 
   - name: feed_prplos
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplos.git
-    revision: main@4bd24c362b75488f9d50c92a68f5858a568c5720
+    revision: main@a8e515783be7fb017860d433177133d5547895db
 
 additional_packages:
   - feed: packages
@@ -193,6 +193,7 @@ packages:
   - tr181-sfp
   - tr181-temperature
   - tr181-upnp
+  - tr181-usb
   - tr181-usermanagement
   - tr181-xpon
   - wan-manager
