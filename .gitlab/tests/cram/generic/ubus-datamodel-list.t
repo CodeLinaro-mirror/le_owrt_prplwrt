@@ -100,6 +100,7 @@ Check that ubus has expected datamodels available:
   Device.Syslog
   Device.Time
   Device.UPnP
+  Device.USB
   Device.UserInterface
   Device.Users
   Device.WiFi
@@ -304,6 +305,11 @@ Check that ubus has expected datamodels available:
   UPnP.Device
   UPnP.Device.Capabilities
   UPnP.X_PRPL-COM_IGDConfig
+  USB
+  USB.Interface
+  USB.Port
+  USB.USBHosts
+  USB.USBHosts.Host
   Unbound
   UserInterface
   UserInterface.HTTPAccess
