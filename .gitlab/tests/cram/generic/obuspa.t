@@ -2351,6 +2351,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.Routing.Router.{i}.IPv4Forwarding.{i}.Origin                                                  proto::routing-manager
   Device.Routing.Router.{i}.IPv4Forwarding.{i}.StaticRoute                                             proto::routing-manager
   Device.Routing.Router.{i}.IPv4Forwarding.{i}.Status                                                  proto::routing-manager
+  Device.Routing.Router.{i}.IPv4Forwarding.{i}.X_PRPL-COM_MTU                                          proto::routing-manager
   Device.Routing.Router.{i}.IPv4ForwardingNumberOfEntries                                              proto::routing-manager
   Device.Routing.Router.{i}.IPv6Forwarding.{i}.                                                        proto::routing-manager
   Device.Routing.Router.{i}.IPv6Forwarding.{i}.Alias                                                   proto::routing-manager
@@ -2364,6 +2365,8 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.Routing.Router.{i}.IPv6Forwarding.{i}.Origin                                                  proto::routing-manager
   Device.Routing.Router.{i}.IPv6Forwarding.{i}.Status                                                  proto::routing-manager
   Device.Routing.Router.{i}.IPv6Forwarding.{i}.Type                                                    proto::routing-manager
+  Device.Routing.Router.{i}.IPv6Forwarding.{i}.X_PRPL-COM_MTU                                          proto::routing-manager
+  Device.Routing.Router.{i}.IPv6Forwarding.{i}.X_PRPL-COM_SourceIPPrefix                               proto::routing-manager
   Device.Routing.Router.{i}.IPv6ForwardingNumberOfEntries                                              proto::routing-manager
   Device.Routing.Router.{i}.Status                                                                     proto::routing-manager
   Device.Routing.RouterNumberOfEntries                                                                 proto::routing-manager
@@ -6479,6 +6482,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.Routing.Router.{i}.IPv4Forwarding.{i}.Origin                                                  proto::routing-manager
   Device.Routing.Router.{i}.IPv4Forwarding.{i}.StaticRoute                                             proto::routing-manager
   Device.Routing.Router.{i}.IPv4Forwarding.{i}.Status                                                  proto::routing-manager
+  Device.Routing.Router.{i}.IPv4Forwarding.{i}.X_PRPL-COM_MTU                                          proto::routing-manager
   Device.Routing.Router.{i}.IPv4ForwardingNumberOfEntries                                              proto::routing-manager
   Device.Routing.Router.{i}.IPv6Forwarding.{i}.                                                        proto::routing-manager
   Device.Routing.Router.{i}.IPv6Forwarding.{i}.Alias                                                   proto::routing-manager
@@ -6492,6 +6496,8 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.Routing.Router.{i}.IPv6Forwarding.{i}.Origin                                                  proto::routing-manager
   Device.Routing.Router.{i}.IPv6Forwarding.{i}.Status                                                  proto::routing-manager
   Device.Routing.Router.{i}.IPv6Forwarding.{i}.Type                                                    proto::routing-manager
+  Device.Routing.Router.{i}.IPv6Forwarding.{i}.X_PRPL-COM_MTU                                          proto::routing-manager
+  Device.Routing.Router.{i}.IPv6Forwarding.{i}.X_PRPL-COM_SourceIPPrefix                               proto::routing-manager
   Device.Routing.Router.{i}.IPv6ForwardingNumberOfEntries                                              proto::routing-manager
   Device.Routing.Router.{i}.Status                                                                     proto::routing-manager
   Device.Routing.RouterNumberOfEntries                                                                 proto::routing-manager
