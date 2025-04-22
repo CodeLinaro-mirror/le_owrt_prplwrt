@@ -181,6 +181,7 @@ packages:
   - tr181-powerstatus
   - tr181-logical
   - tr181-mcastd
+  - tr181-mqtt
   - tr181-mqttbroker
   - tr181-neighbordiscovery
   - tr181-pcp
