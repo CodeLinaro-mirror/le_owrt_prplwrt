@@ -199,6 +199,9 @@ Check that ubus has expected datamodels available:
   MCASTD.Debug.Zone
   MCASTD.Intf
   MCASTD.Tuner
+  MQTT
+  MQTT.Capabilities
+  MQTT.Client
   MQTTBroker
   MQTTBroker.Broker
   ManagementServer
