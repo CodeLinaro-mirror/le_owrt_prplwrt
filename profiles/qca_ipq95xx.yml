@@ -32,6 +32,7 @@ packages:
   - kmod-i2c-mux-pca954x
   - kmod-gpio-pca953x
   - kmod-leds-lp5562
+  - freedom-lcm-partitioner
 
 diffconfig: |
   CONFIG_TARGET_INITRAMFS_COMPRESSION_LZMA=y
