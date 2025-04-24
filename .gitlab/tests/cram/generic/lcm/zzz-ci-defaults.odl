@@ -1,0 +1,7 @@
+%populate {
+    object 'Cthulhu' {
+        object 'Config' {
+            parameter 'GracefulShutdownTimeoutSeconds' = 1;
+        }
+    }
+}
