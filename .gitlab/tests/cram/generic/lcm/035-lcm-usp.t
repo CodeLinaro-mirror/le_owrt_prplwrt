@@ -6,10 +6,6 @@ Setup the test configuration:
   $ S=". /tmp/script_functions.sh"
   $ C ${TESTDIR}/script_functions.sh root@${TARGET_LAN_IP}:/tmp/script_functions.sh 2>/dev/null
 
-Restart Cthulhu to workaround USP functionality after obuspa restart (LCM-835):
-
-  $ R "/etc/init.d/cthulhu restart"; sleep 10
-
 
 Set-up ExecEnv configuration
 
