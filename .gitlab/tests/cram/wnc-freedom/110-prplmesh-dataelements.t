@@ -254,3 +254,11 @@ Check that SSIDs did not change:
   prplOSpriv
   prplOSpriv
   prplOSpriv
+
+Check the default ChipsetVendor param configurations:
+
+  $ R logger -t cram "Check the default ChipsetVendor param configurations:"
+  $ R "ba-cli -j -l WiFi.Radio.*.ChipsetVendor?0 | jsonfilter -e @[0]'[*].ChipsetVendor'"
+  Qualcomm
+  Qualcomm
+  Qualcomm
