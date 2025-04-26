@@ -331,7 +331,9 @@ define KernelPackage/phy-realtek
    TITLE:=Realtek Ethernet PHY driver
    KCONFIG:=CONFIG_REALTEK_PHY
    DEPENDS:=+kmod-libphy
-   FILES:=$(LINUX_DIR)/drivers/net/phy/realtek.ko
+   FILES:= \
+	  $(LINUX_DIR)/drivers/net/phy/realtek/realtek.ko@ge6.6 \
+	  $(LINUX_DIR)/drivers/net/phy/realtek.ko
    AUTOLOAD:=$(call AutoLoad,18,realtek,1)
 endef
 
