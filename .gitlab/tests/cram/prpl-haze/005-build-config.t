@@ -116,6 +116,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_ebtables-legacy=y
   CONFIG_PACKAGE_ebtables-legacy-utils=y
   CONFIG_PACKAGE_ethernet-manager=y
+  CONFIG_PACKAGE_ethtool-full=y
   CONFIG_PACKAGE_fcgi=y
   # CONFIG_PACKAGE_firewall4 is not set
   CONFIG_PACKAGE_flock=y
@@ -143,7 +144,6 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_iputils-ping=y
   # CONFIG_PACKAGE_iw is not set
   CONFIG_PACKAGE_iw-full=y
-  # CONFIG_PACKAGE_jansson is not set
   CONFIG_PACKAGE_kmod-asn1-decoder=y
   CONFIG_PACKAGE_kmod-crypto-md5=y
   CONFIG_PACKAGE_kmod-ebtables=y
@@ -480,6 +480,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_tr181-rest-api=y
   CONFIG_PACKAGE_tr181-routeradvertisement=y
   CONFIG_PACKAGE_tr181-security=y
+  CONFIG_PACKAGE_tr181-sfp=y
   CONFIG_PACKAGE_tr181-syslog=y
   CONFIG_PACKAGE_tr181-temperature=y
   CONFIG_PACKAGE_tr181-upnp=y
@@ -647,6 +648,8 @@ Assure expected build configuration (PCF-1413):
   CONFIG_SAH_AMX_TR181_ROUTING_RUN_AS_USER="tr181_app"
   CONFIG_SAH_AMX_TR181_SECURITY=y
   CONFIG_SAH_AMX_TR181_SECURITY_ORDER=61
+  CONFIG_SAH_AMX_TR181_SFP=y
+  CONFIG_SAH_AMX_TR181_SFP_ORDER=30
   CONFIG_SAH_AMX_TR181_TEMPERATURE=y
   CONFIG_SAH_AMX_TR181_TEMPERATURE_ORDER=15
   CONFIG_SAH_AMX_TR181_TEMPERATURE_RUN_AS_GROUP="tr181_app"
