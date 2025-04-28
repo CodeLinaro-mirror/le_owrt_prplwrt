@@ -589,6 +589,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_netdev-plugin=y
   CONFIG_PACKAGE_netmodel=y
   CONFIG_PACKAGE_netmodel-bridge=y
+  CONFIG_PACKAGE_netmodel-cellular=y
   CONFIG_PACKAGE_netmodel-clients=y
   CONFIG_PACKAGE_netmodel-dhcpv4=y
   CONFIG_PACKAGE_netmodel-dhcpv6=y
