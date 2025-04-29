@@ -4208,6 +4208,47 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.X_PRPL-COM_WANManager.setWANMode()                                                            proto::wan-manager
   Device.X_PRPL-COM_WANManager.setWANMode() input:Autosensing
   Device.X_PRPL-COM_WANManager.setWANMode() input:WANMode
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.                                                            proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.Enable                                                      proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.File.{i}.                                                   proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.File.{i}.Alias                                              proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.File.{i}.Enable                                             proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.File.{i}.InternalPath                                       proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.File.{i}.Origin                                             proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.File.{i}.Policy.                                            proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.File.{i}.Policy.Name                                        proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.File.{i}.Policy.Retry                                       proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.File.{i}.PostScript                                         proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.File.{i}.PreScript                                          proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.File.{i}.ProfileReferences                                  proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.File.{i}.UploadInterval                                     proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.FileNumberOfEntries                                         proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.Profile.{i}.                                                proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.Profile.{i}.Alias                                           proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.Profile.{i}.Enable                                          proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.Profile.{i}.HTTP.                                           proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.Profile.{i}.HTTP.CACert                                     proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.Profile.{i}.HTTP.CAPath                                     proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.Profile.{i}.HTTP.ClientCert                                 proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.Profile.{i}.HTTP.Compression                                proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.Profile.{i}.HTTP.Method                                     proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.Profile.{i}.HTTP.Password                                   proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.Profile.{i}.HTTP.PersistAcrossReboot                        proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.Profile.{i}.HTTP.PrivateKey                                 proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.Profile.{i}.HTTP.RetryEnable                                proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.Profile.{i}.HTTP.RetryIntervalMultiplier                    proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.Profile.{i}.HTTP.RetryMinimumWaitInterval                   proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.Profile.{i}.HTTP.SupportedCompressions                      proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.Profile.{i}.HTTP.SupportedMethods                           proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.Profile.{i}.HTTP.URL                                        proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.Profile.{i}.HTTP.UseDateHeader                              proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.Profile.{i}.HTTP.Username                                   proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.Profile.{i}.Name                                            proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.Profile.{i}.Protocol                                        proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.Profile.{i}.TimeReference                                   proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.ProfileNumberOfEntries                                      proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.SupportedPolicies                                           proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.SupportedProtocols                                          proto::tr181-periodicfileupload
   Device.X_PRPLWARE-COM_SFPs.                                                                          proto::tr181-sfp
   Device.X_PRPLWARE-COM_SFPs.Cage.{i}.                                                                 proto::tr181-sfp
   Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.                                                             proto::tr181-sfp
@@ -8528,6 +8569,47 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.X_PRPL-COM_WANManager.setWANMode()                                                            proto::wan-manager
   Device.X_PRPL-COM_WANManager.setWANMode() input:Autosensing
   Device.X_PRPL-COM_WANManager.setWANMode() input:WANMode
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.                                                            proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.Enable                                                      proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.File.{i}.                                                   proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.File.{i}.Alias                                              proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.File.{i}.Enable                                             proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.File.{i}.InternalPath                                       proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.File.{i}.Origin                                             proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.File.{i}.Policy.                                            proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.File.{i}.Policy.Name                                        proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.File.{i}.Policy.Retry                                       proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.File.{i}.PostScript                                         proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.File.{i}.PreScript                                          proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.File.{i}.ProfileReferences                                  proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.File.{i}.UploadInterval                                     proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.FileNumberOfEntries                                         proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.Profile.{i}.                                                proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.Profile.{i}.Alias                                           proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.Profile.{i}.Enable                                          proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.Profile.{i}.HTTP.                                           proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.Profile.{i}.HTTP.CACert                                     proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.Profile.{i}.HTTP.CAPath                                     proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.Profile.{i}.HTTP.ClientCert                                 proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.Profile.{i}.HTTP.Compression                                proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.Profile.{i}.HTTP.Method                                     proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.Profile.{i}.HTTP.Password                                   proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.Profile.{i}.HTTP.PersistAcrossReboot                        proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.Profile.{i}.HTTP.PrivateKey                                 proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.Profile.{i}.HTTP.RetryEnable                                proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.Profile.{i}.HTTP.RetryIntervalMultiplier                    proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.Profile.{i}.HTTP.RetryMinimumWaitInterval                   proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.Profile.{i}.HTTP.SupportedCompressions                      proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.Profile.{i}.HTTP.SupportedMethods                           proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.Profile.{i}.HTTP.URL                                        proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.Profile.{i}.HTTP.UseDateHeader                              proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.Profile.{i}.HTTP.Username                                   proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.Profile.{i}.Name                                            proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.Profile.{i}.Protocol                                        proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.Profile.{i}.TimeReference                                   proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.ProfileNumberOfEntries                                      proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.SupportedPolicies                                           proto::tr181-periodicfileupload
+  Device.X_PRPLWARE-COM_PeriodicFileUpload.SupportedProtocols                                          proto::tr181-periodicfileupload
   Device.X_PRPLWARE-COM_SFPs.                                                                          proto::tr181-sfp
   Device.X_PRPLWARE-COM_SFPs.Cage.{i}.                                                                 proto::tr181-sfp
   Device.X_PRPLWARE-COM_SFPs.Cage.{i}.SFP.                                                             proto::tr181-sfp
