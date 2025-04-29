@@ -2365,7 +2365,7 @@ SECTION "CDRouter TR-069 Add-On" {
     SECTION "Profiles" {
 
         # testvar cwmpSupportedDataModel           auto
-        # testvar cwmpDataValidation               yes
+          testvar cwmpDataValidation               no
         # testvar cwmpSkipParameters               empty
         # testvar cwmpModifyParameters             empty
         # testvar cwmpVendorSpecificParams         none
