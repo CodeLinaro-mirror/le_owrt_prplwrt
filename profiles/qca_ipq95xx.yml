@@ -35,6 +35,8 @@ packages:
   - kmod-qca8084
   - kmod-qca81xx
   - kmod-qca8xxx-phc
+  - kmod-ppp
+  - kmod-pppoe
 
 diffconfig: |
   CONFIG_TARGET_INITRAMFS_COMPRESSION_LZMA=y
