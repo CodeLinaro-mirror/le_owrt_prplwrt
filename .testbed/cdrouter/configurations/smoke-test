@@ -1977,7 +1977,7 @@ SECTION "CDRouter Multiport Add-On" {
 
 SECTION "CDRouter Performance Add-On" {
 
-    # testvar supportsPerformance              no
+      testvar supportsPerformance              yes
 
     SECTION "Basic Configuration" {
 
@@ -2009,10 +2009,10 @@ SECTION "CDRouter Performance Add-On" {
 
         # testvar perfDownloadMaxLatency           10000
         # testvar perfDownloadTcpRetr              any
-        # testvar perfDownloadTcpLowThreshold      10.0
+          testvar perfDownloadTcpLowThreshold      @CDROUTER_CONFIG_PERF_DOWNLOAD_TCP_LOW_THRESHOLD@
         # testvar perfDownloadTcpHighThreshold     0.0
         # testvar perfDownloadUdpLossPercentage    1.0
-        # testvar perfDownloadUdpLowThreshold      10.0
+          testvar perfDownloadUdpLowThreshold      @CDROUTER_CONFIG_PERF_DOWNLOAD_UDP_LOW_THRESHOLD@
         # testvar perfDownloadUdpHighThreshold     0.0
 
     }
@@ -2021,10 +2021,10 @@ SECTION "CDRouter Performance Add-On" {
 
         # testvar perfUploadMaxLatency             10000
         # testvar perfUploadTcpRetr                any
-        # testvar perfUploadTcpLowThreshold        10.0
+          testvar perfUploadTcpLowThreshold        @CDROUTER_CONFIG_PERF_UPLOAD_TCP_LOW_THRESHOLD@
         # testvar perfUploadTcpHighThreshold       0.0
         # testvar perfUploadUdpLossPercentage      1.0
-        # testvar perfUploadUdpLowThreshold        10.0
+          testvar perfUploadUdpLowThreshold        @CDROUTER_CONFIG_PERF_UPLOAD_UDP_LOW_THRESHOLD@
         # testvar perfUploadUdpHighThreshold       0.0
 
     }
