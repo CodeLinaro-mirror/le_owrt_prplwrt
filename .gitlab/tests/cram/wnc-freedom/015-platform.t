@@ -32,7 +32,6 @@ Check that Quectel RM520N-GL is available on USB bus:
     iProduct                2 RM520N-GL
 
 Check that expected DTS aliases are provided for ethernet interfaces:
-
   $ R 'cd /sys/firmware/devicetree/base
   > for eth_label in $(find -name label); do
   >   if [ "$(cat ${eth_label/label/device_type} 2>/dev/null)" != "network" ]; then
@@ -40,8 +39,11 @@ Check that expected DTS aliases are provided for ethernet interfaces:
   >   fi
   >   eth_device="${eth_label/\/label/}"
   >   eth_intf="$(cat ${eth_label})"
-  >   eth_alias="$(cd aliases; grep -l "${eth_device/\./}" $(ls * | grep -v ethernet))"
-  >   echo "intf=${eth_intf} => alias=${eth_alias}"
+  >   eth_aliases="$(cd aliases; grep -l "${eth_device/\./}" $(ls * | grep -Ev -e 'label-mac-device' -e '^ethernet[0-9]+$' | grep -E '^[-0-9a-z]+$'))"
+  >   for eth_alias in $eth_aliases; do
+  >      echo "intf=${eth_intf} => alias=${eth_alias}"
+  >      break;
+  >   done
   > done | LC_ALL=C sort'
   intf=lan1 => alias=lan1
   intf=lan2 => alias=lan2
