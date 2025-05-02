@@ -22,7 +22,7 @@ Get initial state of bridges:
 Remove eth0_1 from LAN bridge and add it to the Guest bridge:
 
   $ printf ' \
-  > ubus-cli Bridging.Bridge.lan.Port.ETH0_1-\n
+  > ubus-cli Bridging.Bridge.lan.Port.cpe-10g-\n
   > ubus-cli Bridging.Bridge.guest.Port.+{Name="eth0_1", Alias="ETH0_1", LowerLayers="Device.Ethernet.Interface.2."}\n
   > sleep 1\n
   > ubus-cli Bridging.Bridge.guest.Port.ETH0_1.Enable=1\n
