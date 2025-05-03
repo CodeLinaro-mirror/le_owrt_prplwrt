@@ -3,14 +3,8 @@
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
       when: never
-    - if: '$TFTP_IMAGE_DOWNLOAD_URL =~ $TFTP_IMAGE_FILENAME_PATTERN'
-      when: always
-    - if: '$TFTP_IMAGE_DOWNLOAD_URL'
-      when: never
     - when: manual
-  needs:
-    - job: build test ipq807x prpl security
-      optional: true
+  needs: ["build test ipq807x prpl security"]
   extends:
     - .prpl-haze testbed
     - .cdrouter
@@ -55,10 +49,6 @@ CDRouter-Wireless Haze initramfs:
   <<: *prpl_haze
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
-      when: never
-    - if: '$TFTP_IMAGE_DOWNLOAD_URL =~ $TFTP_IMAGE_FILENAME_PATTERN'
-      when: always
-    - if: '$TFTP_IMAGE_DOWNLOAD_URL'
       when: never
     - when: manual
 

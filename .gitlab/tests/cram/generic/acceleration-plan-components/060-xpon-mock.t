@@ -2,11 +2,6 @@ Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
-Skip the tests if TFTP_IMAGE_DOWNLOAD_URL is used as the mock package would be missing:
-
-  $ [ -n "$TFTP_IMAGE_DOWNLOAD_URL" ] && exit 80
-  [1]
-
 Skip test on urx851-b0-dk-pon as it has real PON and thus mocking is not needed:
 
   $ [ "$DUT_BOARD" = "urx851-b0-dk-pon" ] && exit 80
