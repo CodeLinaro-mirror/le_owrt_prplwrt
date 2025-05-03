@@ -1,7 +1,5 @@
 .mxl25641-cdrouter: &mxl25641_cdrouter
-  needs:
-    - job: build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security
-      optional: true
+  needs: ["build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security"]
   extends:
     - .mxl25641-hdk-6 testbed
     - .cdrouter
@@ -48,10 +46,6 @@ CDRouter-Wireless MXL25641-HDK-6 eMMC:
   <<: *mxl25641_cdrouter
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
-      when: never
-    - if: '$TFTP_IMAGE_DOWNLOAD_URL =~ $TFTP_IMAGE_FILENAME_PATTERN'
-      when: always
-    - if: '$TFTP_IMAGE_DOWNLOAD_URL'
       when: never
     - if: '$CI_COMMIT_BRANCH == $CI_DESIGNATED_BRANCH'
     - when: manual
