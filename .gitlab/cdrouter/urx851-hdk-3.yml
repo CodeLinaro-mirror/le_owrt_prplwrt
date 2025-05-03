@@ -1,7 +1,5 @@
 .urx851-cdrouter: &urx851_cdrouter
-  needs:
-    - job: build test mxl_x86_osp_tb341 mxl_wlan_hostap_ng prpl security
-      optional: true
+  needs: ["build test mxl_x86_osp_tb341 mxl_wlan_hostap_ng prpl security"]
   extends:
     - .urx851-hdk-3 testbed
     - .cdrouter
@@ -46,10 +44,6 @@ CDRouter-Wireless-OSPv1 URX851-HDK-3 eMMC:
   <<: *urx851_cdrouter
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
-      when: never
-    - if: '$TFTP_IMAGE_DOWNLOAD_URL =~ $TFTP_IMAGE_FILENAME_PATTERN'
-      when: always
-    - if: '$TFTP_IMAGE_DOWNLOAD_URL'
       when: never
     - if: '$CI_COMMIT_BRANCH == $CI_DESIGNATED_BRANCH'
     - when: manual
