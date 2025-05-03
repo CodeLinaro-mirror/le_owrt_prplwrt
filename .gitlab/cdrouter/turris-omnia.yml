@@ -1,17 +1,11 @@
 .turris-cdrouter: &turris_cdrouter
   allow_failure: true
-  needs:
-    - job: build test mvebu prpl security
-      optional: true
+  needs: ["build test mvebu prpl security"]
   extends:
     - .turris-omnia testbed
     - .cdrouter
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
-      when: never
-    - if: '$TFTP_IMAGE_DOWNLOAD_URL =~ $TFTP_IMAGE_FILENAME_PATTERN'
-      when: always
-    - if: '$TFTP_IMAGE_DOWNLOAD_URL'
       when: never
     - when: manual
 
@@ -55,10 +49,6 @@ CDRouter-Wireless Turris initramfs:
   <<: *turris_cdrouter
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
-      when: never
-    - if: '$TFTP_IMAGE_DOWNLOAD_URL =~ $TFTP_IMAGE_FILENAME_PATTERN'
-      when: always
-    - if: '$TFTP_IMAGE_DOWNLOAD_URL'
       when: never
     - when: manual
 

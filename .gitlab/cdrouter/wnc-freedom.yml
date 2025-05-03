@@ -1,7 +1,5 @@
 .wnc-freedom: &wnc_freedom
-  needs:
-    - job: build test qca_ipq95xx prpl cellular security thread
-      optional: true
+  needs: ["build test qca_ipq95xx prpl cellular security thread"]
   extends:
     - .wnc-freedom testbed
     - .cdrouter
@@ -48,10 +46,6 @@ CDRouter-Wireless Freedom initramfs:
   <<: *wnc_freedom
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
-      when: never
-    - if: '$TFTP_IMAGE_DOWNLOAD_URL =~ $TFTP_IMAGE_FILENAME_PATTERN'
-      when: always
-    - if: '$TFTP_IMAGE_DOWNLOAD_URL'
       when: never
     - if: '$CI_COMMIT_BRANCH == $CI_DESIGNATED_BRANCH'
     - when: manual

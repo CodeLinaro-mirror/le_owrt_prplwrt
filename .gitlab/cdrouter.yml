@@ -5,10 +5,6 @@
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
       when: never
-    - if: '$TFTP_IMAGE_DOWNLOAD_URL =~ $TFTP_IMAGE_FILENAME_PATTERN'
-      when: always
-    - if: '$TFTP_IMAGE_DOWNLOAD_URL'
-      when: never
     - when: manual
   variables:
     CDROUTER_CONFIG_WIFI_BEACON_PHY: 'ax b g n'
@@ -43,14 +39,9 @@
       fi
 
     - >
-      if [ -n "$TFTP_IMAGE_DOWNLOAD_URL" ]; then
-        echo "Downloading firmware image from $TFTP_IMAGE_DOWNLOAD_URL"
-        curl "$TFTP_IMAGE_DOWNLOAD_URL" > "$TESTBED_TFTP_PATH/$TFTP_IMAGE_FILENAME"
-      else
-        echo "Using firmware image $TFTP_IMAGE_PATH/$TFTP_IMAGE_FILENAME"
-        cp "$TFTP_IMAGE_PATH/$TFTP_IMAGE_FILENAME" "$TESTBED_TFTP_PATH"
-      fi
-    - >
+      echo "Using firmware image $TFTP_IMAGE_PATH/$TFTP_IMAGE_FILENAME"
+      cp "$TFTP_IMAGE_PATH/$TFTP_IMAGE_FILENAME" "$TESTBED_TFTP_PATH"
+
       if [ -n "$TFTP_IMAGE_UNPACK_COMMAND" ]; then
         echo "Running $TFTP_IMAGE_UNPACK_COMMAND"
         eval "$TFTP_IMAGE_UNPACK_COMMAND"
