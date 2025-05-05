@@ -1,0 +1,178 @@
+From f27fc59d9f7c735d200fda647a487850144b10eb Mon Sep 17 00:00:00 2001
+From: Qing Zhao <qing.zhao@oracle.com>
+Date: Mon, 6 May 2024 16:26:19 +0000
+Subject: [PATCH] C and C++ FE changes to support flexible array members in
+ unions and alone in structures. Adjust testcases for flexible array member in
+ union and alone in structure extension.
+
+PR c/53548
+
+gcc/c/ChangeLog:
+
+	PR c/53548
+	* c-decl.cc (finish_struct): Change errors to pedwarns for the cases
+	flexible array members in union or alone in structures.
+
+gcc/cp/ChangeLog:
+
+	PR c/53548
+	* class.cc (diagnose_flexarrays): Change error to pdewarn for the case
+	flexible array members alone in structures.
+	* decl.cc (grokdeclarator): Change error to pdewarn for the case
+	flexible array members in unions.
+
+gcc/ChangeLog:
+
+	PR c/53548
+	* stor-layout.cc (place_union_field): Use zero sizes for flexible array
+	member fields.
+
+gcc/testsuite/ChangeLog:
+
+	PR c/53548
+	* c-c++-common/builtin-clear-padding-3.c: Adjust testcase.
+	* g++.dg/ext/flexary12.C: Likewise.
+	* g++.dg/ext/flexary19.C: Likewise.
+	* g++.dg/ext/flexary2.C: Likewise.
+	* g++.dg/ext/flexary3.C: Likewise.
+	* g++.dg/ext/flexary36.C: Likewise.
+	* g++.dg/ext/flexary4.C: Likewise.
+	* g++.dg/ext/flexary5.C: Likewise.
+	* g++.dg/ext/flexary8.C: Likewise.
+	* g++.dg/torture/pr64280.C: Likewise.
+	* gcc.dg/20050620-1.c: Likewise.
+	* gcc.dg/940510-1.c: Likewise.
+---
+ gcc/c/c-decl.cc                               | 16 ++----
+ gcc/cp/class.cc                               | 11 ++--
+ gcc/cp/decl.cc                                |  7 ++-
+ gcc/stor-layout.cc                            |  9 +++-
+ .../c-c++-common/builtin-clear-padding-3.c    | 10 ++--
+ gcc/testsuite/g++.dg/ext/flexary12.C          |  6 +--
+ gcc/testsuite/g++.dg/ext/flexary19.C          | 42 +++++++--------
+ gcc/testsuite/g++.dg/ext/flexary2.C           |  2 +-
+ gcc/testsuite/g++.dg/ext/flexary3.C           |  2 +-
+ gcc/testsuite/g++.dg/ext/flexary36.C          |  2 +-
+ gcc/testsuite/g++.dg/ext/flexary4.C           | 54 +++++++++----------
+ gcc/testsuite/g++.dg/ext/flexary5.C           |  4 +-
+ gcc/testsuite/g++.dg/ext/flexary8.C           |  8 +--
+ gcc/testsuite/g++.dg/torture/pr64280.C        |  2 +-
+ gcc/testsuite/gcc.dg/20050620-1.c             |  2 +-
+ gcc/testsuite/gcc.dg/940510-1.c               |  4 +-
+ 16 files changed, 91 insertions(+), 90 deletions(-)
+
+diff --git a/gcc/c/c-decl.cc b/gcc/c/c-decl.cc
+index 52af8f32998..9ef2ab25773 100644
+--- a/gcc/c/c-decl.cc
++++ b/gcc/c/c-decl.cc
+@@ -9516,11 +9516,8 @@ finish_struct (location_t loc, tree t, tree fieldlist, tree attributes,
+ 	  && TYPE_MAX_VALUE (TYPE_DOMAIN (TREE_TYPE (x))) == NULL_TREE)
+ 	{
+ 	  if (TREE_CODE (t) == UNION_TYPE)
+-	    {
+-	      error_at (DECL_SOURCE_LOCATION (x),
+-			"flexible array member in union");
+-	      TREE_TYPE (x) = error_mark_node;
+-	    }
++	    pedwarn (DECL_SOURCE_LOCATION (x), OPT_Wpedantic,
++		     "flexible array member in union is a GCC extension");
+ 	  else if (DECL_CHAIN (x) != NULL_TREE)
+ 	    {
+ 	      error_at (DECL_SOURCE_LOCATION (x),
+@@ -9528,12 +9525,9 @@ finish_struct (location_t loc, tree t, tree fieldlist, tree attributes,
+ 	      TREE_TYPE (x) = error_mark_node;
+ 	    }
+ 	  else if (!saw_named_field)
+-	    {
+-	      error_at (DECL_SOURCE_LOCATION (x),
+-			"flexible array member in a struct with no named "
+-			"members");
+-	      TREE_TYPE (x) = error_mark_node;
+-	    }
++	    pedwarn (DECL_SOURCE_LOCATION (x), OPT_Wpedantic,
++		     "flexible array member in a struct with no named "
++		     "members is a GCC extension");
+ 	}
+ 
+       if (pedantic && TREE_CODE (t) == RECORD_TYPE
+diff --git a/gcc/cp/class.cc b/gcc/cp/class.cc
+index 5ef7c71af61..0ce361eb88e 100644
+--- a/gcc/cp/class.cc
++++ b/gcc/cp/class.cc
+@@ -7624,6 +7624,7 @@ diagnose_flexarrays (tree t, const flexmems_t *fmem)
+   bool diagd = false;
+ 
+   const char *msg = 0;
++  const char *msg_fam = 0;
+ 
+   if (TYPE_DOMAIN (TREE_TYPE (fmem->array)))
+     {
+@@ -7649,15 +7650,19 @@ diagnose_flexarrays (tree t, const flexmems_t *fmem)
+       if (fmem->after[0])
+ 	msg = G_("flexible array member %qD not at end of %q#T");
+       else if (!fmem->first)
+-	msg = G_("flexible array member %qD in an otherwise empty %q#T");
++	msg_fam = G_("flexible array member %qD in an otherwise"
++		     " empty %q#T is a GCC extension");
+ 
+-      if (msg)
++      if (msg || msg_fam)
+ 	{
+ 	  location_t loc = DECL_SOURCE_LOCATION (fmem->array);
+ 	  diagd = true;
+ 
+ 	  auto_diagnostic_group d;
+-	  error_at (loc, msg, fmem->array, t);
++	  if (msg)
++	    error_at (loc, msg, fmem->array, t);
++	  else
++	    pedwarn (loc, OPT_Wpedantic, msg_fam, fmem->array, t);
+ 
+ 	  /* In the unlikely event that the member following the flexible
+ 	     array member is declared in a different class, or the member
+diff --git a/gcc/cp/decl.cc b/gcc/cp/decl.cc
+index 71e4c2b5840..e8622e22a4c 100644
+--- a/gcc/cp/decl.cc
++++ b/gcc/cp/decl.cc
+@@ -14582,10 +14582,9 @@ grokdeclarator (const cp_declarator *declarator,
+ 	    if (ctype
+ 		&& (TREE_CODE (ctype) == UNION_TYPE
+ 		    || TREE_CODE (ctype) == QUAL_UNION_TYPE))
+-	      {
+-		error_at (id_loc, "flexible array member in union");
+-		type = error_mark_node;
+-	      }
++	      pedwarn (id_loc, OPT_Wpedantic,
++		       "flexible array member in union is a GCC extension");
++
+ 	    else
+ 	      {
+ 		/* Array is a flexible member.  */
+diff --git a/gcc/stor-layout.cc b/gcc/stor-layout.cc
+index e34be19689c..10c0809914c 100644
+--- a/gcc/stor-layout.cc
++++ b/gcc/stor-layout.cc
+@@ -1245,13 +1245,18 @@ place_union_field (record_layout_info rli, tree field)
+       && TYPE_TYPELESS_STORAGE (TREE_TYPE (field)))
+     TYPE_TYPELESS_STORAGE (rli->t) = 1;
+ 
++  /* We might see a flexible array member field (with no DECL_SIZE_UNIT), use
++     zero size for such field.  */
++  tree field_size_unit = DECL_SIZE_UNIT (field)
++			 ? DECL_SIZE_UNIT (field)
++			 : build_int_cst (sizetype, 0);
+   /* We assume the union's size will be a multiple of a byte so we don't
+      bother with BITPOS.  */
+   if (TREE_CODE (rli->t) == UNION_TYPE)
+-    rli->offset = size_binop (MAX_EXPR, rli->offset, DECL_SIZE_UNIT (field));
++    rli->offset = size_binop (MAX_EXPR, rli->offset, field_size_unit);
+   else if (TREE_CODE (rli->t) == QUAL_UNION_TYPE)
+     rli->offset = fold_build3 (COND_EXPR, sizetype, DECL_QUALIFIER (field),
+-			       DECL_SIZE_UNIT (field), rli->offset);
++			       field_size_unit, rli->offset);
+ }
+ 
+ /* A bitfield of SIZE with a required access alignment of ALIGN is allocated
+-- 
+2.48.1
+
