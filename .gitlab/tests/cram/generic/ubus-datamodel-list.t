@@ -61,7 +61,6 @@ Check that ubus has expected datamodels available:
   Device
   Device.Bridging
   Device.BulkData
-  Device.Buttons
   Device.CaptivePortal
   Device.DHCPv4
   Device.DHCPv4.Server
@@ -93,7 +92,6 @@ Check that ubus has expected datamodels available:
   Device.PCP
   Device.PPP
   Device.PacketInterception
-  Device.PeriodicFileUpload
   Device.QoS
   Device.RouterAdvertisement
   Device.Routing
@@ -112,6 +110,8 @@ Check that ubus has expected datamodels available:
   Device.X_PRPL-COM_MultiSettings
   Device.X_PRPL-COM_PersistentConfiguration
   Device.X_PRPL-COM_WANManager
+  Device.X_PRPLWARE-COM_Buttons
+  Device.X_PRPLWARE-COM_PeriodicFileUpload
   Device.X_PRPLWARE-COM_SFPs
   Device.X_PRPLWARE-COM_SoftwareModules
   DeviceInfo
