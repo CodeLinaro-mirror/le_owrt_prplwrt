@@ -165,6 +165,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.DHCPv4.Server.Pool.{i}.                                                                       proto::dhcpv4-manager
   Device.DHCPv4.Server.Pool.{i}.Alias                                                                  proto::dhcpv4-manager
   Device.DHCPv4.Server.Pool.{i}.AllowedDevices                                                         proto::dhcpv4-manager
+  Device.DHCPv4.Server.Pool.{i}.AssignedLeasesNumberOfEntries                                          proto::dhcpv4-manager
   Device.DHCPv4.Server.Pool.{i}.Chaddr                                                                 proto::dhcpv4-manager
   Device.DHCPv4.Server.Pool.{i}.ChaddrExclude                                                          proto::dhcpv4-manager
   Device.DHCPv4.Server.Pool.{i}.ChaddrMask                                                             proto::dhcpv4-manager
@@ -4542,6 +4543,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.DHCPv4.Server.Pool.{i}.                                                                       proto::dhcpv4-manager
   Device.DHCPv4.Server.Pool.{i}.Alias                                                                  proto::dhcpv4-manager
   Device.DHCPv4.Server.Pool.{i}.AllowedDevices                                                         proto::dhcpv4-manager
+  Device.DHCPv4.Server.Pool.{i}.AssignedLeasesNumberOfEntries                                          proto::dhcpv4-manager
   Device.DHCPv4.Server.Pool.{i}.Chaddr                                                                 proto::dhcpv4-manager
   Device.DHCPv4.Server.Pool.{i}.ChaddrExclude                                                          proto::dhcpv4-manager
   Device.DHCPv4.Server.Pool.{i}.ChaddrMask                                                             proto::dhcpv4-manager
