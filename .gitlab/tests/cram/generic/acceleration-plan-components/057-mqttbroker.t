@@ -19,7 +19,7 @@ Check the root datamodel settings:
       "Port": 8883,
       "Status": "Enabled",
       "Username": "",
-      "X_PRPL-COM_UserNumberOfEntries": 0
+      "X_PRPLWARE-COM_UserNumberOfEntries": 0
     },
     "MQTTBroker.Broker.2.": {
       "Alias": "local",
@@ -31,7 +31,7 @@ Check the root datamodel settings:
       "Port": 1883,
       "Status": "Enabled",
       "Username": "",
-      "X_PRPL-COM_UserNumberOfEntries": 0
+      "X_PRPLWARE-COM_UserNumberOfEntries": 0
     }
   }
 
