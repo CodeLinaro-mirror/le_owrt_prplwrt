@@ -5,10 +5,10 @@ Create R alias:
 Check that client is able to get new lease:
 
   $ sudo nmap --script broadcast-dhcp-discover -e $TESTBED_LAN_INTERFACE 2>&1 | egrep '(Server|Router|Subnet)' | sort
-  |     Router: 192.168.1.1
+  |     Domain Name Server: 192.168.1.1
   |     Server Identifier: 192.168.1.1
   |     Subnet Mask: 255.255.255.0
-  |_    Domain Name Server: 192.168.1.1
+  |_    Router: 192.168.1.1
 
 Disable the dhcpv4s lan rule:
 
@@ -39,7 +39,7 @@ Check that the firewall rule was actually created:
 Check that client is able to get new lease again:
 
   $ sudo nmap --script broadcast-dhcp-discover -e $TESTBED_LAN_INTERFACE 2>&1 | egrep '(Server|Router|Subnet)' | sort
-  |     Router: 192.168.1.1
+  |     Domain Name Server: 192.168.1.1
   |     Server Identifier: 192.168.1.1
   |     Subnet Mask: 255.255.255.0
-  |_    Domain Name Server: 192.168.1.1
+  |_    Router: 192.168.1.1
