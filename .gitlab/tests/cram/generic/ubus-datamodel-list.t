@@ -48,11 +48,11 @@ Check that ubus has expected datamodels available:
   DNS.Relay
   DNS.Relay.Config
   DNS.Relay.Forwarding
-  DNS.X_PRPL-COM_ForwardZone
-  DNS.X_PRPL-COM_Host
-  DNS.X_PRPL-COM_RebindProtection
-  DNS.X_PRPL-COM_RebindProtection.DomainExceptions
-  DNS.X_PRPL-COM_RebindProtection.IPExceptions
+  DNS.X_PRPLWARE-COM_ForwardZone
+  DNS.X_PRPLWARE-COM_Host
+  DNS.X_PRPLWARE-COM_RebindProtection
+  DNS.X_PRPLWARE-COM_RebindProtection.DomainExceptions
+  DNS.X_PRPLWARE-COM_RebindProtection.IPExceptions
   DNSSD
   DNSSD.Advertise
   DNSSD.Service
@@ -107,13 +107,13 @@ Check that ubus has expected datamodels available:
   Device.WiFi
   Device.WiFi.Sensing
   Device.XPON
-  Device.X_PRPL-COM_MultiSettings
-  Device.X_PRPL-COM_PersistentConfiguration
-  Device.X_PRPL-COM_WANManager
   Device.X_PRPLWARE-COM_Buttons
+  Device.X_PRPLWARE-COM_MultiSettings
   Device.X_PRPLWARE-COM_PeriodicFileUpload
+  Device.X_PRPLWARE-COM_PersistentConfiguration
   Device.X_PRPLWARE-COM_SFPs
   Device.X_PRPLWARE-COM_SoftwareModules
+  Device.X_PRPLWARE-COM_WANManager
   DeviceInfo
   DeviceInfo.DeviceImageFile
   DeviceInfo.FirmwareImage
@@ -152,14 +152,14 @@ Check that ubus has expected datamodels available:
   Firewall.Policy
   Firewall.Service
   Firewall.Set
-  Firewall.X_PRPL-COM_InterfaceSetting
-  Firewall.X_PRPL-COM_Log
-  Firewall.X_PRPL-COM_WANAccess
-  Firewall.X_PRPL-COM_WANAccess.BlockList
+  Firewall.X_PRPLWARE-COM_InterfaceSetting
+  Firewall.X_PRPLWARE-COM_Log
+  Firewall.X_PRPLWARE-COM_WANAccess
+  Firewall.X_PRPLWARE-COM_WANAccess.BlockList
   Hosts
   Hosts.AccessControl
   Hosts.Host
-  Hosts.X_PRPL-COM_HostConfig
+  Hosts.X_PRPLWARE-COM_HostConfig
   IP
   IP.ActivePort
   IP.Interface
@@ -175,24 +175,24 @@ Check that ubus has expected datamodels available:
   IPDiagnostics.UploadDiagnostics
   IPDiagnostics.UploadDiagnostics.IncrementalResult
   IPDiagnostics.UploadDiagnostics.PerConnectionResult
-  IPDiagnostics.X_PRPL-COM_DownloadConfig
-  IPDiagnostics.X_PRPL-COM_DownloadResult
-  IPDiagnostics.X_PRPL-COM_DownloadResult.Config
-  IPDiagnostics.X_PRPL-COM_DownloadResult.Process
-  IPDiagnostics.X_PRPL-COM_UploadConfig
-  IPDiagnostics.X_PRPL-COM_UploadResult
-  IPDiagnostics.X_PRPL-COM_UploadResult.Config
-  IPDiagnostics.X_PRPL-COM_UploadResult.IncrementalResult
-  IPDiagnostics.X_PRPL-COM_UploadResult.PerConnectionResult
-  IPDiagnostics.X_PRPL-COM_UploadResult.Process
+  IPDiagnostics.X_PRPLWARE-COM_DownloadConfig
+  IPDiagnostics.X_PRPLWARE-COM_DownloadResult
+  IPDiagnostics.X_PRPLWARE-COM_DownloadResult.Config
+  IPDiagnostics.X_PRPLWARE-COM_DownloadResult.Process
+  IPDiagnostics.X_PRPLWARE-COM_UploadConfig
+  IPDiagnostics.X_PRPLWARE-COM_UploadResult
+  IPDiagnostics.X_PRPLWARE-COM_UploadResult.Config
+  IPDiagnostics.X_PRPLWARE-COM_UploadResult.IncrementalResult
+  IPDiagnostics.X_PRPLWARE-COM_UploadResult.PerConnectionResult
+  IPDiagnostics.X_PRPLWARE-COM_UploadResult.Process
   KernelFaults
   KernelFaults.KernelFault
   LEDs
   LEDs.LED
   Logical
   Logical.Interface
-  Logical.X_PRPL-COM_Subnet
-  Logical.X_PRPL-COM_Subnet.Config
+  Logical.X_PRPLWARE-COM_Subnet
+  Logical.X_PRPLWARE-COM_Subnet.Config
   MCASTD
   MCASTD.Debug
   MCASTD.Debug.Zone
@@ -222,8 +222,8 @@ Check that ubus has expected datamodels available:
   NAT.InterfaceSetting
   NAT.PortMapping
   NAT.PortTrigger
-  NAT.X_PRPL-COM_StaticNAT
-  NAT.X_PRPL-COM_StaticNAT.Host
+  NAT.X_PRPLWARE-COM_StaticNAT
+  NAT.X_PRPLWARE-COM_StaticNAT.Host
   NeighborDiscovery
   NeighborDiscovery.InterfaceSetting
   NetDev
@@ -271,7 +271,7 @@ Check that ubus has expected datamodels available:
   QoS.Shaper
   Reboot
   Reboot.Reboot
-  Reboot.X_PRPL-COM_Reasons
+  Reboot.X_PRPLWARE-COM_Reasons
   Rlyeh
   Rlyeh.Images
   RouterAdvertisement
@@ -310,7 +310,7 @@ Check that ubus has expected datamodels available:
   UPnP
   UPnP.Device
   UPnP.Device.Capabilities
-  UPnP.X_PRPL-COM_IGDConfig
+  UPnP.X_PRPLWARE-COM_IGDConfig
   USB
   USB.Interface
   USB.Port
