@@ -20,3 +20,6 @@ packages:
   - mod-cellular-libmm
   - umbim
   - uqmi
+
+diffconfig: |
+          CONFIG_PACKAGE_lua-cjson=m
