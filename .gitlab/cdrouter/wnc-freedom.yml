@@ -139,3 +139,4 @@ bulkdata-testing Freedom initramfs:
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
       .gitlab/scripts/dut-init/cdrouter-tr181-mockups.sh
       .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
+      .gitlab/scripts/dut-init/cdrouter-dut-configure-cwmpd.sh
