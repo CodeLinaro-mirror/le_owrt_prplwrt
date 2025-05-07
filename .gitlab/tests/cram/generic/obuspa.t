@@ -792,6 +792,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.DynamicDNS.Client.{i}.Username                                                                proto::tr181-dynamicdns
   Device.DynamicDNS.Client.{i}.X_PRPL-COM_DNSServer                                                    proto::tr181-dynamicdns
   Device.DynamicDNS.Client.{i}.X_PRPL-COM_IP                                                           proto::tr181-dynamicdns
+  Device.DynamicDNS.Client.{i}.X_PRPL-COM_IPInterfaceRef                                               proto::tr181-dynamicdns
   Device.DynamicDNS.Client.{i}.X_PRPL-COM_IPVersion                                                    proto::tr181-dynamicdns
   Device.DynamicDNS.ClientNumberOfEntries                                                              proto::tr181-dynamicdns
   Device.DynamicDNS.Server.{i}.                                                                        proto::tr181-dynamicdns
@@ -5256,6 +5257,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.DynamicDNS.Client.{i}.Username                                                                proto::tr181-dynamicdns
   Device.DynamicDNS.Client.{i}.X_PRPL-COM_DNSServer                                                    proto::tr181-dynamicdns
   Device.DynamicDNS.Client.{i}.X_PRPL-COM_IP                                                           proto::tr181-dynamicdns
+  Device.DynamicDNS.Client.{i}.X_PRPL-COM_IPInterfaceRef                                               proto::tr181-dynamicdns
   Device.DynamicDNS.Client.{i}.X_PRPL-COM_IPVersion                                                    proto::tr181-dynamicdns
   Device.DynamicDNS.ClientNumberOfEntries                                                              proto::tr181-dynamicdns
   Device.DynamicDNS.Server.{i}.                                                                        proto::tr181-dynamicdns
