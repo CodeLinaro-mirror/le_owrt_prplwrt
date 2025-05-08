@@ -15,7 +15,7 @@ feeds:
 
   - name: feed_prplos
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplos.git
-    revision: main@d8974fdbb9fd272488679de72ff87087ef2cdc31
+    revision: main@34fde8a3b93870f0cffa4a93769a4cff9b127eb1
 
 additional_packages:
   - feed: packages
@@ -124,6 +124,7 @@ packages:
   - mod-wanmgr-sfp
   - mod-wanmgr-system
   - mod-xpon-prpl
+  - mod-routing-dhcp
   - multisettings
   - netdev-plugin
   - netmodel
