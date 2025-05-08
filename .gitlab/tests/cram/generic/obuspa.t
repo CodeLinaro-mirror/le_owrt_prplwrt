@@ -2207,6 +2207,8 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.QoS.Classification.{i}.TCPACK                                                                 proto::tr181-qos
   Device.QoS.Classification.{i}.TCPACKExclude                                                          proto::tr181-qos
   Device.QoS.Classification.{i}.TrafficClass                                                           proto::tr181-qos
+  Device.QoS.Classification.{i}.X_PRPL-COM_BridgeInputInterface                                        proto::tr181-qos
+  Device.QoS.Classification.{i}.X_PRPL-COM_BridgeOutputInterface                                       proto::tr181-qos
   Device.QoS.Classification.{i}.X_PRPL-COM_Direction                                                   proto::tr181-qos
   Device.QoS.Classification.{i}.X_PRPL-COM_OutputInterface                                             proto::tr181-qos
   Device.QoS.ClassificationNumberOfEntries                                                             proto::tr181-qos
@@ -6585,6 +6587,8 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.QoS.Classification.{i}.TCPACK                                                                 proto::tr181-qos
   Device.QoS.Classification.{i}.TCPACKExclude                                                          proto::tr181-qos
   Device.QoS.Classification.{i}.TrafficClass                                                           proto::tr181-qos
+  Device.QoS.Classification.{i}.X_PRPL-COM_BridgeInputInterface                                        proto::tr181-qos
+  Device.QoS.Classification.{i}.X_PRPL-COM_BridgeOutputInterface                                       proto::tr181-qos
   Device.QoS.Classification.{i}.X_PRPL-COM_Direction                                                   proto::tr181-qos
   Device.QoS.Classification.{i}.X_PRPL-COM_OutputInterface                                             proto::tr181-qos
   Device.QoS.ClassificationNumberOfEntries                                                             proto::tr181-qos
