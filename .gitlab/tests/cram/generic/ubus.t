@@ -75,6 +75,8 @@ Check that Users.Role component has expected setup:
   acl-role
   admin
   admin-role
+  bus-access
+  bus-access-role
   guest
   guest-role
   untrusted
