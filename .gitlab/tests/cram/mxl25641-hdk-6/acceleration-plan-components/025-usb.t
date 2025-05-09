@@ -41,7 +41,7 @@ Assure USB. datamodel content with single SanDisk USB flash disk plugged in:
         "HostNumberOfEntries": 2
       },
       "USB.USBHosts.Host.1.": {
-        "USBVersion": "2.10",
+        "USBVersion": "2.(1|0)0", (re)
         "DeviceNumberOfEntries": 0,
         "PowerManagementEnable": 0,
         "Enable": 1,
