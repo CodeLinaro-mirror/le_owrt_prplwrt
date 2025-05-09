@@ -128,7 +128,6 @@ packages:
   - netdev-plugin
   - netmodel
   - netmodel-bridge
-  - netmodel-cellular
   - netmodel-clients
   - netmodel-dhcpv4
   - netmodel-dhcpv6
