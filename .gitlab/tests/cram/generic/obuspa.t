@@ -3098,9 +3098,11 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.AccessPoint.{i}.AssociationCount.FastReconnects                                          proto::wld
   Device.WiFi.AccessPoint.{i}.AssociationCount.ResetCounters                                           proto::wld
   Device.WiFi.AccessPoint.{i}.AssociationCount.Success                                                 proto::wld
+  Device.WiFi.AccessPoint.{i}.BSS-TM-RESP!                                                             proto::wld
   Device.WiFi.AccessPoint.{i}.BridgeInterface                                                          proto::wld
   Device.WiFi.AccessPoint.{i}.CpeOperationMode                                                         proto::wld
   Device.WiFi.AccessPoint.{i}.DefaultDeviceType                                                        proto::wld
+  Device.WiFi.AccessPoint.{i}.Disassociation!                                                          proto::wld
   Device.WiFi.AccessPoint.{i}.DiscoveryMethodEnabled                                                   proto::wld
   Device.WiFi.AccessPoint.{i}.DriverConfig.                                                            proto::wld
   Device.WiFi.AccessPoint.{i}.DriverConfig.BssMaxIdlePeriod                                            proto::wld
@@ -3181,6 +3183,9 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.AccessPoint.{i}.MLOStats.UnicastBytesReceived                                            proto::wld
   Device.WiFi.AccessPoint.{i}.MLOStats.UnicastBytesSent                                                proto::wld
   Device.WiFi.AccessPoint.{i}.MaxAssociatedDevices                                                     proto::wld
+  Device.WiFi.AccessPoint.{i}.MgmtActionFrameReceived!                                                 proto::wld
+  Device.WiFi.AccessPoint.{i}.MgmtDeauthFrame!                                                         proto::wld
+  Device.WiFi.AccessPoint.{i}.MgmtDisassocFrame!                                                       proto::wld
   Device.WiFi.AccessPoint.{i}.MultiAPProfile                                                           proto::wld
   Device.WiFi.AccessPoint.{i}.MultiAPType                                                              proto::wld
   Device.WiFi.AccessPoint.{i}.MultiAPVlanId                                                            proto::wld
@@ -3212,6 +3217,10 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.AccessPoint.{i}.RssiEventing.HistoryLen                                                  proto::wld
   Device.WiFi.AccessPoint.{i}.RssiEventing.Interval                                                    proto::wld
   Device.WiFi.AccessPoint.{i}.RssiEventing.RssiInterval                                                proto::wld
+  Device.WiFi.AccessPoint.{i}.RssiEventing.RssiUpdate!                                                 proto::wld
+  Device.WiFi.AccessPoint.{i}.RssiEventing.RssiUpdateShortHistory!                                     proto::wld
+  Device.WiFi.AccessPoint.{i}.RssiEventing.RssiUpdateShortHistoryAssoc!                                proto::wld
+  Device.WiFi.AccessPoint.{i}.RssiEventing.RssiUpdateShortHistoryDisassoc!                             proto::wld
   Device.WiFi.AccessPoint.{i}.RssiEventing.SendEventOnAssoc                                            proto::wld
   Device.WiFi.AccessPoint.{i}.RssiEventing.SendEventOnDisassoc                                         proto::wld
   Device.WiFi.AccessPoint.{i}.RssiEventing.SendPeriodicEvent                                           proto::wld
@@ -3267,6 +3276,10 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.AccessPoint.{i}.WPS.Version                                                              proto::wld
   Device.WiFi.AccessPoint.{i}.WPS.cancelWPSPairing()                                                   proto::wld
   Device.WiFi.AccessPoint.{i}.WPS.generateSelfPIN()                                                    proto::wld
+  Device.WiFi.AccessPoint.{i}.WPS.pairingDone!                                                         proto::wld
+  Device.WiFi.AccessPoint.{i}.WPS.pairingError!                                                        proto::wld
+  Device.WiFi.AccessPoint.{i}.WPS.pairingNoMessage!                                                    proto::wld
+  Device.WiFi.AccessPoint.{i}.WPS.pairingReady!                                                        proto::wld
   Device.WiFi.AccessPoint.{i}.WPS.setCompatibilityWPS()                                                proto::wld
   Device.WiFi.AccessPoint.{i}.WPS.setCompatibilityWPS() input:supVerWPS
   Device.WiFi.AccessPoint.{i}.WPS.useRelayCredentials()                                                proto::wld
@@ -3333,6 +3346,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.AccessPoint.{i}.setNeighbourAP() input:PhyType
   Device.WiFi.AccessPoint.{i}.setNeighbourAP() input:R0KHKey
   Device.WiFi.AccessPoint.{i}.setNeighbourAP() input:SSID
+  Device.WiFi.AccessPoint.{i}.wpaCtrlEvents!                                                           proto::wld
   Device.WiFi.AccessPointNumberOfEntries                                                               proto::wld
   Device.WiFi.AutoCommitMgr.                                                                           proto::wld
   Device.WiFi.AutoCommitMgr.BootDelayTime                                                              proto::wld
@@ -3418,6 +3432,10 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.EndPoint.{i}.WPS.Enable                                                                  proto::wld
   Device.WiFi.EndPoint.{i}.WPS.PairingInProgress                                                       proto::wld
   Device.WiFi.EndPoint.{i}.WPS.cancelPairing()                                                         proto::wld
+  Device.WiFi.EndPoint.{i}.WPS.pairingDone!                                                            proto::wld
+  Device.WiFi.EndPoint.{i}.WPS.pairingError!                                                           proto::wld
+  Device.WiFi.EndPoint.{i}.WPS.pairingNoMessage!                                                       proto::wld
+  Device.WiFi.EndPoint.{i}.WPS.pairingReady!                                                           proto::wld
   Device.WiFi.EndPoint.{i}.WPS.pushButton()                                                            proto::wld
   Device.WiFi.EndPoint.{i}.WPS.pushButton() input:bssid
   Device.WiFi.EndPoint.{i}.WPS.pushButton() input:clientPIN
@@ -3435,6 +3453,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.EndPoint.{i}.sendManagementFrame() input:data
   Device.WiFi.EndPoint.{i}.sendManagementFrame() input:fc
   Device.WiFi.EndPoint.{i}.sendManagementFrame() input:mac
+  Device.WiFi.EndPoint.{i}.wpaCtrlEvents!                                                              proto::wld
   Device.WiFi.EndPointNumberOfEntries                                                                  proto::wld
   Device.WiFi.FSM_Start()                                                                              proto::wld
   Device.WiFi.FSM_Start() input:bitnr
@@ -3466,6 +3485,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.Radio.{i}.Capabilities.WiFi7STARole.NSTRSupport                                          proto::wld
   Device.WiFi.Radio.{i}.Capabilities.WiFi7STARole.STRSupport                                           proto::wld
   Device.WiFi.Radio.{i}.Channel                                                                        proto::wld
+  Device.WiFi.Radio.{i}.Channel change event!                                                          proto::wld
   Device.WiFi.Radio.{i}.ChannelBandwidthChangeReason                                                   proto::wld
   Device.WiFi.Radio.{i}.ChannelChangeReason                                                            proto::wld
   Device.WiFi.Radio.{i}.ChannelLoad                                                                    proto::wld
@@ -3522,9 +3542,11 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.Radio.{i}.ChannelMgt.TargetChanspec.LastChangeTime                                       proto::wld
   Device.WiFi.Radio.{i}.ChannelMgt.TargetChanspec.Reason                                               proto::wld
   Device.WiFi.Radio.{i}.ChannelMgt.TargetChanspec.ReasonExt                                            proto::wld
+  Device.WiFi.Radio.{i}.ChannelSwitchComplete!                                                         proto::wld
   Device.WiFi.Radio.{i}.ChannelsInUse                                                                  proto::wld
   Device.WiFi.Radio.{i}.ChipsetVendor                                                                  proto::wld
   Device.WiFi.Radio.{i}.CurrentOperatingChannelBandwidth                                               proto::wld
+  Device.WiFi.Radio.{i}.DFS Done!                                                                      proto::wld
   Device.WiFi.Radio.{i}.DFS.                                                                           proto::wld
   Device.WiFi.Radio.{i}.DFS.Event.{i}.                                                                 proto::wld
   Device.WiFi.Radio.{i}.DFS.Event.{i}.Bandwidth                                                        proto::wld
@@ -3655,6 +3677,8 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.Radio.{i}.RxPowerSaveRepeaterEnable                                                      proto::wld
   Device.WiFi.Radio.{i}.STASupported_Mode                                                              proto::wld
   Device.WiFi.Radio.{i}.STA_Mode                                                                       proto::wld
+  Device.WiFi.Radio.{i}.ScanChange!                                                                    proto::wld
+  Device.WiFi.Radio.{i}.ScanComplete!                                                                  proto::wld
   Device.WiFi.Radio.{i}.ScanConfig.                                                                    proto::wld
   Device.WiFi.Radio.{i}.ScanConfig.ActiveChannelTime                                                   proto::wld
   Device.WiFi.Radio.{i}.ScanConfig.FastScanReasons                                                     proto::wld
@@ -3833,6 +3857,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.Radio.{i}.startScan() input:scanReason
   Device.WiFi.Radio.{i}.startScan() input:updateUsage
   Device.WiFi.Radio.{i}.stopScan()                                                                     proto::wld
+  Device.WiFi.Radio.{i}.wpaCtrlEvents!                                                                 proto::wld
   Device.WiFi.RadioNumberOfEntries                                                                     proto::wld
   Device.WiFi.Reset()                                                                                  proto::wld
   Device.WiFi.SSID.{i}.                                                                                proto::wld
@@ -7476,9 +7501,11 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.AccessPoint.{i}.AssociationCount.FastReconnects                                          proto::wld
   Device.WiFi.AccessPoint.{i}.AssociationCount.ResetCounters                                           proto::wld
   Device.WiFi.AccessPoint.{i}.AssociationCount.Success                                                 proto::wld
+  Device.WiFi.AccessPoint.{i}.BSS-TM-RESP!                                                             proto::wld
   Device.WiFi.AccessPoint.{i}.BridgeInterface                                                          proto::wld
   Device.WiFi.AccessPoint.{i}.CpeOperationMode                                                         proto::wld
   Device.WiFi.AccessPoint.{i}.DefaultDeviceType                                                        proto::wld
+  Device.WiFi.AccessPoint.{i}.Disassociation!                                                          proto::wld
   Device.WiFi.AccessPoint.{i}.DiscoveryMethodEnabled                                                   proto::wld
   Device.WiFi.AccessPoint.{i}.DriverConfig.                                                            proto::wld
   Device.WiFi.AccessPoint.{i}.DriverConfig.BssMaxIdlePeriod                                            proto::wld
@@ -7559,6 +7586,9 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.AccessPoint.{i}.MLOStats.UnicastBytesReceived                                            proto::wld
   Device.WiFi.AccessPoint.{i}.MLOStats.UnicastBytesSent                                                proto::wld
   Device.WiFi.AccessPoint.{i}.MaxAssociatedDevices                                                     proto::wld
+  Device.WiFi.AccessPoint.{i}.MgmtActionFrameReceived!                                                 proto::wld
+  Device.WiFi.AccessPoint.{i}.MgmtDeauthFrame!                                                         proto::wld
+  Device.WiFi.AccessPoint.{i}.MgmtDisassocFrame!                                                       proto::wld
   Device.WiFi.AccessPoint.{i}.MultiAPProfile                                                           proto::wld
   Device.WiFi.AccessPoint.{i}.MultiAPType                                                              proto::wld
   Device.WiFi.AccessPoint.{i}.MultiAPVlanId                                                            proto::wld
@@ -7590,6 +7620,10 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.AccessPoint.{i}.RssiEventing.HistoryLen                                                  proto::wld
   Device.WiFi.AccessPoint.{i}.RssiEventing.Interval                                                    proto::wld
   Device.WiFi.AccessPoint.{i}.RssiEventing.RssiInterval                                                proto::wld
+  Device.WiFi.AccessPoint.{i}.RssiEventing.RssiUpdate!                                                 proto::wld
+  Device.WiFi.AccessPoint.{i}.RssiEventing.RssiUpdateShortHistory!                                     proto::wld
+  Device.WiFi.AccessPoint.{i}.RssiEventing.RssiUpdateShortHistoryAssoc!                                proto::wld
+  Device.WiFi.AccessPoint.{i}.RssiEventing.RssiUpdateShortHistoryDisassoc!                             proto::wld
   Device.WiFi.AccessPoint.{i}.RssiEventing.SendEventOnAssoc                                            proto::wld
   Device.WiFi.AccessPoint.{i}.RssiEventing.SendEventOnDisassoc                                         proto::wld
   Device.WiFi.AccessPoint.{i}.RssiEventing.SendPeriodicEvent                                           proto::wld
@@ -7645,6 +7679,10 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.AccessPoint.{i}.WPS.Version                                                              proto::wld
   Device.WiFi.AccessPoint.{i}.WPS.cancelWPSPairing()                                                   proto::wld
   Device.WiFi.AccessPoint.{i}.WPS.generateSelfPIN()                                                    proto::wld
+  Device.WiFi.AccessPoint.{i}.WPS.pairingDone!                                                         proto::wld
+  Device.WiFi.AccessPoint.{i}.WPS.pairingError!                                                        proto::wld
+  Device.WiFi.AccessPoint.{i}.WPS.pairingNoMessage!                                                    proto::wld
+  Device.WiFi.AccessPoint.{i}.WPS.pairingReady!                                                        proto::wld
   Device.WiFi.AccessPoint.{i}.WPS.setCompatibilityWPS()                                                proto::wld
   Device.WiFi.AccessPoint.{i}.WPS.setCompatibilityWPS() input:supVerWPS
   Device.WiFi.AccessPoint.{i}.WPS.useRelayCredentials()                                                proto::wld
@@ -7711,6 +7749,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.AccessPoint.{i}.setNeighbourAP() input:PhyType
   Device.WiFi.AccessPoint.{i}.setNeighbourAP() input:R0KHKey
   Device.WiFi.AccessPoint.{i}.setNeighbourAP() input:SSID
+  Device.WiFi.AccessPoint.{i}.wpaCtrlEvents!                                                           proto::wld
   Device.WiFi.AccessPointNumberOfEntries                                                               proto::wld
   Device.WiFi.AutoCommitMgr.                                                                           proto::wld
   Device.WiFi.AutoCommitMgr.BootDelayTime                                                              proto::wld
@@ -7796,6 +7835,10 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.EndPoint.{i}.WPS.Enable                                                                  proto::wld
   Device.WiFi.EndPoint.{i}.WPS.PairingInProgress                                                       proto::wld
   Device.WiFi.EndPoint.{i}.WPS.cancelPairing()                                                         proto::wld
+  Device.WiFi.EndPoint.{i}.WPS.pairingDone!                                                            proto::wld
+  Device.WiFi.EndPoint.{i}.WPS.pairingError!                                                           proto::wld
+  Device.WiFi.EndPoint.{i}.WPS.pairingNoMessage!                                                       proto::wld
+  Device.WiFi.EndPoint.{i}.WPS.pairingReady!                                                           proto::wld
   Device.WiFi.EndPoint.{i}.WPS.pushButton()                                                            proto::wld
   Device.WiFi.EndPoint.{i}.WPS.pushButton() input:bssid
   Device.WiFi.EndPoint.{i}.WPS.pushButton() input:clientPIN
@@ -7813,6 +7856,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.EndPoint.{i}.sendManagementFrame() input:data
   Device.WiFi.EndPoint.{i}.sendManagementFrame() input:fc
   Device.WiFi.EndPoint.{i}.sendManagementFrame() input:mac
+  Device.WiFi.EndPoint.{i}.wpaCtrlEvents!                                                              proto::wld
   Device.WiFi.EndPointNumberOfEntries                                                                  proto::wld
   Device.WiFi.FSM_Start()                                                                              proto::wld
   Device.WiFi.FSM_Start() input:bitnr
@@ -7844,6 +7888,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.Radio.{i}.Capabilities.WiFi7STARole.NSTRSupport                                          proto::wld
   Device.WiFi.Radio.{i}.Capabilities.WiFi7STARole.STRSupport                                           proto::wld
   Device.WiFi.Radio.{i}.Channel                                                                        proto::wld
+  Device.WiFi.Radio.{i}.Channel change event!                                                          proto::wld
   Device.WiFi.Radio.{i}.ChannelBandwidthChangeReason                                                   proto::wld
   Device.WiFi.Radio.{i}.ChannelChangeReason                                                            proto::wld
   Device.WiFi.Radio.{i}.ChannelLoad                                                                    proto::wld
@@ -7900,9 +7945,11 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.Radio.{i}.ChannelMgt.TargetChanspec.LastChangeTime                                       proto::wld
   Device.WiFi.Radio.{i}.ChannelMgt.TargetChanspec.Reason                                               proto::wld
   Device.WiFi.Radio.{i}.ChannelMgt.TargetChanspec.ReasonExt                                            proto::wld
+  Device.WiFi.Radio.{i}.ChannelSwitchComplete!                                                         proto::wld
   Device.WiFi.Radio.{i}.ChannelsInUse                                                                  proto::wld
   Device.WiFi.Radio.{i}.ChipsetVendor                                                                  proto::wld
   Device.WiFi.Radio.{i}.CurrentOperatingChannelBandwidth                                               proto::wld
+  Device.WiFi.Radio.{i}.DFS Done!                                                                      proto::wld
   Device.WiFi.Radio.{i}.DFS.                                                                           proto::wld
   Device.WiFi.Radio.{i}.DFS.Event.{i}.                                                                 proto::wld
   Device.WiFi.Radio.{i}.DFS.Event.{i}.Bandwidth                                                        proto::wld
@@ -8033,6 +8080,8 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.Radio.{i}.RxPowerSaveRepeaterEnable                                                      proto::wld
   Device.WiFi.Radio.{i}.STASupported_Mode                                                              proto::wld
   Device.WiFi.Radio.{i}.STA_Mode                                                                       proto::wld
+  Device.WiFi.Radio.{i}.ScanChange!                                                                    proto::wld
+  Device.WiFi.Radio.{i}.ScanComplete!                                                                  proto::wld
   Device.WiFi.Radio.{i}.ScanConfig.                                                                    proto::wld
   Device.WiFi.Radio.{i}.ScanConfig.ActiveChannelTime                                                   proto::wld
   Device.WiFi.Radio.{i}.ScanConfig.FastScanReasons                                                     proto::wld
@@ -8211,6 +8260,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.Radio.{i}.startScan() input:scanReason
   Device.WiFi.Radio.{i}.startScan() input:updateUsage
   Device.WiFi.Radio.{i}.stopScan()                                                                     proto::wld
+  Device.WiFi.Radio.{i}.wpaCtrlEvents!                                                                 proto::wld
   Device.WiFi.RadioNumberOfEntries                                                                     proto::wld
   Device.WiFi.Reset()                                                                                  proto::wld
   Device.WiFi.SSID.{i}.                                                                                proto::wld
