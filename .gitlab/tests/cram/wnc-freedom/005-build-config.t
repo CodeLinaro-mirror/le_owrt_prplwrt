@@ -78,6 +78,10 @@ Assure expected build configuration (PCF-1413):
   CONFIG_LXC_SECCOMP=y
   CONFIG_MCASTD_CORE=y
   CONFIG_MCASTD_CORE_NICE=-18
+  CONFIG_MODEMMANAGER_WITH_MBIM=y
+  CONFIG_MODEMMANAGER_WITH_NETIFD=y
+  CONFIG_MODEMMANAGER_WITH_QMI=y
+  CONFIG_MODEMMANAGER_WITH_QRTR=y
   CONFIG_MOSQUITTO_CTRL=y
   CONFIG_MOSQUITTO_DYNAMIC_SECURITY=y
   CONFIG_MOSQUITTO_LWS=y
@@ -99,6 +103,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_bind-libs=y
   CONFIG_PACKAGE_cJSON=y
   CONFIG_PACKAGE_ca-certificates=y
+  CONFIG_PACKAGE_cellular-manager=y
   CONFIG_PACKAGE_chrony-prpl=y
   CONFIG_PACKAGE_cthulhu=y
   CONFIG_PACKAGE_cthulhu-dhcpc=y
@@ -107,6 +112,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_cthulhu-plugin-usp=y
   CONFIG_PACKAGE_curl=y
   CONFIG_PACKAGE_data-model-mapper=m
+  CONFIG_PACKAGE_dbus=y
   CONFIG_PACKAGE_ddns-scripts=y
   CONFIG_PACKAGE_ddns-scripts-cloudflare=y
   CONFIG_PACKAGE_ddns-scripts-freedns=y
@@ -257,6 +263,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_libcthulhu=y
   CONFIG_PACKAGE_libcurl=y
   CONFIG_PACKAGE_libdbi=y
+  CONFIG_PACKAGE_libdbus=y
   CONFIG_PACKAGE_libdhcpoptions=y
   CONFIG_PACKAGE_libdiscoping=y
   CONFIG_PACKAGE_libelf=y
@@ -346,6 +353,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_lrzsz=y
   CONFIG_PACKAGE_lua=y
   CONFIG_PACKAGE_lua-amx=y
+  CONFIG_PACKAGE_lua-cjson=m
   CONFIG_PACKAGE_lxc=y
   CONFIG_PACKAGE_lxc-attach=y
   CONFIG_PACKAGE_lxc-auto=y
@@ -384,6 +392,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_mod-autosensing=y
   CONFIG_PACKAGE_mod-ba-cli=y
   CONFIG_PACKAGE_mod-busstats=y
+  CONFIG_PACKAGE_mod-cellular-libmm=y
   CONFIG_PACKAGE_mod-dhcpv4c=y
   CONFIG_PACKAGE_mod-dmext=y
   CONFIG_PACKAGE_mod-dmproxy=y
@@ -409,6 +418,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_mod-wanmgr-system=y
   CONFIG_PACKAGE_mod-xpon-prpl=y
   CONFIG_PACKAGE_mod-xpon-prpl-mock=m
+  CONFIG_PACKAGE_modemmanager=y
   CONFIG_PACKAGE_mosquitto-client-ssl=y
   CONFIG_PACKAGE_mosquitto-ssl=y
   CONFIG_PACKAGE_mstpd=y
@@ -624,6 +634,8 @@ Assure expected build configuration (PCF-1413):
   CONFIG_SAH_AMX_TR181_BUTTON_RUN_AS_USER="tr181_app"
   CONFIG_SAH_AMX_TR181_CAPTIVEPORTAL=y
   CONFIG_SAH_AMX_TR181_CAPTIVEPORTAL_EXAMPLE=y
+  CONFIG_SAH_AMX_TR181_CELLULAR=y
+  CONFIG_SAH_AMX_TR181_CELLULAR_ORDER=97
   CONFIG_SAH_AMX_TR181_DEVICE=y
   CONFIG_SAH_AMX_TR181_DEVICEINFO=y
   CONFIG_SAH_AMX_TR181_DEVICEINFO_NUMBER_OF_EXTRA_MAC_ADDRESSES="7"

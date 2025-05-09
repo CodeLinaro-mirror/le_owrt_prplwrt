@@ -165,6 +165,9 @@ Assure expected build configuration (PCF-1413):
   CONFIG_LIBCURL_OPENSSL=y
   CONFIG_LIBCURL_PROXY=y
   CONFIG_LIBCURL_UNIX_SOCKETS=y
+  CONFIG_LIBQMI_COLLECTION_BASIC=y
+  CONFIG_LIBQMI_WITH_MBIM_QMUX=y
+  CONFIG_LIBQMI_WITH_QRTR_GLIB=y
   CONFIG_LIGHTTPD_CRYPTOLIB_OPENSSL=y
   CONFIG_LIGHTTPD_PCRE2=y
   CONFIG_LIGHTTPD_SSL=y
@@ -173,6 +176,10 @@ Assure expected build configuration (PCF-1413):
   CONFIG_LXC_SECCOMP=y
   CONFIG_MCASTD_CORE=y
   CONFIG_MCASTD_CORE_NICE=-18
+  CONFIG_MODEMMANAGER_WITH_MBIM=y
+  CONFIG_MODEMMANAGER_WITH_NETIFD=y
+  CONFIG_MODEMMANAGER_WITH_QMI=y
+  CONFIG_MODEMMANAGER_WITH_QRTR=y
   CONFIG_MOSQUITTO_CTRL=y
   CONFIG_MOSQUITTO_DYNAMIC_SECURITY=y
   CONFIG_MOSQUITTO_LWS=y
@@ -199,6 +206,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_bridge=y
   CONFIG_PACKAGE_cJSON=y
   CONFIG_PACKAGE_ca-certificates=y
+  CONFIG_PACKAGE_cellular-manager=y
   CONFIG_PACKAGE_chrony-prpl=y
   CONFIG_PACKAGE_cthulhu=y
   CONFIG_PACKAGE_cthulhu-dhcpc=y
@@ -207,6 +215,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_cthulhu-plugin-usp=y
   CONFIG_PACKAGE_curl=y
   CONFIG_PACKAGE_data-model-mapper=m
+  CONFIG_PACKAGE_dbus=y
   CONFIG_PACKAGE_ddns-scripts=y
   CONFIG_PACKAGE_ddns-scripts-cloudflare=y
   CONFIG_PACKAGE_ddns-scripts-freedns=y
@@ -327,6 +336,11 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-lib-zlib-inflate=y
   CONFIG_PACKAGE_kmod-loop=y
   CONFIG_PACKAGE_kmod-mcastd-core=y
+  CONFIG_PACKAGE_kmod-mhi-bus=y
+  CONFIG_PACKAGE_kmod-mhi-net=y
+  CONFIG_PACKAGE_kmod-mhi-pci-generic=y
+  CONFIG_PACKAGE_kmod-mhi-wwan-ctrl=y
+  CONFIG_PACKAGE_kmod-mhi-wwan-mbim=y
   CONFIG_PACKAGE_kmod-mii=y
   CONFIG_PACKAGE_kmod-mth-macdb=y
   CONFIG_PACKAGE_kmod-mxl_eth_drv=y
@@ -387,13 +401,18 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-usb-net-cdc-ether=y
   CONFIG_PACKAGE_kmod-usb-net-cdc-mbim=y
   CONFIG_PACKAGE_kmod-usb-net-cdc-ncm=y
+  CONFIG_PACKAGE_kmod-usb-net-qmi-wwan=y
   CONFIG_PACKAGE_kmod-usb-printer=y
+  CONFIG_PACKAGE_kmod-usb-serial=y
+  CONFIG_PACKAGE_kmod-usb-serial-option=y
+  CONFIG_PACKAGE_kmod-usb-serial-wwan=y
   CONFIG_PACKAGE_kmod-usb-storage=y
   CONFIG_PACKAGE_kmod-usb-storage-uas=y
   CONFIG_PACKAGE_kmod-usb-wdm=y
   CONFIG_PACKAGE_kmod-usb-xhci-hcd=y
   CONFIG_PACKAGE_kmod-usb3=y
   CONFIG_PACKAGE_kmod-veth=y
+  CONFIG_PACKAGE_kmod-wwan=y
   CONFIG_PACKAGE_lib-cli=y
   CONFIG_PACKAGE_libacl=y
   CONFIG_PACKAGE_libamxa=y
@@ -422,6 +441,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_libcthulhu=y
   CONFIG_PACKAGE_libcurl=y
   CONFIG_PACKAGE_libdbi=y
+  CONFIG_PACKAGE_libdbus=y
   CONFIG_PACKAGE_libdhcpoptions=y
   CONFIG_PACKAGE_libdiscoping=y
   CONFIG_PACKAGE_libedit=y
@@ -455,6 +475,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_liblua=y
   CONFIG_PACKAGE_liblxc=y
   CONFIG_PACKAGE_liblzma=y
+  CONFIG_PACKAGE_libmbim=y
   CONFIG_PACKAGE_libmicrohttpd-no-ssl=y
   CONFIG_PACKAGE_libmosquitto-ssl=y
   CONFIG_PACKAGE_libmsgapi=y
@@ -479,9 +500,11 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_libpcre2=y
   CONFIG_PACKAGE_libpopt=y
   CONFIG_PACKAGE_libprotobuf-c=y
+  CONFIG_PACKAGE_libqmi=y
   CONFIG_PACKAGE_libqoscommon=y
   CONFIG_PACKAGE_libqosmodule=y
   CONFIG_PACKAGE_libqosnode=y
+  CONFIG_PACKAGE_libqrtr-glib=y
   CONFIG_PACKAGE_librlyeh=y
   CONFIG_PACKAGE_librt=y
   CONFIG_PACKAGE_libsafec3-7=y
@@ -524,6 +547,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_ltq-wlan-wave_6x-uci-osp=y
   CONFIG_PACKAGE_lua=y
   CONFIG_PACKAGE_lua-amx=y
+  CONFIG_PACKAGE_lua-cjson=m
   CONFIG_PACKAGE_lxc=y
   CONFIG_PACKAGE_lxc-attach=y
   CONFIG_PACKAGE_lxc-auto=y
@@ -554,6 +578,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_lxc-user-nic=y
   CONFIG_PACKAGE_lxc-usernsexec=y
   CONFIG_PACKAGE_lxc-wait=y
+  CONFIG_PACKAGE_mbim-utils=y
   CONFIG_PACKAGE_mcastd-noforward=y
   CONFIG_PACKAGE_miniupnpd-prpl=y
   CONFIG_PACKAGE_mod-amxb-ubus=y
@@ -561,6 +586,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_mod-autosensing=y
   CONFIG_PACKAGE_mod-ba-cli=y
   CONFIG_PACKAGE_mod-busstats=y
+  CONFIG_PACKAGE_mod-cellular-libmm=y
   CONFIG_PACKAGE_mod-dhcpv4c=y
   CONFIG_PACKAGE_mod-dmext=y
   CONFIG_PACKAGE_mod-dmproxy=y
@@ -587,6 +613,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_mod-whm=y
   CONFIG_PACKAGE_mod-xpon-prpl=y
   CONFIG_PACKAGE_mod-xpon-prpl-mock=m
+  CONFIG_PACKAGE_modemmanager=y
   CONFIG_PACKAGE_mosquitto-client-ssl=y
   CONFIG_PACKAGE_mosquitto-ssl=y
   CONFIG_PACKAGE_mstpd=y
@@ -659,6 +686,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_prpl-webui=y
   CONFIG_PACKAGE_prplmesh=y
   CONFIG_PACKAGE_pwhm=y
+  CONFIG_PACKAGE_qmi-utils=y
   CONFIG_PACKAGE_radvd=y
   CONFIG_PACKAGE_reboot-service=y
   CONFIG_PACKAGE_resize2fs=y
@@ -753,8 +781,10 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_uboot-octopus-urx641-p34x-phy-emmc-prpl=y
   CONFIG_PACKAGE_ucode-mod-ubus=m
   CONFIG_PACKAGE_ucode-mod-uci=m
+  CONFIG_PACKAGE_umbim=y
   CONFIG_PACKAGE_umdns-prpl=y
   CONFIG_PACKAGE_unbound-daemon-prpl=y
+  CONFIG_PACKAGE_uqmi=y
   CONFIG_PACKAGE_uriparser=y
   CONFIG_PACKAGE_usbids=y
   CONFIG_PACKAGE_usbutils=y
@@ -763,6 +793,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_wan-manager=y
   CONFIG_PACKAGE_wfa_quicktrack=y
   CONFIG_PACKAGE_wifi-sensing=y
+  CONFIG_PACKAGE_wwan=y
   CONFIG_PACKAGE_xtables-legacy=y
   CONFIG_PACKAGE_yajl=y
   CONFIG_PACKAGE_zlib=y
@@ -832,6 +863,8 @@ Assure expected build configuration (PCF-1413):
   CONFIG_SAH_AMX_TR181_BUTTON_RUN_AS_USER="tr181_app"
   CONFIG_SAH_AMX_TR181_CAPTIVEPORTAL=y
   CONFIG_SAH_AMX_TR181_CAPTIVEPORTAL_EXAMPLE=y
+  CONFIG_SAH_AMX_TR181_CELLULAR=y
+  CONFIG_SAH_AMX_TR181_CELLULAR_ORDER=97
   CONFIG_SAH_AMX_TR181_DEVICE=y
   CONFIG_SAH_AMX_TR181_DEVICEINFO=y
   CONFIG_SAH_AMX_TR181_DEVICEINFO_NUMBER_OF_EXTRA_MAC_ADDRESSES="7"
