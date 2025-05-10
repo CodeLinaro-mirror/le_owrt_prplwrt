@@ -57,6 +57,9 @@
         export TB_CONFIG=".testbed/labgrid/testbed-02.yaml"
       fi
 
+    - .gitlab/scripts/testbed-device.py --target $LABGRID_TARGET power cycle
+    - sleep 3600
+
     - .gitlab/scripts/testbed-device.py --target $LABGRID_TARGET boot_into shell
     - >
       .gitlab/scripts/testbed-device.py
