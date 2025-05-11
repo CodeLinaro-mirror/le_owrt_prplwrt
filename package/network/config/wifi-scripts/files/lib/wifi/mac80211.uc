@@ -44,6 +44,7 @@ for (let phy_name, phy in board.wlan) {
 
 		let s = "wireless." + name;
 		let si = "wireless.default_" + name;
+		let sg = "wireless.guest_" + name;
 
 		let band_name = filter(bands_order, (b) => radio.bands[b])[0];
 		if (!band_name)
@@ -104,9 +105,17 @@ set ${si}=wifi-iface
 set ${si}.device='${name}'
 set ${si}.network='lan'
 set ${si}.mode='ap'
-set ${si}.ssid='${defaults?.ssid || "OpenWrt"}'
+set ${si}.ssid='${defaults?.ssid || "prplOS"}'
 set ${si}.encryption='${defaults?.encryption || "none"}'
 set ${si}.key='${defaults?.key || ""}'
+
+set ${sg}=wifi-iface
+set ${sg}.device='${name}'
+set ${sg}.network='guest'
+set ${sg}.mode='ap'
+set ${sg}.ssid='${defaults?.ssid || "prplOS-guest"}'
+set ${sg}.encryption='${defaults?.encryption || "none"}'
+set ${sg}.key='${defaults?.key || ""}'
 
 `);
 		config[name] = {};
