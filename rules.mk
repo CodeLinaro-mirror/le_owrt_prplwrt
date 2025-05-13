@@ -363,7 +363,7 @@ TARGET_CONFIGURE_OPTS = \
 
 
 ifeq ($(BOARD), sdx85)
-    SIGN_KEY:= LD_LIBRARY_PATH=$(TOPDIR)/src/kernel-$(LINUX_VERSION)/kernel_platform/out/msm-kernel-$(KERNEL_PLATFORM_TARGET)-$(TARGET_VARIANT)_defconfig/dist/openssl/lib64 \
+    SIGN_KEY:= LD_LIBRARY_PATH=$(TOPDIR)/src/kernel-$(LINUX_VERSION)/out/msm-kernel-$(KERNEL_PLATFORM_TARGET)-$(TARGET_VARIANT)_defconfig/dist/openssl/lib64 \
           $(TOPDIR)/src/kernel-$(LINUX_VERSION)/out/msm-kernel-$(KERNEL_PLATFORM_TARGET)-$(TARGET_VARIANT)_defconfig/dist/sign-file sha512 \
           $(TOPDIR)/src/kernel-$(LINUX_VERSION)/out/msm-kernel-$(KERNEL_PLATFORM_TARGET)-$(TARGET_VARIANT)_defconfig/dist/signing_key.pem \
           $(TOPDIR)/src/kernel-$(LINUX_VERSION)/out/msm-kernel-$(KERNEL_PLATFORM_TARGET)-$(TARGET_VARIANT)_defconfig/dist/signing_key.x509
