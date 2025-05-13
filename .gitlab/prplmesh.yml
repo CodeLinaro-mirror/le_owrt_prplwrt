@@ -1,0 +1,67 @@
+.certification-generic:
+  interruptible: false
+  # RUN_ON_DEVICE variable need to be set when extending the job
+  script:
+    - .gitlab/scripts/prplMesh/git-clean-reset.sh ~/easymesh_cert "$(<".gitlab/scripts/prplMesh/easymesh_cert_version")"
+    - ~/easymesh_cert/run_test_file.py --verbose --log-folder logs --easymesh-revision "$EASYMESH_REVISION" --device-under-test $RUN_ON_DEVICE "${CI_JOB_NAME##*:}"
+  artifacts:
+    paths:
+      - logs
+    when: always
+  timeout: 45min
+
+.certification-generic-R1:
+  extends: .certification-generic
+  variables:
+    EASYMESH_REVISION: "R1"
+  after_script:
+    - .gitlab/scripts/prplMesh/R1_marvell_station.sh
+
+.certification:R1:haze:
+  stage: prplMesh
+  extends: .certification-generic-R1
+  variables:
+    RUN_ON_DEVICE: "haze"
+  before_script:
+    - mkdir -p build/haze/
+    - cp bin/targets/ipq807x/generic/prplos-ipq807x-generic-prpl_haze-squashfs-sysupgrade.bin build/haze/prplos-ipq807x-generic-prpl_haze-squashfs-sysupgrade.bin
+    - .gitlab/scripts/prplMesh/deploy_firmware.py --device "$RUN_ON_DEVICE" --full --target-name "$RUN_ON_DEVICE" --image "prplos-ipq807x-generic-prpl_haze-squashfs-sysupgrade.bin" --whm --configuration ".gitlab/scripts/prplMesh/dut-configuration/R1/haze.sh"
+  needs:
+    - job: build test ipq807x prpl security
+      optional: true
+  tags:
+    - dut-prplmesh-haze
+    - prplmesh-R1
+
+R1:haze:MAP-4.2.1:
+  extends: .certification:R1:haze
+  rules:
+    - when: manual
+  allow_failure: true
+
+R1:haze:MAP-4.2.2_BH5GL:
+  extends: .certification:R1:haze
+  rules:
+    - when: manual
+  allow_failure: true
+
+R1:haze:MAP-4.4.2_BHWIFI_FH5GH:
+  extends: .certification:R1:haze
+  rules:
+    - when: always
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+    - if: $CI_COMMIT_TAG
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  allow_failure: true
+
+R1:haze:MAP-4.5.1_BHWIFI:
+  extends: .certification:R1:haze
+  rules:
+    - when: manual
+  allow_failure: true
+
+R1:haze:MAP-4.7.3_ETH:
+  extends: .certification:R1:haze
+  rules:
+    - when: manual
+  allow_failure: true
