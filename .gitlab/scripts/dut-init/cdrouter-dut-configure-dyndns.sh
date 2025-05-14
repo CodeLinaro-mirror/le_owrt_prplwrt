@@ -3,7 +3,7 @@
 ssh "root@$TARGET_LAN_IP" "sed -i 's/CHECK_SECONDS=300/CHECK_SECONDS=30/g' /usr/lib/ddns/dynamic_dns_updater.sh"
 ssh "root@$TARGET_LAN_IP" "ubus -t 200 wait_for DynamicDNS.Client"
 
-ssh "root@$TARGET_LAN_IP" "ba-cli 'DynamicDNS.Server.[Name==\"uci_dyndns.org\"].CheckInterval=30'"
+ssh "root@$TARGET_LAN_IP" "ba-cli 'DynamicDNS.Server.[Name==\"uci_dyndns.org\"].CheckInterval=60'"
 
 # Get server index from name because path search is not possible while adding a paramater
 # "DynamicDNS.Server.[Name=='uci_dyndns.org']." -> "DynamicDNS.Server.9."
