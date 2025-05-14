@@ -31,6 +31,7 @@ packages:
   - kmod-mt7996e
   - kmod-br-netfilter
   - kmod-ipt-offload
+  - kmod-reset-boot-count
   - ucode-mod-uci
   - netifd
   - wifi-scripts
@@ -42,12 +43,15 @@ packages:
   - iptables-mod-extra
   - iptables-mod-ipopt
   - mtkhnat_util
-  - mt7988-2p5g-phy-firmware
   - mt7988-wo-firmware
   - u-boot-mt7988_arcadyan_mozart
   - aqr10g-phy-firmware
+  - mt798x-2p5g-phy-firmware-internal
   - smp_util
   - regs
+  - mii_mgr
+  - switch
+  - ephy-utils
   - mt76-test
   - tcpdump
   - mpstat
@@ -56,6 +60,8 @@ packages:
   - netfilter-flowtable
   - libmfg
   - readmfg
+  - afcd
+  - atenl
 
 diffconfig: |
   CONFIG_TARGET_ROOTFS_PARTSIZE=256
