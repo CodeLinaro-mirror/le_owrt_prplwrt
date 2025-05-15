@@ -2,6 +2,9 @@ Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
+If test is running on a Mozart, Turris, OSPv1 or Haze, lets skip the test as there is no Cellular support:
+  $ if echo "$CI_JOB_NAME" | grep -q -E "(Mozart|Turris|Haze|HDK-3)"; then exit 80; fi
+
 Check that obuspa has expected datamodel available for cellular:
 
   $ R "obuspa -f /etc/obuspa.db -c dump datamodel | grep '^Device.Cellular.'"
