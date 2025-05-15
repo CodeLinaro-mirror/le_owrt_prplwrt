@@ -4,7 +4,7 @@ Create R alias:
 
 Check that ubus has expected datamodels available:
 
-  $ R "ubus list | grep '[[:upper:]]' | grep -v -e '\.[[:digit:]]' -e 'WiFi.Vendor.Daemon' -e 'WiFi.Vendor.ModuleMode' -e '^Bridging.Bridge.[SV]'"
+  $ R "ubus list | grep '[[:upper:]]' | grep -v -e '\.[[:digit:]]' -e '^Cellular' -e 'Device.Cellular' -e 'WiFi.Vendor.Daemon' -e 'WiFi.Vendor.ModuleMode' -e '^Bridging.Bridge.[SV]'"
   ACLManager
   ACLManager.Role
   Bridging
@@ -16,12 +16,6 @@ Check that ubus has expected datamodels available:
   Buttons.Button
   CaptivePortal
   CaptivePortal.LANInterface
-  Cellular
-  Cellular.AccessPoint
-  Cellular.Interface
-  Cellular.Interface.Bearer.IPv4
-  Cellular.Interface.Bearer.IPv6
-  Cellular.Interface.Stats
   Cthulhu
   Cthulhu.Config
   Cthulhu.Config.Debug
@@ -68,7 +62,6 @@ Check that ubus has expected datamodels available:
   Device.Bridging
   Device.BulkData
   Device.CaptivePortal
-  Device.Cellular
   Device.DHCPv4
   Device.DHCPv4.Server
   Device.DHCPv6
