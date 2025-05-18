@@ -38,7 +38,7 @@
         chmod 644 ~/.ssh/known_hosts
       fi
 
-    - >
+    - |
       echo "Using firmware image $TFTP_IMAGE_PATH/$TFTP_IMAGE_FILENAME"
       cp "$TFTP_IMAGE_PATH/$TFTP_IMAGE_FILENAME" "$TESTBED_TFTP_PATH"
 
