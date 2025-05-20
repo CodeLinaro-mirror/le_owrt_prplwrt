@@ -38,8 +38,8 @@ stages:
   - docker IB LCM container
   - run
   - cdrouter smoke
+  - easymesh smoke
   - cdrouter
-  - prplMesh
   - coverity
 
 build test mxl_x86_osp_tb341 mxl_wlan_hostap_ng prpl security:
