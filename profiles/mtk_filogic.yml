@@ -13,7 +13,7 @@ feeds:
   - name: feed_prplos
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplos.git
     tracking_branch: arcadyan-mozart
-    revision: de378da180c94713bf7a4c69d340738d3b7ea72b
+    revision: 981bbfb834af81ef928f63259486a45979467f2c
   - name: feed_mfg
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_mfg.git
     tracking_branch: master
