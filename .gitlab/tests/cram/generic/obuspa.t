@@ -1516,6 +1516,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.LEDs.LED.{i}.RelativeYPosition                                                                proto::tr181-led
   Device.LEDs.LED.{i}.Status                                                                           proto::tr181-led
   Device.LEDs.LEDNumberOfEntries                                                                       proto::tr181-led
+  Device.LEDs.X_PRPLWARE-COM_CappedBrightness                                                          proto::tr181-led
   Device.LocalAgent.
   Device.LocalAgent.Certificate.{i}.
   Device.LocalAgent.Certificate.{i}.Alias
@@ -5922,6 +5923,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.LEDs.LED.{i}.RelativeYPosition                                                                proto::tr181-led
   Device.LEDs.LED.{i}.Status                                                                           proto::tr181-led
   Device.LEDs.LEDNumberOfEntries                                                                       proto::tr181-led
+  Device.LEDs.X_PRPLWARE-COM_CappedBrightness                                                          proto::tr181-led
   Device.LocalAgent.
   Device.LocalAgent.Certificate.{i}.
   Device.LocalAgent.Certificate.{i}.Alias
