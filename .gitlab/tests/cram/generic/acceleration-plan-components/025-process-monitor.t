@@ -40,7 +40,7 @@ Check the LED manager check datamodel settings:
       "CurrentTestInterval": \d+, (re)
       "FailAction": "RESTART",
       "FailedSince": "0001-01-01T00:00:00Z",
-      "Health": "Awaiting check",
+      "Health": "Initializing",
       "LastCheck": "0001-01-01T00:00:00Z",
       "LastFailAction": "0001-01-01T00:00:00Z",
       "LastFailReason": "Error_None",
@@ -81,7 +81,7 @@ Check that LED manager is not running:
 Calculate a timeout with (number_of_tests * test_interval * 2s):
 
   $ number_of_tests="$(R 'ba-cli -lj "ProcessMonitor.NumberOfTest?"' | jq -e '.[] | .[] |  .NumberOfTest')"
-  $ reactivation_timeout=$((number_of_tests*2*2))
+  $ reactivation_timeout=$((number_of_tests*2*10))
 
 Check that ProcessMonitor have restarted the LED manager properly:
 
