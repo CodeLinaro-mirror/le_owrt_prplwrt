@@ -147,6 +147,7 @@ Check that ubus has expected datamodels available:
   Firewall.ConnectionTracking
   Firewall.ConnectionTracking.SIP
   Firewall.DMZ
+  Firewall.InterfaceSetting
   Firewall.Level
   Firewall.Pinhole
   Firewall.Policy
