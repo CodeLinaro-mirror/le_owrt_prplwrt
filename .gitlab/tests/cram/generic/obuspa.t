@@ -950,6 +950,18 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.Firewall.DMZ.{i}.X_PRPLWARE-COM_Log                                                           proto::tr181-firewall
   Device.Firewall.DMZNumberOfEntries                                                                   proto::tr181-firewall
   Device.Firewall.Enable                                                                               proto::tr181-firewall
+  Device.Firewall.InterfaceSetting.{i}.                                                                proto::tr181-firewall
+  Device.Firewall.InterfaceSetting.{i}.Alias                                                           proto::tr181-firewall
+  Device.Firewall.InterfaceSetting.{i}.Enable                                                          proto::tr181-firewall
+  Device.Firewall.InterfaceSetting.{i}.IPv4AcceptICMPEchoRequest                                       proto::tr181-firewall
+  Device.Firewall.InterfaceSetting.{i}.IPv4SpoofingProtection                                          proto::tr181-firewall
+  Device.Firewall.InterfaceSetting.{i}.IPv6AcceptICMPEchoRequest                                       proto::tr181-firewall
+  Device.Firewall.InterfaceSetting.{i}.IPv6PassThroughICMPEchoRequest                                  proto::tr181-firewall
+  Device.Firewall.InterfaceSetting.{i}.IPv6SpoofingProtection                                          proto::tr181-firewall
+  Device.Firewall.InterfaceSetting.{i}.Interface                                                       proto::tr181-firewall
+  Device.Firewall.InterfaceSetting.{i}.Status                                                          proto::tr181-firewall
+  Device.Firewall.InterfaceSetting.{i}.StealthMode                                                     proto::tr181-firewall
+  Device.Firewall.InterfaceSettingNumberOfEntries                                                      proto::tr181-firewall
   Device.Firewall.LastChange                                                                           proto::tr181-firewall
   Device.Firewall.Level.{i}.                                                                           proto::tr181-firewall
   Device.Firewall.Level.{i}.Alias                                                                      proto::tr181-firewall
@@ -1031,11 +1043,14 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.Firewall.X_PRPLWARE-COM_ICMPLogs                                                              proto::tr181-firewall
   Device.Firewall.X_PRPLWARE-COM_InterfaceSetting.{i}.                                                 proto::tr181-firewall
   Device.Firewall.X_PRPLWARE-COM_InterfaceSetting.{i}.AcceptICMPEchoRequest                            proto::tr181-firewall
-  Device.Firewall.X_PRPLWARE-COM_InterfaceSetting.{i}.AcceptUDPTraceroute                              proto::tr181-firewall
-  Device.Firewall.X_PRPLWARE-COM_InterfaceSetting.{i}.AcceptUDPTracerouteStatus                        proto::tr181-firewall
   Device.Firewall.X_PRPLWARE-COM_InterfaceSetting.{i}.Alias                                            proto::tr181-firewall
+  Device.Firewall.X_PRPLWARE-COM_InterfaceSetting.{i}.Enable                                           proto::tr181-firewall
   Device.Firewall.X_PRPLWARE-COM_InterfaceSetting.{i}.ICMPv4EchoRequestStatus                          proto::tr181-firewall
   Device.Firewall.X_PRPLWARE-COM_InterfaceSetting.{i}.ICMPv6EchoRequestStatus                          proto::tr181-firewall
+  Device.Firewall.X_PRPLWARE-COM_InterfaceSetting.{i}.IPv4AcceptUDPTraceroute                          proto::tr181-firewall
+  Device.Firewall.X_PRPLWARE-COM_InterfaceSetting.{i}.IPv4AcceptUDPTracerouteStatus                    proto::tr181-firewall
+  Device.Firewall.X_PRPLWARE-COM_InterfaceSetting.{i}.IPv6AcceptUDPTraceroute                          proto::tr181-firewall
+  Device.Firewall.X_PRPLWARE-COM_InterfaceSetting.{i}.IPv6AcceptUDPTracerouteStatus                    proto::tr181-firewall
   Device.Firewall.X_PRPLWARE-COM_InterfaceSetting.{i}.Interface                                        proto::tr181-firewall
   Device.Firewall.X_PRPLWARE-COM_InterfaceSetting.{i}.IsolateInterface                                 proto::tr181-firewall
   Device.Firewall.X_PRPLWARE-COM_InterfaceSetting.{i}.LOGAcceptOutgoingConnection                      proto::tr181-firewall
@@ -5359,6 +5374,18 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.Firewall.DMZ.{i}.X_PRPLWARE-COM_Log                                                           proto::tr181-firewall
   Device.Firewall.DMZNumberOfEntries                                                                   proto::tr181-firewall
   Device.Firewall.Enable                                                                               proto::tr181-firewall
+  Device.Firewall.InterfaceSetting.{i}.                                                                proto::tr181-firewall
+  Device.Firewall.InterfaceSetting.{i}.Alias                                                           proto::tr181-firewall
+  Device.Firewall.InterfaceSetting.{i}.Enable                                                          proto::tr181-firewall
+  Device.Firewall.InterfaceSetting.{i}.IPv4AcceptICMPEchoRequest                                       proto::tr181-firewall
+  Device.Firewall.InterfaceSetting.{i}.IPv4SpoofingProtection                                          proto::tr181-firewall
+  Device.Firewall.InterfaceSetting.{i}.IPv6AcceptICMPEchoRequest                                       proto::tr181-firewall
+  Device.Firewall.InterfaceSetting.{i}.IPv6PassThroughICMPEchoRequest                                  proto::tr181-firewall
+  Device.Firewall.InterfaceSetting.{i}.IPv6SpoofingProtection                                          proto::tr181-firewall
+  Device.Firewall.InterfaceSetting.{i}.Interface                                                       proto::tr181-firewall
+  Device.Firewall.InterfaceSetting.{i}.Status                                                          proto::tr181-firewall
+  Device.Firewall.InterfaceSetting.{i}.StealthMode                                                     proto::tr181-firewall
+  Device.Firewall.InterfaceSettingNumberOfEntries                                                      proto::tr181-firewall
   Device.Firewall.LastChange                                                                           proto::tr181-firewall
   Device.Firewall.Level.{i}.                                                                           proto::tr181-firewall
   Device.Firewall.Level.{i}.Alias                                                                      proto::tr181-firewall
@@ -5440,11 +5467,14 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.Firewall.X_PRPLWARE-COM_ICMPLogs                                                              proto::tr181-firewall
   Device.Firewall.X_PRPLWARE-COM_InterfaceSetting.{i}.                                                 proto::tr181-firewall
   Device.Firewall.X_PRPLWARE-COM_InterfaceSetting.{i}.AcceptICMPEchoRequest                            proto::tr181-firewall
-  Device.Firewall.X_PRPLWARE-COM_InterfaceSetting.{i}.AcceptUDPTraceroute                              proto::tr181-firewall
-  Device.Firewall.X_PRPLWARE-COM_InterfaceSetting.{i}.AcceptUDPTracerouteStatus                        proto::tr181-firewall
   Device.Firewall.X_PRPLWARE-COM_InterfaceSetting.{i}.Alias                                            proto::tr181-firewall
+  Device.Firewall.X_PRPLWARE-COM_InterfaceSetting.{i}.Enable                                           proto::tr181-firewall
   Device.Firewall.X_PRPLWARE-COM_InterfaceSetting.{i}.ICMPv4EchoRequestStatus                          proto::tr181-firewall
   Device.Firewall.X_PRPLWARE-COM_InterfaceSetting.{i}.ICMPv6EchoRequestStatus                          proto::tr181-firewall
+  Device.Firewall.X_PRPLWARE-COM_InterfaceSetting.{i}.IPv4AcceptUDPTraceroute                          proto::tr181-firewall
+  Device.Firewall.X_PRPLWARE-COM_InterfaceSetting.{i}.IPv4AcceptUDPTracerouteStatus                    proto::tr181-firewall
+  Device.Firewall.X_PRPLWARE-COM_InterfaceSetting.{i}.IPv6AcceptUDPTraceroute                          proto::tr181-firewall
+  Device.Firewall.X_PRPLWARE-COM_InterfaceSetting.{i}.IPv6AcceptUDPTracerouteStatus                    proto::tr181-firewall
   Device.Firewall.X_PRPLWARE-COM_InterfaceSetting.{i}.Interface                                        proto::tr181-firewall
   Device.Firewall.X_PRPLWARE-COM_InterfaceSetting.{i}.IsolateInterface                                 proto::tr181-firewall
   Device.Firewall.X_PRPLWARE-COM_InterfaceSetting.{i}.LOGAcceptOutgoingConnection                      proto::tr181-firewall
