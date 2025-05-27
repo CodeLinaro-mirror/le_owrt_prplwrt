@@ -7,8 +7,8 @@ feeds:
 
   - name: feed_lcm
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_lcm.git
-    revision: main@bb0ed36a3c57039b0298197bfa17a4a7addb59d6
-
+    revision: main@42f248f084554187c5f1254d99d092556263d078
+  
   - name: feed_prplmesh
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplmesh.git
     revision: main@0c09fe7e3195a8ed4b1c41cc9effaf9fc3747f81
