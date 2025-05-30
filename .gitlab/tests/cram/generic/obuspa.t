@@ -3852,6 +3852,8 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.Radio.{i}.setChanspec() input:reasonExt
   Device.WiFi.Radio.{i}.startACS()                                                                     proto::wld
   Device.WiFi.Radio.{i}.startAutoChannelSelection()                                                    proto::wld
+  Device.WiFi.Radio.{i}.startPlatformACS()                                                             proto::wld
+  Device.WiFi.Radio.{i}.startPlatformACS() input:acs_list
   Device.WiFi.Radio.{i}.startScan()                                                                    proto::wld
   Device.WiFi.Radio.{i}.startScan() input:BSSID
   Device.WiFi.Radio.{i}.startScan() input:SSID
@@ -8258,6 +8260,8 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.Radio.{i}.setChanspec() input:reasonExt
   Device.WiFi.Radio.{i}.startACS()                                                                     proto::wld
   Device.WiFi.Radio.{i}.startAutoChannelSelection()                                                    proto::wld
+  Device.WiFi.Radio.{i}.startPlatformACS()                                                             proto::wld
+  Device.WiFi.Radio.{i}.startPlatformACS() input:acs_list
   Device.WiFi.Radio.{i}.startScan()                                                                    proto::wld
   Device.WiFi.Radio.{i}.startScan() input:BSSID
   Device.WiFi.Radio.{i}.startScan() input:SSID
