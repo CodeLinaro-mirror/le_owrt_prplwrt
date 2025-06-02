@@ -9,6 +9,7 @@ Setup the test configuration:
 
 Compare SoftwareModules and SoftwareModules via data-model-mapper proxy:
 
+  $ R "sleep 10 && ba-cli 'ProxyManager.show_mappings()'"
   $ R "ba-cli 'ProxyManager.register(real = \"X_PRPLWARE-COM_SoftwareModules.\", proxy = \"Device.X_PRPLWARE-COM_SoftwareModules.\")'" > /dev/null
   $ R "ba-cli 'SoftwareModules.?'" > /tmp/dmm_test_software_modules_orig.txt
   $ R "ba-cli 'Device.X_PRPLWARE-COM_SoftwareModules.?' | grep -v 'Cmd\.' | sed 's/Device.X_PRPLWARE-COM_//'" > /tmp/dmm_test_software_modules_proxy.txt
