@@ -7,3 +7,7 @@ additional_packages:
   - feed: packages
     packages:
       - lrzsz
+
+  - feed: feed_prplos
+    packages:
+      - efr32-boot-config
