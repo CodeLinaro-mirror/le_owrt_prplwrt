@@ -42,7 +42,7 @@ stages:
   - cdrouter
   - coverity
 
-build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security:
+build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread:
   extends: .build test config
 
 build test mvebu prpl security:
@@ -84,7 +84,7 @@ run test Haze initramfs:
   extends: .prpl-haze testbed
 
 run test MXL25641-HDK-6 with system on eMMC:
-  needs: ["build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security"]
+  needs: ["build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread"]
   extends: .mxl25641-hdk-6 testbed
 
 run test Freedom initramfs:
