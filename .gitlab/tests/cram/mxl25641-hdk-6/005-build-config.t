@@ -235,6 +235,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_e2fsprogs=y
   CONFIG_PACKAGE_ebtables-legacy=y
   CONFIG_PACKAGE_ebtables-legacy-utils=y
+  CONFIG_PACKAGE_efr32-boot-config=y
   CONFIG_PACKAGE_eip197-firmware=y
   CONFIG_PACKAGE_ethernet-manager=y
   CONFIG_PACKAGE_ethtool-full=y
@@ -392,6 +393,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-scsi-core=y
   CONFIG_PACKAGE_kmod-slhc=y
   CONFIG_PACKAGE_kmod-speedtest-driver=y
+  CONFIG_PACKAGE_kmod-tun=y
   CONFIG_PACKAGE_kmod-udptunnel4=y
   CONFIG_PACKAGE_kmod-udptunnel6=y
   CONFIG_PACKAGE_kmod-usb-acm=y
@@ -545,6 +547,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_lighttpd-mod-setenv=y
   CONFIG_PACKAGE_logd=m
   CONFIG_PACKAGE_logrotate=y
+  CONFIG_PACKAGE_lrzsz=y
   CONFIG_PACKAGE_ltq-wlan-wave_6x-uci-osp=y
   CONFIG_PACKAGE_lua=y
   CONFIG_PACKAGE_lua-amx=y
