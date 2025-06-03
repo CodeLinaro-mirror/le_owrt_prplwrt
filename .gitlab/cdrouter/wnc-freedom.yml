@@ -31,7 +31,7 @@ CDRouter-Top-100+mDNS Freedom PPPoE WAN initramfs:
 
 CDRouter-Wireless Freedom initramfs:
   <<: *wnc_freedom
-  stage: cdrouter smoke
+  stage: smoke tests
   timeout: 15 minutes
   variables:
     CDROUTER_TEST_CONFIG: wireless
@@ -120,7 +120,7 @@ CDRouter-USP-prpl Freedom initramfs:
 
 prplWare-Smoke-Test-Suite Freedom initramfs:
   <<: *wnc_freedom_ipv6
-  stage: cdrouter smoke
+  stage: smoke tests
   variables:
     CDROUTER_TEST_CONFIG: smoke-test
     DUT_INIT_SCRIPTS: |

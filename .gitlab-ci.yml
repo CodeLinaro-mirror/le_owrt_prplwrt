@@ -39,8 +39,7 @@ stages:
   - docker SDK and IB deploy
   - docker IB LCM container
   - run
-  - cdrouter smoke
-  - easymesh smoke
+  - smoke tests
   - cdrouter
   - coverity
 
