@@ -31,7 +31,7 @@ CDRouter-Top-100+mDNS-OSP URX851-HDK-3 PPPoE WAN eMMC:
 
 CDRouter-Wireless-OSPv1 URX851-HDK-3 eMMC:
   <<: *urx851_cdrouter
-  stage: cdrouter smoke
+  stage: smoke tests
   timeout: 15 minutes
   variables:
     CDROUTER_TEST_CONFIG: wireless
@@ -115,7 +115,7 @@ CDRouter-USP-prpl URX851-HDK-3 eMMC:
 
 prplWare-Smoke-Test-Suite URX851-HDK-3 eMMC:
   <<: *urx851_cdrouter_ipv6
-  stage: cdrouter smoke
+  stage: smoke tests
   variables:
     CDROUTER_TEST_CONFIG: smoke-test
     DUT_INIT_SCRIPTS: |
