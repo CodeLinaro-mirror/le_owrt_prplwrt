@@ -1,5 +1,5 @@
 EasyMesh-Smoke-test-R1-Freedom:
-  stage: easymesh smoke
+  stage: smoke tests
   variables:
     RUN_ON_DEVICE: "freedom"
     EASYMESH_REVISION: "R1"
@@ -34,5 +34,4 @@ EasyMesh-Smoke-test-R1-Freedom:
   tags:
     - dut-prplmesh-freedom
     - prplmesh-R1
-
 
