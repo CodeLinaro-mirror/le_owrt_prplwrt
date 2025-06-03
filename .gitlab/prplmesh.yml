@@ -1,0 +1,38 @@
+EasyMesh-Smoke-test-R1-Freedom:
+  stage: easymesh smoke
+  variables:
+    RUN_ON_DEVICE: "freedom"
+    EASYMESH_REVISION: "R1"
+    EASYMESH_TESTS_SIMPLE: "MAP-4.4.2_BHWIFI_FH5GH"
+  interruptible: false
+  allow_failure: true
+  timeout: 40min
+  script:
+    - |
+      EASYMESH_TESTS=$EASYMESH_TESTS_SIMPLE
+      echo -e "${TXT_RED}Executing Easymesh tests: ${TXT_PRPL}$EASYMESH_TESTS${TXT_CLEAR}"
+    - mkdir -p build/freedom/
+    - cp bin/targets/ipq95xx/generic/prplos-ipq95xx-generic-prpl_freedom-squashfs-sysupgrade.bin build/freedom/prplos-ipq95xx-generic-prpl_freedom-squashfs-sysupgrade.bin
+    - .gitlab/scripts/prplMesh/deploy_firmware.py --device "$RUN_ON_DEVICE" --full --target-name "$RUN_ON_DEVICE" --image "prplos-ipq95xx-generic-prpl_freedom-squashfs-sysupgrade.bin" --whm --configuration ".gitlab/scripts/prplMesh/dut-configuration/R1/freedom.sh"
+    - .gitlab/scripts/prplMesh/git-clean-reset.sh ~/easymesh_cert "$(<".gitlab/scripts/prplMesh/easymesh_cert_version")"
+    - ~/easymesh_cert/run_test_file.py --verbose --log-folder logs --easymesh-revision "$EASYMESH_REVISION" --device-under-test $RUN_ON_DEVICE "$EASYMESH_TESTS"
+  after_script:
+    - .gitlab/scripts/prplMesh/R1_marvell_station.sh
+  needs:
+    - job: build test qca_ipq95xx prpl cellular security thread
+      optional: true
+  retry: 2
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: never
+    - when: manual
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  artifacts:
+    paths:
+      - logs
+    when: always
+  tags:
+    - dut-prplmesh-freedom
+    - prplmesh-R1
+
+
