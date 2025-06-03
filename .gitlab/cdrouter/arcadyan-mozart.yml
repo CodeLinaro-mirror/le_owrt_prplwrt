@@ -31,7 +31,7 @@ CDRouter-Top-100+mDNS Mozart PPPoE WAN initramfs:
 
 CDRouter-Wireless Mozart initramfs:
   <<: *arcadyan_mozart
-  stage: cdrouter smoke
+  stage: smoke tests
   timeout: 15 minutes
   variables:
     CDROUTER_TEST_CONFIG: wireless
@@ -119,7 +119,7 @@ CDRouter-USP-prpl Mozart initramfs:
 
 prplWare-Smoke-Test-Suite Mozart initramfs:
   <<: *arcadyan_mozart_ipv6
-  stage: cdrouter smoke
+  stage: smoke tests
   variables:
     CDROUTER_TEST_CONFIG: smoke-test
     DUT_INIT_SCRIPTS: |

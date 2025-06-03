@@ -36,7 +36,7 @@ CDRouter-Top-100+mDNS Haze PPPoE WAN initramfs:
 
 CDRouter-Wireless Haze initramfs:
   <<: *prpl_haze
-  stage: cdrouter smoke
+  stage: smoke tests
   timeout: 15 minutes
   variables:
     CDROUTER_TEST_CONFIG: wireless
@@ -119,7 +119,7 @@ CDRouter-USP-prpl Haze initramfs:
 
 prplWare-Smoke-Test-Suite Haze initramfs:
   <<: *prpl_haze_ipv6
-  stage: cdrouter smoke
+  stage: smoke tests
   variables:
     CDROUTER_TEST_CONFIG: smoke-test
     DUT_INIT_SCRIPTS: |
