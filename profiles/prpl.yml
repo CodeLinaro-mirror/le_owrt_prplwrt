@@ -95,9 +95,9 @@ packages:
   - lxc-user-nic
   - lxc-usernsexec
   - lxc-wait
-  - mcastd-core
+  - kmod-mcastd-core
   - mcastd-noforward
-  - mcastd-routing
+  - kmod-mcastd-routing
   - miniupnpd-prpl
   - mod-amxb-ubus
   - mod-amxb-usp
