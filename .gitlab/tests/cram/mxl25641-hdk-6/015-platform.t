@@ -2,6 +2,28 @@ Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
+Check that Quectel RM520N-GL is available on PCI bus and uses correct mhi-pci-generic kernel driver:
+
+  $ R lspci -v -d 17cb:0308
+  0005:01:00.0 Unassigned class [ff00]: Qualcomm Technologies, Inc Device 0308
+  lspci: Unable to load libkmod resources: error -2
+  \tSubsystem: Qualcomm Technologies, Inc Device 0308 (esc)
+  \tFlags: bus master, fast devsel, latency 0, IRQ 362 (esc)
+  \tMemory at c8000000 (64-bit, non-prefetchable) [size=4K] (esc)
+  \tMemory at c8001000 (64-bit, non-prefetchable) [size=4K] (esc)
+  \tCapabilities: [40] Power Management version 3 (esc)
+  \tCapabilities: [50] MSI: Enable+ Count=1/32 Maskable+ 64bit+ (esc)
+  \tCapabilities: [70] Express Endpoint, MSI 00 (esc)
+  \tCapabilities: [100] Advanced Error Reporting (esc)
+  \tCapabilities: [148] Secondary PCI Express (esc)
+  \tCapabilities: [168] Physical Layer 16.0 GT/s <?> (esc)
+  \tCapabilities: [18c] Lane Margining at the Receiver <?> (esc)
+  \tCapabilities: [19c] Transaction Processing Hints (esc)
+  \tCapabilities: [228] Latency Tolerance Reporting (esc)
+  \tCapabilities: [230] L1 PM Substates (esc)
+  \tCapabilities: [240] Data Link Feature <?> (esc)
+  \tKernel driver in use: mhi-pci-generic (esc)
+  
 Check that there is SFP+ stick present:
 
   $ R 'ba-cli --less --json SFPs.Cage.1.SFP.Transceiver.?' | jq -r '.[0]."SFPs.Cage.1.SFP.Transceiver." | [.VendorSN, .VendorPN, .TransceiverType, .VendorName] | sort | .[]'
