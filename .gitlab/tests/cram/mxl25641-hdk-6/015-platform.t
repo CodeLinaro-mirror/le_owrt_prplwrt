@@ -77,3 +77,8 @@ Check that ethernet-manager configuration contains expected CPE aliases based on
   cpe-lan2
   cpe-lan3
   cpe-sfp
+
+Check that CONFIG_WATCHDOG_SYSFS is enabled and thus watchdog available to reboot-service for reboot reasons:
+
+  $ R "cat /sys/class/watchdog/watchdog*/timeout"
+  30
