@@ -170,6 +170,7 @@ tools-y += $(tools-core)
 $(curdir)/patch/compile += $(curdir)/sed/compile
 $(curdir)/tar/compile += $(curdir)/sed/compile
 $(curdir)/zstd/compile += $(curdir)/libdeflate/compile
+$(curdir)/patch/compile += $(curdir)/libdeflate/compile
 
 $(curdir)/sed/compile := $(curdir)/flock/compile $(curdir)/zstd/compile
 tools-y += flock sed
