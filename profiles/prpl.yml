@@ -142,7 +142,6 @@ packages:
   - netmodel-ssid
   - netmodel-vlan
   - netmodel-xpon
-  - obuspa
   - odl-generator
   - oopsmonitor
   - packet-interception
