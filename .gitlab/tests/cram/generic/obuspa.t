@@ -1080,7 +1080,9 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.Hosts.AccessControl.{i}.Alias                                                                 proto::hosts-manager
   Device.Hosts.AccessControl.{i}.Enable                                                                proto::hosts-manager
   Device.Hosts.AccessControl.{i}.HostName                                                              proto::hosts-manager
+  Device.Hosts.AccessControl.{i}.Origin                                                                proto::hosts-manager
   Device.Hosts.AccessControl.{i}.PhysAddress                                                           proto::hosts-manager
+  Device.Hosts.AccessControl.{i}.PhysAddressMask                                                       proto::hosts-manager
   Device.Hosts.AccessControl.{i}.Schedule.{i}.                                                         proto::hosts-manager
   Device.Hosts.AccessControl.{i}.Schedule.{i}.Alias                                                    proto::hosts-manager
   Device.Hosts.AccessControl.{i}.Schedule.{i}.Day                                                      proto::hosts-manager
@@ -1089,8 +1091,6 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.Hosts.AccessControl.{i}.Schedule.{i}.StartTime                                                proto::hosts-manager
   Device.Hosts.AccessControl.{i}.ScheduleNumberOfEntries                                               proto::hosts-manager
   Device.Hosts.AccessControl.{i}.ScheduleRef                                                           proto::hosts-manager
-  Device.Hosts.AccessControl.{i}.X_PRPLWARE-COM_Origin                                                 proto::hosts-manager
-  Device.Hosts.AccessControl.{i}.X_PRPLWARE-COM_PhysAddressMask                                        proto::hosts-manager
   Device.Hosts.AccessControlNumberOfEntries                                                            proto::hosts-manager
   Device.Hosts.Host.{i}.                                                                               proto::hosts-manager
   Device.Hosts.Host.{i}.Active                                                                         proto::hosts-manager
@@ -5486,7 +5486,9 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.Hosts.AccessControl.{i}.Alias                                                                 proto::hosts-manager
   Device.Hosts.AccessControl.{i}.Enable                                                                proto::hosts-manager
   Device.Hosts.AccessControl.{i}.HostName                                                              proto::hosts-manager
+  Device.Hosts.AccessControl.{i}.Origin                                                                proto::hosts-manager
   Device.Hosts.AccessControl.{i}.PhysAddress                                                           proto::hosts-manager
+  Device.Hosts.AccessControl.{i}.PhysAddressMask                                                       proto::hosts-manager
   Device.Hosts.AccessControl.{i}.Schedule.{i}.                                                         proto::hosts-manager
   Device.Hosts.AccessControl.{i}.Schedule.{i}.Alias                                                    proto::hosts-manager
   Device.Hosts.AccessControl.{i}.Schedule.{i}.Day                                                      proto::hosts-manager
@@ -5495,8 +5497,6 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.Hosts.AccessControl.{i}.Schedule.{i}.StartTime                                                proto::hosts-manager
   Device.Hosts.AccessControl.{i}.ScheduleNumberOfEntries                                               proto::hosts-manager
   Device.Hosts.AccessControl.{i}.ScheduleRef                                                           proto::hosts-manager
-  Device.Hosts.AccessControl.{i}.X_PRPLWARE-COM_Origin                                                 proto::hosts-manager
-  Device.Hosts.AccessControl.{i}.X_PRPLWARE-COM_PhysAddressMask                                        proto::hosts-manager
   Device.Hosts.AccessControlNumberOfEntries                                                            proto::hosts-manager
   Device.Hosts.Host.{i}.                                                                               proto::hosts-manager
   Device.Hosts.Host.{i}.Active                                                                         proto::hosts-manager
