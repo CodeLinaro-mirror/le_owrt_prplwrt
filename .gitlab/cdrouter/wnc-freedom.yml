@@ -106,6 +106,137 @@ CDRouter-TR-069 Freedom eMMC:
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
       .gitlab/scripts/dut-init/cdrouter-tr181-mockups.sh
 
+CDRouter-TR-069-one-test-only Freedom eMMC:
+  <<: *wnc_freedom
+  variables:
+    LABGRID_TARGET: wnc-freedom-emmc
+    TFTP_IMAGE_FILENAME: prplos-ipq95xx-generic-prpl_freedom-squashfs-sysupgrade.bin
+    TFTP_IMAGE_FILENAME_PATTERN: /.*prplos-ipq95xx-generic-prpl_freedom-squashfs-sysupgrade.bin/
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
+      .gitlab/scripts/dut-init/cdrouter-tr181-mockups.sh
+
+CDRouter-TR-069-one-test-only-2 Freedom eMMC:
+  <<: *wnc_freedom
+  variables:
+    LABGRID_TARGET: wnc-freedom-emmc
+    TFTP_IMAGE_FILENAME: prplos-ipq95xx-generic-prpl_freedom-squashfs-sysupgrade.bin
+    TFTP_IMAGE_FILENAME_PATTERN: /.*prplos-ipq95xx-generic-prpl_freedom-squashfs-sysupgrade.bin/
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
+      .gitlab/scripts/dut-init/cdrouter-tr181-mockups.sh
+
+CDRouter-TR-069-one-test-only-3 Freedom eMMC:
+  <<: *wnc_freedom
+  variables:
+    LABGRID_TARGET: wnc-freedom-emmc
+    TFTP_IMAGE_FILENAME: prplos-ipq95xx-generic-prpl_freedom-squashfs-sysupgrade.bin
+    TFTP_IMAGE_FILENAME_PATTERN: /.*prplos-ipq95xx-generic-prpl_freedom-squashfs-sysupgrade.bin/
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
+      .gitlab/scripts/dut-init/cdrouter-tr181-mockups.sh
+
+CDRouter-TR-069-one-test-only-4 Freedom eMMC:
+  <<: *wnc_freedom
+  variables:
+    LABGRID_TARGET: wnc-freedom-emmc
+    TFTP_IMAGE_FILENAME: prplos-ipq95xx-generic-prpl_freedom-squashfs-sysupgrade.bin
+    TFTP_IMAGE_FILENAME_PATTERN: /.*prplos-ipq95xx-generic-prpl_freedom-squashfs-sysupgrade.bin/
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
+      .gitlab/scripts/dut-init/cdrouter-tr181-mockups.sh
+
+CDRouter-TR-069-one-test-only-5 Freedom eMMC:
+  <<: *wnc_freedom
+  variables:
+    LABGRID_TARGET: wnc-freedom-emmc
+    TFTP_IMAGE_FILENAME: prplos-ipq95xx-generic-prpl_freedom-squashfs-sysupgrade.bin
+    TFTP_IMAGE_FILENAME_PATTERN: /.*prplos-ipq95xx-generic-prpl_freedom-squashfs-sysupgrade.bin/
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
+      .gitlab/scripts/dut-init/cdrouter-tr181-mockups.sh
+
+CDRouter-TR-069-one-test-only-6 Freedom eMMC:
+  <<: *wnc_freedom
+  variables:
+    LABGRID_TARGET: wnc-freedom-emmc
+    TFTP_IMAGE_FILENAME: prplos-ipq95xx-generic-prpl_freedom-squashfs-sysupgrade.bin
+    TFTP_IMAGE_FILENAME_PATTERN: /.*prplos-ipq95xx-generic-prpl_freedom-squashfs-sysupgrade.bin/
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
+      .gitlab/scripts/dut-init/cdrouter-tr181-mockups.sh
+
+CDRouter-TR-069-one-test-only-7 Freedom eMMC:
+  <<: *wnc_freedom
+  variables:
+    LABGRID_TARGET: wnc-freedom-emmc
+    TFTP_IMAGE_FILENAME: prplos-ipq95xx-generic-prpl_freedom-squashfs-sysupgrade.bin
+    TFTP_IMAGE_FILENAME_PATTERN: /.*prplos-ipq95xx-generic-prpl_freedom-squashfs-sysupgrade.bin/
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
+      .gitlab/scripts/dut-init/cdrouter-tr181-mockups.sh
+
+CDRouter-TR-069-one-test-only-8 Freedom eMMC:
+  <<: *wnc_freedom
+  variables:
+    LABGRID_TARGET: wnc-freedom-emmc
+    TFTP_IMAGE_FILENAME: prplos-ipq95xx-generic-prpl_freedom-squashfs-sysupgrade.bin
+    TFTP_IMAGE_FILENAME_PATTERN: /.*prplos-ipq95xx-generic-prpl_freedom-squashfs-sysupgrade.bin/
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
+      .gitlab/scripts/dut-init/cdrouter-tr181-mockups.sh
+
+CDRouter-TR-069-one-test-only-9 Freedom eMMC:
+  <<: *wnc_freedom
+  variables:
+    LABGRID_TARGET: wnc-freedom-emmc
+    TFTP_IMAGE_FILENAME: prplos-ipq95xx-generic-prpl_freedom-squashfs-sysupgrade.bin
+    TFTP_IMAGE_FILENAME_PATTERN: /.*prplos-ipq95xx-generic-prpl_freedom-squashfs-sysupgrade.bin/
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
+      .gitlab/scripts/dut-init/cdrouter-tr181-mockups.sh
+
+CDRouter-TR-069-one-test-only-10 Freedom eMMC:
+  <<: *wnc_freedom
+  variables:
+    LABGRID_TARGET: wnc-freedom-emmc
+    TFTP_IMAGE_FILENAME: prplos-ipq95xx-generic-prpl_freedom-squashfs-sysupgrade.bin
+    TFTP_IMAGE_FILENAME_PATTERN: /.*prplos-ipq95xx-generic-prpl_freedom-squashfs-sysupgrade.bin/
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
+      .gitlab/scripts/dut-init/cdrouter-tr181-mockups.sh
+
+CDRouter-TR-069-one-test-only-11 Freedom eMMC:
+  <<: *wnc_freedom
+  variables:
+    LABGRID_TARGET: wnc-freedom-emmc
+    TFTP_IMAGE_FILENAME: prplos-ipq95xx-generic-prpl_freedom-squashfs-sysupgrade.bin
+    TFTP_IMAGE_FILENAME_PATTERN: /.*prplos-ipq95xx-generic-prpl_freedom-squashfs-sysupgrade.bin/
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
+      .gitlab/scripts/dut-init/cdrouter-tr181-mockups.sh
+
+CDRouter-TR-069-one-test-only-12 Freedom eMMC:
+  <<: *wnc_freedom
+  variables:
+    LABGRID_TARGET: wnc-freedom-emmc
+    TFTP_IMAGE_FILENAME: prplos-ipq95xx-generic-prpl_freedom-squashfs-sysupgrade.bin
+    TFTP_IMAGE_FILENAME_PATTERN: /.*prplos-ipq95xx-generic-prpl_freedom-squashfs-sysupgrade.bin/
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
+      .gitlab/scripts/dut-init/cdrouter-tr181-mockups.sh
+
+CDRouter-TR-069-reboot-loop Freedom eMMC:
+  <<: *wnc_freedom
+  timeout: 120 minutes
+  variables:
+    LABGRID_TARGET: wnc-freedom-emmc
+    TFTP_IMAGE_FILENAME: prplos-ipq95xx-generic-prpl_freedom-squashfs-sysupgrade.bin
+    TFTP_IMAGE_FILENAME_PATTERN: /.*prplos-ipq95xx-generic-prpl_freedom-squashfs-sysupgrade.bin/
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
+      .gitlab/scripts/dut-init/cdrouter-tr181-mockups.sh
+
 CDRouter-USP-prpl Freedom initramfs:
   <<: *wnc_freedom
   allow_failure: true
