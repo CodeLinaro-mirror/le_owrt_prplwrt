@@ -1,0 +1,13 @@
+---
+description: tools and features needed by the CI
+
+packages:
+  - debugfs
+  - exfat-mkfs
+  - fdisk
+  - libfdisk
+  - mkhfs
+  - ntfs-3g-utils
+
+diffconfig: |
+  CONFIG_BUSYBOX_CONFIG_MKFS_VFAT=y
