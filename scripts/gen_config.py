@@ -100,22 +100,24 @@ def extract_sha1_from_revision(revision: str) -> str:
 
 
 def handle_feed_revision(profile_feed: dict, feeds: list):
-    revision = profile_feed.get("revision")
-    if not revision:
-        die(f"Please specify `revision` for the following feed: {profile_feed}")
+    method = profile_feed.get("method", "src-git")
+    f = f'{method},{profile_feed["name"]},{profile_feed["uri"]}'
 
-    sha1 = extract_sha1_from_revision(revision)
-    if not sha1:
-        die(
-            f"Invalid feed revision {revision} in {profile_feed} feed, valid `revision` is:",
-            " 1. A full 40-character Git SHA-1 hash.",
-            " 2. A human readable reference like Git tag followed by '@' and a full 40-character Git SHA-1 hash.",
-        )
+    if method.startswith('src-git'):
+        revision = profile_feed.get("revision")
+        if not revision:
+            die(f"Please specify `revision` for the following feed: {profile_feed}")
 
-    f = profile_feed
-    feeds.append(
-        f'{f.get("method", "src-git")},{f["name"]},{f["uri"]}^{sha1}'
-    )
+        sha1 = extract_sha1_from_revision(revision)
+        if not sha1:
+            die(
+                f"Invalid feed revision {revision} in {profile_feed} feed, valid `revision` is:",
+                " 1. A full 40-character Git SHA-1 hash.",
+                " 2. A human readable reference like Git tag followed by '@' and a full 40-character Git SHA-1 hash.",
+            )
+        f += f'^{sha1}'
+
+    feeds.append(f)
 
 
 if "list" in sys.argv:
