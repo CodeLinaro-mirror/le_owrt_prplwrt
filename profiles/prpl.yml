@@ -95,9 +95,6 @@ packages:
   - lxc-user-nic
   - lxc-usernsexec
   - lxc-wait
-  - mcastd-core
-  - mcastd-noforward
-  - mcastd-routing
   - miniupnpd-prpl
   - mod-amxb-ubus
   - mod-amxb-usp
@@ -180,7 +177,6 @@ packages:
   - tr181-led
   - tr181-powerstatus
   - tr181-logical
-  - tr181-mcastd
   - tr181-mqtt
   - tr181-mqttbroker
   - tr181-neighbordiscovery
