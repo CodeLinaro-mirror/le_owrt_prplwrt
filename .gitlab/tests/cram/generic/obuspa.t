@@ -1508,6 +1508,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.InterfaceStack.{i}.LowerLayer                                                                 proto::tr181-device
   Device.InterfaceStackNumberOfEntries                                                                 proto::tr181-device
   Device.LEDs.                                                                                         proto::tr181-led
+  Device.LEDs.BrightnessLimiter                                                                        proto::tr181-led
   Device.LEDs.LED.{i}.                                                                                 proto::tr181-led
   Device.LEDs.LED.{i}.Alias                                                                            proto::tr181-led
   Device.LEDs.LED.{i}.CurrentCycleElement.                                                             proto::tr181-led
@@ -1531,7 +1532,6 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.LEDs.LED.{i}.RelativeYPosition                                                                proto::tr181-led
   Device.LEDs.LED.{i}.Status                                                                           proto::tr181-led
   Device.LEDs.LEDNumberOfEntries                                                                       proto::tr181-led
-  Device.LEDs.X_PRPLWARE-COM_CappedBrightness                                                          proto::tr181-led
   Device.LocalAgent.
   Device.LocalAgent.Certificate.{i}.
   Device.LocalAgent.Certificate.{i}.Alias
@@ -5930,6 +5930,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.InterfaceStack.{i}.LowerLayer                                                                 proto::tr181-device
   Device.InterfaceStackNumberOfEntries                                                                 proto::tr181-device
   Device.LEDs.                                                                                         proto::tr181-led
+  Device.LEDs.BrightnessLimiter                                                                        proto::tr181-led
   Device.LEDs.LED.{i}.                                                                                 proto::tr181-led
   Device.LEDs.LED.{i}.Alias                                                                            proto::tr181-led
   Device.LEDs.LED.{i}.CurrentCycleElement.                                                             proto::tr181-led
@@ -5953,7 +5954,6 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.LEDs.LED.{i}.RelativeYPosition                                                                proto::tr181-led
   Device.LEDs.LED.{i}.Status                                                                           proto::tr181-led
   Device.LEDs.LEDNumberOfEntries                                                                       proto::tr181-led
-  Device.LEDs.X_PRPLWARE-COM_CappedBrightness                                                          proto::tr181-led
   Device.LocalAgent.
   Device.LocalAgent.Certificate.{i}.
   Device.LocalAgent.Certificate.{i}.Alias
