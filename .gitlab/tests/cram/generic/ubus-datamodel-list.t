@@ -53,6 +53,7 @@ Check that ubus has expected datamodels available:
   DNS.X_PRPLWARE-COM_RebindProtection
   DNS.X_PRPLWARE-COM_RebindProtection.DomainExceptions
   DNS.X_PRPLWARE-COM_RebindProtection.IPExceptions
+  DNS.Zone
   DNSSD
   DNSSD.Advertise
   DNSSD.Service
