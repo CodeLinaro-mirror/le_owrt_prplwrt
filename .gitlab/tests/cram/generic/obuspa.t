@@ -594,17 +594,6 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.DeviceInfo.ModelName                                                                          proto::deviceinfo-manager
   Device.DeviceInfo.ModelNumber                                                                        proto::deviceinfo-manager
   Device.DeviceInfo.PEN                                                                                proto::deviceinfo-manager
-  Device.DeviceInfo.PowerStatus.                                                                       proto::tr181-powerstatus
-  Device.DeviceInfo.PowerStatus.PowerSensor.{i}.                                                       proto::tr181-powerstatus
-  Device.DeviceInfo.PowerStatus.PowerSensor.{i}.Alias                                                  proto::tr181-powerstatus
-  Device.DeviceInfo.PowerStatus.PowerSensor.{i}.Current                                                proto::tr181-powerstatus
-  Device.DeviceInfo.PowerStatus.PowerSensor.{i}.Enable                                                 proto::tr181-powerstatus
-  Device.DeviceInfo.PowerStatus.PowerSensor.{i}.LastUpdate                                             proto::tr181-powerstatus
-  Device.DeviceInfo.PowerStatus.PowerSensor.{i}.Name                                                   proto::tr181-powerstatus
-  Device.DeviceInfo.PowerStatus.PowerSensor.{i}.Power                                                  proto::tr181-powerstatus
-  Device.DeviceInfo.PowerStatus.PowerSensor.{i}.Status                                                 proto::tr181-powerstatus
-  Device.DeviceInfo.PowerStatus.PowerSensor.{i}.Voltage                                                proto::tr181-powerstatus
-  Device.DeviceInfo.PowerStatus.PowerSensorNumberOfEntries                                             proto::tr181-powerstatus
   Device.DeviceInfo.ProcessFaults.                                                                     proto::amx-faultmonitor
   Device.DeviceInfo.ProcessFaults.LastUpgradeCount                                                     proto::amx-faultmonitor
   Device.DeviceInfo.ProcessFaults.MaxProcessFaultEntries                                               proto::amx-faultmonitor
@@ -5017,17 +5006,6 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.DeviceInfo.ModelName                                                                          proto::deviceinfo-manager
   Device.DeviceInfo.ModelNumber                                                                        proto::deviceinfo-manager
   Device.DeviceInfo.PEN                                                                                proto::deviceinfo-manager
-  Device.DeviceInfo.PowerStatus.                                                                       proto::tr181-powerstatus
-  Device.DeviceInfo.PowerStatus.PowerSensor.{i}.                                                       proto::tr181-powerstatus
-  Device.DeviceInfo.PowerStatus.PowerSensor.{i}.Alias                                                  proto::tr181-powerstatus
-  Device.DeviceInfo.PowerStatus.PowerSensor.{i}.Current                                                proto::tr181-powerstatus
-  Device.DeviceInfo.PowerStatus.PowerSensor.{i}.Enable                                                 proto::tr181-powerstatus
-  Device.DeviceInfo.PowerStatus.PowerSensor.{i}.LastUpdate                                             proto::tr181-powerstatus
-  Device.DeviceInfo.PowerStatus.PowerSensor.{i}.Name                                                   proto::tr181-powerstatus
-  Device.DeviceInfo.PowerStatus.PowerSensor.{i}.Power                                                  proto::tr181-powerstatus
-  Device.DeviceInfo.PowerStatus.PowerSensor.{i}.Status                                                 proto::tr181-powerstatus
-  Device.DeviceInfo.PowerStatus.PowerSensor.{i}.Voltage                                                proto::tr181-powerstatus
-  Device.DeviceInfo.PowerStatus.PowerSensorNumberOfEntries                                             proto::tr181-powerstatus
   Device.DeviceInfo.ProcessFaults.                                                                     proto::amx-faultmonitor
   Device.DeviceInfo.ProcessFaults.LastUpgradeCount                                                     proto::amx-faultmonitor
   Device.DeviceInfo.ProcessFaults.MaxProcessFaultEntries                                               proto::amx-faultmonitor
