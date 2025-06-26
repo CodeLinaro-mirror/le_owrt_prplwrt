@@ -125,9 +125,10 @@ def handle_feed_revision(profile_feed: dict, feeds: list):
 
 
 if "list" in sys.argv:
-    print(f"Profiles in {profile_folder}")
+    for folder in profile_folders.split(':')[::-1]:
+        print(f"Profiles in {folder}")
 
-    print("\n".join(map(lambda p: str(p.stem), profile_folder.glob("*.yml"))))
+        print("\n".join(map(lambda p: str(p.stem), Path(folder).glob("*.yml"))))
     quit(0)
 
 if "help" in sys.argv:
