@@ -9,7 +9,7 @@ Setup the test configuration:
 
 Set-up ExecEnv configuration
 
-  $ R "${S} && set_ee_usp_roles --roles \"Full Access\"" > /dev/null
+  $ R "${S} && set_ee_roles --roles \"Full Access\"" > /dev/null
   $ R "${S} && check_available_roles --ee"
   Device.LocalAgent.ControllerTrust.Role.1.
 
@@ -76,5 +76,5 @@ Uninstall the container and check everything is cleaned:
 
 Cleanup test environment:
 
-  $ R "${S} && set_ee_usp_roles --roles \"\"" > /dev/null
+  $ R "${S} && set_ee_roles --roles \"\"" > /dev/null
   $ R "rm -f /tmp/script_functions.sh"
