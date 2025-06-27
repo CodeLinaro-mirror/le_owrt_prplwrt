@@ -104,7 +104,7 @@ Check that the container has the required capabilities
   $ R "${S} && get_container_parameter --uuid --param RequiredUserRoles"
   Device.Users.Role.[RoleName=="testrole1"]
 
-  $ R "${S} && get_container_parameter --uuid --param AvailableCapabilities"
+  $ R "${S} && get_container_parameter --uuid --param AvailableUserRoleCapabilities"
   CAP_NET_RAW,CAP_MKNOD
 
 Update the container to also require testrole2
@@ -122,31 +122,14 @@ Check that the container has the required capabilities
   $ R "${S} && get_container_parameter --uuid --param RequiredUserRoles"
   Device.Users.Role.[RoleName=="testrole1"],Device.Users.Role.[RoleName=="testrole2"]
 
-  $ R "${S} && get_container_parameter --uuid --param AvailableCapabilities"
+  $ R "${S} && get_container_parameter --uuid --param AvailableUserRoleCapabilities"
   CAP_NET_RAW,CAP_MKNOD,CAP_KILL
 
-Stop the container
-  $ R "${S} && stop_ctr --uuid"
-  
-  SoftwareModules.ExecutionUnit.*.SetRequestedState() returned (glob)
-  [*] (glob)
-  
 
-Remove testrole2 from Devices.User.Role
+Try removing active testrole2 from Devices.User.Role
   $ R "${S} && remove_user_role --rolename testrole2"
   
-  ["Device.Users.Role.*."] (glob)
-  
-
-Start the container, this should fail
-  $ R "${S} && start_ctr --uuid --waittime 0"
-  
-  SoftwareModules.ExecutionUnit.*.SetRequestedState() returned (glob)
-  [*] (glob)
-  
-
-AvailableCapabilities should be reset
-  $ R "${S} && get_container_parameter --uuid --param AvailableCapabilities"
+  ERROR: del Device.Users.Role.[Alias=="testrole2"]. failed * (glob)
   
 
 Update the container to use no user roles
@@ -157,6 +140,10 @@ Update the container to use no user roles
   
 
   $ R "${S} && get_container_parameter --uuid --param RequiredUserRoles"
+  
+
+AvailableUserRoleCapabilities should be reset
+  $ R "${S} && get_container_parameter --uuid --param AvailableUserRoleCapabilities"
   
 
 Update the container to also require testrole2
