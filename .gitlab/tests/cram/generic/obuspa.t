@@ -2948,16 +2948,21 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.Users.Group.{i}.Groupname                                                                     proto::tr181-usermanagement
   Device.Users.Group.{i}.RoleParticipation                                                             proto::tr181-usermanagement
   Device.Users.Group.{i}.StaticGroup                                                                   proto::tr181-usermanagement
+  Device.Users.GroupNumberOfEntries                                                                    proto::tr181-usermanagement
   Device.Users.Role.{i}.                                                                               proto::tr181-usermanagement
   Device.Users.Role.{i}.Alias                                                                          proto::tr181-usermanagement
   Device.Users.Role.{i}.Enable                                                                         proto::tr181-usermanagement
+  Device.Users.Role.{i}.RequiredCapabilities                                                           proto::tr181-usermanagement
   Device.Users.Role.{i}.RoleID                                                                         proto::tr181-usermanagement
   Device.Users.Role.{i}.RoleName                                                                       proto::tr181-usermanagement
   Device.Users.Role.{i}.StaticRole                                                                     proto::tr181-usermanagement
+  Device.Users.RoleNumberOfEntries                                                                     proto::tr181-usermanagement
+  Device.Users.SupportedCapabilities                                                                   proto::tr181-usermanagement
   Device.Users.SupportedShell.{i}.                                                                     proto::tr181-usermanagement
   Device.Users.SupportedShell.{i}.Alias                                                                proto::tr181-usermanagement
   Device.Users.SupportedShell.{i}.Enable                                                               proto::tr181-usermanagement
   Device.Users.SupportedShell.{i}.Name                                                                 proto::tr181-usermanagement
+  Device.Users.SupportedShellNumberOfEntries                                                           proto::tr181-usermanagement
   Device.Users.User.{i}.                                                                               proto::tr181-usermanagement
   Device.Users.User.{i}.Alias                                                                          proto::tr181-usermanagement
   Device.Users.User.{i}.Enable                                                                         proto::tr181-usermanagement
@@ -7373,16 +7378,21 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.Users.Group.{i}.Groupname                                                                     proto::tr181-usermanagement
   Device.Users.Group.{i}.RoleParticipation                                                             proto::tr181-usermanagement
   Device.Users.Group.{i}.StaticGroup                                                                   proto::tr181-usermanagement
+  Device.Users.GroupNumberOfEntries                                                                    proto::tr181-usermanagement
   Device.Users.Role.{i}.                                                                               proto::tr181-usermanagement
   Device.Users.Role.{i}.Alias                                                                          proto::tr181-usermanagement
   Device.Users.Role.{i}.Enable                                                                         proto::tr181-usermanagement
+  Device.Users.Role.{i}.RequiredCapabilities                                                           proto::tr181-usermanagement
   Device.Users.Role.{i}.RoleID                                                                         proto::tr181-usermanagement
   Device.Users.Role.{i}.RoleName                                                                       proto::tr181-usermanagement
   Device.Users.Role.{i}.StaticRole                                                                     proto::tr181-usermanagement
+  Device.Users.RoleNumberOfEntries                                                                     proto::tr181-usermanagement
+  Device.Users.SupportedCapabilities                                                                   proto::tr181-usermanagement
   Device.Users.SupportedShell.{i}.                                                                     proto::tr181-usermanagement
   Device.Users.SupportedShell.{i}.Alias                                                                proto::tr181-usermanagement
   Device.Users.SupportedShell.{i}.Enable                                                               proto::tr181-usermanagement
   Device.Users.SupportedShell.{i}.Name                                                                 proto::tr181-usermanagement
+  Device.Users.SupportedShellNumberOfEntries                                                           proto::tr181-usermanagement
   Device.Users.User.{i}.                                                                               proto::tr181-usermanagement
   Device.Users.User.{i}.Alias                                                                          proto::tr181-usermanagement
   Device.Users.User.{i}.Enable                                                                         proto::tr181-usermanagement
