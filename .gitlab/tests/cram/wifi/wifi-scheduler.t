@@ -31,15 +31,17 @@ Set channel to a non DFS one:
   $ sleep 5
 
 Check default WiFiScheduler configuration:
-  $ R "ba-cli  'WiFiScheduler.?'"  | sed '/^$/d' | tail -n +2
-  WiFiScheduler.
-  WiFiScheduler.Enable=1
-  WiFiScheduler.EnableMethod="Parameter"
-  WiFiScheduler.GlobalTargetConfig="X_PRPLWARE-COM_WiFiController.Network"
-  WiFiScheduler.GroupTargetConfig="X_PRPLWARE-COM_WiFiController.Network.X-PRPL_ORG_Group"
-  WiFiScheduler.Network.
+
+  $ R "ba-cli  'Device.X_PRPLWARE-COM_WiFiScheduler.?'"  | sed '/^$/d' | tail -n +2
+  Device.X_PRPLWARE-COM_WiFiScheduler.
+  Device.X_PRPLWARE-COM_WiFiScheduler.Enable=1
+  Device.X_PRPLWARE-COM_WiFiScheduler.EnableMethod="Parameter"
+  Device.X_PRPLWARE-COM_WiFiScheduler.GlobalTargetConfig="X_PRPLWARE-COM_WiFiController.Network"
+  Device.X_PRPLWARE-COM_WiFiScheduler.GroupTargetConfig="X_PRPLWARE-COM_WiFiController.Network.X-PRPL_ORG_Group"
+  Device.X_PRPLWARE-COM_WiFiScheduler.Network.
 
 Check default SSID status:
+
   $ R logger -t cram "Check default SSID status"
   $ get_ssid_status
   Down
@@ -50,6 +52,7 @@ Check default SSID status:
   Down
 
 Configure controller:
+
   $ R logger -t cram "Configuring prplmesh and create a ptivate access point"
 
   $ R logger -t cram "Stop prplmesh"
@@ -70,17 +73,8 @@ Create prplMesh acces point and enable it:
   $ R "ba-cli -j -l 'X_PRPLWARE-COM_WiFiController.Network.X-PRPL_ORG_Group+{Name=\"testGroup\",Enable=1}'" | sed '/^$/d'
   {"X_PRPLWARE-COM_WiFiController.Network.X-PRPL_ORG_Group.1.":{}}
 
-  $ R "ba-cli -j -l 'X_PRPLWARE-COM_WiFiController.Network.AccessPoint+{Band2_4G=1,Band5GH=1,Band5GL=1,Band6G=1,MultiApMode=\"Fronthaul+Backhaul\",X-PRPL_ORG_GroupName=\"testGroup\"}'" | sed '/^$/d'
+  $ R "ba-cli -j -l 'X_PRPLWARE-COM_WiFiController.Network.AccessPoint+{Band2_4G=1,Band5GH=1,Band5GL=1,Band6G=1,MultiApMode=\"Fronthaul+Backhaul\",SSID=\"prplOS\",X-PRPL_ORG_GroupName=\"testGroup\"}'" | sed '/^$/d'
   {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.":{}}
-
-  $ R "ba-cli -j -l 'X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.MultiApMode=\"Fronthaul+Backhaul\"'" | sed '/^$/d'
-  [{"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.":{"MultiApMode":"Fronthaul+Backhaul"}}]
-
-  $ R "ba-cli -j -l 'X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.Security.ModeEnabled=\"WPA2-Personal\"'" | sed '/^$/d'
-  [{"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.Security.":{"ModeEnabled":"WPA2-Personal"}}]
-
-  $ R "ba-cli -j -l 'X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.Security.KeyPassphrase=\"password\"'" | sed '/^$/d'
-  [{"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.Security.":{"KeyPassphrase":"password"}}]
 
   $ R "ba-cli -j -l 'X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.Enable=1'" | sed '/^$/d'
   [{"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.":{"Enable":1}}]
@@ -92,6 +86,7 @@ Create prplMesh acces point and enable it:
   $ sleep 10
 
 Check access points status:
+
   $ R logger -t cram "Check that private acceess points are enabled"
   $ get_ssid_status
   Down
@@ -102,12 +97,14 @@ Check access points status:
   Up
 
 Disable access point:
+
   $ R "ba-cli -j -l 'X_PRPLWARE-COM_WiFiController.Network.Enable=0'" | sed '/^$/d'
   [{"X_PRPLWARE-COM_WiFiController.Network.":{"Enable":0}}]
 
   $ sleep 10
 
 Check access points status:
+
   $ R logger -t cram "Check that SSIDs are disabled"
   $ get_ssid_status
   Down
@@ -119,36 +116,41 @@ Check access points status:
 
 Schedule prplMesh network activation:
 
-Wait for the next minute tic to trigger the test, assume it's T0:
-  $ currentSec=$(R date +%S)
-  $ delaySec=$((60-$currentSec))
-  $ R logger -t cram "Wait $delaySec seconds"
-  $ sleep $((delaySec+1))
+Wait for the next minute tick to trigger the test, assume it's T0:
 
-Calculate next minite with format HH:MM T1=(T0+1min):
+  $ current_sec=$(R date +%S)
+  $ delay_sec=$((60-$current_sec))
+  $ R logger -t cram "Wait $delay_sec seconds"
+  $ sleep $((delay_sec+1))
+
+Calculate next minute with format HH:MM T1=(T0+1min):
+
   $ R logger -t cram "Schedule prplMesh network activation at the next minute"
-  $ now=$(R date +%s)
-  $ currentTime=$(R date -d "@$now" +"%H:%M:%S") 
-  $ enableTime_epoch=$((now + 60)) 
-  $ enableTime=$(R date -d "@$enableTime_epoch" +"%H:%M") 
+  $ now_epoch=$(R date +%s)
+  $ current_time=$(R date -d "@$now_epoch" +"%H:%M:%S") 
+  $ enable_time_epoch=$((now_epoch + 60)) 
+  $ enable_time=$(R date -d "@$enable_time_epoch" +"%H:%M") 
   $ day=$(R date +%A | awk '{print tolower($0)}') 
 
-  $ R logger -t cram  "Current time : $currentTime"
-  $ R logger -t cram  "Next enable time : ${enableTime}:00"
+  $ R logger -t cram  "Current time : $current_time"
+  $ R logger -t cram  "Next enable time : ${enable_time}:00"
   $ R logger -t cram  "Next enable day $day"
   $ R logger -t cram  "Create schedule and wait until it starts"
 
 Schedule a network activation at T1 with 1 minute duration:
-  $ R "ba-cli -j -l 'WiFiScheduler.Network.Schedule.+{Enable=1, StartTime=$enableTime, Duration=60, Day=$day}'" | sed '/^$/d'
-  {"WiFiScheduler.Network.Schedule.1.":{"Alias":"cpe-Schedule-1"}}
+
+  $ R "ba-cli -j -l 'Device.X_PRPLWARE-COM_WiFiScheduler.Network.Schedule.+{Enable=1, StartTime=$enable_time, Duration=60, Day=$day}'" | sed '/^$/d'
+  {"Device.X_PRPLWARE-COM_WiFiScheduler.Network.Schedule.1.":{"Alias":"cpe-Schedule-1"}}
 
   $ sleep $((60+10))
 
 Check Wifi schedule is running:
-  $ R "ba-cli  'WiFiScheduler.Network.Schedule.1.Running?'"  | sed '/^$/d' | tail -n +2
-  WiFiScheduler.Network.Schedule.1.Running=1
+
+  $ R "ba-cli  'Device.X_PRPLWARE-COM_WiFiScheduler.Network.Schedule.1.Running?'"  | sed '/^$/d' | tail -n +2
+  Device.X_PRPLWARE-COM_WiFiScheduler.Network.Schedule.1.Running=1
 
 Wait few seconds before checking wifi activation:
+
   $ sleep 10
   $ R logger -t cram "Check that private acceess points are enabled"
   $ get_ssid_status
@@ -160,6 +162,7 @@ Wait few seconds before checking wifi activation:
   Up
 
 Wait 1 minute before checking wifi deactivation T1+1min
+
   $ R logger -t cram "Wait 1 minutes"
   $ sleep 60
   $ R logger -t cram "Check that private acceess points are disabled"
@@ -171,7 +174,8 @@ Wait 1 minute before checking wifi deactivation T1+1min
   Down
   Down
 
-Teardonw - reset wifi-scehdule:
+Reset wifi-scehdule:
+
   $ R "( rm -rf /etc/config/wifi-scheduler/ ; /etc/init.d/wifi-scheduler restart )  2>&1 > /dev/null"
 
   $ sleep 5
