@@ -311,6 +311,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.DHCPv6.Client.{i}.X_PRPLWARE-COM_Config.LeaseRenewedWhen                                      proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.X_PRPLWARE-COM_Config.T1Renewed                                             proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.X_PRPLWARE-COM_Config.T2Renewed                                             proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.X_PRPLWARE-COM_DHCPv6Status                                                 proto::tr181-dhcpv6client
   Device.DHCPv6.ClientNumberOfEntries                                                                  proto::tr181-dhcpv6client
   Device.DHCPv6.Server.                                                                                proto::dhcpv6s-manager
   Device.DHCPv6.Server.Enable                                                                          proto::dhcpv6s-manager
@@ -4739,6 +4740,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.DHCPv6.Client.{i}.X_PRPLWARE-COM_Config.LeaseRenewedWhen                                      proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.X_PRPLWARE-COM_Config.T1Renewed                                             proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.X_PRPLWARE-COM_Config.T2Renewed                                             proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.X_PRPLWARE-COM_DHCPv6Status                                                 proto::tr181-dhcpv6client
   Device.DHCPv6.ClientNumberOfEntries                                                                  proto::tr181-dhcpv6client
   Device.DHCPv6.Server.                                                                                proto::dhcpv6s-manager
   Device.DHCPv6.Server.Enable                                                                          proto::dhcpv6s-manager
