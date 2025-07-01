@@ -203,6 +203,8 @@ for p in profile.get("feeds", []):
 
 for ap in profile.get("additional_packages"):
     feed = ap["feed"]
+    # "install -f -p feed package" will override only base package and would not override package from other feed without uninstall
+    run_cmd(["./scripts/feeds", "uninstall", *ap["packages"]])
     if run_cmd(
         ["./scripts/feeds", "install", "-f", "-p", feed, *ap["packages"]]
     ).returncode:
