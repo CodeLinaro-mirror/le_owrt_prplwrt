@@ -39,6 +39,7 @@ packages:
   - amx-faultmonitor
   - amx-processmonitor
   - cthulhu
+  - cthulhu-capabilities
   - cthulhu-dhcpc
   - cthulhu-lxc
   - cthulhu-networking
