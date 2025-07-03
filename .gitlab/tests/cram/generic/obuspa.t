@@ -2483,6 +2483,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.SoftwareModules.AddExecEnv() input:AllocatedDiskSpace
   Device.SoftwareModules.AddExecEnv() input:AllocatedMemory
   Device.SoftwareModules.AddExecEnv() input:AvailableRoles
+  Device.SoftwareModules.AddExecEnv() input:AvailableUserRoles
   Device.SoftwareModules.AddExecEnv() input:InitialRunLevel
   Device.SoftwareModules.AddExecEnv() input:MaxBandwidthDownstream
   Device.SoftwareModules.AddExecEnv() input:MaxBandwidthUpstream
@@ -2522,6 +2523,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.SoftwareModules.DeploymentUnit.{i}.Update() input:Password
   Device.SoftwareModules.DeploymentUnit.{i}.Update() input:Privileged
   Device.SoftwareModules.DeploymentUnit.{i}.Update() input:RequiredRoles
+  Device.SoftwareModules.DeploymentUnit.{i}.Update() input:RequiredUserRoles
   Device.SoftwareModules.DeploymentUnit.{i}.Update() input:RetainData
   Device.SoftwareModules.DeploymentUnit.{i}.Update() input:URL
   Device.SoftwareModules.DeploymentUnit.{i}.Update() input:Username
@@ -2548,6 +2550,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.SoftwareModules.ExecEnv.{i}.AvailableDiskSpace                                                proto::timingila
   Device.SoftwareModules.ExecEnv.{i}.AvailableMemory                                                   proto::timingila
   Device.SoftwareModules.ExecEnv.{i}.AvailableRoles                                                    proto::timingila
+  Device.SoftwareModules.ExecEnv.{i}.AvailableUserRoles                                                proto::timingila
   Device.SoftwareModules.ExecEnv.{i}.CreatedAt                                                         proto::timingila
   Device.SoftwareModules.ExecEnv.{i}.CurrentRunLevel                                                   proto::timingila
   Device.SoftwareModules.ExecEnv.{i}.Delete()                                                          proto::timingila
@@ -2557,6 +2560,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.SoftwareModules.ExecEnv.{i}.InitialRunLevel                                                   proto::timingila
   Device.SoftwareModules.ExecEnv.{i}.ModifyAvailableRoles()                                            proto::timingila
   Device.SoftwareModules.ExecEnv.{i}.ModifyAvailableRoles() input:AvailableRoles
+  Device.SoftwareModules.ExecEnv.{i}.ModifyAvailableRoles() input:AvailableUserRoles
   Device.SoftwareModules.ExecEnv.{i}.ModifyConstraints()                                               proto::timingila
   Device.SoftwareModules.ExecEnv.{i}.ModifyConstraints() input:AllocatedCPUPercent
   Device.SoftwareModules.ExecEnv.{i}.ModifyConstraints() input:AllocatedDiskSpace
@@ -2596,6 +2600,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.SoftwareModules.ExecutionUnit.{i}.AutoRestart.RetryMaximumWaitInterval                        proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.AutoRestart.RetryMinimumWaitInterval                        proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.AutoStart                                                   proto::timingila
+  Device.SoftwareModules.ExecutionUnit.{i}.AvailableCapabilities                                       proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.AvailableDiskSpace                                          proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.AvailableMemory                                             proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.CreationTime                                                proto::timingila
@@ -2630,6 +2635,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.SoftwareModules.ExecutionUnit.{i}.NetworkConfig.PortForwarding.{i}.Protocol                   proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.NetworkConfig.X_PRPLWARE-COM_DNSSDRefList                   proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.References                                                  proto::timingila
+  Device.SoftwareModules.ExecutionUnit.{i}.RequiredUserRoles                                           proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.RunLevel                                                    proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.SetRequestedState()                                         proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.SetRequestedState() input:RequestedState
@@ -2658,6 +2664,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.SoftwareModules.InstallDU() input:Password
   Device.SoftwareModules.InstallDU() input:Privileged
   Device.SoftwareModules.InstallDU() input:RequiredRoles
+  Device.SoftwareModules.InstallDU() input:RequiredUserRoles
   Device.SoftwareModules.InstallDU() input:Signature
   Device.SoftwareModules.InstallDU() input:URL
   Device.SoftwareModules.InstallDU() input:UUID
@@ -2949,16 +2956,21 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.Users.Group.{i}.Groupname                                                                     proto::tr181-usermanagement
   Device.Users.Group.{i}.RoleParticipation                                                             proto::tr181-usermanagement
   Device.Users.Group.{i}.StaticGroup                                                                   proto::tr181-usermanagement
+  Device.Users.GroupNumberOfEntries                                                                    proto::tr181-usermanagement
   Device.Users.Role.{i}.                                                                               proto::tr181-usermanagement
   Device.Users.Role.{i}.Alias                                                                          proto::tr181-usermanagement
   Device.Users.Role.{i}.Enable                                                                         proto::tr181-usermanagement
+  Device.Users.Role.{i}.RequiredCapabilities                                                           proto::tr181-usermanagement
   Device.Users.Role.{i}.RoleID                                                                         proto::tr181-usermanagement
   Device.Users.Role.{i}.RoleName                                                                       proto::tr181-usermanagement
   Device.Users.Role.{i}.StaticRole                                                                     proto::tr181-usermanagement
+  Device.Users.RoleNumberOfEntries                                                                     proto::tr181-usermanagement
+  Device.Users.SupportedCapabilities                                                                   proto::tr181-usermanagement
   Device.Users.SupportedShell.{i}.                                                                     proto::tr181-usermanagement
   Device.Users.SupportedShell.{i}.Alias                                                                proto::tr181-usermanagement
   Device.Users.SupportedShell.{i}.Enable                                                               proto::tr181-usermanagement
   Device.Users.SupportedShell.{i}.Name                                                                 proto::tr181-usermanagement
+  Device.Users.SupportedShellNumberOfEntries                                                           proto::tr181-usermanagement
   Device.Users.User.{i}.                                                                               proto::tr181-usermanagement
   Device.Users.User.{i}.Alias                                                                          proto::tr181-usermanagement
   Device.Users.User.{i}.Enable                                                                         proto::tr181-usermanagement
@@ -6935,6 +6947,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.SoftwareModules.AddExecEnv() input:AllocatedDiskSpace
   Device.SoftwareModules.AddExecEnv() input:AllocatedMemory
   Device.SoftwareModules.AddExecEnv() input:AvailableRoles
+  Device.SoftwareModules.AddExecEnv() input:AvailableUserRoles
   Device.SoftwareModules.AddExecEnv() input:InitialRunLevel
   Device.SoftwareModules.AddExecEnv() input:MaxBandwidthDownstream
   Device.SoftwareModules.AddExecEnv() input:MaxBandwidthUpstream
@@ -6974,6 +6987,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.SoftwareModules.DeploymentUnit.{i}.Update() input:Password
   Device.SoftwareModules.DeploymentUnit.{i}.Update() input:Privileged
   Device.SoftwareModules.DeploymentUnit.{i}.Update() input:RequiredRoles
+  Device.SoftwareModules.DeploymentUnit.{i}.Update() input:RequiredUserRoles
   Device.SoftwareModules.DeploymentUnit.{i}.Update() input:RetainData
   Device.SoftwareModules.DeploymentUnit.{i}.Update() input:URL
   Device.SoftwareModules.DeploymentUnit.{i}.Update() input:Username
@@ -7000,6 +7014,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.SoftwareModules.ExecEnv.{i}.AvailableDiskSpace                                                proto::timingila
   Device.SoftwareModules.ExecEnv.{i}.AvailableMemory                                                   proto::timingila
   Device.SoftwareModules.ExecEnv.{i}.AvailableRoles                                                    proto::timingila
+  Device.SoftwareModules.ExecEnv.{i}.AvailableUserRoles                                                proto::timingila
   Device.SoftwareModules.ExecEnv.{i}.CreatedAt                                                         proto::timingila
   Device.SoftwareModules.ExecEnv.{i}.CurrentRunLevel                                                   proto::timingila
   Device.SoftwareModules.ExecEnv.{i}.Delete()                                                          proto::timingila
@@ -7009,6 +7024,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.SoftwareModules.ExecEnv.{i}.InitialRunLevel                                                   proto::timingila
   Device.SoftwareModules.ExecEnv.{i}.ModifyAvailableRoles()                                            proto::timingila
   Device.SoftwareModules.ExecEnv.{i}.ModifyAvailableRoles() input:AvailableRoles
+  Device.SoftwareModules.ExecEnv.{i}.ModifyAvailableRoles() input:AvailableUserRoles
   Device.SoftwareModules.ExecEnv.{i}.ModifyConstraints()                                               proto::timingila
   Device.SoftwareModules.ExecEnv.{i}.ModifyConstraints() input:AllocatedCPUPercent
   Device.SoftwareModules.ExecEnv.{i}.ModifyConstraints() input:AllocatedDiskSpace
@@ -7048,6 +7064,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.SoftwareModules.ExecutionUnit.{i}.AutoRestart.RetryMaximumWaitInterval                        proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.AutoRestart.RetryMinimumWaitInterval                        proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.AutoStart                                                   proto::timingila
+  Device.SoftwareModules.ExecutionUnit.{i}.AvailableCapabilities                                       proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.AvailableDiskSpace                                          proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.AvailableMemory                                             proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.CreationTime                                                proto::timingila
@@ -7082,6 +7099,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.SoftwareModules.ExecutionUnit.{i}.NetworkConfig.PortForwarding.{i}.Protocol                   proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.NetworkConfig.X_PRPLWARE-COM_DNSSDRefList                   proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.References                                                  proto::timingila
+  Device.SoftwareModules.ExecutionUnit.{i}.RequiredUserRoles                                           proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.RunLevel                                                    proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.SetRequestedState()                                         proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.SetRequestedState() input:RequestedState
@@ -7110,6 +7128,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.SoftwareModules.InstallDU() input:Password
   Device.SoftwareModules.InstallDU() input:Privileged
   Device.SoftwareModules.InstallDU() input:RequiredRoles
+  Device.SoftwareModules.InstallDU() input:RequiredUserRoles
   Device.SoftwareModules.InstallDU() input:Signature
   Device.SoftwareModules.InstallDU() input:URL
   Device.SoftwareModules.InstallDU() input:UUID
@@ -7401,16 +7420,21 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.Users.Group.{i}.Groupname                                                                     proto::tr181-usermanagement
   Device.Users.Group.{i}.RoleParticipation                                                             proto::tr181-usermanagement
   Device.Users.Group.{i}.StaticGroup                                                                   proto::tr181-usermanagement
+  Device.Users.GroupNumberOfEntries                                                                    proto::tr181-usermanagement
   Device.Users.Role.{i}.                                                                               proto::tr181-usermanagement
   Device.Users.Role.{i}.Alias                                                                          proto::tr181-usermanagement
   Device.Users.Role.{i}.Enable                                                                         proto::tr181-usermanagement
+  Device.Users.Role.{i}.RequiredCapabilities                                                           proto::tr181-usermanagement
   Device.Users.Role.{i}.RoleID                                                                         proto::tr181-usermanagement
   Device.Users.Role.{i}.RoleName                                                                       proto::tr181-usermanagement
   Device.Users.Role.{i}.StaticRole                                                                     proto::tr181-usermanagement
+  Device.Users.RoleNumberOfEntries                                                                     proto::tr181-usermanagement
+  Device.Users.SupportedCapabilities                                                                   proto::tr181-usermanagement
   Device.Users.SupportedShell.{i}.                                                                     proto::tr181-usermanagement
   Device.Users.SupportedShell.{i}.Alias                                                                proto::tr181-usermanagement
   Device.Users.SupportedShell.{i}.Enable                                                               proto::tr181-usermanagement
   Device.Users.SupportedShell.{i}.Name                                                                 proto::tr181-usermanagement
+  Device.Users.SupportedShellNumberOfEntries                                                           proto::tr181-usermanagement
   Device.Users.User.{i}.                                                                               proto::tr181-usermanagement
   Device.Users.User.{i}.Alias                                                                          proto::tr181-usermanagement
   Device.Users.User.{i}.Enable                                                                         proto::tr181-usermanagement
