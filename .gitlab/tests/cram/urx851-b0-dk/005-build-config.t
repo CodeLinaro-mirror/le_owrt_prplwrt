@@ -200,6 +200,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_ca-certificates=y
   CONFIG_PACKAGE_chrony-prpl=y
   CONFIG_PACKAGE_cthulhu=y
+  CONFIG_PACKAGE_cthulhu-capabilities=y
   CONFIG_PACKAGE_cthulhu-dhcpc=y
   CONFIG_PACKAGE_cthulhu-lxc=y
   CONFIG_PACKAGE_cthulhu-networking=y
