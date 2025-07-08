@@ -15,7 +15,7 @@ feeds:
 
   - name: feed_prplos
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplos.git
-    revision: stable-4.0@b1f0213ca8a99412d08d978d4675030d1958f946
+    revision: feat-54_stable-4.0@74ee98f8672193211f208eafee2a43dd3f18d39a
 
 additional_packages:
   - feed: packages
@@ -148,6 +148,7 @@ packages:
   - oopsmonitor
   - packet-interception
   - pcm-manager
+  - pkcs11-provider
   - procps-ng-pgrep
   - procps-ng-pkill
   - procps-ng-uptime
@@ -157,6 +158,7 @@ packages:
   - reboot-service
   - rlyeh
   - routing-manager
+  - softhsm2
   - ssh-server
   - tc-tiny
   - time-manager
