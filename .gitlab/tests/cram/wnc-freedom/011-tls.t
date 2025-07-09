@@ -6,8 +6,8 @@ Check that there is just single TLS library OpenSSL:
 
   $ R "opkg list-installed" | grep -E '(openssl|mbedtls|wolfssl)' | sort | awk -F ' - ' '{print $1}'
   hostapd-qca-openssl
-  libopenssl-conf
+  libopenssl-* (re)
   libopenssl.* (re)
   libustream-openssl.* (re)
   openssl-util
-  wpa-supplicant-qca-openssl
+  wpad-qca-mesh-openssl
