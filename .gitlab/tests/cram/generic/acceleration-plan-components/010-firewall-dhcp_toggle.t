@@ -17,8 +17,8 @@ Disable the dhcpv4s lan rule:
 Check that the firewall rule was actually removed:
 
   $ R "iptables -vnL INPUT_Services | grep :67 | awk '/ACCEPT.*udp/ {print \$3, \$4, \$6, \$11}' | sort"
-  ACCEPT udp br-guest dpt:67
-  ACCEPT udp br-lcm dpt:67
+  ACCEPT 17 br-guest dpt:67
+  ACCEPT 17 br-lcm dpt:67
 
 Check that client is unable to get new lease:
 

@@ -16,7 +16,7 @@ Configure MAC filter rule:
 Check that there is correct rule present:
 
   $ R "iptables -L FORWARD_L_Low -n | grep aa:bb:cc"
-  ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0            MAC aa:bb:cc:dd:ee:ff
+  ACCEPT     0    --  0.0.0.0/0            0.0.0.0/0            MAC aa:bb:cc:dd:ee:ff
 
 Disable MAC filter rule:
 
@@ -34,7 +34,7 @@ Enable MAC filter rule:
 Check that the rule is back again:
 
   $ R "iptables -L FORWARD_L_Low -n | grep aa:bb:cc"
-  ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0            MAC aa:bb:cc:dd:ee:ff
+  ACCEPT     0    --  0.0.0.0/0            0.0.0.0/0            MAC aa:bb:cc:dd:ee:ff
 
 Remove the rule and check that it is gone:
 

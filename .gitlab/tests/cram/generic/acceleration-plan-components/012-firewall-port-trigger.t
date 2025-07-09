@@ -19,7 +19,7 @@ Configure port trigger rule:
 Check that there is NFQUEUE rule:
 
   $ R "iptables -L FORWARD_PortTrigger -n | grep 6000"
-  NFQUEUE    tcp  --  0.0.0.0/0            0.0.0.0/0            tcp dpt:6000 NFQUEUE num 1
+  NFQUEUE    6    --  0.0.0.0/0            0.0.0.0/0            tcp dpt:6000 NFQUEUE num 1
 
 Disable port trigger rule:
 
@@ -45,8 +45,8 @@ Trigger port rule:
 Check that additional rules has been created:
 
   $ R "iptables -L FORWARD_PortTrigger -n | grep 8000 | sort"
-  ACCEPT     udp  --  0.0.0.0/0            192.168.1.2          udp dpt:8000
-  ACCEPT     udp  --  192.168.1.2          0.0.0.0/0            udp spt:8000
+  ACCEPT     17   --  0.0.0.0/0            192.168.1.2          udp dpt:8000
+  ACCEPT     17   --  192.168.1.2          0.0.0.0/0            udp spt:8000
 
 Check that the owner IPAddress was correctly set:
 
