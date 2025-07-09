@@ -38,9 +38,9 @@ Check the root datamodel settings:
 Check that firewall is configured properly:
 
   $ R "iptables -nvL | grep 1883 | grep -v '^Chain'"
-      0     0 ACCEPT     tcp  --  lo     *       0.0.0.0/0            0.0.0.0/0            tcp dpt:1883
+      0     0 ACCEPT     6    --  lo     *       0.0.0.0/0            0.0.0.0/0            tcp dpt:1883
   $ R "iptables -nvL | grep 8883 | grep -v '^Chain'"
-      0     0 ACCEPT     tcp  --  br-lan *       0.0.0.0/0            0.0.0.0/0            tcp dpt:8883
+      0     0 ACCEPT     6    --  br-lan *       0.0.0.0/0            0.0.0.0/0            tcp dpt:8883
 
 Check if local connections work:
 Start a subscriber in background and wait up to 5 seconds for a message to be received:
