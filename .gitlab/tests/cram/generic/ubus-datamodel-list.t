@@ -248,6 +248,7 @@ Check that ubus has expected datamodels available:
   NetDev.ConversionTable.Scope
   NetDev.ConversionTable.Table
   NetDev.Link
+  NetDev.Rule
   NetDev.Stats
   NetModel
   NetModel.Intf
@@ -293,6 +294,7 @@ Check that ubus has expected datamodels available:
   RouterAdvertisement
   RouterAdvertisement.InterfaceSetting
   Routing
+  Routing.Policy
   Routing.RIP
   Routing.RIP.InterfaceSetting
   Routing.RouteInformation
