@@ -283,6 +283,7 @@ Check that ubus has expected datamodels available:
   Routing.RouteInformation
   Routing.RouteInformation.InterfaceSetting
   Routing.Router
+  Routing.X_PRPLWARE-COM_Policy
   SFPs
   SFPs.Cage
   SSH
