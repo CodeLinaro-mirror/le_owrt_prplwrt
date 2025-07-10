@@ -26,6 +26,7 @@ additional_packages:
       - lighttpd-mod-auth
       - lighttpd-mod-authn_file
       - lighttpd-mod-fastcgi
+      - opensc
       - pciids
       - pciutils
       - picocom
@@ -304,3 +305,7 @@ diffconfig: |
           CONFIG_SAH_MOD_AMXB_USP_REQUIRES_DEVICE_PREFIX=y
           CONFIG_INCLUDE_CONFIG=y
           CONFIG_PACKAGE_ipset=y
+          # pkcs11-tool
+          CONFIG_PACKAGE_libopensc=y
+          CONFIG_PACKAGE_opensc-utils=y
+          CONFIG_PACKAGE_opensc-utils-pkcs11-tool=y
