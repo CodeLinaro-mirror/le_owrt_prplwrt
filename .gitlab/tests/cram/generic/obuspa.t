@@ -2393,6 +2393,23 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.Routing.Router.{i}.IPv6ForwardingNumberOfEntries                                              proto::routing-manager
   Device.Routing.Router.{i}.Status                                                                     proto::routing-manager
   Device.Routing.RouterNumberOfEntries                                                                 proto::routing-manager
+  Device.Routing.X_PRPLWARE-COM_Policy.{i}.                                                            proto::routing-manager
+  Device.Routing.X_PRPLWARE-COM_Policy.{i}.Alias                                                       proto::routing-manager
+  Device.Routing.X_PRPLWARE-COM_Policy.{i}.Classification                                              proto::routing-manager
+  Device.Routing.X_PRPLWARE-COM_Policy.{i}.DestIPPrefix                                                proto::routing-manager
+  Device.Routing.X_PRPLWARE-COM_Policy.{i}.DestInterface                                               proto::routing-manager
+  Device.Routing.X_PRPLWARE-COM_Policy.{i}.DestPort                                                    proto::routing-manager
+  Device.Routing.X_PRPLWARE-COM_Policy.{i}.DestPortRangeMax                                            proto::routing-manager
+  Device.Routing.X_PRPLWARE-COM_Policy.{i}.Enable                                                      proto::routing-manager
+  Device.Routing.X_PRPLWARE-COM_Policy.{i}.Priority                                                    proto::routing-manager
+  Device.Routing.X_PRPLWARE-COM_Policy.{i}.Protocol                                                    proto::routing-manager
+  Device.Routing.X_PRPLWARE-COM_Policy.{i}.RouteTable                                                  proto::routing-manager
+  Device.Routing.X_PRPLWARE-COM_Policy.{i}.SourceIPPrefix                                              proto::routing-manager
+  Device.Routing.X_PRPLWARE-COM_Policy.{i}.SourceInterface                                             proto::routing-manager
+  Device.Routing.X_PRPLWARE-COM_Policy.{i}.SourcePort                                                  proto::routing-manager
+  Device.Routing.X_PRPLWARE-COM_Policy.{i}.SourcePortRangeMax                                          proto::routing-manager
+  Device.Routing.X_PRPLWARE-COM_Policy.{i}.Status                                                      proto::routing-manager
+  Device.Routing.X_PRPLWARE-COM_PolicyNumberOfEntries                                                  proto::routing-manager
   Device.SSH.                                                                                          proto::ssh_server
   Device.SSH.AuthorizedKey.{i}.                                                                        proto::ssh_server
   Device.SSH.AuthorizedKey.{i}.Alias                                                                   proto::ssh_server
@@ -6845,6 +6862,23 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.Routing.Router.{i}.IPv6ForwardingNumberOfEntries                                              proto::routing-manager
   Device.Routing.Router.{i}.Status                                                                     proto::routing-manager
   Device.Routing.RouterNumberOfEntries                                                                 proto::routing-manager
+  Device.Routing.X_PRPLWARE-COM_Policy.{i}.                                                            proto::routing-manager
+  Device.Routing.X_PRPLWARE-COM_Policy.{i}.Alias                                                       proto::routing-manager
+  Device.Routing.X_PRPLWARE-COM_Policy.{i}.Classification                                              proto::routing-manager
+  Device.Routing.X_PRPLWARE-COM_Policy.{i}.DestIPPrefix                                                proto::routing-manager
+  Device.Routing.X_PRPLWARE-COM_Policy.{i}.DestInterface                                               proto::routing-manager
+  Device.Routing.X_PRPLWARE-COM_Policy.{i}.DestPort                                                    proto::routing-manager
+  Device.Routing.X_PRPLWARE-COM_Policy.{i}.DestPortRangeMax                                            proto::routing-manager
+  Device.Routing.X_PRPLWARE-COM_Policy.{i}.Enable                                                      proto::routing-manager
+  Device.Routing.X_PRPLWARE-COM_Policy.{i}.Priority                                                    proto::routing-manager
+  Device.Routing.X_PRPLWARE-COM_Policy.{i}.Protocol                                                    proto::routing-manager
+  Device.Routing.X_PRPLWARE-COM_Policy.{i}.RouteTable                                                  proto::routing-manager
+  Device.Routing.X_PRPLWARE-COM_Policy.{i}.SourceIPPrefix                                              proto::routing-manager
+  Device.Routing.X_PRPLWARE-COM_Policy.{i}.SourceInterface                                             proto::routing-manager
+  Device.Routing.X_PRPLWARE-COM_Policy.{i}.SourcePort                                                  proto::routing-manager
+  Device.Routing.X_PRPLWARE-COM_Policy.{i}.SourcePortRangeMax                                          proto::routing-manager
+  Device.Routing.X_PRPLWARE-COM_Policy.{i}.Status                                                      proto::routing-manager
+  Device.Routing.X_PRPLWARE-COM_PolicyNumberOfEntries                                                  proto::routing-manager
   Device.SSH.                                                                                          proto::ssh_server
   Device.SSH.AuthorizedKey.{i}.                                                                        proto::ssh_server
   Device.SSH.AuthorizedKey.{i}.Alias                                                                   proto::ssh_server
