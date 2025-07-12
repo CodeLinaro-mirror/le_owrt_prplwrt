@@ -16,12 +16,47 @@ include $(INCLUDE_DIR)/download.mk
 include $(INCLUDE_DIR)/quilt.mk
 include $(INCLUDE_DIR)/kernel-defaults.mk
 
+ifeq ($(DISABLE_KERNEL_BUILD),1)
+
+define Kernel/Prepare
+	@true
+endef
+
+define Kernel/Configure
+	@true
+endef
+
+define Kernel/CompileModules
+	@true
+endef
+
+define Kernel/CompileImage
+	@true
+endef
+
+ifdef CONFIG_COLLECT_KERNEL_DEBUG
+  define Kernel/CollectDebug
+		@true
+  endef
+
+endif
+else
+
 define Kernel/Prepare
 	$(call Kernel/Prepare/Default)
 endef
 
 define Kernel/Configure
-	$(call Kernel/Configure/Default)
+#STEP 1: (generate_defconfig.sh) sdxlemur.config + sdxlemur-debug.config + generic-defconfig.config = sdxlemur-debug_defconfig
+	cd $(CONFIG_EXTERNAL_KERNEL_TREE); \
+	ARCH=arm CROSS_COMPILE=arm-openwrt-linux-muslgnueabi- REAL_CC=$(TOOLCHAIN_DIR)/clang/bin/clang LD=$(TOOLCHAIN_DIR)/bin/arm-openwrt-linux-muslgnueabi-ld KERN_OUT=$(CONFIG_EXTERNAL_KERNEL_TREE) scripts/gki/generate_defconfig.sh vendor/sdxlemur-debug_defconfig; \
+
+#STEP 2: merge_config.sh: sdxlemur-debug_defconfig + overlayfs.cfg + selinux.cfg = arch/arm/configs/vendor/.config
+	$(CONFIG_EXTERNAL_KERNEL_TREE)/scripts/kconfig/merge_config.sh -m -r -O $(CONFIG_EXTERNAL_KERNEL_TREE)/arch/arm/configs/vendor $(CONFIG_EXTERNAL_KERNEL_TREE)/arch/arm/configs/vendor/sdxlemur-debug_defconfig $(TOPDIR)/owrt-qti-bsp/kernel-packages/linux-msm/files/overlayfs.cfg $(TOPDIR)/owrt-qti-bsp/kernel-packages/linux-msm/files/selinux.cfg 1>&2; \
+
+#STEP 3: cp output config from step 2 to root kernel source tree/directory + make
+	cp $(CONFIG_EXTERNAL_KERNEL_TREE)/arch/arm/configs/vendor/.config $(CONFIG_EXTERNAL_KERNEL_TREE)/.config; \
+	make -C $(CONFIG_EXTERNAL_KERNEL_TREE) $(KERNEL_MAKE_FLAGS) olddefconfig;
 endef
 
 define Kernel/CompileModules
@@ -31,40 +66,6 @@ endef
 define Kernel/CompileImage
 	$(call Kernel/CompileImage/Default)
 	$(call Kernel/CompileImage/Initramfs)
-endef
-
-define Kernel/Clean
-	$(call Kernel/Clean/Default)
-endef
-
-define Download/kernel
-  URL:=$(LINUX_SITE)
-  FILE:=$(LINUX_SOURCE)
-  HASH:=$(LINUX_KERNEL_HASH)
-endef
-
-KERNEL_GIT_OPTS:=
-ifneq ($(strip $(CONFIG_KERNEL_GIT_LOCAL_REPOSITORY)),"")
-  KERNEL_GIT_OPTS+=--reference $(CONFIG_KERNEL_GIT_LOCAL_REPOSITORY)
-endif
-
-ifneq ($(strip $(CONFIG_KERNEL_GIT_DEPTH)),"")
-ifneq ($(filter-out 0,$(CONFIG_KERNEL_GIT_DEPTH)),)
-  KERNEL_GIT_OPTS+=--depth $(CONFIG_KERNEL_GIT_DEPTH)
-endif
-endif
-
-ifneq ($(strip $(CONFIG_KERNEL_GIT_BRANCH)),"")
-  KERNEL_GIT_OPTS+=--branch $(CONFIG_KERNEL_GIT_BRANCH)
-endif
-
-define Download/git-kernel
-  URL:=$(call qstrip,$(CONFIG_KERNEL_GIT_CLONE_URI))
-  PROTO:=git
-  VERSION:=$(CONFIG_KERNEL_GIT_REF)
-  FILE:=$(LINUX_SOURCE)
-  SUBDIR:=linux-$(LINUX_VERSION)
-  OPTS:=$(KERNEL_GIT_OPTS)
 endef
 
 ifdef CONFIG_COLLECT_KERNEL_DEBUG
@@ -81,6 +82,32 @@ ifdef CONFIG_COLLECT_KERNEL_DEBUG
 		| zstd -T0 -f -o $(BIN_DIR)/kernel-debug.tar.zst
   endef
 endif
+
+endif
+
+define Kernel/Clean
+	$(call Kernel/Clean/Default)
+endef
+
+define Download/kernel
+  URL:=$(LINUX_SITE)
+  FILE:=$(LINUX_SOURCE)
+  HASH:=$(LINUX_KERNEL_HASH)
+endef
+
+KERNEL_GIT_OPTS:=
+ifneq ($(strip $(CONFIG_KERNEL_GIT_LOCAL_REPOSITORY)),"")
+  KERNEL_GIT_OPTS+=--reference $(CONFIG_KERNEL_GIT_LOCAL_REPOSITORY)
+endif
+
+define Download/git-kernel
+  URL:=$(call qstrip,$(CONFIG_KERNEL_GIT_CLONE_URI))
+  PROTO:=git
+  VERSION:=$(CONFIG_KERNEL_GIT_REF)
+  FILE:=$(LINUX_SOURCE)
+  SUBDIR:=linux-$(LINUX_VERSION)
+  OPTS:=$(KERNEL_GIT_OPTS)
+endef
 
 ifeq ($(DUMP)$(filter prereq clean refresh update,$(MAKECMDGOALS)),)
   ifneq ($(if $(QUILT),,$(CONFIG_AUTOREBUILD)),)
@@ -100,10 +127,14 @@ define BuildKernel
 
   $(Kernel/Autoclean)
   $(STAMP_PREPARED): $(if $(LINUX_SITE),$(DL_DIR)/$(LINUX_SOURCE))
+  ifneq ($(DISABLE_KERNEL_BUILD),1)
 	-rm -rf $(KERNEL_BUILD_DIR)
 	-mkdir -p $(KERNEL_BUILD_DIR)
+  endif
 	$(Kernel/Prepare)
+ifneq ($(DISABLE_KERNEL_BUILD),1)
 	touch $$@
+endif
 
   $(KERNEL_BUILD_DIR)/symtab.h: FORCE
 	rm -f $(KERNEL_BUILD_DIR)/symtab.h
@@ -137,7 +168,9 @@ define BuildKernel
 
   $(STAMP_CONFIGURED): $(STAMP_PREPARED) $(LINUX_KCONFIG_LIST) $(TOPDIR)/.config FORCE
 	$(Kernel/Configure)
+ifneq ($(DISABLE_KERNEL_BUILD),1)
 	touch $$@
+endif
 
   $(LINUX_DIR)/.modules: export STAGING_PREFIX=$$(STAGING_DIR_HOST)
   $(LINUX_DIR)/.modules: export PKG_CONFIG_PATH=$$(STAGING_DIR_HOST)/lib/pkgconfig
@@ -145,7 +178,9 @@ define BuildKernel
   $(LINUX_DIR)/.modules: export FAIL_ON_UNCONFIGURED=1
   $(LINUX_DIR)/.modules: $(STAMP_CONFIGURED) $(LINUX_DIR)/.config FORCE
 	$(Kernel/CompileModules)
+ifneq ($(DISABLE_KERNEL_BUILD),1)
 	touch $$@
+endif
 
   $(LINUX_DIR)/.image: export STAGING_PREFIX=$$(STAGING_DIR_HOST)
   $(LINUX_DIR)/.image: export PKG_CONFIG_PATH=$$(STAGING_DIR_HOST)/lib/pkgconfig
@@ -153,7 +188,9 @@ define BuildKernel
   $(LINUX_DIR)/.image: $(STAMP_CONFIGURED) $(if $(CONFIG_STRIP_KERNEL_EXPORTS),$(KERNEL_BUILD_DIR)/symtab.h) FORCE
 	$(Kernel/CompileImage)
 	$(Kernel/CollectDebug)
+ifneq ($(DISABLE_KERNEL_BUILD),1)
 	touch $$@
+endif
 	
   mostlyclean: FORCE
 	$(Kernel/Clean)
@@ -163,8 +200,14 @@ define BuildKernel
 
   download: $(if $(LINUX_SITE),$(DL_DIR)/$(LINUX_SOURCE))
   prepare: $(STAMP_PREPARED)
+
+ifneq ($(DISABLE_KERNEL_BUILD),1)
   compile: $(LINUX_DIR)/.modules
 	$(MAKE) -C image compile TARGET_BUILD=
+else
+  compile:
+	$(MAKE) -C image compile TARGET_BUILD=
+endif
 
   dtb: $(STAMP_CONFIGURED)
 	$(_SINGLE)$(KERNEL_MAKE) scripts_dtc
