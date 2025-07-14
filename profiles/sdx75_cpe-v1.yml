@@ -1,0 +1,9 @@
+---
+description: Build image for sdx75 cpe-v1 profile
+
+#packages:
+#  - package1
+#  - package2
+
+#diffconfig: |
+#  CONFIG_TESTING_KERNEL=y
