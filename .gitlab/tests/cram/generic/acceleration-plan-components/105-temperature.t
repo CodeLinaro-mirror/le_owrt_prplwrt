@@ -2,6 +2,10 @@ Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
+Provide common wifi helpers:
+
+  $ get_ssid_status() { R "ba-cli -j -l WiFi.SSID.?0 | jsonfilter -e @[0]'[@.Alias != \"ep2g0\" && @.Alias != \"ep5g0\" && @.Alias != \"ep6g0\"].Status'" | LC_ALL=C sort;}
+
 Check TemperatureStatus root datamodel:
 
   $ R "ubus -S call TemperatureStatus _get"
@@ -31,8 +35,44 @@ Check if directories or symbolic links exist for each TemperatureSensor object:
   > fi
   All zones exists
 
-If test is running on a mxl, skip the next part because of PPW-423
-  $ if echo "$CI_JOB_NAME" | grep -q -E "MXL|URX"; then exit 80; fi
+Enable all wifi interfaces before starting the test, so all thermal zones can be available:
+
+Check default wifi status:
+
+  $ get_ssid_status
+  Down
+  Down
+  Down
+  Down
+  Down
+  Down
+
+Set AutoChannelEnable=0 on all WiFi.Radio. interfaces:
+
+  $ R "ba-cli -j -l WiFi.Radio.*.AutoChannelEnable=0 | sed '/^$/d'"
+  [{"WiFi.Radio.1.":{"AutoChannelEnable":0},"WiFi.Radio.2.":{"AutoChannelEnable":0},"WiFi.Radio.3.":{"AutoChannelEnable":0}}]
+
+Set radio channel to a non DFS one:
+
+  $ R "ba-cli -j -l WiFi.Radio.2.Channel=36 | sed '/^$/d'"
+  [{"WiFi.Radio.2.":{"Channel":36}}]
+
+Enable all interfaces:
+
+  $ R "ba-cli -j -l WiFi.AccessPoint.*.Enable=1 | sed '/^$/d'"
+  [{"WiFi.AccessPoint.3.":{"Enable":1},"WiFi.AccessPoint.4.":{"Enable":1},"WiFi.AccessPoint.5.":{"Enable":1},"WiFi.AccessPoint.6.":{"Enable":1},"WiFi.AccessPoint.1.":{"Enable":1},"WiFi.AccessPoint.2.":{"Enable":1}}]
+
+  $ sleep 10
+
+Check wifi activation:
+
+  $ get_ssid_status
+  Up
+  Up
+  Up
+  Up
+  Up
+  Up
 
 Check that the value is actually synchronized with the system value:
 
@@ -56,3 +96,20 @@ Check that the value is actually synchronized with the system value:
   >   echo "All values matched"
   > fi
   All values matched
+
+Disable wifi interfaces before leaving the test:
+
+  $ R "ba-cli -j -l WiFi.AccessPoint.*.Enable=0 | sed '/^$/d'"
+  [{"WiFi.AccessPoint.3.":{"Enable":0},"WiFi.AccessPoint.4.":{"Enable":0},"WiFi.AccessPoint.5.":{"Enable":0},"WiFi.AccessPoint.6.":{"Enable":0},"WiFi.AccessPoint.1.":{"Enable":0},"WiFi.AccessPoint.2.":{"Enable":0}}]
+
+  $ sleep 10
+
+Check wifi dectivation:
+
+  $ get_ssid_status
+  Down
+  Down
+  Down
+  Down
+  Down
+  Down
