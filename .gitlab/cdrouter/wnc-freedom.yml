@@ -120,6 +120,7 @@ CDRouter-USP-prpl Freedom initramfs:
 
 prplWare-Smoke-Test-Suite Freedom initramfs:
   <<: *wnc_freedom_ipv6
+  timeout: 120 minutes
   stage: smoke tests
   variables:
     CDROUTER_TEST_CONFIG: smoke-test
