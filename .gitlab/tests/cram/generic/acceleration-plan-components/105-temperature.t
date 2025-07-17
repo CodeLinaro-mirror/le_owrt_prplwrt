@@ -5,7 +5,7 @@ Create R alias:
 Check TemperatureStatus root datamodel:
 
   $ R "ubus -S call TemperatureStatus _get"
-  {"TemperatureStatus.":{"TemperatureSensorNumberOfEntries":[1-9][0-9]*}} (re)
+  {"TemperatureStatus.":{"TemperatureSensorNumberOfEntries":13,"PollingMaxRetry":-1}}
   {}
   {"amxd-error-code":0}
 
