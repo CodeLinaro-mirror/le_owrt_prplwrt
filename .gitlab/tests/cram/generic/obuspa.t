@@ -3605,10 +3605,11 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.Radio.{i}.FullScan() input:HomeTime
   Device.WiFi.Radio.{i}.FullScan() input:SSID
   Device.WiFi.Radio.{i}.GuardInterval                                                                  proto::wld
-  Device.WiFi.Radio.{i}.HECapabilities                                                                 proto::wld
   Device.WiFi.Radio.{i}.HTCapabilities                                                                 proto::wld
   Device.WiFi.Radio.{i}.HeCapsEnabled                                                                  proto::wld
   Device.WiFi.Radio.{i}.HeCapsSupported                                                                proto::wld
+  Device.WiFi.Radio.{i}.HeMacCapabilities                                                              proto::wld
+  Device.WiFi.Radio.{i}.HePhyCapabilities                                                              proto::wld
   Device.WiFi.Radio.{i}.IEEE80211_Caps                                                                 proto::wld
   Device.WiFi.Radio.{i}.IEEE80211ax.                                                                   proto::wld
   Device.WiFi.Radio.{i}.IEEE80211ax.BssColor                                                           proto::wld
@@ -3667,6 +3668,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.Radio.{i}.RIFSEnabled                                                                    proto::wld
   Device.WiFi.Radio.{i}.RTSThreshold                                                                   proto::wld
   Device.WiFi.Radio.{i}.RadCapabilitiesHTStr                                                           proto::wld
+  Device.WiFi.Radio.{i}.RadCapabilitiesHeMacStr                                                        proto::wld
   Device.WiFi.Radio.{i}.RadCapabilitiesHePhysStr                                                       proto::wld
   Device.WiFi.Radio.{i}.RadCapabilitiesVHTStr                                                          proto::wld
   Device.WiFi.Radio.{i}.RadCaps.                                                                       proto::wld
@@ -3805,6 +3807,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.Radio.{i}.Status                                                                         proto::wld
   Device.WiFi.Radio.{i}.SupportedDataTransmitRates                                                     proto::wld
   Device.WiFi.Radio.{i}.SupportedFrequencyBands                                                        proto::wld
+  Device.WiFi.Radio.{i}.SupportedHeMcsNssSet                                                           proto::wld
   Device.WiFi.Radio.{i}.SupportedOperatingChannelBandwidth                                             proto::wld
   Device.WiFi.Radio.{i}.SupportedSensingDataTypes                                                      proto::wld
   Device.WiFi.Radio.{i}.SupportedSensingExchangeTypes                                                  proto::wld
@@ -3858,6 +3861,8 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.Radio.{i}.setChanspec() input:reasonExt
   Device.WiFi.Radio.{i}.startACS()                                                                     proto::wld
   Device.WiFi.Radio.{i}.startAutoChannelSelection()                                                    proto::wld
+  Device.WiFi.Radio.{i}.startPlatformACS()                                                             proto::wld
+  Device.WiFi.Radio.{i}.startPlatformACS() input:acs_list
   Device.WiFi.Radio.{i}.startScan()                                                                    proto::wld
   Device.WiFi.Radio.{i}.startScan() input:BSSID
   Device.WiFi.Radio.{i}.startScan() input:SSID
@@ -8017,10 +8022,11 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.Radio.{i}.FullScan() input:HomeTime
   Device.WiFi.Radio.{i}.FullScan() input:SSID
   Device.WiFi.Radio.{i}.GuardInterval                                                                  proto::wld
-  Device.WiFi.Radio.{i}.HECapabilities                                                                 proto::wld
   Device.WiFi.Radio.{i}.HTCapabilities                                                                 proto::wld
   Device.WiFi.Radio.{i}.HeCapsEnabled                                                                  proto::wld
   Device.WiFi.Radio.{i}.HeCapsSupported                                                                proto::wld
+  Device.WiFi.Radio.{i}.HeMacCapabilities                                                              proto::wld
+  Device.WiFi.Radio.{i}.HePhyCapabilities                                                              proto::wld
   Device.WiFi.Radio.{i}.IEEE80211_Caps                                                                 proto::wld
   Device.WiFi.Radio.{i}.IEEE80211ax.                                                                   proto::wld
   Device.WiFi.Radio.{i}.IEEE80211ax.BssColor                                                           proto::wld
@@ -8079,6 +8085,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.Radio.{i}.RIFSEnabled                                                                    proto::wld
   Device.WiFi.Radio.{i}.RTSThreshold                                                                   proto::wld
   Device.WiFi.Radio.{i}.RadCapabilitiesHTStr                                                           proto::wld
+  Device.WiFi.Radio.{i}.RadCapabilitiesHeMacStr                                                        proto::wld
   Device.WiFi.Radio.{i}.RadCapabilitiesHePhysStr                                                       proto::wld
   Device.WiFi.Radio.{i}.RadCapabilitiesVHTStr                                                          proto::wld
   Device.WiFi.Radio.{i}.RadCaps.                                                                       proto::wld
@@ -8217,6 +8224,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.Radio.{i}.Status                                                                         proto::wld
   Device.WiFi.Radio.{i}.SupportedDataTransmitRates                                                     proto::wld
   Device.WiFi.Radio.{i}.SupportedFrequencyBands                                                        proto::wld
+  Device.WiFi.Radio.{i}.SupportedHeMcsNssSet                                                           proto::wld
   Device.WiFi.Radio.{i}.SupportedOperatingChannelBandwidth                                             proto::wld
   Device.WiFi.Radio.{i}.SupportedSensingDataTypes                                                      proto::wld
   Device.WiFi.Radio.{i}.SupportedSensingExchangeTypes                                                  proto::wld
@@ -8270,6 +8278,8 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.Radio.{i}.setChanspec() input:reasonExt
   Device.WiFi.Radio.{i}.startACS()                                                                     proto::wld
   Device.WiFi.Radio.{i}.startAutoChannelSelection()                                                    proto::wld
+  Device.WiFi.Radio.{i}.startPlatformACS()                                                             proto::wld
+  Device.WiFi.Radio.{i}.startPlatformACS() input:acs_list
   Device.WiFi.Radio.{i}.startScan()                                                                    proto::wld
   Device.WiFi.Radio.{i}.startScan() input:BSSID
   Device.WiFi.Radio.{i}.startScan() input:SSID
