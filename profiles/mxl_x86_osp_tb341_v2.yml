@@ -24,20 +24,20 @@ feeds:
     revision: 847d6bdb85d52c896cd191b4b797021a12dcbdb6
   - name: datapath
     uri: ssh://git@git.maxlinear.com/ugw-oss/feeds/feed_datapath.git
-    tracking_branch: updk_9.1.80
-    revision: 2afad648965c87b2c2ea2fda2037284c2c659192
+    tracking_branch: updk_9.1.80_owrt_24.10
+    revision: e28b5d4c860823f18a68d4b5c22aeaa0089f4c33
   - name: gphy_firmware
     uri: ssh://git@git.maxlinear.com/ugw-oss/feeds/feed_gphy_firmware.git
     tracking_branch: updk_9.1.80
-    revision: c34578e7345f6597e7b3f4170835ba01da9bc689
+    revision: 1b505ecab417183f601bf3a4466e78f6f0f78083
   - name: gwdpa_dpm
     uri: ssh://git@git.maxlinear.com/ugw-oss/feeds/feed_gwdpa-dpm.git
     tracking_branch: updk_9.1.80
-    revision: 7d4c0f2ec3e11fda723c6d4a389a1f9a8ffacd0d
+    revision: c1e7609386bef5fb2c5f378d715286834564eba7
   - name: misc
     uri: ssh://git@git.maxlinear.com/ugw-oss/feeds/feed_common.git
-    tracking_branch: updk_9.1.80
-    revision: 9bf4d29dca9e0dc70a891db2967f681377edb7b1
+    tracking_branch: updk_9.1.80_owrt_24.10
+    revision: dbdf008e406c122bcb1d3434a11a14f3ca8ba074
   - name: opensource_apps_prpl
     uri: ssh://git@git.maxlinear.com/ugw-oss/feeds/feed_opensource_apps_prpl.git
     tracking_branch: updk_9.1.80
@@ -45,19 +45,19 @@ feeds:
   - name: packet_learn
     uri: ssh://git@git.maxlinear.com/ugw-oss/feeds/feed_packet_learn.git
     tracking_branch: updk_9.1.80
-    revision: 039a5f37b4eaf8d8f575633a34f777053b62c8f1
+    revision: a80e1678046bb1c4240041063e746771cf0bdbe7
   - name: pon
     uri: ssh://git@git.maxlinear.com/ugw-oss/feeds/feed_pon.git
-    tracking_branch: updk_9.1.80
-    revision: c90b7792b70ca8e8bef7081b99b528961eab8315
+    tracking_branch: updk_9.1.80_owrt_24.10
+    revision: 8a7c959d5156eec12fb3275f10bc88412a364012
   - name: ppa
     uri: ssh://git@git.maxlinear.com/ugw-oss/feeds/feed_ppa.git
-    tracking_branch: updk_9.1.80
-    revision: d70dc514a74c12225ef9fbcf1e8583809d90f727
+    tracking_branch: updk_9.1.80_owrt_24.10
+    revision: 931bc2279e171f1fc0235af0a407c0b0152787fb
   - name: pp_net_adapter
     uri: ssh://git@git.maxlinear.com/ugw-oss/feeds/feed_pp_net_adapter.git
     tracking_branch: updk_9.1.80
-    revision: ea801c4be7626579edc46736c0be0d0786ddf277
+    revision: 93b93eb3d98e6dc86a8d91832984353019902c51
   - name: vpn_fw
     uri: ssh://git@git.maxlinear.com/ugw-oss/feeds/feed_vpn_fw.git
     tracking_branch: updk_9.1.80
@@ -68,8 +68,8 @@ feeds:
     revision: 6ad674b066baee4346608f0e58c0eb76f8df91ef
   - name: utils
     uri: ssh://git@git.maxlinear.com/ugw-oss/feeds/feed_ugw_utils.git
-    tracking_branch: updk_9.1.80
-    revision: 0737ccdcbf0bceabbd516185ddfa9ebb8f3be061
+    tracking_branch: updk_9.1.80_owrt_24.10
+    revision: ef143aafdeeecacada6c6099fff660d958d6c1d4
   - name: bootloader
     uri: ssh://git@git.maxlinear.com/ugw-oss/feeds/feed_uboot.git
     tracking_branch: u-boot-2022.01_updk
@@ -77,19 +77,19 @@ feeds:
   - name: dpl
     uri: ssh://git@git.maxlinear.com/ugw-oss/feeds/feed_dpl.git
     tracking_branch: updk_9.1.80
-    revision: 3062ecaffbf451155bcdd75482fc47e7bff37801
+    revision: d85c592906a8ea8aaa6b1a8e78ff54d877c56870
   - name: speedtest
     uri: ssh://git@git.maxlinear.com/mxl-oss/speedtest.git
     tracking_branch: updk_9.1.80
     revision: 64134928eb12dc99b2db30e591b16247da512505
   - name: ugw_sdk
     uri: ssh://git@git.maxlinear.com/ugw-oss/feeds/feed_ugw_sdk.git
-    tracking_branch: updk_9.1.80
-    revision: 1945daa608d13b5b50315746f18a6f8ed46a2cfd
+    tracking_branch: updk_9.1.80_owrt_24.10
+    revision: 41f6e1bfa57826c6cb3e10945509ef6919f884bc
   - name: system_service
     uri: ssh://git@git.maxlinear.com/ugw-oss/feeds/feed_system_service.git
     tracking_branch: updk_9.1.60
-    revision: 1f2768747375c39dc9858687ea853708e72508dd
+    revision: 29572ce1033ddb82b13de2a0076903f566c98096
 
 packages:
   - kmod-mxl_eth_drv
@@ -175,7 +175,7 @@ diffconfig: |
   CONFIG_DEVEL=y
   CONFIG_EXTRA_OPTIMIZATION="-fno-caller-saves -fno-plt -Wno-error=deprecated-declarations -Wno-error=address"
   CONFIG_KERNEL_GIT_CLONE_URI="git@git.maxlinear.com:mxl-oss/linux.git"
-  CONFIG_KERNEL_GIT_REF="UPDK_9.1.80_OSS.1"
+  CONFIG_KERNEL_GIT_REF="UPDK_9.1.80_OWRT_2410"
   CONFIG_GPON_OMCI_ONU_UBUS_INTERFACE=y
   CONFIG_TARGET_MULTI_PROFILE=y
   CONFIG_TARGET_PER_DEVICE_ROOTFS=y

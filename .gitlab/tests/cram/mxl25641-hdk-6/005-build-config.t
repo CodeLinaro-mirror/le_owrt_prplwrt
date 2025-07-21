@@ -39,6 +39,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_DEFAULT_WIRELESS_CONFIGURATION_TYPE="mesh"
   CONFIG_DMM_DATA_MODEL_MAPPER_ORDER=54
   CONFIG_DROPBEAR_ECC=y
+  CONFIG_DROPBEAR_ECDSA_SK=y
   CONFIG_EXTRA_OPTIMIZATION="-fno-caller-saves -fno-plt -Wno-error=deprecated-declarations -Wno-error=address"
   CONFIG_FEATURE_LED=y
   CONFIG_FEATURE_SYSTEM_LOG_BUFFER_COUNT=2
@@ -124,37 +125,21 @@ Assure expected build configuration (PCF-1413):
   CONFIG_INTERFACE7_TYPE="WAN"
   CONFIG_JSON_CHECKSEC_MITIGATIONS_REPORT=y
   CONFIG_JSON_CYCLONEDX_SBOM=y
-  CONFIG_KERNEL_BTRFS_FS_POSIX_ACL=y
   # CONFIG_KERNEL_CC_STACKPROTECTOR_REGULAR is not set
   CONFIG_KERNEL_CC_STACKPROTECTOR_STRONG=y
   CONFIG_KERNEL_CGROUP_DEVICE=y
   CONFIG_KERNEL_CGROUP_FREEZER=y
   CONFIG_KERNEL_CGROUP_PERF=y
-  CONFIG_KERNEL_CIFS_ACL=y
-  CONFIG_KERNEL_EXT4_FS_POSIX_ACL=y
-  CONFIG_KERNEL_EXT4_FS_SECURITY=y
-  CONFIG_KERNEL_F2FS_FS_POSIX_ACL=y
-  CONFIG_KERNEL_FS_POSIX_ACL=y
   CONFIG_KERNEL_FTRACE=y
-  CONFIG_KERNEL_GIT_BRANCH=""
   CONFIG_KERNEL_GIT_CLONE_URI="git@git.maxlinear.com:mxl-oss/linux.git"
-  CONFIG_KERNEL_GIT_DEPTH=0
   CONFIG_KERNEL_GIT_LOCAL_REPOSITORY=""
   CONFIG_KERNEL_GIT_MIRROR_HASH=""
-  CONFIG_KERNEL_GIT_REF="UPDK_9.1.80_OSS.1"
-  CONFIG_KERNEL_HFSPLUS_FS_POSIX_ACL=y
-  CONFIG_KERNEL_HFS_FS_POSIX_ACL=y
-  CONFIG_KERNEL_JFFS2_FS_POSIX_ACL=y
-  CONFIG_KERNEL_JFS_POSIX_ACL=y
+  CONFIG_KERNEL_GIT_REF="UPDK_9.1.80_OWRT_2410"
   CONFIG_KERNEL_MEMCG_SWAP_ENABLED=y
   CONFIG_KERNEL_NET_CLS_CGROUP=y
-  CONFIG_KERNEL_NFS_ACL_SUPPORT=y
   CONFIG_KERNEL_PERF_EVENTS=y
   CONFIG_KERNEL_PROC_PID_CPUSET=y
-  CONFIG_KERNEL_REISER_FS_POSIX_ACL=y
   CONFIG_KERNEL_STACKPROTECTOR_STRONG=y
-  CONFIG_KERNEL_TMPFS_POSIX_ACL=y
-  CONFIG_KERNEL_XFS_POSIX_ACL=y
   CONFIG_LGM_EIP123_SUPPORT=y
   CONFIG_LIBCURL_COOKIES=y
   CONFIG_LIBCURL_FILE=y
@@ -231,8 +216,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_dnsmasq-prpl=y
   CONFIG_PACKAGE_dwpal_6x-uci-osp=y
   CONFIG_PACKAGE_e2fsprogs=y
-  CONFIG_PACKAGE_ebtables-legacy=y
-  CONFIG_PACKAGE_ebtables-legacy-utils=y
+  CONFIG_PACKAGE_ebtables-nft=y
   CONFIG_PACKAGE_eip197-firmware=y
   CONFIG_PACKAGE_ethernet-manager=y
   CONFIG_PACKAGE_ethtool-full=y
@@ -279,19 +263,21 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-crypto-deflate=y
   CONFIG_PACKAGE_kmod-crypto-des=y
   CONFIG_PACKAGE_kmod-crypto-echainiv=y
+  CONFIG_PACKAGE_kmod-crypto-geniv=y
   CONFIG_PACKAGE_kmod-crypto-hmac=y
   CONFIG_PACKAGE_kmod-crypto-manager=y
   CONFIG_PACKAGE_kmod-crypto-md5=y
   CONFIG_PACKAGE_kmod-crypto-null=y
+  CONFIG_PACKAGE_kmod-crypto-rng=y
   CONFIG_PACKAGE_kmod-crypto-sha1=y
+  CONFIG_PACKAGE_kmod-crypto-sha3=y
+  CONFIG_PACKAGE_kmod-crypto-sha512=y
   CONFIG_PACKAGE_kmod-directconnect-dp=y
   CONFIG_PACKAGE_kmod-dnsresolver=y
   CONFIG_PACKAGE_kmod-dp-eth-reinsert=y
   CONFIG_PACKAGE_kmod-dpl=y
   CONFIG_PACKAGE_kmod-ebt-prio=y
   CONFIG_PACKAGE_kmod-ebtables=y
-  CONFIG_PACKAGE_kmod-ebtables-ipv4=y
-  CONFIG_PACKAGE_kmod-ebtables-ipv6=y
   CONFIG_PACKAGE_kmod-fs-autofs4=y
   CONFIG_PACKAGE_kmod-fs-ext4=y
   CONFIG_PACKAGE_kmod-gre=y
@@ -333,6 +319,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-lib-textsearch=y
   CONFIG_PACKAGE_kmod-lib-zlib-deflate=y
   CONFIG_PACKAGE_kmod-lib-zlib-inflate=y
+  CONFIG_PACKAGE_kmod-libphy=y
   CONFIG_PACKAGE_kmod-loop=y
   CONFIG_PACKAGE_kmod-mhi-bus=y
   CONFIG_PACKAGE_kmod-mhi-net=y
@@ -353,6 +340,8 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-nf-nathelper=y
   CONFIG_PACKAGE_kmod-nf-nathelper-extra=y
   CONFIG_PACKAGE_kmod-nfnetlink-queue=y
+  CONFIG_PACKAGE_kmod-nft-bridge=y
+  CONFIG_PACKAGE_kmod-nft-compat=y
   CONFIG_PACKAGE_kmod-nft-fib=m
   CONFIG_PACKAGE_kmod-nls-base=y
   CONFIG_PACKAGE_kmod-p34x_phy_fwdl=y
@@ -442,6 +431,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_libdbus=y
   CONFIG_PACKAGE_libdhcpoptions=y
   CONFIG_PACKAGE_libdiscoping=y
+  CONFIG_PACKAGE_libe2p=y
   CONFIG_PACKAGE_libedit=y
   CONFIG_PACKAGE_libelf=y
   CONFIG_PACKAGE_libevdev=y
@@ -464,6 +454,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_libiperf3=y
   CONFIG_PACKAGE_libipset=y
   CONFIG_PACKAGE_libiptext=y
+  CONFIG_PACKAGE_libiptext-nft=y
   CONFIG_PACKAGE_libiptext6=y
   CONFIG_PACKAGE_libiwinfo=y
   CONFIG_PACKAGE_libiwinfo-data=y
@@ -482,7 +473,6 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_libnetlink-utils=y
   CONFIG_PACKAGE_libnetmodel=y
   CONFIG_PACKAGE_libnfnetlink=y
-  CONFIG_PACKAGE_libnftnl=m
   CONFIG_PACKAGE_libnghttp2=y
   CONFIG_PACKAGE_libnl=y
   CONFIG_PACKAGE_libnl-cli=y
@@ -522,6 +512,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_libugwhelper=y
   CONFIG_PACKAGE_libunbound-prpl=y
   CONFIG_PACKAGE_libupnp=y
+  CONFIG_PACKAGE_liburcu=y
   CONFIG_PACKAGE_libusb-1.0=y
   CONFIG_PACKAGE_libusp=y
   CONFIG_PACKAGE_libuspi=y
@@ -794,6 +785,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_wifi-sensing=y
   CONFIG_PACKAGE_wwan=y
   CONFIG_PACKAGE_xtables-legacy=y
+  CONFIG_PACKAGE_xtables-nft=y
   CONFIG_PACKAGE_yajl=y
   CONFIG_PACKAGE_zlib=y
   CONFIG_PCRE2_JIT_ENABLED=y
@@ -1053,7 +1045,6 @@ Assure expected build configuration (PCF-1413):
   CONFIG_SWITCH_LAN_PORTS="0 1 2 4"
   CONFIG_SWITCH_MII1_PORT="5"
   # CONFIG_TARGET_ROOTFS_EXT4FS is not set
-  CONFIG_USE_FS_ACL_ATTR=y
   CONFIG_USE_PRPLMESH_WHM=y
   CONFIG_VERSIONOPT=y
   CONFIG_VERSION_BUG_URL="https://jira.prplfoundation.org"
@@ -1065,7 +1056,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_VERSION_MANUFACTURER_URL="https://prplfoundation.org"
   CONFIG_VERSION_NUMBER=""
   CONFIG_VERSION_PRODUCT=""
-  CONFIG_VERSION_REPO="https://downloads.openwrt.org/releases/23.05-SNAPSHOT"
+  CONFIG_VERSION_REPO="https://downloads.openwrt.org/releases/24.10-SNAPSHOT"
   CONFIG_VERSION_SUPPORT_URL="https://jira.prplfoundation.org"
   CONFIG_WIRELESS_AFC=y
   CONFIG_WIRELESS_STA=y
