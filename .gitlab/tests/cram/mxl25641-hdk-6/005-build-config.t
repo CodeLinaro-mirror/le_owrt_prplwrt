@@ -64,6 +64,8 @@ Assure expected build configuration (PCF-1413):
   CONFIG_IFX_UBOOT_RAM_TEXT_BASE=0xA0400000
   CONFIG_IMAGEOPT=y
   CONFIG_INCLUDE_CONFIG=y
+  CONFIG_INTEL_X86_IMAGE_FORMAT_FIT=y
+  CONFIG_INTEL_X86_SINGLE_IMAGE=y
   CONFIG_INTERFACE1_BONDMEMBERS=""
   CONFIG_INTERFACE1_ENABLE=y
   CONFIG_INTERFACE1_IFNAME="eth0_1"
@@ -137,11 +139,11 @@ Assure expected build configuration (PCF-1413):
   CONFIG_KERNEL_FS_POSIX_ACL=y
   CONFIG_KERNEL_FTRACE=y
   CONFIG_KERNEL_GIT_BRANCH=""
-  CONFIG_KERNEL_GIT_CLONE_URI="git@git.maxlinear.com:mxl-oss/linux.git"
+  CONFIG_KERNEL_GIT_CLONE_URI="https://github.com/maxlinear/linux.git"
   CONFIG_KERNEL_GIT_DEPTH=0
   CONFIG_KERNEL_GIT_LOCAL_REPOSITORY=""
   CONFIG_KERNEL_GIT_MIRROR_HASH=""
-  CONFIG_KERNEL_GIT_REF="UPDK_9.1.80_OSS.1"
+  CONFIG_KERNEL_GIT_REF="UPDK_9.1.90"
   CONFIG_KERNEL_HFSPLUS_FS_POSIX_ACL=y
   CONFIG_KERNEL_HFS_FS_POSIX_ACL=y
   CONFIG_KERNEL_JFFS2_FS_POSIX_ACL=y
@@ -154,6 +156,11 @@ Assure expected build configuration (PCF-1413):
   CONFIG_KERNEL_REISER_FS_POSIX_ACL=y
   CONFIG_KERNEL_STACKPROTECTOR_STRONG=y
   CONFIG_KERNEL_TMPFS_POSIX_ACL=y
+  CONFIG_KERNEL_WEXT_CORE=y
+  CONFIG_KERNEL_WEXT_PRIV=y
+  CONFIG_KERNEL_WEXT_PROC=y
+  CONFIG_KERNEL_WEXT_SPY=y
+  CONFIG_KERNEL_WIRELESS_EXT=y
   CONFIG_KERNEL_XFS_POSIX_ACL=y
   CONFIG_LGM_EIP123_SUPPORT=y
   CONFIG_LIBCURL_COOKIES=y
@@ -176,6 +183,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_LXC_SECCOMP=y
   CONFIG_MCASTD_CORE=y
   CONFIG_MCASTD_CORE_NICE=-18
+  CONFIG_MCC_DRV_ENABLE=y
   CONFIG_MODEMMANAGER_WITH_MBIM=y
   CONFIG_MODEMMANAGER_WITH_NETIFD=y
   CONFIG_MODEMMANAGER_WITH_QMI=y
@@ -243,7 +251,6 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_fcgi=y
   CONFIG_PACKAGE_firewall4=m
   CONFIG_PACKAGE_flock=y
-  CONFIG_PACKAGE_fwupgrade=y
   CONFIG_PACKAGE_getopt=y
   CONFIG_PACKAGE_glib2=y
   CONFIG_PACKAGE_gmap-client=y
@@ -268,6 +275,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_iptables-mod-nfqueue=y
   CONFIG_PACKAGE_iptables-zz-legacy=y
   CONFIG_PACKAGE_iputils-ping=y
+  CONFIG_PACKAGE_iw=y
   CONFIG_PACKAGE_iwinfo=y
   CONFIG_PACKAGE_iwlwav-firmware=y
   CONFIG_PACKAGE_iwlwav-hostap-ng-uci=y
@@ -337,6 +345,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-lib-zlib-deflate=y
   CONFIG_PACKAGE_kmod-lib-zlib-inflate=y
   CONFIG_PACKAGE_kmod-loop=y
+  CONFIG_PACKAGE_kmod-mcast-helper=y
   CONFIG_PACKAGE_kmod-mcastd-core=y
   CONFIG_PACKAGE_kmod-mhi-bus=y
   CONFIG_PACKAGE_kmod-mhi-net=y
@@ -345,11 +354,13 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-mhi-wwan-mbim=y
   CONFIG_PACKAGE_kmod-mii=y
   CONFIG_PACKAGE_kmod-mth-macdb=y
+  CONFIG_PACKAGE_kmod-mxl-xpcs=y
   CONFIG_PACKAGE_kmod-mxl_eth_drv=y
   CONFIG_PACKAGE_kmod-mxl_gpy=y
   CONFIG_PACKAGE_kmod-mxl_lgm_toe=y
   CONFIG_PACKAGE_kmod-mxl_pon_hgu_vuni_lgm=y
   CONFIG_PACKAGE_kmod-mxl_vpn=y
+  CONFIG_PACKAGE_kmod-nat46=y
   CONFIG_PACKAGE_kmod-nf-conncount=y
   CONFIG_PACKAGE_kmod-nf-ipt=y
   CONFIG_PACKAGE_kmod-nf-ipt6=y
@@ -357,6 +368,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-nf-nathelper=y
   CONFIG_PACKAGE_kmod-nf-nathelper-extra=y
   CONFIG_PACKAGE_kmod-nfnetlink-queue=y
+  CONFIG_PACKAGE_kmod-nft-bridge=y
   CONFIG_PACKAGE_kmod-nft-fib=m
   CONFIG_PACKAGE_kmod-nls-base=y
   CONFIG_PACKAGE_kmod-p34x_phy_fwdl=y
@@ -582,6 +594,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_lxc-user-nic=y
   CONFIG_PACKAGE_lxc-usernsexec=y
   CONFIG_PACKAGE_lxc-wait=y
+  CONFIG_PACKAGE_map=y
   CONFIG_PACKAGE_mbim-utils=y
   CONFIG_PACKAGE_mcastd-noforward=y
   CONFIG_PACKAGE_miniupnpd-prpl=y
@@ -690,6 +703,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_prpl-configuration=y
   CONFIG_PACKAGE_prpl-webui=y
   CONFIG_PACKAGE_prplmesh=y
+  CONFIG_PACKAGE_prplmesh-unit-tests=m
   CONFIG_PACKAGE_pwhm=y
   CONFIG_PACKAGE_qmi-utils=y
   CONFIG_PACKAGE_radvd=y
@@ -783,6 +797,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_tr181-usermanagement=y
   CONFIG_PACKAGE_tr181-xpon=y
   CONFIG_PACKAGE_uboot-envtools=y
+  CONFIG_PACKAGE_uboot-octopus-urx641-overlay-p34x-phy-emmc-prpl=y
   CONFIG_PACKAGE_uboot-octopus-urx641-p34x-phy-emmc-prpl=y
   CONFIG_PACKAGE_ucode-mod-ubus=m
   CONFIG_PACKAGE_ucode-mod-uci=m
@@ -809,7 +824,8 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PKG_CC_STACKPROTECTOR_STRONG=y
   # CONFIG_PKG_FORTIFY_SOURCE_1 is not set
   CONFIG_PKG_FORTIFY_SOURCE_2=y
-  CONFIG_PON_SDK_VERSION="1.23.0"
+  CONFIG_PON_SDK_VERSION="2.1.0"
+  CONFIG_PRPLMESH_ENABLE_UNIT_TESTS=y
   CONFIG_PRPL_CONTROLLER_ROOT_PATH="X_PRPLWARE-COM_WiFiController"
   CONFIG_PRPL_IP_DIAGNOSTIC_UPLOAD_DOWNLOAD=y
   CONFIG_REMOVE_CAPS_ODLS=y
@@ -1072,6 +1088,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_VERSION_PRODUCT=""
   CONFIG_VERSION_REPO="https://downloads.openwrt.org/releases/23.05-SNAPSHOT"
   CONFIG_VERSION_SUPPORT_URL="https://jira.prplfoundation.org"
+  CONFIG_WAVE_700=y
   CONFIG_WIRELESS_AFC=y
   CONFIG_WIRELESS_STA=y
   CONFIG_shadow-all=y
