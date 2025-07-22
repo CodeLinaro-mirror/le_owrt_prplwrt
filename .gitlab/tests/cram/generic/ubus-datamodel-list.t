@@ -4,7 +4,7 @@ Create R alias:
 
 Check that ubus has expected datamodels available:
 
-  $ R "ubus list | grep '[[:upper:]]' | grep -v -e '\.[[:digit:]]' -e '^Cellular' -e 'Device.Cellular' -e 'WiFi.Vendor.Daemon' -e 'WiFi.Vendor.ModuleMode' -e '^Bridging.Bridge.[SV]'"
+  $ R "ubus list | grep '[[:upper:]]' | grep -v -e '\.[[:digit:]]' -e '^Cellular' -e 'Device.Cellular' -e 'WiFi.Vendor.Daemon' -e 'WiFi.Vendor.ModuleMode' -e '^Bridging.Bridge.[SV]' -e 'WiFi.Vendor.ReconfManager'"
   ACLManager
   ACLManager.Role
   Bridging
