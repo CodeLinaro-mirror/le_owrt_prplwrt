@@ -4,7 +4,7 @@ Create R alias:
 
 Check that obuspa has expected datamodel available (minus the platform specific WiFi Vendor extensions/cellular):
 
-  $ R "obuspa -f /etc/obuspa.db -c dump datamodel | grep '^Device.' | grep -v -e 'Device.Cellular.' -e 'Device.WiFi.AccessPoint.{i}.Vendor.' -e 'Device.WiFi.EndPoint.{i}.Vendor.' -e 'Device.WiFi.Radio.{i}.Vendor.' -e 'Device.WiFi.Radio.{i}.NaStaMonitor.'"
+  $ R "obuspa -f /etc/obuspa.db -c dump datamodel | grep '^Device.' " | grep -v -e 'Device.Cellular.' -e 'Device.WiFi.AccessPoint.{i}.Vendor.' -e 'Device.WiFi.EndPoint.{i}.Vendor.' -e 'Device.WiFi.Radio.{i}.Vendor.' -e 'Device.WiFi.Radio.{i}.NaStaMonitor.' -e 'Device.WiFi.Vendor.ReconfManager.'
   Device.
   Device.Boot!                                                                                         proto::tr181-device
   Device.Bridging.                                                                                     proto::tr181-bridging
@@ -4434,7 +4434,7 @@ Check that USP stack is handling the reconnection scenario properly PCF-1198/PPW
 
 Check that obuspa provides the same datamodel again (minus the platform specific WiFi Vendor extensions):
 
-  $ R "obuspa -f /etc/obuspa.db -c dump datamodel | grep '^Device.' | grep -v -e 'Device.Cellular.' -e 'Device.WiFi.AccessPoint.{i}.Vendor.' -e 'Device.WiFi.EndPoint.{i}.Vendor.' -e 'Device.WiFi.Radio.{i}.Vendor.' -e 'Device.WiFi.Radio.{i}.NaStaMonitor.'"
+  $ R "obuspa -f /etc/obuspa.db -c dump datamodel | grep '^Device.' " | grep -v -e 'Device.Cellular.' -e 'Device.WiFi.AccessPoint.{i}.Vendor.' -e 'Device.WiFi.EndPoint.{i}.Vendor.' -e 'Device.WiFi.Radio.{i}.Vendor.' -e 'Device.WiFi.Radio.{i}.NaStaMonitor.' -e 'Device.WiFi.Vendor.ReconfManager.'
   Device.
   Device.Boot!                                                                                         proto::tr181-device
   Device.Bridging.                                                                                     proto::tr181-bridging
