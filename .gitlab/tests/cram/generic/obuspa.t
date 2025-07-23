@@ -3820,10 +3820,12 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.Radio.{i}.SupportedDataTransmitRates                                                     proto::wld
   Device.WiFi.Radio.{i}.SupportedFrequencyBands                                                        proto::wld
   Device.WiFi.Radio.{i}.SupportedHeMcsNssSet                                                           proto::wld
+  Device.WiFi.Radio.{i}.SupportedHtMcsSet                                                              proto::wld
   Device.WiFi.Radio.{i}.SupportedOperatingChannelBandwidth                                             proto::wld
   Device.WiFi.Radio.{i}.SupportedSensingDataTypes                                                      proto::wld
   Device.WiFi.Radio.{i}.SupportedSensingExchangeTypes                                                  proto::wld
   Device.WiFi.Radio.{i}.SupportedStandards                                                             proto::wld
+  Device.WiFi.Radio.{i}.SupportedVhtMcsNssSet                                                          proto::wld
   Device.WiFi.Radio.{i}.TargetWakeTimeEnable                                                           proto::wld
   Device.WiFi.Radio.{i}.TransmitPower                                                                  proto::wld
   Device.WiFi.Radio.{i}.TransmitPowerSupported                                                         proto::wld
@@ -8271,10 +8273,12 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.Radio.{i}.SupportedDataTransmitRates                                                     proto::wld
   Device.WiFi.Radio.{i}.SupportedFrequencyBands                                                        proto::wld
   Device.WiFi.Radio.{i}.SupportedHeMcsNssSet                                                           proto::wld
+  Device.WiFi.Radio.{i}.SupportedHtMcsSet                                                              proto::wld
   Device.WiFi.Radio.{i}.SupportedOperatingChannelBandwidth                                             proto::wld
   Device.WiFi.Radio.{i}.SupportedSensingDataTypes                                                      proto::wld
   Device.WiFi.Radio.{i}.SupportedSensingExchangeTypes                                                  proto::wld
   Device.WiFi.Radio.{i}.SupportedStandards                                                             proto::wld
+  Device.WiFi.Radio.{i}.SupportedVhtMcsNssSet                                                          proto::wld
   Device.WiFi.Radio.{i}.TargetWakeTimeEnable                                                           proto::wld
   Device.WiFi.Radio.{i}.TransmitPower                                                                  proto::wld
   Device.WiFi.Radio.{i}.TransmitPowerSupported                                                         proto::wld
