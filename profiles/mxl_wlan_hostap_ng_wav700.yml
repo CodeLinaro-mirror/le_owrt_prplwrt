@@ -2,7 +2,7 @@
 description: Add the WLAN feature with opensource hostap for the Maxlinear devices
 feeds:
   - name: wlan_6x
-    uri: ssh://git@github.com/maxlinear/feed_wlan.git
+    uri: https://github.com/maxlinear/feed_wlan.git
     tracking_branch: updk_9.1.90
     revision: 37184fc6d49dc684b01397d8894a39db6ab33759
 
