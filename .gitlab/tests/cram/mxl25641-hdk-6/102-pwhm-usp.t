@@ -1,1 +1,0 @@
-../generic/wifi-usp.t
