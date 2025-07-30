@@ -15,7 +15,7 @@ feeds:
 
   - name: feed_prplos
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplos.git
-    revision: mszczepanski/feat-54_stable-4.0-fix-Makefile-to-CI@db135a49a4308b7a02f38405e720c98c4c43d742
+    revision: mszczepanski/feat-54_stable-4.0-fix-Makefile-to-CI@3d7e45cf976d82312c1db4058fe469a4aea76604
 
 additional_packages:
   - feed: packages
