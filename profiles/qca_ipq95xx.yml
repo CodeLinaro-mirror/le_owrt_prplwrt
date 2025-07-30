@@ -37,6 +37,8 @@ packages:
   - kmod-qca8xxx-phc
   - kmod-ppp
   - kmod-pppoe
+  - swugenerator
+  - uboot-hosttools
 
 diffconfig: |
   CONFIG_TARGET_INITRAMFS_COMPRESSION_LZMA=y

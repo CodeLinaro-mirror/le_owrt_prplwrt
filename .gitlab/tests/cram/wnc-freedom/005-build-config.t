@@ -497,6 +497,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_shadow-utils=y
   CONFIG_PACKAGE_shadow-vipw=y
   CONFIG_PACKAGE_ssh-server=y
+  CONFIG_PACKAGE_swugenerator=y
   CONFIG_PACKAGE_syslog-ng=y
   CONFIG_PACKAGE_tc-tiny=y
   CONFIG_PACKAGE_terminfo=y
@@ -539,6 +540,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_tr181-usb=y
   CONFIG_PACKAGE_tr181-usermanagement=y
   CONFIG_PACKAGE_tr181-xpon=y
+  CONFIG_PACKAGE_uboot-hosttools=y
   # CONFIG_PACKAGE_ucode-mod-uci is not set
   CONFIG_PACKAGE_umbim=y
   CONFIG_PACKAGE_umdns-prpl=y
