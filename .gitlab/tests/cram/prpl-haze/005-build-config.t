@@ -5,11 +5,11 @@ Create R alias:
 Assure expected build configuration (PCF-1413):
 
   $ R "cat /etc/build.config"
-  # Build configuration for board ipq807x/generic/DEVICE_prpl_haze
+  # Build configuration for board qualcommax/ipq807x/DEVICE_prpl_haze
   
-  CONFIG_TARGET_ipq807x=y
-  CONFIG_TARGET_ipq807x_generic=y
-  CONFIG_TARGET_ipq807x_generic_DEVICE_prpl_haze=y
+  CONFIG_TARGET_qualcommax=y
+  CONFIG_TARGET_qualcommax_ipq807x=y
+  CONFIG_TARGET_qualcommax_ipq807x_DEVICE_prpl_haze=y
   CONFIG_DEVEL=y
   CONFIG_TOOLCHAINOPTS=y
   CONFIG_BUSYBOX_CUSTOM=y
@@ -23,6 +23,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_BUSYBOX_DEFAULT_PIE=y
   CONFIG_DMM_DATA_MODEL_MAPPER_ORDER=54
   CONFIG_DROPBEAR_ECC=y
+  CONFIG_DROPBEAR_ECDSA_SK=y
   CONFIG_FORCE_RUNNING_AS_ROOT=y
   CONFIG_GCC_DEFAULT_PIE=y
   CONFIG_IB=y
@@ -32,31 +33,17 @@ Assure expected build configuration (PCF-1413):
   CONFIG_JSON_CHECKSEC_MITIGATIONS_REPORT=y
   CONFIG_JSON_CYCLONEDX_SBOM=y
   CONFIG_KERNEL_ARM_PMU=y
-  CONFIG_KERNEL_BTRFS_FS_POSIX_ACL=y
+  CONFIG_KERNEL_ARM_PMUV3=y
   # CONFIG_KERNEL_CC_STACKPROTECTOR_REGULAR is not set
   CONFIG_KERNEL_CC_STACKPROTECTOR_STRONG=y
   CONFIG_KERNEL_CGROUP_DEVICE=y
   CONFIG_KERNEL_CGROUP_FREEZER=y
   CONFIG_KERNEL_CGROUP_PERF=y
-  CONFIG_KERNEL_CIFS_ACL=y
-  CONFIG_KERNEL_EXT4_FS_POSIX_ACL=y
-  CONFIG_KERNEL_EXT4_FS_SECURITY=y
-  CONFIG_KERNEL_F2FS_FS_POSIX_ACL=y
-  CONFIG_KERNEL_F2FS_FS_SECURITY=y
-  CONFIG_KERNEL_FS_POSIX_ACL=y
-  CONFIG_KERNEL_HFSPLUS_FS_POSIX_ACL=y
-  CONFIG_KERNEL_HFS_FS_POSIX_ACL=y
-  CONFIG_KERNEL_JFFS2_FS_POSIX_ACL=y
-  CONFIG_KERNEL_JFS_POSIX_ACL=y
   CONFIG_KERNEL_MEMCG_SWAP_ENABLED=y
   CONFIG_KERNEL_NET_CLS_CGROUP=y
-  CONFIG_KERNEL_NFS_ACL_SUPPORT=y
   CONFIG_KERNEL_PERF_EVENTS=y
   CONFIG_KERNEL_PROC_PID_CPUSET=y
-  CONFIG_KERNEL_REISER_FS_POSIX_ACL=y
   CONFIG_KERNEL_STACKPROTECTOR_STRONG=y
-  CONFIG_KERNEL_TMPFS_POSIX_ACL=y
-  CONFIG_KERNEL_XFS_POSIX_ACL=y
   CONFIG_LIBCURL_COOKIES=y
   CONFIG_LIBCURL_FILE=y
   CONFIG_LIBCURL_FTP=y
@@ -114,7 +101,6 @@ Assure expected build configuration (PCF-1413):
   # CONFIG_PACKAGE_dnsmasq is not set
   CONFIG_PACKAGE_dnsmasq-prpl=y
   CONFIG_PACKAGE_ebtables-legacy=y
-  CONFIG_PACKAGE_ebtables-legacy-utils=y
   CONFIG_PACKAGE_ethernet-manager=y
   CONFIG_PACKAGE_ethtool-full=y
   CONFIG_PACKAGE_fcgi=y
@@ -148,8 +134,6 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-asn1-decoder=y
   CONFIG_PACKAGE_kmod-crypto-md5=y
   CONFIG_PACKAGE_kmod-ebtables=y
-  CONFIG_PACKAGE_kmod-ebtables-ipv4=y
-  CONFIG_PACKAGE_kmod-ebtables-ipv6=y
   # CONFIG_PACKAGE_kmod-gpio-button-hotplug is not set
   CONFIG_PACKAGE_kmod-ifb=y
   CONFIG_PACKAGE_kmod-input-core=y
@@ -281,6 +265,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_libudev-zero=y
   CONFIG_PACKAGE_libunbound-prpl=y
   CONFIG_PACKAGE_libupnp=y
+  CONFIG_PACKAGE_liburcu=y
   CONFIG_PACKAGE_libusb-1.0=y
   CONFIG_PACKAGE_libusp=y
   CONFIG_PACKAGE_libuspi=y
@@ -355,6 +340,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_mod-ppp-daemon=y
   CONFIG_PACKAGE_mod-qos-tc=y
   CONFIG_PACKAGE_mod-ra-radvd=y
+  CONFIG_PACKAGE_mod-routing-dhcp=y
   CONFIG_PACKAGE_mod-sahtrace=y
   CONFIG_PACKAGE_mod-usp-registration=y
   CONFIG_PACKAGE_mod-vlan-ioctl=y
@@ -370,7 +356,6 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_netdev-plugin=y
   CONFIG_PACKAGE_netmodel=y
   CONFIG_PACKAGE_netmodel-bridge=y
-  CONFIG_PACKAGE_netmodel-cellular=y
   CONFIG_PACKAGE_netmodel-clients=y
   CONFIG_PACKAGE_netmodel-dhcpv4=y
   CONFIG_PACKAGE_netmodel-dhcpv6=y
@@ -493,13 +478,13 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_tr181-usb=y
   CONFIG_PACKAGE_tr181-usermanagement=y
   CONFIG_PACKAGE_tr181-xpon=y
-  # CONFIG_PACKAGE_ucode-mod-uci is not set
   CONFIG_PACKAGE_umdns-prpl=y
   CONFIG_PACKAGE_unbound-daemon-prpl=y
   CONFIG_PACKAGE_uriparser=y
   CONFIG_PACKAGE_usbids=y
   CONFIG_PACKAGE_usbutils=y
   CONFIG_PACKAGE_wan-manager=y
+  CONFIG_PACKAGE_wifi-scheduler=y
   CONFIG_PACKAGE_wifi-sensing=y
   CONFIG_PACKAGE_wpa-supplicant-openssl=y
   CONFIG_PACKAGE_wpad-basic-mbedtls=m
@@ -741,6 +726,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_SAH_TRACES_LEVEL=500
   CONFIG_SAH_TRACES_SYSLOG_CONSOLE=y
   CONFIG_SAH_TRACE_NO_COLORS=y
+  CONFIG_SAH_WLD_ENABLE_USP_SERVER_SOCKET=y
   CONFIG_SAH_WLD_INIT_ORDER=60
   CONFIG_SAH_WLD_INIT_SCRIPT="prplmesh_whm"
   CONFIG_SDK=y
@@ -750,7 +736,6 @@ Assure expected build configuration (PCF-1413):
   CONFIG_SQLITE3_FTS4=y
   CONFIG_SQLITE3_FTS5=y
   CONFIG_SQLITE3_RTREE=y
-  CONFIG_USE_FS_ACL_ATTR=y
   CONFIG_USE_PRPLMESH_WHM=y
   CONFIG_VERSIONOPT=y
   CONFIG_VERSION_BUG_URL="https://jira.prplfoundation.org"
@@ -762,7 +747,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_VERSION_MANUFACTURER_URL="https://prplfoundation.org"
   CONFIG_VERSION_NUMBER=""
   CONFIG_VERSION_PRODUCT=""
-  CONFIG_VERSION_REPO="https://downloads.openwrt.org/releases/23.05-SNAPSHOT"
+  CONFIG_VERSION_REPO="https://downloads.openwrt.org/releases/24.10-SNAPSHOT"
   CONFIG_VERSION_SUPPORT_URL="https://jira.prplfoundation.org"
   CONFIG_shadow-all=y
   # CONFIG_VERSION_CODE_FILENAMES is not set
