@@ -27,6 +27,7 @@ additional_packages:
       - lighttpd-mod-authn_file
       - lighttpd-mod-fastcgi
       - opensc
+      - libp11
       - pciids
       - pciutils
       - picocom
