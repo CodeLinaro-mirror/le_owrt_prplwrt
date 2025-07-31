@@ -196,11 +196,6 @@ Check that ubus has expected datamodels available:
   Logical.Interface
   Logical.X_PRPLWARE-COM_Subnet
   Logical.X_PRPLWARE-COM_Subnet.Config
-  MCASTD
-  MCASTD.Debug
-  MCASTD.Debug.Zone
-  MCASTD.Intf
-  MCASTD.Tuner
   MQTT
   MQTT.Capabilities
   MQTT.Client
