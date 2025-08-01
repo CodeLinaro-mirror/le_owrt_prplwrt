@@ -28,6 +28,7 @@ additional_packages:
       - lighttpd-mod-fastcgi
       - opensc
       - libp11
+      - lighttpd-mod-openssl
       - pciids
       - pciutils
       - picocom
