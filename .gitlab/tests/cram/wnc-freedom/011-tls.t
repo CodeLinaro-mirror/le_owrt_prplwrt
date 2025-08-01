@@ -5,8 +5,8 @@ Create R alias:
 Check that there is just single TLS library OpenSSL:
 
   $ R "opkg list-installed" | grep -E '(openssl|mbedtls|wolfssl)' | sort | awk -F ' - ' '{print $1}'
-  hostapd-qca-openssl
-  libopenssl-* (re)
+  libopenssl-conf
+  libopenssl-legacy
   libopenssl.* (re)
   libustream-openssl.* (re)
   openssl-util
