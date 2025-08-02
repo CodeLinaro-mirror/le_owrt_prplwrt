@@ -24,6 +24,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_BUSYBOX_DEFAULT_PIE=y
   CONFIG_DMM_DATA_MODEL_MAPPER_ORDER=54
   CONFIG_DROPBEAR_ECC=y
+  CONFIG_DROPBEAR_ECDSA_SK=y
   CONFIG_FORCE_RUNNING_AS_ROOT=y
   CONFIG_GCC_DEFAULT_PIE=y
   CONFIG_IB=y
@@ -33,31 +34,17 @@ Assure expected build configuration (PCF-1413):
   CONFIG_JSON_CHECKSEC_MITIGATIONS_REPORT=y
   CONFIG_JSON_CYCLONEDX_SBOM=y
   CONFIG_KERNEL_ARM_PMU=y
-  CONFIG_KERNEL_BTRFS_FS_POSIX_ACL=y
+  CONFIG_KERNEL_ARM_PMUV3=y
   # CONFIG_KERNEL_CC_STACKPROTECTOR_REGULAR is not set
   CONFIG_KERNEL_CC_STACKPROTECTOR_STRONG=y
   CONFIG_KERNEL_CGROUP_DEVICE=y
   CONFIG_KERNEL_CGROUP_FREEZER=y
   CONFIG_KERNEL_CGROUP_PERF=y
-  CONFIG_KERNEL_CIFS_ACL=y
-  CONFIG_KERNEL_EXT4_FS_POSIX_ACL=y
-  CONFIG_KERNEL_EXT4_FS_SECURITY=y
-  CONFIG_KERNEL_F2FS_FS_POSIX_ACL=y
-  CONFIG_KERNEL_F2FS_FS_SECURITY=y
-  CONFIG_KERNEL_FS_POSIX_ACL=y
-  CONFIG_KERNEL_HFSPLUS_FS_POSIX_ACL=y
-  CONFIG_KERNEL_HFS_FS_POSIX_ACL=y
-  CONFIG_KERNEL_JFFS2_FS_POSIX_ACL=y
-  CONFIG_KERNEL_JFS_POSIX_ACL=y
   CONFIG_KERNEL_MEMCG_SWAP_ENABLED=y
   CONFIG_KERNEL_NET_CLS_CGROUP=y
-  CONFIG_KERNEL_NFS_ACL_SUPPORT=y
   CONFIG_KERNEL_PERF_EVENTS=y
   CONFIG_KERNEL_PROC_PID_CPUSET=y
-  CONFIG_KERNEL_REISER_FS_POSIX_ACL=y
   CONFIG_KERNEL_STACKPROTECTOR_STRONG=y
-  CONFIG_KERNEL_TMPFS_POSIX_ACL=y
-  CONFIG_KERNEL_XFS_POSIX_ACL=y
   CONFIG_LIBCURL_COOKIES=y
   CONFIG_LIBCURL_FILE=y
   CONFIG_LIBCURL_FTP=y
@@ -87,6 +74,8 @@ Assure expected build configuration (PCF-1413):
   CONFIG_MSTPD_RTNL_RCV_BUFSIZE=262144
   CONFIG_MSTPD_RTNL_SND_BUFSIZE=262144
   CONFIG_ODHCP6C_ENABLE_UBUS=y
+  CONFIG_PACKAGE_ATH_DEBUG=y
+  CONFIG_PACKAGE_MAC80211_SFE_SUPPORT=y
   CONFIG_PACKAGE_acl=y
   CONFIG_PACKAGE_acl-manager=y
   CONFIG_PACKAGE_amx-cli=y
@@ -127,7 +116,6 @@ Assure expected build configuration (PCF-1413):
   # CONFIG_PACKAGE_dnsmasq is not set
   CONFIG_PACKAGE_dnsmasq-prpl=y
   CONFIG_PACKAGE_ebtables-legacy=y
-  CONFIG_PACKAGE_ebtables-legacy-utils=y
   CONFIG_PACKAGE_efr32-boot-config=y
   CONFIG_PACKAGE_ethernet-manager=y
   CONFIG_PACKAGE_ethtool-full=y
@@ -143,7 +131,6 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_gmap-mod-name-selector=y
   CONFIG_PACKAGE_gmap-mod-self=y
   CONFIG_PACKAGE_gmap-server=y
-  CONFIG_PACKAGE_hostapd-qca-openssl=y
   CONFIG_PACKAGE_hostapd-qca-utils=y
   CONFIG_PACKAGE_hosts-manager=y
   CONFIG_PACKAGE_ip-bridge=y
@@ -154,6 +141,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_iperf3=y
   CONFIG_PACKAGE_ipset=y
   CONFIG_PACKAGE_iptables-mod-conntrack-extra=y
+  CONFIG_PACKAGE_iptables-mod-extra=y
   CONFIG_PACKAGE_iptables-mod-ipopt=y
   CONFIG_PACKAGE_iptables-mod-nfqueue=y
   CONFIG_PACKAGE_iptables-zz-legacy=y
@@ -161,8 +149,6 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-asn1-decoder=y
   CONFIG_PACKAGE_kmod-crypto-md5=y
   CONFIG_PACKAGE_kmod-ebtables=y
-  CONFIG_PACKAGE_kmod-ebtables-ipv4=y
-  CONFIG_PACKAGE_kmod-ebtables-ipv6=y
   CONFIG_PACKAGE_kmod-fs-vfat=y
   CONFIG_PACKAGE_kmod-gpio-pca953x=y
   CONFIG_PACKAGE_kmod-i2c-core=y
@@ -172,12 +158,8 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-input-core=y
   CONFIG_PACKAGE_kmod-input-evdev=y
   CONFIG_PACKAGE_kmod-input-gpio-keys=y
-  CONFIG_PACKAGE_kmod-ip6-tunnel=y
   CONFIG_PACKAGE_kmod-ip6tables=y
   CONFIG_PACKAGE_kmod-ip6tables-extra=y
-  CONFIG_PACKAGE_kmod-ipt-conntrack=y
-  CONFIG_PACKAGE_kmod-ipt-conntrack-extra=y
-  CONFIG_PACKAGE_kmod-ipt-core=y
   CONFIG_PACKAGE_kmod-ipt-extra=y
   CONFIG_PACKAGE_kmod-ipt-ipopt=y
   CONFIG_PACKAGE_kmod-ipt-ipset=y
@@ -186,7 +168,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-ipt-nfqueue=y
   CONFIG_PACKAGE_kmod-ipt-raw=y
   CONFIG_PACKAGE_kmod-ipt-raw6=y
-  CONFIG_PACKAGE_kmod-iptunnel6=y
+  CONFIG_PACKAGE_kmod-l2tp=y
   CONFIG_PACKAGE_kmod-leds-lp5562=y
   CONFIG_PACKAGE_kmod-leds-lp55xx-common=y
   CONFIG_PACKAGE_kmod-lib-crc-ccitt=y
@@ -198,10 +180,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-mhi-wwan-ctrl=y
   CONFIG_PACKAGE_kmod-mhi-wwan-mbim=y
   CONFIG_PACKAGE_kmod-mii=y
-  CONFIG_PACKAGE_kmod-nf-conncount=y
-  CONFIG_PACKAGE_kmod-nf-ipt=y
   CONFIG_PACKAGE_kmod-nf-ipt6=y
-  CONFIG_PACKAGE_kmod-nf-nat6=y
   CONFIG_PACKAGE_kmod-nf-nathelper=y
   CONFIG_PACKAGE_kmod-nf-nathelper-extra=y
   CONFIG_PACKAGE_kmod-nfnetlink-queue=y
@@ -209,9 +188,19 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-nls-cp437=y
   CONFIG_PACKAGE_kmod-nls-iso8859-1=y
   CONFIG_PACKAGE_kmod-nls-utf8=y
+  CONFIG_PACKAGE_kmod-nss-udp-st-drv=y
   CONFIG_PACKAGE_kmod-ppp=y
   CONFIG_PACKAGE_kmod-pppoe=y
+  CONFIG_PACKAGE_kmod-pppol2tp=y
   CONFIG_PACKAGE_kmod-pppox=y
+  CONFIG_PACKAGE_kmod-pptp=y
+  CONFIG_PACKAGE_kmod-qca-nss-ecm-premium=y
+  CONFIG_PACKAGE_kmod-qca-nss-flowmgr=y
+  CONFIG_PACKAGE_kmod-qca-nss-fls=y
+  CONFIG_PACKAGE_kmod-qca-nss-netfn-tcpst=y
+  CONFIG_PACKAGE_kmod-qca-nss-nsm=y
+  CONFIG_PACKAGE_kmod-qca-nss-ppe-pppoe-mgr=y
+  CONFIG_PACKAGE_kmod-qca-nss-sfe=y
   CONFIG_PACKAGE_kmod-regmap-core=y
   CONFIG_PACKAGE_kmod-regmap-i2c=y
   CONFIG_PACKAGE_kmod-sched=y
@@ -284,7 +273,6 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_libiptext6=y
   CONFIG_PACKAGE_libkmod=y
   CONFIG_PACKAGE_liblcm=y
-  CONFIG_PACKAGE_liblua=y
   CONFIG_PACKAGE_liblxc=y
   CONFIG_PACKAGE_liblzma=y
   CONFIG_PACKAGE_libmbim=y
@@ -304,7 +292,6 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_libnl-nf=y
   CONFIG_PACKAGE_libnl-route=y
   CONFIG_PACKAGE_libocispec=y
-  CONFIG_PACKAGE_libopenssl-conf=y
   CONFIG_PACKAGE_libpacket-interception=y
   CONFIG_PACKAGE_libpci=y
   CONFIG_PACKAGE_libpcp=y
@@ -329,6 +316,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_libudev-zero=y
   CONFIG_PACKAGE_libunbound-prpl=y
   CONFIG_PACKAGE_libupnp=y
+  CONFIG_PACKAGE_liburcu=y
   CONFIG_PACKAGE_libusb-1.0=y
   CONFIG_PACKAGE_libusp=y
   CONFIG_PACKAGE_libuspi=y
@@ -550,7 +538,6 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_tr181-usb=y
   CONFIG_PACKAGE_tr181-usermanagement=y
   CONFIG_PACKAGE_tr181-xpon=y
-  # CONFIG_PACKAGE_ucode-mod-ubus is not set
   # CONFIG_PACKAGE_ucode-mod-uci is not set
   CONFIG_PACKAGE_umbim=y
   CONFIG_PACKAGE_umdns-prpl=y
@@ -562,8 +549,8 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_wan-manager=y
   CONFIG_PACKAGE_wifi-scheduler=y
   CONFIG_PACKAGE_wifi-sensing=y
+  # CONFIG_PACKAGE_wififw_mount_script is not set
   CONFIG_PACKAGE_wireless-freedom=y
-  CONFIG_PACKAGE_wpa-supplicant-qca-openssl=y
   CONFIG_PACKAGE_wwan=y
   CONFIG_PACKAGE_xtables-legacy=y
   CONFIG_PACKAGE_yajl=y
@@ -817,7 +804,6 @@ Assure expected build configuration (PCF-1413):
   CONFIG_SQLITE3_RTREE=y
   CONFIG_TARGET_INITRAMFS_COMPRESSION_LZMA=y
   # CONFIG_TARGET_INITRAMFS_COMPRESSION_NONE is not set
-  CONFIG_USE_FS_ACL_ATTR=y
   CONFIG_USE_PRPLMESH_WHM=y
   CONFIG_VERSIONOPT=y
   CONFIG_VERSION_BUG_URL="https://jira.prplfoundation.org"
@@ -829,9 +815,8 @@ Assure expected build configuration (PCF-1413):
   CONFIG_VERSION_MANUFACTURER_URL="https://prplfoundation.org"
   CONFIG_VERSION_NUMBER=""
   CONFIG_VERSION_PRODUCT=""
-  CONFIG_VERSION_REPO="https://downloads.openwrt.org/releases/23.05-SNAPSHOT"
+  CONFIG_VERSION_REPO="https://downloads.openwrt.org/releases/24.10-SNAPSHOT"
   CONFIG_VERSION_SUPPORT_URL="https://jira.prplfoundation.org"
-  CONFIG_WPA_MSG_MIN_PRIORITY=3
   CONFIG_shadow-all=y
   # CONFIG_VERSION_CODE_FILENAMES is not set
   # CONFIG_VERSION_FILENAMES is not set
