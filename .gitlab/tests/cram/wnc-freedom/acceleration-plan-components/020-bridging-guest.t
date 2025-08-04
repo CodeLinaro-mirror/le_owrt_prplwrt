@@ -30,23 +30,6 @@ Remove lan4 from LAN bridge and add it to the Guest bridge:
   $ script --command "ssh -t root@$TARGET_LAN_IP '$(cat /tmp/run)'" > /dev/null
   $ sleep 2
 
-Check that lan4 is added to Guest bridge:
-
-  $ R "bridge -json link" | jq -r 'sort_by(.master,.ifname) | reverse | .[] | "\(.master)@\(.ifname)"'
-  br-lan@wlan2.1
-  br-lan@wlan2
-  br-lan@wlan1.1
-  br-lan@wlan1
-  br-lan@wlan0.1
-  br-lan@wlan0
-  br-lan@lan3
-  br-lan@lan2
-  br-lan@lan1
-  br-guest@wlan2.2
-  br-guest@wlan1.2
-  br-guest@wlan0.2
-  br-guest@lan4
-
 Remove lan4 from the Guest bridge and add it back to the LAN bridge:
 
   $ printf '\
