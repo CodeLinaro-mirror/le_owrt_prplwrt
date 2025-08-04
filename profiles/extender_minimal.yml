@@ -1,0 +1,14 @@
+---
+description: The prpl Extender profile with minimal features
+
+include:
+  - prpl_core
+
+packages:
+  - extender-config
+
+diffconfig: |
+          CONFIG_BUSYBOX_CONFIG_GETOPT=y
+          CONFIG_BUSYBOX_CONFIG_FEATURE_GETOPT_LONG=y
+          CONFIG_SAH_AMX_TR181_BRIDGING_MSTPD=n
+          CONFIG_PRPL_CPE_OPMODE_EXTENDER=y
