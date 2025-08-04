@@ -1,0 +1,5 @@
+---
+description: The prpl Extender profile with minimal features
+
+include:
+  - prpl_core

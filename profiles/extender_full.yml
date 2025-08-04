@@ -1,0 +1,7 @@
+---
+description: The prpl Extender profile with additional features (LCM, USP/CWMP)
+
+include:
+  - lcm
+  - mgmt
+  - prpl_core
