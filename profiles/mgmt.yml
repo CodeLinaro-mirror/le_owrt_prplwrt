@@ -1,0 +1,16 @@
+---
+Description: Packages and configs for management protocols (TR-069, TR-369)
+
+packages:
+  - mod-amxb-usp
+  - mod-usp-registration
+  - obuspa
+  - tr069-manager
+  - tr181-mqtt
+  - tr181-mqttbroker
+
+diffconfig: |
+          CONFIG_PACKAGE_data-model-mapper=m
+          CONFIG_SAH_AMX_TR069_MANAGER_USE_GSDM=y
+          CONFIG_SAH_AMX_TR181_DEVICE_OBUSPA_SUPPORT=y
+          CONFIG_SAH_MOD_AMXB_USP_REQUIRES_DEVICE_PREFIX=y
