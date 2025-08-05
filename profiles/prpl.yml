@@ -64,6 +64,7 @@ packages:
   - softhsm2
   - tr181-bulkdata
   - tr181-captiveportal
+  - tr181-conmon
   - tr181-dnssd
   - tr181-dslite
   - tr181-dynamicdns
