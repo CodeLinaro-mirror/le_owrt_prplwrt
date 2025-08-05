@@ -16,8 +16,6 @@ Check that ubus has expected datamodels available:
   Buttons.Button
   CaptivePortal
   CaptivePortal.LANInterface
-  ConMon
-  ConMon.Entry
   Cthulhu
   Cthulhu.Config
   Cthulhu.Config.Debug
@@ -111,7 +109,6 @@ Check that ubus has expected datamodels available:
   Device.WiFi.Sensing
   Device.XPON
   Device.X_PRPLWARE-COM_Buttons
-  Device.X_PRPLWARE-COM_ConMon
   Device.X_PRPLWARE-COM_MultiSettings
   Device.X_PRPLWARE-COM_PeriodicFileUpload
   Device.X_PRPLWARE-COM_PersistentConfiguration
