@@ -3,7 +3,7 @@ description: Add the prpl features
 feeds:
   - name: feed_amx
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_amx.git
-    revision: main@12c81bb76d0d2bbefb65eba0c85d22065980e709
+    revision: main@a5982f45d12a6836142562dbc9155cdf7c841b9a
 
   - name: feed_lcm
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_lcm.git
