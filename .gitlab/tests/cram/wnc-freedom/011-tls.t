@@ -9,5 +9,6 @@ Check that there is just single TLS library OpenSSL:
   libopenssl-legacy
   libopenssl.* (re)
   libustream-openssl.* (re)
+  lighttpd-mod-openssl
   openssl-util
   wpad-qca-mesh-openssl
