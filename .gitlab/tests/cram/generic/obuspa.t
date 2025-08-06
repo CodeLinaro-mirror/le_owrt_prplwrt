@@ -2037,63 +2037,6 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.PCP.OptionList                                                                                proto::tr181-pcp
   Device.PCP.PreferredVersion                                                                          proto::tr181-pcp
   Device.PCP.SupportedVersions                                                                         proto::tr181-pcp
-  Device.PPP.                                                                                          proto::tr181-ppp
-  Device.PPP.Interface.{i}.                                                                            proto::tr181-ppp
-  Device.PPP.Interface.{i}.Alias                                                                       proto::tr181-ppp
-  Device.PPP.Interface.{i}.AuthenticationProtocol                                                      proto::tr181-ppp
-  Device.PPP.Interface.{i}.AutoDisconnectTime                                                          proto::tr181-ppp
-  Device.PPP.Interface.{i}.CompressionProtocol                                                         proto::tr181-ppp
-  Device.PPP.Interface.{i}.ConnectionStatus                                                            proto::tr181-ppp
-  Device.PPP.Interface.{i}.ConnectionTrigger                                                           proto::tr181-ppp
-  Device.PPP.Interface.{i}.CurrentMRUSize                                                              proto::tr181-ppp
-  Device.PPP.Interface.{i}.Enable                                                                      proto::tr181-ppp
-  Device.PPP.Interface.{i}.EncryptionProtocol                                                          proto::tr181-ppp
-  Device.PPP.Interface.{i}.IPCP.                                                                       proto::tr181-ppp
-  Device.PPP.Interface.{i}.IPCP.DNSServers                                                             proto::tr181-ppp
-  Device.PPP.Interface.{i}.IPCP.LocalIPAddress                                                         proto::tr181-ppp
-  Device.PPP.Interface.{i}.IPCP.PassthroughDHCPPool                                                    proto::tr181-ppp
-  Device.PPP.Interface.{i}.IPCP.PassthroughEnable                                                      proto::tr181-ppp
-  Device.PPP.Interface.{i}.IPCP.RemoteIPAddress                                                        proto::tr181-ppp
-  Device.PPP.Interface.{i}.IPCPEnable                                                                  proto::tr181-ppp
-  Device.PPP.Interface.{i}.IPv6CP.                                                                     proto::tr181-ppp
-  Device.PPP.Interface.{i}.IPv6CP.LocalInterfaceIdentifier                                             proto::tr181-ppp
-  Device.PPP.Interface.{i}.IPv6CP.RemoteInterfaceIdentifier                                            proto::tr181-ppp
-  Device.PPP.Interface.{i}.IPv6CPEnable                                                                proto::tr181-ppp
-  Device.PPP.Interface.{i}.IdleDisconnectTime                                                          proto::tr181-ppp
-  Device.PPP.Interface.{i}.LCPEcho                                                                     proto::tr181-ppp
-  Device.PPP.Interface.{i}.LCPEchoRetry                                                                proto::tr181-ppp
-  Device.PPP.Interface.{i}.LastChange                                                                  proto::tr181-ppp
-  Device.PPP.Interface.{i}.LastConnectionError                                                         proto::tr181-ppp
-  Device.PPP.Interface.{i}.LowerLayers                                                                 proto::tr181-ppp
-  Device.PPP.Interface.{i}.MaxMRUSize                                                                  proto::tr181-ppp
-  Device.PPP.Interface.{i}.Name                                                                        proto::tr181-ppp
-  Device.PPP.Interface.{i}.PPPoE.                                                                      proto::tr181-ppp
-  Device.PPP.Interface.{i}.PPPoE.ACName                                                                proto::tr181-ppp
-  Device.PPP.Interface.{i}.PPPoE.ServiceName                                                           proto::tr181-ppp
-  Device.PPP.Interface.{i}.PPPoE.SessionID                                                             proto::tr181-ppp
-  Device.PPP.Interface.{i}.Password                                                                    proto::tr181-ppp
-  Device.PPP.Interface.{i}.Reset()                                                                     proto::tr181-ppp
-  Device.PPP.Interface.{i}.Stats.                                                                      proto::tr181-ppp
-  Device.PPP.Interface.{i}.Stats.BroadcastPacketsReceived                                              proto::tr181-ppp
-  Device.PPP.Interface.{i}.Stats.BroadcastPacketsSent                                                  proto::tr181-ppp
-  Device.PPP.Interface.{i}.Stats.BytesReceived                                                         proto::tr181-ppp
-  Device.PPP.Interface.{i}.Stats.BytesSent                                                             proto::tr181-ppp
-  Device.PPP.Interface.{i}.Stats.DiscardPacketsReceived                                                proto::tr181-ppp
-  Device.PPP.Interface.{i}.Stats.DiscardPacketsSent                                                    proto::tr181-ppp
-  Device.PPP.Interface.{i}.Stats.ErrorsReceived                                                        proto::tr181-ppp
-  Device.PPP.Interface.{i}.Stats.ErrorsSent                                                            proto::tr181-ppp
-  Device.PPP.Interface.{i}.Stats.MulticastPacketsReceived                                              proto::tr181-ppp
-  Device.PPP.Interface.{i}.Stats.MulticastPacketsSent                                                  proto::tr181-ppp
-  Device.PPP.Interface.{i}.Stats.PacketsReceived                                                       proto::tr181-ppp
-  Device.PPP.Interface.{i}.Stats.PacketsSent                                                           proto::tr181-ppp
-  Device.PPP.Interface.{i}.Stats.UnicastPacketsReceived                                                proto::tr181-ppp
-  Device.PPP.Interface.{i}.Stats.UnicastPacketsSent                                                    proto::tr181-ppp
-  Device.PPP.Interface.{i}.Stats.UnknownProtoPacketsReceived                                           proto::tr181-ppp
-  Device.PPP.Interface.{i}.Status                                                                      proto::tr181-ppp
-  Device.PPP.Interface.{i}.Username                                                                    proto::tr181-ppp
-  Device.PPP.Interface.{i}.WarnDisconnectDelay                                                         proto::tr181-ppp
-  Device.PPP.InterfaceNumberOfEntries                                                                  proto::tr181-ppp
-  Device.PPP.SupportedNCPs                                                                             proto::tr181-ppp
   Device.PacketInterception.                                                                           proto::packet-interception
   Device.PacketInterception.CommunicationConfig.                                                       proto::packet-interception
   Device.PacketInterception.CommunicationConfig.Socket.{i}.                                            proto::packet-interception
