@@ -9,7 +9,7 @@ feeds:
   - name: intel_x86
     uri: https://github.com/maxlinear/feed_target_x86.git
     tracking_branch:  updk_9.1.90
-    revision: efaa0ce9b8f3cebdbb372b492df8b6fb3f40300c
+    revision: 6ffa3e45a13ada049c372e44fd5a4d1cd4897d1c
   - name: rootfs
     uri: https://github.com/maxlinear/rootfs.git
     tracking_branch:  updk_9.1.90
@@ -17,27 +17,27 @@ feeds:
   - name: eip
     uri: https://github.com/maxlinear/feed_eip.git
     tracking_branch:  updk_9.1.90
-    revision: 1c75281baf89430363b98540bc044bb9c04f98f4
+    revision: 5867aa97084a894e43f2ddda950a0d2ca39077d0
   - name: mcast_service
     uri: https://github.com/maxlinear/feed_mcast_service.git
     tracking_branch:  updk_9.1.90
-    revision: 93f425c13df78257ee0dacbe0d95283d32fdf192
+    revision: b3e35ce7dc00b2a927e52f7b4218d9ea7ae7f1dd
   - name: datapath
     uri: https://github.com/maxlinear/feed_datapath.git
     tracking_branch:  updk_9.1.90
-    revision: fa3223d4ef143f7fa76c884d9f9bdf9623032d7a
+    revision: 93f4f3f3b7eda3c22188b8f4d25a05cf12db2fdd
   - name: gphy_firmware
     uri: https://github.com/maxlinear/feed_gphy_firmware.git
     tracking_branch:  updk_9.1.90
-    revision: ce6283378bd3f52809e3d95fe7dbf9f1ce223d82
+    revision: 0f112cafd0e013a9e91433d42eb512aaf6f866e7
   - name: gwdpa_dpm
     uri: https://github.com/maxlinear/feed_gwdpa-dpm.git
     tracking_branch:  updk_9.1.90
-    revision: 070c91ea194655def9732fe595a7764c682b572b
+    revision: 7d7e0943dd83d07596a84ece787712b87ffbe1bc
   - name: misc
     uri: https://github.com/maxlinear/feed_common.git
     tracking_branch:  updk_9.1.90
-    revision: 84cfc29abaaeb98a21226df759cdc435c62c3729
+    revision: 2a7ab49208eb3ad177c9d0653f9948e2bd6a983e
   - name: opensource_apps_prpl
     uri: https://github.com/maxlinear/feed_opensource_apps_prpl.git
     tracking_branch:  updk_9.1.90
@@ -45,23 +45,23 @@ feeds:
   - name: packet_learn
     uri: https://github.com/maxlinear/feed_packet_learn.git
     tracking_branch:  updk_9.1.90
-    revision: d349a2598551ffb905a0856de3047700387ded3d
+    revision: 60e7b0a46645a91ee4527a600090f72385fcd916
   - name: pon
     uri: https://github.com/maxlinear/feed_pon.git
     tracking_branch:  updk_9.1.90
-    revision: 7d92436b39cd986962f7518a1cf457cf09957979
+    revision: a8f6fce66aeb295dcf53460698e62a968e44ee50
   - name: ppa
     uri: https://github.com/maxlinear/feed_ppa.git
     tracking_branch:  updk_9.1.90
-    revision: b9b0e341e0ce58d37c13aaa105689c0837fffc1a
+    revision: 860b7c498db2beea851fa14d9917a9b24d19cc05
   - name: pp_net_adapter
     uri: https://github.com/maxlinear/feed_pp_net_adapter.git
     tracking_branch:  updk_9.1.90
-    revision: 6693062f60676b8008a0966a5b4aefe578d073df
+    revision: f312a0d80863d3a05f3297fcac31326b97a60b74
   - name: vpn_fw
     uri: https://github.com/maxlinear/feed_vpn_fw.git
     tracking_branch:  updk_9.1.90
-    revision: ccc16ef0b3ca93c2bfc71b86a4692fac1367dc55
+    revision: 5744daa8616c49ddb58b282f951542108b781bf6
   - name: qos
     uri: https://github.com/maxlinear/feed_qos_tc.git
     tracking_branch:  updk_9.1.90
@@ -69,7 +69,7 @@ feeds:
   - name: utils
     uri: https://github.com/maxlinear/feed_mxl_utils.git
     tracking_branch:  updk_9.1.90
-    revision: 80faf1ba6e5fa386fe8a4dde7c1d7af516f1f431
+    revision: 9bd30263d8a8a1e2b8de114706f66598b98dbad3
   - name: bootloader
     uri: https://github.com/maxlinear/feed_uboot.git
     tracking_branch:  updk_9.1.90
@@ -77,7 +77,7 @@ feeds:
   - name: dpl
     uri: https://github.com/maxlinear/feed_dpl.git
     tracking_branch:  updk_9.1.90
-    revision: fc2be84aa0d3c20d095772cab3f677ab0d0abb59
+    revision: 54594ab9471fa64ac40c4a8416f3696b65ccec3d
   - name: speedtest
     uri: https://github.com/maxlinear/speedtest.git
     tracking_branch:  updk_9.1.90
@@ -85,11 +85,11 @@ feeds:
   - name: mxl_sdk
     uri: https://github.com/maxlinear/feed_mxl_sdk.git
     tracking_branch:  updk_9.1.90
-    revision: f5bd4207f871c19fcf72791f2982cc379a5a7a82
+    revision: e9a642b1cf0070cbccf69935977de63a429ce446
   - name: system_service
     uri: https://github.com/maxlinear/feed_system_service.git
     tracking_branch:  updk_9.1.90
-    revision: 6ae304e7de36865706443a67245f57e3e531a267
+    revision: 1a6ffe795822438eebf9f55f6a97929ff9e3f962
 
 
 packages:
