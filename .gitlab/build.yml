@@ -20,6 +20,7 @@
     - mkdir -p logs
     - set -o pipefail
     - git config --global --add safe.directory '*'
+    - git config --global url."https://github.com".insteadOf "ssh://git@github.com"
 
     - |
       crlf_check_failed=$(rgrep -U $'\x0D' profiles | cut -d: -f1 | sort -u || true)
