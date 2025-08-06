@@ -11,8 +11,8 @@ feeds:
   
   - name: feed_prplmesh
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplmesh.git
-    revision: stable-4.0@cf99496d9b9abc3ea592fa8cc1396e915bd6b713
-
+    revision: stable-4.0@e8bb88a4675ce5e05aed123bd43cfac414bcf419
+    
   - name: feed_prplos
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplos.git
     revision: stable-4.0@03f5f6522f6a22fd806e7ed8a31d757f730d4ba3
@@ -301,3 +301,4 @@ diffconfig: |
           CONFIG_SAH_MOD_AMXB_USP_REQUIRES_DEVICE_PREFIX=y
           CONFIG_INCLUDE_CONFIG=y
           CONFIG_PACKAGE_ipset=y
+          CONFIG_SAH_WLD_ENABLE_USP_SERVER_SOCKET=y
