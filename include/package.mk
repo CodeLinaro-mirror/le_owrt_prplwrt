@@ -299,7 +299,12 @@ define Build/DefaultTargets
   endef
 endef
 
+define Build/prplwrt-patches
+  $(eval -include $(wildcard $(call FindPackage,$(basename $(notdir $(CURDIR))))/$(PKG_NAME).mk))
+endef
+
 define BuildPackage
+  $(Build/prplwrt-patches)
   $(eval $(Package/Default))
   $(eval $(Package/$(1)))
 
