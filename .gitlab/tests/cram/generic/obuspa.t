@@ -3505,6 +3505,8 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.Radio.{i}.Capabilities.WiFi7STARole.EMLSRSupport                                         proto::wld
   Device.WiFi.Radio.{i}.Capabilities.WiFi7STARole.NSTRSupport                                          proto::wld
   Device.WiFi.Radio.{i}.Capabilities.WiFi7STARole.STRSupport                                           proto::wld
+  Device.WiFi.Radio.{i}.ChangePowerMode()                                                              proto::wld
+  Device.WiFi.Radio.{i}.ChangePowerMode() input:PowerState
   Device.WiFi.Radio.{i}.Channel                                                                        proto::wld
   Device.WiFi.Radio.{i}.Channel change event!                                                          proto::wld
   Device.WiFi.Radio.{i}.ChannelBandwidthChangeReason                                                   proto::wld
@@ -3676,6 +3678,8 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.Radio.{i}.OperationalDataTransmitRates                                                   proto::wld
   Device.WiFi.Radio.{i}.PacketAggregationEnable                                                        proto::wld
   Device.WiFi.Radio.{i}.PossibleChannels                                                               proto::wld
+  Device.WiFi.Radio.{i}.PowerCapability                                                                proto::wld
+  Device.WiFi.Radio.{i}.PowerStatus                                                                    proto::wld
   Device.WiFi.Radio.{i}.PreambleType                                                                   proto::wld
   Device.WiFi.Radio.{i}.RIFSEnabled                                                                    proto::wld
   Device.WiFi.Radio.{i}.RTSThreshold                                                                   proto::wld
@@ -7958,6 +7962,8 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.Radio.{i}.Capabilities.WiFi7STARole.EMLSRSupport                                         proto::wld
   Device.WiFi.Radio.{i}.Capabilities.WiFi7STARole.NSTRSupport                                          proto::wld
   Device.WiFi.Radio.{i}.Capabilities.WiFi7STARole.STRSupport                                           proto::wld
+  Device.WiFi.Radio.{i}.ChangePowerMode()                                                              proto::wld
+  Device.WiFi.Radio.{i}.ChangePowerMode() input:PowerState
   Device.WiFi.Radio.{i}.Channel                                                                        proto::wld
   Device.WiFi.Radio.{i}.Channel change event!                                                          proto::wld
   Device.WiFi.Radio.{i}.ChannelBandwidthChangeReason                                                   proto::wld
@@ -8129,6 +8135,8 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.Radio.{i}.OperationalDataTransmitRates                                                   proto::wld
   Device.WiFi.Radio.{i}.PacketAggregationEnable                                                        proto::wld
   Device.WiFi.Radio.{i}.PossibleChannels                                                               proto::wld
+  Device.WiFi.Radio.{i}.PowerCapability                                                                proto::wld
+  Device.WiFi.Radio.{i}.PowerStatus                                                                    proto::wld
   Device.WiFi.Radio.{i}.PreambleType                                                                   proto::wld
   Device.WiFi.Radio.{i}.RIFSEnabled                                                                    proto::wld
   Device.WiFi.Radio.{i}.RTSThreshold                                                                   proto::wld
