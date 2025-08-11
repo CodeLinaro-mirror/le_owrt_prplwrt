@@ -627,3 +627,22 @@ get_hostobjects() {
 	execute_in_container --uuid --cmd "cat /testfile"
 	execute_in_container --uuid --cmd "ls /dev/host_serial"
 }
+## It simulates a firmware upgrade by stopping and starting the LCM Agent, as
+## well as manually removing critical configurations.
+fake_fw_upgrade() {
+    duid=$(${CLI_JSON} "SoftwareModules.DeploymentUnit.[ UUID == \"${DEFAULT_UUID}\" ].DUID?" | jsonfilter -e @[*].*.DUID)
+    service cthulhu stop
+    service rlyeh stop
+    service timingila stop
+
+    # reset the import status for PCM; otherwise, it won't send import data for the Cthulhu registration
+    ba-cli 'PersistentConfiguration.Service.cthulhu_Cthulhu.ImportStatus=None' > /dev/null
+    rm -rf /etc/config/cthulhu /etc/config/lxc/"${duid}"
+
+    service rlyeh start
+    service cthulhu start
+    service timingila start
+
+    amx_wait_for "SoftwareModules.ExecutionUnit.1"
+    wait_ctr_up --uuid "${DEFAULT_UUID}"
+}
