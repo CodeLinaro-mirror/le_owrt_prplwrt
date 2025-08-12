@@ -24,4 +24,5 @@ Check mqtt publish at port 8883:
 
   $ S="mqtt-publish-sec.sh"
   $ C "${TESTDIR}/${S}" "root@${TARGET_LAN_IP}:/tmp/"
+  Warning: Permanently added '*' (*) to the list of known hosts* (glob)
   $ R "source /tmp/${S} | grep -q 'sending PUBLISH'"
