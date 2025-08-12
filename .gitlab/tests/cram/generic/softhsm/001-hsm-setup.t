@@ -47,6 +47,7 @@ Extend security data model with CertificateURI/PrivateKeyURI:
 
   $ S="security-ext.sh"
   $ C "${TESTDIR}/${S}" "root@${TARGET_LAN_IP}:/tmp/"
+  Warning: Permanently added '*' (*) to the list of known hosts* (glob)
   $ R "source /tmp/${S}"
 
   $ R "cp ~/certs/server* /etc/config/autocert/"
@@ -62,5 +63,6 @@ Enable then check pkcs11 openssl support:
 
   $ S="openssl-engine.sh"
   $ C "${TESTDIR}/${S}" "root@${TARGET_LAN_IP}:/tmp/"
+  Warning: Permanently added '*' (*) to the list of known hosts* (glob)
   $ R "source /tmp/${S} | grep -q 'pkcs11'"
   $ R "openssl engine -t | grep -q 'pkcs11 engine'"
