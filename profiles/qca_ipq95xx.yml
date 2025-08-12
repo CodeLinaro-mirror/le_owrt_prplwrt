@@ -8,7 +8,7 @@ description: Build image for prpl Foundation Freedom board
 feeds:
   - name: feed_qca
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-qca.git
-    revision: latest-24.10@25db06014f7eff7e3c5024d29411a812b870074d
+    revision: latest-24.10@797190e51069c605e156bc35c524aa2f13817ead
 
 packages:
   - ipq95xx
@@ -43,5 +43,4 @@ diffconfig: |
   CONFIG_BUSYBOX_CUSTOM=y
   CONFIG_BUSYBOX_CONFIG_I2CSET=y
   CONFIG_PACKAGE_ATH_DEBUG=y
-  CONFIG_KERNEL_DYNAMIC_DEBUG=y
   # CONFIG_PACKAGE_wififw_mount_script is not set
