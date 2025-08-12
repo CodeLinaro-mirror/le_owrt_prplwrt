@@ -66,7 +66,7 @@ fi
 ubus call "WiFi.Radio" _set '{ "rel_path": ".[OperatingFrequencyBand == \"2.4GHz\"].", "parameters": { "Enable": "true" } }'
 ubus call "WiFi.Radio" _set '{ "rel_path": ".[OperatingFrequencyBand == \"5GHz\"].", "parameters": { "Enable": "true" } }'
 
-ba-cli WiFi.Radio.*.RegulatoryDomain="US"
+ba-cli WiFi.Radio.*.RegulatoryDomain="DE"
 
 # tshark on the sniffer can not handle RM capabilities, and thinks beacons containing them are malformed
 ba-cli WiFi.AccessPoint.*.IEEE80211kEnabled=0
