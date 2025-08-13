@@ -15,7 +15,7 @@ feeds:
 
   - name: feed_prplos
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplos.git
-    revision: main@cd319e743f8a6e4ea7fa3028a5a1f25b73216702
+    revision: main@03614f4bef5daf2def3043887543070e32e8a58a
 
 additional_packages:
   - feed: packages
@@ -198,6 +198,7 @@ packages:
   - wan-manager
   - wifi-sensing
   - wifi-scheduler
+  - usp_discovery
 
 diffconfig: |
           CONFIG_DEVEL=y
@@ -301,4 +302,13 @@ diffconfig: |
           CONFIG_PACKAGE_ipset=y
           CONFIG_SAH_WLD_ENABLE_USP_SERVER_SOCKET=y
           CONFIG_OBUSPA_WEBSOCKET_MTP_SUPPORT=y
-
+          CONFIG_USP_DISCOVERY_MQTT_CONTROLLER_RESPONSE_TOPIC="/usp/agent"
+          CONFIG_USP_DISCOVERY_STOMP_CONTROLLER_AGENT_DST="/usp/agent"
+          CONFIG_USP_DISCOVERY_STOMP_FORCE_NO_ENCRYPTION=y
+          CONFIG_USP_DISCOVERY_SUPPORT_MQTT_MTP=y
+          CONFIG_USP_DISCOVERY_SUPPORT_STOMP_MTP=y
+          CONFIG_USP_DISCOVERY_MQTT_AGENT_REPLY_TOPIC="/usp/controller"
+          CONFIG_USP_DISCOVERY_MQTT_CONTROLLER_RESPONSE_TOPIC="/usp/agent"
+          CONFIG_USP_DISCOVERY_STOMP_AGENT_CONTROLLER_DST="/usp/controller"
+          CONFIG_USP_DISCOVERY_STOMP_CONTROLLER_AGENT_DST="/usp/agent"
+          CONFIG_USP_DISCOVERY_STOMP_FORCE_NO_ENCRYPTION=y
