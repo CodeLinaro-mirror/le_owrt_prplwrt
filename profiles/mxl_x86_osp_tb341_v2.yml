@@ -17,7 +17,7 @@ feeds:
   - name: rootfs
     uri: ssh://git@git.maxlinear.com/ugw-oss/rootfs.git
     tracking_branch: updk_9.1.80
-    revision: cfcddcc55fa9601e62d6a589c57615d3cf982d4d
+    revision: a610a8d41b26ba1d27047eeb5c120790940ba40e
   - name: 3rdparty
     uri: ssh://git@git.maxlinear.com/ugw-oss/feeds/feed_3rdparty.git
     tracking_branch: updk_9.1.80
