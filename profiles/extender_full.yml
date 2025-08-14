@@ -10,6 +10,7 @@ packages:
   - extender-config
   - tr181-gatewayinfo
   - tr069-connectionrequest
+  - tr069-discovery
   - usp-discovery
 
 diffconfig: |
