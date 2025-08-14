@@ -23,7 +23,6 @@ additional_packages:
       - libnl-core
       - libnl-route
       - opensc
-      - libp11
       - pciids
       - pciutils
       - picocom
@@ -62,6 +61,7 @@ packages:
   - libfwinterface
   - libfwrules
   - libnetmodel
+  - libp11
   - lighttpd
   - lighttpd-mod-auth
   - lighttpd-mod-authn_file
