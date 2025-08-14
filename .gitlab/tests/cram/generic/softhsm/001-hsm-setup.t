@@ -56,13 +56,6 @@ Extend security data model with CertificateURI/PrivateKeyURI:
   $ R "ba-cli 'Security.Certificate.1.CertificateURI=\"/etc/config/autocert/server.crt\"' > /dev/null"
 
 
-Enable then check pkcs11 openssl support:
+Check pkcs11 openssl support:
 
-  $ R "ln -s -f /usr/lib/engines/pkcs11.so /usr/lib/engines-3/pkcs11.so"
-  $ R "ln -s -f /usr/lib/engines/pkcs11.so /usr/lib/engines-3/libpkcs11.so"
-
-  $ S="openssl-engine.sh"
-  $ C "${TESTDIR}/${S}" "root@${TARGET_LAN_IP}:/tmp/"
-  Warning: Permanently added '*' (*) to the list of known hosts* (glob)
-  $ R "source /tmp/${S} | grep -q 'pkcs11'"
   $ R "openssl engine -t | grep -q 'pkcs11 engine'"
