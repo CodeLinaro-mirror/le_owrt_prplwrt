@@ -8,6 +8,7 @@ include:
 
 packages:
   - extender-config
+  - tr069-discovery
   - usp-discovery
 
 diffconfig: |
