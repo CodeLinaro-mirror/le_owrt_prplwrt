@@ -122,3 +122,18 @@ prplWare-Smoke-Test-Suite URX851-HDK-3 eMMC:
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
       .gitlab/scripts/dut-init/cdrouter-tr181-mockups.sh
       .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
+
+prplOS-Network-Test-Plan-Mandatory-v1.1.0 URX851-HDK-3 eMMC:
+  <<: *urx851_cdrouter_ipv6
+  stage: certification tests
+  timeout: 70 minutes
+  allow_failure: true
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: never
+    - when: manual
+  variables:
+    CDROUTER_TEST_CONFIG: generic-ipv6
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
+      .gitlab/scripts/dut-init/cdrouter-dut-configure-cwmpd.sh
