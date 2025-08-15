@@ -38,6 +38,7 @@ stages:
   - docker IB LCM container
   - run
   - smoke tests
+  - certification tests
   - cdrouter
   - coverity
 
