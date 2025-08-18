@@ -11,5 +11,6 @@
     TFTP_IMAGE_FILENAME: prplos-mediatek-filogic-arcadyan_mozart-initramfs.itb
     TFTP_IMAGE_FILENAME_PATTERN: /.*prplos-mediatek-filogic-arcadyan_mozart-initramfs.itb/
     DUT_ARCH_PACKAGES_PATH: $PACKAGE_DIR/${DUT_ARCH}_${DUT_CPU_TYPE}
+    CDROUTER_CONFIG_LAN_IFACE_ALIAS: LAN0
   tags:
     - dut-arcadyan-mozart
