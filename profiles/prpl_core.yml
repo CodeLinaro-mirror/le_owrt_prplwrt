@@ -98,6 +98,7 @@ packages:
   - ssh-server
   - tc-tiny
   - time-manager
+  - tr140-storageservice
   - tr181-bridging
   - tr181-button
   - tr181-cpu
