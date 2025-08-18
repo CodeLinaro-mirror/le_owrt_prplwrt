@@ -1,5 +1,5 @@
 .wnc-freedom: &wnc_freedom
-  needs: ["build test qca_ipq95xx prpl cellular security thread"]
+  needs: ["build test qca_ipq95xx prpl cellular security thread ci"]
   extends:
     - .wnc-freedom testbed
     - .cdrouter

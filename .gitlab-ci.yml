@@ -45,7 +45,7 @@ stages:
   - coverity
   - blackduck
 
-build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread:
+build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread ci:
   extends: .build test config
 
 build test mvebu prpl security:
@@ -63,13 +63,13 @@ build test mtk_filogic prpl security:
 build test airoha_an7581 prpl security:
   extends: .build test config
 
-build test qca_ipq95xx prpl cellular security thread:
+build test qca_ipq95xx prpl cellular security thread ci:
   extends: .build test config
 
-build test qca_ipq95xx extender_minimal cellular security thread:
+build test qca_ipq95xx extender_minimal cellular security thread ci:
   extends: .build test config
 
-build test qca_ipq95xx extender_full cellular security thread:
+build test qca_ipq95xx extender_full cellular security thread ci:
   extends: .build test config
 
 coverity scan qca_ipq95xx prpl extender_full cellular thread:
@@ -96,11 +96,11 @@ run test Haze initramfs:
   extends: .prpl-haze testbed
 
 run test MXL25641-HDK-6 with system on eMMC:
-  needs: ["build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread"]
+  needs: ["build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread ci"]
   extends: .mxl25641-hdk-6 testbed
 
 run test Freedom with system on eMMC:
-  needs: ["build test qca_ipq95xx prpl cellular security thread"]
+  needs: ["build test qca_ipq95xx prpl cellular security thread ci"]
   extends: .wnc-freedom testbed
 
 run test Mozart initramfs:

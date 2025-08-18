@@ -89,10 +89,13 @@ define KernelPackage/fs-smbfs-common
   HIDDEN:=1
   DEPENDS:=+kmod-fs-netfs +kmod-nls-ucs2-utils
   KCONFIG:=\
-	CONFIG_SMBFS
+	CONFIG_SMBFS \
+	CONFIG_SMBFS_COMMON
   FILES:= \
-	$(LINUX_DIR)/fs/smb/common/cifs_arc4.ko \
-	$(LINUX_DIR)/fs/smb/common/cifs_md4.ko
+    $(wildcard $(LINUX_DIR)/fs/smb/common/cifs_arc4.ko) \
+    $(wildcard $(LINUX_DIR)/fs/smbfs_common/cifs_arc4.ko) \
+    $(wildcard $(LINUX_DIR)/fs/smb/common/cifs_md4.ko) \
+    $(wildcard $(LINUX_DIR)/fs/smbfs_common/cifs_md4.ko)
 endef
 
 define KernelPackage/fs-smbfs-common/description
@@ -371,12 +374,15 @@ define KernelPackage/fs-ksmbd
 	  +kmod-oid-registry \
 	  +kmod-fs-smbfs-common
   KCONFIG:= \
+        CONFIG_CRYPTO_SHA256 \
+        CONFIG_CRYPTO_SHA512 \
 	CONFIG_SMB_SERVER \
 	CONFIG_SMB_SERVER_SMBDIRECT=n \
 	CONFIG_SMB_SERVER_CHECK_CAP_NET_ADMIN=n \
 	CONFIG_SMB_SERVER_KERBEROS5=n
   FILES:= \
-	 $(LINUX_DIR)/fs/smb/server/ksmbd.ko
+    $(wildcard $(LINUX_DIR)/fs/smb/server/ksmbd.ko) \
+    $(wildcard $(LINUX_DIR)/fs/ksmbd/ksmbd.ko)
   AUTOLOAD:=$(call AutoLoad,41,ksmbd)
 endef
 

@@ -22,7 +22,10 @@ PPW-1729, PPW-1731 and PPW-1786:
   /etc/amx/prplmesh-process-manager/prplmesh-process-manager_definition.odl
   /etc/amx/timingila/extensions/timingila-rlyeh-security/timingila-rlyeh-security-definition.odl
   /etc/amx/timingila/softwaremodules_definition.odl
+  /etc/amx/tr140-storageservice/tr140-storageservice_logicalvolume.odl
+  /etc/amx/tr140-storageservice/tr140-storageservice_physicalmedium.odl
   /etc/amx/tr181-cpu/tr181-cpu_definition.odl
+  /etc/amx/tr181-mqtt/tr181-mqtt_definition.odl
   /etc/amx/tr181-usb/tr181-usb_port.odl
 
   $ R "grep -r %usersetting /etc/amx | grep -vE '(upc.odl|.*default.*)' "\
@@ -30,6 +33,10 @@ PPW-1729, PPW-1731 and PPW-1786:
   /etc/amx/gmap-server/mibs/information.odl
   /etc/amx/gmap-server/mibs/location.odl
   /etc/amx/gmap-server/mibs/mac.odl
+  /etc/amx/tr140-storageservice/tr140-storageservice_definition.odl
+  /etc/amx/tr140-storageservice/tr140-storageservice_logicalvolume.odl
+  /etc/amx/tr140-storageservice/tr140-storageservice_useraccount.odl
+  /etc/amx/tr140-storageservice/tr140-storageservice_usergroup.odl
   /etc/amx/tr181-schedules/tr181-schedules_definition.odl
 
   $ logger -t cram "Backup and restore flags verification test finished"
