@@ -15,7 +15,7 @@ feeds:
 
   - name: feed_prplos
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplos.git
-    revision: main@0c4a444b8c6d482ad3448e90bdfa719e2eb25c53
+    revision: PCF-1863_networking_for_extender@4ba352735972bd6a6a05eb5e2b23b467baf58bf9
 
 additional_packages:
   - feed: packages
@@ -300,3 +300,4 @@ diffconfig: |
           CONFIG_INCLUDE_CONFIG=y
           CONFIG_PACKAGE_ipset=y
           CONFIG_SAH_WLD_ENABLE_USP_SERVER_SOCKET=y
+
