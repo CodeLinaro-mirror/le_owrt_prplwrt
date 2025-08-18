@@ -5,3 +5,13 @@ include:
   - lcm
   - mgmt
   - prpl_core
+
+packages:
+  - extender-config
+
+diffconfig: |
+          CONFIG_BUSYBOX_CONFIG_GETOPT=y
+          CONFIG_BUSYBOX_CONFIG_FEATURE_GETOPT_LONG=y
+          CONFIG_SAH_AMX_TR181_BRIDGING_MSTPD=n
+          CONFIG_SAH_AMX_TR181_BRIDGING_ENABLE_STP_FOR_LAN_BRIDGE=y
+          CONFIG_PRPL_CPE_OPMODE_EXTENDER=y
