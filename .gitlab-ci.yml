@@ -137,6 +137,9 @@ stages:
   - coverity
   - blackduck
 
+build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread ci:
+  extends: .build test config
+
 build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread:
   extends: .build test config
   rules:
@@ -253,6 +256,9 @@ build test airoha_an7581 prpl security:
       allow_failure: true
     - when: manual
 
+build test qca_ipq95xx prpl cellular security thread ci:
+  extends: .build test config
+
 build test qca_ipq95xx prpl cellular security thread:
   extends: .build test config
   rules:
@@ -278,7 +284,13 @@ build test qca_ipq95xx prpl cellular security thread:
       allow_failure: true
     - when: manual
 
+build test qca_ipq95xx extender_minimal cellular security thread ci:
+  extends: .build test config
+
 build test qca_ipq95xx extender_minimal cellular security thread:
+  extends: .build test config
+
+build test qca_ipq95xx extender_full cellular security thread ci:
   extends: .build test config
 
 build test qca_ipq95xx extender_full cellular security thread:
@@ -481,7 +493,7 @@ cram Haze [prplos]:
     COMPONENT: prplos
 
 cram OSPv2 [full]:
-  needs: ["build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread"]
+  needs: ["build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread ci"]
   extends: .mxl25641-hdk-6 testbed
   timeout: 89 minutes
   variables:
@@ -506,7 +518,7 @@ cram OSPv2 [prplos]:
     COMPONENT: prplos
 
 cram Freedom [full]:
-  needs: ["build test qca_ipq95xx prpl cellular security thread"]
+  needs: ["build test qca_ipq95xx prpl cellular security thread ci"]
   extends: .wnc-freedom testbed
   timeout: 94 minutes
   variables:

@@ -20,7 +20,7 @@ EasyMesh-Smoke-test-R1-Freedom:
   after_script:
     - .gitlab/scripts/prplMesh/R1_marvell_station.sh
   needs:
-    - job: build test qca_ipq95xx prpl cellular security thread
+    - job: build test qca_ipq95xx prpl cellular security thread ci
       optional: true
   retry: 2
   rules:
