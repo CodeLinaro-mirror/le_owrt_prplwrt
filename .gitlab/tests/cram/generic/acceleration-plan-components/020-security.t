@@ -31,8 +31,10 @@ Check that certificate can be disabled (PCF-1054):
   $ R "ba-cli --json 'Security.Certificate.[SignatureAlgorithm==\"ecdsa-with-SHA512\" && Enable==False].?' | sed -n '2p'" | jq --sort-keys .[0] | grep -v -E '(NotAfter|NotBefore|LastModif)'
   {
     "Security.Certificate.\d+.": { (re)
+      "CertificateURI": "",
       "Enable": 0,
       "Issuer": "/C=US/O=PrplFoundation/OU=prplOS/CN=prplOS.lan",
+      "PrivateKeyURI": "",
       "SerialNumber": "2022A6A3FDECA910242A18EFFB214776206F2ED8",
       "SignatureAlgorithm": "ecdsa-with-SHA512",
       "Subject": "/C=US/O=PrplFoundation/OU=prplOS/CN=prplOS.lan",
@@ -48,8 +50,10 @@ Check that certificate can be enabled (PCF-1054):
   $ R "ba-cli --json 'Security.Certificate.[SignatureAlgorithm==\"ecdsa-with-SHA512\" && Enable==True].?' | sed -n '2p'" | jq --sort-keys .[0] | grep -v -E '(NotAfter|NotBefore|LastModif)'
   {
     "Security.Certificate.\d+.": { (re)
+      "CertificateURI": "",
       "Enable": 1,
       "Issuer": "/C=US/O=PrplFoundation/OU=prplOS/CN=prplOS.lan",
+      "PrivateKeyURI": "",
       "SerialNumber": "2022A6A3FDECA910242A18EFFB214776206F2ED8",
       "SignatureAlgorithm": "ecdsa-with-SHA512",
       "Subject": "/C=US/O=PrplFoundation/OU=prplOS/CN=prplOS.lan",
