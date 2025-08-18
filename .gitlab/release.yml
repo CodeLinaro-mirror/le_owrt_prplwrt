@@ -9,7 +9,7 @@ upload:
     - job: build test ipq807x prpl security
     - job: build test mvebu prpl security
     - job: build test x86_64 prpl security
-    - job: build test qca_ipq95xx prpl cellular security thread
+    - job: build test qca_ipq95xx prpl cellular security thread ci
     - job: build test mtk_filogic prpl security
     - job: build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread
     - job: build test mxl_x86_osp_wgrtd159be_b_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread
