@@ -13,6 +13,10 @@ Assure expected build configuration (PCF-1413):
   CONFIG_DEVEL=y
   CONFIG_TOOLCHAINOPTS=y
   CONFIG_BUSYBOX_CUSTOM=y
+  CONFIG_AMX_TR140_STORAGE_SERVICE=y
+  CONFIG_AMX_TR140_STORAGE_SERVICE_ORDER=70
+  CONFIG_AMX_TR140_STORAGE_SERVICE_RUN_AS_GROUP="tr181_app"
+  CONFIG_AMX_TR140_STORAGE_SERVICE_RUN_AS_USER="tr181_app"
   CONFIG_AMX_TR181_USB=y
   CONFIG_AMX_TR181_USB_ORDER=81
   CONFIG_AMX_TR181_USB_RUN_AS_GROUP="tr181_app"
@@ -29,6 +33,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_BUSYBOX_CONFIG_FLOAT_DURATION=y
   CONFIG_BUSYBOX_CONFIG_I2CSET=y
   CONFIG_BUSYBOX_CONFIG_LOSETUP=y
+  CONFIG_BUSYBOX_CONFIG_MKFS_VFAT=y
   CONFIG_BUSYBOX_CONFIG_MODPROBE=y
   # CONFIG_BUSYBOX_CONFIG_NTPD is not set
   CONFIG_BUSYBOX_CONFIG_PIE=y
@@ -103,6 +108,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_OPENSOURCE_SWUPDATE_EXT_FILESYSTEM=y
   CONFIG_PACKAGE_ATH_DEBUG=y
   CONFIG_PACKAGE_MAC80211_SFE_SUPPORT=y
+  CONFIG_PACKAGE_NTFS-3G_HAS_PROBE=y
   CONFIG_PACKAGE_acl=y
   CONFIG_PACKAGE_acl-manager=y
   CONFIG_PACKAGE_amx-cli=y
@@ -144,6 +150,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_ddns-scripts-route53=y
   CONFIG_PACKAGE_ddns-scripts-services=y
   CONFIG_PACKAGE_debug-information=y
+  CONFIG_PACKAGE_debugfs=y
   CONFIG_PACKAGE_deviceinfo-manager=y
   CONFIG_PACKAGE_dhcpv4-manager=y
   CONFIG_PACKAGE_dhcpv6s-manager=y
@@ -155,6 +162,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_efr32-boot-config=y
   CONFIG_PACKAGE_ethernet-manager=y
   CONFIG_PACKAGE_ethtool-full=y
+  CONFIG_PACKAGE_exfat-mkfs=y
   CONFIG_PACKAGE_fcgi=y
   CONFIG_PACKAGE_fdt-utils=y
   # CONFIG_PACKAGE_firewall4 is not set
@@ -170,6 +178,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_gmap-mod-self=y
   CONFIG_PACKAGE_gmap-mod-upnp=y
   CONFIG_PACKAGE_gmap-server=y
+  CONFIG_PACKAGE_hfsfsck=y
   CONFIG_PACKAGE_hostapd-qca-utils=y
   CONFIG_PACKAGE_hosts-manager=y
   CONFIG_PACKAGE_image-authentication=y
@@ -196,10 +205,12 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-asn1-decoder=y
   CONFIG_PACKAGE_kmod-asn1-encoder=y
   CONFIG_PACKAGE_kmod-ath11k=y
+  CONFIG_PACKAGE_kmod-cdrom=y
   CONFIG_PACKAGE_kmod-crypto-acompress=y
   CONFIG_PACKAGE_kmod-crypto-cbc=y
   CONFIG_PACKAGE_kmod-crypto-deflate=y
   CONFIG_PACKAGE_kmod-crypto-des=y
+  CONFIG_PACKAGE_kmod-crypto-ecb=y
   CONFIG_PACKAGE_kmod-crypto-echainiv=y
   CONFIG_PACKAGE_kmod-crypto-kpp=y
   CONFIG_PACKAGE_kmod-crypto-lib-chacha20=y
@@ -216,7 +227,16 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-ebtables=y
   CONFIG_PACKAGE_kmod-ebtables-ipv4=y
   CONFIG_PACKAGE_kmod-ebtables-ipv6=y
+  CONFIG_PACKAGE_kmod-fs-exfat=y
+  CONFIG_PACKAGE_kmod-fs-hfs=y
+  CONFIG_PACKAGE_kmod-fs-hfsplus=y
+  CONFIG_PACKAGE_kmod-fs-ksmbd=y
+  CONFIG_PACKAGE_kmod-fs-netfs=y
+  CONFIG_PACKAGE_kmod-fs-ntfs=y
+  CONFIG_PACKAGE_kmod-fs-ntfs3=y
+  CONFIG_PACKAGE_kmod-fs-smbfs-common=y
   CONFIG_PACKAGE_kmod-fs-vfat=y
+  CONFIG_PACKAGE_kmod-fuse=y
   CONFIG_PACKAGE_kmod-gpio-pca953x=y
   CONFIG_PACKAGE_kmod-gre=y
   CONFIG_PACKAGE_kmod-gre6=y
@@ -268,6 +288,7 @@ Assure expected build configuration (PCF-1413):
   # CONFIG_PACKAGE_kmod-nft-fib is not set
   CONFIG_PACKAGE_kmod-nls-cp437=y
   CONFIG_PACKAGE_kmod-nls-iso8859-1=y
+  CONFIG_PACKAGE_kmod-nls-ucs2-utils=y
   CONFIG_PACKAGE_kmod-nls-utf8=y
   CONFIG_PACKAGE_kmod-nss-udp-st-drv=y
   CONFIG_PACKAGE_kmod-oid-registry=y
@@ -321,6 +342,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-wireguard=y
   CONFIG_PACKAGE_kmod-wwan=y
   CONFIG_PACKAGE_kmod-xfrm-interface=y
+  CONFIG_PACKAGE_ksmbd-server=y
   CONFIG_PACKAGE_libacl=y
   CONFIG_PACKAGE_libaio=y
   CONFIG_PACKAGE_libamxa=y
@@ -390,6 +412,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_libmfg=y
   CONFIG_PACKAGE_libmicrohttpd-no-ssl=y
   CONFIG_PACKAGE_libmosquitto-ssl=y
+  CONFIG_PACKAGE_libmount=y
   CONFIG_PACKAGE_libncurses=y
   CONFIG_PACKAGE_libnetfilter-conntrack=y
   CONFIG_PACKAGE_libnetfilter-queue=y
@@ -463,6 +486,7 @@ Assure expected build configuration (PCF-1413):
   # CONFIG_PACKAGE_logd is not set
   CONFIG_PACKAGE_logrotate=y
   CONFIG_PACKAGE_lrzsz=y
+  CONFIG_PACKAGE_lsblk=y
   CONFIG_PACKAGE_lua=y
   CONFIG_PACKAGE_lua-amx=y
   CONFIG_PACKAGE_lua-cjson=m
@@ -501,6 +525,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_mbim-utils=y
   CONFIG_PACKAGE_mcastd-noforward=y
   CONFIG_PACKAGE_miniupnpd-prpl=y
+  CONFIG_PACKAGE_mkhfs=y
   CONFIG_PACKAGE_mod-amxb-ubus=y
   CONFIG_PACKAGE_mod-amxb-usp=y
   CONFIG_PACKAGE_mod-autosensing=y
@@ -566,6 +591,8 @@ Assure expected build configuration (PCF-1413):
   # CONFIG_PACKAGE_nftables-json is not set
   CONFIG_PACKAGE_nss-tcp-st-cli=y
   CONFIG_PACKAGE_nss-udp-st=y
+  CONFIG_PACKAGE_ntfs-3g=y
+  CONFIG_PACKAGE_ntfs-3g-utils=y
   CONFIG_PACKAGE_obudpst=y
   CONFIG_PACKAGE_obuspa=y
   CONFIG_PACKAGE_odl-generator=y
@@ -605,6 +632,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_rlyeh=y
   CONFIG_PACKAGE_routing-manager=y
   CONFIG_PACKAGE_rpcd=y
+  CONFIG_PACKAGE_sfdisk=y
   CONFIG_PACKAGE_sgdisk=y
   CONFIG_PACKAGE_shadow=y
   CONFIG_PACKAGE_shadow-chage=y
@@ -710,6 +738,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_tr069-manager=y
   CONFIG_PACKAGE_tr181-bgp-ospf=y
   CONFIG_PACKAGE_tr181-bootstatus=y
+  CONFIG_PACKAGE_tr140-storageservice=y
   CONFIG_PACKAGE_tr181-bridging=y
   CONFIG_PACKAGE_tr181-bulkdata=y
   CONFIG_PACKAGE_tr181-button=y

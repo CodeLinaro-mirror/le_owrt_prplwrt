@@ -101,6 +101,7 @@ packages:
   - tc-tiny
   - time-manager
   - tr181-bootstatus
+  - tr140-storageservice
   - tr181-bridging
   - tr181-bgp-ospf
   - tr181-button
