@@ -144,7 +144,8 @@ prplOS-Network-Test-Plan-Mandatory-v1.1.0 MXL25641-HDK-6 eMMC:
       when: never
     - when: manual
   variables:
-    CDROUTER_TEST_CONFIG: generic-ipv6
+    CDROUTER_TEST_CONFIG: prplos-certification
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
       .gitlab/scripts/dut-init/cdrouter-dut-configure-cwmpd.sh
+      .gitlab/scripts/dut-init/cdrouter-dut-configure-prplos-certification.sh
