@@ -8,6 +8,7 @@ include:
 
 packages:
   - extender-config
+  - tr069-connectionrequest
 
 diffconfig: |
           CONFIG_BUSYBOX_CONFIG_GETOPT=y
