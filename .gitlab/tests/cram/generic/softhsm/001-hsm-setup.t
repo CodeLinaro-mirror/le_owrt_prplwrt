@@ -43,13 +43,6 @@ Allow HSM secure storage access for mosquitto:
   $ R "chmod -R a+r /etc/softhsm/tokens/"
 
 
-Extend security data model with CertificateURI/PrivateKeyURI:
-
-  $ S="security-ext.sh"
-  $ C "${TESTDIR}/${S}" "root@${TARGET_LAN_IP}:/tmp/"
-  Warning: Permanently added '*' (*) to the list of known hosts* (glob)
-  $ R "source /tmp/${S}"
-
   $ R "cp ~/certs/server* /etc/config/autocert/"
   $ R "/etc/init.d/tr181-security restart"
   $ R "ba-cli 'Security.Certificate.1.PrivateKeyURI=\"pkcs11:object=server-key;type=private;pin-value=1234\"' > /dev/null"
