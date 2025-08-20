@@ -29,6 +29,9 @@ endif
 ifneq ($(CONFIG_SDK)$(CONFIG_TARGET_INITRAMFS_COMPRESSION_LZO),)
   BUILD_LZO_TOOLS = y
 endif
+ifneq ($(CONFIG_TARGET_ipq53xx)$(CONFIG_TARGET_ipq54xx)$(CONFIG_TARGET_ipq95xx),)
+  BUILD_LZO_TOOLS =y
+endif
 
 tools-y += autoconf
 tools-y += autoconf-archive
