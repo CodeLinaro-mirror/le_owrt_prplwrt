@@ -54,7 +54,7 @@ include:
     - >
       if echo "$CI_RUNNER_DESCRIPTION" | grep -v -q "Restricted.*OSP"; then
         sed -i -E 's;git.openwrt.org/(feed|project);github.com/openwrt;' feeds.conf.default
-        export CI_BUILD_PROFILE="$(echo $CI_JOB_NAME | sed 's/scan coverity \(.*\)/\1/')"
+        export CI_BUILD_PROFILE="$(echo $CI_JOB_NAME | sed 's/coverity scan \(.*\)/\1/')"
         scripts/gen_config.py $CI_BUILD_PROFILE 2>&1 | tee logs/build.log
         git checkout -- feeds.conf.default
 
