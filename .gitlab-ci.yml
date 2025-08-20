@@ -4,6 +4,7 @@ variables:
 
 include:
   - local: .gitlab/build.yml
+  - local: .gitlab/blackduck.yml
   - local: .gitlab/release.yml
   - local: .gitlab/cdrouter.yml
   - local: .gitlab/prplmesh.yml
@@ -41,6 +42,7 @@ stages:
   - certification tests
   - cdrouter
   - coverity
+  - blackduck
 
 build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread:
   extends: .build test config
@@ -65,6 +67,9 @@ build test qca_ipq95xx extender_minimal cellular security thread:
 
 build test qca_ipq95xx extender_full cellular security thread:
   extends: .build test config
+
+blackduck scan qca_ipq95xx prpl cellular security thread:
+  extends: .blackduck scan config
 
 coverity scan ipq807x prpl:
   extends: .coverity scan config
