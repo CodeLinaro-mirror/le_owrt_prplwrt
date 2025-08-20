@@ -39,11 +39,12 @@ Put server key into HSM:
 
 Allow HSM secure storage access for mosquitto:
 
-  $ R "find /etc/softhsm/tokens/ -type d -exec chmod a+rx {} \;"
-  $ R "chmod -R a+r /etc/softhsm/tokens/"
-
+  $ R "chgrp -R certificates /etc/softhsm/tokens/"
+  $ R "chmod -R g+r /etc/softhsm/tokens/"
+  $ R "find /etc/softhsm/tokens/ -type d -exec chmod g+x {} \;"
 
   $ R "cp ~/certs/server* /etc/config/autocert/"
+  $ R "chgrp -R certificates /etc/config/autocert/"
   $ R "/etc/init.d/tr181-security restart"
   $ R "ba-cli 'Security.Certificate.1.PrivateKeyURI=\"pkcs11:object=server-key;type=private;pin-value=1234\"' > /dev/null"
   $ R "ba-cli 'Security.Certificate.1.CertificateURI=\"/etc/config/autocert/server.crt\"' > /dev/null"
