@@ -122,7 +122,9 @@ Check that ubus has expected datamodels available:
   DeviceInfo.Location
   DeviceInfo.LogRotate
   DeviceInfo.MemoryStatus
+  DeviceInfo.MemoryStatus.MemoryMonitor
   DeviceInfo.ProcessStatus
+  DeviceInfo.ProcessStatus.CPU
   DeviceInfo.ProcessStatus.Process
   DeviceInfo.Processor
   DeviceInfo.VendorConfigFile
