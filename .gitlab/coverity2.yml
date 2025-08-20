@@ -3,7 +3,7 @@ include:
     ref: v2.3.0
     file: templates/security_scan.yml
 
-coverity scan config:
+.coverity scan config:
   stage: coverity
   image: "$CI_REGISTRY_IMAGE/$CI_DESIGNATED_BRANCH_SLUG/builder:latest"
   variables:
