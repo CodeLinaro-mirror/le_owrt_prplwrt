@@ -1,0 +1,17 @@
+.blackduck scan config:
+  extends: .build test config
+  stage: blackduck
+  needs: []
+  rules:
+    - when: manual
+  before_script:
+    - touch .build_failed
+    - export CI_BUILD_PROFILE="$(echo $CI_JOB_NAME | sed 's/blackduck scan \(.*\)/\1/')"
+  script:
+    - !reference [.build test config, script]
+    - target_name=$(sed -n 's/.*CONFIG_TARGET_BOARD="\([^"]\+\)".*/\1/p' .config)
+    - sudo apt update
+    - sudo apt install openjdk-17-jdk -y
+    - cd build_dir/target-*
+    - rm -rf linux-*
+    - bash <(curl -s -L https://detect.blackduck.com/detect10.sh) --blackduck.url=https://prplfoundation.app.blackduck.com --blackduck.api.token=$BLACKDUCK_API_KEY --detect.project.name=$CI_COMMIT_REF_NAME --detect.project.version.name=$target_name
