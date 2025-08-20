@@ -4,6 +4,7 @@ variables:
 
 include:
   - local: .gitlab/build.yml
+  - local: .gitlab/blackduck.yml
   - local: .gitlab/release.yml
   - local: .gitlab/cdrouter.yml
   - local: .gitlab/prplmesh.yml
@@ -42,6 +43,7 @@ stages:
   - smoke tests
   - cdrouter
   - coverity
+  - blackduck
 
 build test mxl_x86_osp_tb341 mxl_wlan_hostap_ng prpl security:
   image: registry.gitlab.com/prpl-foundation/prplos/prplos/prplos-nightly/builder-osp@sha256:081488878a834952dbfd223f90dba987052082019f5816a0798f72bc4b3a95a1
@@ -67,6 +69,15 @@ build test mtk_filogic prpl security:
 
 build test qca_ipq95xx prpl cellular security thread:
   extends: .build test config
+
+build test qca_ipq95xx extender_minimal cellular security thread:
+  extends: .build test config
+
+build test qca_ipq95xx extender_full cellular security thread:
+  extends: .build test config
+
+blackduck scan qca_ipq95xx prpl cellular security thread:
+  extends: .blackduck scan config
 
 coverity scan ipq807x prpl:
   extends: .coverity scan config
