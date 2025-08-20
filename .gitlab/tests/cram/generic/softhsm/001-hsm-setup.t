@@ -28,6 +28,7 @@ Create cert/key:
   $ R "mkdir -p ~/certs"
   $ R "mv *.key *.crt ~/certs"
   $ R "chmod -R a+r ~/certs/*"
+  $ R "chmod +rx ~"
 
 
 Put server key into HSM:
