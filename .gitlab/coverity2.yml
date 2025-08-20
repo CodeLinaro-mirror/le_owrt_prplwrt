@@ -6,6 +6,7 @@ include:
 .coverity scan config:
   stage: coverity
   image: "$CI_REGISTRY_IMAGE/$CI_DESIGNATED_BRANCH_SLUG/builder:latest"
+  needs: []
   variables:
     SCAN_BRANCHES: "/^(latest-24.10|mainline-23.05)$/"
     BRIDGE_COVERITY_CONNECT_URL: https://coverity.prplfoundation.org
