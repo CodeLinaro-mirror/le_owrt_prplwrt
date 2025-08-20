@@ -294,7 +294,6 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_libnl-route=y
   CONFIG_PACKAGE_libocispec=y
   CONFIG_PACKAGE_libopensc=y
-  CONFIG_PACKAGE_libopenssl-conf=y
   CONFIG_PACKAGE_libp11=y
   CONFIG_PACKAGE_libpacket-interception=y
   CONFIG_PACKAGE_libpci=y
