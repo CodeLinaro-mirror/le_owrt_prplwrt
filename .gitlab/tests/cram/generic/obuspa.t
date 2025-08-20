@@ -590,6 +590,18 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.DeviceInfo.ManufacturerOUI                                                                    proto::deviceinfo-manager
   Device.DeviceInfo.MemoryStatus.                                                                      proto::deviceinfo-manager
   Device.DeviceInfo.MemoryStatus.Free                                                                  proto::deviceinfo-manager
+  Device.DeviceInfo.MemoryStatus.MemoryMonitor.                                                        proto::deviceinfo-manager
+  Device.DeviceInfo.MemoryStatus.MemoryMonitor.CriticalFallThreshold                                   proto::deviceinfo-manager
+  Device.DeviceInfo.MemoryStatus.MemoryMonitor.CriticalFallTimeStamp                                   proto::deviceinfo-manager
+  Device.DeviceInfo.MemoryStatus.MemoryMonitor.CriticalRiseThreshold                                   proto::deviceinfo-manager
+  Device.DeviceInfo.MemoryStatus.MemoryMonitor.CriticalRiseTimeStamp                                   proto::deviceinfo-manager
+  Device.DeviceInfo.MemoryStatus.MemoryMonitor.Enable                                                  proto::deviceinfo-manager
+  Device.DeviceInfo.MemoryStatus.MemoryMonitor.EnableCriticalLog                                       proto::deviceinfo-manager
+  Device.DeviceInfo.MemoryStatus.MemoryMonitor.FilePath                                                proto::deviceinfo-manager
+  Device.DeviceInfo.MemoryStatus.MemoryMonitor.MemUtilization                                          proto::deviceinfo-manager
+  Device.DeviceInfo.MemoryStatus.MemoryMonitor.MemoryCriticalState!                                    proto::deviceinfo-manager
+  Device.DeviceInfo.MemoryStatus.MemoryMonitor.PollingInterval                                         proto::deviceinfo-manager
+  Device.DeviceInfo.MemoryStatus.MemoryMonitor.VendorLogFileRef                                        proto::deviceinfo-manager
   Device.DeviceInfo.MemoryStatus.Total                                                                 proto::deviceinfo-manager
   Device.DeviceInfo.ModelName                                                                          proto::deviceinfo-manager
   Device.DeviceInfo.ModelNumber                                                                        proto::deviceinfo-manager
@@ -628,6 +640,25 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.DeviceInfo.ProcessFaults.RemoveAllProcessFaults()                                             proto::amx-faultmonitor
   Device.DeviceInfo.ProcessFaults.StoragePath                                                          proto::amx-faultmonitor
   Device.DeviceInfo.ProcessStatus.                                                                     proto::deviceinfo-manager
+  Device.DeviceInfo.ProcessStatus.CPU.{i}.                                                             proto::deviceinfo-manager
+  Device.DeviceInfo.ProcessStatus.CPU.{i}.Alias                                                        proto::deviceinfo-manager
+  Device.DeviceInfo.ProcessStatus.CPU.{i}.CPUCriticalState!                                            proto::deviceinfo-manager
+  Device.DeviceInfo.ProcessStatus.CPU.{i}.CPUUtilization                                               proto::deviceinfo-manager
+  Device.DeviceInfo.ProcessStatus.CPU.{i}.CriticalFallThreshold                                        proto::deviceinfo-manager
+  Device.DeviceInfo.ProcessStatus.CPU.{i}.CriticalFallTimeStamp                                        proto::deviceinfo-manager
+  Device.DeviceInfo.ProcessStatus.CPU.{i}.CriticalRiseThreshold                                        proto::deviceinfo-manager
+  Device.DeviceInfo.ProcessStatus.CPU.{i}.CriticalRiseTimeStamp                                        proto::deviceinfo-manager
+  Device.DeviceInfo.ProcessStatus.CPU.{i}.Enable                                                       proto::deviceinfo-manager
+  Device.DeviceInfo.ProcessStatus.CPU.{i}.EnableCriticalLog                                            proto::deviceinfo-manager
+  Device.DeviceInfo.ProcessStatus.CPU.{i}.FilePath                                                     proto::deviceinfo-manager
+  Device.DeviceInfo.ProcessStatus.CPU.{i}.IdleModeUtilization                                          proto::deviceinfo-manager
+  Device.DeviceInfo.ProcessStatus.CPU.{i}.Name                                                         proto::deviceinfo-manager
+  Device.DeviceInfo.ProcessStatus.CPU.{i}.NumSamples                                                   proto::deviceinfo-manager
+  Device.DeviceInfo.ProcessStatus.CPU.{i}.PollInterval                                                 proto::deviceinfo-manager
+  Device.DeviceInfo.ProcessStatus.CPU.{i}.SystemModeUtilization                                        proto::deviceinfo-manager
+  Device.DeviceInfo.ProcessStatus.CPU.{i}.UpTime                                                       proto::deviceinfo-manager
+  Device.DeviceInfo.ProcessStatus.CPU.{i}.UserModeUtilization                                          proto::deviceinfo-manager
+  Device.DeviceInfo.ProcessStatus.CPU.{i}.VendorLogFileRef                                             proto::deviceinfo-manager
   Device.DeviceInfo.ProcessStatus.CPUUsage                                                             proto::deviceinfo-manager
   Device.DeviceInfo.ProcessStatus.Process.{i}.                                                         proto::deviceinfo-manager
   Device.DeviceInfo.ProcessStatus.Process.{i}.CPUTime                                                  proto::deviceinfo-manager
@@ -5056,6 +5087,18 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.DeviceInfo.ManufacturerOUI                                                                    proto::deviceinfo-manager
   Device.DeviceInfo.MemoryStatus.                                                                      proto::deviceinfo-manager
   Device.DeviceInfo.MemoryStatus.Free                                                                  proto::deviceinfo-manager
+  Device.DeviceInfo.MemoryStatus.MemoryMonitor.                                                        proto::deviceinfo-manager
+  Device.DeviceInfo.MemoryStatus.MemoryMonitor.CriticalFallThreshold                                   proto::deviceinfo-manager
+  Device.DeviceInfo.MemoryStatus.MemoryMonitor.CriticalFallTimeStamp                                   proto::deviceinfo-manager
+  Device.DeviceInfo.MemoryStatus.MemoryMonitor.CriticalRiseThreshold                                   proto::deviceinfo-manager
+  Device.DeviceInfo.MemoryStatus.MemoryMonitor.CriticalRiseTimeStamp                                   proto::deviceinfo-manager
+  Device.DeviceInfo.MemoryStatus.MemoryMonitor.Enable                                                  proto::deviceinfo-manager
+  Device.DeviceInfo.MemoryStatus.MemoryMonitor.EnableCriticalLog                                       proto::deviceinfo-manager
+  Device.DeviceInfo.MemoryStatus.MemoryMonitor.FilePath                                                proto::deviceinfo-manager
+  Device.DeviceInfo.MemoryStatus.MemoryMonitor.MemUtilization                                          proto::deviceinfo-manager
+  Device.DeviceInfo.MemoryStatus.MemoryMonitor.MemoryCriticalState!                                    proto::deviceinfo-manager
+  Device.DeviceInfo.MemoryStatus.MemoryMonitor.PollingInterval                                         proto::deviceinfo-manager
+  Device.DeviceInfo.MemoryStatus.MemoryMonitor.VendorLogFileRef                                        proto::deviceinfo-manager
   Device.DeviceInfo.MemoryStatus.Total                                                                 proto::deviceinfo-manager
   Device.DeviceInfo.ModelName                                                                          proto::deviceinfo-manager
   Device.DeviceInfo.ModelNumber                                                                        proto::deviceinfo-manager
@@ -5094,6 +5137,25 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.DeviceInfo.ProcessFaults.RemoveAllProcessFaults()                                             proto::amx-faultmonitor
   Device.DeviceInfo.ProcessFaults.StoragePath                                                          proto::amx-faultmonitor
   Device.DeviceInfo.ProcessStatus.                                                                     proto::deviceinfo-manager
+  Device.DeviceInfo.ProcessStatus.CPU.{i}.                                                             proto::deviceinfo-manager
+  Device.DeviceInfo.ProcessStatus.CPU.{i}.Alias                                                        proto::deviceinfo-manager
+  Device.DeviceInfo.ProcessStatus.CPU.{i}.CPUCriticalState!                                            proto::deviceinfo-manager
+  Device.DeviceInfo.ProcessStatus.CPU.{i}.CPUUtilization                                               proto::deviceinfo-manager
+  Device.DeviceInfo.ProcessStatus.CPU.{i}.CriticalFallThreshold                                        proto::deviceinfo-manager
+  Device.DeviceInfo.ProcessStatus.CPU.{i}.CriticalFallTimeStamp                                        proto::deviceinfo-manager
+  Device.DeviceInfo.ProcessStatus.CPU.{i}.CriticalRiseThreshold                                        proto::deviceinfo-manager
+  Device.DeviceInfo.ProcessStatus.CPU.{i}.CriticalRiseTimeStamp                                        proto::deviceinfo-manager
+  Device.DeviceInfo.ProcessStatus.CPU.{i}.Enable                                                       proto::deviceinfo-manager
+  Device.DeviceInfo.ProcessStatus.CPU.{i}.EnableCriticalLog                                            proto::deviceinfo-manager
+  Device.DeviceInfo.ProcessStatus.CPU.{i}.FilePath                                                     proto::deviceinfo-manager
+  Device.DeviceInfo.ProcessStatus.CPU.{i}.IdleModeUtilization                                          proto::deviceinfo-manager
+  Device.DeviceInfo.ProcessStatus.CPU.{i}.Name                                                         proto::deviceinfo-manager
+  Device.DeviceInfo.ProcessStatus.CPU.{i}.NumSamples                                                   proto::deviceinfo-manager
+  Device.DeviceInfo.ProcessStatus.CPU.{i}.PollInterval                                                 proto::deviceinfo-manager
+  Device.DeviceInfo.ProcessStatus.CPU.{i}.SystemModeUtilization                                        proto::deviceinfo-manager
+  Device.DeviceInfo.ProcessStatus.CPU.{i}.UpTime                                                       proto::deviceinfo-manager
+  Device.DeviceInfo.ProcessStatus.CPU.{i}.UserModeUtilization                                          proto::deviceinfo-manager
+  Device.DeviceInfo.ProcessStatus.CPU.{i}.VendorLogFileRef                                             proto::deviceinfo-manager
   Device.DeviceInfo.ProcessStatus.CPUUsage                                                             proto::deviceinfo-manager
   Device.DeviceInfo.ProcessStatus.Process.{i}.                                                         proto::deviceinfo-manager
   Device.DeviceInfo.ProcessStatus.Process.{i}.CPUTime                                                  proto::deviceinfo-manager
