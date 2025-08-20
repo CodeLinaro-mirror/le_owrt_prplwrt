@@ -1,0 +1,4 @@
+capture:
+  build:
+  clean-command: make clean
+  build-command: make -j16
