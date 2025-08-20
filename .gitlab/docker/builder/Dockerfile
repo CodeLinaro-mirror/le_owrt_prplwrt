@@ -18,7 +18,6 @@ RUN \
 	libncurses5-dev \
 	locales \
 	nmap \
-	openjdk-17-jdk \
 	openssh-client \
 	pwgen \
 	python3 \
