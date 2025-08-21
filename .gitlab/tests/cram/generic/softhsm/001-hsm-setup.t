@@ -47,7 +47,7 @@ Allow HSM secure storage access for mosquitto:
   $ R "cp ~/certs/server* /etc/config/autocert/"
   $ R "chgrp -R certificates /etc/config/autocert/"
   $ R "/etc/init.d/tr181-security restart"
-  $ R "ba-cli 'Security.Certificate.1.PrivateKeyURI=\"pkcs11:object=server-key;type=private;pin-value=1234\"' > /dev/null"
+  $ R "ba-cli 'Security.Certificate.1.PrivateKeyURI=\"pkcs11:object=server-key;type=private\"' > /dev/null"
   $ R "ba-cli 'Security.Certificate.1.CertificateURI=\"/etc/config/autocert/server.crt\"' > /dev/null"
 
 
