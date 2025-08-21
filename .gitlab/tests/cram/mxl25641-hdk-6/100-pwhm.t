@@ -60,6 +60,11 @@ Check that no hostapd instance is running:
   $ R "pgrep -f 'hostapd -ddt'"
   [1]
 
+Set OperatingStandardsFormat to Legacy for all Radio:
+  $ R "ubus -S call WiFi.Radio.1 _set '{\"parameters\": {\"OperatingStandardsFormat\": \"Legacy\"}}'"
+  $ R "ubus -S call WiFi.Radio.2 _set '{\"parameters\": {\"OperatingStandardsFormat\": \"Legacy\"}}'"
+  $ R "ubus -S call WiFi.Radio.3 _set '{\"parameters\": {\"OperatingStandardsFormat\": \"Legacy\"}}'"
+
 Test activation of access point 1:
 
   $ R logger -t cram "Test AccessPoint 1 activation "$(get_ssid_ref 1)""
