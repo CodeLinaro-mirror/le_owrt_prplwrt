@@ -2804,6 +2804,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.UPnP.X_PRPLWARE-COM_IGDConfig.EnableIPv6                                                      proto::tr181-upnp
   Device.UPnP.X_PRPLWARE-COM_IGDConfig.MaxLifetime                                                     proto::tr181-upnp
   Device.UPnP.X_PRPLWARE-COM_IGDConfig.UPnPInterface                                                   proto::tr181-upnp
+  Device.UPnP.X_PRPLWARE-COM_IGDConfig.WANAccessProvider                                               proto::tr181-upnp
   Device.USB.                                                                                          proto::tr181-usb
   Device.USB.Interface.{i}.                                                                            proto::tr181-usb
   Device.USB.Interface.{i}.Alias                                                                       proto::tr181-usb
@@ -7257,6 +7258,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.UPnP.X_PRPLWARE-COM_IGDConfig.EnableIPv6                                                      proto::tr181-upnp
   Device.UPnP.X_PRPLWARE-COM_IGDConfig.MaxLifetime                                                     proto::tr181-upnp
   Device.UPnP.X_PRPLWARE-COM_IGDConfig.UPnPInterface                                                   proto::tr181-upnp
+  Device.UPnP.X_PRPLWARE-COM_IGDConfig.WANAccessProvider                                               proto::tr181-upnp
   Device.USB.                                                                                          proto::tr181-usb
   Device.USB.Interface.{i}.                                                                            proto::tr181-usb
   Device.USB.Interface.{i}.Alias                                                                       proto::tr181-usb
