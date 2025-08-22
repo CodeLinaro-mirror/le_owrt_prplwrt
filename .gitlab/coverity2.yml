@@ -6,6 +6,8 @@ include:
 coverity:
   stage: coverity
   image: "$CI_REGISTRY_IMAGE/$CI_DESIGNATED_BRANCH_SLUG/builder:latest"
+  needs: []
+  timeout: 10 hours
   variables:
     SCAN_BRANCHES: "/^(latest-24.10|mainline-23.05)$/"
     BRIDGE_COVERITY_CONNECT_URL: https://coverity.prplfoundation.org
@@ -19,8 +21,6 @@ coverity:
       variables:
         BRIDGE_COVERITY_CONNECT_POLICY_VIEW: Outstanding Issues
     - if: ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ $SCAN_BRANCHES && $CI_PIPELINE_SOURCE == 'merge_request_event')
-      variables:
-        BRIDGE_COVERITY_AUTOMATION_PRCOMMENT: true
   before_script:
     - apt-get -qq update && apt-get install -y curl file unzip
     - touch .build_failed
