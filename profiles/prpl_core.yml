@@ -11,7 +11,7 @@ feeds:
 
   - name: feed_prplos
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplos.git
-    revision: PCF-1863_networking_for_extender@c3a924e532852115a54f0e8245900e09e3a1c902
+    revision: main@dcb88cc1ff2e5ed1e515b9f63c87f48d5b204ae5
 
 additional_packages:
   - feed: packages
