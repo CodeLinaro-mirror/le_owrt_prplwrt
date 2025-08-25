@@ -1232,8 +1232,8 @@ SECTION "CDRouter IPv6 Add-On" {
             # testvar ipv6WanBackupDnsServer           3001:51a:cafe::3
             # testvar ipv6WanBackupDnsServer2          ::
             # testvar ipv6WanBackupDnsServer3          ::
-            # testvar ipv6WanRDNSS                     no
-            # testvar ipv6WanDNSSL                     no
+              testvar ipv6WanRDNSS                     yes
+              testvar ipv6WanDNSSL                     yes
 
         }
 
