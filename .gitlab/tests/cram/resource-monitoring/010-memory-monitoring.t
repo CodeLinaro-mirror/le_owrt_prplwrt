@@ -53,3 +53,6 @@ Verify Memory Monitoring stopped after disable
 Revert PollingInterval to default value
   $ R "ba-cli -l -j Device.DeviceInfo.MemoryStatus.MemoryMonitor.PollingInterval=5 | sed '/^$/d'"
   [{"Device.DeviceInfo.MemoryStatus.MemoryMonitor.":{"PollingInterval":5}}]
+
+  $ R logger -t "Tests finished!"
+

@@ -44,6 +44,9 @@ Verify Normal CPU utilization values
   $ verify_cpu_mode_utilization 1 IdleModeUtilization 100
   PASS
 
+  $ verify_cpu_mode_utilization 1 CPUUtilization 70
+  PASS
+
 Update NumSamples and PollInterval and verify CPU Monitoring values after NumSamples * Polling Interval
   $ R "ba-cli -l -j Device.DeviceInfo.ProcessStatus.CPU.1.NumSamples=32 | sed '/^$/d'"
   [{"Device.DeviceInfo.ProcessStatus.CPU.1.":{"NumSamples":32}}]
@@ -73,6 +76,9 @@ Verify Normal CPU utilization values after updating NumSamples and PollingInterv
   $ verify_cpu_mode_utilization 1 IdleModeUtilization 100
   PASS
 
+  $ verify_cpu_mode_utilization 1 CPUUtilization 70
+  PASS
+
 Disable CPU Monitoring for first core
   $ set_cpu_monitoring 1 0
   [{"Device.DeviceInfo.ProcessStatus.CPU.1.":{"Enable":0}}]
@@ -86,9 +92,15 @@ Disable CPU Monitoring for first core
   $ verify_disable_cpu_utilization 1 IdleModeUtilization
   PASS
 
+  $ verify_disable_cpu_utilization 1 CPUUtilization
+  PASS
+
 Revert PollingInterval and NumSamples to default value
   $ R "ba-cli -l -j Device.DeviceInfo.ProcessStatus.CPU.1.NumSamples=30 | sed '/^$/d'"
   [{"Device.DeviceInfo.ProcessStatus.CPU.1.":{"NumSamples":30}}]
 
   $ R "ba-cli -l -j Device.DeviceInfo.ProcessStatus.CPU.1.PollInterval=5 | sed '/^$/d'"
   [{"Device.DeviceInfo.ProcessStatus.CPU.1.":{"PollInterval":5}}]
+
+  $ R logger -t cram "Tests finished!"
+
