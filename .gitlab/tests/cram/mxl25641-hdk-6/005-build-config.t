@@ -64,8 +64,6 @@ Assure expected build configuration (PCF-1413):
   CONFIG_IFX_UBOOT_RAM_TEXT_BASE=0xA0400000
   CONFIG_IMAGEOPT=y
   CONFIG_INCLUDE_CONFIG=y
-  CONFIG_INTEL_X86_IMAGE_FORMAT_FIT=y
-  CONFIG_INTEL_X86_SINGLE_IMAGE=y
   CONFIG_INTERFACE1_BONDMEMBERS=""
   CONFIG_INTERFACE1_ENABLE=y
   CONFIG_INTERFACE1_IFNAME="eth0_1"
@@ -143,7 +141,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_KERNEL_GIT_DEPTH=0
   CONFIG_KERNEL_GIT_LOCAL_REPOSITORY=""
   CONFIG_KERNEL_GIT_MIRROR_HASH=""
-  CONFIG_KERNEL_GIT_REF="UPDK_9.1.90"
+  CONFIG_KERNEL_GIT_REF="UPDK_9.1.95"
   CONFIG_KERNEL_HFSPLUS_FS_POSIX_ACL=y
   CONFIG_KERNEL_HFS_FS_POSIX_ACL=y
   CONFIG_KERNEL_JFFS2_FS_POSIX_ACL=y
@@ -798,8 +796,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_tr181-usermanagement=y
   CONFIG_PACKAGE_tr181-xpon=y
   CONFIG_PACKAGE_uboot-envtools=y
-  CONFIG_PACKAGE_uboot-octopus-urx641-overlay-p34x-phy-emmc-prpl=y
-  CONFIG_PACKAGE_uboot-octopus-urx641-p34x-phy-emmc-prpl=y
+  CONFIG_PACKAGE_uboot-octopus-urx641-overlay-fit-p34x-phy-emmc-prpl=y
   CONFIG_PACKAGE_ucode-mod-ubus=m
   CONFIG_PACKAGE_ucode-mod-uci=m
   CONFIG_PACKAGE_umbim=y
