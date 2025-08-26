@@ -49,3 +49,11 @@ Allow HSM secure storage access for users in the certificates group:
   $ R "chmod -R g+r /etc/config/autocert"
   $ R "ba-cli 'Security.Certificate.1.PrivateKeyURI=\"pkcs11:object=server-key;type=private\"' > /dev/null"
   $ R "ba-cli 'Security.Certificate.1.CertificateURI=\"/etc/config/autocert/server.crt\"' > /dev/null"
+
+
+Check the presence of the expected artifacts
+
+  $ R "ls -la /etc/config/autocert/"
+  $ R "ls -la /root/certs/"
+  $ R "ba-cli 'Security.Certificate.?'"
+  $ R "date"
