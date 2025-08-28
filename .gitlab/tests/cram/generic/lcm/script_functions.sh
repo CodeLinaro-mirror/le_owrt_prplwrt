@@ -41,6 +41,27 @@ get_container_name() {
 	esac
 }
 
+## Return architecture name for the board
+get_board_arch() {
+	board_name=$(cut -d',' -f2 </tmp/sysinfo/board_name)
+	case "${board_name}" in
+	"haze" | \
+		"freedom")
+		echo cortexa53
+		;;
+	"lgm" | \
+		"qemu-standard-pc-"*)
+		echo x86-64
+		;;
+	"turris-omnia")
+		echo cortexa9
+		;;
+	*)
+		echo generic
+		;;
+	esac
+}
+
 concat_comma_string() {
 	_concat_global_str="$1"
 	_concat_param="$2"
