@@ -12,7 +12,7 @@ Verify that SoftHSM slot is initialised
 Verify that the expected keys are stored in SoftHSM
 
   $ R "pkcs11-tool --module /usr/lib/softhsm/libsofthsm2.so --login --pin 1234 --list-objects 2>&1 | grep -q 'ca-key'"
-  $ R "pkcs11-tool --module /usr/lib/softhsm/libsofthsm2.so --login --pin 1234 --list-objects 2>&1 | grep -q 'server-key'"
+  $ R "pkcs11-tool --module /usr/lib/softhsm/libsofthsm2.so --login --pin 1234 --list-objects 2>&1 | grep -q 'cpe-key'"
 
 
 Check pkcs11 openssl support:
@@ -22,10 +22,10 @@ Check pkcs11 openssl support:
 
 Test the creation of a certificate using PKCS11 URIs
 
-  $ R "openssl req -new -engine pkcs11 -keyform ENGINE -key 'pkcs11:object=server-key;type=private' -out /tmp/server.csr -subj '/CN=prplOS.lan' &> /dev/null"
-  $ R "ls /tmp/server.csr &> /dev/null"
-  $ R "openssl x509 -req -in /tmp/server.csr -CA /usr/share/ca-certificates/ca.crt -engine pkcs11 -CAkeyform ENGINE -CAkey 'pkcs11:object=ca-key;type=private' -CAcreateserial -out /tmp/server.crt -days 3650 -sha256 &> /dev/null"
-  $ R "ls /tmp/server.crt &> /dev/null"
+  $ R "openssl req -new -engine pkcs11 -keyform ENGINE -key 'pkcs11:object=cpe-key;type=private' -out /tmp/cpe.csr -subj '/CN=prplOS.lan' &> /dev/null"
+  $ R "ls /tmp/cpe.csr &> /dev/null"
+  $ R "openssl x509 -req -in /tmp/cpe.csr -CA /usr/share/ca-certificates/ca.crt -engine pkcs11 -CAkeyform ENGINE -CAkey 'pkcs11:object=ca-key;type=private' -CAcreateserial -out /tmp/cpe.crt -days 3650 -sha256 &> /dev/null"
+  $ R "ls /tmp/cpe.crt &> /dev/null"
 
 
 Create client key/cert needed for tests
@@ -47,5 +47,5 @@ Allow HSM secure storage access for users in the certificates group:
   $ R "chmod -R g+r /root/certs/"
   $ R "chgrp -R certificates /etc/config/autocert"
   $ R "chmod -R g+r /etc/config/autocert"
-  $ R "ba-cli 'Security.Certificate.2.PrivateKeyURI=\"pkcs11:object=server-key;type=private\"' > /dev/null"
-  $ R "ba-cli 'Security.Certificate.2.CertificateURI=\"/etc/config/autocert/server.crt\"' > /dev/null"
+  $ R "ba-cli 'Security.Certificate.2.PrivateKeyURI=\"pkcs11:object=cpe-key;type=private\"' > /dev/null"
+  $ R "ba-cli 'Security.Certificate.2.CertificateURI=\"/etc/config/autocert/cpe.crt\"' > /dev/null"

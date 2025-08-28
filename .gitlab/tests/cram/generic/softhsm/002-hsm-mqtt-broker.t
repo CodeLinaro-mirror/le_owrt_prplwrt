@@ -10,7 +10,7 @@ Setup mqttbroker for pkcs11:
   > ba-cli MQTTBroker.Broker.secure.Interface="Device.IP.Interface.1."
   > ba-cli MQTTBroker.Broker.secure.TlsEngine=true
   > ba-cli MQTTBroker.Broker.secure.TlsEngineId="pkcs11"
-  > ba-cli MQTTBroker.Broker.secure.CertFile="/etc/config/autocert/server.crt"
+  > ba-cli MQTTBroker.Broker.secure.CertFile="/etc/config/autocert/cpe.crt"
   > ba-cli MQTTBroker.Broker.secure.CAFile="/usr/share/ca-certificates/ca.crt"
   > ba-cli MQTTBroker.Broker.secure.Ciphers="DEFAULT"
   > ba-cli MQTTBroker.Broker.secure.RequireCertificate=true
