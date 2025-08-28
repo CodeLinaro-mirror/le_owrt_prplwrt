@@ -11,10 +11,10 @@ Setup mqttbroker for pkcs11:
   > ba-cli MQTTBroker.Broker.secure.TlsEngine=true
   > ba-cli MQTTBroker.Broker.secure.TlsEngineId="pkcs11"
   > ba-cli MQTTBroker.Broker.secure.CertFile="/etc/config/autocert/server.crt"
-  > ba-cli MQTTBroker.Broker.secure.CAFile="/root/certs/ca.crt"
+  > ba-cli MQTTBroker.Broker.secure.CAFile="/usr/share/ca-certificates/ca.crt"
   > ba-cli MQTTBroker.Broker.secure.Ciphers="DEFAULT"
   > ba-cli MQTTBroker.Broker.secure.RequireCertificate=true
-  > ba-cli MQTTBroker.Broker.secure.KeyFile="Security.Certificate.1.PrivateKeyURI"
+  > ba-cli MQTTBroker.Broker.secure.KeyFile="Security.Certificate.2.PrivateKeyURI"
   > ba-cli MQTTBroker.Broker.secure.Enable=1
   > EOF
   $ script --command "ssh -t root@$TARGET_LAN_IP '$(cat /tmp/mqtt-broker-setup.sh)'" > /dev/null
