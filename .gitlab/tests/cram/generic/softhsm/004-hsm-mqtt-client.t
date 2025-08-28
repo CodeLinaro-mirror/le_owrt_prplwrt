@@ -16,7 +16,7 @@ Setup https server at prplOS.lan/localhost 127.0.0.1:
   > ba-cli MQTT.Client.1.BrokerPort=8883
   > ba-cli MQTT.Client.1.CheckServerHostName=false
   > ba-cli MQTT.Client.1.CACertificate="/usr/share/ca-certificates/ca.crt"
-  > ba-cli MQTT.Client.1.ClientCertificate="/etc/config/autocert/server.crt"
+  > ba-cli MQTT.Client.1.ClientCertificate="/etc/config/autocert/cpe.crt"
   > ba-cli MQTT.Client.1.PrivateKey="Security.Certificate.2.PrivateKeyURI"
   > ba-cli MQTT.Client.1.TransportProtocol="TLS"
   > ba-cli MQTT.Client.1.ProtocolVersion="5.0"
