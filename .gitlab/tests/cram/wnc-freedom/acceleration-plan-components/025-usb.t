@@ -16,7 +16,7 @@ Assure USB. datamodel content with single SanDisk USB flash disk plugged in:
         "Type": "Host",
         "Receptacle": "Standard-A"
       },
-      "USB.USBHosts.Host.2.Device.1.": {
+      "USB.USBHosts.Host.2.Device.[0-9]+.": { (re)
         "Port": 1,
         "DeviceClass": "00",
         "VendorID": 1921,
@@ -34,10 +34,13 @@ Assure USB. datamodel content with single SanDisk USB flash disk plugged in:
         "Manufacturer": "USB",
         "DeviceSubClass": "00",
         "DeviceVersion": 100,
+        "IsAllowed": 1,
         "DeviceNumber": 2,
         "MaxChildren": 0
       },
       "USB.USBHosts.": {
+        "AllowAllDevices": 1,
+        "AllowedDeviceNumberOfEntries": 0,
         "HostNumberOfEntries": 2
       },
       "USB.USBHosts.Host.1.": {
@@ -79,7 +82,7 @@ Assure USB. datamodel content with single SanDisk USB flash disk plugged in:
         "DiscardPacketsSent": 0,
         "BroadcastPacketsReceived": 0
       },
-      "USB.USBHosts.Host.2.Device.1.Configuration.1.": {
+      "USB.USBHosts.Host.2.Device.[0-9]+.Configuration.1.": { (re)
         "ConfigurationNumber": 1,
         "InterfaceNumberOfEntries": 1
       },
@@ -87,7 +90,7 @@ Assure USB. datamodel content with single SanDisk USB flash disk plugged in:
         "InterfaceNumberOfEntries": 1,
         "PortNumberOfEntries": 1
       },
-      "USB.USBHosts.Host.2.Device.1.Configuration.1.Interface.1.": {
+      "USB.USBHosts.Host.2.Device.[0-9]+.Configuration.1.Interface.1.": { (re)
         "InterfaceClass": "08",
         "InterfaceProtocol": "50",
         "InterfaceSubClass": "06",
