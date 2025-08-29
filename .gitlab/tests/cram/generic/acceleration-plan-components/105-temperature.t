@@ -42,8 +42,11 @@ Check that the value is actually synchronized with the system value:
 
   $ for obj_index in $obj_indexes; do
   >   zone=$(R "ubus-cli "TemperatureStatus.TemperatureSensor.$obj_index.Name?" | grep 'TemperatureStatus.TemperatureSensor.[0-9]*.Name=' | sort | sed 's/.*=//' | tr -d '\"'")
-  >   get_temp=$(R "cat $zone/temp")
-  >   temp_temperature=$(($(($get_temp+500)) / 1000))
+  >   if get_temp=$(R "cat $zone/temp" 2>/dev/null); then
+  >     temp_temperature=$(($(($get_temp+500)) / 1000))
+  >   else
+  >     temp_temperature=-274
+  >   fi
   >   value=$(R "ubus-cli "TemperatureStatus.TemperatureSensor.$obj_index.Value?" | grep '=' | sort | sed 's/.*=//'")
   >   diff_abs="$(echo "$((temp_temperature - value))" | tr -d '-')"
   >   if [ "$diff_abs" -gt 5 ]; then
