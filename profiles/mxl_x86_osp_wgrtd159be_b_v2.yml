@@ -5,10 +5,6 @@ target: intel_x86
 subtarget: lgm
 external_target: True
 description: Build images for the Maxlinear x86 devices - OSPv2 WGRTD159BE B
-             This target requires sources from MaxLinear, that are accessible via
-             git.maxlinear.com.
-             For reference boards, source code access and reporting issues,
-             please check https://gitlab.com/prpl-foundation/prplos/prplos/-/wikis/MaxLinear-Open-Service-Platform
 feeds:
   - name: intel_x86
     uri: https://github.com/maxlinear/feed_target_x86.git
@@ -17,7 +13,7 @@ feeds:
   - name: rootfs
     uri: https://github.com/maxlinear/rootfs.git
     tracking_branch:  updk_9.1.90
-    revision: ffbfe7e976a5552ad9b104347a2d0319c6bd9be4
+    revision: 37b9b2eaecb64dd516f50e5ba5aec6f8312f3622
   - name: eip
     uri: https://github.com/maxlinear/feed_eip.git
     tracking_branch:  updk_9.1.90
@@ -61,7 +57,7 @@ feeds:
   - name: pp_net_adapter
     uri: https://github.com/maxlinear/feed_pp_net_adapter.git
     tracking_branch:  updk_9.1.90
-    revision: 6693062f60676b8008a0966a5b4aefe578d073df
+    revision: f312a0d80863d3a05f3297fcac31326b97a60b74
   - name: vpn_fw
     uri: https://github.com/maxlinear/feed_vpn_fw.git
     tracking_branch:  updk_9.1.90
@@ -117,7 +113,6 @@ packages:
   - kmod-ppv4
   - kmod-p34x_phy_fwdl
   - mxl-gphy-fw-lgm
-  #- netifd-ugw
   - e2fsprogs
   - kmod-directconnect-dp
   - kmod-ppa-drv
