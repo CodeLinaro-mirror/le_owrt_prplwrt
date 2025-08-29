@@ -13,7 +13,7 @@ feeds:
   - name: rootfs
     uri: https://github.com/maxlinear/rootfs.git
     tracking_branch: updk_9.1.95
-    revision: 1f3b81b722049dcea2d314d6345c4e781124888f
+    revision: 5acb3042c5f06fca3f4eb6e43d85fba29553ee42
   - name: eip
     uri: https://github.com/maxlinear/feed_eip.git
     tracking_branch: updk_9.1.95
@@ -90,7 +90,6 @@ feeds:
     uri: https://github.com/maxlinear/feed_system_service.git
     tracking_branch:  updk_9.1.95
     revision: 08e632c61715a255469d6a7e9204a61dd446dcea
->>>>>>> 6893a04519... profiles: mxl_x86_osp_tb341_v2: update to UPDK_9.1.95
 
 packages:
   - kmod-mxl_eth_drv
