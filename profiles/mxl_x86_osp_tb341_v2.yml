@@ -17,7 +17,7 @@ feeds:
   - name: rootfs
     uri: https://github.com/maxlinear/rootfs.git
     tracking_branch: updk_9.2.0
-    revision: f124c08679a5c8efa2bc8815ecf9dd4d1e4c68af
+    revision: bb7beef87e9504dd527d4eb63395b357ff89c996
   - name: eip
     uri: https://github.com/maxlinear/feed_eip.git
     tracking_branch: updk_9.2.0
