@@ -38,14 +38,11 @@ Create client key/cert needed for tests
 
 Allow HSM secure storage access for users in the certificates group:
 
-  $ R "chgrp -R certificates /etc/softhsm/tokens/"
   $ R "chmod -R g+r /etc/softhsm/tokens/"
   $ R "find /etc/softhsm/tokens/ -type d -exec chmod g+x {} \;"
   $ R "chgrp -R certificates /root/certs/"
   $ R "chgrp certificates /root"
   $ R "chmod g+x /root/"
   $ R "chmod -R g+r /root/certs/"
-  $ R "chgrp -R certificates /etc/config/autocert"
-  $ R "chmod -R g+r /etc/config/autocert"
   $ R "ba-cli 'Security.Certificate.2.PrivateKeyURI=\"pkcs11:object=cpe-key;type=private\"' > /dev/null"
   $ R "ba-cli 'Security.Certificate.2.CertificateURI=\"/etc/config/autocert/cpe.crt\"' > /dev/null"
