@@ -4377,6 +4377,24 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.X_PRPLWARE-COM_Buttons.Button.{i}.Release()                                                   proto::tr181-button
   Device.X_PRPLWARE-COM_Buttons.Button.{i}.Status                                                      proto::tr181-button
   Device.X_PRPLWARE-COM_Buttons.ButtonNumberOfEntries                                                  proto::tr181-button
+  Device.X_PRPLWARE-COM_ConMon.                                                                        proto::tr181-conmon
+  Device.X_PRPLWARE-COM_ConMon.Enable                                                                  proto::tr181-conmon
+  Device.X_PRPLWARE-COM_ConMon.Entry.{i}.                                                              proto::tr181-conmon
+  Device.X_PRPLWARE-COM_ConMon.Entry.{i}.Alias                                                         proto::tr181-conmon
+  Device.X_PRPLWARE-COM_ConMon.Entry.{i}.Enable                                                        proto::tr181-conmon
+  Device.X_PRPLWARE-COM_ConMon.Entry.{i}.FailInterval                                                  proto::tr181-conmon
+  Device.X_PRPLWARE-COM_ConMon.Entry.{i}.Interface                                                     proto::tr181-conmon
+  Device.X_PRPLWARE-COM_ConMon.Entry.{i}.MainInterval                                                  proto::tr181-conmon
+  Device.X_PRPLWARE-COM_ConMon.Entry.{i}.NumberOfRetries                                               proto::tr181-conmon
+  Device.X_PRPLWARE-COM_ConMon.Entry.{i}.ResponseTimeout                                               proto::tr181-conmon
+  Device.X_PRPLWARE-COM_ConMon.Entry.{i}.Stats.                                                        proto::tr181-conmon
+  Device.X_PRPLWARE-COM_ConMon.Entry.{i}.Stats.ARPNSErrorsSent                                         proto::tr181-conmon
+  Device.X_PRPLWARE-COM_ConMon.Entry.{i}.Stats.ARPNSTotalFail                                          proto::tr181-conmon
+  Device.X_PRPLWARE-COM_ConMon.Entry.{i}.Stats.TotalDHCPRestarts                                       proto::tr181-conmon
+  Device.X_PRPLWARE-COM_ConMon.Entry.{i}.Status                                                        proto::tr181-conmon
+  Device.X_PRPLWARE-COM_ConMon.Entry.{i}.Type                                                          proto::tr181-conmon
+  Device.X_PRPLWARE-COM_ConMon.EntryNumberOfEntries                                                    proto::tr181-conmon
+  Device.X_PRPLWARE-COM_ConMon.Status                                                                  proto::tr181-conmon
   Device.X_PRPLWARE-COM_MultiSettings.                                                                 proto::multisettings
   Device.X_PRPLWARE-COM_MultiSettings.CurrentProfile                                                   proto::multisettings
   Device.X_PRPLWARE-COM_MultiSettings.DecisionMadeBy                                                   proto::multisettings
@@ -9084,6 +9102,24 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.X_PRPLWARE-COM_Buttons.Button.{i}.Release()                                                   proto::tr181-button
   Device.X_PRPLWARE-COM_Buttons.Button.{i}.Status                                                      proto::tr181-button
   Device.X_PRPLWARE-COM_Buttons.ButtonNumberOfEntries                                                  proto::tr181-button
+  Device.X_PRPLWARE-COM_ConMon.                                                                        proto::tr181-conmon
+  Device.X_PRPLWARE-COM_ConMon.Enable                                                                  proto::tr181-conmon
+  Device.X_PRPLWARE-COM_ConMon.Entry.{i}.                                                              proto::tr181-conmon
+  Device.X_PRPLWARE-COM_ConMon.Entry.{i}.Alias                                                         proto::tr181-conmon
+  Device.X_PRPLWARE-COM_ConMon.Entry.{i}.Enable                                                        proto::tr181-conmon
+  Device.X_PRPLWARE-COM_ConMon.Entry.{i}.FailInterval                                                  proto::tr181-conmon
+  Device.X_PRPLWARE-COM_ConMon.Entry.{i}.Interface                                                     proto::tr181-conmon
+  Device.X_PRPLWARE-COM_ConMon.Entry.{i}.MainInterval                                                  proto::tr181-conmon
+  Device.X_PRPLWARE-COM_ConMon.Entry.{i}.NumberOfRetries                                               proto::tr181-conmon
+  Device.X_PRPLWARE-COM_ConMon.Entry.{i}.ResponseTimeout                                               proto::tr181-conmon
+  Device.X_PRPLWARE-COM_ConMon.Entry.{i}.Stats.                                                        proto::tr181-conmon
+  Device.X_PRPLWARE-COM_ConMon.Entry.{i}.Stats.ARPNSErrorsSent                                         proto::tr181-conmon
+  Device.X_PRPLWARE-COM_ConMon.Entry.{i}.Stats.ARPNSTotalFail                                          proto::tr181-conmon
+  Device.X_PRPLWARE-COM_ConMon.Entry.{i}.Stats.TotalDHCPRestarts                                       proto::tr181-conmon
+  Device.X_PRPLWARE-COM_ConMon.Entry.{i}.Status                                                        proto::tr181-conmon
+  Device.X_PRPLWARE-COM_ConMon.Entry.{i}.Type                                                          proto::tr181-conmon
+  Device.X_PRPLWARE-COM_ConMon.EntryNumberOfEntries                                                    proto::tr181-conmon
+  Device.X_PRPLWARE-COM_ConMon.Status                                                                  proto::tr181-conmon
   Device.X_PRPLWARE-COM_MultiSettings.                                                                 proto::multisettings
   Device.X_PRPLWARE-COM_MultiSettings.CurrentProfile                                                   proto::multisettings
   Device.X_PRPLWARE-COM_MultiSettings.DecisionMadeBy                                                   proto::multisettings
