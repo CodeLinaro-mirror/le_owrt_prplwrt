@@ -15,7 +15,7 @@ feeds:
 
   - name: feed_prplos
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplos.git
-    revision: dev_FEAT13-nogmap@795131e35aab295917e32d64e1bbf0059d3b20ca
+    revision: dev_FEAT13-nogmap@48f102235d030b7c9c81c25e5de02d0c6cb76db1
 
 additional_packages:
   - feed: packages
