@@ -13,7 +13,7 @@ feeds:
   - name: rootfs
     uri: https://github.com/maxlinear/rootfs.git
     tracking_branch: updk_9.1.95
-    revision: 1f3b81b722049dcea2d314d6345c4e781124888f
+    revision: 8ea588ee28fb3c025cf06b0a12332f319762c58b
   - name: eip
     uri: https://github.com/maxlinear/feed_eip.git
     tracking_branch: updk_9.1.95
@@ -194,4 +194,6 @@ diffconfig: |
   CONFIG_BUSYBOX_CONFIG_TFTP=y
   CONFIG_LGM_EIP123_SUPPORT=y
   CONFIG_KERNEL_FTRACE=y
+  CONFIG_INTEL_X86_IMAGE_FORMAT_FIT=y
+  CONFIG_INTEL_X86_IMAGE_FORMAT_MKIMAGE=y
   CONFIG_INTEL_X86_SINGLE_IMAGE=y
