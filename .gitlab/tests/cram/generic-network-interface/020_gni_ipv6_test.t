@@ -26,21 +26,30 @@ Get the Generic Network Instance and verify parameters
 
 Get the IP Instance of associated Generic Network Interface
   $ IPInstanceId=$(R "ba-cli Device.IP.Interface.*.Name? | grep gni-2 | sed 's/.*Device\.IP\.Interface\.\([0-9]*\)\..*/\1/'")
+  $ if [ -z "$IPInstanceId" ]; then IPInstanceId=$(R "ba-cli  IP.Interface.+\{Alias=\"gni-ip-instance-alias\", Enable=1, Name=\"gni-2\", LowerLayers=\"Device.GenericNetworkInterface.Interface.$InstanceId.\", Router=\"Device.Routing.Router.1.\", IPv6Enable=1\} | grep 'IP.Interface.[0-9]\+\.Alias' | sed -n 's/.*Interface\.\([0-9]\+\)\..*/\1/p'" ); fi;
   $ R logger -t cram "Instance Id of Generic Network Interface under Device.IP.Interface  $IPInstanceId"
 
-Assign IPv6 address to Interface
-  $ R "ba-cli -l Device.IP.Interface.$IPInstanceId.IPv6Address.3.IPAddress=2001:0db8:85a3:0000:0000:8a2e:0370:7334 | sed /^$/d"
-  2001:0db8:85a3:0000:0000:8a2e:0370:7334
+Create IPv6 Prefix object for IPv6 Interface
+  $ PrefixId=$(R "ba-cli IP.Interface.$IPInstanceId.IPv6Prefix+\{Alias=\"gni-ipv6-prefix-alias\",Enable=1,PrefixStatus=\"Preferred\"} | grep -v \{ | grep Alias | sed -n 's/.*IPv6Prefix\.\([0-9]*\)\..*/\1/p'")
+  $ R logger -t cram "IPv6 Prefix object Id: $PrefixId"
 
-  $ R "ba-cli -l Device.IP.Interface.$IPInstanceId.IPv6Prefix.4.ChildPrefixBits=0:0::/32 | sed /^$/d"
+Create IPv6 Address object for IPv6 Interface
+  $ AddressInstanceId=$(R "ba-cli IP.Interface.$IPInstanceId.IPv6Address.+\{Alias=\"gni_static_address\",Enable=1\} | grep -v { | grep Alias | sed -n 's/.*IPv6Address\.\([0-9]\+\)\..*/\1/p'")
+  $ R logger -t cram "IPv6 Address object for IPv6 interface: $AddressInstanceId"
+
+Assign IPv6 prefix for IPv6 Interface
+  $ R "ba-cli -l Device.IP.Interface.$IPInstanceId.IPv6Prefix.$PrefixId.ChildPrefixBits=\"0:0::/32\" | sed /^$/d"
   0:0::/32
 
-Verify the IPv6 address with mask set
-  $ R "ba-cli Device.IP.Interface.$IPInstanceId.IPv6Address.3.? | grep IPAddress= | sed -n 's/.*Device\.IP\.Interface\.$IPInstanceId\.IPv6Address\.3\.IPAddress=.\([^\"]*\).*/\1/p'"
+  $ R "ba-cli -l Device.IP.Interface.$IPInstanceId.IPv6Prefix.$PrefixId.Prefix=\"0:0::/32\" | sed /^$/d"
+  0:0::/32
+
+Configure IPv6 address for the Interface and associate with IPv6 Prefix object
+  $ R "ba-cli -l Device.IP.Interface.$IPInstanceId.IPv6Address.$AddressInstanceId.IPAddress=\"2001:0db8:85a3:0000:0000:8a2e:0370:7334\" | sed '/^$/d'"
   2001:0db8:85a3:0000:0000:8a2e:0370:7334
 
-  $ R "ba-cli Device.IP.Interface.$IPInstanceId.IPv6Prefix.4.? | grep ChildPrefixBit |  sed -n 's/.*Device\.IP\.Interface\.$IPInstanceId\.IPv6Prefix\.4\.ChildPrefixBits=.\([^\"]*\).*/\1/p'"
-  0:0::/32
+  $ R "ba-cli -l Device.IP.Interface.$IPInstanceId.IPv6Address.$AddressInstanceId.Prefix=\"Device.IP.Interface.$IPInstanceId.IPv6Prefix.$PrefixId\" | sed '/^$/d' | grep -c Device.IP.Interface.$IPInstanceId.IPv6Prefix.$PrefixId"
+  1
 
 Make the linux interface down and verify Generic Network Interface Status is down
   $ R "ip link set gni-2 down"
@@ -60,13 +69,19 @@ Wait 1 seocnds for the changes to reflect
   $ R "ba-cli -j -l 'Device.GenericNetworkInterface.Interface.$InstanceId.?' | sed '/^$/d' | jsonfilter -e @[0]'[*].Status'"
   Up
 
-  $ R logger -t cram "Test finished!"
+Delete the linux interface and verify Generic Network Interface status as NotPresent
+  $ R "(ip link del gni-2; ip link del br100) 2>&1 > /dev/null"
+
+  $ sleep 1
+  $ R "ba-cli -j -l 'Device.GenericNetworkInterface.Interface.$InstanceId.?' | sed '/^$/d' | jsonfilter -e @[0]'[*].Status'"
+  NotPresent
 
 Clean-up, Delete Generic Network Interface
+  $ R "ba-cli -j -l 'Device.IP.Interface.$IPInstanceId._del()' | sed '/^$/d' | tail -n 1 | grep -c Device\.IP\.Interface\."
+  1
+
   $ R "ba-cli -l -j 'Device.GenericNetworkInterface.Interface.$InstanceId._del()' |  sed '/^$/d' | tail -n 2| grep -c 'Device\.GenericNetworkInterface\.Interface\.'"
   2
-
-  $ R "(ip link del gni-2; ip link del br100) 2>&1 > /dev/null"
 
   $ R logger -t cram "Test finished!"
 
