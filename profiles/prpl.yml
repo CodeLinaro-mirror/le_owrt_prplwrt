@@ -11,11 +11,11 @@ feeds:
   
   - name: feed_prplmesh
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplmesh.git
-    revision: main@d11bd7e54b72fb8b102e6ae225fe5c013d656f38
+    revision: feature/PCF-2011-amx-processmonitor-enhancements@f2073f14e80ebc53daff40523983de045e0131bd
 
   - name: feed_prplos
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplos.git
-    revision: main@cd319e743f8a6e4ea7fa3028a5a1f25b73216702
+    revision: feature/PCF-2011-amx-processmonitor-enhancements@94b19459a80a82e2e4755f9bed16c4939433e7d3
 
 additional_packages:
   - feed: packages
