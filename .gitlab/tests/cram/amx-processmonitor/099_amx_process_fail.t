@@ -15,11 +15,17 @@ Read Initial Process ProcessMonitor.Test
   $ InitialInstance=$(R "ba-cli  ProcessMonitor.Test.? | sed '/^$/d'")
   $ R logger -t cram 'Initial read of Process.Monitor $InitialInstance'
 
-This method verifies increment of NumProcessRespawn with previous value for process respawn, Param#1 - ProcessMonitor Instance Id of the process, Param#2 - old NumProcessRespawn value
-  $ verify_respawn_increment() { respawn=$(R "ba-cli -l ProcessMonitor.Test.$1.NumProcessRespawn? | sed '/^$/d'"); old_value=$2; expected_value=$((old_value+1)); if [ $respawn -eq $expected_value ]; then echo PASS; else echo "FAIL expected ProcessMonitor.Test.$1.NumProcessRespawn value: $expected_value found: $respawn"; fi;}
+This method verifies increment of NumProcessRespawn with previous value for process respawn, Param#1 - ProcessMonitor Instance Id of the process, Param#2 - Expected NumProcessRespawn value
+  $ verify_respawn_increment() { respawn=$(R "ba-cli -l ProcessMonitor.Test.$1.NumProcessRespawn? | sed '/^$/d'"); if [ $respawn -eq $2 ]; then echo PASS; else echo "FAIL Expected ProcessMonitor.Test.$1.NumProcessRespawn value: $2 found: $respawn"; fi;}
 
 This method verifies expected  NumProcessFail value attribute of ProcessMonitor.Test, Param#1 - ProcessMonitor Instance Id, Param#2 expected value of NumProcessFail
-  $ verify_num_Process_fail() { num_process_fail=$(R "ba-cli -l ProcessMonitor.Test.$1.NumProcessFail? | sed '/^$/d'"); if [ $num_process_fail -eq $2 ]; then echo PASS; else echo "Fail expected value for ProcessMonitor.Test.$1.NumProcessFail: $2, found: $num_process_fail"; fi;}
+  $ verify_num_Process_fail() { num_process_fail=$(R "ba-cli -l ProcessMonitor.Test.$1.NumProcessFail? | sed '/^$/d'"); if [ $num_process_fail -eq $2 ]; then echo PASS; else echo "Fail Expected value for ProcessMonitor.Test.$1.NumProcessFail: $2, found: $num_process_fail"; fi;}
+
+Pre-test actions, Restart amx-processmonitor service to clear the respawns and other failures before starting with tests
+  $ R "(/etc/init.d/amx-processmonitor restart) > /dev/null 2>&1"
+
+Wait 60 seconds for the monitoring initialization
+  $ sleep 60
 
 Initialize the ProcessMonitor.Test.i Id for required processes
   $ Tr181MqttbrokerId=$(R "ba-cli  ProcessMonitor.Test.*.Name? | grep tr181-mqttbroker | sed -n 's/.*Test\.\([0-9]\+\)\..*/\1/p'")
@@ -59,24 +65,18 @@ Get the Process ID and verify all expected process are running
 
 Change MaxFail parameter for the processes to higher value
   $ R "ba-cli -l  ProcessMonitor.Test.$Tr181MqttbrokerId.MaxFailNum=30 | sed '/^$/d'"
-  300
-
+  30
   $ R "ba-cli -l ProcessMonitor.Test.$Tr181PcpId.MaxFailNum=30 | sed '/^$/d'"
-  300
-
+  30
   $ R "ba-cli -l ProcessMonitor.Test.$DeviceinfoManagerId.MaxFailNum=30 | sed '/^$/d'"
-  300
-
+  30
   $ R "ba-cli -l ProcessMonitor.Test.$WanManagerId.MaxFailNum=30 | sed '/^$/d'"
-  300
-
+  30
   $ R "ba-cli -l ProcessMonitor.Test.$Dhcpv4ManagerId.MaxFailNum=30 | sed '/^$/d'"
-  300
+  30
 
-Kill the processes - Frist kill attempt
+Kill the processes and wait for respawn - Frist kill attempt
   $ for process_name in tr181-mqttbroker tr181-pcp deviceinfo-manager wan-manager dhcpv4-manager; do kill_process $process_name; done
-
-Wait for procd to respawn the processes, 5 seconds(with few more seconds) - default retry timeout for respawn and verify process respawn
   $ sleep 7
 
   $ for process_name in tr181-mqttbroker tr181-pcp deviceinfo-manager wan-manager dhcpv4-manager; do get_pid $process_name ; done
@@ -87,37 +87,31 @@ Wait for procd to respawn the processes, 5 seconds(with few more seconds) - defa
   \d+ (re)
 
 Verify amx-process monitor has updated the NumProcessRespawn after process respawn
-  $ verify_respawn_increment $Tr181MqttbrokerId $Tr181MqttbrokerRespawn
+  $ verify_respawn_increment $Tr181MqttbrokerId $((Tr181MqttbrokerRespawn+1))
   PASS
 
-  $ verify_respawn_increment $Tr181PcpId $Tr181PcpRespawn
+  $ verify_respawn_increment $Tr181PcpId $((Tr181PcpRespawn+1))
   PASS
 
-  $ verify_respawn_increment $DeviceinfoManagerId $DeviceinfoManagerRespawn
+  $ verify_respawn_increment $DeviceinfoManagerId $((DeviceinfoManagerRespawn+1))
   PASS
 
-  $ verify_respawn_increment $WanManagerId $WanManagerRespawn
+  $ verify_respawn_increment $WanManagerId $((WanManagerRespawn+1))
   PASS
 
-  $ verify_respawn_increment $Dhcpv4ManagerId $Dhcpv4ManagerRespawn
+  $ verify_respawn_increment $Dhcpv4ManagerId $((Dhcpv4ManagerRespawn+1))
   PASS
 
 Kill the processes - Second kill attempt
   $ for process_name in tr181-mqttbroker tr181-pcp deviceinfo-manager wan-manager dhcpv4-manager; do kill_process $process_name; done
-
-Wait for procd to respawn the processes, 5 seconds(with few more seconds) - default retry timeout for respawn and verify process respawn
   $ sleep 7
 
 Kill the processes - third kill attempt
   $ for process_name in tr181-mqttbroker tr181-pcp deviceinfo-manager wan-manager dhcpv4-manager; do kill_process $process_name; done
-
-Wait for procd to respawn the processes, 5 seconds(with few more seconds) - default retry timeout for respawn and verify process respawn
   $ sleep 7
 
 Kill the processes - Fourth kill attempt, no more respawns of failed process by procd and NumProcessFail will increment
   $ for process_name in tr181-mqttbroker tr181-pcp deviceinfo-manager wan-manager dhcpv4-manager; do kill_process $process_name; done
-
-Wait few seconds
   $ sleep 7
 
 Verify NumProcessFail is incremented for process fail
@@ -137,36 +131,38 @@ Verify NumProcessFail is incremented for process fail
   PASS
 
 Verify amx-process monitor has updated the NumProcessRespawn after process respawn for all kill attempts above
-  $ verify_respawn_increment $Tr181MqttbrokerId $((Tr181MqttbrokerRespawn+2))
+  $ verify_respawn_increment $Tr181MqttbrokerId $((Tr181MqttbrokerRespawn+3))
   PASS
 
-  $ verify_respawn_increment $Tr181PcpId $((Tr181PcpRespawn+2))
+  $ verify_respawn_increment $Tr181PcpId $((Tr181PcpRespawn+3))
   PASS
 
-  $ verify_respawn_increment $DeviceinfoManagerId $((DeviceinfoManagerRespawn+2))
+  $ verify_respawn_increment $DeviceinfoManagerId $((DeviceinfoManagerRespawn+3))
   PASS
 
-  $ verify_respawn_increment $WanManagerId $((WanManagerRespawn+2))
+  $ verify_respawn_increment $WanManagerId $((WanManagerRespawn+3))
   PASS
 
-  $ verify_respawn_increment $Dhcpv4ManagerId $((Dhcpv4ManagerRespawn+2))
+  $ verify_respawn_increment $Dhcpv4ManagerId $((Dhcpv4ManagerRespawn+3))
   PASS
 
 Clean-up Revert MaxFail parameter for the process to initial value
   $ R "ba-cli -l  ProcessMonitor.Test.$Tr181MqttbrokerId.MaxFailNum=$Tr181MqttbrokerMaxFail | sed '/^$/d'"
   \d+ (re)
-
   $ R "ba-cli -l ProcessMonitor.Test.$Tr181PcpId.MaxFailNum=$Tr181PcpMaxFail | sed '/^$/d'"
   \d+ (re)
-
   $ R "ba-cli -l ProcessMonitor.Test.$DeviceinfoManagerId.MaxFailNum=$DeviceinfoManagerMaxFail | sed '/^$/d'"
   \d+ (re)
-
   $ R "ba-cli -l ProcessMonitor.Test.$WanManagerId.MaxFailNum=$WanManagerMaxFail | sed '/^$/d'"
   \d+ (re)
-
   $ R "ba-cli -l ProcessMonitor.Test.$Dhcpv4ManagerId.MaxFailNum=$Dhcpv4ManagerMaxFail | sed '/^$/d'"
   \d+ (re)
+
+Restart amx-processmonitor service to clear the respawns from above tests
+  $ R "(/etc/init.d/amx-processmonitor restart) > /dev/null 2>&1"
+
+Wait 60 seconds for the monitoring to beign
+  $ sleep 60
 
   $ R logger -t cram "Tests finished!"
 
