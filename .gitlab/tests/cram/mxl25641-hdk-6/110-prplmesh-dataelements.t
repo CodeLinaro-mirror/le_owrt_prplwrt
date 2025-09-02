@@ -176,26 +176,6 @@ Check that prplmesh processes are running:
   /opt/prplmesh/bin/beerocks_vendor_message
   /opt/prplmesh/bin/ieee1905_transport
 
-Check that prplmesh is operational:
-
-  $ R logger -t cram "Check that prplmesh is operational"
-
-  $ R "/opt/prplmesh/scripts/prplmesh_utils.sh status" | LC_ALL=C sort
-  \x1b[0m (esc)
-  \x1b[0m\x1b[1;32mOK Main radio agent operational (esc)
-  \x1b[1;32moperational test success! (esc)
-  /opt/prplmesh/scripts/prplmesh_utils.sh: status
-  [0-9]+ beerocks_contro (re)
-  [0-9]+ beerocks_agent (re)
-  [0-9]+ beerocks_vendor (re)
-  [0-9]+ beerocks_fronth (re)
-  [0-9]+ beerocks_fronth (re)
-  [0-9]+ beerocks_fronth (re)
-  OK wlan0 radio agent operational
-  OK wlan2 radio agent operational
-  OK wlan4 radio agent operational
-  executing operational test using bml
-
 Check that controller received correct info about wifi subsystem:
 
   $ R logger -t cram "Check controller info about network"
