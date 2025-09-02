@@ -11,7 +11,6 @@ import humanize
 
 from dataclasses import dataclass
 from typing import Optional
-from types import SimpleNamespace
 from http.client import RemoteDisconnected
 from requests.exceptions import ConnectionError
 import urllib3.exceptions
@@ -248,10 +247,21 @@ class TestbedCDRouter:
 
         self.job = job
 
-    def job_progress(self):
+    def job_execute(self):
         current = None
+        timeout = getattr(self.args, "timeout", None)
+        start_time = time.time() if timeout else None
+
         job = self.cdr.jobs.get(self.job.id)
         while job.status == "running":
+            if timeout and (time.time() - start_time) >= timeout:
+                elapsed = time.time() - start_time
+                logging.error(
+                    "Test execution timeout exceeded after {}.".format(humanize.naturaldelta(elapsed))
+                )
+                self.package_stop()
+                return False
+
             updates = self.cdr.results.updates(job.result_id)
             running = updates.running
             progress = updates.progress
@@ -278,6 +288,8 @@ class TestbedCDRouter:
 
             time.sleep(5)
             job = self.cdr.jobs.get(self.job.id)
+
+        return True
 
     def job_result(self, job_id=None):
         job_id = job_id or self.job.result_id
@@ -315,8 +327,11 @@ class TestbedCDRouter:
     def package_run(self):
         self.connect()
         self.job_launch()
-        self.job_progress()
+        success = self.job_execute()
         self.job_result()
+
+        if not success:
+            exit(124)
 
     def netif_available(self, name):
         for netif in self.cdr.system.interfaces():
@@ -532,6 +547,11 @@ def main():
         "-s",
         "--system-info",
         help="JSON file with system information for additional tags",
+    )
+    subparser.add_argument(
+        "--timeout",
+        type=int,
+        help="timeout duration in seconds for test execution",
     )
     subparser.set_defaults(func=TestbedCDRouter.package_run)
 
