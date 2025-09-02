@@ -18,6 +18,11 @@ Check the root datamodel settings:
     }
   }
 
+Change Respawn timeout on tr181-led to allow testing with Amx ProcessMonitor:
+
+  $ R "export respawn_timeout=60"
+  $ R "/etc/init.d/tr181-led restart"
+
 Check that only one instance of tr181-led manager is running:
 
   $ R "pgrep -cf 'tr181-led'"
@@ -29,9 +34,10 @@ Get current tr181-led manager PID:
 
 Add test for checking tr181-leds manager using PID:
 
-  $ R "ba-cli 'ProcessMonitor.Test+{Type=Process,Name=tr181-led,Subject=/var/run/tr181-led.pid,FailAction=RESTART,TestInterval=2,MaxFailNum=1}' | grep -v '^>'"
+  $ R "ba-cli 'ProcessMonitor.Test+{Type=Process,Name=tr181-led,Subject=/var/run/tr181-led.pid,FailAction=RESTART,TestInterval=30,MaxFailNum=1,ProcessMonitoringEnabled=0}' | grep -v '^>'"
   ProcessMonitor.Test.\d+. (re)
   
+
 Check the LED manager check datamodel settings:
 
   $ R "ba-cli --json ProcessMonitor.Test.[Name==\\\"tr181-led\\\"].? | sed -n '2p'" | jq --sort-keys '.[0]'
@@ -45,28 +51,32 @@ Check the LED manager check datamodel settings:
       "LastFailAction": "0001-01-01T00:00:00Z",
       "LastFailReason": "Error_None",
       "LastSuccess": "0001-01-01T00:00:00Z",
+      "LogEntryEnabled": 1,
       "MaxFailDuration": -1,
       "MaxFailNum": 1,
+      "MaxFailedDuration": 0,
+      "MaxNumFailed": 0,
       "Name": "tr181-led",
       "NumFailActions": 0,
       "NumFailed": 0,
+      "NumProcessFail": -1,
+      "NumProcessRespawn": -1,
+      "ProcessMonitoringEnabled": 0,
       "RebootAfterRestartThreshold": 0,
       "Subject": "/var/run/tr181-led.pid",
       "SuccessfulSince": "0001-01-01T00:00:00Z",
-      "TestInterval": 2,
+      "TestInterval": 30,
       "TestIntervalMultiplier": 1,
       "TestResetInterval": 3600,
       "Type": "Process"
+    },
+    "ProcessMonitor.Test.\d+.ProcessRespawnParams.": { (re)
+      "RetryAttempts": -*\d+, (re)
+      "Threshold": -*\d+, (re)
+      "Timeout": -*\d+ (re)
     }
   }
 
-Shorthen the test cycle duration to 1 second:
-
-  $ current_cycle_duration="$(R 'ba-cli -lj "ProcessMonitor.CycleDuration?"' | jq -e '.[] | .[] |  .CycleDuration')"
-  $ R "ba-cli -l -j 'ProcessMonitor.CycleDuration=1'"
-  
-  [{"ProcessMonitor.":{"CycleDuration":1}}]
-  
 Kill the LED manager service:
 
   $ R "kill \$(cat /var/run/tr181-led.pid)"
@@ -78,10 +88,9 @@ Check that LED manager is not running:
   0
   [1]
 
-Calculate a timeout with (number_of_tests * test_interval * 2s):
+Calculate a timeout with tr181-led current test interval:
 
-  $ number_of_tests="$(R 'ba-cli -lj "ProcessMonitor.NumberOfTest?"' | jq -e '.[] | .[] |  .NumberOfTest')"
-  $ reactivation_timeout=$((number_of_tests*2*10))
+  $ reactivation_timeout="$(R 'ba-cli -lj "ProcessMonitor.Test.[Name==\"tr181-led\"].CurrentTestInterval?"' |  jq -e '.[] | .[] |  .CurrentTestInterval')"
 
 Check that ProcessMonitor have restarted the LED manager properly:
 
@@ -101,9 +110,7 @@ Cleanup:
 
   $ R "ba-cli --json ProcessMonitor.Test.[Name==\\\"tr181-led\\\"].-" >/dev/null
 
-Revert back the test cycle duration:
+Revert back the respawn timeout on tr181-led:
 
-  $ R "ba-cli -l 'ProcessMonitor.CycleDuration=$current_cycle_duration'"
-  
-  \d+ (re)
-  
+  $ R "export respawn_timeout=5"
+  $ R "/etc/init.d/tr181-led restart"
