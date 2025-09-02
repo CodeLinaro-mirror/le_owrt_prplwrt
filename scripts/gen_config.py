@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 
+#Changes from Qualcomm Technologies, Inc. are provided under the following license:
+#Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+#SPDX-License-Identifier: BSD-3-Clause-Clear
+
 import yaml
 from pathlib import Path
 from shutil import rmtree
@@ -138,14 +142,14 @@ if "help" in sys.argv:
 if len(sys.argv) < 2:
     usage(1)
 
-#rmtree("./tmp", ignore_errors=True)
-#rmtree("./packages/feeds/", ignore_errors=True)
-#rmtree("./feeds", ignore_errors=True)
-#rmtree("./tmp", ignore_errors=True)
+rmtree("./tmp", ignore_errors=True)
+rmtree("./package/feeds/", ignore_errors=True)
+rmtree("./feeds", ignore_errors=True)
+rmtree("./tmp", ignore_errors=True)
 #if Path("./feeds.conf").is_file():
-    #Path("./feeds.conf").unlink()
-#if Path("./.config").is_file():
-    #Path("./.config").unlink()
+#    Path("./feeds.conf").unlink()
+if Path("./.config").is_file():
+    Path("./.config").unlink()
 
 if "clean" in sys.argv:
     print("Tree is now clean")
@@ -197,7 +201,7 @@ with open("feeds.conf.default", "r") as default_feeds:
 if run_cmd(["./scripts/feeds", "setup", *feeds]).returncode:
     die(f"Error setting up feeds")
 
-if run_cmd(["./scripts/feeds", "update" , "-a"]).returncode:
+if run_cmd(["./scripts/feeds", "update"]).returncode:
     die(f"Error updating feeds")
 
 for p in profile.get("feeds", []):
@@ -215,21 +219,30 @@ for ap in profile.get("additional_packages"):
         packages_install = " ".join(ap["packages"])
         die(f"Error installing additional packages {packages_install} from {feed} feed")
 
+src_link_feed_names = []
+with open("feeds.conf", "r") as f:
+    for line in f:
+        line = line.strip()
+        if line.startswith("src-link"):
+            parts = line.split()
+            if len(parts) >= 2:
+                src_link_feed_names.append(parts[2])  # Feed name is the second token
+                if run_cmd(["./scripts/feeds", "install", "-p",f"{parts[1]}","-a"]).returncode:
+                   die("Error updating src-link feeds")
+
 if profile.get("external_target", False):
     if run_cmd(["./scripts/feeds", "install", "-f", profile["target"]]).returncode:
         die(f"Error installing external target {profile['target']}")
 
-#config_output = f"""CONFIG_TARGET_{profile["target"]}=y
-#CONFIG_TARGET_{profile["target"]}_{profile["subtarget"]}=y\n"""
-#profiles = profile.get("profiles")
-#if len(profiles) > 1:
-#    config_output += f"CONFIG_TARGET_MULTI_PROFILE=y\n"
- #   for p in profiles:
-  #      config_output += f"""CONFIG_TARGET_DEVICE_{profile["target"]}_{profile["subtarget"]}_DEVICE_{p}=y\n"""
-#else:
- #   config_output += f"""CONFIG_TARGET_{profile["target"]}_{profile["subtarget"]}_DEVICE_{profiles[0]}=y\n"""
-
-config_output = f"{profile.get('diffconfig', '')}"
+config_output = f"""CONFIG_TARGET_{profile["target"]}=y
+CONFIG_TARGET_{profile["target"]}_{profile["subtarget"]}=y\n"""
+profiles = profile.get("profiles")
+if len(profiles) > 1:
+    config_output += f"CONFIG_TARGET_MULTI_PROFILE=y\n"
+    for p in profiles:
+        config_output += f"""CONFIG_TARGET_DEVICE_{profile["target"]}_{profile["subtarget"]}_DEVICE_{p}=y\n"""
+else:
+    config_output += f"""CONFIG_TARGET_{profile["target"]}_{profile["subtarget"]}_DEVICE_{profiles[0]}=y\n"""
 
 for package in profile.get("packages", []):
     print(f"Add package to .config: {package}")
@@ -240,13 +253,9 @@ for ap in profile.get("additional_packages"):
         print(f"Add additional package to .config: {package}")
         config_output += f"CONFIG_PACKAGE_{package}=y\n"
 
-#Path(".config").write_text(config_output)
+config_output += f"{profile.get('diffconfig', '')}"
 
-config_path = Path(".config")
-# Append to the file instead of overwriting
-with config_path.open(mode="a") as file:
-    file.write(config_output)
-
+Path(".config").write_text(config_output)
 print("Configuration written to .config")
 
 if getenv("GENCONFIG_VERBOSE"):
@@ -254,5 +263,5 @@ if getenv("GENCONFIG_VERBOSE"):
 
 rmtree("./tmp", ignore_errors=True)
 print("Running make defconfig")
-#if run_cmd(["make", "defconfig"]).returncode:
-#    die(f"Error running make defconfig")
+if run_cmd(["make", "defconfig"]).returncode:
+    die(f"Error running make defconfig")
