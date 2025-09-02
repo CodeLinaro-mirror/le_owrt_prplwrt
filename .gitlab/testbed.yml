@@ -1,7 +1,7 @@
 .testbed:
   stage: run
   image: "$CI_REGISTRY_IMAGE/$CI_DESIGNATED_BRANCH_SLUG/testbed:latest"
-  timeout: 44 minutes
+  timeout: 45 minutes
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
       when: never
@@ -22,6 +22,7 @@
     DUT_SSH_CONNECT_ATTEMPTS: 3
     DUT_TR181_WAN_INTERFACE: Device.Ethernet.Link.2.
     DUT_TR181_LAN_INTERFACE: Device.Ethernet.Link.3.
+    TEST_SETUP_TEARDOWN_DURATION: 360
     CRAM_REMOTE_COMMAND: ssh root@$TARGET_LAN_IP
     CRAM_REMOTE_COPY: scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
     CRAM_TEST_SUITE: |
@@ -81,6 +82,10 @@
 
   script:
     - |
+      TEST_CUTOFF_TIMEOUT=$((CI_JOB_TIMEOUT - DUT_SLEEP_AFTER_BOOT - TEST_SETUP_TEARDOWN_DURATION))
+      echo "Job timeout: $CI_JOB_TIMEOUT seconds, test cutoff timeout: $TEST_CUTOFF_TIMEOUT seconds"
+
+    - |
       rm -fr .run_check_failed
 
       run_check() {
@@ -96,7 +101,9 @@
 
       run_check ssh root@$TARGET_LAN_IP 'f=$(logread | grep "procd.*init complete"); echo "${f:-Warning: init is not complete yet,} $(uptime -p)"'
       run_check ssh root@$TARGET_LAN_IP 'logger -t CI -p local0.info "Testing starts, $(uptime -p)"'
-      run_check python3 -m cram --xunit-file=cram-result-$LABGRID_TARGET.xunit.xml --verbose $CRAM_TEST_SUITE $CRAM_TEST_SUITE_EXTRA | tee cram-result-$LABGRID_TARGET.txt
+      run_check \
+        timeout --kill-after=10s --verbose ${TEST_CUTOFF_TIMEOUT}s \
+        python3 -m cram --xunit-file=cram-result-$LABGRID_TARGET.xunit.xml --verbose $CRAM_TEST_SUITE $CRAM_TEST_SUITE_EXTRA | tee cram-result-$LABGRID_TARGET.txt
       run_check python3 -m cram --xunit-file=cram-result-post-$LABGRID_TARGET.xunit.xml --verbose $CRAM_TEST_SUITE_POST | tee --append cram-result-$LABGRID_TARGET.txt
       run_check ssh root@$TARGET_LAN_IP 'logger -t CI -p local0.info "Testing finished, $(uptime -p)"'
 
