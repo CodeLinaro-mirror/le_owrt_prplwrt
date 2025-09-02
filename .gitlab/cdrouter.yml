@@ -13,6 +13,7 @@
     CDROUTER_CONFIG_WIFI_LAN_SSID: 'prplOS'
     CDROUTER_TEST_CONFIG: generic
     DUT_SLEEP_AFTER_BOOT: 90
+    TEST_SETUP_TEARDOWN_DURATION: 360
     CDROUTER_LAN_INTERFACE: eth1
     CDROUTER_WAN_INTERFACE: eth2
     CDROUTER_ETH0_MAC_ADDRESS: 00:03:2d:49:2e:d8
@@ -104,12 +105,17 @@
     - ssh root@$TARGET_LAN_IP 'logger -t CI -p local0.info "Testing starts, $(uptime -p)"' || true
     - sudo ip link set $TESTBED_LAN_INTERFACE down 2> /dev/null
 
-    - >
-      .gitlab/scripts/testbed-cdrouter.py
-      package_run $TEST_PACKAGE
-      --device generic
-      --configuration $CDROUTER_TEST_CONFIG
-      --system-info system-$LABGRID_TARGET.json || cdrouter_exit_code=$?
+    - |
+      TEST_CUTOFF_TIMEOUT=$((CI_JOB_TIMEOUT - DUT_SLEEP_AFTER_BOOT - TEST_SETUP_TEARDOWN_DURATION))
+      echo "Job timeout: $CI_JOB_TIMEOUT seconds, test cutoff timeout: $TEST_CUTOFF_TIMEOUT seconds"
+
+    - |
+      .gitlab/scripts/testbed-cdrouter.py \
+        package_run $TEST_PACKAGE \
+        --device generic \
+        --configuration $CDROUTER_TEST_CONFIG \
+        --system-info system-$LABGRID_TARGET.json \
+        --timeout ${TEST_CUTOFF_TIMEOUT} || cdrouter_exit_code=$?
 
     - sudo ip link set $TESTBED_LAN_INTERFACE up 2> /dev/null || true
     - sudo ip link set $TESTBED_WAN_INTERFACE up 2> /dev/null || true
