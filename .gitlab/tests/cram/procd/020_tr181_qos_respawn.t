@@ -69,14 +69,17 @@ Respawn parameters are reset upon calling restart method, kill again and verify 
   $ R "pkill tr181-qos"
 
   $ sleep 6
+
   $ R "pgrep tr181-qos"
   \d+ (re)
 
-Enable amx-processmonitor disabled at the start of the testcase
-  $ R "service amx-processmonitor start"
-
 Cleanup, restart tr181-qos to reset respawn parameters
   $ R "service tr181-qos restart"
+
+  $ sleep 5
+
+Enable amx-processmonitor disabled at the start of the testcase
+  $ R "service amx-processmonitor start"
 
   $ R logger -t cram "Test finished!"
 
