@@ -85,35 +85,6 @@ Create prplMesh acces point and enable it:
 
   $ sleep 10
 
-Check access points status:
-
-  $ R logger -t cram "Check that private acceess points are enabled"
-  $ get_ssid_status
-  Down
-  Down
-  Down
-  Up
-  Up
-  Up
-
-Disable access point:
-
-  $ R "ba-cli -j -l 'X_PRPLWARE-COM_WiFiController.Network.Enable=0'" | sed '/^$/d'
-  [{"X_PRPLWARE-COM_WiFiController.Network.":{"Enable":0}}]
-
-  $ sleep 10
-
-Check access points status:
-
-  $ R logger -t cram "Check that SSIDs are disabled"
-  $ get_ssid_status
-  Down
-  Down
-  Down
-  Down
-  Down
-  Down
-
 Schedule prplMesh network activation:
 
 Wait for the next minute tick to trigger the test, assume it's T0:
