@@ -115,5 +115,6 @@ include:
         exit 1
       " ERR
     - make toolchain/compile -j $(nproc) 2>&1 | tee --append logs/build.log
+    - make target/linux/compile -j $(nproc) 2>&1 | tee --append logs/build.log
 
   extends: .run-black-duck-tools
