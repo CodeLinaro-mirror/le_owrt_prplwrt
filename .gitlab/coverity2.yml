@@ -11,7 +11,7 @@ include:
   tags:
     - firmware-builder
   variables:
-    SCAN_BRANCHES: "/^(latest-24.10|mainline-23.05)$/"
+    SCAN_BRANCHES: "/^(latest-24.10|mainline-23.05|dev_coverity)$/"
     BRIDGE_COVERITY_CONNECT_URL: https://coverity.prplfoundation.org
     BRIDGE_COVERITY_CONNECT_USER_NAME: admin
     BRIDGE_COVERITY_CONNECT_USER_PASSWORD: $COVERITY_PASSPHRASE
