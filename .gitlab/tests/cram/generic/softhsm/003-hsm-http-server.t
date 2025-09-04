@@ -10,7 +10,7 @@ Setup https server at prplOS.lan/localhost 127.0.0.1:
   > ba-cli UserInterface.HTTPAccess.1.Interface="Device.IP.Interface.1"
   > ba-cli UserInterface.HTTPAccess.1.Protocol="HTTPS"
   > ba-cli UserInterface.HTTPAccess.1.Port="443"
-  > ba-cli UserInterface.HTTPAccess.1.Certificate="Security.Certificate.2."
+  > ba-cli UserInterface.HTTPAccess.1.Certificate="Device.Security.Certificate.2."
   > ba-cli UserInterface.HTTPAccess.1.Enable=1
   > EOF
   $ script --command "ssh -t root@$TARGET_LAN_IP '$(cat /tmp/httpaccess-setup.sh)'" > /dev/null

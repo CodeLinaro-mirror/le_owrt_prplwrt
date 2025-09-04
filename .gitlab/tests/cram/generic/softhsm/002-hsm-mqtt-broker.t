@@ -15,7 +15,7 @@ Setup mqttbroker for pkcs11:
   > ba-cli MQTTBroker.Broker.secure.Ciphers="DEFAULT"
   > ba-cli MQTTBroker.Broker.secure.RequireCertificate=true
   > ba-cli MQTTBroker.Broker.secure.KeyFile=""
-  > ba-cli MQTTBroker.Broker.secure.Certificate="Security.Certificate.2."
+  > ba-cli MQTTBroker.Broker.secure.Certificate="Device.Security.Certificate.2."
   > ba-cli MQTTBroker.Broker.secure.Enable=1
   > EOF
   $ script --command "ssh -t root@$TARGET_LAN_IP '$(cat /tmp/mqtt-broker-setup.sh)'" > /dev/null
