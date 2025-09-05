@@ -12,6 +12,9 @@
     - target_name=$(sed -n 's/.*CONFIG_TARGET_BOARD="\([^"]\+\)".*/\1/p' .config)
     - sudo apt update
     - sudo apt install openjdk-17-jdk -y
-    - cd build_dir/target-*
-    - rm -rf linux-*
-    - bash <(curl -s -L https://detect.blackduck.com/detect10.sh) --blackduck.url=https://prplfoundation.app.blackduck.com --blackduck.api.token=$BLACKDUCK_API_KEY --detect.project.name=$CI_COMMIT_REF_NAME --detect.project.version.name=$target_name
+    - curl -s --output detect.sh https://detect.blackduck.com/detect10.sh
+    - sudo chmod +x detect.sh
+    - |
+      for dir in $(ls build_dir/target-*); do
+        ./detect.sh --blackduck.url=https://prplfoundation.app.blackduck.com --blackduck.api.token=$BLACKDUCK_API_KEY --detect.project.name=$CI_COMMIT_REF_NAME --detect.project.version.name=$target_name
+      done
