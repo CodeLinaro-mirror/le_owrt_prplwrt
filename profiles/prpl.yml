@@ -11,7 +11,7 @@ feeds:
   
   - name: feed_prplmesh
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplmesh.git
-    revision: stable-4.0@cf99496d9b9abc3ea592fa8cc1396e915bd6b713
+    revision: stable-4.0@26bd8e8365f52cafb061b48d273ed3f1422820ad
 
   - name: feed_prplos
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplos.git
