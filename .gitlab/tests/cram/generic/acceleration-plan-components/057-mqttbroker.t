@@ -37,9 +37,9 @@ Check the root datamodel settings:
 
 Check that firewall is configured properly:
 
-  $ R "iptables -nvL | grep 1883 | grep -v '^Chain'"
+  $ R "iptables -nvL | grep dpt:1883 | grep -v '^Chain'"
       0     0 ACCEPT     6    --  lo     *       0.0.0.0/0            0.0.0.0/0            tcp dpt:1883
-  $ R "iptables -nvL | grep 8883 | grep -v '^Chain'"
+  $ R "iptables -nvL | grep dpt:8883 | grep -v '^Chain'"
       0     0 ACCEPT     6    --  br-lan *       0.0.0.0/0            0.0.0.0/0            tcp dpt:8883
 
 Check if local connections work:
