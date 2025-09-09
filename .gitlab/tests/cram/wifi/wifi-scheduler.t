@@ -118,8 +118,7 @@ Schedule prplMesh network activation:
 
 Wait for the next minute tick to trigger the test, assume it's T0:
 
-  $ current_sec=$(R date +%S | sed 's/^0*//')
-  $ delay_sec=$((60-$current_sec))
+  $ delay_sec=$(expr 60 - $(R date +%S))
   $ R logger -t cram "Wait $delay_sec seconds"
   $ sleep $((delay_sec+1))
 
