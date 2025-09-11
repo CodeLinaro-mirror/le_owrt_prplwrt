@@ -3,27 +3,7 @@ variables:
   CI_DESIGNATED_BRANCH_SLUG: prpl-nightly
 
 include:
-  - local: .gitlab/build.yml
   - local: .gitlab/release.yml
 
 stages:
-  - build
   - release
-
-build test mtk_filogic prpl security:
-  stage: build
-  tags:
-    - firmware-builder
-  image: "$CI_REGISTRY_IMAGE/$CI_DESIGNATED_BRANCH_SLUG/builder:latest"
-  script:
-    - mkdir -p bin/targets/mediatek/filogic
-    - echo gpt > bin/targets/mediatek/filogic/prplos-mediatek-filogic-arcadyan_mozart-emmc-gpt.bin
-    - echo uboot > bin/targets/mediatek/filogic/prplos-mediatek-filogic-arcadyan_mozart-emmc-bl31-uboot.fip
-    - echo initramfs > bin/targets/mediatek/filogic/prplos-mediatek-filogic-arcadyan_mozart-initramfs.itb
-    - echo preloader > bin/targets/mediatek/filogic/prplos-mediatek-filogic-arcadyan_mozart-emmc-preloader.bin 
-    - echo sysupgrade > bin/targets/mediatek/filogic/prplos-mediatek-filogic-arcadyan_mozart-squashfs-sysupgrade.itb
-  artifacts:
-    expire_in: 1 hour
-    when: always
-    paths:
-      - bin

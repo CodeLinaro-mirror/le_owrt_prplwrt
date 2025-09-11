@@ -1,44 +1,10 @@
 variables:
   PACKAGE_REGISTRY_URL: "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic"
 
-upload:
-  stage: release
-  image: curlimages/curl:8.4.0
-
-  needs:
-    - job: build test mtk_filogic prpl security
-
-  script:
-    - CI_COMMIT_TAG="prplware-v4.0.1"
-    - prplware_version=$(echo "$CI_COMMIT_TAG" | sed 's/^prplware-v//')
-
-    # mtk_filogic
-    - |
-      curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
-        --upload-file bin/targets/mediatek/filogic/prplos-mediatek-filogic-arcadyan_mozart-initramfs.itb \
-        ${PACKAGE_REGISTRY_URL}/arcadyan-mozart/${prplware_version}/prplos-mediatek-filogic-arcadyan_mozart-initramfs.itb
-
-    - |
-      tar -C bin/targets/mediatek/filogic/ \
-        -czf /tmp/prplos-mediatek-filogic-arcadyan_mozart-emmc-bootstack.tar.gz \
-        prplos-mediatek-filogic-arcadyan_mozart-emmc-bl31-uboot.fip \
-        prplos-mediatek-filogic-arcadyan_mozart-emmc-gpt.bin \
-        prplos-mediatek-filogic-arcadyan_mozart-emmc-preloader.bin
-
-      curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
-        --upload-file /tmp/prplos-mediatek-filogic-arcadyan_mozart-emmc-bootstack.tar.gz \
-        ${PACKAGE_REGISTRY_URL}/arcadyan-mozart/${prplware_version}/prplos-mediatek-filogic-arcadyan_mozart-emmc-bootstack.tar.gz
-
-    - |
-      curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
-        --upload-file bin/targets/mediatek/filogic/prplos-mediatek-filogic-arcadyan_mozart-squashfs-sysupgrade.itb \
-        ${PACKAGE_REGISTRY_URL}/arcadyan-mozart/${prplware_version}/prplos-mediatek-filogic-arcadyan_mozart-squashfs-sysupgrade.itb
-
 release:
   stage: release
 
   image: registry.gitlab.com/gitlab-org/release-cli:v0.16.0
-  needs: ["upload"]
 
   script:
     - CI_COMMIT_TAG="prplware-v4.0.1"
@@ -46,7 +12,7 @@ release:
     - echo "Creating prplWare release $prplware_version"
 
     - |
-      release-cli create --name "prplWare release $prplware_version" --tag-name $CI_COMMIT_TAG \
+      release-cli --debug create --name "prplWare release $prplware_version" --tag-name $CI_COMMIT_TAG \
         --assets-link "{\"name\":\"MaxLinear/Gemtek OSPv1 fullimage (PON)\",\"url\":\"https://storage.cloud.google.com/prplos-osp-releases/${CI_COMMIT_TAG}/targets/intel_x86/lgm/prplos-intel_x86-lgm-PRPL_OSP_TB341-osp_tb341_pon_fullimage.img\"}" \
         --assets-link "{\"name\":\"MaxLinear/Gemtek OSPv1 fullimage (Ethernet)\",\"url\":\"https://storage.cloud.google.com/prplos-osp-releases/${CI_COMMIT_TAG}/targets/intel_x86/lgm/prplos-intel_x86-lgm-PRPL_OSP_TB341-osp_tb341_fullimage.img\"}" \
         --assets-link "{\"name\":\"MaxLinear/Gemtek OSPv2 fullimage (PON)\",\"url\":\"\${PACKAGE_REGISTRY_URL}/gemtek-ospv2/${prplware_version}/prplos-intel_x86-lgm-PRPL_OSP_TB341_v2-osp_tb341_v2_wav700_pon_fullimage.img\"}" \
