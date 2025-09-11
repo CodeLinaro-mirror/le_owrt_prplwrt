@@ -5,100 +5,25 @@ variables:
 include:
   - local: .gitlab/build.yml
   - local: .gitlab/release.yml
-  - local: .gitlab/cdrouter.yml
-  - local: .gitlab/prplmesh.yml
-  - local: .gitlab/cdrouter/prpl-haze.yml
-  - local: .gitlab/cdrouter/turris-omnia.yml
-  - local: .gitlab/cdrouter/urx851-hdk-3.yml
-  - local: .gitlab/cdrouter/mxl25641-hdk-6.yml
-  - local: .gitlab/cdrouter/arcadyan-mozart.yml
-  - local: .gitlab/cdrouter/wnc-freedom.yml
-  - local: .gitlab/coverity.yml
-  - local: .gitlab/docker.yml
-  - local: .gitlab/docker/builder/gitlab.yml
-  - local: .gitlab/docker/testbed/gitlab.yml
-  - local: .gitlab/docker/sdk/gitlab.yml
-  - local: .gitlab/docker/ib/gitlab.yml
-  - local: .gitlab/docker/ib/lcm/gitlab.yml
-  - local: .gitlab/testbed.yml
-  - local: .gitlab/testbed/prpl-haze.yml
-  - local: .gitlab/testbed/turris-omnia.yml
-  - local: .gitlab/testbed/arcadyan-mozart.yml
-  - local: .gitlab/testbed/urx851-hdk-3.yml
-  - local: .gitlab/testbed/mxl25641-hdk-6.yml
-  - local: .gitlab/testbed/wnc-freedom.yml
 
 stages:
-  - docker
-  - docker test
-  - docker deploy
   - build
   - release
-  - docker SDK and IB
-  - docker SDK and IB test
-  - docker SDK and IB deploy
-  - docker IB LCM container
-  - run
-  - smoke tests
-  - cdrouter
-  - coverity
-
-build test mxl_x86_osp_tb341 mxl_wlan_hostap_ng prpl security:
-  image: registry.gitlab.com/prpl-foundation/prplos/prplos/prplos-nightly/builder-osp@sha256:081488878a834952dbfd223f90dba987052082019f5816a0798f72bc4b3a95a1
-  extends: .build test config
-  artifacts:
-  tags:
-    - firmware-builder-osp
-
-build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread:
-  extends: .build test config
-
-build test mvebu prpl security:
-  extends: .build test config
-
-build test x86_64 prpl security:
-  extends: .build test config
-
-build test ipq807x prpl security:
-  extends: .build test config
 
 build test mtk_filogic prpl security:
-  extends: .build test config
-
-build test qca_ipq95xx prpl cellular security thread:
-  extends: .build test config
-
-coverity scan ipq807x prpl:
-  extends: .coverity scan config
-  variables:
-    CI_COVERITY_COMPILER_TEMPLATE_LIST: >
-      aarch64-openwrt-linux-gcc
-      aarch64-openwrt-linux-musl-gcc
-
-run test Turris Omnia initramfs:
-  allow_failure: true
-  needs: ["build test mvebu prpl security"]
-  extends: .turris-omnia testbed
-
-run test Haze initramfs:
-  allow_failure: true
-  needs: ["build test ipq807x prpl security"]
-  extends: .prpl-haze testbed
-
-run test URX851-HDK-3 with system on eMMC:
-  needs: ["build test mxl_x86_osp_tb341 mxl_wlan_hostap_ng prpl security"]
-  extends: .urx851-hdk-3 testbed
-
-run test MXL25641-HDK-6 with system on eMMC:
-  needs: ["build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread"]
-  extends: .mxl25641-hdk-6 testbed
-
-run test Freedom initramfs:
-  needs: ["build test qca_ipq95xx prpl cellular security thread"]
-  extends: .wnc-freedom testbed
-
-run test Mozart initramfs:
-  needs:
-    - job: build test mtk_filogic prpl security
-      optional: true
-  extends: .arcadyan-mozart testbed
+  stage: build
+  tags:
+    - firmware-builder
+  image: "$CI_REGISTRY_IMAGE/$CI_DESIGNATED_BRANCH_SLUG/builder:latest"
+  script:
+    - mkdir -p bin/targets/mediatek/filogic
+    - echo gpt > bin/targets/mediatek/filogic/prplos-mediatek-filogic-arcadyan_mozart-emmc-gpt.bin
+    - echo uboot > bin/targets/mediatek/filogic/prplos-mediatek-filogic-arcadyan_mozart-emmc-bl31-uboot.fip
+    - echo initramfs > bin/targets/mediatek/filogic/prplos-mediatek-filogic-arcadyan_mozart-initramfs.itb
+    - echo preloader > bin/targets/mediatek/filogic/prplos-mediatek-filogic-arcadyan_mozart-emmc-preloader.bin 
+    - echo sysupgrade > bin/targets/mediatek/filogic/prplos-mediatek-filogic-arcadyan_mozart-squashfs-sysupgrade.itb
+  artifacts:
+    expire_in: 1 hour
+    when: always
+    paths:
+      - bin

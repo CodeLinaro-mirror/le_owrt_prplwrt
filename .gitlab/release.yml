@@ -6,73 +6,11 @@ upload:
   image: curlimages/curl:8.4.0
 
   needs:
-    - job: build test ipq807x prpl security
-    - job: build test mvebu prpl security
-    - job: build test x86_64 prpl security
-    - job: build test qca_ipq95xx prpl cellular security thread
     - job: build test mtk_filogic prpl security
-    - job: build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread
-
-  rules:
-    - if: '$CI_COMMIT_TAG =~ /^prplware-v[0-9]+\.[0-9]+\.[0-9]+.*$/'
 
   script:
+    - CI_COMMIT_TAG="prplware-v4.0.1"
     - prplware_version=$(echo "$CI_COMMIT_TAG" | sed 's/^prplware-v//')
-
-    # mvebu
-    - |
-      curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
-        --upload-file bin/targets/mvebu/cortexa9/prplos-mvebu-cortexa9-cznic_turris-omnia-initramfs-kernel.bin \
-        ${PACKAGE_REGISTRY_URL}/turris-omnia/${prplware_version}/prplos-mvebu-cortexa9-cznic_turris-omnia-initramfs-kernel.bin
-
-    - |
-      curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
-        --upload-file bin/targets/mvebu/cortexa9/prplos-mvebu-cortexa9-cznic_turris-omnia-sysupgrade.img.gz \
-        ${PACKAGE_REGISTRY_URL}/turris-omnia/${prplware_version}/prplos-mvebu-cortexa9-cznic_turris-omnia-sysupgrade.img.gz
-
-    # x86
-    - |
-      curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
-        --upload-file bin/targets/x86/64/prplos-x86-64-generic-initramfs-kernel.bin \
-        ${PACKAGE_REGISTRY_URL}/x86-64/${prplware_version}/prplos-x86-64-generic-initramfs-kernel.bin
-
-    - |
-      curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
-        --upload-file bin/targets/x86/64/prplos-x86-64-generic-squashfs-combined-efi.img \
-        ${PACKAGE_REGISTRY_URL}/x86-64/${prplware_version}/prplos-x86-64-generic-squashfs-combined-efi.img
-
-    # ipq807x
-    - |
-      curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
-        --upload-file bin/targets/ipq807x/generic/prplos-ipq807x-generic-prpl_haze-initramfs-uImage.itb \
-        ${PACKAGE_REGISTRY_URL}/prpl-haze/${prplware_version}/prplos-ipq807x-generic-prpl_haze-initramfs-uImage.itb
-
-    - |
-      curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
-        --upload-file bin/targets/ipq807x/generic/prplos-ipq807x-generic-prpl_haze-squashfs-sysupgrade.bin \
-        ${PACKAGE_REGISTRY_URL}/prpl-haze/${prplware_version}/prplos-ipq807x-generic-prpl_haze-squashfs-sysupgrade.bin
-
-    # ospv2
-    - |
-      curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
-        --upload-file bin/targets/intel_x86/lgm/prplos-intel_x86-lgm-PRPL_OSP_TB341_v2-osp_tb341_v2_wav700_eth_fullimage.img \
-        ${PACKAGE_REGISTRY_URL}/gemtek-ospv2/${prplware_version}/prplos-intel_x86-lgm-PRPL_OSP_TB341_v2-osp_tb341_v2_wav700_eth_fullimage.img
-
-    - |
-      curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
-        --upload-file bin/targets/intel_x86/lgm/prplos-intel_x86-lgm-PRPL_OSP_TB341_v2-osp_tb341_v2_wav700_pon_fullimage.img \
-        ${PACKAGE_REGISTRY_URL}/gemtek-ospv2/${prplware_version}/prplos-intel_x86-lgm-PRPL_OSP_TB341_v2-osp_tb341_v2_wav700_pon_fullimage.img
-
-    # qca_ipq95xx
-    - |
-      curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
-        --upload-file bin/targets/ipq95xx/generic/prplos-ipq95xx-generic-prpl_freedom-initramfs-uImage.itb \
-        ${PACKAGE_REGISTRY_URL}/wnc-freedom/${prplware_version}/prplos-ipq95xx-generic-prpl_freedom-initramfs-uImage.itb
-
-    - |
-      curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
-        --upload-file bin/targets/ipq95xx/generic/prplos-ipq95xx-generic-prpl_freedom-squashfs-sysupgrade.bin \
-        ${PACKAGE_REGISTRY_URL}/wnc-freedom/${prplware_version}/prplos-ipq95xx-generic-prpl_freedom-squashfs-sysupgrade.bin
 
     # mtk_filogic
     - |
@@ -82,14 +20,14 @@ upload:
 
     - |
       tar -C bin/targets/mediatek/filogic/ \
-        -cf bin/targets/mediatek/filogic/prplos-mediatek-filogic-arcadyan_mozart-emmc-bootstack.tar \
+        -czf /tmp/prplos-mediatek-filogic-arcadyan_mozart-emmc-bootstack.tar.gz \
         prplos-mediatek-filogic-arcadyan_mozart-emmc-bl31-uboot.fip \
         prplos-mediatek-filogic-arcadyan_mozart-emmc-gpt.bin \
         prplos-mediatek-filogic-arcadyan_mozart-emmc-preloader.bin
 
       curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
-        --upload-file bin/targets/mediatek/filogic/prplos-mediatek-filogic-arcadyan_mozart-emmc-bootstack.tar \
-        ${PACKAGE_REGISTRY_URL}/arcadyan-mozart/${prplware_version}/prplos-mediatek-filogic-arcadyan_mozart-emmc-bootstack.tar
+        --upload-file /tmp/prplos-mediatek-filogic-arcadyan_mozart-emmc-bootstack.tar.gz \
+        ${PACKAGE_REGISTRY_URL}/arcadyan-mozart/${prplware_version}/prplos-mediatek-filogic-arcadyan_mozart-emmc-bootstack.tar.gz
 
     - |
       curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
@@ -102,10 +40,8 @@ release:
   image: registry.gitlab.com/gitlab-org/release-cli:v0.16.0
   needs: ["upload"]
 
-  rules:
-    - if: '$CI_COMMIT_TAG =~ /^prplware-v[0-9]+\.[0-9]+\.[0-9]+.*$/'
-
   script:
+    - CI_COMMIT_TAG="prplware-v4.0.1"
     - prplware_version=$(echo "$CI_COMMIT_TAG" | sed 's/^prplware-v//')
     - echo "Creating prplWare release $prplware_version"
 
@@ -115,7 +51,7 @@ release:
         --assets-link "{\"name\":\"MaxLinear/Gemtek OSPv1 fullimage (Ethernet)\",\"url\":\"https://storage.cloud.google.com/prplos-osp-releases/${CI_COMMIT_TAG}/targets/intel_x86/lgm/prplos-intel_x86-lgm-PRPL_OSP_TB341-osp_tb341_fullimage.img\"}" \
         --assets-link "{\"name\":\"MaxLinear/Gemtek OSPv2 fullimage (PON)\",\"url\":\"\${PACKAGE_REGISTRY_URL}/gemtek-ospv2/${prplware_version}/prplos-intel_x86-lgm-PRPL_OSP_TB341_v2-osp_tb341_v2_wav700_pon_fullimage.img\"}" \
         --assets-link "{\"name\":\"MaxLinear/Gemtek OSPv2 fullimage (Ethernet)\",\"url\":\"${PACKAGE_REGISTRY_URL}/gemtek-ospv2/${prplware_version}/prplos-intel_x86-lgm-PRPL_OSP_TB341_v2-osp_tb341_v2_wav700_eth_fullimage.img\"}" \
-        --assets-link "{\"name\":\"MediaTek/Arcadyan Mozart bootstack\",\"url\":\"${PACKAGE_REGISTRY_URL}/arcadyan-mozart/${prplware_version}/prplos-mediatek-filogic-arcadyan_mozart-emmc-bootstack.tar\"}" \
+        --assets-link "{\"name\":\"MediaTek/Arcadyan Mozart bootstack\",\"url\":\"${PACKAGE_REGISTRY_URL}/arcadyan-mozart/${prplware_version}/prplos-mediatek-filogic-arcadyan_mozart-emmc-bootstack.tar.gz\"}" \
         --assets-link "{\"name\":\"MediaTek/Arcadyan Mozart sysupgrade\",\"url\":\"${PACKAGE_REGISTRY_URL}/arcadyan-mozart/${prplware_version}/prplos-mediatek-filogic-arcadyan_mozart-squashfs-sysupgrade.itb\"}" \
         --assets-link "{\"name\":\"MediaTek/Arcadyan Mozart initramfs\",\"url\":\"${PACKAGE_REGISTRY_URL}/arcadyan-mozart/${prplware_version}/prplos-mediatek-filogic-arcadyan_mozart-initramfs.itb\"}" \
         --assets-link "{\"name\":\"prpl Haze sysupgrade\",\"url\":\"${PACKAGE_REGISTRY_URL}/prpl-haze/${prplware_version}/prplos-ipq807x-generic-prpl_haze-squashfs-sysupgrade.bin\"}" \
