@@ -1,3 +1,6 @@
+Test skipped due to usp-discovery being available only on the extender-full profile
+  $ exit 80
+
 Setup the test configuration:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
