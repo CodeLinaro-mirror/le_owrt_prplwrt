@@ -155,4 +155,4 @@ prplOS-Network-Test-Plan-Mandatory-v1.1.0 MXL25641-HDK-6 eMMC:
 
 prplOS-Network-Test-Plan-Candidate-v1.1.0 MXL25641-HDK-6 eMMC:
   <<: *mxl25641_certification
-  timeout: 90 minutes
+  timeout: 95 minutes
