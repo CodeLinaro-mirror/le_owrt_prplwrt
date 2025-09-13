@@ -117,6 +117,7 @@ CDRouter-USP-prpl MXL25641-HDK-6 eMMC:
 
 prplWare-Smoke-Test-Suite MXL25641-HDK-6 eMMC:
   <<: *mxl25641_cdrouter_ipv6
+  timeout: 45 minutes
   stage: smoke tests
   variables:
     CDROUTER_TEST_CONFIG: smoke-test
