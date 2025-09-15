@@ -9,15 +9,15 @@ feeds:
   - name: feed_mediatek
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-mediatek.git
     tracking_branch: arcadyan-mozart-v2
-    revision: ea03a09b364e66efae4f1ba68c643b400b65d3b7
+    revision: 3d9754d690a325aec3407f0a49274d3302262d37
   - name: feed_prplos
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplos.git
     tracking_branch: arcadyan-mozart
-    revision: 005b0bfb00e85579ddb498d9750b2ab5a8bc5148
+    revision: cfb722ce6a183ebf978bcd76359edae46d1ff154
   - name: feed_prplmesh
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplmesh.git
     tracking_branch: arcadyan-mozart
-    revision: 4eeb02e459739f090f37e58161eed212a9525916
+    revision: 53f322f95449a3172ac562ec2232c4eabad4d97f
   - name: feed_mfg
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_mfg.git
     tracking_branch: main
