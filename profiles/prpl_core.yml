@@ -11,7 +11,7 @@ feeds:
 
   - name: feed_prplos
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplos.git
-    revision: main@4a9c442d505ef7d39a4e708912110200214dc538
+    revision: main@696cbd3928b314899b9c8831ff5709da92598729
 
 additional_packages:
   - feed: packages
@@ -88,6 +88,7 @@ packages:
   - tr181-dhcpv6client
   - tr181-dns
   - tr181-firewall
+  - tr181-flashmonitor
   - tr181-led
   - tr181-logical
   - tr181-neighbordiscovery
