@@ -90,12 +90,14 @@ Check that ubus has expected datamodels available:
   Device.ManagementServer
   Device.NAT
   Device.NeighborDiscovery
+  Device.Optical
   Device.PCP
   Device.PPP
   Device.PacketInterception
   Device.QoS
   Device.RouterAdvertisement
   Device.Routing
+  Device.SFPs
   Device.SSH
   Device.Security
   Device.SoftwareModules
@@ -113,7 +115,6 @@ Check that ubus has expected datamodels available:
   Device.X_PRPLWARE-COM_MultiSettings
   Device.X_PRPLWARE-COM_PeriodicFileUpload
   Device.X_PRPLWARE-COM_PersistentConfiguration
-  Device.X_PRPLWARE-COM_SFPs
   Device.X_PRPLWARE-COM_SoftwareModules
   Device.X_PRPLWARE-COM_WANManager
   Device.X_PRPLWARE-COM_WiFiScheduler
@@ -301,7 +302,10 @@ Check that ubus has expected datamodels available:
   Routing.RouteInformation.InterfaceSetting
   Routing.Router
   SFPs
-  SFPs.Cage
+  SFPs.Mgmt
+  SFPs.Mgmt.SFF8472
+  SFPs.SFPCage
+  SFPs.X_PRPLWARE-COM_SFPDatabase
   SSH
   SSH.AuthorizedKey
   SSH.Server

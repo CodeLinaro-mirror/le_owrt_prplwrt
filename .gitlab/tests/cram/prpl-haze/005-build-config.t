@@ -132,6 +132,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_iptables-mod-nfqueue=y
   CONFIG_PACKAGE_iptables-zz-legacy=y
   CONFIG_PACKAGE_iputils-ping=y
+  # CONFIG_PACKAGE_jansson is not set
   # CONFIG_PACKAGE_iw is not set
   CONFIG_PACKAGE_iw-full=y
   CONFIG_PACKAGE_kmod-asn1-decoder=y
@@ -371,6 +372,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_netmodel-iprouter=y
   CONFIG_PACKAGE_netmodel-logical=y
   CONFIG_PACKAGE_netmodel-netdev=y
+  CONFIG_PACKAGE_netmodel-optical=y
   CONFIG_PACKAGE_netmodel-ppp=y
   CONFIG_PACKAGE_netmodel-radio=y
   CONFIG_PACKAGE_netmodel-ssid=y
