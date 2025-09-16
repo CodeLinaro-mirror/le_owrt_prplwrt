@@ -259,6 +259,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_iwlwav-hostap-ng-uci=y
   CONFIG_PACKAGE_iwlwav-iw=y
   CONFIG_PACKAGE_iwlwav-tools-osp=y
+  CONFIG_PACKAGE_jansson=m
   CONFIG_PACKAGE_keyutils=y
   CONFIG_PACKAGE_kmod-asn1-decoder=y
   CONFIG_PACKAGE_kmod-crypto-acompress=y
@@ -636,6 +637,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_netmodel-iprouter=y
   CONFIG_PACKAGE_netmodel-logical=y
   CONFIG_PACKAGE_netmodel-netdev=y
+  CONFIG_PACKAGE_netmodel-optical=y
   CONFIG_PACKAGE_netmodel-ppp=y
   CONFIG_PACKAGE_netmodel-radio=y
   CONFIG_PACKAGE_netmodel-ssid=y
