@@ -114,17 +114,21 @@ def handle_feed_revision(profile_feed: dict, feeds: list):
 
     if method.startswith('src-git'):
         revision = profile_feed.get("revision")
-        if not revision:
-            die(f"Please specify `revision` for the following feed: {profile_feed}")
+        branch = profile_feed.get("branch")
 
-        sha1 = extract_sha1_from_revision(revision)
-        if not sha1:
-            die(
-                f"Invalid feed revision {revision} in {profile_feed} feed, valid `revision` is:",
-                " 1. A full 40-character Git SHA-1 hash.",
-                " 2. A human readable reference like Git tag followed by '@' and a full 40-character Git SHA-1 hash.",
-            )
-        f += f'^{sha1}'
+        if revision:
+            sha1 = extract_sha1_from_revision(revision)
+            if not sha1:
+                die(
+                    f"Invalid feed revision {revision} in {profile_feed} feed, valid `revision` is:",
+                    " 1. A full 40-character Git SHA-1 hash.",
+                    " 2. A human readable reference like Git tag followed by '@' and a full 40-character Git SHA-1 hash.",
+                )
+            f += f'^{sha1}'
+        elif branch:
+            f += f';{branch}'
+        else:
+            die(f"Please specify either `revision` or `branch` for the following feed: {profile_feed}")
 
     feeds.append(f)
 
