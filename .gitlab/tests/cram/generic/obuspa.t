@@ -1131,6 +1131,28 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.Firewall.X_PRPLWARE-COM_WANAccess.BlockList.{i}.PhysAddress                                   proto::tr181-firewall
   Device.Firewall.X_PRPLWARE-COM_WANAccess.BlockList.{i}.Tags                                          proto::tr181-firewall
   Device.Firewall.X_PRPLWARE-COM_WANAccess.BlockListNumberOfEntries                                    proto::tr181-firewall
+  Device.Hardware.
+  Device.Hardware.X_PRPLWARE-COM_FlashDevice.{i}.                                                      proto::tr181-flashmonitor
+  Device.Hardware.X_PRPLWARE-COM_FlashDevice.{i}.Alias                                                 proto::tr181-flashmonitor
+  Device.Hardware.X_PRPLWARE-COM_FlashDevice.{i}.FlashType                                             proto::tr181-flashmonitor
+  Device.Hardware.X_PRPLWARE-COM_FlashDevice.{i}.Health.                                               proto::tr181-flashmonitor
+  Device.Hardware.X_PRPLWARE-COM_FlashDevice.{i}.Health.BadBlocksThreshold                             proto::tr181-flashmonitor
+  Device.Hardware.X_PRPLWARE-COM_FlashDevice.{i}.Health.Enabled                                        proto::tr181-flashmonitor
+  Device.Hardware.X_PRPLWARE-COM_FlashDevice.{i}.Health.HealthStatus                                   proto::tr181-flashmonitor
+  Device.Hardware.X_PRPLWARE-COM_FlashDevice.{i}.Health.LifeTimeA                                      proto::tr181-flashmonitor
+  Device.Hardware.X_PRPLWARE-COM_FlashDevice.{i}.Health.LifeTimeAHex                                   proto::tr181-flashmonitor
+  Device.Hardware.X_PRPLWARE-COM_FlashDevice.{i}.Health.LifeTimeAThreshold                             proto::tr181-flashmonitor
+  Device.Hardware.X_PRPLWARE-COM_FlashDevice.{i}.Health.LifeTimeB                                      proto::tr181-flashmonitor
+  Device.Hardware.X_PRPLWARE-COM_FlashDevice.{i}.Health.LifeTimeBHex                                   proto::tr181-flashmonitor
+  Device.Hardware.X_PRPLWARE-COM_FlashDevice.{i}.Health.LifeTimeBThreshold                             proto::tr181-flashmonitor
+  Device.Hardware.X_PRPLWARE-COM_FlashDevice.{i}.Health.MonitoringStatus                               proto::tr181-flashmonitor
+  Device.Hardware.X_PRPLWARE-COM_FlashDevice.{i}.Health.PreEolThreshold                                proto::tr181-flashmonitor
+  Device.Hardware.X_PRPLWARE-COM_FlashDevice.{i}.Health.TotalBadBlocks                                 proto::tr181-flashmonitor
+  Device.Hardware.X_PRPLWARE-COM_FlashDevice.{i}.Health.TotalGoodBlocks                                proto::tr181-flashmonitor
+  Device.Hardware.X_PRPLWARE-COM_FlashDevice.{i}.Health.eMMCPreEoLInfo                                 proto::tr181-flashmonitor
+  Device.Hardware.X_PRPLWARE-COM_FlashDevice.{i}.Name                                                  proto::tr181-flashmonitor
+  Device.Hardware.X_PRPLWARE-COM_FlashDevice.{i}.Path                                                  proto::tr181-flashmonitor
+  Device.Hardware.X_PRPLWARE-COM_FlashDevice.{i}.Version                                               proto::tr181-flashmonitor
   Device.Hosts.                                                                                        proto::hosts-manager
   Device.Hosts.AccessControl.{i}.                                                                      proto::hosts-manager
   Device.Hosts.AccessControl.{i}.AccessPolicy                                                          proto::hosts-manager
@@ -5838,6 +5860,28 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.Firewall.X_PRPLWARE-COM_WANAccess.BlockList.{i}.PhysAddress                                   proto::tr181-firewall
   Device.Firewall.X_PRPLWARE-COM_WANAccess.BlockList.{i}.Tags                                          proto::tr181-firewall
   Device.Firewall.X_PRPLWARE-COM_WANAccess.BlockListNumberOfEntries                                    proto::tr181-firewall
+  Device.Hardware.
+  Device.Hardware.X_PRPLWARE-COM_FlashDevice.{i}.                                                      proto::tr181-flashmonitor
+  Device.Hardware.X_PRPLWARE-COM_FlashDevice.{i}.Alias                                                 proto::tr181-flashmonitor
+  Device.Hardware.X_PRPLWARE-COM_FlashDevice.{i}.FlashType                                             proto::tr181-flashmonitor
+  Device.Hardware.X_PRPLWARE-COM_FlashDevice.{i}.Health.                                               proto::tr181-flashmonitor
+  Device.Hardware.X_PRPLWARE-COM_FlashDevice.{i}.Health.BadBlocksThreshold                             proto::tr181-flashmonitor
+  Device.Hardware.X_PRPLWARE-COM_FlashDevice.{i}.Health.Enabled                                        proto::tr181-flashmonitor
+  Device.Hardware.X_PRPLWARE-COM_FlashDevice.{i}.Health.HealthStatus                                   proto::tr181-flashmonitor
+  Device.Hardware.X_PRPLWARE-COM_FlashDevice.{i}.Health.LifeTimeA                                      proto::tr181-flashmonitor
+  Device.Hardware.X_PRPLWARE-COM_FlashDevice.{i}.Health.LifeTimeAHex                                   proto::tr181-flashmonitor
+  Device.Hardware.X_PRPLWARE-COM_FlashDevice.{i}.Health.LifeTimeAThreshold                             proto::tr181-flashmonitor
+  Device.Hardware.X_PRPLWARE-COM_FlashDevice.{i}.Health.LifeTimeB                                      proto::tr181-flashmonitor
+  Device.Hardware.X_PRPLWARE-COM_FlashDevice.{i}.Health.LifeTimeBHex                                   proto::tr181-flashmonitor
+  Device.Hardware.X_PRPLWARE-COM_FlashDevice.{i}.Health.LifeTimeBThreshold                             proto::tr181-flashmonitor
+  Device.Hardware.X_PRPLWARE-COM_FlashDevice.{i}.Health.MonitoringStatus                               proto::tr181-flashmonitor
+  Device.Hardware.X_PRPLWARE-COM_FlashDevice.{i}.Health.PreEolThreshold                                proto::tr181-flashmonitor
+  Device.Hardware.X_PRPLWARE-COM_FlashDevice.{i}.Health.TotalBadBlocks                                 proto::tr181-flashmonitor
+  Device.Hardware.X_PRPLWARE-COM_FlashDevice.{i}.Health.TotalGoodBlocks                                proto::tr181-flashmonitor
+  Device.Hardware.X_PRPLWARE-COM_FlashDevice.{i}.Health.eMMCPreEoLInfo                                 proto::tr181-flashmonitor
+  Device.Hardware.X_PRPLWARE-COM_FlashDevice.{i}.Name                                                  proto::tr181-flashmonitor
+  Device.Hardware.X_PRPLWARE-COM_FlashDevice.{i}.Path                                                  proto::tr181-flashmonitor
+  Device.Hardware.X_PRPLWARE-COM_FlashDevice.{i}.Version                                               proto::tr181-flashmonitor
   Device.Hosts.                                                                                        proto::hosts-manager
   Device.Hosts.AccessControl.{i}.                                                                      proto::hosts-manager
   Device.Hosts.AccessControl.{i}.AccessPolicy                                                          proto::hosts-manager

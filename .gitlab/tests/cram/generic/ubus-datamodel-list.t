@@ -79,6 +79,8 @@ Check that ubus has expected datamodels available:
   Device.DynamicDNS
   Device.Ethernet
   Device.Firewall
+  Device.Hardware
+  Device.Hardware.X_PRPLWARE-COM_FlashDevice
   Device.Hosts
   Device.IP
   Device.IP.Diagnostics
@@ -165,6 +167,8 @@ Check that ubus has expected datamodels available:
   Firewall.X_PRPLWARE-COM_WANAccess.BlockList
   GenericNetworkInterface
   GenericNetworkInterface.Interface
+  Hardware
+  Hardware.FlashDevice
   Hosts
   Hosts.AccessControl
   Hosts.Host
