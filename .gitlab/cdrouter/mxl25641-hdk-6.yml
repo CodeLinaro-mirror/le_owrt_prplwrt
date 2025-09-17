@@ -58,6 +58,15 @@ CDRouter-UPnP-IPv46 MXL25641-HDK-6 eMMC:
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
 
+CDRouter-UPnP-IPv46-Failing MXL25641-HDK-6 eMMC:
+  <<: *mxl25641_cdrouter_ipv6
+  timeout: 120 minutes
+  allow_failure: true
+  variables:
+    CDROUTER_TEST_CONFIG: generic-ipv6-upnp
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
+
 CDRouter-IPv6-Top-100+mDNS MXL25641-HDK-6 eMMC:
   <<: *mxl25641_cdrouter_ipv6
   variables:
