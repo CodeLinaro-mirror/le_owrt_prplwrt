@@ -779,6 +779,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.Ethernet.Interface.{i}.MACAddress                                                             proto::ethernet-manager
   Device.Ethernet.Interface.{i}.MaxBitRate                                                             proto::ethernet-manager
   Device.Ethernet.Interface.{i}.Name                                                                   proto::ethernet-manager
+  Device.Ethernet.Interface.{i}.SFPReferenceList                                                       proto::ethernet-manager
   Device.Ethernet.Interface.{i}.Stats.                                                                 proto::ethernet-manager
   Device.Ethernet.Interface.{i}.Stats.BroadcastPacketsReceived                                         proto::ethernet-manager
   Device.Ethernet.Interface.{i}.Stats.BroadcastPacketsSent                                             proto::ethernet-manager
@@ -803,7 +804,6 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.Ethernet.Interface.{i}.X_PRPLWARE-COM_LED.Status                                              proto::ethernet-manager
   Device.Ethernet.Interface.{i}.X_PRPLWARE-COM_MTU                                                     proto::ethernet-manager
   Device.Ethernet.Interface.{i}.X_PRPLWARE-COM_MTUMode                                                 proto::ethernet-manager
-  Device.Ethernet.Interface.{i}.X_PRPLWARE-COM_SFPReference                                            proto::ethernet-manager
   Device.Ethernet.InterfaceNumberOfEntries                                                             proto::ethernet-manager
   Device.Ethernet.Link.{i}.                                                                            proto::ethernet-manager
   Device.Ethernet.Link.{i}.Alias                                                                       proto::ethernet-manager
@@ -5249,6 +5249,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.Ethernet.Interface.{i}.MACAddress                                                             proto::ethernet-manager
   Device.Ethernet.Interface.{i}.MaxBitRate                                                             proto::ethernet-manager
   Device.Ethernet.Interface.{i}.Name                                                                   proto::ethernet-manager
+  Device.Ethernet.Interface.{i}.SFPReferenceList                                                       proto::ethernet-manager
   Device.Ethernet.Interface.{i}.Stats.                                                                 proto::ethernet-manager
   Device.Ethernet.Interface.{i}.Stats.BroadcastPacketsReceived                                         proto::ethernet-manager
   Device.Ethernet.Interface.{i}.Stats.BroadcastPacketsSent                                             proto::ethernet-manager
@@ -5273,7 +5274,6 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.Ethernet.Interface.{i}.X_PRPLWARE-COM_LED.Status                                              proto::ethernet-manager
   Device.Ethernet.Interface.{i}.X_PRPLWARE-COM_MTU                                                     proto::ethernet-manager
   Device.Ethernet.Interface.{i}.X_PRPLWARE-COM_MTUMode                                                 proto::ethernet-manager
-  Device.Ethernet.Interface.{i}.X_PRPLWARE-COM_SFPReference                                            proto::ethernet-manager
   Device.Ethernet.InterfaceNumberOfEntries                                                             proto::ethernet-manager
   Device.Ethernet.Link.{i}.                                                                            proto::ethernet-manager
   Device.Ethernet.Link.{i}.Alias                                                                       proto::ethernet-manager
