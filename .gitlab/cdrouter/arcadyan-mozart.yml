@@ -52,8 +52,7 @@ CDRouter-Wireless Mozart initramfs:
 
 CDRouter-UPnP-IPv46 Mozart initramfs:
   <<: *arcadyan_mozart_ipv6
-  timeout: 70 minutes
-  allow_failure: true
+  timeout: 60 minutes
   variables:
     CDROUTER_TEST_CONFIG: generic-ipv6-upnp
     DUT_INIT_SCRIPTS: |
