@@ -54,7 +54,7 @@ CDRouter-Wireless Turris initramfs:
 
 CDRouter-UPnP-IPv46 Turris initramfs:
   <<: *turris_cdrouter_ipv6
-  timeout: 70 minutes
+  timeout: 60 minutes
   variables:
     CDROUTER_TEST_CONFIG: generic-ipv6-upnp
     DUT_INIT_SCRIPTS: |
