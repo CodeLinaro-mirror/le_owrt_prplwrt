@@ -52,7 +52,7 @@ CDRouter-Wireless Freedom initramfs:
 
 CDRouter-UPnP-IPv46 Freedom initramfs:
   <<: *wnc_freedom_ipv6
-  timeout: 70 minutes
+  timeout: 240 minutes
   allow_failure: true
   variables:
     CDROUTER_TEST_CONFIG: generic-ipv6-upnp

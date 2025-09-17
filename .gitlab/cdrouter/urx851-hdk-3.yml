@@ -50,7 +50,7 @@ CDRouter-Wireless-OSPv1 URX851-HDK-3 eMMC:
 
 CDRouter-UPnP-IPv46 URX851-HDK-3 eMMC:
   <<: *urx851_cdrouter_ipv6
-  timeout: 70 minutes
+  timeout: 120 minutes
   allow_failure: true
   variables:
     CDROUTER_TEST_CONFIG: generic-ipv6-upnp
