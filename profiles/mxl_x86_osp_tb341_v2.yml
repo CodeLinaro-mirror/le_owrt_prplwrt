@@ -94,6 +94,10 @@ feeds:
     uri: https://github.com/maxlinear/feed_system_service.git
     tracking_branch:  updk_9.2.4
     revision: 718bd0bd8f884c1a65a4179c6174c7e2796dbcf8
+  - name: feed_swupdate
+    uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_swupdate.git
+    branch: dev_FEAT-29
+
 
 packages:
   - efr32-boot-config
@@ -175,6 +179,9 @@ packages:
   - sse_fapi_lgm
   - sse_fapi_lgm-sse_test_app
   - kmod-mcast-helper
+  - swupdate
+  - libubootenv
+
 
 diffconfig: |
   CONFIG_DEVEL=y
