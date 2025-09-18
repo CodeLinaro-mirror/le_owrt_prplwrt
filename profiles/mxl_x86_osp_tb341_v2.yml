@@ -177,6 +177,9 @@ packages:
   - kmod-mcast-helper
   - mod-wanmgr-system-ospv2
   - conntrack
+  - swupdate
+  - libubootenv
+
 
 diffconfig: |
   CONFIG_DEVEL=y
