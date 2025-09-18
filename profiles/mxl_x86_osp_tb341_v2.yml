@@ -176,6 +176,9 @@ packages:
   - sse_fapi_lgm-sse_test_app
   - kmod-mcast-helper
   - mod-wanmgr-system-ospv2
+  - swupdate
+  - libubootenv
+
 
 diffconfig: |
   CONFIG_DEVEL=y
