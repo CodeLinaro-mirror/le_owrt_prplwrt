@@ -15,7 +15,7 @@ feeds:
 
   - name: feed_prplos
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplos.git
-    revision: feat-54_24.10@410c70b5d71122b9057e05bd1143103125e23d34
+    revision: feat-54_24.10-CDRouter@34236fa8dbbc07b7cf4f3b46b728c5b0a211451c
 
 additional_packages:
   - feed: packages
