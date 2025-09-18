@@ -94,6 +94,10 @@ feeds:
     uri: https://github.com/maxlinear/feed_system_service.git
     tracking_branch:  updk_9.2.0
     revision: 08e632c61715a255469d6a7e9204a61dd446dcea
+  - name: feed_swupdate
+    uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_swupdate.git
+    tracking_branch: dev_FEAT-29
+
 
 packages:
   - kmod-mxl_eth_drv

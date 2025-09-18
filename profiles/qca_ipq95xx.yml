@@ -9,6 +9,10 @@ feeds:
   - name: feed_qca
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-qca.git
     revision: FEAT-29@c1adaea12b9439038c228c227a00f9dea0fa9329
+feeds:
+  - name: feed_swupdate
+    uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_swupdate.git
+    revision: dev_FEAT-29@0b6d95a8a3c7dffa35d920fa21e7506f3ce8f97f
 
 packages:
   - ipq95xx
