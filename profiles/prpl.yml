@@ -7,7 +7,7 @@ feeds:
 
   - name: feed_lcm
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_lcm.git
-    revision: main@e1200396e1d5ba08a5e4210cae66ea3b1166eb5c
+    revision: main@e6a04d61decd969fd89d647453ae447314cff605
   
   - name: feed_prplmesh
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplmesh.git
@@ -39,6 +39,7 @@ packages:
   - amx-faultmonitor
   - amx-processmonitor
   - cthulhu
+  - cthulhu-capabilities
   - cthulhu-dhcpc
   - cthulhu-lxc
   - cthulhu-networking
