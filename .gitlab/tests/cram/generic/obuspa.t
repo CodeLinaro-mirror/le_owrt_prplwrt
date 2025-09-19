@@ -1905,6 +1905,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.NAT.InterfaceSetting.{i}.Alias                                                                proto::tr181-firewall
   Device.NAT.InterfaceSetting.{i}.Enable                                                               proto::tr181-firewall
   Device.NAT.InterfaceSetting.{i}.Interface                                                            proto::tr181-firewall
+  Device.NAT.InterfaceSetting.{i}.SourceNetwork                                                        proto::tr181-firewall
   Device.NAT.InterfaceSetting.{i}.Status                                                               proto::tr181-firewall
   Device.NAT.InterfaceSetting.{i}.X_PRPLWARE-COM_NATInterface.{i}.                                     proto::tr181-firewall
   Device.NAT.InterfaceSetting.{i}.X_PRPLWARE-COM_NATInterface.{i}.Alias                                proto::tr181-firewall
@@ -6403,6 +6404,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.NAT.InterfaceSetting.{i}.Alias                                                                proto::tr181-firewall
   Device.NAT.InterfaceSetting.{i}.Enable                                                               proto::tr181-firewall
   Device.NAT.InterfaceSetting.{i}.Interface                                                            proto::tr181-firewall
+  Device.NAT.InterfaceSetting.{i}.SourceNetwork                                                        proto::tr181-firewall
   Device.NAT.InterfaceSetting.{i}.Status                                                               proto::tr181-firewall
   Device.NAT.InterfaceSetting.{i}.X_PRPLWARE-COM_NATInterface.{i}.                                     proto::tr181-firewall
   Device.NAT.InterfaceSetting.{i}.X_PRPLWARE-COM_NATInterface.{i}.Alias                                proto::tr181-firewall
