@@ -36,4 +36,3 @@ Setup https server at prplOS.lan/localhost 127.0.0.1:
   $ R "ba-cli 'BulkData.Enable=0' > /dev/null"
   $ R "ba-cli 'MQTT.Client.1.Enable=0' > /dev/null"
   $ sleep 1
-
