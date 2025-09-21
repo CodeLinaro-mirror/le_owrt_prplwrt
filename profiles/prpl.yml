@@ -15,7 +15,7 @@ feeds:
 
   - name: feed_prplos
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplos.git
-    revision: main@89d31ec205821d421daa133590a32fea2f1f12be
+    revision: main@00105571811535e6c7b4b1399983d746ff71b468
 
 additional_packages:
   - feed: packages
@@ -131,6 +131,7 @@ packages:
   - netmodel-dhcpv6
   - netmodel-dslite
   - netmodel-ethernet
+  - netmodel-gni
   - netmodel-ip
   - netmodel-iprouter
   - netmodel-logical
@@ -173,6 +174,7 @@ packages:
   - tr181-dslite
   - tr181-dynamicdns
   - tr181-firewall
+  - tr181-gnimanager
   - tr181-httpaccess
   - tr181-ipdiagnostics
   - tr181-led
