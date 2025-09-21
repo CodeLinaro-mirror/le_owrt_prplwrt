@@ -56,6 +56,7 @@ packages:
   - mod-wanmgr-system
   - mod-xpon-prpl
   - netmodel-dslite
+  - netmodel-gni
   - netmodel-ppp
   - netmodel-xpon
   - prpl-webui
@@ -66,6 +67,7 @@ packages:
   - tr181-dnssd
   - tr181-dslite
   - tr181-dynamicdns
+  - tr181-gnimanager
   - tr181-httpaccess
   - tr181-ipdiagnostics
   - tr181-powerstatus
