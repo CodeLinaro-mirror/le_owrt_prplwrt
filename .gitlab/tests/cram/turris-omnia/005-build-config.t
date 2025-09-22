@@ -75,6 +75,8 @@ Assure expected build configuration (PCF-1413):
   CONFIG_LIGHTTPD_SSL_SELECT=m
   CONFIG_LOGROTATE_ACL=y
   CONFIG_LXC_SECCOMP=y
+  CONFIG_MCASTD_CORE=y
+  CONFIG_MCASTD_CORE_NICE=-18
   CONFIG_MOSQUITTO_CTRL=y
   CONFIG_MOSQUITTO_DYNAMIC_SECURITY=y
   CONFIG_MOSQUITTO_LWS=y
@@ -176,6 +178,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-lib-crc-ccitt=y
   CONFIG_PACKAGE_kmod-lib-textsearch=y
   CONFIG_PACKAGE_kmod-loop=y
+  CONFIG_PACKAGE_kmod-mcastd-core=y
   CONFIG_PACKAGE_kmod-nf-conncount=y
   CONFIG_PACKAGE_kmod-nf-ipt=y
   CONFIG_PACKAGE_kmod-nf-ipt6=y
@@ -335,6 +338,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_lxc-user-nic=y
   CONFIG_PACKAGE_lxc-usernsexec=y
   CONFIG_PACKAGE_lxc-wait=y
+  CONFIG_PACKAGE_mcastd-noforward=y
   CONFIG_PACKAGE_miniupnpd-prpl=y
   CONFIG_PACKAGE_mod-amxb-ubus=y
   CONFIG_PACKAGE_mod-amxb-usp=y
@@ -478,6 +482,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_tr181-ipdiagnostics=y
   CONFIG_PACKAGE_tr181-led=y
   CONFIG_PACKAGE_tr181-logical=y
+  CONFIG_PACKAGE_tr181-mcastd=y
   CONFIG_PACKAGE_tr181-mqtt=y
   CONFIG_PACKAGE_tr181-mqttbroker=y
   CONFIG_PACKAGE_tr181-neighbordiscovery=y
@@ -634,6 +639,10 @@ Assure expected build configuration (PCF-1413):
   CONFIG_SAH_AMX_TR181_LOGICAL_ORDER=21
   CONFIG_SAH_AMX_TR181_LOGICAL_RUN_AS_GROUP="tr181_app"
   CONFIG_SAH_AMX_TR181_LOGICAL_RUN_AS_USER="tr181_app"
+  CONFIG_SAH_AMX_TR181_MCASTD_CORE_PLUGIN=y
+  CONFIG_SAH_AMX_TR181_MCASTD_CORE_PLUGIN_ORDER=22
+  CONFIG_SAH_AMX_TR181_MCASTD_CORE_PLUGIN_RUN_AS_GROUP="tr181_app"
+  CONFIG_SAH_AMX_TR181_MCASTD_CORE_PLUGIN_RUN_AS_USER="tr181_app"
   CONFIG_SAH_AMX_TR181_MQTT=y
   CONFIG_SAH_AMX_TR181_MQTTBROKER=y
   CONFIG_SAH_AMX_TR181_MQTTBROKER_ORDER=49
