@@ -316,6 +316,7 @@ Check that ubus has expected datamodels available:
   USB.Interface
   USB.Port
   USB.USBHosts
+  USB.USBHosts.AllowedDevice
   USB.USBHosts.Host
   Unbound
   UserInterface
