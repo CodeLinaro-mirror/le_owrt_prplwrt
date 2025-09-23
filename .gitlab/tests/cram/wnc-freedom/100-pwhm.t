@@ -18,9 +18,10 @@ Wait for Device.WiFi. datamodel availability:
 
   $ sleep 10
 
-Stop prplMesh:
+Try Suspending prplMesh processes:
 
-  $ R "/etc/init.d/prplmesh stop 2>&1 > /dev/null"
+  $ R "killall -SIGSTOP beerocks_agent > /dev/null 2>&1 || true"
+  $ R "killall -SIGSTOP beerocks_fronthaul > /dev/null 2>&1 || true"
 
 Set AutoChannelEnable=0 on all WiFi.Radio. interfaces:
 
@@ -350,9 +351,10 @@ Check if hostapd process is stopped:
   $ R "pgrep -f 'hostapd -ddt'"
   [1]
 
-Resume prplMesh:
+Resume prplMesh processes:
 
-  $ R "/etc/init.d/prplmesh start 2>&1 > /dev/null"
+  $ R "killall -SIGCONT beerocks_agent > /dev/null 2>&1 || true"
+  $ R "killall -SIGCONT beerocks_fronthaul > /dev/null 2>&1 || true"
 
   $ R logger -t cram "Stopping PWHM test .."
 

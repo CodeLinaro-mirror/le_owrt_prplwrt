@@ -15,11 +15,7 @@ feeds:
 
   - name: feed_prplos
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplos.git
-<<<<<<< HEAD
-    revision: main@00105571811535e6c7b4b1399983d746ff71b468
-=======
-    revision: main@6214533d113fa8a6e65ab937f68cd421fab47f5c
->>>>>>> 3ae85039cb (profiles: prpl: feed_prplos: Channel scan getting timeout on WNC Freedom and OSPv2 boards)
+    revision: main@e07c50ee8018bcdeb63a3c464e9958919a45c93a
 
 additional_packages:
   - feed: packages
