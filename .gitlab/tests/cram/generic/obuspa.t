@@ -669,6 +669,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.DeviceInfo.SoftwareVersion                                                                    proto::deviceinfo-manager
   Device.DeviceInfo.TemperatureStatus.                                                                 proto::tr181-temperature
   Device.DeviceInfo.TemperatureStatus.HighTemperatureAlarm!                                            proto::tr181-temperature
+  Device.DeviceInfo.TemperatureStatus.HighTemperatureAlarm! event_arg:Status
   Device.DeviceInfo.TemperatureStatus.TemperatureSensor.{i}.                                           proto::tr181-temperature
   Device.DeviceInfo.TemperatureStatus.TemperatureSensor.{i}.Alias                                      proto::tr181-temperature
   Device.DeviceInfo.TemperatureStatus.TemperatureSensor.{i}.Enable                                     proto::tr181-temperature
@@ -5267,6 +5268,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.DeviceInfo.SoftwareVersion                                                                    proto::deviceinfo-manager
   Device.DeviceInfo.TemperatureStatus.                                                                 proto::tr181-temperature
   Device.DeviceInfo.TemperatureStatus.HighTemperatureAlarm!                                            proto::tr181-temperature
+  Device.DeviceInfo.TemperatureStatus.HighTemperatureAlarm! event_arg:Status
   Device.DeviceInfo.TemperatureStatus.TemperatureSensor.{i}.                                           proto::tr181-temperature
   Device.DeviceInfo.TemperatureStatus.TemperatureSensor.{i}.Alias                                      proto::tr181-temperature
   Device.DeviceInfo.TemperatureStatus.TemperatureSensor.{i}.Enable                                     proto::tr181-temperature
