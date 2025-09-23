@@ -2884,6 +2884,18 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.USB.Port.{i}.Type                                                                             proto::tr181-usb
   Device.USB.PortNumberOfEntries                                                                       proto::tr181-usb
   Device.USB.USBHosts.                                                                                 proto::tr181-usb
+  Device.USB.USBHosts.AllowAllDevices                                                                  proto::tr181-usb
+  Device.USB.USBHosts.AllowedDevice.{i}.                                                               proto::tr181-usb
+  Device.USB.USBHosts.AllowedDevice.{i}.Alias                                                          proto::tr181-usb
+  Device.USB.USBHosts.AllowedDevice.{i}.Description                                                    proto::tr181-usb
+  Device.USB.USBHosts.AllowedDevice.{i}.DeviceClass                                                    proto::tr181-usb
+  Device.USB.USBHosts.AllowedDevice.{i}.DeviceProtocol                                                 proto::tr181-usb
+  Device.USB.USBHosts.AllowedDevice.{i}.DeviceSubClass                                                 proto::tr181-usb
+  Device.USB.USBHosts.AllowedDevice.{i}.Enable                                                         proto::tr181-usb
+  Device.USB.USBHosts.AllowedDevice.{i}.Interfaces                                                     proto::tr181-usb
+  Device.USB.USBHosts.AllowedDevice.{i}.ProductID                                                      proto::tr181-usb
+  Device.USB.USBHosts.AllowedDevice.{i}.VendorID                                                       proto::tr181-usb
+  Device.USB.USBHosts.AllowedDeviceNumberOfEntries                                                     proto::tr181-usb
   Device.USB.USBHosts.Host.{i}.                                                                        proto::tr181-usb
   Device.USB.USBHosts.Host.{i}.Alias                                                                   proto::tr181-usb
   Device.USB.USBHosts.Host.{i}.Device.{i}.                                                             proto::tr181-usb
@@ -2901,6 +2913,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.USB.USBHosts.Host.{i}.Device.{i}.DeviceProtocol                                               proto::tr181-usb
   Device.USB.USBHosts.Host.{i}.Device.{i}.DeviceSubClass                                               proto::tr181-usb
   Device.USB.USBHosts.Host.{i}.Device.{i}.DeviceVersion                                                proto::tr181-usb
+  Device.USB.USBHosts.Host.{i}.Device.{i}.IsAllowed                                                    proto::tr181-usb
   Device.USB.USBHosts.Host.{i}.Device.{i}.IsSelfPowered                                                proto::tr181-usb
   Device.USB.USBHosts.Host.{i}.Device.{i}.IsSuspended                                                  proto::tr181-usb
   Device.USB.USBHosts.Host.{i}.Device.{i}.Manufacturer                                                 proto::tr181-usb
@@ -7383,6 +7396,18 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.USB.Port.{i}.Type                                                                             proto::tr181-usb
   Device.USB.PortNumberOfEntries                                                                       proto::tr181-usb
   Device.USB.USBHosts.                                                                                 proto::tr181-usb
+  Device.USB.USBHosts.AllowAllDevices                                                                  proto::tr181-usb
+  Device.USB.USBHosts.AllowedDevice.{i}.                                                               proto::tr181-usb
+  Device.USB.USBHosts.AllowedDevice.{i}.Alias                                                          proto::tr181-usb
+  Device.USB.USBHosts.AllowedDevice.{i}.Description                                                    proto::tr181-usb
+  Device.USB.USBHosts.AllowedDevice.{i}.DeviceClass                                                    proto::tr181-usb
+  Device.USB.USBHosts.AllowedDevice.{i}.DeviceProtocol                                                 proto::tr181-usb
+  Device.USB.USBHosts.AllowedDevice.{i}.DeviceSubClass                                                 proto::tr181-usb
+  Device.USB.USBHosts.AllowedDevice.{i}.Enable                                                         proto::tr181-usb
+  Device.USB.USBHosts.AllowedDevice.{i}.Interfaces                                                     proto::tr181-usb
+  Device.USB.USBHosts.AllowedDevice.{i}.ProductID                                                      proto::tr181-usb
+  Device.USB.USBHosts.AllowedDevice.{i}.VendorID                                                       proto::tr181-usb
+  Device.USB.USBHosts.AllowedDeviceNumberOfEntries                                                     proto::tr181-usb
   Device.USB.USBHosts.Host.{i}.                                                                        proto::tr181-usb
   Device.USB.USBHosts.Host.{i}.Alias                                                                   proto::tr181-usb
   Device.USB.USBHosts.Host.{i}.Device.{i}.                                                             proto::tr181-usb
@@ -7400,6 +7425,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.USB.USBHosts.Host.{i}.Device.{i}.DeviceProtocol                                               proto::tr181-usb
   Device.USB.USBHosts.Host.{i}.Device.{i}.DeviceSubClass                                               proto::tr181-usb
   Device.USB.USBHosts.Host.{i}.Device.{i}.DeviceVersion                                                proto::tr181-usb
+  Device.USB.USBHosts.Host.{i}.Device.{i}.IsAllowed                                                    proto::tr181-usb
   Device.USB.USBHosts.Host.{i}.Device.{i}.IsSelfPowered                                                proto::tr181-usb
   Device.USB.USBHosts.Host.{i}.Device.{i}.IsSuspended                                                  proto::tr181-usb
   Device.USB.USBHosts.Host.{i}.Device.{i}.Manufacturer                                                 proto::tr181-usb
