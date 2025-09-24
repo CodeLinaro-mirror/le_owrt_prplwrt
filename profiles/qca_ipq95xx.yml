@@ -41,6 +41,8 @@ packages:
   - kmod-qca8xxx-phc
   - kmod-ppp
   - kmod-pppoe
+  - swupdate
+  - libubootenv
 
 diffconfig: |
   CONFIG_TARGET_INITRAMFS_COMPRESSION_LZMA=y
