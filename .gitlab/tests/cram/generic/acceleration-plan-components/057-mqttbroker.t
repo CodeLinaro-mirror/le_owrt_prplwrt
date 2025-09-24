@@ -12,7 +12,6 @@ Check the root datamodel settings:
     "MQTTBroker.Broker.1.": {
       "Alias": "secure",
       "BridgeNumberOfEntries": 0,
-      "Certificate": "",
       "Enable": 1,
       "Interface": "Device.IP.Interface.3.",
       "Name": "secure",
@@ -25,7 +24,6 @@ Check the root datamodel settings:
     "MQTTBroker.Broker.2.": {
       "Alias": "local",
       "BridgeNumberOfEntries": 0,
-      "Certificate": "",
       "Enable": 1,
       "Interface": "Device.IP.Interface.1.",
       "Name": "local",
