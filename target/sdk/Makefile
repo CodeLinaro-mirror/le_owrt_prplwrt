@@ -49,8 +49,9 @@ BASE_FEED:=$(if $(BASE_FEED),$(BASE_FEED),$(shell cd $(TOPDIR); LC_ALL=C git svn
 BASE_FEED:=$(if $(BASE_FEED),$(BASE_FEED),$(shell cd $(TOPDIR); LC_ALL=C svn info 2>/dev/null | sed -ne 's/^URL: /src-svn base /p'))
 BASE_FEED:=$(if $(BASE_FEED),$(BASE_FEED),src-git-full base $(PROJECT_GIT)/openwrt/openwrt.git$(if $(GIT_BRANCH),;$(GIT_BRANCH),$(if $(GIT_TAGNAME),;$(GIT_TAGNAME))))
 
-KDIR_BASE = $(patsubst $(TOPDIR)/%,%,$(LINUX_DIR))
+KDIR_BASE = $(patsubst $(TOPDIR)/%,%,$(KERNEL_BUILD_DIR))
 KDIR_ARCHES = $(LINUX_KARCH)
+KERNEL_SRC = src/kernel-$(LINUX_VERSION)/kernel_platform/msm-kernel
 
 # arch/arm64/ includes reference files in arch/arm/, so we'll need both
 ifeq ($(LINUX_KARCH),arm64)
@@ -74,13 +75,19 @@ endif
 
 KERNEL_FILES_BASE := \
 	.config \
+	include
+
+KERNEL_ARCH_FILES := \
+	$(foreach arch,$(KDIR_ARCHES),$(addprefix arch/$(arch)/,$(KERNEL_FILES_ARCH)))
+
+KERNEL_FILES_BASE_DIST_SRC := \
+	Module.symvers \
+	modules.builtin
+
+KERNEL_FILES_BASE_SRC := \
 	Makefile \
 	scripts \
-	tools/objtool \
-	include \
-	Module.symvers \
-	modules.builtin \
-	$(foreach arch,$(KDIR_ARCHES),$(addprefix arch/$(arch)/,$(KERNEL_FILES_ARCH)))
+	tools/objtool
 
 KERNEL_FILES := $(patsubst $(TOPDIR)/%,%,$(wildcard $(addprefix $(LINUX_DIR)/,$(KERNEL_FILES_BASE))))
 
@@ -109,16 +116,18 @@ $(BIN_DIR)/$(SDK_NAME).tar.zst: clean
 		$(SDK_BUILD_DIR)/$(STAGING_SUBDIR_TARGET)/usr/include
 
 	$(CP) -L $(INCLUDE_DIR) $(SCRIPT_DIR) $(SDK_BUILD_DIR)/
+	$(CP) -L $(TOPDIR)/openwrt-patches $(SDK_BUILD_DIR)/
 	$(TAR) -cf - -C $(TOPDIR) \
 		`cd $(TOPDIR); find $(KDIR_BASE)/ -name \*.ko` \
-		`cd $(TOPDIR); find $(KDIR_BASE)/firmware/ -newer $(KDIR_BASE)/firmware/Makefile \
-			-type f -name '*.bin' -or -name '*.cis' -or -name '*.csp' -or -name '*.dsp' -or -name '*.fw'` \
 		$(foreach exclude,$(EXCLUDE_DIRS),--exclude="$(exclude)") \
 		$(SDK_DIRS) $(KERNEL_FILES) | \
 		$(TAR) -xf - -C $(SDK_BUILD_DIR)
 
-	$(TAR) -cf - -C $(TOPDIR) $(USERSPACE_FILES) | \
-		$(TAR) -xf - -C $(SDK_BUILD_DIR)
+	$(TAR) -cf - -C $(TOPDIR)/$(KERNEL_SRC)/ $(USERSPACE_UTILS_FILES) $(KERNEL_FILES_BASE_SRC) $(KERNEL_ARCH_FILES) | \
+		$(TAR) -xf - -C $(SDK_BUILD_DIR)/$(KDIR_BASE)/linux-$(LINUX_VERSION)
+
+	$(TAR) -cf - -C $(KERNEL_DIST_DIR) $(KERNEL_FILES_BASE_DIST_SRC) | \
+		$(TAR) -xf - -C $(SDK_BUILD_DIR)/$(KDIR_BASE)/linux-$(LINUX_VERSION)
 
 	(cd $(SDK_BUILD_DIR); find $(STAGING_SUBDIR_HOST)/bin $(STAGING_SUBDIR_HOST)/usr/bin \
 		$(STAGING_SUBDIR_HOST)/llvm-bpf/bin $(STAGING_SUBDIR_HOST)/llvm-bpf/libexec \

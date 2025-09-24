@@ -8,10 +8,25 @@ all: $(if $(DUMP),dumpinfo,$(if $(CHECK),check,compile))
 
 include $(INCLUDE_DIR)/download.mk
 
+SEC_PATH:=/pkg/sectools/v2/latest/Linux
+USER_VARIANT:=0
 PKG_BUILD_DIR ?= $(BUILD_DIR)/$(if $(BUILD_VARIANT),$(PKG_NAME)-$(BUILD_VARIANT)/)$(PKG_NAME)$(if $(PKG_VERSION),-$(PKG_VERSION))
 PKG_INSTALL_DIR ?= $(PKG_BUILD_DIR)/ipkg-install
 PKG_BUILD_PARALLEL ?=
 PKG_SKIP_DOWNLOAD=$(USE_SOURCE_DIR)$(USE_GIT_TREE)$(USE_GIT_SRC_CHECKOUT)
+
+CONFIG_OTA_PACKAGE_VERIFICATION:=n
+ifeq ($(BOARD), sdx85)
+    SIGN_KEY:= LD_LIBRARY_PATH=$(TOPDIR)/src/kernel-$(LINUX_VERSION)/out/msm-kernel-$(KERNEL_PLATFORM_TARGET)-$(TARGET_VARIANT)_defconfig/dist/openssl/lib64 \
+          $(TOPDIR)/src/kernel-$(LINUX_VERSION)/out/msm-kernel-$(KERNEL_PLATFORM_TARGET)-$(TARGET_VARIANT)_defconfig/dist/sign-file sha512 \
+          $(TOPDIR)/src/kernel-$(LINUX_VERSION)/out/msm-kernel-$(KERNEL_PLATFORM_TARGET)-$(TARGET_VARIANT)_defconfig/dist/signing_key.pem \
+          $(TOPDIR)/src/kernel-$(LINUX_VERSION)/out/msm-kernel-$(KERNEL_PLATFORM_TARGET)-$(TARGET_VARIANT)_defconfig/dist/signing_key.x509
+else 
+    SIGN_KEY:= LD_LIBRARY_PATH=$(TOPDIR)/src/kernel-$(LINUX_VERSION)/kernel_platform/prebuilts/kernel-build-tools/linux-x86/lib64/ \
+          $(TOPDIR)/src/kernel-$(LINUX_VERSION)/out/msm-kernel-$(KERNEL_PLATFORM_TARGET)-$(TARGET_VARIANT)_defconfig/msm-kernel/scripts/sign-file sha512 \
+	      $(TOPDIR)/src/kernel-$(LINUX_VERSION)/out/msm-kernel-$(KERNEL_PLATFORM_TARGET)-$(TARGET_VARIANT)_defconfig/msm-kernel/certs/signing_key.pem \
+	      $(TOPDIR)/src/kernel-$(LINUX_VERSION)/out/msm-kernel-$(KERNEL_PLATFORM_TARGET)-$(TARGET_VARIANT)_defconfig/msm-kernel/certs/signing_key.x509
+endif
 
 MAKE_J:=$(if $(MAKE_JOBSERVER),$(MAKE_JOBSERVER) $(if $(filter 3.% 4.0 4.1,$(MAKE_VERSION)),-j))
 
@@ -299,7 +314,12 @@ define Build/DefaultTargets
   endef
 endef
 
+define Build/prplwrt-patches
+  $(eval -include $(wildcard $(call FindPackage,$(basename $(notdir $(CURDIR))))/$(PKG_NAME).mk))
+endef
+
 define BuildPackage
+  $(Build/prplwrt-patches)
   $(eval $(Package/Default))
   $(eval $(Package/$(1)))
 

@@ -23,9 +23,11 @@ PKG_CONFIG_DEPENDS += \
 sanitize = $(call tolower,$(subst _,-,$(subst $(space),-,$(1))))
 
 VERSION_PRPLOS:=$(if $(VERSION_PRPLOS),$(VERSION_PRPLOS),$(shell $(TOPDIR)/scripts/prplos_version.sh))
+PRPL_VERSION_NUMBER:=$(call qstrip,$(CONFIG_VERSION_NUMBER))
+PRPL_VERSION_NUMBER:=$(if $(PRPL_VERSION_NUMBER),$(PRPL_VERSION_NUMBER),4.1.0)
 
 VERSION_NUMBER:=$(call qstrip,$(CONFIG_VERSION_NUMBER))
-VERSION_NUMBER:=$(if $(VERSION_NUMBER),$(VERSION_NUMBER),$(VERSION_PRPLOS))
+VERSION_NUMBER:=$(if $(VERSION_NUMBER),$(VERSION_NUMBER),24.10.1)
 
 VERSION_CODE:=$(call qstrip,$(CONFIG_VERSION_CODE))
 VERSION_CODE:=$(if $(VERSION_CODE),$(VERSION_CODE),$(REVISION))
@@ -97,7 +99,7 @@ VERSION_SED_SCRIPT:=$(SED) 's,%U,$(call sed_escape,$(VERSION_REPO)),g' \
 	-e 's,%d,\L$(call sed_escape,$(subst $(space),_,$(VERSION_DIST))),g' \
 	-e 's,%R,$(call sed_escape,$(REVISION)),g' \
 	-e 's,%T,$(call sed_escape,$(BOARD)),g' \
-	-e 's,%S,$(call sed_escape,$(BOARD)/$(SUBTARGET)),g' \
+	-e 's,%S,$(call sed_escape,$(BOARD)/$(if $(SUBTARGET),$(SUBTARGET),generic)),g' \
 	-e 's,%A,$(call sed_escape,$(ARCH_PACKAGES)),g' \
 	-e 's,%t,$(call sed_escape,$(VERSION_TAINTS)),g' \
 	-e 's,%M,$(call sed_escape,$(VERSION_MANUFACTURER)),g' \
