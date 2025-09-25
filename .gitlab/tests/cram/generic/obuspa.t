@@ -1175,6 +1175,22 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.Firewall.X_PRPLWARE-COM_WANAccess.BlockList.{i}.Tags                                          proto::tr181-firewall
   Device.Firewall.X_PRPLWARE-COM_WANAccess.BlockListNumberOfEntries                                    proto::tr181-firewall
   Device.Hardware.
+  Device.Hardware.CPUs.                                                                                proto::tr181-cpu
+  Device.Hardware.CPUs.CPU.{i}.                                                                        proto::tr181-cpu
+  Device.Hardware.CPUs.CPU.{i}.Alias                                                                   proto::tr181-cpu
+  Device.Hardware.CPUs.CPU.{i}.DVFS.                                                                   proto::tr181-cpu
+  Device.Hardware.CPUs.CPU.{i}.DVFS.CurrentFrequency                                                   proto::tr181-cpu
+  Device.Hardware.CPUs.CPU.{i}.DVFS.Enable                                                             proto::tr181-cpu
+  Device.Hardware.CPUs.CPU.{i}.DVFS.MaxFrequency                                                       proto::tr181-cpu
+  Device.Hardware.CPUs.CPU.{i}.DVFS.MinFrequency                                                       proto::tr181-cpu
+  Device.Hardware.CPUs.CPU.{i}.DVFS.ScalingAvailableFrequencies                                        proto::tr181-cpu
+  Device.Hardware.CPUs.CPU.{i}.DVFS.ScalingAvailableGovernors                                          proto::tr181-cpu
+  Device.Hardware.CPUs.CPU.{i}.DVFS.ScalingGovernor                                                    proto::tr181-cpu
+  Device.Hardware.CPUs.CPU.{i}.DVFS.ScalingMaxFrequency                                                proto::tr181-cpu
+  Device.Hardware.CPUs.CPU.{i}.DVFS.ScalingMinFrequency                                                proto::tr181-cpu
+  Device.Hardware.CPUs.CPU.{i}.DVFS.Status                                                             proto::tr181-cpu
+  Device.Hardware.CPUs.CPU.{i}.DVFS.Supported                                                          proto::tr181-cpu
+  Device.Hardware.CPUs.CPUNumberOfEntries                                                              proto::tr181-cpu
   Device.Hardware.X_PRPLWARE-COM_FlashDevice.{i}.                                                      proto::tr181-flashmonitor
   Device.Hardware.X_PRPLWARE-COM_FlashDevice.{i}.Alias                                                 proto::tr181-flashmonitor
   Device.Hardware.X_PRPLWARE-COM_FlashDevice.{i}.FlashType                                             proto::tr181-flashmonitor
@@ -6210,6 +6226,22 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.Firewall.X_PRPLWARE-COM_WANAccess.BlockList.{i}.Tags                                          proto::tr181-firewall
   Device.Firewall.X_PRPLWARE-COM_WANAccess.BlockListNumberOfEntries                                    proto::tr181-firewall
   Device.Hardware.
+  Device.Hardware.CPUs.                                                                                proto::tr181-cpu
+  Device.Hardware.CPUs.CPU.{i}.                                                                        proto::tr181-cpu
+  Device.Hardware.CPUs.CPU.{i}.Alias                                                                   proto::tr181-cpu
+  Device.Hardware.CPUs.CPU.{i}.DVFS.                                                                   proto::tr181-cpu
+  Device.Hardware.CPUs.CPU.{i}.DVFS.CurrentFrequency                                                   proto::tr181-cpu
+  Device.Hardware.CPUs.CPU.{i}.DVFS.Enable                                                             proto::tr181-cpu
+  Device.Hardware.CPUs.CPU.{i}.DVFS.MaxFrequency                                                       proto::tr181-cpu
+  Device.Hardware.CPUs.CPU.{i}.DVFS.MinFrequency                                                       proto::tr181-cpu
+  Device.Hardware.CPUs.CPU.{i}.DVFS.ScalingAvailableFrequencies                                        proto::tr181-cpu
+  Device.Hardware.CPUs.CPU.{i}.DVFS.ScalingAvailableGovernors                                          proto::tr181-cpu
+  Device.Hardware.CPUs.CPU.{i}.DVFS.ScalingGovernor                                                    proto::tr181-cpu
+  Device.Hardware.CPUs.CPU.{i}.DVFS.ScalingMaxFrequency                                                proto::tr181-cpu
+  Device.Hardware.CPUs.CPU.{i}.DVFS.ScalingMinFrequency                                                proto::tr181-cpu
+  Device.Hardware.CPUs.CPU.{i}.DVFS.Status                                                             proto::tr181-cpu
+  Device.Hardware.CPUs.CPU.{i}.DVFS.Supported                                                          proto::tr181-cpu
+  Device.Hardware.CPUs.CPUNumberOfEntries                                                              proto::tr181-cpu
   Device.Hardware.X_PRPLWARE-COM_FlashDevice.{i}.                                                      proto::tr181-flashmonitor
   Device.Hardware.X_PRPLWARE-COM_FlashDevice.{i}.Alias                                                 proto::tr181-flashmonitor
   Device.Hardware.X_PRPLWARE-COM_FlashDevice.{i}.FlashType                                             proto::tr181-flashmonitor
