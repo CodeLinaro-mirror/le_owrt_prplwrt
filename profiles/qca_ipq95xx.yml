@@ -55,6 +55,10 @@ packages:
   - wifi-helper-scripts
   - swupdate
   - libubootenv
+  - libblkid
+  - libuuid
+  - libext2fs
+  - libfdisk
 
 diffconfig: |
   CONFIG_TARGET_INITRAMFS_COMPRESSION_LZMA=y
@@ -67,3 +71,7 @@ diffconfig: |
   CONFIG_PACKAGE_libnl-ppe=y
   CONFIG_PACKAGE_kmod-qseecom=m
   CONFIG_BUSYBOX_CONFIG_DEVMEM=y
+  CONFIG_IMAGEGENERATOR_BOARD="qca_ipq95xx_freedom"
+  CONFIG_OPENSOURCE_SWUPDATE_EXT_FILESYSTEM=y
+  CONFIG_OPENSOURCE_SWUPDATE_DISKPART_HANDLER=y
+  CONFIG_OPENSOURCE_SWUPDATE_DISKFORMAT_HANDLER=y
