@@ -14,6 +14,8 @@ Check that ubus has expected datamodels available:
   Buttons
   Buttons.Action
   Buttons.Button
+  CPUs
+  CPUs.CPU
   CaptivePortal
   CaptivePortal.LANInterface
   ConMon
@@ -90,6 +92,7 @@ Check that ubus has expected datamodels available:
   Device.Ethernet
   Device.Firewall
   Device.Hardware
+  Device.Hardware.CPUs
   Device.Hardware.X_PRPLWARE-COM_FlashDevice
   Device.HomePlug
   Device.Hosts
