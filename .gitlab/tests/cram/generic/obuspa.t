@@ -4176,7 +4176,6 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.X_PRPLWARE-COM_PeriodicFileUpload.Profile.{i}.HTTP.                                           proto::tr181-periodicfileupload
   Device.X_PRPLWARE-COM_PeriodicFileUpload.Profile.{i}.HTTP.CACert                                     proto::tr181-periodicfileupload
   Device.X_PRPLWARE-COM_PeriodicFileUpload.Profile.{i}.HTTP.CAPath                                     proto::tr181-periodicfileupload
-  Device.X_PRPLWARE-COM_PeriodicFileUpload.Profile.{i}.HTTP.Certificate                                proto::tr181-periodicfileupload
   Device.X_PRPLWARE-COM_PeriodicFileUpload.Profile.{i}.HTTP.ClientCert                                 proto::tr181-periodicfileupload
   Device.X_PRPLWARE-COM_PeriodicFileUpload.Profile.{i}.HTTP.Compression                                proto::tr181-periodicfileupload
   Device.X_PRPLWARE-COM_PeriodicFileUpload.Profile.{i}.HTTP.Method                                     proto::tr181-periodicfileupload
@@ -8631,7 +8630,6 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.X_PRPLWARE-COM_PeriodicFileUpload.Profile.{i}.HTTP.                                           proto::tr181-periodicfileupload
   Device.X_PRPLWARE-COM_PeriodicFileUpload.Profile.{i}.HTTP.CACert                                     proto::tr181-periodicfileupload
   Device.X_PRPLWARE-COM_PeriodicFileUpload.Profile.{i}.HTTP.CAPath                                     proto::tr181-periodicfileupload
-  Device.X_PRPLWARE-COM_PeriodicFileUpload.Profile.{i}.HTTP.Certificate                                proto::tr181-periodicfileupload
   Device.X_PRPLWARE-COM_PeriodicFileUpload.Profile.{i}.HTTP.ClientCert                                 proto::tr181-periodicfileupload
   Device.X_PRPLWARE-COM_PeriodicFileUpload.Profile.{i}.HTTP.Compression                                proto::tr181-periodicfileupload
   Device.X_PRPLWARE-COM_PeriodicFileUpload.Profile.{i}.HTTP.Method                                     proto::tr181-periodicfileupload
