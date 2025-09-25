@@ -49,7 +49,7 @@ define Package/netifd/install
 		$(PKG_BUILD_DIR)/scripts/netifd-proto.sh \
 		$(1)/lib/netifd/
 	$(if $(CONFIG_PACKAGE_wifi-scripts), \
-		rm $(1)/lib/netifd/netifd-wireless.sh,)
+		-rm $(1)/lib/netifd/netifd-wireless.sh,)
 endef
 
 $(eval $(call BuildPackage,netifd))
