@@ -170,6 +170,11 @@ Check that ubus has expected datamodels available:
   IPDiagnostics.DownloadDiagnostics
   IPDiagnostics.DownloadDiagnostics.IncrementalResult
   IPDiagnostics.DownloadDiagnostics.PerConnectionResult
+  IPDiagnostics.IPLayerCapacityMetrics
+  IPDiagnostics.IPLayerCapacityMetrics.IPLayerCapacityAuthCode
+  IPDiagnostics.IPLayerCapacityMetrics.IncrementalResult
+  IPDiagnostics.IPLayerCapacityMetrics.ModalResult
+  IPDiagnostics.IPLayerCapacityMetrics.Process
   IPDiagnostics.IPPing
   IPDiagnostics.IPPing.Process
   IPDiagnostics.TraceRoute
