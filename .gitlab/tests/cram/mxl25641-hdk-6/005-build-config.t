@@ -159,9 +159,9 @@ Assure expected build configuration (PCF-1413):
   CONFIG_LIGHTTPD_SSL_SELECT=m
   CONFIG_LOGROTATE_ACL=y
   CONFIG_LXC_SECCOMP=y
-  CONFIG_MCC_DRV_ENABLE=y
   CONFIG_MCASTD_CORE=y
   CONFIG_MCASTD_CORE_NICE=-18
+  CONFIG_MCC_DRV_ENABLE=y
   CONFIG_MODEMMANAGER_WITH_MBIM=y
   CONFIG_MODEMMANAGER_WITH_NETIFD=y
   CONFIG_MODEMMANAGER_WITH_QMI=y
@@ -220,7 +220,8 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_dnsmasq-prpl=y
   CONFIG_PACKAGE_dwpal_6x-uci-osp=y
   CONFIG_PACKAGE_e2fsprogs=y
-  CONFIG_PACKAGE_ebtables-nft=y
+  CONFIG_PACKAGE_ebtables-legacy=y
+  CONFIG_PACKAGE_ebtables-legacy-utils=y
   CONFIG_PACKAGE_eip197-firmware=y
   CONFIG_PACKAGE_ethernet-manager=y
   CONFIG_PACKAGE_ethtool-full=y
@@ -282,6 +283,8 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-dpl=y
   CONFIG_PACKAGE_kmod-ebt-prio=y
   CONFIG_PACKAGE_kmod-ebtables=y
+  CONFIG_PACKAGE_kmod-ebtables-ipv4=y
+  CONFIG_PACKAGE_kmod-ebtables-ipv6=y
   CONFIG_PACKAGE_kmod-fs-autofs4=y
   CONFIG_PACKAGE_kmod-fs-ext4=y
   CONFIG_PACKAGE_kmod-gre=y
@@ -349,7 +352,6 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-nf-nathelper-extra=y
   CONFIG_PACKAGE_kmod-nfnetlink-queue=y
   CONFIG_PACKAGE_kmod-nft-bridge=y
-  CONFIG_PACKAGE_kmod-nft-compat=y
   CONFIG_PACKAGE_kmod-nft-fib=m
   CONFIG_PACKAGE_kmod-nls-base=y
   CONFIG_PACKAGE_kmod-p34x_phy_fwdl=y
@@ -462,7 +464,6 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_libiperf3=y
   CONFIG_PACKAGE_libipset=y
   CONFIG_PACKAGE_libiptext=y
-  CONFIG_PACKAGE_libiptext-nft=y
   CONFIG_PACKAGE_libiptext6=y
   CONFIG_PACKAGE_libiwinfo=y
   CONFIG_PACKAGE_libiwinfo-data=y
@@ -481,6 +482,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_libnetlink-utils=y
   CONFIG_PACKAGE_libnetmodel=y
   CONFIG_PACKAGE_libnfnetlink=y
+  CONFIG_PACKAGE_libnftnl=m
   CONFIG_PACKAGE_libnghttp2=y
   CONFIG_PACKAGE_libnl=y
   CONFIG_PACKAGE_libnl-cli=y
@@ -797,7 +799,6 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_wifi-sensing=y
   CONFIG_PACKAGE_wwan=y
   CONFIG_PACKAGE_xtables-legacy=y
-  CONFIG_PACKAGE_xtables-nft=y
   CONFIG_PACKAGE_yajl=y
   CONFIG_PACKAGE_zlib=y
   CONFIG_PCRE2_JIT_ENABLED=y
