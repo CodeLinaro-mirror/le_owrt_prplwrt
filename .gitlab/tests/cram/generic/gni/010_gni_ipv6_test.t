@@ -14,6 +14,11 @@ Create bridge and associate a virtual interface to it
 Sleep 2 seconds for the linux interfaces to come up
   $ sleep 2
 
+Check for the instance entries
+  $ R "ba-cli -j -l Device.GenericNetworkInterface.?"
+
+  $ R "ba-cli -j -l GenericNetworkInterface.?"
+
 Create a Generic Network Interface Instance
   $ InstanceId=$(R "ba-cli -a  Device.GenericNetworkInterface.Interface+{Name='gni-2',Alias='gni-2-alias',Enable=1} | sed -n 's/.*Interface\.\([0-9]*\)\..*/\1/p' | tail -n 1")
   $ R logger -t cram "Generic Network Created with Instance ID: $InstanceId "
