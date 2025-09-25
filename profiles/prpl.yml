@@ -198,6 +198,9 @@ packages:
   - wan-manager
   - wifi-sensing
   - wifi-scheduler
+  - swugenerator
+  - uboot-hosttools
+  - imagegenerator
 
 diffconfig: |
           CONFIG_DEVEL=y
