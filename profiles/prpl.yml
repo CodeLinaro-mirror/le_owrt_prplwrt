@@ -15,7 +15,7 @@ feeds:
 
   - name: feed_prplos
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplos.git
-    revision: main@7e2bde505f5a49d5062440964b3912d5c8ea3d83
+    branch: FEAT-29
 
 additional_packages:
   - feed: packages
@@ -198,6 +198,9 @@ packages:
   - wan-manager
   - wifi-sensing
   - wifi-scheduler
+  - swugenerator
+  - uboot-hosttools
+  - imagegenerator
 
 diffconfig: |
           CONFIG_DEVEL=y
