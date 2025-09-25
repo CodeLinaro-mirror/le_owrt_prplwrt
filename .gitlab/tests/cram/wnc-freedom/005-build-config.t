@@ -444,6 +444,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_netmodel-vlan=y
   CONFIG_PACKAGE_netmodel-xpon=y
   # CONFIG_PACKAGE_nftables-json is not set
+  CONFIG_PACKAGE_obudpst=y
   CONFIG_PACKAGE_obuspa=y
   CONFIG_PACKAGE_odl-generator=y
   CONFIG_PACKAGE_oopsmonitor=y
