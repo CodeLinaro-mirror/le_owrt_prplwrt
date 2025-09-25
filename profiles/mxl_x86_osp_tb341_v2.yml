@@ -8,88 +8,88 @@ description: Build images for the Maxlinear x86 devices - OSP TB341 v2
 feeds:
   - name: intel_x86
     uri: https://github.com/maxlinear/feed_target_x86.git
-    tracking_branch: updk_9.1.95
-    revision: 6e711a2b9fab8753a4b580de347b05497dcba1f8
+    tracking_branch:  updk_9.1.100
+    revision: 548de8825638a124009aad161b7ec609bc5dbfa1
   - name: rootfs
     uri: https://github.com/maxlinear/rootfs.git
-    tracking_branch: updk_9.1.95
-    revision: 5305b9fd1f7c7515ebc490bcad243c403adc64be
+    tracking_branch:  updk_9.1.100
+    revision: 4e389e18f1d9ba7f6903bea50d18d76ef661e13d
   - name: eip
     uri: https://github.com/maxlinear/feed_eip.git
-    tracking_branch: updk_9.1.95
+    tracking_branch:  updk_9.1.100
     revision: 5867aa97084a894e43f2ddda950a0d2ca39077d0
   - name: mcast_service
     uri: https://github.com/maxlinear/feed_mcast_service.git
-    tracking_branch:  updk_9.1.95
+    tracking_branch:  updk_9.1.100
     revision: 45e3296ae88a1314b8d952b908436b4e0f872004
   - name: datapath
     uri: https://github.com/maxlinear/feed_datapath.git
-    tracking_branch: updk_9.1.95
-    revision: adeb547adb968383f909a324e5f0d1951a604749
+    tracking_branch:  updk_9.1.100
+    revision: 0a8513812d4fec4a4d88acdb074cf5f435ef32dd
   - name: gphy_firmware
     uri: https://github.com/maxlinear/feed_gphy_firmware.git
-    tracking_branch: updk_9.1.95
+    tracking_branch:  updk_9.1.100
     revision: a25bfa45dc9381d35a9e0fc04ac4a175d232e671
   - name: gwdpa_dpm
     uri: https://github.com/maxlinear/feed_gwdpa-dpm.git
-    tracking_branch: updk_9.1.95
-    revision: a52e74c615b7a0de5e477fac6e59f42b2f1890f4
+    tracking_branch:  updk_9.1.100
+    revision: c11d3b79cf8bc8427b5a4a78511ae0bf39903b82
   - name: misc
     uri: https://github.com/maxlinear/feed_common.git
-    tracking_branch: updk_9.1.95
+    tracking_branch:  updk_9.1.100
     revision: 4ae22251d758a2dcd6d5b60b135d3bccda57b8a9
   - name: opensource_apps_prpl
     uri: https://github.com/maxlinear/feed_opensource_apps_prpl.git
-    tracking_branch: updk_9.1.95
-    revision: 47e2694f657f26ed749cd00b7825dc43116bb28a
+    tracking_branch:  updk_9.1.100
+    revision: f0f7b48018b0b9de2f9feb7e9f09f9114d466639
   - name: packet_learn
     uri: https://github.com/maxlinear/feed_packet_learn.git
-    tracking_branch: updk_9.1.95
+    tracking_branch:  updk_9.1.100
     revision: b9796144e44dd21d733fda1831a40fa4f295151b
   - name: pon
     uri: https://github.com/maxlinear/feed_pon.git
-    tracking_branch: updk_9.1.95
-    revision: 77e343285df838caf4e0c600d4772ab87b0b66e1
+    tracking_branch:  updk_9.1.100
+    revision: 445ef6d582239fea9b3c19812d21aa2ce6079340
   - name: ppa
     uri: https://github.com/maxlinear/feed_ppa.git
-    tracking_branch: updk_9.1.95
+    tracking_branch:  updk_9.1.100
     revision: 943d28e8e7883fe4687bdb535df00a41053cf945
   - name: pp_net_adapter
     uri: https://github.com/maxlinear/feed_pp_net_adapter.git
-    tracking_branch: updk_9.1.95
+    tracking_branch:  updk_9.1.100
     revision: 22fe30aecf6841e6dbf6758f4cb543416a2f19d0
   - name: vpn_fw
     uri: https://github.com/maxlinear/feed_vpn_fw.git
-    tracking_branch:  updk_9.1.95
+    tracking_branch:  updk_9.1.100
     revision: d6353c9a7973e26a5f10db867cd34c9c35740934
   - name: qos
     uri: https://github.com/maxlinear/feed_qos_tc.git
-    tracking_branch:  updk_9.1.95
+    tracking_branch:  updk_9.1.100
     revision: 9bbf8bbc292747255b905ee964d00aa9c9a5bed9
   - name: utils
     uri: https://github.com/maxlinear/feed_mxl_utils.git
-    tracking_branch:  updk_9.1.95
-    revision: d13b684e9b01494a9369ac2828698babbe2ec8e1
+    tracking_branch:  updk_9.1.100
+    revision: 3b415553b5ff0dff6c0c26d4d3b14f144b5a554a
   - name: bootloader
     uri: https://github.com/maxlinear/feed_uboot.git
-    tracking_branch:  updk_9.1.95
-    revision: 718b685e2ab6e445e3ff372b1348e2f02627c049
+    tracking_branch:  updk_9.1.100
+    revision: a4a58f6ffbd590bbdb3aec2d6f83dd8eff310c6b
   - name: dpl
     uri: https://github.com/maxlinear/feed_dpl.git
-    tracking_branch:  updk_9.1.95
+    tracking_branch:  updk_9.1.100
     revision: be3633550d0a3669a792a032df136fd0de264dbe
   - name: speedtest
     uri: https://github.com/maxlinear/speedtest.git
-    tracking_branch:  updk_9.1.95
+    tracking_branch:  updk_9.1.100
     revision: d050e55046b7f13d4542599f6f1ff4f017458f8a
   - name: mxl_sdk
     uri: https://github.com/maxlinear/feed_mxl_sdk.git
-    tracking_branch:  updk_9.1.95
+    tracking_branch:  updk_9.1.100
     revision: ba12f43886a2ab1563738d56acd21cdfbaf4a9f7
   - name: system_service
     uri: https://github.com/maxlinear/feed_system_service.git
-    tracking_branch:  updk_9.1.95
-    revision: 08e632c61715a255469d6a7e9204a61dd446dcea
+    tracking_branch:  updk_9.1.100
+    revision: 446e7583484e2a3b8677c1999541788572a4ae74
 
 packages:
   - kmod-mxl_eth_drv
@@ -175,7 +175,7 @@ diffconfig: |
   CONFIG_DEVEL=y
   CONFIG_EXTRA_OPTIMIZATION="-fno-caller-saves -fno-plt -Wno-error=deprecated-declarations -Wno-error=address"
   CONFIG_KERNEL_GIT_CLONE_URI="https://github.com/maxlinear/linux.git"
-  CONFIG_KERNEL_GIT_REF="UPDK_9.1.95"
+  CONFIG_KERNEL_GIT_REF="UPDK_9.1.100"
   CONFIG_GPON_OMCI_ONU_UBUS_INTERFACE=y
   CONFIG_TARGET_MULTI_PROFILE=y
   CONFIG_TARGET_PER_DEVICE_ROOTFS=y
@@ -194,6 +194,3 @@ diffconfig: |
   CONFIG_BUSYBOX_CONFIG_TFTP=y
   CONFIG_LGM_EIP123_SUPPORT=y
   CONFIG_KERNEL_FTRACE=y
-  CONFIG_INTEL_X86_IMAGE_FORMAT_FIT=y
-  CONFIG_INTEL_X86_IMAGE_FORMAT_MKIMAGE=y
-  CONFIG_INTEL_X86_SINGLE_IMAGE=y
