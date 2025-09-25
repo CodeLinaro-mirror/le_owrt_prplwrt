@@ -11,9 +11,8 @@ description: Build images for the Maxlinear x86 devices - OSP TB341 v2
              please check https://gitlab.com/prpl-foundation/prplos/prplos/-/wikis/MaxLinear-Open-Service-Platform
 feeds:
   - name: intel_x86
-    uri: https://github.com/maxlinear/feed_target_x86.git
-    tracking_branch: updk_9.2.4
-    revision: d7a89cca2f3df8401649945babf40ec6871eacf3
+    uri: https://gitlab.com/prpl-foundation/mirrors/maxlinear/feed_target_x86.git
+    branch: FEAT-29
   - name: rootfs
     uri: https://github.com/maxlinear/rootfs.git
     tracking_branch: updk_9.2.4
@@ -181,6 +180,10 @@ packages:
   - mod-wanmgr-system-ospv2
   - swupdate
   - libubootenv
+  - libblkid
+  - libuuid
+  - libext2fs
+  - libfdisk
 
 
 diffconfig: |
@@ -207,3 +210,7 @@ diffconfig: |
   CONFIG_BUSYBOX_CONFIG_TFTP=y
   CONFIG_LGM_EIP123_SUPPORT=y
   CONFIG_KERNEL_FTRACE=y
+  CONFIG_IMAGEGENERATOR_BOARD="mxl_x86_osp_tab341_v2"
+  CONFIG_OPENSOURCE_SWUPDATE_EXT_FILESYSTEM=y
+  CONFIG_OPENSOURCE_SWUPDATE_DISKPART_HANDLER=y
+  CONFIG_OPENSOURCE_SWUPDATE_DISKFORMAT_HANDLER=y
