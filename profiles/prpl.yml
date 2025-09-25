@@ -90,6 +90,9 @@ packages:
   - tr181-xpon
   - wan-manager
   - wifi-scheduler
+  - swugenerator
+  - uboot-hosttools
+  - imagegenerator
 
 diffconfig: |
           CONFIG_PACKAGE_ppp-prpl=y
