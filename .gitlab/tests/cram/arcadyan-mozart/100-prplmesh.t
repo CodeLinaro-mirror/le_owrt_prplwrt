@@ -246,10 +246,10 @@ Check that wireless is disabled:
   Down
   Down
   Down
+  Down
   PWHM_SSID2
   PWHM_SSID5
   PWHM_SSID8
-  Up
   prplOS
   prplOS
   prplOS
