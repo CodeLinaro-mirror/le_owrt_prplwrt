@@ -21,6 +21,8 @@
     - set -o pipefail
     - git config --global --add safe.directory '*'
 
+    - sudo apt-get update && sudo apt-get install --yes --no-install-recommends swig
+
     - |
       crlf_check_failed=$(rgrep -U $'\x0D' profiles | cut -d: -f1 | sort -u || true)
       if test -n "$crlf_check_failed"; then
