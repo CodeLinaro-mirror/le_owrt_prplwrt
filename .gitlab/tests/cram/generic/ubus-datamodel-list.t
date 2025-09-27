@@ -109,6 +109,8 @@ Check that ubus has expected datamodels available:
   Device.WiFi.Sensing
   Device.XPON
   Device.X_PRPLWARE-COM_Buttons
+  Device.X_PRPLWARE-COM_Hardware
+  Device.X_PRPLWARE-COM_Hardware.FlashDevice
   Device.X_PRPLWARE-COM_MultiSettings
   Device.X_PRPLWARE-COM_PeriodicFileUpload
   Device.X_PRPLWARE-COM_PersistentConfiguration
@@ -159,6 +161,8 @@ Check that ubus has expected datamodels available:
   Firewall.X_PRPLWARE-COM_Log
   Firewall.X_PRPLWARE-COM_WANAccess
   Firewall.X_PRPLWARE-COM_WANAccess.BlockList
+  Hardware
+  Hardware.FlashDevice
   Hosts
   Hosts.AccessControl
   Hosts.Host
