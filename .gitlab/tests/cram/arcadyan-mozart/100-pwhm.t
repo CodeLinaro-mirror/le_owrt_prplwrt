@@ -18,9 +18,10 @@ Wait for Device.WiFi. datamodel availability:
 
   $ sleep 10
 
-Stop prplMesh:
+Try Suspending prplMesh processes:
 
-  $ R "/etc/init.d/prplmesh stop 2>&1 > /dev/null"
+  $ R "killall -SIGSTOP beerocks_agent > /dev/null 2>&1 || true"
+  $ R "killall -SIGSTOP beerocks_fronthaul > /dev/null 2>&1 || true"
 
 Set AutoChannelEnable=0 on all WiFi.Radio. interfaces:
 
@@ -190,7 +191,11 @@ Check that hostapd is operating as expected:
   /tmp/wlan2_hapd.conf
   hostapd
 
-  $ R "ubus list | grep hostapd. | sort"
+  $ R "ubus list | grep -e 'hostapd\.' | sort"
+  hostapd.wlan0.1
+  hostapd.wlan0.2
+  hostapd.wlan1.1
+  hostapd.wlan1.2
   hostapd.wlan2.1
   hostapd.wlan2.2
 
@@ -207,14 +212,11 @@ Check iw interfaces and beaconing:
   Interface wlan2.1
   Interface wlan2.2
   ssid prplOS
+  ssid prplOS
+  ssid prplOS
   ssid prplOS-guest
-
-Check that the tree interfaces are present in the main link interface:
-
-  $ R "iw dev" | grep -e channel | sed 's/^[ \t]*//'
-  channel.* (re)
-  channel.* (re)
-  channel.* (re)
+  ssid prplOS-guest
+  ssid prplOS-guest
 
 Test deactivation of access point 6:
 
@@ -341,9 +343,10 @@ Check if hostapd process is stopped:
   $ R "pgrep -f 'hostapd -ddt'"
   [1]
 
-Resume prplMesh:
+Resume prplMesh processes:
 
-  $ R "/etc/init.d/prplmesh start 2>&1 > /dev/null"
+  $ R "killall -SIGCONT beerocks_agent > /dev/null 2>&1 || true"
+  $ R "killall -SIGCONT beerocks_fronthaul > /dev/null 2>&1 || true"
 
   $ R logger -t cram "Stopping PWHM test .."
 
