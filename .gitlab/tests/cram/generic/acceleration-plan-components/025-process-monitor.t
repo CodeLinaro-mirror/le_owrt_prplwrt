@@ -45,11 +45,17 @@ Check the LED manager check datamodel settings:
       "LastFailAction": "0001-01-01T00:00:00Z",
       "LastFailReason": "Error_None",
       "LastSuccess": "0001-01-01T00:00:00Z",
+      "LogEntryEnabled": 1,
       "MaxFailDuration": -1,
       "MaxFailNum": 1,
+      "MaxFailedDuration": 0,
+      "MaxNumFailed": 0,
       "Name": "tr181-led",
       "NumFailActions": 0,
       "NumFailed": 0,
+      "NumProcessFail": 0,
+      "NumProcessRespawn": 0,
+      "ProcessMonitoringEnabled": 1,
       "RebootAfterRestartThreshold": 0,
       "Subject": "/var/run/tr181-led.pid",
       "SuccessfulSince": "0001-01-01T00:00:00Z",
@@ -57,6 +63,11 @@ Check the LED manager check datamodel settings:
       "TestIntervalMultiplier": 1,
       "TestResetInterval": 3600,
       "Type": "Process"
+    },
+    "ProcessMonitor.Test.\d+.ProcessRespawnParams.": { (re)
+      "RetryAttempts": \d+, (re)
+      "Threshold": \d+, (re)
+      "Timeout": \d+ (re)
     }
   }
 
