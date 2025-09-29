@@ -9,40 +9,22 @@ additional_packages:
   - feed: packages
     packages:
       - aria2
-      - mwan3
       - pbr
       - libroxml
-      - tinyproxy
       - openvpn-mbedtls
       - openssh-sftp-client
       - iputils-arping
-  - feed: luci
-    packages:
-      - luci-compat
-      - luci-app-mwan3
-      - luci-app-tinyproxy
 
 packages:
   - dssp
   - busybox-selinux
   - procd-selinux
   - selinux-policy
-  - dnsmasq-full
-  - dnsmasq_full_dhcp
-  - dnsmasq_full_dhcpv6
-  - dnsmasq_full_dnssec
-  - dnsmasq_full_auth
-  - dnsmasq_full_ipset
-  - dnsmasq_full_conntrack
-  - dnsmasq_full_noid
-  - dnsmasq_full_tftp
   - iptables-mod-conntrack-extra
-  - resolveip
   - kmod-ipt-ipopt
   - kmod-ipt-ipset
   - kmod-ipt-raw
   - kmod-ipt-physdev
-  - libuci-lua
   - iptables-mod-ipopt
   - iptables-mod-physdev
   - ipset
@@ -65,15 +47,9 @@ packages:
   - procd-ujail-console
   - wireless-tools
   - kmod-rtsp-alg
-  - firewall4
-  - iptables-nft
-  - ip6tables-nft
   - ebtables-legacy
   - libip4tc
   - libip6tc
-  - miniupnpd-iptables
-  - avahi-autoipd
-  - avahi-dnsconfd
   - kmod-ipt-debug
   - kmod-ipt-raw6
   - dmverity-utils
@@ -87,7 +63,7 @@ packages:
   - kmod-gre6
   - gre
   - wifi-scripts
-  
+
 diffconfig: |
   CONFIG_TARGET_ROOTFS_UBIFS=y
   CONFIG_TARGET_ROOTFS_EXT4FS=y
@@ -97,7 +73,7 @@ diffconfig: |
   CONFIG_BUILD_LOG=y
   CONFIG_BUILD_LOG_DIR=""
   CONFIG_BUSYBOX_CUSTOM=y
-  CONFIG_BUSYBOX_CONFIG_ARP=y
+  CONFIG_BUSYBOX_CONFIG_ARP=n
   CONFIG_BUSYBOX_CONFIG_ARPING=y
   CONFIG_BUSYBOX_CONFIG_TR=y
   CONFIG_BUSYBOX_CONFIG_FEATURE_TR_CLASSES=y
@@ -136,7 +112,7 @@ diffconfig: |
   CONFIG_BUSYBOX_CONFIG_FEATURE_TFTP_PUT=y
   CONFIG_BUSYBOX_CONFIG_FEATURE_TFTP_BLOCKSIZE=y
   CONFIG_TOOLCHAINOPTS=y
-  CONFIG_GCC_USE_VERSION_9=y
+  CONFIG_GCC_USE_VERSION_9=n
   CONFIG_COLLECT_KERNEL_DEBUG=y
   # CONFIG_LIBC_USE_UCLIBC is not set
   CONFIG_PKG_FORTIFY_SOURCE_NONE=y
@@ -165,9 +141,9 @@ diffconfig: |
   CONFIG_CNSS2_MODULE=y
   CONFIG_OPENSSL_WITH_DTLS=y
   CONFIG_PACKAGE_firewall=n
-  CONFIG_DEFAULT_firewall4=y
-  CONFIG_PACKAGE_iptables-zz-legacy=n
-  CONFIG_PACKAGE_ip6tables-zz-legacy=n
+  CONFIG_DEFAULT_firewall4=n
+  CONFIG_PACKAGE_iptables-zz-legacy=y
+  CONFIG_PACKAGE_ip6tables-zz-legacy=y
   CONFIG_PACKAGE_libgpt=m
   CONFIG_PACKAGE_abctl=m
   CONFIG_PACKAGE_usb-composition-ab=m
@@ -175,17 +151,11 @@ diffconfig: |
   CONFIG_PACKAGE_recovery-ab=m
   CONFIG_PACKAGE_applypatch-ab=m
   CONFIG_PACKAGE_updater-ab=m
-  CONFIG_PACKAGE_telux-swupdate-ab=m
+  CONFIG_PACKAGE_telux-swupdate-ab=n
   CONFIG_PACKAGE_edify-ab=m
   CONFIG_PACKAGE_mirror-copy-ab=m
   CONFIG_PACKAGE_kmod-shortcut-fe=n
   CONFIG_PACKAGE_libgdbm=m
-  CONFIG_PACKAGE_libavahi-client=m
-  CONFIG_PACKAGE_libavahi-dbus-support=m
   CONFIG_PACKAGE_libdbus=m
-  CONFIG_PACKAGE_avahi-dbus-daemon=m
-  CONFIG_PACKAGE_avahi-utils=m
   CONFIG_PACKAGE_dbus=m
   CONFIG_SDK=y
-  CONFIG_PACKAGE_dnsmasq-full=n
-  CONFIG_PACKAGE_telux-swupdate-ab=n
