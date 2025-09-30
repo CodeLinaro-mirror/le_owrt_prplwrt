@@ -15,7 +15,7 @@ feeds:
 
   - name: feed_prplos
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplos.git
-    revision: main@6e21032f1ec5c5ea395b3f5ffc62288e3dca3889
+    revision: main@75758ec40edb143c950aa98ed1eae8a0af917d81
 
 additional_packages:
   - feed: packages
@@ -205,6 +205,7 @@ packages:
   - tr181-usb
   - tr181-usermanagement
   - tr181-xpon
+  - tr181-lanconfigsecurity
   - wan-manager
   - wifi-sensing
   - wifi-scheduler
