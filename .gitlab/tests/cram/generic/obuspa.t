@@ -2600,9 +2600,9 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.SoftwareModules.ExecutionUnit.{i}.AutoRestart.RetryMaximumWaitInterval                        proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.AutoRestart.RetryMinimumWaitInterval                        proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.AutoStart                                                   proto::timingila
-  Device.SoftwareModules.ExecutionUnit.{i}.AvailableCapabilities                                       proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.AvailableDiskSpace                                          proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.AvailableMemory                                             proto::timingila
+  Device.SoftwareModules.ExecutionUnit.{i}.AvailableUserRoleCapabilities                               proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.CreationTime                                                proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.Description                                                 proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.DiskSpaceInUse                                              proto::timingila
@@ -7064,9 +7064,9 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.SoftwareModules.ExecutionUnit.{i}.AutoRestart.RetryMaximumWaitInterval                        proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.AutoRestart.RetryMinimumWaitInterval                        proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.AutoStart                                                   proto::timingila
-  Device.SoftwareModules.ExecutionUnit.{i}.AvailableCapabilities                                       proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.AvailableDiskSpace                                          proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.AvailableMemory                                             proto::timingila
+  Device.SoftwareModules.ExecutionUnit.{i}.AvailableUserRoleCapabilities                               proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.CreationTime                                                proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.Description                                                 proto::timingila
   Device.SoftwareModules.ExecutionUnit.{i}.DiskSpaceInUse                                              proto::timingila
