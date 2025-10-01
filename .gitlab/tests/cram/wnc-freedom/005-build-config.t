@@ -17,6 +17,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_AMX_TR181_USB_ORDER=81
   CONFIG_BIND_ENABLE_DOH=y
   CONFIG_BUILD_LOG=y
+  CONFIG_BUSYBOX_CONFIG_DEVMEM=y
   CONFIG_BUSYBOX_CONFIG_FLOAT_DURATION=y
   CONFIG_BUSYBOX_CONFIG_I2CSET=y
   # CONFIG_BUSYBOX_CONFIG_NTPD is not set
@@ -47,6 +48,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_KERNEL_PROC_PID_CPUSET=y
   CONFIG_KERNEL_SLUB_DEBUG=y
   CONFIG_KERNEL_STACKPROTECTOR_STRONG=y
+  # CONFIG_KERNEL_SWAP is not set
   CONFIG_LIBCURL_COOKIES=y
   CONFIG_LIBCURL_FILE=y
   CONFIG_LIBCURL_FTP=y
@@ -154,12 +156,16 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_iputils-ping=y
   # CONFIG_PACKAGE_jansson is not set
   CONFIG_PACKAGE_kmod-asn1-decoder=y
+  CONFIG_PACKAGE_kmod-ath11k=y
   CONFIG_PACKAGE_kmod-crypto-md5=y
+  CONFIG_PACKAGE_kmod-crypto-michael-mic=y
   CONFIG_PACKAGE_kmod-ebtables=y
   CONFIG_PACKAGE_kmod-ebtables-ipv4=y
   CONFIG_PACKAGE_kmod-ebtables-ipv6=y
   CONFIG_PACKAGE_kmod-fs-vfat=y
   CONFIG_PACKAGE_kmod-gpio-pca953x=y
+  CONFIG_PACKAGE_kmod-gre=y
+  CONFIG_PACKAGE_kmod-gre6=y
   CONFIG_PACKAGE_kmod-i2c-core=y
   CONFIG_PACKAGE_kmod-i2c-mux=y
   CONFIG_PACKAGE_kmod-i2c-mux-pca954x=y
@@ -205,13 +211,18 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-pppol2tp=y
   CONFIG_PACKAGE_kmod-pppox=y
   CONFIG_PACKAGE_kmod-pptp=y
+  CONFIG_PACKAGE_kmod-qca-mdio=y
   CONFIG_PACKAGE_kmod-qca-nss-ecm-premium=y
   CONFIG_PACKAGE_kmod-qca-nss-flowmgr=y
   CONFIG_PACKAGE_kmod-qca-nss-fls=y
   CONFIG_PACKAGE_kmod-qca-nss-netfn-tcpst=y
   CONFIG_PACKAGE_kmod-qca-nss-nsm=y
+  CONFIG_PACKAGE_kmod-qca-nss-ppe-ath-clients=y
+  CONFIG_PACKAGE_kmod-qca-nss-ppe-gre-mgr=y
   CONFIG_PACKAGE_kmod-qca-nss-ppe-pppoe-mgr=y
   CONFIG_PACKAGE_kmod-qca-nss-sfe=y
+  CONFIG_PACKAGE_kmod-qca-wifi-nss-plugins=y
+  CONFIG_PACKAGE_kmod-qseecom=m
   CONFIG_PACKAGE_kmod-regmap-core=y
   CONFIG_PACKAGE_kmod-regmap-i2c=y
   CONFIG_PACKAGE_kmod-sched=y
@@ -302,7 +313,9 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_libnl-core=y
   CONFIG_PACKAGE_libnl-genl=y
   CONFIG_PACKAGE_libnl-nf=y
+  CONFIG_PACKAGE_libnl-ppe=y
   CONFIG_PACKAGE_libnl-route=y
+  CONFIG_PACKAGE_libnl-tcpst=y
   CONFIG_PACKAGE_libocispec=y
   CONFIG_PACKAGE_libopensc=y
   CONFIG_PACKAGE_libp11=y
@@ -445,6 +458,8 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_netmodel-vlan=y
   CONFIG_PACKAGE_netmodel-xpon=y
   # CONFIG_PACKAGE_nftables-json is not set
+  CONFIG_PACKAGE_nss-tcp-st-cli=y
+  CONFIG_PACKAGE_nss-udp-st=y
   CONFIG_PACKAGE_obudpst=y
   CONFIG_PACKAGE_obuspa=y
   CONFIG_PACKAGE_odl-generator=y
@@ -459,6 +474,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_pcm-manager=y
   CONFIG_PACKAGE_picocom=y
   CONFIG_PACKAGE_pkcs11-provider=y
+  CONFIG_PACKAGE_ppecfg=y
   CONFIG_PACKAGE_ppp-prpl=y
   CONFIG_PACKAGE_procps-ng=y
   CONFIG_PACKAGE_procps-ng-pgrep=y
@@ -520,6 +536,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_softhsm2=y
   CONFIG_PACKAGE_ssh-server=y
   CONFIG_PACKAGE_syslog-ng=y
+  CONFIG_PACKAGE_taskset=y
   CONFIG_PACKAGE_tc-tiny=y
   CONFIG_PACKAGE_terminfo=y
   CONFIG_PACKAGE_time-manager=y
@@ -568,7 +585,6 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_tr181-usb=y
   CONFIG_PACKAGE_tr181-usermanagement=y
   CONFIG_PACKAGE_tr181-xpon=y
-  # CONFIG_PACKAGE_ucode-mod-uci is not set
   CONFIG_PACKAGE_umbim=y
   CONFIG_PACKAGE_umdns-prpl=y
   CONFIG_PACKAGE_unbound-daemon-prpl=y
@@ -577,6 +593,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_usbids=y
   CONFIG_PACKAGE_usbutils=y
   CONFIG_PACKAGE_wan-manager=y
+  CONFIG_PACKAGE_wifi-helper-scripts=y
   CONFIG_PACKAGE_wifi-scheduler=y
   CONFIG_PACKAGE_wifi-sensing=y
   # CONFIG_PACKAGE_wififw_mount_script is not set
@@ -938,5 +955,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_VERSION_REPO="https://downloads.openwrt.org/releases/24.10-SNAPSHOT"
   CONFIG_VERSION_SUPPORT_URL="https://jira.prplfoundation.org"
   CONFIG_shadow-all=y
+  CONFIG_PACKAGE_ucode-mod-uci=y
+  CONFIG_PACKAGE_wifi-scripts=y
   # CONFIG_VERSION_CODE_FILENAMES is not set
   # CONFIG_VERSION_FILENAMES is not set
