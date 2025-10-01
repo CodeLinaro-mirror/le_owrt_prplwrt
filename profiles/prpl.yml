@@ -15,17 +15,14 @@ feeds:
 
   - name: feed_prplos
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplos.git
-    revision: main@6214533d113fa8a6e65ab937f68cd421fab47f5c
+    revision: feat-54_24.10@8bb3137ff891332c59714d93b8f7b7551c898d46
 
 additional_packages:
   - feed: packages
     packages:
       - libnl-core
       - libnl-route
-      - lighttpd
-      - lighttpd-mod-auth
-      - lighttpd-mod-authn_file
-      - lighttpd-mod-fastcgi
+      - opensc
       - pciids
       - pciutils
       - picocom
@@ -64,6 +61,12 @@ packages:
   - libfwinterface
   - libfwrules
   - libnetmodel
+  - libp11
+  - lighttpd
+  - lighttpd-mod-auth
+  - lighttpd-mod-authn_file
+  - lighttpd-mod-fastcgi
+  - lighttpd-mod-openssl
   - lua-amx
   - lxc
   - lxc-attach
@@ -145,6 +148,7 @@ packages:
   - oopsmonitor
   - packet-interception
   - pcm-manager
+  - pkcs11-provider
   - procps-ng-pgrep
   - procps-ng-pkill
   - procps-ng-uptime
@@ -154,6 +158,7 @@ packages:
   - reboot-service
   - rlyeh
   - routing-manager
+  - softhsm2
   - ssh-server
   - tc-tiny
   - time-manager
@@ -300,3 +305,7 @@ diffconfig: |
           CONFIG_INCLUDE_CONFIG=y
           CONFIG_PACKAGE_ipset=y
           CONFIG_SAH_WLD_ENABLE_USP_SERVER_SOCKET=y
+          # pkcs11-tool
+          CONFIG_PACKAGE_libopensc=y
+          CONFIG_PACKAGE_opensc-utils=y
+          CONFIG_PACKAGE_opensc-utils-pkcs11-tool=y
