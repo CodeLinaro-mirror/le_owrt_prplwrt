@@ -8,4 +8,5 @@ Check that there is just single TLS library OpenSSL:
   libopenssl-conf
   libopenssl.* (re)
   libustream-openssl.* (re)
+  lighttpd-mod-openssl
   openssl-util
