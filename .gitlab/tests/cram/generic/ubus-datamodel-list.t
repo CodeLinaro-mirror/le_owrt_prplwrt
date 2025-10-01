@@ -284,6 +284,7 @@ Check that ubus has expected datamodels available:
   RouterAdvertisement
   RouterAdvertisement.InterfaceSetting
   Routing
+  Routing.Policy
   Routing.RIP
   Routing.RIP.InterfaceSetting
   Routing.RouteInformation
