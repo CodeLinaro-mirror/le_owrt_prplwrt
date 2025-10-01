@@ -8,7 +8,7 @@ description: Build image for prpl Foundation Freedom board
 feeds:
   - name: feed_qca
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-qca.git
-    revision: latest-24.10@a1ef4c15ef907b593e7cf3fd9445a4d878f884a0
+    revision: dev/ath13.1-freedom@9258f2cc17dfc052939b689951d76116b5d52b84
 
 packages:
   - ipq95xx
@@ -37,10 +37,25 @@ packages:
   - kmod-qca8xxx-phc
   - kmod-ppp
   - kmod-pppoe
+  - kmod-ath11k
+  - kmod-qca-nss-pppoe-mgr
+  - kmod-qca-nss-gre-mgr
+  - ppecfg
+  - taskset
 
 diffconfig: |
   CONFIG_TARGET_INITRAMFS_COMPRESSION_LZMA=y
   CONFIG_BUSYBOX_CUSTOM=y
   CONFIG_BUSYBOX_CONFIG_I2CSET=y
   CONFIG_PACKAGE_ATH_DEBUG=y
+  CONFIG_KERNEL_DYNAMIC_DEBUG=y
   # CONFIG_PACKAGE_wififw_mount_script is not set
+  CONFIG_BUSYBOX_CONFIG_USLEEP=y
+  CONFIG_BUSYBOX_CONFIG_BLOCKDEV=y
+  CONFIG_KERNEL_CPU_FREQ_THERMAL=y
+  CONFIG_KERNEL_DEBUG_ATOMIC_SLEEP=y
+  CONFIG_KERNEL_DEVMEM=y
+  # CONFIG_KERNEL_SWAP is not set
+  CONFIG_PACKAGE_ppecfg=y
+  CONFIG_PACKAGE_libnl-ppe=y
+  CONFIG_PACKAGE_kmod-qseecom=m
