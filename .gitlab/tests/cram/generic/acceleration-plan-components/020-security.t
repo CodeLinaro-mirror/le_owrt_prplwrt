@@ -2,6 +2,13 @@ Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
+Backup the state of the system:
+
+  $ R "mkdir -p /etc/config/autocert"
+  $ R "mv /etc/config/autocert /etc/config/autocert.bak"
+  $ R "mkdir -p /usr/share/ca-certificates"
+  $ R "mv /usr/share/ca-certificates /usr/share/ca-certificates.bak"
+
 Copy over testing certificates:
 
   $ R "mkdir -p /etc/config/autocert"
@@ -72,3 +79,11 @@ Check that the first certificate is not present anymore:
   2023-12-04T17:41:08.* (re)
   ecdsa-with-SHA512
   true
+
+Restore the state of the system:
+
+  $ R "rm -rf /etc/config/autocert"
+  $ R "mv /etc/config/autocert.bak /etc/config/autocert"
+  $ R "rm -rf /usr/share/ca-certificates"
+  $ R "mv /usr/share/ca-certificates.bak /usr/share/ca-certificates"
+  $ R "/etc/init.d/tr181-security restart" > /dev/null 2>&1 ; sleep .5

@@ -292,6 +292,8 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_libnl-nf=y
   CONFIG_PACKAGE_libnl-route=y
   CONFIG_PACKAGE_libocispec=y
+  CONFIG_PACKAGE_libopensc=y
+  CONFIG_PACKAGE_libp11=y
   CONFIG_PACKAGE_libpacket-interception=y
   CONFIG_PACKAGE_libpci=y
   CONFIG_PACKAGE_libpcp=y
@@ -330,7 +332,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_lighttpd-mod-auth=y
   CONFIG_PACKAGE_lighttpd-mod-authn_file=y
   CONFIG_PACKAGE_lighttpd-mod-fastcgi=y
-  CONFIG_PACKAGE_lighttpd-mod-openssl=m
+  CONFIG_PACKAGE_lighttpd-mod-openssl=y
   CONFIG_PACKAGE_lighttpd-mod-proxy=y
   CONFIG_PACKAGE_lighttpd-mod-rewrite=y
   CONFIG_PACKAGE_lighttpd-mod-setenv=y
@@ -432,12 +434,15 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_odl-generator=y
   CONFIG_PACKAGE_oopsmonitor=y
   CONFIG_PACKAGE_opennds-prpl=y
+  CONFIG_PACKAGE_opensc-utils=y
+  CONFIG_PACKAGE_opensc-utils-pkcs11-tool=y
   CONFIG_PACKAGE_openssl-util=y
   CONFIG_PACKAGE_packet-interception=y
   CONFIG_PACKAGE_pciids=y
   CONFIG_PACKAGE_pciutils=y
   CONFIG_PACKAGE_pcm-manager=y
   CONFIG_PACKAGE_picocom=y
+  CONFIG_PACKAGE_pkcs11-provider=y
   CONFIG_PACKAGE_ppp-prpl=y
   CONFIG_PACKAGE_procps-ng=y
   CONFIG_PACKAGE_procps-ng-pgrep=y
@@ -495,6 +500,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_shadow-usermod=y
   CONFIG_PACKAGE_shadow-utils=y
   CONFIG_PACKAGE_shadow-vipw=y
+  CONFIG_PACKAGE_softhsm2=y
   CONFIG_PACKAGE_ssh-server=y
   CONFIG_PACKAGE_syslog-ng=y
   CONFIG_PACKAGE_tc-tiny=y

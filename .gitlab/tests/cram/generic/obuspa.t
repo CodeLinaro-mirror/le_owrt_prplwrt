@@ -1850,6 +1850,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.MQTTBroker.Broker.{i}.Bridge.{i}.SubscriptionNumberOfEntries                                  proto::tr181-mqttbroker
   Device.MQTTBroker.Broker.{i}.Bridge.{i}.Username                                                     proto::tr181-mqttbroker
   Device.MQTTBroker.Broker.{i}.BridgeNumberOfEntries                                                   proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Certificate                                                             proto::tr181-mqttbroker
   Device.MQTTBroker.Broker.{i}.Enable                                                                  proto::tr181-mqttbroker
   Device.MQTTBroker.Broker.{i}.Interface                                                               proto::tr181-mqttbroker
   Device.MQTTBroker.Broker.{i}.Name                                                                    proto::tr181-mqttbroker
@@ -2906,6 +2907,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.UserInterface.HTTPAccess.{i}.AllowedHosts                                                     proto::tr181-httpaccess
   Device.UserInterface.HTTPAccess.{i}.AllowedPathPrefix                                                proto::tr181-httpaccess
   Device.UserInterface.HTTPAccess.{i}.AllowedRoles                                                     proto::tr181-httpaccess
+  Device.UserInterface.HTTPAccess.{i}.Certificate                                                      proto::tr181-httpaccess
   Device.UserInterface.HTTPAccess.{i}.Enable                                                           proto::tr181-httpaccess
   Device.UserInterface.HTTPAccess.{i}.IPv4AllowedSourcePrefix                                          proto::tr181-httpaccess
   Device.UserInterface.HTTPAccess.{i}.IPv6AllowedSourcePrefix                                          proto::tr181-httpaccess
@@ -6302,6 +6304,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.MQTTBroker.Broker.{i}.Bridge.{i}.SubscriptionNumberOfEntries                                  proto::tr181-mqttbroker
   Device.MQTTBroker.Broker.{i}.Bridge.{i}.Username                                                     proto::tr181-mqttbroker
   Device.MQTTBroker.Broker.{i}.BridgeNumberOfEntries                                                   proto::tr181-mqttbroker
+  Device.MQTTBroker.Broker.{i}.Certificate                                                             proto::tr181-mqttbroker
   Device.MQTTBroker.Broker.{i}.Enable                                                                  proto::tr181-mqttbroker
   Device.MQTTBroker.Broker.{i}.Interface                                                               proto::tr181-mqttbroker
   Device.MQTTBroker.Broker.{i}.Name                                                                    proto::tr181-mqttbroker
@@ -7358,6 +7361,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.UserInterface.HTTPAccess.{i}.AllowedHosts                                                     proto::tr181-httpaccess
   Device.UserInterface.HTTPAccess.{i}.AllowedPathPrefix                                                proto::tr181-httpaccess
   Device.UserInterface.HTTPAccess.{i}.AllowedRoles                                                     proto::tr181-httpaccess
+  Device.UserInterface.HTTPAccess.{i}.Certificate                                                      proto::tr181-httpaccess
   Device.UserInterface.HTTPAccess.{i}.Enable                                                           proto::tr181-httpaccess
   Device.UserInterface.HTTPAccess.{i}.IPv4AllowedSourcePrefix                                          proto::tr181-httpaccess
   Device.UserInterface.HTTPAccess.{i}.IPv6AllowedSourcePrefix                                          proto::tr181-httpaccess
