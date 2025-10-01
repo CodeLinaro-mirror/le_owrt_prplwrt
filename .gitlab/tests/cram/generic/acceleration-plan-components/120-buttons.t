@@ -73,7 +73,7 @@ Check that we have expected datamodel:
   $ R "ba-cli --less --json 'Buttons.Button.2.Event.1.?'" | jq --sort-keys '.[0]'
   {
     "Buttons.Button.2.Event.1.": {
-      "ActionsReference": "",
+      "ActionsReference": "Buttons.Action.InitiateWPSPBC",
       "Alias": "Press",
       "Enable": 1,
       "Max": 0,
