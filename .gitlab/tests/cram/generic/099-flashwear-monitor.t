@@ -5,7 +5,7 @@ Create R alias:
   $ R logger -t cram "Starting with Flashwear monitoring tests"
 
 Enable Flashwear monitoring
-  $ R "ba-cli -l Device.X_PRPLWARE-COM_Hardware.FlashDevice.1.Health.Enabled=1 | sed '/^$/d'
+  $ R "ba-cli -l Device.X_PRPLWARE-COM_Hardware.FlashDevice.1.Health.Enabled=1" | sed '/^$/d'
   1
 
 Read Flashwear monitoring object
