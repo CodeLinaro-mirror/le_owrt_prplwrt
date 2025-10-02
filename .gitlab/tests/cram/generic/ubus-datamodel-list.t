@@ -93,6 +93,7 @@ Check that ubus has expected datamodels available:
   Device.PCP
   Device.PPP
   Device.PacketInterception
+  Device.PeriodicFileTransfer
   Device.QoS
   Device.RouterAdvertisement
   Device.Routing
@@ -110,7 +111,6 @@ Check that ubus has expected datamodels available:
   Device.XPON
   Device.X_PRPLWARE-COM_Buttons
   Device.X_PRPLWARE-COM_MultiSettings
-  Device.X_PRPLWARE-COM_PeriodicFileUpload
   Device.X_PRPLWARE-COM_PersistentConfiguration
   Device.X_PRPLWARE-COM_SFPs
   Device.X_PRPLWARE-COM_SoftwareModules
@@ -253,9 +253,15 @@ Check that ubus has expected datamodels available:
   PacketInterception.Condition
   PacketInterception.Interception
   PacketInterception.PacketHandler
-  PeriodicFileUpload
-  PeriodicFileUpload.File
-  PeriodicFileUpload.Profile
+  PeriodicFileTransfer
+  PeriodicFileTransfer.FileTypeConfig
+  PeriodicFileTransfer.Profile
+  PeriodicFileTransfer.Profile.HTTP
+  PeriodicFileTransfer.Profile.HTTP.RequestHeaderParameter
+  PeriodicFileTransfer.Profile.HTTP.RequestURIParameter
+  PeriodicFileTransfer.Stats
+  PeriodicFileTransfer.Transfer
+  PeriodicFileTransfer.Transfer.Stats
   PersistentConfiguration
   PersistentConfiguration.BackupFile
   PersistentConfiguration.Config
