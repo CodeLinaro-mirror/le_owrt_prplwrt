@@ -186,6 +186,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-mhi-wwan-ctrl=y
   CONFIG_PACKAGE_kmod-mhi-wwan-mbim=y
   CONFIG_PACKAGE_kmod-mii=y
+  CONFIG_PACKAGE_kmod-nf-conntrack-netlink=y
   CONFIG_PACKAGE_kmod-nf-ipt6=y
   CONFIG_PACKAGE_kmod-nf-nathelper=y
   CONFIG_PACKAGE_kmod-nf-nathelper-extra=y
@@ -285,6 +286,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_libmicrohttpd-no-ssl=y
   CONFIG_PACKAGE_libmosquitto-ssl=y
   CONFIG_PACKAGE_libncurses=y
+  CONFIG_PACKAGE_libnetfilter-conntrack=y
   CONFIG_PACKAGE_libnetfilter-queue=y
   CONFIG_PACKAGE_libnetlink-utils=y
   CONFIG_PACKAGE_libnetmodel=y
@@ -523,6 +525,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_tr181-bulkdata=y
   CONFIG_PACKAGE_tr181-button=y
   CONFIG_PACKAGE_tr181-captiveportal=y
+  CONFIG_PACKAGE_tr181-conntrack-query=y
   CONFIG_PACKAGE_tr181-device=y
   CONFIG_PACKAGE_tr181-dhcpv4client=y
   CONFIG_PACKAGE_tr181-dhcpv6client=y
@@ -642,6 +645,10 @@ Assure expected build configuration (PCF-1413):
   CONFIG_SAH_AMX_TR181_CAPTIVEPORTAL_EXAMPLE=y
   CONFIG_SAH_AMX_TR181_CELLULAR=y
   CONFIG_SAH_AMX_TR181_CELLULAR_ORDER=97
+  CONFIG_SAH_AMX_TR181_CONNTRACK_QUERY=y
+  CONFIG_SAH_AMX_TR181_CONNTRACK_QUERY_AS_GROUP="tr181_app"
+  CONFIG_SAH_AMX_TR181_CONNTRACK_QUERY_AS_USER="tr181_app"
+  CONFIG_SAH_AMX_TR181_CONNTRACK_QUERY_ORDER=25
   CONFIG_SAH_AMX_TR181_DEVICE=y
   CONFIG_SAH_AMX_TR181_DEVICEINFO=y
   CONFIG_SAH_AMX_TR181_DEVICEINFO_NUMBER_OF_EXTRA_MAC_ADDRESSES="7"
