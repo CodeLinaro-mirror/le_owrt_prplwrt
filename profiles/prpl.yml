@@ -64,6 +64,11 @@ packages:
   - softhsm2
   - tr181-bulkdata
   - tr181-captiveportal
+  - tr181-conntrack-query
+  - tr181-device
+  - tr181-dhcpv4client
+  - tr181-dhcpv6client
+  - tr181-dns
   - tr181-dnssd
   - tr181-dslite
   - tr181-dynamicdns
