@@ -4454,6 +4454,26 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.X_PRPLWARE-COM_Buttons.Button.{i}.Release()                                                   proto::tr181-button
   Device.X_PRPLWARE-COM_Buttons.Button.{i}.Status                                                      proto::tr181-button
   Device.X_PRPLWARE-COM_Buttons.ButtonNumberOfEntries                                                  proto::tr181-button
+  Device.X_PRPLWARE-COM_ConnectionTrackingQuery.                                                       proto::tr181-conntrack-query
+  Device.X_PRPLWARE-COM_ConnectionTrackingQuery.MaxNotifyQueries                                       proto::tr181-conntrack-query
+  Device.X_PRPLWARE-COM_ConnectionTrackingQuery.NotifyFlow.{i}.                                        proto::tr181-conntrack-query
+  Device.X_PRPLWARE-COM_ConnectionTrackingQuery.NotifyFlow.{i}.DestIP                                  proto::tr181-conntrack-query
+  Device.X_PRPLWARE-COM_ConnectionTrackingQuery.NotifyFlow.{i}.DestPort                                proto::tr181-conntrack-query
+  Device.X_PRPLWARE-COM_ConnectionTrackingQuery.NotifyFlow.{i}.Enable                                  proto::tr181-conntrack-query
+  Device.X_PRPLWARE-COM_ConnectionTrackingQuery.NotifyFlow.{i}.Event                                   proto::tr181-conntrack-query
+  Device.X_PRPLWARE-COM_ConnectionTrackingQuery.NotifyFlow.{i}.LastChange                              proto::tr181-conntrack-query
+  Device.X_PRPLWARE-COM_ConnectionTrackingQuery.NotifyFlow.{i}.Name                                    proto::tr181-conntrack-query
+  Device.X_PRPLWARE-COM_ConnectionTrackingQuery.NotifyFlow.{i}.Protocol                                proto::tr181-conntrack-query
+  Device.X_PRPLWARE-COM_ConnectionTrackingQuery.NotifyFlow.{i}.SourceIP                                proto::tr181-conntrack-query
+  Device.X_PRPLWARE-COM_ConnectionTrackingQuery.NotifyFlow.{i}.SourcePort                              proto::tr181-conntrack-query
+  Device.X_PRPLWARE-COM_ConnectionTrackingQuery.NotifyFlowNumberOfEntries                              proto::tr181-conntrack-query
+  Device.X_PRPLWARE-COM_ConnectionTrackingQuery.RetrieveFlows()                                        proto::tr181-conntrack-query
+  Device.X_PRPLWARE-COM_ConnectionTrackingQuery.RetrieveFlows() input:DestIP
+  Device.X_PRPLWARE-COM_ConnectionTrackingQuery.RetrieveFlows() input:DestPort
+  Device.X_PRPLWARE-COM_ConnectionTrackingQuery.RetrieveFlows() input:MaxRtrvEntries
+  Device.X_PRPLWARE-COM_ConnectionTrackingQuery.RetrieveFlows() input:Protocol
+  Device.X_PRPLWARE-COM_ConnectionTrackingQuery.RetrieveFlows() input:SourceIP
+  Device.X_PRPLWARE-COM_ConnectionTrackingQuery.RetrieveFlows() input:SourcePort
   Device.X_PRPLWARE-COM_MultiSettings.                                                                 proto::multisettings
   Device.X_PRPLWARE-COM_MultiSettings.CurrentProfile                                                   proto::multisettings
   Device.X_PRPLWARE-COM_MultiSettings.DecisionMadeBy                                                   proto::multisettings
@@ -9197,6 +9217,26 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.X_PRPLWARE-COM_Buttons.Button.{i}.Release()                                                   proto::tr181-button
   Device.X_PRPLWARE-COM_Buttons.Button.{i}.Status                                                      proto::tr181-button
   Device.X_PRPLWARE-COM_Buttons.ButtonNumberOfEntries                                                  proto::tr181-button
+  Device.X_PRPLWARE-COM_ConnectionTrackingQuery.                                                       proto::tr181-conntrack-query
+  Device.X_PRPLWARE-COM_ConnectionTrackingQuery.MaxNotifyQueries                                       proto::tr181-conntrack-query
+  Device.X_PRPLWARE-COM_ConnectionTrackingQuery.NotifyFlow.{i}.                                        proto::tr181-conntrack-query
+  Device.X_PRPLWARE-COM_ConnectionTrackingQuery.NotifyFlow.{i}.DestIP                                  proto::tr181-conntrack-query
+  Device.X_PRPLWARE-COM_ConnectionTrackingQuery.NotifyFlow.{i}.DestPort                                proto::tr181-conntrack-query
+  Device.X_PRPLWARE-COM_ConnectionTrackingQuery.NotifyFlow.{i}.Enable                                  proto::tr181-conntrack-query
+  Device.X_PRPLWARE-COM_ConnectionTrackingQuery.NotifyFlow.{i}.Event                                   proto::tr181-conntrack-query
+  Device.X_PRPLWARE-COM_ConnectionTrackingQuery.NotifyFlow.{i}.LastChange                              proto::tr181-conntrack-query
+  Device.X_PRPLWARE-COM_ConnectionTrackingQuery.NotifyFlow.{i}.Name                                    proto::tr181-conntrack-query
+  Device.X_PRPLWARE-COM_ConnectionTrackingQuery.NotifyFlow.{i}.Protocol                                proto::tr181-conntrack-query
+  Device.X_PRPLWARE-COM_ConnectionTrackingQuery.NotifyFlow.{i}.SourceIP                                proto::tr181-conntrack-query
+  Device.X_PRPLWARE-COM_ConnectionTrackingQuery.NotifyFlow.{i}.SourcePort                              proto::tr181-conntrack-query
+  Device.X_PRPLWARE-COM_ConnectionTrackingQuery.NotifyFlowNumberOfEntries                              proto::tr181-conntrack-query
+  Device.X_PRPLWARE-COM_ConnectionTrackingQuery.RetrieveFlows()                                        proto::tr181-conntrack-query
+  Device.X_PRPLWARE-COM_ConnectionTrackingQuery.RetrieveFlows() input:DestIP
+  Device.X_PRPLWARE-COM_ConnectionTrackingQuery.RetrieveFlows() input:DestPort
+  Device.X_PRPLWARE-COM_ConnectionTrackingQuery.RetrieveFlows() input:MaxRtrvEntries
+  Device.X_PRPLWARE-COM_ConnectionTrackingQuery.RetrieveFlows() input:Protocol
+  Device.X_PRPLWARE-COM_ConnectionTrackingQuery.RetrieveFlows() input:SourceIP
+  Device.X_PRPLWARE-COM_ConnectionTrackingQuery.RetrieveFlows() input:SourcePort
   Device.X_PRPLWARE-COM_MultiSettings.                                                                 proto::multisettings
   Device.X_PRPLWARE-COM_MultiSettings.CurrentProfile                                                   proto::multisettings
   Device.X_PRPLWARE-COM_MultiSettings.DecisionMadeBy                                                   proto::multisettings

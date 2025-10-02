@@ -16,6 +16,8 @@ Check that ubus has expected datamodels available:
   Buttons.Button
   CaptivePortal
   CaptivePortal.LANInterface
+  ConnectionTrackingQuery
+  ConnectionTrackingQuery.NotifyFlow
   Cthulhu
   Cthulhu.Config
   Cthulhu.Config.Debug
@@ -114,6 +116,7 @@ Check that ubus has expected datamodels available:
   Device.WiFi.Sensing
   Device.XPON
   Device.X_PRPLWARE-COM_Buttons
+  Device.X_PRPLWARE-COM_ConnectionTrackingQuery
   Device.X_PRPLWARE-COM_GenericNetworkInterface
   Device.X_PRPLWARE-COM_MultiSettings
   Device.X_PRPLWARE-COM_PersistentConfiguration
