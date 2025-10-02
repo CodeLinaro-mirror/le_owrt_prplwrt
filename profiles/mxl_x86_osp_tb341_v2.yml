@@ -175,6 +175,11 @@ packages:
   - sse_fapi_lgm-sse_test_app
   - kmod-mcast-helper
 
+additional_packages:
+  - feed: opensource_apps_prpl
+    packages:
+      - ebtables
+
 diffconfig: |
   CONFIG_DEVEL=y
   CONFIG_EXTRA_OPTIMIZATION="-fno-caller-saves -fno-plt -Wno-error=deprecated-declarations -Wno-error=address"
