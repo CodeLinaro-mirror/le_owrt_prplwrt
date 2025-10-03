@@ -15,11 +15,3 @@ Check that DHCPv4 entry Status is Enabled and number of failures is 0:
   0
   0
   Enabled
-
-Check that DHCPv6 entry Status is Enabled and number of failures is 0:
-
-  $ R "ba-cli -j -l ConMon.Entry.cpe-wan6.? | jsonfilter -e @[0]'[*].Status' -e @[0]'[*].ARPNSErrorsSent' -e @[0]'[*].ARPNSTotalFail' -e @[0]'[*].TotalDHCPRestarts' | sort"
-  0
-  0
-  0
-  Enabled
