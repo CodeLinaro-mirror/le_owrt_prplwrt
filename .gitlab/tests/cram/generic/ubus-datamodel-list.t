@@ -79,6 +79,7 @@ Check that ubus has expected datamodels available:
   Device.DynamicDNS
   Device.Ethernet
   Device.Firewall
+  Device.HomePlug
   Device.Hosts
   Device.IP
   Device.IP.Diagnostics
@@ -102,6 +103,8 @@ Check that ubus has expected datamodels available:
   Device.Syslog
   Device.Time
   Device.UPnP
+  Device.UPnP.Description
+  Device.UPnP.Discovery
   Device.USB
   Device.UserInterface
   Device.Users
@@ -162,8 +165,13 @@ Check that ubus has expected datamodels available:
   Firewall.X_PRPLWARE-COM_Log
   Firewall.X_PRPLWARE-COM_WANAccess
   Firewall.X_PRPLWARE-COM_WANAccess.BlockList
+<<<<<<< HEAD
   GenericNetworkInterface
   GenericNetworkInterface.Interface
+=======
+  HomePlug
+  HomePlug.Interface
+>>>>>>> 20eb6fed72 (ci: cram: update tests after introduction of network mapper)
   Hosts
   Hosts.AccessControl
   Hosts.Host
@@ -327,6 +335,14 @@ Check that ubus has expected datamodels available:
   UPnP.Device
   UPnP.Device.Capabilities
   UPnP.X_PRPLWARE-COM_IGDConfig
+  UPnPDescription
+  UPnPDescription.DeviceDescription
+  UPnPDescription.DeviceInstance
+  UPnPDescription.ServiceInstance
+  UPnPDiscovery
+  UPnPDiscovery.Device
+  UPnPDiscovery.RootDevice
+  UPnPDiscovery.Service
   USB
   USB.Interface
   USB.Port
