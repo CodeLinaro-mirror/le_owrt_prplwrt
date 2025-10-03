@@ -15,7 +15,7 @@ feeds:
 
   - name: feed_prplos
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplos.git
-    revision: main@1d89422accdec80e7729428629790cad37c5bb73
+    revision: main@93d149f2fcc7b9e2ca1d1e475f55420b2f999df6
 
 additional_packages:
   - feed: packages
@@ -147,6 +147,7 @@ packages:
   - netmodel-ssid
   - netmodel-vlan
   - netmodel-xpon
+  - netmodel-optical
   - obuspa
   - odl-generator
   - oopsmonitor
