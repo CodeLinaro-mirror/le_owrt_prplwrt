@@ -46,7 +46,7 @@ Check that miniupnpd is disabled and not running:
   {}
   {"amxd-error-code":0}
 
-  $ R "netstat -tulpn 2>&1 | grep miniupnpd"
+  $ R "netstat -tulpn | grep miniupnpd"
   [1]
 
 Enable miniupnpd:
