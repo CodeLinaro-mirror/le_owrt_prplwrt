@@ -85,6 +85,7 @@ Check that ubus has expected datamodels available:
   Device.Firewall
   Device.Hardware
   Device.Hardware.X_PRPLWARE-COM_FlashDevice
+  Device.HomePlug
   Device.Hosts
   Device.IP
   Device.IP.Diagnostics
@@ -175,6 +176,8 @@ Check that ubus has expected datamodels available:
   GenericNetworkInterface.Interface
   Hardware
   Hardware.FlashDevice
+  HomePlug
+  HomePlug.Interface
   Hosts
   Hosts.AccessControl
   Hosts.Host
