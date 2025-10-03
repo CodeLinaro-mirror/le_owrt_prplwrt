@@ -11,7 +11,7 @@ feeds:
 
   - name: feed_prplos
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplos.git
-    revision: main@7546baf9d7f9e7e25abd7c8411c6f5ad0d7a7f7b
+    revision: main@0b154a1bf8cfb100c40bf965997bb2788b67385b
 
 additional_packages:
   - feed: packages
@@ -64,6 +64,7 @@ packages:
   - netmodel-iprouter
   - netmodel-logical
   - netmodel-netdev
+  - netmodel-optical
   - netmodel-radio
   - netmodel-ssid
   - netmodel-vlan
