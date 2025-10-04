@@ -66,6 +66,7 @@ Compare the data models before and after the firmware upgrade:
   $ sed -i -e "s/\(Sandbox\.Instances\)\.2/\1\.1/g" ${TESTDIR}/cthulhu_after.dm
   $ sed -i -e "s/\(Sandbox\.Instances\)\.3/\1\.2/g" ${TESTDIR}/cthulhu_after.dm
   $ cat > ${TESTDIR}/runtime_params << EOF
+  > Cthulhu.Container.Instances.1.RootfsIsMounted
   > Cthulhu.Container.Instances.1.Pid
   > Cthulhu.Container.Instances.1.StartTime
   > Cthulhu.Container.Instances.1.AutoRestart.RunningSince
