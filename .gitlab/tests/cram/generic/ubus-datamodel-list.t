@@ -83,6 +83,7 @@ Check that ubus has expected datamodels available:
   Device.IP
   Device.IP.Diagnostics
   Device.InterfaceStack
+  Device.LANConfigSecurity
   Device.LEDs
   Device.Logical
   Device.MQTT
@@ -190,6 +191,7 @@ Check that ubus has expected datamodels available:
   IPDiagnostics.X_PRPLWARE-COM_UploadResult.Process
   KernelFaults
   KernelFaults.KernelFault
+  LANConfigSecurity
   LEDs
   LEDs.LED
   Logical
