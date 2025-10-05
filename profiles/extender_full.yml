@@ -8,6 +8,7 @@ include:
 
 packages:
   - extender-config
+  - tr181-gatewayinfo
 
 diffconfig: |
           CONFIG_BUSYBOX_CONFIG_GETOPT=y
