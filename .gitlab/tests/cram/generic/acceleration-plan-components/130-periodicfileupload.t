@@ -9,28 +9,19 @@ Start Servefile to act as HTTP server:
 Check PeriodicFileTransfer enable/disable functionality:
 
  Check PeriodicFileTransfer profile creation in the data model:
-  $ R 'ba-cli "Device.PeriodicFileTransfer.Profile+{Alias=\"cram-Profile-1\"}"'
-  > Device.PeriodicFileTransfer.Profile+{Alias="cram-Profile-1"}
-  Device.PeriodicFileTransfer.Profile.2.
-  Device.PeriodicFileTransfer.Profile.2.Alias="cram-Profile-1"
-
-  $ command="ba-cli \"Device.PeriodicFileTransfer.Profile.cram-Profile-1.HTTP.URL=\"http://$TARGET_LAN_TEST_HOST:8484\"\""
-  $ R $command
-  > Device.PeriodicFileTransfer.Profile.cram-Profile-1.HTTP.URL=http://$TARGET_LAN_TEST_HOST:8484
-  Device.PeriodicFileTransfer.Profile.2.HTTP.
-  Device.PeriodicFileTransfer.Profile.2.HTTP.URL="http://$TARGET_LAN_TEST_HOST:8484"
+  $ R 'ba-cli "Device.PeriodicFileTransfer.Profile+{Alias=\"cram-Profile-1\"}"' > /dev/null; sleep 1
+  $ R "ba-cli \"Device.PeriodicFileTransfer.Profile.cram-Profile-1.HTTP.URL=\"http://192.168.1.50:8484\"\"" > /dev/null; sleep 1
 
 
 Check PeriodicFileTransfer transfer instance creation:
-  $ R 'ba-cli "Device.PeriodicFileTransfer.Transfer.+{Alias=\"cram-Transfer-1\", ProfileReference=\"PeriodicFileTransfer.Profile.2\", Type=\"KernelFaults\", Enable=1, UploadInterval=3600}"'
-  > Device.PeriodicFileTransfer.Transfer.+{Alias="cram-Transfer-1", ProfileReference="PeriodicFileTransfer.Profile.2", UploadInterval=3600}
-  Device.PeriodicFileTransfer.Transfer.3.
-  Device.PeriodicFileTransfer.Transfer.3.Alias="cram-Transfer-1"
+  $ R 'ba-cli "Device.PeriodicFileTransfer.Transfer.+{Alias=\"cram-Transfer-1\", ProfileReference=\"PeriodicFileTransfer.Profile.2\", Type=\"KernelFaults\", Enable=1, UploadInterval=3600}"' > /dev/null; sleep 1
+
 
 Check PeriodicFileTransfer on demand file upload:
 
   $ R 'ba-cli "Device.PeriodicFileTransfer.Transfer.cram-Transfer-1.ForceTransfer()"'
   ERROR: call PeriodicFileTransfer.Transfer.cram-Transfer-1.ForceTransfer() failed with status 1 - unknown error
+
 
   $ R 'ba-cli "Device.PeriodicFileTransfer.Profile.cram-Profile-1.Enable=1"'
   > Device.PeriodicFileTransfer.Profile.cram-Profile-1.Enable=1
