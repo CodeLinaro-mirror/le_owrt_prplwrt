@@ -15,7 +15,7 @@ Check PeriodicFileTransfer profile creation in the data model:
   $ R "ba-cli \"Device.PeriodicFileTransfer.Profile.cram-Profile-1.?\"" | grep -v '>'
   Device.PeriodicFileTransfer.Profile.2.
   Device.PeriodicFileTransfer.Profile.2.Alias="cram-Profile-1"
-  Device.PeriodicFileTransfer.Profile.2.Enable=1
+  Device.PeriodicFileTransfer.Profile.2.Enable=0
   Device.PeriodicFileTransfer.Profile.2.Name=""
   Device.PeriodicFileTransfer.Profile.2.Protocol="HTTP"
   Device.PeriodicFileTransfer.Profile.2.HTTP.
@@ -34,6 +34,7 @@ Check PeriodicFileTransfer profile creation in the data model:
   Device.PeriodicFileTransfer.Profile.2.HTTP.RetryMinimumWaitInterval=5
   Device.PeriodicFileTransfer.Profile.2.HTTP.URL="http://192.168.1.50:8484"
   Device.PeriodicFileTransfer.Profile.2.HTTP.Username=""
+  
 
 
 Check PeriodicFileTransfer transfer instance creation:
@@ -50,6 +51,7 @@ Check PeriodicFileTransfer transfer instance creation:
   Device.PeriodicFileTransfer.Transfer.3.TimeReference="1970-01-01T00:00:00Z"
   Device.PeriodicFileTransfer.Transfer.3.Type="KernelFaults"
   Device.PeriodicFileTransfer.Transfer.3.UploadInterval=3600
+  
 
 Check PeriodicFileTransfer on demand file upload:
 
@@ -61,12 +63,14 @@ Check PeriodicFileTransfer on demand file upload:
           data = "Transfer ended with error code (0)"
       }
   ]
+  
 
 
 Check PeriodicFileTransfer on demand file upload with GZIP compression:
   $ R 'ba-cli "Device.PeriodicFileTransfer.Profile.cram-Profile-1.HTTP.Compression=GZIP"' | grep -v '>'; sleep 1
   Device.PeriodicFileTransfer.Profile.2.HTTP.
   Device.PeriodicFileTransfer.Profile.2.HTTP.Compression="GZIP"
+  
 
 
   $ R 'ba-cli "Device.PeriodicFileTransfer.Transfer.cram-Transfer-1.ForceTransfer()"' | grep -v '>'
@@ -76,12 +80,14 @@ Check PeriodicFileTransfer on demand file upload with GZIP compression:
           data = "Transfer ended with error code (0)"
       }
   ]
+  
 
 
 Check PeriodicFileTransfer periodic upload with configured intervals
   $ R 'ba-cli "Device.PeriodicFileTransfer.Transfer.cram-Transfer-1.UploadInterval=10"' | grep -v '>'; sleep 1
   Device.PeriodicFileTransfer.Transfer.3.
-  Device.PeriodicFileTransfer.Transfer.3.UploadInterval=30
+  Device.PeriodicFileTransfer.Transfer.3.UploadInterval=10
+  
 
   $ R 'ba-cli "Device.PeriodicFileTransfer.Profile.cram-Profile-1.Enable=0"' > /dev/null; sleep 1
   $ R 'ba-cli "Device.PeriodicFileTransfer.Profile.cram-Profile-1.Enable=1"' > /dev/null; sleep 15
