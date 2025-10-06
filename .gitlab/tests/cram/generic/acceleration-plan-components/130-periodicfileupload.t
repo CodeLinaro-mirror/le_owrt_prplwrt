@@ -9,7 +9,7 @@ Start Servefile to act as HTTP server:
 Check PeriodicFileTransfer enable/disable functionality:
 
 Check PeriodicFileTransfer profile creation in the data model:
-  $ R 'ba-cli "Device.PeriodicFileTransfer.Profile+{Alias=\"cram-Profile-1\"}'
+  $ R 'ba-cli "Device.PeriodicFileTransfer.Profile+{Alias=\"cram-Profile-1\"}"'
   $ R "ba-cli \"Device.PeriodicFileTransfer.Profile.cram-Profile-1.HTTP.URL=\"http://$TARGET_LAN_TEST_HOST:8484\"\""
 
 Check PeriodicFileTransfer transfer instance creation:
