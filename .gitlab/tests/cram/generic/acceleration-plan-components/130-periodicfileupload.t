@@ -14,7 +14,8 @@ Check PeriodicFileTransfer enable/disable functionality:
   Device.PeriodicFileTransfer.Profile.2.
   Device.PeriodicFileTransfer.Profile.2.Alias="cram-Profile-1"
 
-  $ R "ba-cli \"Device.PeriodicFileTransfer.Profile.cram-Profile-1.HTTP.URL=\"http://$TARGET_LAN_TEST_HOST:8484\"\""
+  $ command="ba-cli \"Device.PeriodicFileTransfer.Profile.cram-Profile-1.HTTP.URL=\"http://$TARGET_LAN_TEST_HOST:8484\"\""
+  $ R $command
   > Device.PeriodicFileTransfer.Profile.cram-Profile-1.HTTP.URL=http://$TARGET_LAN_TEST_HOST:8484
   Device.PeriodicFileTransfer.Profile.2.HTTP.
   Device.PeriodicFileTransfer.Profile.2.HTTP.URL="http://$TARGET_LAN_TEST_HOST:8484"
