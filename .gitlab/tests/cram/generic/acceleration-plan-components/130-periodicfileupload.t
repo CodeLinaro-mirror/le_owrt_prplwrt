@@ -3,7 +3,7 @@ Create R alias:
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
 Start Servefile to act as HTTP server:
-  $ servefile -u /tmp/ -p 8484 &
+  $ servefile -u /130-periodicfileuploads/ -p 8484 &
   $ servefile_pid="$!"
 
 Check PeriodicFileTransfer enable/disable functionality:
@@ -65,6 +65,10 @@ Check PeriodicFileTransfer on demand file upload:
   ]
   
 
+  $ ls /130-periodicfileuploads/; rm /130-periodicfileuploads/*
+   oops.tar
+  
+
 
 Check PeriodicFileTransfer on demand file upload with GZIP compression:
   $ R 'ba-cli "Device.PeriodicFileTransfer.Profile.cram-Profile-1.HTTP.Compression=GZIP"' | grep -v '>'; sleep 1
@@ -82,6 +86,10 @@ Check PeriodicFileTransfer on demand file upload with GZIP compression:
   ]
   
 
+  $ ls /130-periodicfileuploads/; rm /130-periodicfileuploads/*
+   oops.tar
+  
+
 
 Check PeriodicFileTransfer periodic upload with configured intervals
   $ R 'ba-cli "Device.PeriodicFileTransfer.Transfer.cram-Transfer-1.UploadInterval=10"' | grep -v '>'; sleep 1
@@ -90,7 +98,10 @@ Check PeriodicFileTransfer periodic upload with configured intervals
   
 
   $ R 'ba-cli "Device.PeriodicFileTransfer.Profile.cram-Profile-1.Enable=0"' > /dev/null; sleep 1
-  $ R 'ba-cli "Device.PeriodicFileTransfer.Profile.cram-Profile-1.Enable=1"' > /dev/null; sleep 15
+  $ R 'ba-cli "Device.PeriodicFileTransfer.Profile.cram-Profile-1.Enable=1"' > /dev/null; sleep 22
+  $ ls /130-periodicfileuploads/; rm /130-periodicfileuploads/*
+   oops.tar  'oops.tar(1)'
+  
 
 Check PeriodicFileTransfer retry mechanism for failed uploads:
 
@@ -99,3 +110,7 @@ Check PeriodicFileTransfer error code reporting for various failure scenarios
 
 Stop Servefile:
   $ kill "$servefile_pid"
+
+Cleanup test instances:
+  $ R 'ba-cli "Device.PeriodicFileTransfer.Transfer.cram-Transfer-1.Enable=0"' > /dev/null; sleep 1
+  $ R 'ba-cli "Device.PeriodicFileTransfer.Profile.cram-Profile-1.Enable=0"' > /dev/null; sleep 1
