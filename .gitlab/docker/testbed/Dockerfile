@@ -48,7 +48,8 @@ RUN pip3 install \
 	jira \
 	'marshmallow<3.0.0' \
 	pyjwt \
-	async-upnp-client
+	async-upnp-client \
+	servefile
 
 ENV TMATE_VERSION=2.4.0
 ENV TMATE_SHA256SUM=6e503a1a3b0f9117bce6ff7cc30cf61bdc79e9b32d074cf96deb0264e067a60d
