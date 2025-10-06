@@ -44,7 +44,7 @@ Check PeriodicFileTransfer transfer instance creation:
   Device.PeriodicFileTransfer.Transfer.3.Alias="cram-Transfer-1"
   Device.PeriodicFileTransfer.Transfer.3.Enable=1
   Device.PeriodicFileTransfer.Transfer.3.FileReference=""
-  Device.PeriodicFileTransfer.Transfer.3.NextTransferDate="2025-10-06T15:33:00Z"
+  Device.PeriodicFileTransfer.Transfer.3.NextTransferDate="\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z" (re)
   Device.PeriodicFileTransfer.Transfer.3.Origin="tr181-periodicfileupload"
   Device.PeriodicFileTransfer.Transfer.3.ProfileReference="PeriodicFileTransfer.Profile.2"
   Device.PeriodicFileTransfer.Transfer.3.Status="Idle"
