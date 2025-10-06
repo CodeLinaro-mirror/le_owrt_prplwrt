@@ -13,7 +13,7 @@ Check PeriodicFileTransfer profile creation in the data model:
   $ R "ba-cli \"Device.PeriodicFileTransfer.Profile.cram-Profile-1.HTTP.URL=\"http://$TARGET_LAN_TEST_HOST:8484\"\""
 
 Check PeriodicFileTransfer transfer instance creation:
-  $ R 'ba-cli "Device.PeriodicFileTransfer.Transfer.+{Alias=\"cram-Transfer-1\", ProfileReference=\"Device.PeriodicFileTransfer.Profile.2\", UploadInterval=3600}"'
+  $ R 'ba-cli "Device.PeriodicFileTransfer.Transfer.+{Alias=\"cram-Transfer-1\", ProfileReference=\"PeriodicFileTransfer.Profile.2\", UploadInterval=3600}"'
 
 Check PeriodicFileTransfer on demand file upload:
 
