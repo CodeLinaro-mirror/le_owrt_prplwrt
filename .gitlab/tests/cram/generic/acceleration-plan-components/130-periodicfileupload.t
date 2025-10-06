@@ -3,7 +3,7 @@ Create R alias:
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
 Start Servefile to act as HTTP server:
-  $ servefile -u /130-periodicfileuploads/ -p 8484 &
+  $ servefile -u /tmp/130-periodicfileuploads/ -p 8484 &
   $ servefile_pid="$!"
 
 Check PeriodicFileTransfer enable/disable functionality:
@@ -65,7 +65,7 @@ Check PeriodicFileTransfer on demand file upload:
   ]
   
 
-  $ ls /130-periodicfileuploads/; rm /130-periodicfileuploads/*
+  $ ls /tmp/130-periodicfileuploads/; rm /tmp/130-periodicfileuploads/*
    oops.tar
   
 
@@ -86,7 +86,7 @@ Check PeriodicFileTransfer on demand file upload with GZIP compression:
   ]
   
 
-  $ ls /130-periodicfileuploads/; rm /130-periodicfileuploads/*
+  $ ls /tmp/130-periodicfileuploads/; rm /tmp/130-periodicfileuploads/*
    oops.tar
   
 
@@ -99,7 +99,7 @@ Check PeriodicFileTransfer periodic upload with configured intervals
 
   $ R 'ba-cli "Device.PeriodicFileTransfer.Profile.cram-Profile-1.Enable=0"' > /dev/null; sleep 1
   $ R 'ba-cli "Device.PeriodicFileTransfer.Profile.cram-Profile-1.Enable=1"' > /dev/null; sleep 22
-  $ ls /130-periodicfileuploads/; rm /130-periodicfileuploads/*
+  $ ls /tmp/130-periodicfileuploads/; rm /tmp/130-periodicfileuploads/*
    oops.tar  'oops.tar(1)'
   
 
