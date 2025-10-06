@@ -12,8 +12,7 @@ Check PeriodicFileTransfer enable/disable functionality:
   $ R 'ba-cli "Device.PeriodicFileTransfer.Profile+{Alias=\"cram-Profile-1\"}"' > /dev/null; sleep 1
   $ R "ba-cli \"Device.PeriodicFileTransfer.Profile.cram-Profile-1.HTTP.URL=\"http://192.168.1.50:8484\"\"" > /dev/null; sleep 1
   $ R "ba-cli \"Device.PeriodicFileTransfer.Profile.cram-Profile-1.HTTP.Compression=\"None\"\"" > /dev/null; sleep 1
-  $ R "ba-cli \"Device.PeriodicFileTransfer.Profile.cram-Profile-1.?\""
-  > Device.PeriodicFileTransfer.Profile.cram-Profile-1.?
+  $ R "ba-cli \"Device.PeriodicFileTransfer.Profile.cram-Profile-1.?\"" | grep -v '>'
   Device.PeriodicFileTransfer.Profile.2.
   Device.PeriodicFileTransfer.Profile.2.Alias="cram-Profile-1"
   Device.PeriodicFileTransfer.Profile.2.Enable=1
@@ -38,8 +37,7 @@ Check PeriodicFileTransfer enable/disable functionality:
 
 Check PeriodicFileTransfer transfer instance creation:
   $ R 'ba-cli "Device.PeriodicFileTransfer.Transfer.+{Alias=\"cram-Transfer-1\", ProfileReference=\"PeriodicFileTransfer.Profile.2\", Type=\"KernelFaults\", Enable=1, UploadInterval=3600}"' > /dev/null; sleep 1
-  $ R 'ba-cli "Device.PeriodicFileTransfer.Transfer.cram-Transfer-1.?"'
-  > Device.PeriodicFileTransfer.Transfer.cram-Transfer-1.?
+  $ R 'ba-cli "Device.PeriodicFileTransfer.Transfer.cram-Transfer-1.?0"' | grep -v '>'
   Device.PeriodicFileTransfer.Transfer.3.
   Device.PeriodicFileTransfer.Transfer.3.Alias="cram-Transfer-1"
   Device.PeriodicFileTransfer.Transfer.3.Enable=1
@@ -60,32 +58,33 @@ Check PeriodicFileTransfer transfer instance creation:
 
 Check PeriodicFileTransfer on demand file upload:
 
-  $ R 'ba-cli "Device.PeriodicFileTransfer.Profile.cram-Profile-1.Enable=1"'
-  > Device.PeriodicFileTransfer.Profile.cram-Profile-1.Enable=1
-  Device.PeriodicFileTransfer.Profile.2.
-  Device.PeriodicFileTransfer.Profile.2.Enable=1
-
-
+  $ R 'ba-cli "Device.PeriodicFileTransfer.Profile.cram-Profile-1.Enable=1"' > /dev/null; sleep 1
   $ R 'ba-cli "Device.PeriodicFileTransfer.Transfer.cram-Transfer-1.ForceTransfer()"'
   [
-    {
-        data = "Transfer ended with error code (0)"
-    }
+      {
+          data = "Transfer ended with error code (0)"
+      }
   ]
 
 Check PeriodicFileTransfer on demand file upload with GZIP compression:
-  $ R 'ba-cli "Device.PeriodicFileTransfer.Profile.cram-Profile-1.HTTP.Compression=GZIP"'
+  $ R 'ba-cli "Device.PeriodicFileTransfer.Profile.cram-Profile-1.HTTP.Compression=GZIP"' | grep -v '>'; sleep 1
+  Device.PeriodicFileTransfer.Profile.2.HTTP.
+  Device.PeriodicFileTransfer.Profile.2.HTTP.Compression="GZIP"
+
+
   $ R 'ba-cli "Device.PeriodicFileTransfer.Transfer.cram-Transfer-1.ForceTransfer()"'
   [
-    {
-        data = "Transfer ended with error code (0)"
-    }
+      {
+          data = "Transfer ended with error code (0)"
+      }
   ]
 
 Check PeriodicFileTransfer periodic upload with configured intervals
-  $ R 'ba-cli "Device.PeriodicFileTransfer.Transfer.cram-Transfer-1.UploadInterval=30"'
-  $ R 'ba-cli "Device.PeriodicFileTransfer.Profile.cram-Profile-1.Enable=0"'
-  $ R 'ba-cli "Device.PeriodicFileTransfer.Profile.cram-Profile-1.Enable=1"'
+  $ R 'ba-cli "Device.PeriodicFileTransfer.Transfer.cram-Transfer-1.UploadInterval=30"' | grep -v '>'; sleep 1
+  Device.PeriodicFileTransfer.Transfer.3.
+  Device.PeriodicFileTransfer.Transfer.3.UploadInterval=30
+  $ R 'ba-cli "Device.PeriodicFileTransfer.Profile.cram-Profile-1.Enable=0"' > /dev/null; sleep 1
+  $ R 'ba-cli "Device.PeriodicFileTransfer.Profile.cram-Profile-1.Enable=1"' > /dev/null; sleep 35
 
 Check PeriodicFileTransfer retry mechanism for failed uploads:
 
