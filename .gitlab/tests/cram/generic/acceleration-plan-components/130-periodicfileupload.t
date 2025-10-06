@@ -66,8 +66,7 @@ Check PeriodicFileTransfer on demand file upload:
   
 
   $ ls /tmp/130-periodicfileuploads/; rm /tmp/130-periodicfileuploads/*
-   oops.tar
-  
+  oops.tar
 
 
 Check PeriodicFileTransfer on demand file upload with GZIP compression:
@@ -87,8 +86,7 @@ Check PeriodicFileTransfer on demand file upload with GZIP compression:
   
 
   $ ls /tmp/130-periodicfileuploads/; rm /tmp/130-periodicfileuploads/*
-   oops.tar
-  
+  oops.tar
 
 
 Check PeriodicFileTransfer periodic upload with configured intervals
@@ -100,8 +98,9 @@ Check PeriodicFileTransfer periodic upload with configured intervals
   $ R 'ba-cli "Device.PeriodicFileTransfer.Profile.cram-Profile-1.Enable=0"' > /dev/null; sleep 1
   $ R 'ba-cli "Device.PeriodicFileTransfer.Profile.cram-Profile-1.Enable=1"' > /dev/null; sleep 22
   $ ls /tmp/130-periodicfileuploads/; rm /tmp/130-periodicfileuploads/*
-   oops.tar  'oops.tar(1)'
-  
+  oops.tar
+  oops.tar(1)
+
 
 Check PeriodicFileTransfer retry mechanism for failed uploads:
 
