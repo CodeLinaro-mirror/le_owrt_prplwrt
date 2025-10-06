@@ -45,7 +45,7 @@ feeds:
   - name: opensource_apps_prpl
     uri: https://github.com/maxlinear/feed_opensource_apps_prpl.git
     tracking_branch: updk_9.2.0
-    revision: 47e2694f657f26ed749cd00b7825dc43116bb28a
+    revision: bb0bbd7614a8cb171a0f5d38061bb717ccb3b98a
   - name: packet_learn
     uri: https://github.com/maxlinear/feed_packet_learn.git
     tracking_branch: updk_9.2.0
