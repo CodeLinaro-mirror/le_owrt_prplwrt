@@ -1,7 +1,7 @@
 .testbed:
   stage: run
   image: "$CI_REGISTRY_IMAGE/$CI_DESIGNATED_BRANCH_SLUG/testbed:latest"
-  timeout: 40 minutes
+  timeout: 44 minutes
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
       when: never
