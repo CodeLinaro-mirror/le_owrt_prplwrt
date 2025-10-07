@@ -101,10 +101,10 @@ Assure USB. datamodel content with single SanDisk USB flash disk plugged in:
         "Reset": 0,
         "Alias": "usb-Host-2",
         "Type": "xHCI"
-      }
+      },
       "USB.USBHosts.Host.2.Device.[0-9]+.Configuration.1.": { (re)
         "ConfigurationNumber": 1,
         "InterfaceNumberOfEntries": 1
-      },
+      }
     }
   ]
