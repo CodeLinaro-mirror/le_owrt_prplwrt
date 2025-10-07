@@ -4,6 +4,7 @@ EasyMesh-Smoke-test-R1-Freedom:
     RUN_ON_DEVICE: "freedom"
     EASYMESH_REVISION: "R1"
     EASYMESH_TESTS_SIMPLE: "MAP-4.4.2_BHWIFI_FH5GH"
+    PYTHONUNBUFFERED: "1"
   interruptible: false
   allow_failure: true
   timeout: 40min
