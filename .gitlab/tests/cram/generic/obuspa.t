@@ -2869,17 +2869,30 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.STOMP.ConnectionNumberOfEntries
   Device.ScheduleTimer()                                                                               proto::tr181-device
   Device.ScheduleTimer() input:DelaySeconds
-  Device.Security.
-  Device.Security.Certificate.{i}.
-  Device.Security.Certificate.{i}.Issuer
-  Device.Security.Certificate.{i}.LastModif
-  Device.Security.Certificate.{i}.NotAfter
-  Device.Security.Certificate.{i}.NotBefore
-  Device.Security.Certificate.{i}.SerialNumber
-  Device.Security.Certificate.{i}.SignatureAlgorithm
-  Device.Security.Certificate.{i}.Subject
-  Device.Security.Certificate.{i}.SubjectAlt
-  Device.Security.CertificateNumberOfEntries
+  Device.Security.                                                                                     proto::tr181-security
+  Device.Security.CABundle.{i}.                                                                        proto::tr181-security
+  Device.Security.CABundle.{i}.CACertificates                                                          proto::tr181-security
+  Device.Security.CABundle.{i}.CADir()                                                                 proto::tr181-security
+  Device.Security.CABundle.{i}.CADir() output:CADir
+  Device.Security.CABundle.{i}.CAFile()                                                                proto::tr181-security
+  Device.Security.CABundle.{i}.CAFile() output:CAFile
+  Device.Security.CABundle.{i}.Enable                                                                  proto::tr181-security
+  Device.Security.CABundle.{i}.Name                                                                    proto::tr181-security
+  Device.Security.CABundleNumberOfEntries                                                              proto::tr181-security
+  Device.Security.Certificate.{i}.                                                                     proto::tr181-security
+  Device.Security.Certificate.{i}.Enable                                                               proto::tr181-security
+  Device.Security.Certificate.{i}.GetCertificateURI()                                                  proto::tr181-security
+  Device.Security.Certificate.{i}.GetCertificateURI() output:CertificateURI
+  Device.Security.Certificate.{i}.GetCertificateURI() output:PrivateKeyURI
+  Device.Security.Certificate.{i}.Issuer                                                               proto::tr181-security
+  Device.Security.Certificate.{i}.LastModif                                                            proto::tr181-security
+  Device.Security.Certificate.{i}.NotAfter                                                             proto::tr181-security
+  Device.Security.Certificate.{i}.NotBefore                                                            proto::tr181-security
+  Device.Security.Certificate.{i}.SerialNumber                                                         proto::tr181-security
+  Device.Security.Certificate.{i}.SignatureAlgorithm                                                   proto::tr181-security
+  Device.Security.Certificate.{i}.Subject                                                              proto::tr181-security
+  Device.Security.Certificate.{i}.SubjectAlt                                                           proto::tr181-security
+  Device.Security.CertificateNumberOfEntries                                                           proto::tr181-security
   Device.SelfTestDiagnostics()                                                                         proto::tr181-device
   Device.SelfTestDiagnostics() output:Results
   Device.SelfTestDiagnostics() output:Status
@@ -8366,17 +8379,30 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.STOMP.ConnectionNumberOfEntries
   Device.ScheduleTimer()                                                                               proto::tr181-device
   Device.ScheduleTimer() input:DelaySeconds
-  Device.Security.
-  Device.Security.Certificate.{i}.
-  Device.Security.Certificate.{i}.Issuer
-  Device.Security.Certificate.{i}.LastModif
-  Device.Security.Certificate.{i}.NotAfter
-  Device.Security.Certificate.{i}.NotBefore
-  Device.Security.Certificate.{i}.SerialNumber
-  Device.Security.Certificate.{i}.SignatureAlgorithm
-  Device.Security.Certificate.{i}.Subject
-  Device.Security.Certificate.{i}.SubjectAlt
-  Device.Security.CertificateNumberOfEntries
+  Device.Security.                                                                                     proto::tr181-security
+  Device.Security.CABundle.{i}.                                                                        proto::tr181-security
+  Device.Security.CABundle.{i}.CACertificates                                                          proto::tr181-security
+  Device.Security.CABundle.{i}.CADir()                                                                 proto::tr181-security
+  Device.Security.CABundle.{i}.CADir() output:CADir
+  Device.Security.CABundle.{i}.CAFile()                                                                proto::tr181-security
+  Device.Security.CABundle.{i}.CAFile() output:CAFile
+  Device.Security.CABundle.{i}.Enable                                                                  proto::tr181-security
+  Device.Security.CABundle.{i}.Name                                                                    proto::tr181-security
+  Device.Security.CABundleNumberOfEntries                                                              proto::tr181-security
+  Device.Security.Certificate.{i}.                                                                     proto::tr181-security
+  Device.Security.Certificate.{i}.Enable                                                               proto::tr181-security
+  Device.Security.Certificate.{i}.GetCertificateURI()                                                  proto::tr181-security
+  Device.Security.Certificate.{i}.GetCertificateURI() output:CertificateURI
+  Device.Security.Certificate.{i}.GetCertificateURI() output:PrivateKeyURI
+  Device.Security.Certificate.{i}.Issuer                                                               proto::tr181-security
+  Device.Security.Certificate.{i}.LastModif                                                            proto::tr181-security
+  Device.Security.Certificate.{i}.NotAfter                                                             proto::tr181-security
+  Device.Security.Certificate.{i}.NotBefore                                                            proto::tr181-security
+  Device.Security.Certificate.{i}.SerialNumber                                                         proto::tr181-security
+  Device.Security.Certificate.{i}.SignatureAlgorithm                                                   proto::tr181-security
+  Device.Security.Certificate.{i}.Subject                                                              proto::tr181-security
+  Device.Security.Certificate.{i}.SubjectAlt                                                           proto::tr181-security
+  Device.Security.CertificateNumberOfEntries                                                           proto::tr181-security
   Device.SelfTestDiagnostics()                                                                         proto::tr181-device
   Device.SelfTestDiagnostics() output:Results
   Device.SelfTestDiagnostics() output:Status
