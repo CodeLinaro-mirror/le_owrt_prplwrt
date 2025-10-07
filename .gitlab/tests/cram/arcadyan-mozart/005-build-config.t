@@ -367,7 +367,6 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_mod-xpon-prpl-mock=m
   CONFIG_PACKAGE_mosquitto-client-ssl=y
   CONFIG_PACKAGE_mosquitto-ssl=y
-  CONFIG_PACKAGE_mstpd=y
   CONFIG_PACKAGE_multisettings=y
   CONFIG_PACKAGE_netdev-plugin=y
   CONFIG_PACKAGE_netmodel=y
@@ -561,7 +560,6 @@ Assure expected build configuration (PCF-1413):
   CONFIG_SAH_AMX_TR069_MANAGER_ORDER=98
   CONFIG_SAH_AMX_TR069_MANAGER_USE_GSDM=y
   CONFIG_SAH_AMX_TR181_BRIDGING=y
-  CONFIG_SAH_AMX_TR181_BRIDGING_MSTPD=y
   CONFIG_SAH_AMX_TR181_BRIDGING_RUN_AS_GROUP="tr181_app"
   CONFIG_SAH_AMX_TR181_BRIDGING_RUN_AS_USER="tr181_app"
   CONFIG_SAH_AMX_TR181_BULKDATA=y
