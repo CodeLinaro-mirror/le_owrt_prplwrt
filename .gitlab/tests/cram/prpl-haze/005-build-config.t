@@ -463,11 +463,8 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_tr181-dslite=y
   CONFIG_PACKAGE_tr181-dynamicdns=y
   CONFIG_PACKAGE_tr181-firewall=y
-<<<<<<< HEAD
   CONFIG_PACKAGE_tr181-gnimanager=y
-=======
   CONFIG_PACKAGE_tr181-homeplug=y
->>>>>>> 20eb6fed72 (ci: cram: update tests after introduction of network mapper)
   CONFIG_PACKAGE_tr181-httpaccess=y
   CONFIG_PACKAGE_tr181-ipdiagnostics=y
   CONFIG_PACKAGE_tr181-led=y
