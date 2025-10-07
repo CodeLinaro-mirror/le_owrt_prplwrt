@@ -8,7 +8,7 @@ description: Build image for prpl Foundation Freedom board
 feeds:
   - name: feed_qca
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-qca.git
-    revision: latest-24.10@290bcaadb5fef987623bb3caad4640b989852a8f
+    revision: latest-24.10@c14c2c3d4c08bcdd41eaae0de77d6df7dc1ab379
 
 packages:
   - ipq95xx
