@@ -18,10 +18,9 @@ Wait for Device.WiFi. datamodel availability:
 
   $ sleep 10
 
-Try Suspending prplMesh processes:
+Stop prplMesh:
 
-  $ R "killall -SIGSTOP beerocks_agent > /dev/null 2>&1 || true"
-  $ R "killall -SIGSTOP beerocks_fronthaul > /dev/null 2>&1 || true"
+  $ R "/etc/init.d/prplmesh stop 2>&1 > /dev/null"
 
 Set AutoChannelEnable=0 on all WiFi.Radio. interfaces:
 
@@ -393,10 +392,9 @@ Restore defautlt MLDUnit values:
   $ R "ba-cli -j -l WiFi.AccessPoint.6.SSIDReference+.MLDUnit=1 |jsonfilter -e @[0]'[*].MLDUnit' "
   1
 
-Resume prplMesh processes:
+Resume prplMesh:
 
-  $ R "killall -SIGCONT beerocks_agent > /dev/null 2>&1 || true"
-  $ R "killall -SIGCONT beerocks_fronthaul > /dev/null 2>&1 || true"
+  $ R "/etc/init.d/prplmesh start 2>&1 > /dev/null"
 
   $ R logger -t cram "Stopping MLO test .."
 
