@@ -4,8 +4,7 @@ Create R alias:
 
 Check that there is SFP+ stick present:
 
-  $ R 'ba-cli --less --json SFPs.SFPCage.1.SFP.Transceiver.?' | jq -r '.[0]."SFPs.SFPCage.1.SFP.Transceiver." | [.VendorSN, .VendorPN, .TransceiverType, .VendorName] | sort | .[]'
-  10G Base-SR
+  $ R 'ba-cli --less --json SFPs.Mgmt.SFF8472.1.Transceiver.?' | jq -r '.[0]."SFPs.Mgmt.SFF8472.1.Transceiver." | [.VendorSN, .VendorPN, .VendorName] | sort | .[]'
   F\d+$ (re)
   FS
   SFP-10G-T
