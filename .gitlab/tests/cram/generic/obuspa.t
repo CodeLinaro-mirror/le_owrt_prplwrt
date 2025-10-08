@@ -4497,6 +4497,31 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.X_PRPLWARE-COM_ConnectionTrackingQuery.RetrieveFlows() input:Protocol
   Device.X_PRPLWARE-COM_ConnectionTrackingQuery.RetrieveFlows() input:SourceIP
   Device.X_PRPLWARE-COM_ConnectionTrackingQuery.RetrieveFlows() input:SourcePort
+  Device.X_PRPLWARE-COM_GenericNetworkInterface.                                                       proto::tr181-gnimanager
+  Device.X_PRPLWARE-COM_GenericNetworkInterface.Interface.{i}.                                         proto::tr181-gnimanager
+  Device.X_PRPLWARE-COM_GenericNetworkInterface.Interface.{i}.Alias                                    proto::tr181-gnimanager
+  Device.X_PRPLWARE-COM_GenericNetworkInterface.Interface.{i}.Enable                                   proto::tr181-gnimanager
+  Device.X_PRPLWARE-COM_GenericNetworkInterface.Interface.{i}.LastChange                               proto::tr181-gnimanager
+  Device.X_PRPLWARE-COM_GenericNetworkInterface.Interface.{i}.LowerLayers                              proto::tr181-gnimanager
+  Device.X_PRPLWARE-COM_GenericNetworkInterface.Interface.{i}.Name                                     proto::tr181-gnimanager
+  Device.X_PRPLWARE-COM_GenericNetworkInterface.Interface.{i}.Stats.                                   proto::tr181-gnimanager
+  Device.X_PRPLWARE-COM_GenericNetworkInterface.Interface.{i}.Stats.BroadcastPacketsReceived           proto::tr181-gnimanager
+  Device.X_PRPLWARE-COM_GenericNetworkInterface.Interface.{i}.Stats.BroadcastPacketsSent               proto::tr181-gnimanager
+  Device.X_PRPLWARE-COM_GenericNetworkInterface.Interface.{i}.Stats.BytesReceived                      proto::tr181-gnimanager
+  Device.X_PRPLWARE-COM_GenericNetworkInterface.Interface.{i}.Stats.BytesSent                          proto::tr181-gnimanager
+  Device.X_PRPLWARE-COM_GenericNetworkInterface.Interface.{i}.Stats.DiscardPacketsReceived             proto::tr181-gnimanager
+  Device.X_PRPLWARE-COM_GenericNetworkInterface.Interface.{i}.Stats.DiscardPacketsSent                 proto::tr181-gnimanager
+  Device.X_PRPLWARE-COM_GenericNetworkInterface.Interface.{i}.Stats.ErrorsReceived                     proto::tr181-gnimanager
+  Device.X_PRPLWARE-COM_GenericNetworkInterface.Interface.{i}.Stats.ErrorsSent                         proto::tr181-gnimanager
+  Device.X_PRPLWARE-COM_GenericNetworkInterface.Interface.{i}.Stats.MulticastPacketsReceived           proto::tr181-gnimanager
+  Device.X_PRPLWARE-COM_GenericNetworkInterface.Interface.{i}.Stats.MulticastPacketsSent               proto::tr181-gnimanager
+  Device.X_PRPLWARE-COM_GenericNetworkInterface.Interface.{i}.Stats.PacketsReceived                    proto::tr181-gnimanager
+  Device.X_PRPLWARE-COM_GenericNetworkInterface.Interface.{i}.Stats.PacketsSent                        proto::tr181-gnimanager
+  Device.X_PRPLWARE-COM_GenericNetworkInterface.Interface.{i}.Stats.UnicastPacketsReceived             proto::tr181-gnimanager
+  Device.X_PRPLWARE-COM_GenericNetworkInterface.Interface.{i}.Stats.UnicastPacketsSent                 proto::tr181-gnimanager
+  Device.X_PRPLWARE-COM_GenericNetworkInterface.Interface.{i}.Stats.UnknownProtoPacketsReceived        proto::tr181-gnimanager
+  Device.X_PRPLWARE-COM_GenericNetworkInterface.Interface.{i}.Status                                   proto::tr181-gnimanager
+  Device.X_PRPLWARE-COM_GenericNetworkInterface.InterfaceNumberOfEntries                               proto::tr181-gnimanager
   Device.X_PRPLWARE-COM_MultiSettings.                                                                 proto::multisettings
   Device.X_PRPLWARE-COM_MultiSettings.CurrentProfile                                                   proto::multisettings
   Device.X_PRPLWARE-COM_MultiSettings.DecisionMadeBy                                                   proto::multisettings
@@ -9283,6 +9308,31 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.X_PRPLWARE-COM_ConnectionTrackingQuery.RetrieveFlows() input:Protocol
   Device.X_PRPLWARE-COM_ConnectionTrackingQuery.RetrieveFlows() input:SourceIP
   Device.X_PRPLWARE-COM_ConnectionTrackingQuery.RetrieveFlows() input:SourcePort
+  Device.X_PRPLWARE-COM_GenericNetworkInterface.                                                       proto::tr181-gnimanager
+  Device.X_PRPLWARE-COM_GenericNetworkInterface.Interface.{i}.                                         proto::tr181-gnimanager
+  Device.X_PRPLWARE-COM_GenericNetworkInterface.Interface.{i}.Alias                                    proto::tr181-gnimanager
+  Device.X_PRPLWARE-COM_GenericNetworkInterface.Interface.{i}.Enable                                   proto::tr181-gnimanager
+  Device.X_PRPLWARE-COM_GenericNetworkInterface.Interface.{i}.LastChange                               proto::tr181-gnimanager
+  Device.X_PRPLWARE-COM_GenericNetworkInterface.Interface.{i}.LowerLayers                              proto::tr181-gnimanager
+  Device.X_PRPLWARE-COM_GenericNetworkInterface.Interface.{i}.Name                                     proto::tr181-gnimanager
+  Device.X_PRPLWARE-COM_GenericNetworkInterface.Interface.{i}.Stats.                                   proto::tr181-gnimanager
+  Device.X_PRPLWARE-COM_GenericNetworkInterface.Interface.{i}.Stats.BroadcastPacketsReceived           proto::tr181-gnimanager
+  Device.X_PRPLWARE-COM_GenericNetworkInterface.Interface.{i}.Stats.BroadcastPacketsSent               proto::tr181-gnimanager
+  Device.X_PRPLWARE-COM_GenericNetworkInterface.Interface.{i}.Stats.BytesReceived                      proto::tr181-gnimanager
+  Device.X_PRPLWARE-COM_GenericNetworkInterface.Interface.{i}.Stats.BytesSent                          proto::tr181-gnimanager
+  Device.X_PRPLWARE-COM_GenericNetworkInterface.Interface.{i}.Stats.DiscardPacketsReceived             proto::tr181-gnimanager
+  Device.X_PRPLWARE-COM_GenericNetworkInterface.Interface.{i}.Stats.DiscardPacketsSent                 proto::tr181-gnimanager
+  Device.X_PRPLWARE-COM_GenericNetworkInterface.Interface.{i}.Stats.ErrorsReceived                     proto::tr181-gnimanager
+  Device.X_PRPLWARE-COM_GenericNetworkInterface.Interface.{i}.Stats.ErrorsSent                         proto::tr181-gnimanager
+  Device.X_PRPLWARE-COM_GenericNetworkInterface.Interface.{i}.Stats.MulticastPacketsReceived           proto::tr181-gnimanager
+  Device.X_PRPLWARE-COM_GenericNetworkInterface.Interface.{i}.Stats.MulticastPacketsSent               proto::tr181-gnimanager
+  Device.X_PRPLWARE-COM_GenericNetworkInterface.Interface.{i}.Stats.PacketsReceived                    proto::tr181-gnimanager
+  Device.X_PRPLWARE-COM_GenericNetworkInterface.Interface.{i}.Stats.PacketsSent                        proto::tr181-gnimanager
+  Device.X_PRPLWARE-COM_GenericNetworkInterface.Interface.{i}.Stats.UnicastPacketsReceived             proto::tr181-gnimanager
+  Device.X_PRPLWARE-COM_GenericNetworkInterface.Interface.{i}.Stats.UnicastPacketsSent                 proto::tr181-gnimanager
+  Device.X_PRPLWARE-COM_GenericNetworkInterface.Interface.{i}.Stats.UnknownProtoPacketsReceived        proto::tr181-gnimanager
+  Device.X_PRPLWARE-COM_GenericNetworkInterface.Interface.{i}.Status                                   proto::tr181-gnimanager
+  Device.X_PRPLWARE-COM_GenericNetworkInterface.InterfaceNumberOfEntries                               proto::tr181-gnimanager
   Device.X_PRPLWARE-COM_MultiSettings.                                                                 proto::multisettings
   Device.X_PRPLWARE-COM_MultiSettings.CurrentProfile                                                   proto::multisettings
   Device.X_PRPLWARE-COM_MultiSettings.DecisionMadeBy                                                   proto::multisettings
