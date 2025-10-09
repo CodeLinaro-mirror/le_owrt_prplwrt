@@ -25,7 +25,8 @@ get_container_name() {
 	board_name=$(cut -d',' -f2 </tmp/sysinfo/board_name)
 	case "${board_name}" in
 	"haze" | \
-		"freedom")
+		"freedom" \
+		"mozart")
 		echo lcm-test-ipq807x-generic
 		;;
 	"lgm" | \
@@ -46,7 +47,8 @@ get_board_arch() {
 	board_name=$(cut -d',' -f2 </tmp/sysinfo/board_name)
 	case "${board_name}" in
 	"haze" | \
-		"freedom")
+		"freedom" \
+		"mozart")
 		echo cortexa53
 		;;
 	"lgm" | \
