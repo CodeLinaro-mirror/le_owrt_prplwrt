@@ -7,7 +7,7 @@ DEFAULT_HOSTOBJECT='[{Source="/tmp/testdir", Destination="/testdir", Options="ty
 DEFAULT_NETWORK='{AccessInterfaces = [{Reference = "Lan"}]}'
 DEFAULT_EE="generic"
 DEFAULT_APPDATA='[{Name = "Volume1", Capacity = 1, Retain = "UntilStopped", AccessPath = "/volume1"}, {Name = "Volume2", Capacity = 1, Retain = "Forever", AccessPath = "/volume2"}]'
-DEFAULT_URL="docker://registry.gitlab.com/prpl-foundation/prplos/prplos/prplos"
+DEFAULT_URL="docker://registry.gitlab.com/prpl-foundation/prplos/prplos"
 DEFAULT_USPROLES="Full Access"
 DEFAULT_USPREQUIRED="Full Access"
 DEFAULT_USPOPTIONAL=""
@@ -42,6 +42,35 @@ get_container_name() {
 	esac
 }
 
+get_container_by_name() {
+        arg=$1
+        ctr_name=$(echo $arg | cut -d ':' -f 1) ## strip the version if any
+
+        if [ ${ctr_name} = "alpine" ]; then
+            board_name=$(cut -d',' -f2 </tmp/sysinfo/board_name)
+            case "${board_name}" in
+            "haze" | \
+                    "freedom")
+                    hw_ctr_name="alpine3.16-arm32v7"
+                   ;;
+            "lgm" | \
+                    "qemu-standard-pc-"*)
+                    hw_ctr_name="alpine3.16-amd64"
+                    ;;
+            "turris-omnia")
+                    hw_ctr_name="alpine3.16-cortexa9"
+                    ;;
+            *)
+                    hw_ctr_name="alpine3.16-arm32v7"
+                    ;;
+            esac
+        else
+           hw_ctr_name="unknown"
+        fi
+
+        echo "${hw_ctr_name}"
+}
+
 ## Return architecture name for the board
 get_board_arch() {
 	board_name=$(cut -d',' -f2 </tmp/sysinfo/board_name)
@@ -63,6 +92,18 @@ get_board_arch() {
 		;;
 	esac
 }
+
+get_container_version_by_name() {
+        arg=$1
+        version=$(echo $arg | cut -s -d ':' -f 2) ## Get version if any
+
+        if [ -n "${version}" ]; then
+            echo "${version}"
+        else
+           echo "latest"
+        fi
+}
+
 
 concat_comma_string() {
 	_concat_global_str="$1"
@@ -200,9 +241,13 @@ install_update_ctr_with_params() {
 			if [ "${key}" = "url" ]; then
 				#value=$(value_or_default "${value_missing}" "$(get_container_url)" "${value}")
 				str_params=$(concat_comma_string "${str_params}" "URL = \"${value}\"")
+			elif [ "${key}" = "name" ]; then
+				ctr_name=$(get_container_by_name ${value})
+                                ctr_version=$(get_container_version_by_name ${value})
+				str_params=$(concat_comma_string "${str_params}" "URL = \"${DEFAULT_URL}/${ctr_name}:${ctr_version}\"")
 			elif [ "${key}" = "version" ]; then
 				ctr_name=$(get_container_name)
-				str_params=$(concat_comma_string "${str_params}" "URL = \"${DEFAULT_URL}/${ctr_name}:${value}\"")
+				str_params=$(concat_comma_string "${str_params}" "URL = \"${DEFAULT_URL}/prplos/${ctr_name}:${value}\"")
 			elif [ "${key}" = "uuid" ]; then
 				value=$(value_or_default "${value_missing}" "${DEFAULT_UUID}" "${value}")
 				str_params=$(concat_comma_string "${str_params}" "UUID = ${value}")
