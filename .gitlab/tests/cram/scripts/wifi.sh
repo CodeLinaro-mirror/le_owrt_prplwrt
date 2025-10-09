@@ -449,3 +449,32 @@ dm_affilated_mac_list_from_mldid() {
 
   printf "%b" "$output"
 }
+
+
+# Get current PowerType for the given radio index
+# Usage: dm_radio_powertype_get <radio_index>
+dm_radio_powertype_get() {
+  local radio_idx="${1:?Usage: dm_radio_powertype_get <radio_index>}"
+  R "ba-cli -j -l Device.WiFi.Radio.${radio_idx}.PowerType? | jsonfilter -e @[0]'[*].PowerType'" | sed '/^$/d'
+}
+
+# Set PowerType for the given radio index (e.g. VeryLowPower, Indoor, StandardPower)
+# Usage: dm_radio_powertype_set <radio_index> <PowerType>
+dm_radio_powertype_set() {
+  local radio_idx="${1:?Usage: dm_radio_powertype_set <radio_index> <VeryLowPower|Indoor|StandardPower>}"
+  local power_type="${2:?Usage: dm_radio_powertype_set <radio_index> <VeryLowPower|Indoor|StandardPower>}"
+  R "ba-cli -j -l Device.WiFi.Radio.${radio_idx}.PowerType=${power_type} | jsonfilter -e @[0]'[*].PowerType'" | sed '/^$/d'
+}
+
+# Get RegulatoryDomain (country code) for all radios
+# Usage: dm_radio_regulatory_domain_get
+dm_radio_regulatory_domain_get() {
+  R "ba-cli -j -l Device.WiFi.Radio.*.RegulatoryDomain? | jsonfilter -e @[0]'[*].RegulatoryDomain'" | sed '/^$/d'
+}
+
+# Set RegulatoryDomain (country code) for all radios
+# Usage: dm_radio_regulatory_domain_set <country_code>
+dm_radio_regulatory_domain_set() {
+  local country="${1:?Usage: dm_radio_regulatory_domain_set <country_code>}"
+  R "ba-cli -j -l Device.WiFi.Radio.*.RegulatoryDomain=${country} | jsonfilter -e @[0]'[*].RegulatoryDomain'" | sed '/^$/d'
+}

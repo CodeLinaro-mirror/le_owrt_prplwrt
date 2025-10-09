@@ -4777,6 +4777,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.Radio.{i}.OperationalDataTransmitRates                                                   proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.PacketAggregationEnable                                                        proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.PossibleChannels                                                               proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.PowerType                                                                      proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.PreambleType                                                                   proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.RTSThreshold                                                                   proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.RadCaps.                                                                       proto::prplmesh-dm-mapper
@@ -10287,6 +10288,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.Radio.{i}.OperationalDataTransmitRates                                                   proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.PacketAggregationEnable                                                        proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.PossibleChannels                                                               proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.PowerType                                                                      proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.PreambleType                                                                   proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.RTSThreshold                                                                   proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.RadCaps.                                                                       proto::prplmesh-dm-mapper
