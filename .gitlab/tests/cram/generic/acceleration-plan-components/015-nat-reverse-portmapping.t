@@ -1,38 +1,47 @@
 Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
+  $ alias C="${CRAM_REMOTE_COPY:-}"
+  $ S=". /tmp/script_functions.sh"
+  $ C ${TESTDIR}/../lcm/script_functions.sh root@${TARGET_LAN_IP}:/tmp/script_functions.sh 2>/dev/null
 
-Install LCM Alpine container:
 
-  $ if [ "$DUT_ARCH" = "x86_64" ]; then
-  >   (R "ba-cli 'SoftwareModules.InstallDU(URL = \"docker://registry.gitlab.com/prpl-foundation/prplos/prplos/alpine3.16-amd64\", ExecutionEnvRef = generic, UUID = 3952a1c9-e02e-5b06-abd2-e789dd6e0000, Privileged = true, NetworkConfig=[])'") >> /dev/null
-  >   else
-  >   (R "ba-cli 'SoftwareModules.InstallDU(URL = \"docker://registry.gitlab.com/prpl-foundation/prplos/prplos/alpine3.16-arm32v7\", ExecutionEnvRef = generic, UUID = 3952a1c9-e02e-5b06-abd2-e789dd6e0000, Privileged = true, NetworkConfig=[])'") >> /dev/null
-  >   fi
+## Configure capabilities required by the test:
+Prepare the test setup
+  $ R "${S} && add_user_role --rolename full_caps --capabilities \"CAP_AUDIT_CONTROL,CAP_AUDIT_READ,CAP_AUDIT_WRITE,CAP_BLOCK_SUSPEND,CAP_BPF,CAP_CHECKPOINT_RESTORE,CAP_CHOWN,CAP_DAC_OVERRIDE,CAP_DAC_READ_SEARCH,CAP_FOWNER,CAP_FSETID,CAP_IPC_LOCK,CAP_IPC_OWNER,CAP_KILL,CAP_LEASE,CAP_LINUX_IMMUTABLE,CAP_MAC_ADMIN,CAP_MAC_OVERRIDE,CAP_MKNOD,CAP_NET_ADMIN,CAP_NET_BIND_SERVICE,CAP_NET_BROADCAST,CAP_NET_RAW,CAP_PERFMON,CAP_SETFCAP,CAP_SETGID,CAP_SETPCAP,CAP_SETUID,CAP_SYS_ADMIN,CAP_SYS_BOOT,CAP_SYS_CHROOT,CAP_SYS_MODULE,CAP_SYS_NICE,CAP_SYS_PACCT,CAP_SYS_PTRACE,CAP_SYS_RAWIO,CAP_SYS_RESOURCE,CAP_SYS_TIME,CAP_SYS_TTY_CONFIG,CAP_SYSLOG,CAP_WAKE_ALARM\""
+  
+  {"Device.Users.Role.*.":{"Alias":"full_caps","RoleName":"full_caps"}} (glob)
+  
 
-Get container name:
+  $ R "${S} && set_ee_roles --userroles \"full_caps\""
+  
+  SoftwareModules.ExecEnv.1.ModifyAvailableRoles() returned
+  ["",{"err_code":0,"err_msg":""}]
+  
 
-  $ container_name=$(R "ba-cli -j -l \"SoftwareModules.DeploymentUnit.[UUID == '3952a1c9-e02e-5b06-abd2-e789dd6e0000'].?\" | jsonfilter -e @[0]'[*].DUID'")
-  $ if [ ! -z "$container_name" ]; then echo "Container name found"; fi
-  Container name found
+Install test container:
 
-Get container IP:
+  $ R "${S} && install_ctr --name alpine --ee --uuid --privileged true --network '{PortForwarding = [{Interface = Lan, ExternalPort = 22222, InternalPort = 11111, Protocol = TCP}]}' --userroles full_caps" > /dev/null
+  $ R "${S} && get_container_info --uuid"
+  Active
+  latest
+  prpl-foundation/prplos/prplos/* (glob)
 
-  $ container_ip=$(R "lxc-info -iH $container_name | head -n 1")
-  $ if [ ! -z "$container_ip" ]; then echo "Container IP found"; fi
-  Container IP found
+Check NetworkConfig correctly applied:
 
-Create portmapping:
+  $ sleep 30
+  $ container_ip=$(R "${S} && get_ctr_ip --uuid")
 
-  $ if [ ! -z "$container_ip" ]; then (R "ba-cli 'NAT.PortMapping.+{Alias=\"testing\", Enable=1, ExternalPort=22222, InternalPort=11111, HairpinNAT=0, Interface=\"Device.IP.Interface.3\", InternalClient=\"${container_ip}\", Protocol=\"TCP\", RemoteHost=\"${TARGET_LAN_TEST_HOST}\"}'") >> /dev/null; fi
 
 Check iptables rule:
 
-  $ (R "iptables -t nat -S PREROUTING_PortForwarding_1 | grep -q -- '-A PREROUTING_PortForwarding_1 -s ${TARGET_LAN_TEST_HOST}/32 -d ${TARGET_LAN_IP}/32 -p tcp -m tcp --dport 22222 -j DNAT --to-destination ${container_ip}:11111'")
+  $ R "iptables -t nat -S | grep ${container_ip}:11111"
+  -A PREROUTING_PortForwarding_* -d */32 -p tcp -m tcp --dport 22222 -j DNAT --to-destination *:11111 (glob)
+
 
 Listen for TCP packet inside container on port 11111:
 
-  $ (R "(lxc-attach $container_name -- sh -c 'nc -k -l -w 5 -p 11111 > /tmp/${container_name}_output.txt' &)")
+  $ R "${S} && execute_in_container --uuid --cmd 'nc -k -l -w 5 -p 11111 > /tmp/netcat_output.txt' &"
 
 Send TCP packet on port 22222 from LAN host:
 
@@ -41,13 +50,31 @@ Send TCP packet on port 22222 from LAN host:
 
 Check that packet has been received:
 
-  $ (R "lxc-attach $container_name -- sh -c 'cat /tmp/${container_name}_output.txt'")
+  $ R "${S} && execute_in_container --uuid --cmd 'cat /tmp/netcat_output.txt'"
   hello from lan host
 
-Remove portmapping:
 
-  $ if [ ! -z "$container_ip" ]; then (R "ba-cli 'NAT.PortMapping.testing.-'") >> /dev/null; fi
+Remove the container and check everything is cleaned:
 
-Remove container:
+  $ R "${S} && uninstall_ctr_and_check --uuid"
+  [1]
 
-  $ (R "ba-cli 'SoftwareModules.DeploymentUnit.cpe-${container_name}.Uninstall()'") >> /dev/null
+
+Remove the role from the ExecutionEnvironment
+
+  $ R "${S} && set_ee_roles --userroles \"\""
+  
+  SoftwareModules.ExecEnv.1.ModifyAvailableRoles() returned
+  ["",{"err_code":0,"err_msg":""}]
+  
+
+Remove full_caps from Devices.User.Role
+
+  $ R "${S} && remove_user_role --rolename full_caps"
+  
+  ["Device.Users.Role.*."] (glob)
+  
+
+Cleanup test environment:
+
+  $ R "rm -f /tmp/script_functions.sh"
