@@ -112,7 +112,7 @@ targets:
         console_ready: Please press Enter to activate this console.
         prompt: 'root@[\w()]+:[^ ]+ '
         login_prompt: built-in shell (ash)
-        login_timeout: 75
+        login_timeout: 80
         await_login_timeout: 16
         username: kingbanik
       UBootDriver:
@@ -174,7 +174,7 @@ targets:
         console_ready: Please press Enter to activate this console.
         prompt: 'root@[\w()]+:[^ ]+ '
         login_prompt: built-in shell (ash)
-        login_timeout: 75
+        login_timeout: 80
         await_login_timeout: 16
         username: kingbanik
       UBootDriver:
