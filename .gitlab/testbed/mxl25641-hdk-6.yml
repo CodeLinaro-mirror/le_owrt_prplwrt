@@ -12,4 +12,4 @@
     DUT_ARCH_PACKAGES_PATH: $PACKAGE_DIR/${DUT_ARCH}
     CDROUTER_CONFIG_LAN_IFACE_ALIAS: ETH0_3
   tags:
-    - dut-mxl25641-hdk-6
+    - dut-mxl25641-hdk-6-capgemini-testing
