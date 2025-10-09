@@ -4778,6 +4778,7 @@ Device.WiFi.Radio.{i}.OperatingStandards                                        
 Device.WiFi.Radio.{i}.OperationalDataTransmitRates                                                   proto::prplmesh-dm-mapper
 Device.WiFi.Radio.{i}.PacketAggregationEnable                                                        proto::prplmesh-dm-mapper
 Device.WiFi.Radio.{i}.PossibleChannels                                                               proto::prplmesh-dm-mapper
+Device.WiFi.Radio.{i}.PowerType                                                                      proto::prplmesh-dm-mapper
 Device.WiFi.Radio.{i}.PreambleType                                                                   proto::prplmesh-dm-mapper
 Device.WiFi.Radio.{i}.RTSThreshold                                                                   proto::prplmesh-dm-mapper
 Device.WiFi.Radio.{i}.RadCaps.                                                                       proto::prplmesh-dm-mapper
