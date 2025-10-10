@@ -137,7 +137,7 @@ prplWare-Smoke-Test-Suite Haze initramfs:
       .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
       .gitlab/scripts/dut-init/cdrouter-dut-configure-prplmesh-controller.sh
 
-prplOS-Network-Test-Plan-Mandatory-v1.1.0 Haze initramfs:
+.prpl-haze-certification: &prpl_haze_certification
   <<: *prpl_haze_ipv6
   stage: certification tests
   timeout: 70 minutes
@@ -152,3 +152,10 @@ prplOS-Network-Test-Plan-Mandatory-v1.1.0 Haze initramfs:
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
       .gitlab/scripts/dut-init/cdrouter-dut-configure-cwmpd.sh
       .gitlab/scripts/dut-init/cdrouter-dut-configure-prplos-certification.sh
+
+prplOS-Network-Test-Plan-Mandatory-v1.1.0 Haze initramfs:
+  <<: *prpl_haze_certification
+
+prplOS-Network-Test-Plan-Candidate-v1.1.0 Haze initramfs:
+  <<: *prpl_haze_certification
+  timeout: 90 minutes
