@@ -85,6 +85,7 @@ packages:
   - tr181-routeradvertisement
   - tr181-sfp
   - tr181-upnp
+  - tr181-upnpdiscovery
   - tr181-usb
   - tr181-xpon
   - wan-manager
