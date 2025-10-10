@@ -127,7 +127,7 @@ prplWare-Smoke-Test-Suite Mozart initramfs:
       .gitlab/scripts/dut-init/cdrouter-tr181-mockups.sh
       .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
 
-prplOS-Network-Test-Plan-Mandatory-v1.1.0 Mozart initramfs:
+.arcadyan-mozart-certification: &arcadyan_mozart_certification
   <<: *arcadyan_mozart_ipv6
   stage: certification tests
   timeout: 70 minutes
@@ -141,3 +141,10 @@ prplOS-Network-Test-Plan-Mandatory-v1.1.0 Mozart initramfs:
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
       .gitlab/scripts/dut-init/cdrouter-dut-configure-cwmpd.sh
       .gitlab/scripts/dut-init/cdrouter-dut-configure-prplos-certification.sh
+
+prplOS-Network-Test-Plan-Mandatory-v1.1.0 Mozart initramfs:
+  <<: *arcadyan_mozart_certification
+
+prplOS-Network-Test-Plan-Candidate-v1.1.0 Mozart initramfs:
+  <<: *arcadyan_mozart_certification
+  timeout: 90 minutes

@@ -125,7 +125,7 @@ prplWare-Smoke-Test-Suite MXL25641-HDK-6 eMMC:
       .gitlab/scripts/dut-init/cdrouter-tr181-mockups.sh
       .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
 
-prplOS-Network-Test-Plan-Mandatory-v1.1.0 MXL25641-HDK-6 eMMC:
+.mxl25641-certification: &mxl25641_certification
   <<: *mxl25641_cdrouter_ipv6
   timeout: 70 minutes
   stage: certification tests
@@ -139,3 +139,10 @@ prplOS-Network-Test-Plan-Mandatory-v1.1.0 MXL25641-HDK-6 eMMC:
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
       .gitlab/scripts/dut-init/cdrouter-dut-configure-cwmpd.sh
       .gitlab/scripts/dut-init/cdrouter-dut-configure-prplos-certification.sh
+
+prplOS-Network-Test-Plan-Mandatory-v1.1.0 MXL25641-HDK-6 eMMC:
+  <<: *mxl25641_certification
+
+prplOS-Network-Test-Plan-Candidate-v1.1.0 MXL25641-HDK-6 eMMC:
+  <<: *mxl25641_certification
+  timeout: 90 minutes
