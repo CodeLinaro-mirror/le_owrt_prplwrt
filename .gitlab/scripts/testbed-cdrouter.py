@@ -346,6 +346,45 @@ class TestbedCDRouter:
 
             time.sleep(5)
 
+    def check_connectivity(self):
+        """Check CDRouter API connectivity with exponential backoff retry."""
+        self.connect()
+
+        timeout = getattr(self.args, "timeout", 30)
+        start_time = time.time()
+        retry_delay = 1
+
+        while time.time() - start_time < timeout:
+            try:
+                self.cdr.system.interfaces()
+                logging.info("CDRouter API is reachable")
+                exit(0)
+            except (ConnectionError, RemoteDisconnected) as e:
+                elapsed = time.time() - start_time
+                remaining = timeout - elapsed
+
+                if remaining <= 0:
+                    logging.error(
+                        "CDRouter API connectivity check failed after {}s: {}".format(
+                            timeout, str(e)
+                        )
+                    )
+                    exit(1)
+
+                logging.warning(
+                    "CDRouter API not reachable (attempt after {:.1f}s): {}. Retrying in {}s...".format(
+                        elapsed, str(e), retry_delay
+                    )
+                )
+                time.sleep(retry_delay)
+
+                retry_delay = min(retry_delay * 2, remaining)
+
+        logging.error(
+            "CDRouter API connectivity check failed after {}s".format(timeout)
+        )
+        exit(1)
+
     def package_stop(self):
         self.connect()
 
@@ -542,6 +581,18 @@ def main():
         help="wait duration in seconds (default: %(default)s)",
     )
     subparser.set_defaults(func=TestbedCDRouter.wait_for_netif)
+
+    subparser = subparsers.add_parser(
+        "check_connectivity", help="check CDRouter API connectivity"
+    )
+    subparser.add_argument(
+        "-t",
+        "--timeout",
+        type=int,
+        default=30,
+        help="timeout duration in seconds (default: %(default)s)",
+    )
+    subparser.set_defaults(func=TestbedCDRouter.check_connectivity)
 
     args = parser.parse_args()
     if args.debug:
