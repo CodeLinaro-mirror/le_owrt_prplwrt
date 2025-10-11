@@ -444,7 +444,13 @@ def main():
         default=os.environ.get("TB_CDROUTER_ROOT", ".testbed/cdrouter"),
         help="CDRouter root directory (default: %(default)s)",
     )
-    parser.add_argument("-d", "--debug", action="store_true", help="enable debug mode")
+    parser.add_argument(
+        "-d",
+        "--debug",
+        action="store_true",
+        default=os.getenv("TB_CDROUTER_DEBUG"),
+        help="enable debug mode",
+    )
 
     subparsers = parser.add_subparsers(dest="command", title="available subcommands")
     subparser = subparsers.add_parser("package_run", help="run package")
