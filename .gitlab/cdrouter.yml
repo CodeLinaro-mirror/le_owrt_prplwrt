@@ -84,6 +84,7 @@
         export CDROUTER_CONFIG_WIFI_LAN_SSID=prplOS-2g-6
       fi
 
+    - .gitlab/scripts/testbed-cdrouter.py check_connectivity
     - .gitlab/scripts/testbed-cdrouter.py package_stop
     - .gitlab/scripts/testbed-cdrouter.py wait_for_netif $CDROUTER_LAN_INTERFACE
     - .gitlab/scripts/testbed-cdrouter.py wait_for_netif $CDROUTER_WAN_INTERFACE
