@@ -14,6 +14,7 @@ from typing import Optional
 from types import SimpleNamespace
 from http.client import RemoteDisconnected
 from requests.exceptions import ConnectionError
+import urllib3.exceptions
 
 from cdrouter import CDRouter
 from cdrouter.jobs import Job, Options
@@ -136,6 +137,34 @@ class TestbedCDRouter:
         self.args = args
         self.configs_path = os.path.join(self.args.root_dir, "configurations")
         self.packages_path = os.path.join(self.args.root_dir, "packages")
+
+    def extract_connection_error_message(self, exception):
+        """Extract the root cause message from nested connection exceptions.
+
+        Args:
+            exception: The exception to extract message from
+
+        Returns:
+            str: The innermost error message
+        """
+        current_exception = exception
+        message = str(current_exception)
+
+        while (
+            hasattr(current_exception, "__cause__")
+            and current_exception.__cause__ is not None
+        ):
+            current_exception = current_exception.__cause__
+            message = str(current_exception)
+
+        if hasattr(current_exception, "args") and current_exception.args:
+            for arg in current_exception.args:
+                if isinstance(arg, Exception):
+                    nested_message = self.extract_connection_error_message(arg)
+                    if nested_message and len(nested_message) < len(message):
+                        message = nested_message
+
+        return message
 
     @staticmethod
     def sanitize_tag(s):
@@ -523,7 +552,16 @@ def main():
         exit(1)
 
     cdr = TestbedCDRouter(args)
-    args.func(cdr)
+
+    try:
+        args.func(cdr)
+    except (ConnectionError, RemoteDisconnected, urllib3.exceptions.MaxRetryError) as e:
+        error_message = cdr.extract_connection_error_message(e)
+        logging.error("Connection failed: {}".format(error_message))
+        exit(1)
+    except CDRouterError as e:
+        logging.error("CDRouter error: {}".format(str(e)))
+        exit(1)
 
 
 if __name__ == "__main__":
