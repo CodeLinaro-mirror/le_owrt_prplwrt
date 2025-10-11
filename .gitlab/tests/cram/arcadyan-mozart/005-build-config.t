@@ -493,6 +493,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_tr181-syslog=y
   CONFIG_PACKAGE_tr181-temperature=y
   CONFIG_PACKAGE_tr181-upnp=y
+  CONFIG_PACKAGE_tr181-upnpdiscovery=y
   CONFIG_PACKAGE_tr181-usb=y
   CONFIG_PACKAGE_tr181-usermanagement=y
   CONFIG_PACKAGE_tr181-xpon=y
