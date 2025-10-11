@@ -112,6 +112,8 @@ Check that ubus has expected datamodels available:
   Device.Syslog
   Device.Time
   Device.UPnP
+  Device.UPnP.Description
+  Device.UPnP.Discovery
   Device.USB
   Device.UserInterface
   Device.Users
@@ -348,6 +350,14 @@ Check that ubus has expected datamodels available:
   UPnP.Device
   UPnP.Device.Capabilities
   UPnP.X_PRPLWARE-COM_IGDConfig
+  UPnPDescription
+  UPnPDescription.DeviceDescription
+  UPnPDescription.DeviceInstance
+  UPnPDescription.ServiceInstance
+  UPnPDiscovery
+  UPnPDiscovery.Device
+  UPnPDiscovery.RootDevice
+  UPnPDiscovery.Service
   USB
   USB.Interface
   USB.Port
