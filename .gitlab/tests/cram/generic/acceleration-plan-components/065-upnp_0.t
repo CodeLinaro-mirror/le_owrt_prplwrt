@@ -4,7 +4,12 @@ Create R alias:
 
 Check that tr181-upnp is enabled and running by default:
 
-  $ R "pgrep --count tr181-upnp"
+  $ R "pgrep -x --count tr181-upnp"
+  1
+
+Check that tr181-upnpdiscovery is enabled and running by default:
+
+  $ R "pgrep --count tr181-upnpdisco"
   1
 
 Check that miniupnpd is enabled and running by default:
