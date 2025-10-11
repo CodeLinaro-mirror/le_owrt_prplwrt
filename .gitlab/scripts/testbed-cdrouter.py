@@ -9,6 +9,8 @@ import time
 import logging
 import humanize
 
+from dataclasses import dataclass
+from typing import Optional
 from types import SimpleNamespace
 from http.client import RemoteDisconnected
 from requests.exceptions import ConnectionError
@@ -65,6 +67,68 @@ class OpenWrtSystemInfo:
                 self.distribution,
             )
         )
+
+
+@dataclass
+class GitLabEnvironment:
+    """GitLab CI environment information handler for CDRouter tagging.
+
+    This class extracts environment information from GitLab CI environment variables
+    and generates CDRouter-compatible tags. It prioritizes merge request source
+    branches over regular commit branches and includes CI job ID information.
+    """
+
+    branch_name: Optional[str] = None
+    job_id: Optional[str] = None
+
+    def __post_init__(self):
+        """Initialize GitLab CI info by reading environment variables.
+
+        Priority order:
+        1. CI_MERGE_REQUEST_SOURCE_BRANCH_NAME (for merge request pipelines)
+        2. CI_COMMIT_BRANCH (for branch pipelines)
+        """
+        if self.branch_name is None:
+            self.branch_name = os.getenv(
+                "CI_MERGE_REQUEST_SOURCE_BRANCH_NAME"
+            ) or os.getenv("CI_COMMIT_BRANCH")
+        if self.job_id is None:
+            self.job_id = os.getenv("CI_JOB_ID")
+
+    @property
+    def branch(self):
+        """Get the current branch name from GitLab CI environment.
+
+        Returns:
+            str or None: The branch name if available, None otherwise.
+        """
+        return self.branch_name
+
+    @property
+    def job(self):
+        """Get the current CI job ID from GitLab CI environment.
+
+        Returns:
+            str or None: The job ID if available, None otherwise.
+        """
+        return self.job_id
+
+    def as_tags(self):
+        """Generate CDRouter tags from GitLab CI information.
+
+        Returns:
+            str or None: Comma-separated tags in format 'gitlab-branch.{branch},gitlab-job.{job_id}'
+                        if information is available, None otherwise.
+        """
+        tag_mapping = {"gitlab-branch": self.branch, "gitlab-job": self.job}
+
+        tags = [
+            f"{prefix}.{TestbedCDRouter.sanitize_tag(value)}"
+            for prefix, value in tag_mapping.items()
+            if value
+        ]
+
+        return ",".join(tags) if tags else None
 
 
 class TestbedCDRouter:
@@ -133,12 +197,18 @@ class TestbedCDRouter:
                 )
             )
 
-        tags = None
+        tags = []
         if self.args.system_info:
-            tags = OpenWrtSystemInfo(self.args.system_info).as_tags().split(",")
+            tags.extend(OpenWrtSystemInfo(self.args.system_info).as_tags().split(","))
+
+        gitlab_tags = GitLabEnvironment().as_tags()
+        if gitlab_tags:
+            tags.extend(gitlab_tags.split(","))
 
         if self.args.tags:
-            tags += self.args.tags.split(",")
+            tags.extend(self.args.tags.split(","))
+
+        logging.debug("Final tags being sent to CDRouter: {}".format(tags))
 
         options = Options(tags=tags)
         job = Job(package_id=p.id, options=options)
