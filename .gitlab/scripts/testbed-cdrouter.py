@@ -325,8 +325,8 @@ class TestbedCDRouter:
 
     def replace_env_config_variables(self, text):
         for var, value in os.environ.items():
-            if var.startswith('CDROUTER_CONFIG_'):
-                pattern = f'@{var}@'
+            if var.startswith("CDROUTER_CONFIG_"):
+                pattern = f"@{var}@"
                 text = re.sub(pattern, value, text)
         return text
 
