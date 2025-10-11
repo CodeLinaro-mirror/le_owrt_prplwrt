@@ -54,12 +54,9 @@ class OpenWrtSystemInfo:
     def version(self):
         return self.data["release"]["version"]
 
-    def sanitize(self, s):
-        return s.replace("+", "-").replace("/", "-")
-
     def as_tags(self):
-        return self.sanitize(
-            "kernel_{},board_{},target_{},revision_{},version_{},distro_{}".format(
+        return TestbedCDRouter.sanitize_tag(
+            "kernel.{},board.{},target.{},revision.{},version.{},distro.{}".format(
                 self.kernel,
                 self.board_name,
                 self.target,
@@ -75,6 +72,22 @@ class TestbedCDRouter:
         self.args = args
         self.configs_path = os.path.join(self.args.root_dir, "configurations")
         self.packages_path = os.path.join(self.args.root_dir, "packages")
+
+    @staticmethod
+    def sanitize_tag(s):
+        """Sanitize string for CDRouter tag compatibility.
+
+        CDRouter tags may only contain letters, numbers, dots, hyphens,
+        spaces and underscores. This method replaces problematic characters
+        with underscores.
+
+        Args:
+            s (str): String to sanitize.
+
+        Returns:
+            str: Sanitized string safe for CDRouter tags.
+        """
+        return s.replace(":", "_").replace("/", "_").replace("+", "_").replace("=", "_")
 
     def connect(self):
         api_token = os.getenv("CDROUTER_API_TOKEN")
