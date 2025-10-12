@@ -96,6 +96,7 @@ feeds:
     revision: 08e632c61715a255469d6a7e9204a61dd446dcea
 
 packages:
+  - efr32-boot-config
   - kmod-mxl_eth_drv
   - kmod-mxl-xpcs
   - kmod-gwdpa-dpm
