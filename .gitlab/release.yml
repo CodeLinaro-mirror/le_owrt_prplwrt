@@ -27,8 +27,8 @@ upload:
 
     - |
       curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
-        --upload-file bin/targets/mvebu/cortexa9/prplos-mvebu-cortexa9-cznic_turris-omnia-sysupgrade.img.gz \
-        ${PACKAGE_REGISTRY_URL}/turris-omnia/${prplware_version}/prplos-mvebu-cortexa9-cznic_turris-omnia-sysupgrade.img.gz
+        --upload-file bin/targets/mvebu/cortexa9/prplos-mvebu-cortexa9-cznic_turris-omnia-squashfs-sysupgrade.img.gz \
+        ${PACKAGE_REGISTRY_URL}/turris-omnia/${prplware_version}/prplos-mvebu-cortexa9-cznic_turris-omnia-squashfs-sysupgrade.img.gz
 
     # x86
     - |
