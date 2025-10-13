@@ -9,7 +9,7 @@ feeds:
   - name: feed_mediatek
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-mediatek
     tracking_branch: arcadyan-mozart-mp4.2
-    revision: 5e64a87742bd14c1d933d47e3065bf494a9b9887
+    revision: aad8b1bd2b7e5847b4238354d0729039c867fb97
   - name: feed_mfg
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_mfg.git
     tracking_branch: main
