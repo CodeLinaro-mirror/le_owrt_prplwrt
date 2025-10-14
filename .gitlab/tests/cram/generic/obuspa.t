@@ -2228,7 +2228,10 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.QoS.Classification.{i}.X_PRPLWARE-COM_BridgeInputInterface                                    proto::tr181-qos
   Device.QoS.Classification.{i}.X_PRPLWARE-COM_BridgeOutputInterface                                   proto::tr181-qos
   Device.QoS.Classification.{i}.X_PRPLWARE-COM_Direction                                               proto::tr181-qos
+  Device.QoS.Classification.{i}.X_PRPLWARE-COM_MarkCheck                                               proto::tr181-qos
+  Device.QoS.Classification.{i}.X_PRPLWARE-COM_MarkMask                                                proto::tr181-qos
   Device.QoS.Classification.{i}.X_PRPLWARE-COM_OutputInterface                                         proto::tr181-qos
+  Device.QoS.Classification.{i}.X_PRPLWARE-COM_Return                                                  proto::tr181-qos
   Device.QoS.ClassificationNumberOfEntries                                                             proto::tr181-qos
   Device.QoS.MaxClassificationEntries                                                                  proto::tr181-qos
   Device.QoS.MaxQueueEntries                                                                           proto::tr181-qos
@@ -6658,7 +6661,10 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.QoS.Classification.{i}.X_PRPLWARE-COM_BridgeInputInterface                                    proto::tr181-qos
   Device.QoS.Classification.{i}.X_PRPLWARE-COM_BridgeOutputInterface                                   proto::tr181-qos
   Device.QoS.Classification.{i}.X_PRPLWARE-COM_Direction                                               proto::tr181-qos
+  Device.QoS.Classification.{i}.X_PRPLWARE-COM_MarkCheck                                               proto::tr181-qos
+  Device.QoS.Classification.{i}.X_PRPLWARE-COM_MarkMask                                                proto::tr181-qos
   Device.QoS.Classification.{i}.X_PRPLWARE-COM_OutputInterface                                         proto::tr181-qos
+  Device.QoS.Classification.{i}.X_PRPLWARE-COM_Return                                                  proto::tr181-qos
   Device.QoS.ClassificationNumberOfEntries                                                             proto::tr181-qos
   Device.QoS.MaxClassificationEntries                                                                  proto::tr181-qos
   Device.QoS.MaxQueueEntries                                                                           proto::tr181-qos
