@@ -50,19 +50,23 @@ endif
 # $1: compression variable prefix (e.g. "CONFIG_TARGET_INITRAMFS_COMPRESSION_")
 # $2: output file
 define Kernel/SetInitramfsCompressions
-	{ \
-		$(if $(CONFIG_TARGET_INITRAMFS_COMPRESSION_NONE), \
-				echo "CONFIG_INITRAMFS_COMPRESSION_NONE=y" >> $(2);, \
-				echo "# CONFIG_INITRAMFS_COMPRESSION_NONE is not set" >> $(2); ) \
-		$(foreach ALGO,GZIP BZIP2 LZMA LZO XZ LZ4 ZSTD, \
-			$(if $(CONFIG_TARGET_INITRAMFS_COMPRESSION_$(ALGO)), \
-				echo "CONFIG_INITRAMFS_COMPRESSION_$(ALGO)=y" >> $(2); $\, \
-				echo "# CONFIG_INITRAMFS_COMPRESSION_$(ALGO) is not set" >> $(2); $\) \
-			$(if $(CONFIG_TARGET_INITRAMFS_COMPRESSION_$(ALGO)), \
-				echo "CONFIG_RD_$(ALGO)=y" >> $(2); $\, \
-				echo "# CONFIG_RD_$(ALGO) is not set" >> $(2); $\) \
-		) \
-	}
+  { \
+    sed -i -e '/^CONFIG_INITRAMFS_COMPRESSION_/d' $(2); \
+    \
+    $(if $(CONFIG_TARGET_INITRAMFS_COMPRESSION_NONE), \
+      printf "%s\n" \
+        "CONFIG_INITRAMFS_COMPRESSION_NONE=y" \
+        >> $(2);) \
+    \
+    $(foreach ALGO,GZIP BZIP2 LZMA LZO XZ LZ4 ZSTD, \
+      $(if $(CONFIG_TARGET_SECURE_INITRAMFS_COMPRESSION_$(ALGO)), \
+        printf "%s\n%s\n%s\n" \
+          "CONFIG_INITRAMFS_COMPRESSION_$(ALGO)=y" \
+          "CONFIG_RD_$(ALGO)=y" \
+          "CONFIG_DECOMPRESS_$(ALGO)=y" \
+          >> $(2);) \
+    ) \
+  }
 endef
 
 ifeq ($(CONFIG_TARGET_ROOTFS_INITRAMFS),y)
@@ -93,23 +97,47 @@ ifeq ($(CONFIG_TARGET_ROOTFS_INITRAMFS),y)
     endif
   endif
 
-  define Kernel/SetInitramfs
+define Kernel/SetInitramfs
 	{ \
 		rm -f $(2)/.config.prev; \
-		mv $(2)/.config $(2)/.config.old; \
+		mv $(2)/.config $(2)/.config.old 2>/dev/null || true; \
 		$(call Kernel/SetInitramfs/PreConfigure,$(1),$(2)); \
-		echo "# CONFIG_INITRAMFS_PRESERVE_MTIME is not set" >> $(2)/.config; \
-		$(if $(CONFIG_TARGET_ROOTFS_INITRAMFS_SEPARATE),,echo "CONFIG_INITRAMFS_ROOT_UID=$(shell id -u)" >> $(2)/.config;) \
-		$(if $(CONFIG_TARGET_ROOTFS_INITRAMFS_SEPARATE),,echo "CONFIG_INITRAMFS_ROOT_GID=$(shell id -g)" >> $(2)/.config;) \
+		printf "%s\n" \
+			"CONFIG_DEVTMPFS=y" \
+			"# CONFIG_DEVTMPFS_SAFE is not set" \
+			"CONFIG_DEVTMPFS_MOUNT=y" \
+			"CONFIG_BLK_DEV_RAM=y" \
+			"CONFIG_BLK_DEV_INITRD=y" \
+			"CONFIG_BLK_DEV_DM=y" \
+			"# CONFIG_DM_DEBUG_BLOCK_MANAGER_LOCKING is not set" \
+			"# CONFIG_DM_VERITY_VERIFY_ROOTHASH_SIG is not set" \
+			"# CONFIG_DM_VERITY_FEC is not set" \
+			"CONFIG_DM_VERITY=y" \
+			"CONFIG_INITRAMFS_SOURCE=\"\"" \
+			"CONFIG_DECOMPRESS_GZIP=y" \
+			"CONFIG_MD=y" \
+			"CONFIG_RD_GZIP=y" \
+			"# CONFIG_RD_BZIP2 is not set" \
+			"# CONFIG_RD_LZMA is not set" \
+			"# CONFIG_DM_INIT is not set" \
+			"# CONFIG_RD_XZ is not set" \
+			"# CONFIG_RD_LZO is not set" \
+			"# CONFIG_RD_LZ4 is not set" \
+			"# CONFIG_RD_ZSTD is not set" \
+			"CONFIG_DM_MIRROR=y" \
+			"# CONFIG_INITRAMFS_PRESERVE_MTIME is not set" \
+			>> $(2)/.config; \
+		$(if $(CONFIG_TARGET_ROOTFS_INITRAMFS_SEPARATE),, \
+			printf "CONFIG_INITRAMFS_ROOT_UID=%s\n" "$(shell id -u)" >> $(2)/.config; \
+			printf "CONFIG_INITRAMFS_ROOT_GID=%s\n" "$(shell id -g)" >> $(2)/.config;) \
 		$(if $(CONFIG_TARGET_ROOTFS_INITRAMFS_SEPARATE), \
-			echo "# CONFIG_INITRAMFS_FORCE is not set" >> $(2)/.config;, \
+			printf "# CONFIG_INITRAMFS_FORCE is not set\n" >> $(2)/.config;, \
 			$(if $(CONFIG_TARGET_INITRAMFS_FORCE), \
-				echo "CONFIG_INITRAMFS_FORCE=y" >> $(2)/.config;, \
-				echo "# CONFIG_INITRAMFS_FORCE is not set" >> $(2)/.config;)) \
-		$(call Kernel/SetInitramfsCompressions,CONFIG_TARGET_INITRAMFS_COMPRESSION_,$(LINUX_DIR)/.config); \
+				printf "CONFIG_INITRAMFS_FORCE=y\n" >> $(2)/.config;, \
+				printf "# CONFIG_INITRAMFS_FORCE is not set\n" >> $(2)/.config;)) \
+		$(call Kernel/SetInitramfsCompressions,CONFIG_TARGET_INITRAMFS_COMPRESSION_,$(2)/.config); \
 	}
-  endef
-else
+endef
 endif
 
 ifeq ($(CONFIG_TARGET_SECURE_INITRAMFS),y)
