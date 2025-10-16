@@ -158,12 +158,26 @@ define prepare_generic_squashfs
 endef
 
 define Image/SecureInitramfs
-	UNSTRIPPED_FOLDER=$(STAGING_DIR_ROOT) \
-	BINARIES_PATH=$(CONFIG_TARGET_INIT_PATH) \
-	$(TOPDIR)/scripts/gen-secure-initramfs.sh build \
-		$(call get_initramfs_compression,CONFIG_TARGET_SECURE_INITRAMFS_COMPRESSION_) \
-		$(BIN_DIR)/$(IMG_SECURE_INITRAMFS) \
-		$(STAGING_DIR_IMAGE)/initramfs $(TARGET_DIR)
+	@{ \
+	  set -eu; \
+	  comp="$(call get_initramfs_compression,CONFIG_TARGET_SECURE_INITRAMFS_COMPRESSION_)"; \
+	  out="$(BIN_DIR)/$(IMG_SECURE_INITRAMFS)"; \
+	  initramfs_dir="$(STAGING_DIR_IMAGE)/initramfs"; \
+	  rootfs_dir="$(TARGET_DIR)"; \
+	  echo "[SecureInitramfs] UNSTRIPPED_FOLDER=$(STAGING_DIR_ROOT)"; \
+	  echo "[SecureInitramfs] BINARIES_PATH=$(CONFIG_TARGET_INIT_PATH)"; \
+	  printf '[SecureInitramfs] COMPRESSION => %q\n' "$$$$comp"; \
+	  printf '[SecureInitramfs] OUTPUT      => %q\n' "$$$$out"; \
+	  printf '[SecureInitramfs] INITRAMFS   => %q\n' "$$$$initramfs_dir"; \
+	  printf '[SecureInitramfs] ROOTFS      => %q\n' "$$$$rootfs_dir"; \
+	  PS4='+ [SecureInitramfs] $${0##*/}:$${LINENO}: '; set -x; \
+	  UNSTRIPPED_FOLDER="$(STAGING_DIR_ROOT)" \
+	  BINARIES_PATH="$(CONFIG_TARGET_INIT_PATH)" \
+	  "$(TOPDIR)/scripts/gen-secure-initramfs.sh" build \
+	    "$$$$comp" \
+	    "$$$$out" \
+	    "$$$$initramfs_dir" "$$$$rootfs_dir"; \
+	}
 endef
 
 define Image/BuildKernel/Initramfs
@@ -956,7 +970,7 @@ define BuildImage
   image_prepare:
 
   ifeq ($(IB),)
-    .PHONY: download prepare compile compile-dtb clean image_prepare kernel_prepare install install-images
+    .PHONY: download prepare compile compile-dtb clean image_prepare kernel_prepare install install-images secure-initramfs
     compile:
 		$(call Build/Compile)
 
@@ -974,14 +988,14 @@ define BuildImage
 		rm -rf $(KDIR)/tmp
 		mkdir -p $(BIN_DIR) $(KDIR)/tmp
   endif
-
-  kernel_prepare: image_prepare
+  secure-initramfs:
+	  $(call Image/SecureInitramfs)
+  kernel_prepare: secure-initramfs image_prepare
 	$(call Image/Build/targz)
 	$(call Image/Build/cpiogz)
 	$(call Image/BuildKernel)
 	$(if $(CONFIG_TARGET_ROOTFS_INITRAMFS),$(if $(IB),,$(call Image/BuildKernel/Initramfs)))
 	$(call Image/InstallKernel)
-  $(if $(CONFIG_TARGET_SECURE_INITRAMFS),$(call Image/SecureInitramfs))
 
   $(foreach device,$(TARGET_DEVICES),$(call Device,$(device)))
 

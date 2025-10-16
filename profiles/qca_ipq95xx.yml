@@ -8,7 +8,13 @@ description: Build image for prpl Foundation Freedom board
 feeds:
   - name: feed_qca
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-qca.git
-    revision: latest-24.10@87d826f68d0a65bc7c43ca4ffab95f6eb1ea8eca
+    revision: latest-24.10@eb52ddf95a3b7678a98dbd1b23f8f5e4cbc24312
+  - name: feed_initramfs
+    uri: git@gitlabinternal.softathome.com:wrt-hgw/feeds/feed_initramfs.git
+    revision: df88faa0801fbff2ff3b95e70e24370de3dcfdd0
+  - name: feed_opensource
+    uri: git@gitlabinternal.softathome.com:amx/buildsystems/openwrt/feed_opensource.git
+    revision: d7fc6b6075f30b8437a32f8786e21ff731bc9929
 
 packages:
   - ipq95xx
@@ -37,10 +43,20 @@ packages:
   - kmod-qca8xxx-phc
   - kmod-ppp
   - kmod-pppoe
+  - initramfs-generator
+  - lvm2
 
 diffconfig: |
-  CONFIG_TARGET_INITRAMFS_COMPRESSION_LZMA=y
+  CONFIG_TARGET_INITRAMFS_COMPRESSION_GZIP=y
   CONFIG_BUSYBOX_CUSTOM=y
   CONFIG_BUSYBOX_CONFIG_I2CSET=y
   CONFIG_PACKAGE_ATH_DEBUG=y
   # CONFIG_PACKAGE_wififw_mount_script is not set
+  CONFIG_EXTERNAL_CPIO=""
+  CONFIG_TARGET_SECURE_INITRAMFS=y
+  CONFIG_TARGET_SECURE_INITRAMFS_COMPRESSION_GZIP=y
+  CONFIG_INITRAMFS_GENERATOR_DEBUG=y
+  CONFIG_INITRAMFS_GENERATOR_FLASH_TYPE_EMMC=y
+  CONFIG_INITRAMFS_GENERATOR_ROOTFS_SIG_PRELOAD=y
+  CONFIG_INITRAMFS_GENERATOR_ROOTFS_SIG_PRELOAD_MANDATORY=y
+  CONFIG_INITRAMFS_GENERATOR_ROOTFS_DMCRYPT=y
