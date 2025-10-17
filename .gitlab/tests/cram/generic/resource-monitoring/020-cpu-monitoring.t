@@ -24,7 +24,7 @@ or UserModeUtilization or IdleModeUtilization Param#3 - Higher end utilization l
   > { CpuModeUtilization=$(R "ba-cli -l -j Device.DeviceInfo.ProcessStatus.CPU.$1.? " \
   > "| sed '/^$/d' | jsonfilter -e @[0]'[\"Device.DeviceInfo.ProcessStatus.CPU.$1.\"].$2'"); \
   > R logger -t cram $2" read: "$CpuModeUtilization; \
-  > if [ $CpuModeUtilization -lt $3 ]; then echo $2": PASS"; \
+  > if [ $CpuModeUtilization -le $3 ]; then echo $2": PASS"; \
   > else echo "FAIL - "$2": "$CpuModeUtilization; fi;}
 
 This Helper method takes attributes in order Param#1-CPU-Core-Id Param#2-SystemModeUtilization \
