@@ -44,6 +44,7 @@ Verify CPUs — Data Model of OSPv2 Board:
       }
     }
   ]
+<<<<<<< HEAD
 
 Enable the Dynamic Voltage and Frequency Scaling (DVFS) feature:
 
@@ -103,3 +104,8 @@ Check that the governor was is still set to powersave in sysfs:
   $ R "cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor"
   powersave
   powersave
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 2221b14556 (ci: cram: obuspa: Add X_PRPLWARE-COM_DoNotOffload)
+>>>>>>> f6f97bb5d5 (ci: cram: obuspa: Add X_PRPLWARE-COM_DoNotOffload)
