@@ -20,7 +20,7 @@ Check the root datamodel settings:
 
 Check that only one instance of tr181-led manager is running:
 
-  $ R "pgrep -cf 'tr181-led -D'"
+  $ R "pgrep -cf 'tr181-led'"
   1
 
 Get current tr181-led manager PID:
@@ -74,7 +74,7 @@ Kill the LED manager service:
 
 Check that LED manager is not running:
 
-  $ R "pgrep -cf 'tr181-led -D'"
+  $ R "pgrep -cf 'tr181-led'"
   0
   [1]
 
@@ -89,7 +89,7 @@ Check that ProcessMonitor have restarted the LED manager properly:
 
 Check that one LED manager instance is running:
 
-  $ R "pgrep -cf 'tr181-led -D'"
+  $ R "pgrep -cf 'tr181-led'"
   1
 
 Check that PIDs are different:
