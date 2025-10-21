@@ -11,7 +11,7 @@ feeds:
 
   - name: feed_prplos
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplos.git
-    revision: main@86bcec8b8d7ecc3464951ff4f4af128827fae299
+    revision: main@6a137a5e4dafeb835dfe686f24f7bfa3f79d101a
 
 additional_packages:
   - feed: packages
@@ -84,6 +84,7 @@ packages:
   - time-manager
   - tr181-bridging
   - tr181-button
+  - tr181-cpu
   - tr181-device
   - tr181-dhcpv4client
   - tr181-dhcpv6client
