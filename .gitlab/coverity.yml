@@ -1,283 +1,120 @@
+include:
+  - project: blackduck-inc/black-duck-security-scan
+    ref: v2.3.0
+    file: templates/security_scan.yml
+
 .coverity scan config:
   stage: coverity
   image: "$CI_REGISTRY_IMAGE/$CI_DESIGNATED_BRANCH_SLUG/builder:latest"
+  needs: []
+  timeout: 10 hours
   tags:
     - firmware-builder
-  timeout: 6h
-  dependencies: []
   variables:
-    CI_BUILD_CONFIG: >
-      +DEVEL +BUILD_LOG +ALL +ALL_KMODS +ALL_NONSHARED
-    CI_COVERITY_PROJECT_NAME: prplOS
-    CI_COVERITY_FORCE_COMPILE_PACKAGE_LIST: >
-      curl
-      libnl
-      mbedtls
-      openssl
-    CI_COVERITY_OPENWRT_PACKAGE_LIST: >
-      dropbear
-      dnsmasq
-      fstools
-      jsonfilter
-      libnl-tiny
-      libubox
-      odhcp6c
-      odhcpd
-      opkg
-      procd
-      rpcd
-      swconfig
-      ubox
-      ubus
-      ucert
-      uci
-      uclient
-      umdns
-      usign
-      ustream-ssl
-    CI_COVERITY_PRPLOS_PACKAGE_LIST: >
-      acl-manager
-      amxb-inspect
-      amx-cli
-      amx-faultmonitor
-      amx-fcgi
-      amxo-cg
-      amx-processmonitor
-      amxrt
-      chrony-prpl
-      cthulhu
-      cthulhu-dhcpc
-      cthulhu-lxc
-      cthulhu-networking
-      cthulhu-plugin-usp
-      deviceinfo-manager
-      dhcpv4-manager
-      dhcpv6s-manager
-      dnsmasq-prpl
-      ethernet-manager
-      gmap-client
-      gmap-mibs-common
-      gmap-mod-ethernet-dev
-      gmap-mod-name-selector
-      gmap-mod-self
-      gmap-server
-      ip-manager
-      libamxa
-      libamxb
-      libamxc
-      libamxd
-      libamxj
-      libamxm
-      libamxo
-      libamxp
-      libamxrt
-      libamxs
-      libamxt
-      libcthulhu
-      libdhcpoptions
-      libdiscoping
-      libfwinterface
-      libfwrules
-      libgmap-client
-      libgmap-ext
-      libimtp
-      liblcm
-      libnetmodel
-      libpacket-interception
-      libqoscommon
-      libqosmodule
-      libqosnode
-      librlyeh
-      libsahtrace
-      libswla
-      libswlc
-      libtr181-schedules
-      libtr69-engine
-      libusp
-      libuspi
-      libuspprotobuf
-      lua-amx
-      mcastd-noforward
-      miniupnpd-prpl
-      mod-amxb-ubus
-      mod-amxb-usp
-      mod-autosensing
-      mod-ba-cli
-      mod-dhcpv4c
-      mod-dm-cli
-      mod-dmext
-      mod-dmproxy
-      mod-dmstats
-      mod-dns-unbound
-      mod-fw-amx
-      mod-fw-host
-      mod-httpaccess-lighttpd
-      mod-logical-api
-      mod-lua-amx
-      mod-netmodel
-      mod-pcm-svc
-      mod-ppp-daemon
-      mod-qos-tc
-      mod-ra-radvd
-      mod-sahtrace
-      mod-usp-registration
-      mod-vlan-ioctl
-      mod-vlan-uci
-      mod-xpon-prpl
-      multisettings
-      netdev-plugin
-      netmodel
-      netmodel-bridge
-      netmodel-clients
-      netmodel-dhcpv4
-      netmodel-dhcpv6
-      netmodel-dslite
-      netmodel-ethernet
-      netmodel-ip
-      netmodel-iprouter
-      netmodel-logical
-      netmodel-netdev
-      netmodel-ppp
-      netmodel-radio
-      netmodel-ssid
-      netmodel-vlan
-      netmodel-xpon
-      obuspa
-      odhcp6c
-      opennds-prpl
-      packet-interception
-      pcm-manager
-      ppp-prpl
-      prplmesh
-      pwhm
-      radvd
-      rlyeh
-      routing-manager
-      ssh-server
-      time-manager
-      timingila
-      timingila-cthulhu
-      timingila-rlyeh
-      tr069-manager
-      tr181-bridging
-      tr181-button
-      tr181-captiveportal
-      tr181-device
-      tr181-dhcpv4client
-      tr181-dhcpv6client
-      tr181-dns
-      tr181-dnssd
-      tr181-dslite
-      tr181-dynamicdns
-      tr181-firewall
-      tr181-httpaccess
-      tr181-ipdiagnostics
-      tr181-led
-      tr181-logical
-      tr181-mcastd
-      tr181-mqttbroker
-      tr181-neighbordiscovery
-      tr181-pcp
-      tr181-ppp
-      tr181-qos
-      tr181-rest-api
-      tr181-routeradvertisement
-      tr181-security
-      tr181-syslog
-      tr181-upnp
-      tr181-usermanagement
-      tr181-xpon
-      umdns-prpl
-      unbound-prpl
-      uriparser
-      wan-manager
+    BRIDGE_COVERITY_CONNECT_URL: https://coverity.prplfoundation.org
+    BRIDGE_COVERITY_CONNECT_USER_NAME: admin
+    BRIDGE_COVERITY_CONNECT_USER_PASSWORD: $COVERITY_PASSPHRASE
+    BRIDGE_GITLAB_USER_TOKEN: $GITLAB_API_KEY_EXTERNAL
+    BRIDGE_COVERITY_LOCAL: true
+    # INCLUDE_DIAGNOSTICS: 'true'
   rules:
-    - if: $CI_PIPELINE_SOURCE == "schedule"
-
-  script:
-    - mkdir logs
+    - if: ($CI_COMMIT_REF_NAME =~ $SCAN_BRANCHES && $CI_PIPELINE_SOURCE != 'merge_request_event')
+      variables:
+        BRIDGE_COVERITY_CONNECT_POLICY_VIEW: Outstanding Issues
+    - if: ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ $SCAN_BRANCHES && $CI_PIPELINE_SOURCE == 'merge_request_event')
+      variables:
+        BRIDGE_COVERITY_AUTOMATION_PRCOMMENT: true
+  before_script:
+    - apt-get -qq update && apt-get install -y curl file unzip
+    - touch .build_failed
+    - mkdir -p logs
     - set -o pipefail
     - git config --global --add safe.directory '*'
 
-    - sudo apt-get update && sudo apt-get install --yes --no-install-recommends jq
+    - |
+      crlf_check_failed=$(rgrep -U $'\x0D' profiles | cut -d: -f1 | sort -u || true)
+      if test -n "$crlf_check_failed"; then
+        echo -e "ERROR: detected CRLF issues in the following YAML profiles:\n"
+        for profile in $crlf_check_failed; do
+          echo " * $profile"
+        done
+        echo -e "\nIt might result in hard to debug issues, please fix them."
+        exit 1
+      fi
 
-    - export CI_BUILD_PROFILE="$(echo $CI_JOB_NAME | sed 's/coverity scan \(.*\)/\1/')"
-    - scripts/gen_config.py $CI_BUILD_PROFILE 2>&1 | tee logs/build.log
+    - |
+      if [ -z "$CI_COMMIT_TAG" ] && [ "$CI_DESIGNATED_BRANCH" != "$CI_COMMIT_BRANCH" ]; then
+        echo "Enabling coredumps and exception tracing in the build."
+        export CI_BUILD_ENABLE_COREDUMPS=1
+        export CI_BUILD_ENABLE_EXCEPTION_TRACE=1
+      else
+        echo "Coredumps and exception tracing are disabled in this build."
+      fi
+
+    - for script in .gitlab/scripts/build.d/*; do bash "$script"; done
+
     - >
-      for option in $CI_BUILD_CONFIG $CI_BUILD_CONFIG_EXTRA; do
-        echo "$option" | sed -E "s/^\+(.*)$/CONFIG_\1=y/;s/^\-(.*)$/CONFIG_\1=n/" >> .config
+      if echo "$CI_RUNNER_DESCRIPTION" | grep -v -q "Restricted.*OSP"; then
+        sed -i -E 's;git.openwrt.org/(feed|project);github.com/openwrt;' feeds.conf.default
+        export CI_BUILD_PROFILE="$(echo $CI_JOB_NAME | sed 's/coverity scan \(.*\)/\1/')"
+        scripts/gen_config.py $CI_BUILD_PROFILE 2>&1 | tee logs/build.log
+        git checkout -- feeds.conf.default
+
+        for option in $CI_BUILD_CONFIG $CI_BUILD_CONFIG_EXTRA; do
+          echo "$option" | sed -E "s/^\+(.*)$/CONFIG_\1=y/;s/^\-(.*)$/CONFIG_\1=n/" >> .config
+        done
+        cat .config
+        make defconfig | tee --append logs/build.log
+
+        make -j $(nproc) tools/tar/compile 2>&1 | tee --append logs/build.log
+        if [[ "$CI_MERGE_REQUEST_LABELS" == *"skip_integrity_check"* ]]; then
+          make -j $(nproc) download 2>&1 | tee --append logs/build.log
+        else
+          make -j $(nproc) download check FIXUP=1 2>&1 | tee --append logs/build.log
+        fi
+      else
+        grep --color -e "Error updating feeds" -e "ERROR:.*failed to build." logs/build.log && exit 1
+      fi
+
+    - >
+      git diff-index --exit-code HEAD || {
+        ret=$?
+        echo "Package integrity issues, please check the output bellow or packages-hash-issues.patch from artifacts"
+        git diff | tee packages-hash-issues.patch
+        exit $ret
+      }
+
+    - >
+      topdir=$(pwd);
+      for feed in $(find feeds -name .git); do
+        pushd $(dirname $feed) > /dev/null; git diff-index --exit-code HEAD || {
+          ret=$?
+          echo "Feed $(dirname $feed) packages integrity issues, please check the output bellow or feed-packages-hash-issues.patch from artifacts"
+          git diff | tee --append $topdir/feed-packages-hash-issues.patch
+          exit $ret
+        }
+        popd > /dev/null
       done
-    - cat .config
-    - make defconfig | tee --append logs/build.log
-
-    - wget -q https://scan.coverity.com/download/linux64 --post-data "token=$COVERITY_PROJECT_TOKEN&project=$CI_COVERITY_PROJECT_NAME" -O coverity.tar.gz
-    - wget -q https://scan.coverity.com/download/linux64 --post-data "token=$COVERITY_PROJECT_TOKEN&project=$CI_COVERITY_PROJECT_NAME&md5=1" -O coverity.tar.gz.md5
-    - echo ' coverity.tar.gz' >> coverity.tar.gz.md5
-    - md5sum -c coverity.tar.gz.md5
-
-    - mkdir cov-analysis-linux64
-    - tar xzf coverity.tar.gz --strip 1 -C cov-analysis-linux64
-    - export PATH=$(pwd)/cov-analysis-linux64/bin:$PATH
-    - >
-      for template in $CI_COVERITY_COMPILER_TEMPLATE_LIST; do
-        cov-configure --template --comptype gcc --compiler $template
-      done
-
-    - make -j $(nproc) tools/tar/compile || make -j1 V=s tools/tar/compile 2>&1 | tee --append logs/build.log
-    - make -j $(nproc) download check FIXUP=1 || make -j1 V=s download check FIXUP=1 2>&1 | tee --append logs/build.log
-    - make -j $(nproc) || make -j1 V=s 2>&1 | tee --append logs/build.log
-
-    - printf -v clean_packages "package/%s/clean " ${CI_COVERITY_OPENWRT_PACKAGE_LIST[@]} ${CI_COVERITY_PRPLOS_PACKAGE_LIST[@]}
-    - make $clean_packages
-
-    - printf -v force_compile_packages "package/%s/compile " ${CI_COVERITY_FORCE_COMPILE_PACKAGE_LIST[@]}
-    - make -j $(nproc) $force_compile_packages
-
-    - echo "$COVERITY_PROJECT_TOKEN" > ./coverity-api-token
-    - >
-      unset
-      CI_JOB_JWT
-      CI_JOB_TOKEN
-      CI_BUILD_TOKEN
-      CI_RUNNER_SHORT_TOKEN
-      CI_DEPENDENCY_PROXY_PASSWORD
-      CI_REPOSITORY_URL
-      CI_REGISTRY_PASSWORD
-      TESTBED_SSH_PRIVATE_KEY
-      COVERITY_PROJECT_TOKEN
-
-    - printf -v compile_packages "package/%s/compile " ${CI_COVERITY_OPENWRT_PACKAGE_LIST[@]} ${CI_COVERITY_PRPLOS_PACKAGE_LIST[@]}
-    - cov-build --dir cov-int make -j $(nproc) $compile_packages
-
-    - tar czf cov-int.tar.gz ./cov-int
-    - >
-      curl
-      --fail
-      --request POST
-      --data version="$CI_COMMIT_SHORT_SHA"
-      --data description="$CI_COMMIT_REF_SLUG"
-      --data email="petr.stetiar@prplfoundation.org"
-      --data token="$(cat ./coverity-api-token)"
-      --data file_name="cov-int.tar.gz"
-      https://scan.coverity.com/projects/23419/builds/init
-      | tee response
-
-    - upload_url=$(jq -r '.url' response)
-    - build_id=$(jq -r '.build_id' response)
 
     - >
-      curl --fail --request PUT --header 'Content-Type: application/json' --upload-file cov-int.tar.gz $upload_url
-    - curl --fail --request PUT --data token="$(cat ./coverity-api-token)" https://scan.coverity.com/projects/23419/builds/$build_id/enqueue
+      trap "
+        grep -qz 'package/install[[:space:]]make -r world' logs/build.log && {
+          echo '[!] ERROR: package/install seems to fail, enabling verbose output'
+          make package/install V=s 2>&1 | tee --append logs/build.log
+          grep -C5 'Collected errors:' logs/build.log
+        }
+        echo '[!] ERROR: build failed'
+        exit 1
+      " ERR
+    - >
+      trap "
+        grep -qz 'ERROR: target/linux failed to build' logs/build.log && {
+          echo '[!] ERROR: target/linux seems to fail, enabling verbose output'
+          make target/install -j $(nproc) V=s 2>&1 | tee --append logs/build.log
+        }
+        echo '[!] ERROR: build failed'
+        exit 1
+      " ERR
+    - make toolchain/compile -j $(nproc) 2>&1 | tee --append logs/build.log
 
-  artifacts:
-    expire_in: 1 month
-    when: always
-    paths:
-      - bin
-      - logs
-      - cov-int.tar.gz
-
-  cache:
-    key: openwrt-downloads
-    paths:
-      - dl/
+  extends: .run-black-duck-tools
