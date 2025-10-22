@@ -116,7 +116,7 @@ $(BIN_DIR)/$(SDK_NAME).tar.zst: clean
 		$(SDK_BUILD_DIR)/$(STAGING_SUBDIR_TARGET)/usr/include
 
 	$(CP) -L $(INCLUDE_DIR) $(SCRIPT_DIR) $(SDK_BUILD_DIR)/
-	$(CP) -L $(TOPDIR)/openwrt-patches $(SDK_BUILD_DIR)/
+	$(CP) -L $(TOPDIR)/prplwrt-patches $(SDK_BUILD_DIR)/
 	$(TAR) -cf - -C $(TOPDIR) \
 		`cd $(TOPDIR); find $(KDIR_BASE)/ -name \*.ko` \
 		$(foreach exclude,$(EXCLUDE_DIRS),--exclude="$(exclude)") \
