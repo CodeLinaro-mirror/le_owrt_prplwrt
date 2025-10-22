@@ -4171,6 +4171,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.Radio.{i}.dbgRADFile                                                                     proto::wld
   Device.WiFi.Radio.{i}.debug()                                                                        proto::wld
   Device.WiFi.Radio.{i}.edit()                                                                         proto::wld
+  Device.WiFi.Radio.{i}.getChanSurveyReport()                                                          proto::wld
   Device.WiFi.Radio.{i}.getCurrentTransmitPowerdBm()                                                   proto::wld
   Device.WiFi.Radio.{i}.getLatestPower()                                                               proto::wld
   Device.WiFi.Radio.{i}.getMaxTransmitPowerdBm()                                                       proto::wld
@@ -8985,6 +8986,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.Radio.{i}.dbgRADFile                                                                     proto::wld
   Device.WiFi.Radio.{i}.debug()                                                                        proto::wld
   Device.WiFi.Radio.{i}.edit()                                                                         proto::wld
+  Device.WiFi.Radio.{i}.getChanSurveyReport()                                                          proto::wld
   Device.WiFi.Radio.{i}.getCurrentTransmitPowerdBm()                                                   proto::wld
   Device.WiFi.Radio.{i}.getLatestPower()                                                               proto::wld
   Device.WiFi.Radio.{i}.getMaxTransmitPowerdBm()                                                       proto::wld
