@@ -13,7 +13,7 @@ include:
   - local: .gitlab/cdrouter/mxl25641-hdk-6.yml
   - local: .gitlab/cdrouter/arcadyan-mozart.yml
   - local: .gitlab/cdrouter/wnc-freedom.yml
-  - local: .gitlab/coverity2.yml
+  - local: .gitlab/coverity.yml
   - local: .gitlab/docker.yml
   - local: .gitlab/docker/builder/gitlab.yml
   - local: .gitlab/docker/testbed/gitlab.yml
