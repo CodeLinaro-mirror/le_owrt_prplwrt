@@ -22,8 +22,6 @@ include:
       variables:
         BRIDGE_COVERITY_CONNECT_POLICY_VIEW: Outstanding Issues
     - if: ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ $SCAN_BRANCHES && $CI_PIPELINE_SOURCE == 'merge_request_event')
-      variables:
-        BRIDGE_COVERITY_AUTOMATION_PRCOMMENT: true
   before_script:
     - apt-get -qq update && apt-get install -y curl file unzip
     - touch .build_failed
