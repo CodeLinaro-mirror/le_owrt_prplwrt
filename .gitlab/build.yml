@@ -114,7 +114,7 @@
         tar cfJ "rootfs-debug.tar.xz" -C "$root_dir" .
         echo "Export of staging_dir/root-* completed in rootfs-debug.tar.xz"
       else
-        echo "Skipping export of staging/root-* as `CI_BUILD_EXPORT_STAGING_ROOTFS` is not set."
+        echo "Skipping export of staging/root-* as CI_BUILD_EXPORT_STAGING_ROOTFS is not set."
       fi
     - rm .build_failed
 
