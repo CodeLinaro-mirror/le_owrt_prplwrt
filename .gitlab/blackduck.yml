@@ -1,6 +1,7 @@
 .blackduck scan config:
   extends: .build test config
   stage: blackduck
+  timeout: 4 hours
   needs: []
   rules:
     - when: manual
