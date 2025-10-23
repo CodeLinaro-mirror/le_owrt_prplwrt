@@ -116,3 +116,12 @@ include:
     - make toolchain/compile -j $(nproc) 2>&1 | tee --append logs/build.log
 
   extends: .run-black-duck-tools
+  after_script:
+    - mkdir -p bin
+    - tar -czf bin/coverity-scan-output.tar.gz .bridge/coverity_connect_scan/comparison-report 2>/dev/null || true
+  artifacts:
+    expire_in: 1 month
+    when: always
+    paths:
+      - logs
+      - bin/coverity-scan-output.tar.gz
