@@ -185,6 +185,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_amx-faultmonitor=y
   CONFIG_PACKAGE_amx-fcgi=y
   CONFIG_PACKAGE_amx-processmonitor=y
+  CONFIG_PACKAGE_amxo-cg=y
   CONFIG_PACKAGE_amxrt=y
   CONFIG_PACKAGE_argp-standalone-shared=y
   CONFIG_PACKAGE_base-files-platform-lgm=y
