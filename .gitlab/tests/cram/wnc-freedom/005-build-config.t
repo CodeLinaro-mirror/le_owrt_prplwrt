@@ -93,6 +93,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_amx-faultmonitor=y
   CONFIG_PACKAGE_amx-fcgi=y
   CONFIG_PACKAGE_amx-processmonitor=y
+  CONFIG_PACKAGE_amxo-cg=y
   CONFIG_PACKAGE_amxrt=y
   CONFIG_PACKAGE_aq-fw-download=y
   CONFIG_PACKAGE_aq_phy=y
