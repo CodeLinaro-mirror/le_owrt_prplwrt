@@ -66,7 +66,7 @@ build test qca_ipq95xx extender_minimal cellular security thread:
 build test qca_ipq95xx extender_full cellular security thread:
   extends: .build test config
 
-coverity scan ipq807x prpl:
+coverity scan qca_ipq95xx prpl cellular thread:
   extends: .coverity scan config
   variables:
     CI_COVERITY_COMPILER_TEMPLATE_LIST: >
