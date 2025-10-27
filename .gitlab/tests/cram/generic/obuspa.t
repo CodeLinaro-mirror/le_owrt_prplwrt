@@ -20,6 +20,13 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.Bridging.Bridge.{i}.Port.{i}.IngressFiltering                                                 proto::tr181-bridging
   Device.Bridging.Bridge.{i}.Port.{i}.LastChange                                                       proto::tr181-bridging
   Device.Bridging.Bridge.{i}.Port.{i}.LowerLayers                                                      proto::tr181-bridging
+  Device.Bridging.Bridge.{i}.Port.{i}.MACEvent!                                                        proto::tr181-bridging
+  Device.Bridging.Bridge.{i}.Port.{i}.MACEvent! event_arg:Action
+  Device.Bridging.Bridge.{i}.Port.{i}.MACEvent! event_arg:Bridge
+  Device.Bridging.Bridge.{i}.Port.{i}.MACEvent! event_arg:BridgePort
+  Device.Bridging.Bridge.{i}.Port.{i}.MACEvent! event_arg:CPUPort
+  Device.Bridging.Bridge.{i}.Port.{i}.MACEvent! event_arg:MACAddress
+  Device.Bridging.Bridge.{i}.Port.{i}.MACEvent! event_arg:NetDevName
   Device.Bridging.Bridge.{i}.Port.{i}.ManagementPort                                                   proto::tr181-bridging
   Device.Bridging.Bridge.{i}.Port.{i}.Name                                                             proto::tr181-bridging
   Device.Bridging.Bridge.{i}.Port.{i}.PVID                                                             proto::tr181-bridging
@@ -5025,6 +5032,13 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.Bridging.Bridge.{i}.Port.{i}.IngressFiltering                                                 proto::tr181-bridging
   Device.Bridging.Bridge.{i}.Port.{i}.LastChange                                                       proto::tr181-bridging
   Device.Bridging.Bridge.{i}.Port.{i}.LowerLayers                                                      proto::tr181-bridging
+  Device.Bridging.Bridge.{i}.Port.{i}.MACEvent!                                                        proto::tr181-bridging
+  Device.Bridging.Bridge.{i}.Port.{i}.MACEvent! event_arg:Action
+  Device.Bridging.Bridge.{i}.Port.{i}.MACEvent! event_arg:Bridge
+  Device.Bridging.Bridge.{i}.Port.{i}.MACEvent! event_arg:BridgePort
+  Device.Bridging.Bridge.{i}.Port.{i}.MACEvent! event_arg:CPUPort
+  Device.Bridging.Bridge.{i}.Port.{i}.MACEvent! event_arg:MACAddress
+  Device.Bridging.Bridge.{i}.Port.{i}.MACEvent! event_arg:NetDevName
   Device.Bridging.Bridge.{i}.Port.{i}.ManagementPort                                                   proto::tr181-bridging
   Device.Bridging.Bridge.{i}.Port.{i}.Name                                                             proto::tr181-bridging
   Device.Bridging.Bridge.{i}.Port.{i}.PVID                                                             proto::tr181-bridging
