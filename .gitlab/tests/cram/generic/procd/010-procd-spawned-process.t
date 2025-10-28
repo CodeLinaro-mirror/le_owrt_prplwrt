@@ -13,13 +13,9 @@ provided, #Param1 - Name of the process or service:
   > Pid=$(R "ubus call service list | sed '/^$/d' | " \
   > "jsonfilter -e '@[\"$1\"][\"instances\"][\"$1\"].pid'"); echo "$1 $Pid";}
 
-Ensure that all services migrated to procd are no longer using the obsolete amx_init_functions.sh-based init system, with the exception of non-migrated prplware components:
+Ensure that all services migrated to procd are no longer using the obsolete amx_init_functions.sh-based init system except Amx Shutdown:
 
-  $ R "grep -r amx_init_functions.sh /etc/init.d | grep -vE '(acl-manager|\
-  > amx-fcgi|amx-shutdown-wait|cthulhu|netmodel-clients|rlyeh|timingila|\
-  > tr181-conmon|tr181-conntrack-query|tr181-flashmonitor|tr181-gnimanager\
-  > |tr181-homeplug|tr181-upnpdiscovery|data-model-mapper|tr069-discovery|\
-  > tr181-gatewayinfo|usp-discovery)'"
+  $ R "grep -r amx_init_functions.sh /etc/init.d" | grep -vE 'amx-shutdown-wait'
   [1]
 
 Verify expected processes that should be started by procd are running, using \
