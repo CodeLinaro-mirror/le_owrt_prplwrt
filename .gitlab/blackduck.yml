@@ -20,6 +20,7 @@
     - sudo chmod +x detect.sh
     - cd build_dir/target-*
     - |
-      for dir in $(ls build_dir/target-*); do
-        ./detect.sh --blackduck.url=https://prplfoundation.app.blackduck.com --blackduck.api.token=$BLACKDUCK_API_KEY --detect.project.name=$CI_COMMIT_REF_NAME --detect.project.version.name=$target_name
+      for dir in $(ls -d build_dir/target-*/*); do
+        ./detect.sh --blackduck.url=https://prplfoundation.app.blackduck.com --blackduck.api.token=$BLACKDUCK_API_KEY --detect.project.name=prplos --detect.project.version.name=$CI_COMMIT_REF_NAME-$target_name --detect.source.path=$dir --detect.excluded.detector.types=PIP,NPM
+
       done
