@@ -4597,6 +4597,8 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.XPON.ONU.{i}.ANI.{i}.Transceiver.{i}.X_PRPLWARE-COM_SFPReference                              proto::tr181-xpon
   Device.XPON.ONU.{i}.ANI.{i}.TransceiverNumberOfEntries                                               proto::tr181-xpon
   Device.XPON.ONU.{i}.ANINumberOfEntries                                                               proto::tr181-xpon
+  Device.XPON.ONU.{i}.ChangePowerMode()                                                                proto::tr181-xpon
+  Device.XPON.ONU.{i}.ChangePowerMode() input:PowerState
   Device.XPON.ONU.{i}.Enable                                                                           proto::tr181-xpon
   Device.XPON.ONU.{i}.EquipmentID                                                                      proto::tr181-xpon
   Device.XPON.ONU.{i}.EthernetUNI.{i}.                                                                 proto::tr181-xpon
@@ -4611,6 +4613,8 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.XPON.ONU.{i}.EthernetUNI.{i}.Status                                                           proto::tr181-xpon
   Device.XPON.ONU.{i}.EthernetUNINumberOfEntries                                                       proto::tr181-xpon
   Device.XPON.ONU.{i}.Name                                                                             proto::tr181-xpon
+  Device.XPON.ONU.{i}.PowerCapability                                                                  proto::tr181-xpon
+  Device.XPON.ONU.{i}.PowerStatus                                                                      proto::tr181-xpon
   Device.XPON.ONU.{i}.SoftwareImage.{i}.                                                               proto::tr181-xpon
   Device.XPON.ONU.{i}.SoftwareImage.{i}.ID                                                             proto::tr181-xpon
   Device.XPON.ONU.{i}.SoftwareImage.{i}.IsActive                                                       proto::tr181-xpon
@@ -9652,6 +9656,8 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.XPON.ONU.{i}.ANI.{i}.Transceiver.{i}.X_PRPLWARE-COM_SFPReference                              proto::tr181-xpon
   Device.XPON.ONU.{i}.ANI.{i}.TransceiverNumberOfEntries                                               proto::tr181-xpon
   Device.XPON.ONU.{i}.ANINumberOfEntries                                                               proto::tr181-xpon
+  Device.XPON.ONU.{i}.ChangePowerMode()                                                                proto::tr181-xpon
+  Device.XPON.ONU.{i}.ChangePowerMode() input:PowerState
   Device.XPON.ONU.{i}.Enable                                                                           proto::tr181-xpon
   Device.XPON.ONU.{i}.EquipmentID                                                                      proto::tr181-xpon
   Device.XPON.ONU.{i}.EthernetUNI.{i}.                                                                 proto::tr181-xpon
@@ -9666,6 +9672,8 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.XPON.ONU.{i}.EthernetUNI.{i}.Status                                                           proto::tr181-xpon
   Device.XPON.ONU.{i}.EthernetUNINumberOfEntries                                                       proto::tr181-xpon
   Device.XPON.ONU.{i}.Name                                                                             proto::tr181-xpon
+  Device.XPON.ONU.{i}.PowerCapability                                                                  proto::tr181-xpon
+  Device.XPON.ONU.{i}.PowerStatus                                                                      proto::tr181-xpon
   Device.XPON.ONU.{i}.SoftwareImage.{i}.                                                               proto::tr181-xpon
   Device.XPON.ONU.{i}.SoftwareImage.{i}.ID                                                             proto::tr181-xpon
   Device.XPON.ONU.{i}.SoftwareImage.{i}.IsActive                                                       proto::tr181-xpon
