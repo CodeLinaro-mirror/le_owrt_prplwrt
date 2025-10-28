@@ -124,6 +124,7 @@ Check that ubus has expected datamodels available:
   Device.X_PRPLWARE-COM_ConMon
   Device.X_PRPLWARE-COM_ConnectionTrackingQuery
   Device.X_PRPLWARE-COM_GenericNetworkInterface
+  Device.X_PRPLWARE-COM_MCASTD
   Device.X_PRPLWARE-COM_MultiSettings
   Device.X_PRPLWARE-COM_PersistentConfiguration
   Device.X_PRPLWARE-COM_SoftwareModules
