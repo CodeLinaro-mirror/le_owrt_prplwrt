@@ -1,11 +1,7 @@
 Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
-
-Provide common helpers:
-
-  $ get_ssid_status() { R "ba-cli -j -l WiFi.SSID.?0 | jsonfilter -e @[0]'[@.Alias != \"ep2g0\" && @.Alias != \"ep5g0\" && @.Alias != \"ep6g0\"].Status'" | LC_ALL=C sort;}
-  $ get_ssid_ssid() { R "ba-cli -j -l WiFi.SSID.?0 | jsonfilter -e @[0]'[@.Alias != \"ep2g0\" && @.Alias != \"ep5g0\" && @.Alias != \"ep6g0\"].SSID'" | LC_ALL=C sort;}
+  $ . "${TESTDIR}/../scripts/wifi.sh"
 
 Set AutoChannelEnable=0 on all WiFi.Radio. interfaces:
 
