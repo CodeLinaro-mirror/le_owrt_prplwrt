@@ -1,14 +1,7 @@
 Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
-
-Provide common helpers: 
-
-  $ enable_ap() { R "ba-cli -j -l WiFi.AccessPoint.${1}.Enable=1 | grep -q Enable && echo '"WiFi.AccessPoint.${1}" enabled'";}
-  $ disable_ap() { R "ba-cli -j -l WiFi.AccessPoint.${1}.Enable=0 | grep -q Enable && echo '"WiFi.AccessPoint.${1}" disabled'";}
-  $ check_ap_ref_ssid() { R "i=15 ; while [ \$i -gt 1 ]; do ba-cli -j -l WiFi.AccessPoint.${1}.SSIDReference+.Status? | grep WiFi.SSID. | grep -q "${2}" && echo '"WiFi.AccessPoint.${1}" SSID Reference is "${2}"' && i=0 ; i=\$(( i-1 )); sleep 2 ; done";}
-  $ get_ssid_ref() { msg=$(R "ba-cli -j -l WiFi.AccessPoint.${1}.SSIDReference+.Status?"); echo "$msg" | sed '/^$/d';}
-  $ get_ssid_status() { R "ba-cli -j -l WiFi.SSID.?0 | jsonfilter -e @[0]'[@.Alias != \"ep2g0\" && @.Alias != \"ep5g0\" && @.Alias != \"ep6g0\"].Status'" | LC_ALL=C sort;}
+  $ . "${TESTDIR}/../scripts/wifi.sh"
 
   $ R logger -t cram "Starting wifi-scheduler test ..."
 
