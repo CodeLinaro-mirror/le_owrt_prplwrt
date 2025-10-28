@@ -833,6 +833,8 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.Ethernet.                                                                                     proto::ethernet-manager
   Device.Ethernet.Interface.{i}.                                                                       proto::ethernet-manager
   Device.Ethernet.Interface.{i}.Alias                                                                  proto::ethernet-manager
+  Device.Ethernet.Interface.{i}.ChangePowerMode()                                                      proto::ethernet-manager
+  Device.Ethernet.Interface.{i}.ChangePowerMode() input:PowerState
   Device.Ethernet.Interface.{i}.CurrentBitRate                                                         proto::ethernet-manager
   Device.Ethernet.Interface.{i}.CurrentDuplexMode                                                      proto::ethernet-manager
   Device.Ethernet.Interface.{i}.DuplexMode                                                             proto::ethernet-manager
@@ -848,6 +850,8 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.Ethernet.Interface.{i}.MACAddress                                                             proto::ethernet-manager
   Device.Ethernet.Interface.{i}.MaxBitRate                                                             proto::ethernet-manager
   Device.Ethernet.Interface.{i}.Name                                                                   proto::ethernet-manager
+  Device.Ethernet.Interface.{i}.PowerCapability                                                        proto::ethernet-manager
+  Device.Ethernet.Interface.{i}.PowerStatus                                                            proto::ethernet-manager
   Device.Ethernet.Interface.{i}.SFPReferenceList                                                       proto::ethernet-manager
   Device.Ethernet.Interface.{i}.Stats.                                                                 proto::ethernet-manager
   Device.Ethernet.Interface.{i}.Stats.BroadcastPacketsReceived                                         proto::ethernet-manager
@@ -5884,6 +5888,8 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.Ethernet.                                                                                     proto::ethernet-manager
   Device.Ethernet.Interface.{i}.                                                                       proto::ethernet-manager
   Device.Ethernet.Interface.{i}.Alias                                                                  proto::ethernet-manager
+  Device.Ethernet.Interface.{i}.ChangePowerMode()                                                      proto::ethernet-manager
+  Device.Ethernet.Interface.{i}.ChangePowerMode() input:PowerState
   Device.Ethernet.Interface.{i}.CurrentBitRate                                                         proto::ethernet-manager
   Device.Ethernet.Interface.{i}.CurrentDuplexMode                                                      proto::ethernet-manager
   Device.Ethernet.Interface.{i}.DuplexMode                                                             proto::ethernet-manager
@@ -5899,6 +5905,8 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.Ethernet.Interface.{i}.MACAddress                                                             proto::ethernet-manager
   Device.Ethernet.Interface.{i}.MaxBitRate                                                             proto::ethernet-manager
   Device.Ethernet.Interface.{i}.Name                                                                   proto::ethernet-manager
+  Device.Ethernet.Interface.{i}.PowerCapability                                                        proto::ethernet-manager
+  Device.Ethernet.Interface.{i}.PowerStatus                                                            proto::ethernet-manager
   Device.Ethernet.Interface.{i}.SFPReferenceList                                                       proto::ethernet-manager
   Device.Ethernet.Interface.{i}.Stats.                                                                 proto::ethernet-manager
   Device.Ethernet.Interface.{i}.Stats.BroadcastPacketsReceived                                         proto::ethernet-manager
