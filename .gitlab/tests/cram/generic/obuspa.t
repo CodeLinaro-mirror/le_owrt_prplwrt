@@ -615,6 +615,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.DeviceInfo.ProcessFaults.ProcessFault.{i}.Upload() input:Username
   Device.DeviceInfo.ProcessFaults.ProcessFaultNumberOfEntries                                          proto::amx-faultmonitor
   Device.DeviceInfo.ProcessFaults.RemoveAllProcessFaults()                                             proto::amx-faultmonitor
+  Device.DeviceInfo.ProcessFaults.RotateProcessFaultEntries                                            proto::amx-faultmonitor
   Device.DeviceInfo.ProcessFaults.StoragePath                                                          proto::amx-faultmonitor
   Device.DeviceInfo.ProcessStatus.                                                                     proto::deviceinfo-manager
   Device.DeviceInfo.ProcessStatus.CPUUsage                                                             proto::deviceinfo-manager
@@ -5255,6 +5256,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.DeviceInfo.ProcessFaults.ProcessFault.{i}.Upload() input:Username
   Device.DeviceInfo.ProcessFaults.ProcessFaultNumberOfEntries                                          proto::amx-faultmonitor
   Device.DeviceInfo.ProcessFaults.RemoveAllProcessFaults()                                             proto::amx-faultmonitor
+  Device.DeviceInfo.ProcessFaults.RotateProcessFaultEntries                                            proto::amx-faultmonitor
   Device.DeviceInfo.ProcessFaults.StoragePath                                                          proto::amx-faultmonitor
   Device.DeviceInfo.ProcessStatus.                                                                     proto::deviceinfo-manager
   Device.DeviceInfo.ProcessStatus.CPUUsage                                                             proto::deviceinfo-manager
