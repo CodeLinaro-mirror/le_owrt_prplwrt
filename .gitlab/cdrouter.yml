@@ -146,12 +146,12 @@
 
     - >
       if test -n "$cdrouter_exit_code"; then
-        echo "CDRouter exited with $cdrouter_exit_code exit code."
+        log_error "CDRouter exited with $cdrouter_exit_code exit code."
         exit "$cdrouter_exit_code"
       fi
 
       if test -n "$cram_exit_code"; then
-        echo "cram exited with $cram_exit_code exit code."
+        log_error "cram exited with $cram_exit_code exit code."
         exit "$cram_exit_code"
       fi
 
