@@ -43,10 +43,16 @@ Check default SSID status:
   Down
   Down
   Down
+  Down
+  Down
+  Down
 
 Check default SSID configuration of access points:
 
   $ R "ba-cli -j -l WiFi.SSID.?0 | jsonfilter -e @[0]'[@.Alias != \"ep2g0\" && @.Alias != \"ep5g0\" && @.Alias != \"ep6g0\"].SSID'" | LC_ALL=C sort
+  backhaul_AC:91:9B:*:*:* (glob)
+  backhaul_AC:91:9B:*:*:* (glob)
+  backhaul_AC:91:9B:*:*:* (glob)
   prplOS
   prplOS
   prplOS
@@ -77,6 +83,9 @@ Test activation of access point 1:
   Down
   Down
   Down
+  Down
+  Down
+  Down
   Up
 
 Test activation of access point 2:
@@ -92,6 +101,9 @@ Test activation of access point 2:
   $ sleep 10
 
   $ get_ssid_status
+  Down
+  Down
+  Down
   Down
   Down
   Down
@@ -115,6 +127,9 @@ Test activation of access point 3:
   Down
   Down
   Down
+  Down
+  Down
+  Down
   Up
   Up
   Up
@@ -132,6 +147,9 @@ Test activation of access point 4:
   $ sleep 10
 
   $ get_ssid_status
+  Down
+  Down
+  Down
   Down
   Down
   Up
@@ -153,6 +171,9 @@ Test activation of access point 5:
 
   $ get_ssid_status
   Down
+  Down
+  Down
+  Down
   Up
   Up
   Up
@@ -172,6 +193,9 @@ Test activation of access point 6:
   $ sleep 10
 
   $ get_ssid_status
+  Down
+  Down
+  Down
   Up
   Up
   Up
@@ -200,12 +224,15 @@ Check iw interfaces and beaconing:
   Interface wlan0
   Interface wlan0.1
   Interface wlan0.2
+  Interface wlan0.3
   Interface wlan1
   Interface wlan1.1
   Interface wlan1.2
+  Interface wlan1.3
   Interface wlan2
   Interface wlan2.1
   Interface wlan2.2
+  Interface wlan2.3
   ssid prplOS
   ssid prplOS-guest
 
@@ -239,6 +266,9 @@ Test deactivation of access point 6:
 
   $ get_ssid_status
   Down
+  Down
+  Down
+  Down
   Up
   Up
   Up
@@ -258,6 +288,9 @@ Test deactivation of access point 5:
   $ sleep 10
 
   $ get_ssid_status
+  Down
+  Down
+  Down
   Down
   Down
   Up
@@ -281,6 +314,9 @@ Test deactivation of access point 4:
   Down
   Down
   Down
+  Down
+  Down
+  Down
   Up
   Up
   Up
@@ -298,6 +334,9 @@ Test deactivation of access point 3:
   $ sleep 10
 
   $ get_ssid_status
+  Down
+  Down
+  Down
   Down
   Down
   Down
@@ -323,6 +362,9 @@ Test deactivation of access point 2:
   Down
   Down
   Down
+  Down
+  Down
+  Down
   Up
 
 Test deactivation of access point 1:
@@ -338,6 +380,9 @@ Test deactivation of access point 1:
   $ sleep 5
 
   $ get_ssid_status
+  Down
+  Down
+  Down
   Down
   Down
   Down
