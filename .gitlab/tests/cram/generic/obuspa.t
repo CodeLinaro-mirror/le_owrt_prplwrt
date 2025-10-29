@@ -4527,6 +4527,58 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.X_PRPLWARE-COM_GenericNetworkInterface.Interface.{i}.Stats.UnknownProtoPacketsReceived        proto::tr181-gnimanager
   Device.X_PRPLWARE-COM_GenericNetworkInterface.Interface.{i}.Status                                   proto::tr181-gnimanager
   Device.X_PRPLWARE-COM_GenericNetworkInterface.InterfaceNumberOfEntries                               proto::tr181-gnimanager
+  Device.X_PRPLWARE-COM_MCASTD.                                                                        proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Debug.                                                                  proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Debug.Enable                                                            proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Debug.Zone.{i}.                                                         proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Debug.Zone.{i}.Enable                                                   proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Intf.{i}.                                                               proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Intf.{i}.Address                                                        proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Intf.{i}.Alias                                                          proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Intf.{i}.ClientEnable                                                   proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Intf.{i}.Family                                                         proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Intf.{i}.FastLeaveEnable                                                proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Intf.{i}.ForceCompat                                                    proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Intf.{i}.L2Snooping                                                     proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Intf.{i}.MTU                                                            proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Intf.{i}.MaxGroups                                                      proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Intf.{i}.MulticastDown                                                  proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Intf.{i}.NetDevIndex                                                    proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Intf.{i}.NetDevIndexMcastIptv                                           proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Intf.{i}.NetDevName                                                     proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Intf.{i}.NetmodelIntf                                                   proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Intf.{i}.NoForwardEnable                                                proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Intf.{i}.PortIGMPDisabled                                               proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Intf.{i}.QuerierEnable                                                  proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Intf.{i}.QuerierVersion                                                 proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Intf.{i}.SnoopingEnable                                                 proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Intf.{i}.Status                                                         proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Intf.{i}.SubscriptionsPresent                                           proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Intf.{i}.WANEnable                                                      proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Intf.{i}.getGroups()                                                    proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Intf.{i}.getGroups() input:group
+  Device.X_PRPLWARE-COM_MCASTD.Intf.{i}.getIface()                                                     proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.OptionalNotificationsEnable                                             proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Tuner.                                                                  proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Tuner.GMI                                                               proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Tuner.LMQC                                                              proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Tuner.LMQI                                                              proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Tuner.LMQT                                                              proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Tuner.OHPI                                                              proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Tuner.QI                                                                proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Tuner.QRI                                                               proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Tuner.RV                                                                proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Tuner.SQC                                                               proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Tuner.SQI                                                               proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.getMGroups()                                                            proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.reconfigure()                                                           proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.snoop()                                                                 proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.snoop() input:compat
+  Device.X_PRPLWARE-COM_MCASTD.snoop() input:group
+  Device.X_PRPLWARE-COM_MCASTD.snoop() input:host
+  Device.X_PRPLWARE-COM_MCASTD.snoop() input:ifindex
+  Device.X_PRPLWARE-COM_MCASTD.snoop() input:source
+  Device.X_PRPLWARE-COM_MCASTD.snoop() input:type
   Device.X_PRPLWARE-COM_MultiSettings.                                                                 proto::multisettings
   Device.X_PRPLWARE-COM_MultiSettings.CurrentProfile                                                   proto::multisettings
   Device.X_PRPLWARE-COM_MultiSettings.DecisionMadeBy                                                   proto::multisettings
@@ -9343,6 +9395,58 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.X_PRPLWARE-COM_GenericNetworkInterface.Interface.{i}.Stats.UnknownProtoPacketsReceived        proto::tr181-gnimanager
   Device.X_PRPLWARE-COM_GenericNetworkInterface.Interface.{i}.Status                                   proto::tr181-gnimanager
   Device.X_PRPLWARE-COM_GenericNetworkInterface.InterfaceNumberOfEntries                               proto::tr181-gnimanager
+  Device.X_PRPLWARE-COM_MCASTD.                                                                        proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Debug.                                                                  proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Debug.Enable                                                            proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Debug.Zone.{i}.                                                         proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Debug.Zone.{i}.Enable                                                   proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Intf.{i}.                                                               proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Intf.{i}.Address                                                        proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Intf.{i}.Alias                                                          proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Intf.{i}.ClientEnable                                                   proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Intf.{i}.Family                                                         proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Intf.{i}.FastLeaveEnable                                                proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Intf.{i}.ForceCompat                                                    proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Intf.{i}.L2Snooping                                                     proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Intf.{i}.MTU                                                            proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Intf.{i}.MaxGroups                                                      proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Intf.{i}.MulticastDown                                                  proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Intf.{i}.NetDevIndex                                                    proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Intf.{i}.NetDevIndexMcastIptv                                           proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Intf.{i}.NetDevName                                                     proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Intf.{i}.NetmodelIntf                                                   proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Intf.{i}.NoForwardEnable                                                proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Intf.{i}.PortIGMPDisabled                                               proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Intf.{i}.QuerierEnable                                                  proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Intf.{i}.QuerierVersion                                                 proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Intf.{i}.SnoopingEnable                                                 proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Intf.{i}.Status                                                         proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Intf.{i}.SubscriptionsPresent                                           proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Intf.{i}.WANEnable                                                      proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Intf.{i}.getGroups()                                                    proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Intf.{i}.getGroups() input:group
+  Device.X_PRPLWARE-COM_MCASTD.Intf.{i}.getIface()                                                     proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.OptionalNotificationsEnable                                             proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Tuner.                                                                  proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Tuner.GMI                                                               proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Tuner.LMQC                                                              proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Tuner.LMQI                                                              proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Tuner.LMQT                                                              proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Tuner.OHPI                                                              proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Tuner.QI                                                                proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Tuner.QRI                                                               proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Tuner.RV                                                                proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Tuner.SQC                                                               proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.Tuner.SQI                                                               proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.getMGroups()                                                            proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.reconfigure()                                                           proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.snoop()                                                                 proto::tr181-mcastd
+  Device.X_PRPLWARE-COM_MCASTD.snoop() input:compat
+  Device.X_PRPLWARE-COM_MCASTD.snoop() input:group
+  Device.X_PRPLWARE-COM_MCASTD.snoop() input:host
+  Device.X_PRPLWARE-COM_MCASTD.snoop() input:ifindex
+  Device.X_PRPLWARE-COM_MCASTD.snoop() input:source
+  Device.X_PRPLWARE-COM_MCASTD.snoop() input:type
   Device.X_PRPLWARE-COM_MultiSettings.                                                                 proto::multisettings
   Device.X_PRPLWARE-COM_MultiSettings.CurrentProfile                                                   proto::multisettings
   Device.X_PRPLWARE-COM_MultiSettings.DecisionMadeBy                                                   proto::multisettings
