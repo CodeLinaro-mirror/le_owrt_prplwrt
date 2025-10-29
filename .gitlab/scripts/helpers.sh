@@ -1,5 +1,9 @@
 #!/bin/bash
 
+log_error() { echo -e "\e[91m❌ ERROR: $*\e[0m"; }
+log_success() { echo -e "\e[92m✅ $*\e[0m"; }
+log_info() { echo -e "\e[93m💡 $*\e[0m"; }
+
 # section_start - Start a collapsible section in GitLab CI job logs
 #
 # Creates a collapsible section marker in GitLab CI logs that can be expanded
