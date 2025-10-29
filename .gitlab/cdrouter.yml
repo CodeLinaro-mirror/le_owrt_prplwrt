@@ -20,6 +20,9 @@
     CDROUTER_ETH0_MAC_ADDRESS_TESTBED_02: 00:03:2d:49:2e:c8
 
   before_script:
+    - source .gitlab/scripts/helpers.sh
+    - section_start "testbed-setup" "Testbed Setup" "collapsed"
+
     - >
       if echo "$CI_RUNNER_DESCRIPTION" | grep -q testbed-01; then
         sudo etherwake -i $TESTBED_MNG_INTERFACE $CDROUTER_ETH0_MAC_ADDRESS 2> /dev/null
@@ -53,6 +56,9 @@
         export TB_CONFIG=".testbed/labgrid/testbed-02.yaml"
       fi
 
+    - section_end "testbed-setup"
+    - section_start "dut-bringup" "DUT Bringup" "collapsed"
+
     - .gitlab/scripts/testbed-device.py --target $LABGRID_TARGET boot_into shell
     - sudo ip link set $TESTBED_WAN_INTERFACE down 2> /dev/null
     - >
@@ -62,6 +68,10 @@
       --remote-host $TARGET_LAN_TEST_HOST
 
     - sleep $DUT_SLEEP_AFTER_BOOT
+
+    - section_end "dut-bringup"
+    - section_start "dut-system-info" "DUT System Information" "collapsed"
+
     - echo "Waiting for SSH connection availability with ${DUT_SSH_CONNECT_TIMEOUT}sec timeout, with $DUT_SSH_CONNECT_ATTEMPTS attempts..."
     - time ssh -o BatchMode=yes -o StrictHostKeyChecking=no -o ConnectionAttempts=$DUT_SSH_CONNECT_ATTEMPTS -o ConnectTimeout=$DUT_SSH_CONNECT_TIMEOUT root@$TARGET_LAN_IP 'exit 0'
 
@@ -70,10 +80,16 @@
     - ssh root@$TARGET_LAN_IP "cat /var/log/messages" > syslog-$LABGRID_TARGET.txt 2> /dev/null || true
     - ssh root@$TARGET_LAN_IP "ubus call system board" | tee system-$LABGRID_TARGET.json
 
+    - section_end "dut-system-info"
+    - section_start "dut-init" "DUT Initialization" "collapsed"
+
     - >
       for dut_init_script in $DUT_INIT_SCRIPTS;
         do echo "Running $dut_init_script"; "${CI_PROJECT_DIR}/$dut_init_script";
       done
+
+    - section_end "dut-init"
+    - section_start "cdrouter-configuration" "CDRouter Configuration" "collapsed"
 
     - >
       if echo "$CI_RUNNER_DESCRIPTION" | grep -q testbed-02; then
@@ -91,6 +107,8 @@
     - .gitlab/scripts/testbed-cdrouter.py wait_for_netif $CDROUTER_WAN_INTERFACE
 
   script:
+    - source .gitlab/scripts/helpers.sh
+
     - >
       if echo "$CI_RUNNER_DESCRIPTION" | grep -q testbed-02; then
         export CDROUTER_API_TOKEN="$CDROUTER_API_TOKEN_TESTBED_02"
@@ -100,6 +118,7 @@
     - .gitlab/scripts/testbed-cdrouter.py config_import $CDROUTER_TEST_CONFIG
     - .gitlab/scripts/testbed-cdrouter.py package_import $TEST_PACKAGE.gz
 
+    - section_end "cdrouter-configuration"
     - >
       ssh root@$TARGET_LAN_IP 'f=$(logread | grep "procd.*init complete"); echo "${f:-Warning: init is not complete yet,} $(uptime -p)"' || true
     - ssh root@$TARGET_LAN_IP 'logger -t CI -p local0.info "Testing starts, $(uptime -p)"' || true
@@ -109,6 +128,7 @@
       TEST_CUTOFF_TIMEOUT=$((CI_JOB_TIMEOUT - DUT_SLEEP_AFTER_BOOT - TEST_SETUP_TEARDOWN_DURATION))
       echo "Job timeout: $CI_JOB_TIMEOUT seconds, test cutoff timeout: $TEST_CUTOFF_TIMEOUT seconds"
 
+    - section_start "test-execution" "Test Execution" "expanded"
     - |
       .gitlab/scripts/testbed-cdrouter.py \
         package_run $TEST_PACKAGE \
@@ -116,6 +136,7 @@
         --configuration $CDROUTER_TEST_CONFIG \
         --system-info system-$LABGRID_TARGET.json \
         --timeout ${TEST_CUTOFF_TIMEOUT} || cdrouter_exit_code=$?
+    - section_end "test-execution"
 
     - sudo ip link set $TESTBED_LAN_INTERFACE up 2> /dev/null || true
     - sudo ip link set $TESTBED_WAN_INTERFACE up 2> /dev/null || true
