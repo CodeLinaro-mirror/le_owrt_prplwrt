@@ -1,14 +1,12 @@
 #!/bin/bash
 
+source .gitlab/scripts/helpers.sh
+
 set -eu         # exit on error and undefined variables
 set -o pipefail # catch errors in pipes
 
 radio_2g_path=""
 ssid_2g_path=""
-
-log_error() { echo -e "\e[91m❌ ERROR: $*\e[0m"; }
-log_success() { echo -e "\e[92m✅ $*\e[0m"; }
-log_info() { echo -e "\e[93m💡 $*\e[0m"; }
 
 trap 'handle_error $? $LINENO $BASH_LINENO "$BASH_COMMAND" $(printf "::%s" ${FUNCNAME[@]:-})' ERR
 
