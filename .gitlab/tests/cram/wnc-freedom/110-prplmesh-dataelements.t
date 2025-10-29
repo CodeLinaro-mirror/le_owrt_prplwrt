@@ -56,8 +56,14 @@ Check all AccessPoint.SSIDReference+ instances are disabled
   Down
   Down
   Down
+  Down
+  Down
+  Down
 
   $ get_ssid_ssid
+  backhaul_AC:91:9B:*:*:* (glob)
+  backhaul_AC:91:9B:*:*:* (glob)
+  backhaul_AC:91:9B:*:*:* (glob)
   prplOS
   prplOS
   prplOS
@@ -146,6 +152,9 @@ In case the controller does not yet have this parameter, catch error here isof l
 Check that wireless is operating:
 
   $ get_ssid_status
+  Down
+  Down
+  Down
   Up
   Up
   Up
@@ -154,6 +163,9 @@ Check that wireless is operating:
   Up
 
   $ get_ssid_ssid
+  backhaul_AC:91:9B:*:*:* (glob)
+  backhaul_AC:91:9B:*:*:* (glob)
+  backhaul_AC:91:9B:*:*:* (glob)
   prplOSguest
   prplOSguest
   prplOSguest
@@ -224,10 +236,16 @@ Check that wireless is disabled:
   Down
   Down
   Down
+  Down
+  Down
+  Down
 
 Check that SSIDs did not change:
 
   $ get_ssid_ssid
+  backhaul_AC:91:9B:*:*:* (glob)
+  backhaul_AC:91:9B:*:*:* (glob)
+  backhaul_AC:91:9B:*:*:* (glob)
   prplOSguest
   prplOSguest
   prplOSguest

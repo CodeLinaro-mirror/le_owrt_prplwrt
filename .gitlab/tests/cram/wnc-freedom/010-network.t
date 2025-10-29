@@ -31,10 +31,13 @@ Check correct interface setup:
    wan: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP mode DEFAULT group default qlen 1000
    wlan0.1: <BROADCAST,MULTICAST> mtu 1500 qdisc noop master br-lan state DOWN mode DEFAULT group default qlen 1000
    wlan0.2: <BROADCAST,MULTICAST> mtu 1500 qdisc noop master br-guest state DOWN mode DEFAULT group default qlen 1000
+   wlan0.3: <BROADCAST,MULTICAST> mtu 1500 qdisc noop state DOWN mode DEFAULT group default qlen 1000
    wlan0: <(NO-CARRIER,)?BROADCAST,MULTICAST(,UP)?> mtu 1500 qdisc noqueue master br-lan state DOWN mode (DORMANT|DEFAULT) group default qlen 1000 (re)
    wlan1.1: <BROADCAST,MULTICAST> mtu 1500 qdisc noop master br-lan state DOWN mode DEFAULT group default qlen 1000
    wlan1.2: <BROADCAST,MULTICAST> mtu 1500 qdisc noop master br-guest state DOWN mode DEFAULT group default qlen 1000
+   wlan1.3: <BROADCAST,MULTICAST> mtu 1500 qdisc noop state DOWN mode DEFAULT group default qlen 1000
    wlan1: <(NO-CARRIER,)?BROADCAST,MULTICAST(,UP)?> mtu 1500 qdisc noqueue master br-lan state DOWN mode (DORMANT|DEFAULT) group default qlen 1000 (re)
    wlan2.1: <BROADCAST,MULTICAST> mtu 1500 qdisc noop master br-lan state DOWN mode DEFAULT group default qlen 1000
    wlan2.2: <BROADCAST,MULTICAST> mtu 1500 qdisc noop master br-guest state DOWN mode DEFAULT group default qlen 1000
+   wlan2.3: <BROADCAST,MULTICAST> mtu 1500 qdisc noop state DOWN mode DEFAULT group default qlen 1000
    wlan2: <(NO-CARRIER,)?BROADCAST,MULTICAST(,UP)?> mtu 1500 qdisc noqueue master br-lan state DOWN mode (DORMANT|DEFAULT) group default qlen 1000 (re)
