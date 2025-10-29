@@ -34,6 +34,9 @@
       .gitlab/tests/cram/post/generic
 
   before_script:
+    - source .gitlab/scripts/helpers.sh
+    - section_start "testbed-setup" "Testbed Setup" "collapsed"
+
     - touch .run_failed
 
     - sudo ip link set $TESTBED_LAN_INTERFACE up 2> /dev/null
@@ -63,6 +66,9 @@
         export TB_CONFIG=".testbed/labgrid/testbed-02.yaml"
       fi
 
+    - section_end "testbed-setup"
+    - section_start "dut-bringup" "DUT Bringup" "collapsed"
+
     - .gitlab/scripts/testbed-device.py --target $LABGRID_TARGET boot_into shell
     - >
       .gitlab/scripts/testbed-device.py
@@ -72,6 +78,9 @@
 
     - sleep $DUT_SLEEP_AFTER_BOOT
 
+    - section_end "dut-bringup"
+    - section_start "dut-system-info" "DUT System Information" "collapsed"
+
     - echo "Waiting for SSH connection availability with ${DUT_SSH_CONNECT_TIMEOUT}sec timeout, with $DUT_SSH_CONNECT_ATTEMPTS attempts..."
     - time ssh -o BatchMode=yes -o StrictHostKeyChecking=no -o ConnectionAttempts=$DUT_SSH_CONNECT_ATTEMPTS -o ConnectTimeout=$DUT_SSH_CONNECT_TIMEOUT root@$TARGET_LAN_IP 'exit 0'
 
@@ -80,7 +89,12 @@
     - ssh root@$TARGET_LAN_IP "cat /var/log/messages" > syslog-$LABGRID_TARGET.txt 2> /dev/null || true
     - ssh root@$TARGET_LAN_IP "ubus call system board" | tee system-$LABGRID_TARGET.json
 
+    - section_end "dut-system-info"
+
   script:
+    - source .gitlab/scripts/helpers.sh
+    - section_start "test-execution" "Test Execution" "expanded"
+
     - |
       TEST_CUTOFF_TIMEOUT=$((CI_JOB_TIMEOUT - DUT_SLEEP_AFTER_BOOT - TEST_SETUP_TEARDOWN_DURATION))
       echo "Job timeout: $CI_JOB_TIMEOUT seconds, test cutoff timeout: $TEST_CUTOFF_TIMEOUT seconds"
@@ -107,9 +121,11 @@
       run_check python3 -m cram --xunit-file=cram-result-post-$LABGRID_TARGET.xunit.xml --verbose $CRAM_TEST_SUITE_POST | tee --append cram-result-$LABGRID_TARGET.txt
       run_check ssh root@$TARGET_LAN_IP 'logger -t CI -p local0.info "Testing finished, $(uptime -p)"'
 
-      [ -f .run_check_failed ] && cat .run_check_failed && exit 1
+    - section_end "test-execution"
 
-    - rm .run_failed
+    - |
+      [ -f .run_check_failed ] && cat .run_check_failed && exit 1
+      rm .run_failed
 
   after_script:
     - >-
