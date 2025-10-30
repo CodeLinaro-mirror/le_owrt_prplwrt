@@ -9,11 +9,11 @@ feeds:
   - name: intel_x86
     uri: https://github.com/maxlinear/feed_target_x86.git
     tracking_branch:  updk_9.1.100
-    revision: e03f62c9a28dffa974351a8ccb7e2bc38483ac18
+    revision: 2ec58237361a19e7f2d13d79c16a08a5b6bf1c10
   - name: rootfs
     uri: https://github.com/maxlinear/rootfs.git
     tracking_branch:  updk_9.1.100
-    revision: 50ba8e81c33417cea03ea04dc82f6f02ce8a5395
+    revision: 22128ed538ffa9c341fd1ec970ee024a82a56a7e
   - name: eip
     uri: https://github.com/maxlinear/feed_eip.git
     tracking_branch:  updk_9.1.100
@@ -41,7 +41,7 @@ feeds:
   - name: opensource_apps_prpl
     uri: https://github.com/maxlinear/feed_opensource_apps_prpl.git
     tracking_branch:  updk_9.1.100
-    revision: f0f7b48018b0b9de2f9feb7e9f09f9114d466639
+    revision: beb10a168a1f0b18ed20f3a08dd243b05c8b6703
   - name: packet_learn
     uri: https://github.com/maxlinear/feed_packet_learn.git
     tracking_branch:  updk_9.1.100
@@ -49,7 +49,7 @@ feeds:
   - name: pon
     uri: https://github.com/maxlinear/feed_pon.git
     tracking_branch:  updk_9.1.100
-    revision: 445ef6d582239fea9b3c19812d21aa2ce6079340
+    revision: 9141796c3727d4a4c075162f2a8257d31d40c226
   - name: ppa
     uri: https://github.com/maxlinear/feed_ppa.git
     tracking_branch:  updk_9.1.100
@@ -73,7 +73,7 @@ feeds:
   - name: bootloader
     uri: https://github.com/maxlinear/feed_uboot.git
     tracking_branch:  updk_9.1.100
-    revision: a4a58f6ffbd590bbdb3aec2d6f83dd8eff310c6b
+    revision: 57c7c3b9006730ee2192c5efe217f484f7c3a209
   - name: dpl
     uri: https://github.com/maxlinear/feed_dpl.git
     tracking_branch:  updk_9.1.100
@@ -89,7 +89,7 @@ feeds:
   - name: system_service
     uri: https://github.com/maxlinear/feed_system_service.git
     tracking_branch:  updk_9.1.100
-    revision: 446e7583484e2a3b8677c1999541788572a4ae74
+    revision: 736c7d554620b88ad8eb61ca99e9d6e4b95ac778
 
 packages:
   - kmod-mxl_eth_drv
@@ -175,7 +175,7 @@ diffconfig: |
   CONFIG_DEVEL=y
   CONFIG_EXTRA_OPTIMIZATION="-fno-caller-saves -fno-plt -Wno-error=deprecated-declarations -Wno-error=address"
   CONFIG_KERNEL_GIT_CLONE_URI="https://github.com/maxlinear/linux.git"
-  CONFIG_KERNEL_GIT_REF="UPDK_9.1.100"
+  CONFIG_KERNEL_GIT_REF="UPDK_9.1.100_UPDATE"
   CONFIG_GPON_OMCI_ONU_UBUS_INTERFACE=y
   CONFIG_TARGET_MULTI_PROFILE=y
   CONFIG_TARGET_PER_DEVICE_ROOTFS=y
