@@ -104,6 +104,7 @@ packages:
   - wifi-sensing
   - mod-scheduler-amxp
   - tr181-schedules
+  - kmod-sysregister
 
 diffconfig: |
           CONFIG_DEVEL=y
