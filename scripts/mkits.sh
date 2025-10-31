@@ -37,6 +37,7 @@ usage() {
 	printf "\n\t-O ==> create config with dt overlay 'name:dtb'"
 	printf "\n\t-s ==> set FDT load address to 'addr' (hex)"
 	printf "\n\t\t(can be specified more than once)\n"
+	printf "\n\t-S ==> set initrd load/entry address (hex) (default 0x44000000)"
 	exit 1
 }
 
@@ -45,11 +46,12 @@ FDTNUM=1
 ROOTFSNUM=1
 INITRDNUM=1
 HASH=sha1
+INITRD_LOAD_ADDR=
 LOADABLES=
 DTOVERLAY=
 DTADDR=
 
-while getopts ":A:a:c:C:D:d:e:f:i:k:l:n:o:O:v:r:s:H:" OPTION
+while getopts ":A:a:c:C:D:d:e:f:i:k:l:n:o:O:v:r:s:S:H:" OPTION
 do
 	case $OPTION in
 		A ) ARCH=$OPTARG;;
@@ -70,6 +72,7 @@ do
 		s ) FDTADDR=$OPTARG;;
 		H ) HASH=$OPTARG;;
 		v ) VERSION=$OPTARG;;
+		S ) INITRD_LOAD_ADDR=$OPTARG;;
 		* ) echo "Invalid option passed to '$0' (options:$*)"
 		usage;;
 	esac
@@ -149,6 +152,8 @@ if [ -n "${INITRD}" ]; then
 			type = \"ramdisk\";
 			arch = \"${ARCH}\";
 			os = \"linux\";
+			load = <${INITRD_LOAD_ADDR}>;
+			entry = <${INITRD_LOAD_ADDR}>;
 			hash${REFERENCE_CHAR}1 {
 				algo = \"crc32\";
 			};
