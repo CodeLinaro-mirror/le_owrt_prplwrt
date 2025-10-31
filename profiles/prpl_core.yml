@@ -100,6 +100,7 @@ packages:
   - tr181-temperature
   - tr181-usermanagement
   - wifi-sensing
+  - kmod-sysregister
 
 diffconfig: |
           CONFIG_DEVEL=y
