@@ -12,6 +12,7 @@ Check the root datamodel settings:
       "MinFreeSpace": 3000,
       "PreviousBootCount": \d+, (re)
       "ProcessFaultNumberOfEntries": \d+, (re)
+      "RotateProcessFaultEntries": 0,
       "StoragePath": "/ext/faults"
     }
   }
@@ -38,7 +39,7 @@ Get new entry in the fault list
 Check if process fault has been registered:
 
   $ R "ba-cli -j ${new_fault}? | sed -n '2p'" | jq ".[] | .[] | .ProcessName"
-  "sleep;60;"
+  "sleep"
 
 Check PID of the process:
 
@@ -67,4 +68,5 @@ Ensure that ProcessFaults does not contain any crashes, expected LastUpgradeCoun
   ProcessFaults.MinFreeSpace=3000
   ProcessFaults.PreviousBootCount=0
   ProcessFaults.ProcessFaultNumberOfEntries=0
+  ProcessFaults.RotateProcessFaultEntries=0
   ProcessFaults.StoragePath="/ext/faults"
