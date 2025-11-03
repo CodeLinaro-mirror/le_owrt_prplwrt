@@ -80,8 +80,49 @@ Check that the first certificate is not present anymore:
   ecdsa-with-SHA512
   true
 
+Check that CABundle are presents:
+
+  $ R "echo '%populate{object Security{object CABundle{instance add(){parameter Enable=1; parameter Name=cram; parameter CAFileURI=\"/tmp/server-cert.crt\";}}}}' > /etc/amx/tr181-security/extensions/01_cram_periodic_transfer.odl" ; sleep 1
+  $ R '/etc/init.d/tr181-security restart'
+  $ R 'ba-cli Security.CABundleNumberOfEntries?' | grep -v '>'
+  Security.CABundleNumberOfEntries=1
+  
+
+Check CABundle RPC:
+
+  $ R "ba-cli 'Security.CABundle.1.CAFile()'" | grep -v '>'
+  Security.CABundle.1.CAFile() returned
+  [
+      "",
+      {
+          CAFile = "/tmp/server-cert.crt"
+      }
+  ]
+  
+  $ R "ba-cli 'Security.CABundle.1.CADir()'" | grep -v '>'
+  Security.CABundle.1.CADir() returned
+  [
+      "",
+      {
+          CADir = ""
+      }
+  ]
+  
+  $ R "ba-cli 'Security.CABundle.1.CADirURI=/tmp'" >/dev/null
+  $ R "ba-cli 'Security.CABundle.1.CADir()'" | grep -v '>'
+  Security.CABundle.1.CADir() returned
+  [
+      "",
+      {
+          CADir = "/tmp"
+      }
+  ]
+  
+
 Restore the state of the system:
 
+  $ R 'rm -rf /etc/amx/tr181-security/extensions/01_cram_periodic_transfer.odl'
+  $ R '/etc/init.d/tr181-security restart'
   $ R "rm -rf /etc/config/autocert"
   $ R "mv /etc/config/autocert.bak /etc/config/autocert"
   $ R "rm -rf /usr/share/ca-certificates"
