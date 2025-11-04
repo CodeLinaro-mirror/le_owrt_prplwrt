@@ -28,28 +28,28 @@ Initialize the ProcessMonitor.Test.i Id for required processes:
 
   $ Tr181McastId=$(R "ba-cli  ProcessMonitor.Test.*.Name? | grep tr181-mcastd | sed -n 's/.*Test\.\([0-9]\+\)\..*/\1/p'")
   $ Tr181PcpId=$(R "ba-cli  ProcessMonitor.Test.*.Name? | grep tr181-pcp | sed -n 's/.*Test\.\([0-9]\+\)\..*/\1/p'")
-  $ WanManagerId=$(R "ba-cli  ProcessMonitor.Test.*.Name? | grep tr181-qos | sed -n 's/.*Test\.\([0-9]\+\)\..*/\1/p'")
+  $ Tr181QosId=$(R "ba-cli  ProcessMonitor.Test.*.Name? | grep tr181-qos | sed -n 's/.*Test\.\([0-9]\+\)\..*/\1/p'")
   $ Dhcpv4ManagerId=$(R "ba-cli  ProcessMonitor.Test.*.Name? | grep dhcpv4-manager | sed -n 's/.*Test\.\([0-9]\+\)\..*/\1/p'")
 
 Get the initial NumProcessRespawn for all the process:
 
   $ Tr181McastRespawn=$(R "ba-cli -l ProcessMonitor.Test.$Tr181McastId.NumProcessRespawn? | sed '/^$/d'")
   $ Tr181PcpRespawn=$(R "ba-cli -l ProcessMonitor.Test.$Tr181PcpId.NumProcessRespawn? | sed '/^$/d'")
-  $ WanManagerRespawn=$(R "ba-cli -l ProcessMonitor.Test.$WanManagerId.NumProcessRespawn? | sed '/^$/d'")
+  $ Tr181QosRespawn=$(R "ba-cli -l ProcessMonitor.Test.$Tr181QosId.NumProcessRespawn? | sed '/^$/d'")
   $ Dhcpv4ManagerRespawn=$(R "ba-cli -l ProcessMonitor.Test.$Dhcpv4ManagerId.NumProcessRespawn? | sed '/^$/d'")
 
 Get the initial NumProcessFail for all the process:
 
   $ Tr181McastFail=$(R "ba-cli -l ProcessMonitor.Test.$Tr181McastId.NumProcessFail? | sed '/^$/d'")
   $ Tr181PcpFail=$(R "ba-cli -l ProcessMonitor.Test.$Tr181PcpId.NumProcessFail? | sed '/^$/d'")
-  $ WanManagerFail=$(R "ba-cli -l ProcessMonitor.Test.$WanManagerId.NumProcessFail? | sed '/^$/d'")
+  $ Tr181QosFail=$(R "ba-cli -l ProcessMonitor.Test.$Tr181QosId.NumProcessFail? | sed '/^$/d'")
   $ Dhcpv4ManagerFail=$(R "ba-cli -l ProcessMonitor.Test.$Dhcpv4ManagerId.NumProcessFail? | sed '/^$/d'")
 
 Get the initial MaxFailNum for all the process:
 
   $ Tr181McastMaxFail=$(R "ba-cli -l ProcessMonitor.Test.$Tr181McastId.MaxFailNum? | sed '/^$/d'")
   $ Tr181PcpMaxFail=$(R "ba-cli -l ProcessMonitor.Test.$Tr181PcpId.MaxFailNum? | sed '/^$/d'")
-  $ WanManagerMaxFail=$(R "ba-cli -l ProcessMonitor.Test.$WanManagerId.MaxFailNum? | sed '/^$/d'")
+  $ Tr181QosMaxFail=$(R "ba-cli -l ProcessMonitor.Test.$Tr181QosId.MaxFailNum? | sed '/^$/d'")
   $ Dhcpv4ManagerMaxFail=$(R "ba-cli -l ProcessMonitor.Test.$Dhcpv4ManagerId.MaxFailNum? | sed '/^$/d'")
 
 Verify process are up and running:
@@ -69,7 +69,7 @@ Change MaxFail parameter for the processes to higher value:
   $ R "ba-cli -l ProcessMonitor.Test.$Tr181PcpId.MaxFailNum=30 | sed '/^$/d'"
   30
 
-  $ R "ba-cli -l ProcessMonitor.Test.$WanManagerId.MaxFailNum=30 | sed '/^$/d'"
+  $ R "ba-cli -l ProcessMonitor.Test.$Tr181QosId.MaxFailNum=30 | sed '/^$/d'"
   30
 
   $ R "ba-cli -l ProcessMonitor.Test.$Dhcpv4ManagerId.MaxFailNum=30 | sed '/^$/d'"
@@ -138,7 +138,7 @@ Verify NumProcessFail is incremented for process fail:
   $ R "${S} && verify_num_Process_fail $Tr181PcpId $((Tr181PcpFail+1))"
   tr181-pcp NumProcessFail PASS
 
-  $ R "${S} && verify_num_Process_fail $WanManagerId $((WanManagerFail+1))"
+  $ R "${S} && verify_num_Process_fail $Tr181QosId $((Tr181QosFail+1))"
   tr181-qos NumProcessFail PASS
 
   $ R "${S} && verify_num_Process_fail $Dhcpv4ManagerId $((Dhcpv4ManagerFail+1))"
@@ -152,7 +152,7 @@ Verify amx-process monitor has updated the NumProcessRespawn after process respa
   $ R "${S} && verify_respawn_value $Tr181PcpId $((Tr181PcpRespawn+3))"
   tr181-pcp NumProcessRespawn PASS
 
-  $ R "${S} && verify_respawn_value $WanManagerId $((WanManagerRespawn+3))"
+  $ R "${S} && verify_respawn_value $Tr181QosId $((Tr181QosRespawn+3))"
   tr181-qos NumProcessRespawn PASS
 
   $ R "${S} && verify_respawn_value $Dhcpv4ManagerId $((Dhcpv4ManagerRespawn+3))"
@@ -166,7 +166,7 @@ Clean-up Revert MaxFail parameter for the process to initial value:
   $ R "ba-cli -l ProcessMonitor.Test.$Tr181PcpId.MaxFailNum=$Tr181PcpMaxFail | sed '/^$/d'"
   \d+ (re)
 
-  $ R "ba-cli -l ProcessMonitor.Test.$WanManagerId.MaxFailNum=$WanManagerMaxFail | sed '/^$/d'"
+  $ R "ba-cli -l ProcessMonitor.Test.$Tr181QosId.MaxFailNum=$Tr181QosMaxFail | sed '/^$/d'"
   \d+ (re)
 
   $ R "ba-cli -l ProcessMonitor.Test.$Dhcpv4ManagerId.MaxFailNum=$Dhcpv4ManagerMaxFail | sed '/^$/d'"

@@ -28,22 +28,29 @@ Initialize the ProcessMonitor.Test.i Id for required processes:
 
   $ Tr181McastId=$(R "ba-cli  ProcessMonitor.Test.*.Name? | grep tr181-mcastd | sed -n 's/.*Test\.\([0-9]\+\)\..*/\1/p'")
   $ Tr181PcpId=$(R "ba-cli  ProcessMonitor.Test.*.Name? | grep tr181-pcp | sed -n 's/.*Test\.\([0-9]\+\)\..*/\1/p'")
-  $ WanManagerId=$(R "ba-cli  ProcessMonitor.Test.*.Name? | grep tr181-qos | sed -n 's/.*Test\.\([0-9]\+\)\..*/\1/p'")
+  $ Tr181QosId=$(R "ba-cli  ProcessMonitor.Test.*.Name? | grep tr181-qos | sed -n 's/.*Test\.\([0-9]\+\)\..*/\1/p'")
   $ Dhcpv4ManagerId=$(R "ba-cli  ProcessMonitor.Test.*.Name? | grep dhcpv4-manager | sed -n 's/.*Test\.\([0-9]\+\)\..*/\1/p'")
 
 Get the initial NumProcessRespawn for all the process:
 
   $ Tr181McastRespawn=$(R "ba-cli -l ProcessMonitor.Test.$Tr181McastId.NumProcessRespawn? | sed '/^$/d'")
   $ Tr181PcpRespawn=$(R "ba-cli -l ProcessMonitor.Test.$Tr181PcpId.NumProcessRespawn? | sed '/^$/d'")
-  $ WanManagerRespawn=$(R "ba-cli -l ProcessMonitor.Test.$WanManagerId.NumProcessRespawn? | sed '/^$/d'")
+  $ Tr181QosRespawn=$(R "ba-cli -l ProcessMonitor.Test.$Tr181QosId.NumProcessRespawn? | sed '/^$/d'")
   $ Dhcpv4ManagerRespawn=$(R "ba-cli -l ProcessMonitor.Test.$Dhcpv4ManagerId.NumProcessRespawn? | sed '/^$/d'")
 
 Get the initial MaxFailNum for all the process:
 
   $ Tr181McastMaxFail=$(R "ba-cli -l ProcessMonitor.Test.$Tr181McastId.MaxFailNum? | sed '/^$/d'")
   $ Tr181PcpMaxFail=$(R "ba-cli -l ProcessMonitor.Test.$Tr181PcpId.MaxFailNum? | sed '/^$/d'")
-  $ WanManagerMaxFail=$(R "ba-cli -l ProcessMonitor.Test.$WanManagerId.MaxFailNum? | sed '/^$/d'")
+  $ Tr181QosMaxFail=$(R "ba-cli -l ProcessMonitor.Test.$Tr181QosId.MaxFailNum? | sed '/^$/d'")
   $ Dhcpv4ManagerMaxFail=$(R "ba-cli -l ProcessMonitor.Test.$Dhcpv4ManagerId.MaxFailNum? | sed '/^$/d'")
+
+Get the Subject value for all the process:
+
+  $ Tr181McastSubject=$(R "ba-cli -l ProcessMonitor.Test.$Tr181McastId.Subject? | sed '/^$/d'")
+  $ Tr181PcpSubject=$(R "ba-cli -l ProcessMonitor.Test.$Tr181PcpId.Subject? | sed '/^$/d'")
+  $ Tr181QosSubject=$(R "ba-cli -l ProcessMonitor.Test.$Tr181QosId.Subject? | sed '/^$/d'")
+  $ Dhcpv4ManagerSubject=$(R "ba-cli -l ProcessMonitor.Test.$Dhcpv4ManagerId.Subject? | sed '/^$/d'")
 
 Get the Process ID and verify all expected process are running:
 
@@ -53,6 +60,32 @@ Get the Process ID and verify all expected process are running:
   tr181-pcp.* \d+ (re)
   tr181-qos.* \d+ (re)
   dhcpv4-manager.* \d+ (re)
+
+Get existing values for Health and CurrentTestInterval attributes for the processes:
+
+  $ R "ba-cli -l ProcessMonitor.Test.$Tr181McastId.Health? | sed '/^$/d'"
+  .* (re)
+
+  $ R "ba-cli -l ProcessMonitor.Test.$Tr181McastId.CurrentTestInterval? | sed '/^$/d'"
+  \d+ (re)
+
+  $ R "ba-cli -l ProcessMonitor.Test.$Tr181PcpId.Health? | sed '/^$/d'"
+  .* (re)
+
+  $ R "ba-cli -l ProcessMonitor.Test.$Tr181PcpId.CurrentTestInterval? | sed '/^$/d'"
+  \d+ (re)
+
+  $ R "ba-cli -l ProcessMonitor.Test.$Tr181QosId.Health? | sed '/^$/d'"
+  .* (re)
+
+  $ R "ba-cli -l ProcessMonitor.Test.$Tr181QosId.CurrentTestInterval? | sed '/^$/d'"
+  \d+ (re)
+
+  $ R "ba-cli -l ProcessMonitor.Test.$Dhcpv4ManagerId.Health? | sed '/^$/d'"
+  .* (re)
+
+  $ R "ba-cli -l ProcessMonitor.Test.$Dhcpv4ManagerId.CurrentTestInterval? | sed '/^$/d'"
+  \d+ (re)
 
 Kill the processes - Frist kill attempt:
 
@@ -80,7 +113,7 @@ Verify amx-process monitor has updated the NumProcessRespawn after process respa
   tr181-pcp NumProcessRespawn PASS
   tr181-pcp MaxNumFailed PASS
 
-  $ R "${S} && verify_process_fail_update $WanManagerId $((WanManagerRespawn+1))"
+  $ R "${S} && verify_process_fail_update $Tr181QosId $((Tr181QosRespawn+1))"
   tr181-qos NumProcessRespawn PASS
   tr181-qos MaxNumFailed PASS
 
@@ -90,11 +123,16 @@ Verify amx-process monitor has updated the NumProcessRespawn after process respa
 
 Change test subject of amx-processmonitor and verify process monitoring parameters are reset:
 
-  $ for process_id in $Tr181McastId $Tr181PcpId $WanManagerId $Dhcpv4ManagerId; do
-  > R "${S} && change_process_subject" $process_id; done
+  $ R "${S} && change_process_subject tr181-mcastd /var/run/tr181-mcastd.pid"
   tr181-mcastd subject change OK
+
+  $ R "${S} && change_process_subject tr181-pcp /var/run/tr181-pcp.pid"
   tr181-pcp subject change OK
+
+  $ R "${S} && change_process_subject tr181-qos /var/run/tr181-qos.pid"
   tr181-qos subject change OK
+
+  $ R "${S} && change_process_subject dhcpv4-manager /var/run/dhcpv4-manager.pid"
   dhcpv4-manager subject change OK
 
 Verify ProcessMonitoring parameter reset after calling reset method:
@@ -111,7 +149,7 @@ Verify ProcessMonitoring parameter reset after calling reset method:
   tr181-pcp NumProcessFail PASS
   tr181-pcp NumProcessRespawn PASS
 
-  $ R "${S} && verify_value_reset $WanManagerId"
+  $ R "${S} && verify_value_reset $Tr181QosId"
   tr181-qos ProcessMonitoringEnabled PASS
   tr181-qos MaxNumFailed PASS
   tr181-qos NumProcessFail PASS
@@ -122,6 +160,46 @@ Verify ProcessMonitoring parameter reset after calling reset method:
   dhcpv4-manager MaxNumFailed PASS
   dhcpv4-manager NumProcessFail PASS
   dhcpv4-manager NumProcessRespawn PASS
+
+Get existing values for Health and CurrentTestInterval attributes for the processes:
+
+  $ R "ba-cli -l ProcessMonitor.Test.$Tr181McastId.Health? | sed '/^$/d'"
+  .* (re)
+
+  $ R "ba-cli -l ProcessMonitor.Test.$Tr181McastId.CurrentTestInterval? | sed '/^$/d'"
+  \d+ (re)
+
+  $ R "ba-cli -l ProcessMonitor.Test.$Tr181PcpId.Health? | sed '/^$/d'"
+  .* (re)
+
+  $ R "ba-cli -l ProcessMonitor.Test.$Tr181PcpId.CurrentTestInterval? | sed '/^$/d'"
+  \d+ (re)
+
+  $ R "ba-cli -l ProcessMonitor.Test.$Tr181QosId.Health? | sed '/^$/d'"
+  .* (re)
+
+  $ R "ba-cli -l ProcessMonitor.Test.$Tr181QosId.CurrentTestInterval? | sed '/^$/d'"
+  \d+ (re)
+
+  $ R "ba-cli -l ProcessMonitor.Test.$Dhcpv4ManagerId.Health? | sed '/^$/d'"
+  .* (re)
+
+  $ R "ba-cli -l ProcessMonitor.Test.$Dhcpv4ManagerId.CurrentTestInterval? | sed '/^$/d'"
+  \d+ (re)
+
+Revert the ProcessMonitor.Test.{i}.Type and Subject from Process/Pid to Plugin/DM values:
+
+  $ R "${S} && revert_process_subject tr181-mcastd MCASTD"
+  tr181-mcastd subject revert OK
+
+  $ R "${S} && revert_process_subject tr181-pcp PCP"
+  tr181-pcp subject revert OK
+
+  $ R "${S} && revert_process_subject tr181-qos QoS"
+  tr181-qos subject revert OK
+
+  $ R "${S} && revert_process_subject dhcpv4-manager DHCPv4Server"
+  dhcpv4-manager subject revert OK
 
 Restart the process service to clear the respawns from above tests:
 
