@@ -74,15 +74,27 @@ reset_amx_process_monitoring() {
         fi
 }
 
-# Changes subject of the given ProcessMonitor.Test.Id
+# Changes monitor type to Process and changes subject to /var/run/<pid> for the given ProcessMonitor.Test.Id
 change_process_subject() {
-        current_time_stamp=$(date +"%Y%m%d_%H%M%S")
-        change_process_output=$(${CLI} "ProcessMonitor.Test.$1.Subject=\"test_subject_$1_$current_time_stamp\"" | sed '/^$/d')
+        change_monitor_type=$(${CLI} "ProcessMonitor.Test.$1.Type=Process" | sed '/^$/d')
+        change_monitor_subject=$(${CLI} "ProcessMonitor.Test.$1.Subject=$2" | sed '/^$/d')
         change_process_name=$(${CLI} "ProcessMonitor.Test.$1.Name?" | sed '/^$/d')
-        if [ test_subject_$1_$current_time_stamp == $change_process_output ]; then
+        if [ "Process" == "$change_monitor_type" ] && [ "$change_monitor_subject" == $2 ]; then
                 echo "$change_process_name subject change OK"
         else
-                echo "$change_process_name subject change Failed"
+                echo "$change_process_name subject change Failed Type: $change_monitor_type Subject: $change_monitor_subject"
+        fi
+}
+
+# Revert Monitor type to Plugin type and set the Object name to Subject
+revert_process_subject() {
+        change_monitor_type=$(${CLI} "ProcessMonitor.Test.$1.Type=Plugin" | sed '/^$/d')
+        change_monitor_subject=$(${CLI} "ProcessMonitor.Test.$1.Subject=$2" | sed '/^$/d')
+        change_process_name=$(${CLI} "ProcessMonitor.Test.$1.Name?" | sed '/^$/d')
+        if [ "Plugin" == "$change_monitor_type" ] && [ "$change_monitor_subject" == $2 ]; then
+                echo "$change_process_name subject revert OK"
+        else
+                echo "$change_process_name subject revert Failed Type: $change_monitor_type Subject: $change_monitor_subject"
         fi
 }
 
