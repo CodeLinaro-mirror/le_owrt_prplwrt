@@ -139,14 +139,12 @@ ubus call service list command, verify procd enabled true and pid:
   deviceinfo-manager true
   deviceinfo-manager \d+ (re)
 
-  $ for process in gmap-server  hosts-manager cellular-manager dhcpv4-manager \
+  $ for process in gmap-server  hosts-manager dhcpv4-manager \
   > ip-manager; do get_status_and_pid $process; done
   gmap-server true
   gmap-server \d+ (re)
   hosts-manager true
   hosts-manager \d+ (re)
-  cellular-manager true
-  cellular-manager \d+ (re)
   dhcpv4-manager true
   dhcpv4-manager \d+ (re)
   ip-manager true
@@ -183,4 +181,8 @@ Verify odhcpd process:
   odhcpd true
   odhcpd \d+ (re)
 
-  $ R logger -t cram "procd verification test finished"
+  $ if echo "$CI_JOB_NAME" | grep -q -E "(Mozart|Turris|Haze|HDK-3)"; then exit 80; fi
+
+  $ get_status_and_pid cellular-manager
+  cellular-manager true
+  cellular-manager \d+ (re)

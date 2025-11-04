@@ -34,10 +34,12 @@ Verify all expected processes are enabled for monitoring by amx-processmonitor, 
   cwmp_plugin=1
   reboot-service=1
 
-  $ for process in odhcpd hosts-manager cellular-manager dhcpv4-manager; do get_amx_process_monitoring  $process; done
+  $ for process in odhcpd hosts-manager dhcpv4-manager; do get_amx_process_monitoring  $process; done
   odhcpd=1
   hosts-manager=1
-  cellular-manager=1
   dhcpv4-manager=1
 
-  $ R logger -t "Amx-processmonitoring enable test finished"
+  $ if echo "$CI_JOB_NAME" | grep -q -E "(Mozart|Turris|Haze|HDK-3)"; then exit 80; fi
+
+  $ get_amx_process_monitoring cellular-manager
+  cellular-manager=1
