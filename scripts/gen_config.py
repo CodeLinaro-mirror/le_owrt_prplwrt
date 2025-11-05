@@ -41,14 +41,18 @@ def usage(code: int = 0):
     quit(code)
 
 
-def load_yaml(fname: str, profile: dict):
+def load_yaml(fname: str, profile: dict, seen: set[str]):
+
+    if fname in seen:
+        return profile
+
     # Allow profile overriding by searching in reverse order
     for folder in profile_folders.split(':')[::-1]:
         profile_file = (Path(folder) / fname).with_suffix(".yml")
 
         if not profile_file.is_file():
             continue
-
+        includes = []
         new = yaml.safe_load(profile_file.read_text())
         for n in new:
             if n in {"target", "subtarget", "external_target"}:
@@ -74,15 +78,25 @@ def load_yaml(fname: str, profile: dict):
                         die(f"Found bad additional_packages {f}")
                 profile["additional_packages"].extend(new.get(n))
             elif n in {"include"}:
-                profile["include"].extend(new.get(n))
+                includes = new.get(n)
             elif n in {"packages_remove"}:
                 profile["packages_remove"].extend(new.get(n))
 
-        return profile
+        seen.add(fname);
+
+        for inc in includes:
+            (profile, seen) = load_yaml(inc, profile, seen)
+
+        return (profile, seen)
 
     if not profile_file.is_file():
         die(f"Profile {fname} not found")
 
+def load_yaml_list(fnames: [str], profile: dict):
+    seen = set()
+    for fn in fnames:
+        (profile, seen) = load_yaml(fn, profile, seen)
+    return profile
 
 def extract_sha1_from_revision(revision: str) -> str:
     """
@@ -162,15 +176,11 @@ profile = {
     "feeds": {},
     "packages": [],
     "profiles": [],
-    "include": [],
     "packages_remove": [],
 }
 
-for p in sys.argv[1:]:
-    profile = load_yaml(p, profile)
+profile = load_yaml_list(sys.argv[1:], profile)
 
-for p in profile.get("include", []):
-    profile = load_yaml(p, profile)
 
 if getenv("GENCONFIG_VERBOSE"):
     print(yaml.dump(profile))
