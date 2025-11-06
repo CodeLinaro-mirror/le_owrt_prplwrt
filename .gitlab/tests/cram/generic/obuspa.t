@@ -497,6 +497,20 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.DNS.X_PRPLWARE-COM_RebindProtection.IPExceptions.{i}.                                         proto::tr181-dns
   Device.DNS.X_PRPLWARE-COM_RebindProtection.IPExceptions.{i}.Address                                  proto::tr181-dns
   Device.DNS.X_PRPLWARE-COM_RebindProtection.IPExceptionsNumberOfEntries                               proto::tr181-dns
+  Device.DNS.Zone.{i}.                                                                                 proto::tr181-dns
+  Device.DNS.Zone.{i}.Alias                                                                            proto::tr181-dns
+  Device.DNS.Zone.{i}.Enable                                                                           proto::tr181-dns
+  Device.DNS.Zone.{i}.Host.{i}.                                                                        proto::tr181-dns
+  Device.DNS.Zone.{i}.Host.{i}.Alias                                                                   proto::tr181-dns
+  Device.DNS.Zone.{i}.Host.{i}.Enable                                                                  proto::tr181-dns
+  Device.DNS.Zone.{i}.Host.{i}.Host                                                                    proto::tr181-dns
+  Device.DNS.Zone.{i}.Host.{i}.LastUpdate                                                              proto::tr181-dns
+  Device.DNS.Zone.{i}.Host.{i}.Name                                                                    proto::tr181-dns
+  Device.DNS.Zone.{i}.Host.{i}.Origin                                                                  proto::tr181-dns
+  Device.DNS.Zone.{i}.HostNumberOfEntries                                                              proto::tr181-dns
+  Device.DNS.Zone.{i}.Interface                                                                        proto::tr181-dns
+  Device.DNS.Zone.{i}.Name                                                                             proto::tr181-dns
+  Device.DNS.Zone.{i}.Origin                                                                           proto::tr181-dns
   Device.DSLite.                                                                                       proto::tr181-dslite
   Device.DSLite.Enable                                                                                 proto::tr181-dslite
   Device.DSLite.InterfaceSetting.{i}.                                                                  proto::tr181-dslite
@@ -5373,6 +5387,20 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.DNS.X_PRPLWARE-COM_RebindProtection.IPExceptions.{i}.                                         proto::tr181-dns
   Device.DNS.X_PRPLWARE-COM_RebindProtection.IPExceptions.{i}.Address                                  proto::tr181-dns
   Device.DNS.X_PRPLWARE-COM_RebindProtection.IPExceptionsNumberOfEntries                               proto::tr181-dns
+  Device.DNS.Zone.{i}.                                                                                 proto::tr181-dns
+  Device.DNS.Zone.{i}.Alias                                                                            proto::tr181-dns
+  Device.DNS.Zone.{i}.Enable                                                                           proto::tr181-dns
+  Device.DNS.Zone.{i}.Host.{i}.                                                                        proto::tr181-dns
+  Device.DNS.Zone.{i}.Host.{i}.Alias                                                                   proto::tr181-dns
+  Device.DNS.Zone.{i}.Host.{i}.Enable                                                                  proto::tr181-dns
+  Device.DNS.Zone.{i}.Host.{i}.Host                                                                    proto::tr181-dns
+  Device.DNS.Zone.{i}.Host.{i}.LastUpdate                                                              proto::tr181-dns
+  Device.DNS.Zone.{i}.Host.{i}.Name                                                                    proto::tr181-dns
+  Device.DNS.Zone.{i}.Host.{i}.Origin                                                                  proto::tr181-dns
+  Device.DNS.Zone.{i}.HostNumberOfEntries                                                              proto::tr181-dns
+  Device.DNS.Zone.{i}.Interface                                                                        proto::tr181-dns
+  Device.DNS.Zone.{i}.Name                                                                             proto::tr181-dns
+  Device.DNS.Zone.{i}.Origin                                                                           proto::tr181-dns
   Device.DSLite.                                                                                       proto::tr181-dslite
   Device.DSLite.Enable                                                                                 proto::tr181-dslite
   Device.DSLite.InterfaceSetting.{i}.                                                                  proto::tr181-dslite
