@@ -28,3 +28,6 @@
             --detect.source.path=$dir \
             --detect.excluded.detector.types=PIP,NPM 2>&1 | tee logs/blackduck.log
       done
+  after_script:
+    - mkdir -p bin
+    - tar -czf bin/blackduck-scan-output.tar.gz /home/builder/blackduck/runs/*/scan/BlackDuckScanOutput/* 2>/dev/null || true
