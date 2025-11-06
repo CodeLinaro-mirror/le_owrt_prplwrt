@@ -2,7 +2,7 @@ Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
-Provide common helpers: 
+Provide common helpers:
 
   $ enable_ap() { R "ba-cli -j -l WiFi.AccessPoint.${1}.Enable=1 | grep -q Enable && echo '"WiFi.AccessPoint.${1}" enabled'";}
   $ disable_ap() { R "ba-cli -j -l WiFi.AccessPoint.${1}.Enable=0 | grep -q Enable && echo '"WiFi.AccessPoint.${1}" disabled'";}
@@ -10,7 +10,7 @@ Provide common helpers:
   $ get_ssid_ref() { msg=$(R "ba-cli -j -l WiFi.AccessPoint.${1}.SSIDReference+.Status?"); echo "$msg" | sed '/^$/d';}
   $ get_ssid_status() { R "ba-cli -j -l WiFi.SSID.?0 | jsonfilter -e @[0]'[@.Alias != \"ep2g0\" && @.Alias != \"ep5g0\" && @.Alias != \"ep6g0\"].Status'" | LC_ALL=C sort;}
 
-  $ R logger -t cram "Starting test ..."
+  $ R logger -t cram "Starting PWHM test ..."
 
 Wait for Device.WiFi. datamodel availability:
 
@@ -18,10 +18,9 @@ Wait for Device.WiFi. datamodel availability:
 
   $ sleep 10
 
-Try Suspending prplMesh processes:
+Stop prplMesh:
 
-  $ R "killall -SIGSTOP beerocks_agent > /dev/null 2>&1 || true"
-  $ R "killall -SIGSTOP beerocks_fronthaul > /dev/null 2>&1 || true"
+  $ R "/etc/init.d/prplmesh stop 2>&1 > /dev/null"
 
 Set AutoChannelEnable=0 on all WiFi.Radio. interfaces:
 
@@ -337,12 +336,11 @@ Check if hostapd process is stopped:
   $ R "pgrep -f 'hostapd -ddt'"
   [1]
 
-Resume prplMesh processes:
+Resume prplMesh:
 
-  $ R "killall -SIGCONT beerocks_agent > /dev/null 2>&1 || true"
-  $ R "killall -SIGCONT beerocks_fronthaul > /dev/null 2>&1 || true"
+  $ R "/etc/init.d/prplmesh start 2>&1 > /dev/null"
 
-  $ R logger -t cram "Stopping test .."
+  $ R logger -t cram "Stopping PWHM test .."
 
 Wait 20s before leaving the test:
 

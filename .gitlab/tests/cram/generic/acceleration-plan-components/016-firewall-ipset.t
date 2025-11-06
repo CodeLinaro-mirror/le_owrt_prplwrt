@@ -71,11 +71,11 @@ Create new set and rule objects:
 
 Utilize set in firewall rule:
   $ (R "ba-cli Firewall.Set.+{Alias=\"fwrule\", Enable=1, Type=\"IPAddresses\", IPVersion=4}") >> /dev/null
-  $ (R "ba-cli Firewall.Chain.1.Rule.1.SourceMatchSet=\"Firewall.Set.fwrule.\"") >> /dev/null
+  $ (R "ba-cli Firewall.Chain.2.Rule.1.SourceMatchSet=\"Firewall.Set.fwrule.\"") >> /dev/null
 
-  $ (R "ba-cli Firewall.Chain.1.Rule.1.Status?") | sed 's|[>,]||g'
-   Firewall.Chain.1.Rule.1.Status?
-  Firewall.Chain.1.Rule.1.Status="Enabled"
+  $ (R "ba-cli Firewall.Chain.2.Rule.1.Status?") | sed 's|[>,]||g'
+   Firewall.Chain.2.Rule.1.Status?
+  Firewall.Chain.2.Rule.1.Status="Enabled"
   
 
   $ (R "iptables -L FORWARD_L_Low") | sed 's|[0123456789,]||g'
@@ -83,27 +83,27 @@ Utilize set in firewall rule:
   target     prot opt source               destination         
   ACCEPT     all  --  anywhere             anywhere             match-set fwrule src
 
-  $ (R "ba-cli Firewall.Chain.1.Rule.1.SourceMatchSet=\"\"") >> /dev/null
+  $ (R "ba-cli Firewall.Chain.2.Rule.1.SourceMatchSet=\"\"") >> /dev/null
 
 
 Not enabled set in firewall rule:
   $ (R "ba-cli Firewall.Set.*.-") >> /dev/null
   $ (R "ba-cli Firewall.Set.+{Alias=\"notenabled\", Enable=0, Type=\"IPAddresses\", IPVersion=4}") >> /dev/null
-  $ (R "ba-cli Firewall.Chain.1.Rule.1.SourceMatchSet=\"Firewall.Set.notenabled.\"") >> /dev/null
-  $ (R "ba-cli Firewall.Chain.1.Rule.1.Status?") | sed 's|[>,]||g'
-   Firewall.Chain.1.Rule.1.Status?
-  Firewall.Chain.1.Rule.1.Status="Error_Misconfigured"
+  $ (R "ba-cli Firewall.Chain.2.Rule.1.SourceMatchSet=\"Firewall.Set.notenabled.\"") >> /dev/null
+  $ (R "ba-cli Firewall.Chain.2.Rule.1.Status?") | sed 's|[>,]||g'
+   Firewall.Chain.2.Rule.1.Status?
+  Firewall.Chain.2.Rule.1.Status="Error_Misconfigured"
   
 
-  $ (R "ba-cli Firewall.Chain.1.Rule.1.SourceMatchSet=\"\"") >> /dev/null
+  $ (R "ba-cli Firewall.Chain.2.Rule.1.SourceMatchSet=\"\"") >> /dev/null
 
 Exclude set parameter:
   $ (R "ba-cli Firewall.Set.+{Alias=\"exclude\", Enable=1, Type=\"IPAddresses\", IPVersion=4}") >> /dev/null
-  $ (R "ba-cli Firewall.Chain.1.Rule.1.SourceMatchSetExclude=\"Firewall.Set.exclude.\"") >> /dev/null
+  $ (R "ba-cli Firewall.Chain.2.Rule.1.SourceMatchSetExclude=\"Firewall.Set.exclude.\"") >> /dev/null
 
-  $ (R "ba-cli Firewall.Chain.1.Rule.1.Status?") | sed 's|[>,]||g'
-   Firewall.Chain.1.Rule.1.Status?
-  Firewall.Chain.1.Rule.1.Status="Enabled"
+  $ (R "ba-cli Firewall.Chain.2.Rule.1.Status?") | sed 's|[>,]||g'
+   Firewall.Chain.2.Rule.1.Status?
+  Firewall.Chain.2.Rule.1.Status="Enabled"
   
   $ (R "iptables -L FORWARD_L_Low") | sed 's|[0123456789,]||g'
   Chain FORWARD_L_Low ( references)
@@ -111,4 +111,4 @@ Exclude set parameter:
   ACCEPT     all  --  anywhere             anywhere             ! match-set exclude src
 
 
-  $ (R "ba-cli Firewall.Chain.1.Rule.1.SourceMatchSetExclude=\"\"") >> /dev/null
+  $ (R "ba-cli Firewall.Chain.2.Rule.1.SourceMatchSetExclude=\"\"") >> /dev/null

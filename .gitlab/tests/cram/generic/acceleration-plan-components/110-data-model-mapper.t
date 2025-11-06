@@ -178,7 +178,7 @@ Check new DeploymentUnit:
   SoftwareModules.DeploymentUnit.*.DUID="*" (glob)
   SoftwareModules.DeploymentUnit.*.Description="*" (glob)
   SoftwareModules.DeploymentUnit.*.ExecutionEnvRef="Device.SoftwareModules.ExecEnv.1." (glob)
-  SoftwareModules.DeploymentUnit.3.ExecutionUnitList="Device.SoftwareModules.ExecutionUnit.1"
+  SoftwareModules.DeploymentUnit.*.ExecutionUnitList="Device.SoftwareModules.ExecutionUnit.*" (glob)
   SoftwareModules.DeploymentUnit.*.Installed="*" (glob)
   SoftwareModules.DeploymentUnit.*.LastUpdate="*" (glob)
   SoftwareModules.DeploymentUnit.*.ModuleVersion="v1" (glob)

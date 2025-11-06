@@ -1,0 +1,94 @@
+---
+description: Packages and features for LCM
+
+feeds:
+  - name: feed_lcm
+    uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_lcm.git
+    revision: prplware-v4.1.0@d2b2c607f81358137779c226e0f7ab7bbf76bf32
+
+packages:
+  - cthulhu
+  - cthulhu-dhcpc
+  - cthulhu-lxc
+  - cthulhu-capabilities
+  - cthulhu-networking
+  - cthulhu-plugin-usp
+  - lxc
+  - lxc-attach
+  - lxc-auto
+  - lxc-autostart
+  - lxc-cgroup
+  - lxc-checkconfig
+  - lxc-common
+  - lxc-config
+  - lxc-configs
+  - lxc-console
+  - lxc-copy
+  - lxc-create
+  - lxc-destroy
+  - lxc-device
+  - lxc-execute
+  - lxc-freeze
+  - lxc-hooks
+  - lxc-info
+  - lxc-ls
+  - lxc-monitor
+  - lxc-start
+  - lxc-stop
+  - lxc-templates
+  - lxc-top
+  - lxc-unfreeze
+  - lxc-unprivileged
+  - lxc-unshare
+  - lxc-user-nic
+  - lxc-usernsexec
+  - lxc-wait
+  - packet-interception
+  - rlyeh
+  - timingila
+  - timingila-cthulhu
+  - timingila-rlyeh
+
+diffconfig: |
+          # lxc options for LCM
+          CONFIG_SAH_SERVICES_TIMINGILA_INIT_ADAPTERS=y
+          CONFIG_SAH_SERVICES_TIMINGILA_ADAPTER_PACKAGER="/usr/lib/timingila-rlyeh/timingila-rlyeh.so"
+          CONFIG_SAH_SERVICES_TIMINGILA_ADAPTER_CONTAINER="/usr/lib/timingila-cthulhu/timingila-cthulhu.so"
+          # CONFIG_SAH_LIB_CTHULHU-LXC_PRPL_OS_RPATH is not set
+          # kernel options for lcm
+          CONFIG_KERNEL_ARM_PMU=y
+          CONFIG_KERNEL_BLK_CGROUP=y
+          CONFIG_KERNEL_BLK_DEV_THROTTLING=y
+          CONFIG_KERNEL_CGROUPS=y
+          CONFIG_KERNEL_CGROUP_CPUACCT=y
+          CONFIG_KERNEL_CGROUP_DEVICE=y
+          CONFIG_KERNEL_CGROUP_FREEZER=y
+          CONFIG_KERNEL_CGROUP_PERF=y
+          CONFIG_KERNEL_CGROUP_PIDS=y
+          CONFIG_KERNEL_CGROUP_SCHED=y
+          CONFIG_KERNEL_CPUSETS=y
+          CONFIG_KERNEL_DEVPTS_MULTIPLE_INSTANCES=y
+          CONFIG_KERNEL_FAIR_GROUP_SCHED=y
+          CONFIG_KERNEL_FREEZER=y
+          CONFIG_KERNEL_IPC_NS=y
+          CONFIG_KERNEL_LXC_MISC=y
+          CONFIG_KERNEL_MEMCG=y
+          CONFIG_KERNEL_MEMCG_KMEM=y
+          CONFIG_KERNEL_MEMCG_SWAP=y
+          CONFIG_KERNEL_MEMCG_SWAP_ENABLED=y
+          CONFIG_KERNEL_MM_OWNER=y
+          CONFIG_KERNEL_NAMESPACES=y
+          CONFIG_KERNEL_NETPRIO_CGROUP=y
+          CONFIG_KERNEL_NET_CLS_CGROUP=y
+          CONFIG_KERNEL_NET_NS=y
+          CONFIG_KERNEL_PERF_EVENTS=y
+          CONFIG_KERNEL_PID_NS=y
+          CONFIG_KERNEL_POSIX_MQUEUE=y
+          CONFIG_KERNEL_PROC_PID_CPUSET=y
+          CONFIG_KERNEL_RESOURCE_COUNTERS=y
+          CONFIG_KERNEL_RT_GROUP_SCHED=y
+          CONFIG_KERNEL_SECCOMP=y
+          CONFIG_KERNEL_SECCOMP_FILTER=y
+          CONFIG_KERNEL_USER_NS=y
+          CONFIG_KERNEL_UTS_NS=y
+

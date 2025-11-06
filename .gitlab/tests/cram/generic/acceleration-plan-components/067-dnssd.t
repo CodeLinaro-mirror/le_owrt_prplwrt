@@ -32,7 +32,6 @@ Check the root datamodel settings:
 Check that firewall is configured properly:
 
   $ R "iptables -nL | grep 5353"
-  ACCEPT     17   --  0.0.0.0/0            0.0.0.0/0            udp spt:5353
   ACCEPT     17   --  0.0.0.0/0            0.0.0.0/0            udp dpt:5353
 
 Check that DNS-Based Service Discovery service is responding:

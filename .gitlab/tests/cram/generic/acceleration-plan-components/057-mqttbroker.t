@@ -12,6 +12,7 @@ Check the root datamodel settings:
     "MQTTBroker.Broker.1.": {
       "Alias": "secure",
       "BridgeNumberOfEntries": 0,
+      "Certificate": "",
       "Enable": 1,
       "Interface": "Device.IP.Interface.3.",
       "Name": "secure",
@@ -24,6 +25,7 @@ Check the root datamodel settings:
     "MQTTBroker.Broker.2.": {
       "Alias": "local",
       "BridgeNumberOfEntries": 0,
+      "Certificate": "",
       "Enable": 1,
       "Interface": "Device.IP.Interface.1.",
       "Name": "local",
@@ -37,9 +39,9 @@ Check the root datamodel settings:
 
 Check that firewall is configured properly:
 
-  $ R "iptables -nvL | grep 1883 | grep -v '^Chain'"
+  $ R "iptables -nvL | grep dpt:1883 | grep -v '^Chain'"
       0     0 ACCEPT     6    --  lo     *       0.0.0.0/0            0.0.0.0/0            tcp dpt:1883
-  $ R "iptables -nvL | grep 8883 | grep -v '^Chain'"
+  $ R "iptables -nvL | grep dpt:8883 | grep -v '^Chain'"
       0     0 ACCEPT     6    --  br-lan *       0.0.0.0/0            0.0.0.0/0            tcp dpt:8883
 
 Check if local connections work:

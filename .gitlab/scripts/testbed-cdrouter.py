@@ -9,9 +9,12 @@ import time
 import logging
 import humanize
 
+from dataclasses import dataclass
+from typing import Optional
 from types import SimpleNamespace
 from http.client import RemoteDisconnected
 from requests.exceptions import ConnectionError
+import urllib3.exceptions
 
 from cdrouter import CDRouter
 from cdrouter.jobs import Job, Options
@@ -54,12 +57,9 @@ class OpenWrtSystemInfo:
     def version(self):
         return self.data["release"]["version"]
 
-    def sanitize(self, s):
-        return s.replace("+", "-").replace("/", "-")
-
     def as_tags(self):
-        return self.sanitize(
-            "kernel_{},board_{},target_{},revision_{},version_{},distro_{}".format(
+        return TestbedCDRouter.sanitize_tag(
+            "kernel.{},board.{},target.{},revision.{},version.{},distro.{}".format(
                 self.kernel,
                 self.board_name,
                 self.target,
@@ -70,11 +70,117 @@ class OpenWrtSystemInfo:
         )
 
 
+@dataclass
+class GitLabEnvironment:
+    """GitLab CI environment information handler for CDRouter tagging.
+
+    This class extracts environment information from GitLab CI environment variables
+    and generates CDRouter-compatible tags. It prioritizes merge request source
+    branches over regular commit branches and includes CI job ID information.
+    """
+
+    branch_name: Optional[str] = None
+    job_id: Optional[str] = None
+
+    def __post_init__(self):
+        """Initialize GitLab CI info by reading environment variables.
+
+        Priority order:
+        1. CI_MERGE_REQUEST_SOURCE_BRANCH_NAME (for merge request pipelines)
+        2. CI_COMMIT_BRANCH (for branch pipelines)
+        """
+        if self.branch_name is None:
+            self.branch_name = os.getenv(
+                "CI_MERGE_REQUEST_SOURCE_BRANCH_NAME"
+            ) or os.getenv("CI_COMMIT_BRANCH")
+        if self.job_id is None:
+            self.job_id = os.getenv("CI_JOB_ID")
+
+    @property
+    def branch(self):
+        """Get the current branch name from GitLab CI environment.
+
+        Returns:
+            str or None: The branch name if available, None otherwise.
+        """
+        return self.branch_name
+
+    @property
+    def job(self):
+        """Get the current CI job ID from GitLab CI environment.
+
+        Returns:
+            str or None: The job ID if available, None otherwise.
+        """
+        return self.job_id
+
+    def as_tags(self):
+        """Generate CDRouter tags from GitLab CI information.
+
+        Returns:
+            str or None: Comma-separated tags in format 'gitlab-branch.{branch},gitlab-job.{job_id}'
+                        if information is available, None otherwise.
+        """
+        tag_mapping = {"gitlab-branch": self.branch, "gitlab-job": self.job}
+
+        tags = [
+            f"{prefix}.{TestbedCDRouter.sanitize_tag(value)}"
+            for prefix, value in tag_mapping.items()
+            if value
+        ]
+
+        return ",".join(tags) if tags else None
+
+
 class TestbedCDRouter:
     def __init__(self, args):
         self.args = args
         self.configs_path = os.path.join(self.args.root_dir, "configurations")
         self.packages_path = os.path.join(self.args.root_dir, "packages")
+
+    def extract_connection_error_message(self, exception):
+        """Extract the root cause message from nested connection exceptions.
+
+        Args:
+            exception: The exception to extract message from
+
+        Returns:
+            str: The innermost error message
+        """
+        current_exception = exception
+        message = str(current_exception)
+
+        while (
+            hasattr(current_exception, "__cause__")
+            and current_exception.__cause__ is not None
+        ):
+            current_exception = current_exception.__cause__
+            message = str(current_exception)
+
+        if hasattr(current_exception, "args") and current_exception.args:
+            for arg in current_exception.args:
+                if isinstance(arg, Exception):
+                    nested_message = self.extract_connection_error_message(arg)
+                    if nested_message and len(nested_message) < len(message):
+                        message = nested_message
+
+        return message
+
+    @staticmethod
+    def sanitize_tag(s):
+        """Sanitize string for CDRouter tag compatibility.
+
+        CDRouter tags may only contain letters, numbers, dots, hyphens,
+        spaces and underscores. This method replaces problematic characters
+        with underscores.
+
+        Args:
+            s (str): String to sanitize.
+
+        Returns:
+            str: Sanitized string safe for CDRouter tags.
+        """
+        return s.replace(":", "_").replace("/", "_").replace("+", "_").replace("=", "_")
 
     def connect(self):
         api_token = os.getenv("CDROUTER_API_TOKEN")
@@ -120,12 +226,18 @@ class TestbedCDRouter:
                 )
             )
 
-        tags = None
+        tags = []
         if self.args.system_info:
-            tags = OpenWrtSystemInfo(self.args.system_info).as_tags().split(",")
+            tags.extend(OpenWrtSystemInfo(self.args.system_info).as_tags().split(","))
+
+        gitlab_tags = GitLabEnvironment().as_tags()
+        if gitlab_tags:
+            tags.extend(gitlab_tags.split(","))
 
         if self.args.tags:
-            tags += self.args.tags.split(",")
+            tags.extend(self.args.tags.split(","))
+
+        logging.debug("Final tags being sent to CDRouter: {}".format(tags))
 
         options = Options(tags=tags)
         job = Job(package_id=p.id, options=options)
@@ -234,6 +346,45 @@ class TestbedCDRouter:
 
             time.sleep(5)
 
+    def check_connectivity(self):
+        """Check CDRouter API connectivity with exponential backoff retry."""
+        self.connect()
+
+        timeout = getattr(self.args, "timeout", 30)
+        start_time = time.time()
+        retry_delay = 1
+
+        while time.time() - start_time < timeout:
+            try:
+                self.cdr.system.interfaces()
+                logging.info("CDRouter API is reachable")
+                exit(0)
+            except (ConnectionError, RemoteDisconnected) as e:
+                elapsed = time.time() - start_time
+                remaining = timeout - elapsed
+
+                if remaining <= 0:
+                    logging.error(
+                        "CDRouter API connectivity check failed after {}s: {}".format(
+                            timeout, str(e)
+                        )
+                    )
+                    exit(1)
+
+                logging.warning(
+                    "CDRouter API not reachable (attempt after {:.1f}s): {}. Retrying in {}s...".format(
+                        elapsed, str(e), retry_delay
+                    )
+                )
+                time.sleep(retry_delay)
+
+                retry_delay = min(retry_delay * 2, remaining)
+
+        logging.error(
+            "CDRouter API connectivity check failed after {}s".format(timeout)
+        )
+        exit(1)
+
     def package_stop(self):
         self.connect()
 
@@ -325,8 +476,8 @@ class TestbedCDRouter:
 
     def replace_env_config_variables(self, text):
         for var, value in os.environ.items():
-            if var.startswith('CDROUTER_CONFIG_'):
-                pattern = f'@{var}@'
+            if var.startswith("CDROUTER_CONFIG_"):
+                pattern = f"@{var}@"
                 text = re.sub(pattern, value, text)
         return text
 
@@ -361,7 +512,13 @@ def main():
         default=os.environ.get("TB_CDROUTER_ROOT", ".testbed/cdrouter"),
         help="CDRouter root directory (default: %(default)s)",
     )
-    parser.add_argument("-d", "--debug", action="store_true", help="enable debug mode")
+    parser.add_argument(
+        "-d",
+        "--debug",
+        action="store_true",
+        default=os.getenv("TB_CDROUTER_DEBUG"),
+        help="enable debug mode",
+    )
 
     subparsers = parser.add_subparsers(dest="command", title="available subcommands")
     subparser = subparsers.add_parser("package_run", help="run package")
@@ -425,6 +582,18 @@ def main():
     )
     subparser.set_defaults(func=TestbedCDRouter.wait_for_netif)
 
+    subparser = subparsers.add_parser(
+        "check_connectivity", help="check CDRouter API connectivity"
+    )
+    subparser.add_argument(
+        "-t",
+        "--timeout",
+        type=int,
+        default=30,
+        help="timeout duration in seconds (default: %(default)s)",
+    )
+    subparser.set_defaults(func=TestbedCDRouter.check_connectivity)
+
     args = parser.parse_args()
     if args.debug:
         logging.getLogger().setLevel(logging.DEBUG)
@@ -434,7 +603,16 @@ def main():
         exit(1)
 
     cdr = TestbedCDRouter(args)
-    args.func(cdr)
+
+    try:
+        args.func(cdr)
+    except (ConnectionError, RemoteDisconnected, urllib3.exceptions.MaxRetryError) as e:
+        error_message = cdr.extract_connection_error_message(e)
+        logging.error("Connection failed: {}".format(error_message))
+        exit(1)
+    except CDRouterError as e:
+        logging.error("CDRouter error: {}".format(str(e)))
+        exit(1)
 
 
 if __name__ == "__main__":

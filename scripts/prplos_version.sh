@@ -7,7 +7,7 @@ PRPLOS_DEVELOPMENT_VERSION="${PRPLOS_DEVELOPMENT_VERSION:-4.1.0}"
 tagged_version() {
   local tag
 
-  tag=$(git describe --exact-match --tags HEAD 2>/dev/null | sed 's/^prplos-v//')
+  tag=$(git describe --exact-match --tags HEAD 2>/dev/null | sed 's/^prplware-v//')
   [ -n "$tag" ] && echo "$tag" && exit
 }
 

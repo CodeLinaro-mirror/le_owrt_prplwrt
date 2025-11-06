@@ -9,7 +9,6 @@ PKG_SOURCE_DATE:=2025-05-23
 PKG_SOURCE_VERSION:=7901e66c5f273bceee8981bc8a0c8b0e60945f60
 PKG_MIRROR_HASH:=8b85ec64e446ae065b1466c520b2d3aae329b6167221e425af903777278f557e
 PKG_MAINTAINER:=Felix Fietkau <nbd@nbd.name>
-PKG_CONFIG_DEPENDS:=CONFIG_PACKAGE_wifi-scripts
 
 PKG_LICENSE:=GPL-2.0
 PKG_LICENSE_FILES:=
@@ -48,8 +47,6 @@ define Package/netifd/install
 		$(PKG_BUILD_DIR)/scripts/utils.sh \
 		$(PKG_BUILD_DIR)/scripts/netifd-proto.sh \
 		$(1)/lib/netifd/
-	$(if $(CONFIG_PACKAGE_wifi-scripts), \
-		rm $(1)/lib/netifd/netifd-wireless.sh,)
 endef
 
 $(eval $(call BuildPackage,netifd))

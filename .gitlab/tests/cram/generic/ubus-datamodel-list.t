@@ -4,7 +4,7 @@ Create R alias:
 
 Check that ubus has expected datamodels available:
 
-  $ R "ubus list | grep '[[:upper:]]' | grep -v -e '\.[[:digit:]]' -e '^Cellular' -e 'Device.Cellular' -e 'WiFi.Vendor.Daemon' -e 'WiFi.Vendor.ModuleMode' -e '^Bridging.Bridge.[SV]'"
+  $ R "ubus list | grep '[[:upper:]]' | grep -v -e '\.[[:digit:]]' -e '^Cellular' -e 'Device.Cellular' -e 'WiFi.Vendor.Daemon' -e 'WiFi.Vendor.ModuleMode' -e '^Bridging.Bridge.[SV]' -e 'WiFi.Vendor.ReconfManager'"
   ACLManager
   ACLManager.Role
   Bridging
@@ -16,6 +16,10 @@ Check that ubus has expected datamodels available:
   Buttons.Button
   CaptivePortal
   CaptivePortal.LANInterface
+  ConMon
+  ConMon.Entry
+  ConnectionTrackingQuery
+  ConnectionTrackingQuery.NotifyFlow
   Cthulhu
   Cthulhu.Config
   Cthulhu.Config.Debug
@@ -79,6 +83,9 @@ Check that ubus has expected datamodels available:
   Device.DynamicDNS
   Device.Ethernet
   Device.Firewall
+  Device.Hardware
+  Device.Hardware.X_PRPLWARE-COM_FlashDevice
+  Device.HomePlug
   Device.Hosts
   Device.IP
   Device.IP.Diagnostics
@@ -90,18 +97,23 @@ Check that ubus has expected datamodels available:
   Device.ManagementServer
   Device.NAT
   Device.NeighborDiscovery
+  Device.Optical
   Device.PCP
   Device.PPP
   Device.PacketInterception
+  Device.PeriodicFileTransfer
   Device.QoS
   Device.RouterAdvertisement
   Device.Routing
+  Device.SFPs
   Device.SSH
   Device.Security
   Device.SoftwareModules
   Device.Syslog
   Device.Time
   Device.UPnP
+  Device.UPnP.Description
+  Device.UPnP.Discovery
   Device.USB
   Device.UserInterface
   Device.Users
@@ -109,10 +121,11 @@ Check that ubus has expected datamodels available:
   Device.WiFi.Sensing
   Device.XPON
   Device.X_PRPLWARE-COM_Buttons
+  Device.X_PRPLWARE-COM_ConMon
+  Device.X_PRPLWARE-COM_ConnectionTrackingQuery
+  Device.X_PRPLWARE-COM_GenericNetworkInterface
   Device.X_PRPLWARE-COM_MultiSettings
-  Device.X_PRPLWARE-COM_PeriodicFileUpload
   Device.X_PRPLWARE-COM_PersistentConfiguration
-  Device.X_PRPLWARE-COM_SFPs
   Device.X_PRPLWARE-COM_SoftwareModules
   Device.X_PRPLWARE-COM_WANManager
   Device.X_PRPLWARE-COM_WiFiScheduler
@@ -122,7 +135,9 @@ Check that ubus has expected datamodels available:
   DeviceInfo.Location
   DeviceInfo.LogRotate
   DeviceInfo.MemoryStatus
+  DeviceInfo.MemoryStatus.MemoryMonitor
   DeviceInfo.ProcessStatus
+  DeviceInfo.ProcessStatus.CPU
   DeviceInfo.ProcessStatus.Process
   DeviceInfo.Processor
   DeviceInfo.VendorConfigFile
@@ -159,6 +174,12 @@ Check that ubus has expected datamodels available:
   Firewall.X_PRPLWARE-COM_Log
   Firewall.X_PRPLWARE-COM_WANAccess
   Firewall.X_PRPLWARE-COM_WANAccess.BlockList
+  GenericNetworkInterface
+  GenericNetworkInterface.Interface
+  Hardware
+  Hardware.FlashDevice
+  HomePlug
+  HomePlug.Interface
   Hosts
   Hosts.AccessControl
   Hosts.Host
@@ -170,6 +191,11 @@ Check that ubus has expected datamodels available:
   IPDiagnostics.DownloadDiagnostics
   IPDiagnostics.DownloadDiagnostics.IncrementalResult
   IPDiagnostics.DownloadDiagnostics.PerConnectionResult
+  IPDiagnostics.IPLayerCapacityMetrics
+  IPDiagnostics.IPLayerCapacityMetrics.IPLayerCapacityAuthCode
+  IPDiagnostics.IPLayerCapacityMetrics.IncrementalResult
+  IPDiagnostics.IPLayerCapacityMetrics.ModalResult
+  IPDiagnostics.IPLayerCapacityMetrics.Process
   IPDiagnostics.IPPing
   IPDiagnostics.IPPing.Process
   IPDiagnostics.TraceRoute
@@ -196,6 +222,11 @@ Check that ubus has expected datamodels available:
   Logical.Interface
   Logical.X_PRPLWARE-COM_Subnet
   Logical.X_PRPLWARE-COM_Subnet.Config
+  MCASTD
+  MCASTD.Debug
+  MCASTD.Debug.Zone
+  MCASTD.Intf
+  MCASTD.Tuner
   MQTT
   MQTT.Capabilities
   MQTT.Client
@@ -233,6 +264,7 @@ Check that ubus has expected datamodels available:
   NetDev.ConversionTable.Scope
   NetDev.ConversionTable.Table
   NetDev.Link
+  NetDev.Rule
   NetDev.Stats
   NetModel
   NetModel.Intf
@@ -248,9 +280,11 @@ Check that ubus has expected datamodels available:
   PacketInterception.Condition
   PacketInterception.Interception
   PacketInterception.PacketHandler
-  PeriodicFileUpload
-  PeriodicFileUpload.File
-  PeriodicFileUpload.Profile
+  PeriodicFileTransfer
+  PeriodicFileTransfer.FileTypeConfig
+  PeriodicFileTransfer.Profile
+  PeriodicFileTransfer.Stats
+  PeriodicFileTransfer.Transfer
   PersistentConfiguration
   PersistentConfiguration.BackupFile
   PersistentConfiguration.Config
@@ -278,13 +312,17 @@ Check that ubus has expected datamodels available:
   RouterAdvertisement
   RouterAdvertisement.InterfaceSetting
   Routing
+  Routing.Policy
   Routing.RIP
   Routing.RIP.InterfaceSetting
   Routing.RouteInformation
   Routing.RouteInformation.InterfaceSetting
   Routing.Router
   SFPs
-  SFPs.Cage
+  SFPs.Mgmt
+  SFPs.Mgmt.SFF8472
+  SFPs.SFPCage
+  SFPs.X_PRPLWARE-COM_SFPDatabase
   SSH
   SSH.AuthorizedKey
   SSH.Server
@@ -312,10 +350,19 @@ Check that ubus has expected datamodels available:
   UPnP.Device
   UPnP.Device.Capabilities
   UPnP.X_PRPLWARE-COM_IGDConfig
+  UPnPDescription
+  UPnPDescription.DeviceDescription
+  UPnPDescription.DeviceInstance
+  UPnPDescription.ServiceInstance
+  UPnPDiscovery
+  UPnPDiscovery.Device
+  UPnPDiscovery.RootDevice
+  UPnPDiscovery.Service
   USB
   USB.Interface
   USB.Port
   USB.USBHosts
+  USB.USBHosts.AllowedDevice
   USB.USBHosts.Host
   Unbound
   UserInterface
@@ -350,6 +397,7 @@ Check that ubus has expected datamodels available:
   X_PRPLWARE-COM_Agent.Configuration
   X_PRPLWARE-COM_Agent.Info
   X_PRPLWARE-COM_Agent.Info.Fronthaul
+  X_PRPLWARE-COM_Agent.WPS
   X_PRPLWARE-COM_Device
   X_PRPLWARE-COM_Device.SelfTestDiagnosticsCmd
   X_PRPLWARE-COM_Device.SelfTestDiagnosticsCmd.Output

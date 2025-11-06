@@ -31,6 +31,7 @@ RUN \
 	signify-openbsd \
 	subversion \
 	sudo \
+	swig \
 	unzip \
 	wget && \
     apt-get -y autoremove && \

@@ -52,7 +52,15 @@ CDRouter-Wireless Mozart initramfs:
 
 CDRouter-UPnP-IPv46 Mozart initramfs:
   <<: *arcadyan_mozart_ipv6
-  timeout: 70 minutes
+  timeout: 60 minutes
+  variables:
+    CDROUTER_TEST_CONFIG: generic-ipv6-upnp
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
+
+CDRouter-UPnP-IPv46-Failing Mozart initramfs:
+  <<: *arcadyan_mozart_ipv6
+  timeout: 120 minutes
   allow_failure: true
   variables:
     CDROUTER_TEST_CONFIG: generic-ipv6-upnp
@@ -127,3 +135,25 @@ prplWare-Smoke-Test-Suite Mozart initramfs:
       .gitlab/scripts/dut-init/cdrouter-tr181-mockups.sh
       .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
       .gitlab/scripts/dut-init/cdrouter-dut-configure-prplmesh-controller.sh
+
+.arcadyan-mozart-certification: &arcadyan_mozart_certification
+  <<: *arcadyan_mozart_ipv6
+  stage: certification tests
+  timeout: 70 minutes
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: never
+    - when: manual
+  variables:
+    CDROUTER_TEST_CONFIG: prplos-certification
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
+      .gitlab/scripts/dut-init/cdrouter-dut-configure-cwmpd.sh
+      .gitlab/scripts/dut-init/cdrouter-dut-configure-prplos-certification.sh
+
+prplOS-Network-Test-Plan-Mandatory-v1.1.0 Mozart initramfs:
+  <<: *arcadyan_mozart_certification
+
+prplOS-Network-Test-Plan-Candidate-v1.1.0 Mozart initramfs:
+  <<: *arcadyan_mozart_certification
+  timeout: 90 minutes
