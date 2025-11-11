@@ -37,6 +37,7 @@ Check that UDS sockets and the random USP_ENDPOINT_ID are shared with the contai
   $ R "${S} && execute_in_container --uuid --cmd \"ls /run/usp/\""
   broker_agent_path
   broker_controller_path
+  sockets
 
 ## TODO: 
 ## add test to check connection to USP broker: This is requiring support of USP in the test container
@@ -89,6 +90,7 @@ Check that UDS sockets and the random USP_ENDPOINT_ID are shared with the contai
   $ R "${S} && execute_in_container --uuid --cmd \"ls /run/usp/\""
   broker_agent_path
   broker_controller_path
+  sockets
 
 ## TODO: add test to check connection to USP broker: This is requiring support of USP in the test container
 

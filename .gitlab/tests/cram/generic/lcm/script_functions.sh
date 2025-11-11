@@ -11,6 +11,10 @@ DEFAULT_URL="docker://registry.gitlab.com/prpl-foundation/prplos/prplos"
 DEFAULT_USPROLES="Full Access"
 DEFAULT_USPREQUIRED="Full Access"
 DEFAULT_USPOPTIONAL=""
+DEFAULT_USPREGISTERPATHS=""
+DEFAULT_USPAUTOMOUNTIPC="USP_UDS_Unauthenticated"
+DEFAULT_USERNAME=""
+DEFAULT_PASSWORD=""
 DEFAULT_RETAINDATA="false"
 DEFAULT_ENVVAR='[{Key="ENVVAR_KEY1", Value="ENVVAR_VALUE1"}, {Key="ENVVAR_KEY2", Value="ENVVAR_VALUE2"}]'
 
@@ -77,6 +81,28 @@ get_arch_name() {
 	"haze" | \
 		"freedom")
 		echo arm32v7
+		;;
+	"lgm" | \
+		"qemu-standard-pc-"*)
+		echo amd64
+		;;
+	"turris-omnia")
+		echo cortexa9
+		;;
+	*)
+		echo arm32v7
+		;;
+	esac
+}
+
+## FIXME: `get_arch_name` function returns wrong arch name for freedom board
+## Return the architecture name for the board, used for selecting the correct container image from registry
+get_true_arch_name() {
+	board_name=$(cut -d',' -f2 </tmp/sysinfo/board_name)
+	case "${board_name}" in
+	"haze" | \
+		"freedom")
+		echo arm64v8
 		;;
 	"lgm" | \
 		"qemu-standard-pc-"*)
@@ -293,6 +319,18 @@ install_update_ctr_with_params() {
 			elif [ "${key}" = "uspeoptional" ]; then
 				value=$(value_or_default "${value_missing}" "${DEFAULT_USPOPTIONAL}" "${value}")
 				str_params=$(concat_comma_string "${str_params}" "OptionalRoles = \"${value}\"")
+			elif [ "${key}" = "uspregisterpaths" ]; then
+				value=$(value_or_default "${value_missing}" "${DEFAULT_USPREGISTERPATHS}" "${value}")
+				str_params=$(concat_comma_string "${str_params}" "RegisterTrustPaths = \"${value}\"")
+			elif [ "${key}" = "uspautomountipc" ]; then
+				value=$(value_or_default "${value_missing}" "${DEFAULT_USPAUTOMOUNTIPC}" "${value}")
+				str_params=$(concat_comma_string "${str_params}" "X_PRPLWARE-COM_AutoMountIPC = \"${value}\"")
+			elif [ "${key}" = "username" ]; then
+				value=$(value_or_default "${value_missing}" "${DEFAULT_USERNAME}" "${value}")
+				str_params=$(concat_comma_string "${str_params}" "Username = \"${value}\"")
+			elif [ "${key}" = "password" ]; then
+				value=$(value_or_default "${value_missing}" "${DEFAULT_PASSWORD}" "${value}")
+				str_params=$(concat_comma_string "${str_params}" "Password = \"${value}\"")
 			elif [ "${key}" = "privileged" ]; then
 				value=$(value_or_default "${value_missing}" "${DEFAULT_PRIVILEGED}" "${value}")
 				str_params=$(concat_comma_string "${str_params}" "Privileged = ${value}")
