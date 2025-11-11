@@ -28,7 +28,7 @@ Create a user role with capabilities:
 
 Install the container in privileged mode with extra LCM features and check its status and type:
 
-  $ R "${S} && install_ctr --version prplos-v1 --ee --uuid --privileged true --network --hostobject --envvar --appdata --usprequired \"Full Access\" --userroles full_caps" > /dev/null
+  $ R "${S} && install_ctr --version prplos-v1 --ee --uuid --privileged true --network --hostobject --envvar --appdata --usprequired \"Full Access\" --userroles full_caps --uspregisterpaths \"Device.LCMSampleApp.\" --uspautomountipc \"USP_UDS_Authenticated\"" > /dev/null
   $ R "${S} && get_container_info --uuid"
   Active
   prplos-v1
@@ -100,13 +100,15 @@ Verify that the EnvVariables were properly restored:
   $ R "${S} && execute_in_container --uuid --cmd \"env\" | grep ENVVAR_KEY2"
   ENVVAR_KEY2=ENVVAR_VALUE2
 
-Check that UDS sockets and the random USP_ENDPOINT_ID are shared with the container:
+Check that UDS sockets and the random USP_ENDPOINT_ID with USP_PASSWORD are shared with the container:
 
   $ R "${S} && execute_in_container --uuid --cmd \"env\" | grep USP_ENDPOINT_ID"
   USP_ENDPOINT_ID=uuid::* (glob)
-  $ R "${S} && execute_in_container --uuid --cmd \"ls /run/usp/\""
-  broker_agent_path
-  broker_controller_path
+  $ R "${S} && execute_in_container --uuid --cmd \"env\" | grep USP_PASSWORD"
+  USP_PASSWORD=* (glob)
+  $ R "${S} && execute_in_container --uuid --cmd 'mount | grep usp'"
+  tmpfs on /run/usp/sockets/authenticated/broker_controller* (glob)
+  tmpfs on /run/usp/sockets/authenticated/broker_agent* (glob)
 
 Check that the container has the required capabilities:
   $ R "${S} && execute_in_container --uuid --cmd 'grep CapEff /proc/1/status'"
@@ -123,6 +125,21 @@ Check NetworkConfig correctly applied:
   $ R "rm -f /root/.ssh/known_hosts > /dev/null; ssh -y root@${CTR_IP} 'cat /etc/container-version ; ip route show default | grep default' 2> /dev/null"
   1
   default via 192.168.*.1 dev lcm0* (glob)
+
+Check that the container has the expected EndpointID, AutoMountIPC and RegisterTrustPaths values:
+
+  $ CTR_ID=$(R "${S} && get_container_parameter --uuid --param EUID")
+  $ CTR_ENDPOINTID=$(R "ba-cli -l 'Cthulhu.Container.Instances.[ContainerId==\"${CTR_ID}\"].EndpointID?' | sed '/^$/d'")
+  $ R "ba-cli -l 'Cthulhu.Container.Instances.[ContainerId==\"${CTR_ID}\"].EndpointID?' | sed '/^$/d'"
+  uuid::* (glob)
+  $ R "ba-cli -l 'Cthulhu.Container.Instances.[ContainerId==\"${CTR_ID}\"].AutoMountIPC?' | sed '/^$/d'"
+  USP_UDS_Authenticated
+  $ R "ba-cli -l 'Cthulhu.Container.Instances.[ContainerId==\"${CTR_ID}\"].RegisterTrustPaths?' | sed '/^$/d'"
+  Device.LCMSampleApp.
+  $ R "ba-cli -l 'Device.SoftwareModules.ExecutionUnit.[EUID==\"$CTR_ID\"].X_PRPLWARE-COM_AutoMountIPC?' | sed '/^$/d'"
+  USP_UDS_Authenticated
+  $ R "ba-cli -l 'Device.SoftwareModules.ExecutionUnit.[EUID==\"$CTR_ID\"].RegisterTrustPaths?' | sed '/^$/d'"
+  Device.LCMSampleApp.
 
 Update to prplOS container to v2:
 

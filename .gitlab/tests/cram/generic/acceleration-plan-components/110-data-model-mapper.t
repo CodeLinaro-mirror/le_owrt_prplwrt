@@ -51,10 +51,12 @@ Check command tree is available:
   Device.X_PRPLWARE-COM_SoftwareModules.DeploymentUnitUpdateCmd.Input.ModuleVersion=""
   Device.X_PRPLWARE-COM_SoftwareModules.DeploymentUnitUpdateCmd.Input.OptionalRoles=""
   Device.X_PRPLWARE-COM_SoftwareModules.DeploymentUnitUpdateCmd.Input.Password=""
+  Device.X_PRPLWARE-COM_SoftwareModules.DeploymentUnitUpdateCmd.Input.RegisterTrustPaths=""
   Device.X_PRPLWARE-COM_SoftwareModules.DeploymentUnitUpdateCmd.Input.RequiredRoles=""
   Device.X_PRPLWARE-COM_SoftwareModules.DeploymentUnitUpdateCmd.Input.RetainData=0
   Device.X_PRPLWARE-COM_SoftwareModules.DeploymentUnitUpdateCmd.Input.URL=""
   Device.X_PRPLWARE-COM_SoftwareModules.DeploymentUnitUpdateCmd.Input.Username=""
+  Device.X_PRPLWARE-COM_SoftwareModules.DeploymentUnitUpdateCmd.Input.X_PRPLWARE-COM_AutoMountIPC=""
   Device.X_PRPLWARE-COM_SoftwareModules.DeploymentUnitUpdateCmd.Input.NetworkConfig.
   Device.X_PRPLWARE-COM_SoftwareModules.DeploymentUnitUpdateCmd.Input.NetworkConfig.AccessInterfaces=""
   Device.X_PRPLWARE-COM_SoftwareModules.ExecEnvDeleteCmd.
@@ -83,11 +85,13 @@ Check command tree is available:
   Device.X_PRPLWARE-COM_SoftwareModules.InstallDUCmd.Input.OptionalRoles=""
   Device.X_PRPLWARE-COM_SoftwareModules.InstallDUCmd.Input.Password=""
   Device.X_PRPLWARE-COM_SoftwareModules.InstallDUCmd.Input.Privileged=1
+  Device.X_PRPLWARE-COM_SoftwareModules.InstallDUCmd.Input.RegisterTrustPaths=""
   Device.X_PRPLWARE-COM_SoftwareModules.InstallDUCmd.Input.RequiredRoles=""
   Device.X_PRPLWARE-COM_SoftwareModules.InstallDUCmd.Input.Signature=""
   Device.X_PRPLWARE-COM_SoftwareModules.InstallDUCmd.Input.URL=""
   Device.X_PRPLWARE-COM_SoftwareModules.InstallDUCmd.Input.UUID=""
   Device.X_PRPLWARE-COM_SoftwareModules.InstallDUCmd.Input.Username=""
+  Device.X_PRPLWARE-COM_SoftwareModules.InstallDUCmd.Input.X_PRPLWARE-COM_AutoMountIPC=""
   Device.X_PRPLWARE-COM_SoftwareModules.InstallDUCmd.Input.NetworkConfig.
   Device.X_PRPLWARE-COM_SoftwareModules.InstallDUCmd.Input.NetworkConfig.AccessInterfaces=""
   Device.X_PRPLWARE-COM_SoftwareModules.ModifyAvailableRolesCmd.
