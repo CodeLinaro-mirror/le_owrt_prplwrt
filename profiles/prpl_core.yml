@@ -32,6 +32,10 @@ packages:
   - ip6tables-zz-legacy
   - iptables-mod-ipopt
   - iptables-zz-legacy
+  - keyctl
+  - keyutils
+  - kmod-crypto-user
+  - kmod-keys-encrypted
   - libdhcpoptions
   - libfwinterface
   - libfwrules
@@ -77,6 +81,7 @@ packages:
   - prpl-configuration
   - prplmesh
   - prplmesh-process-manager
+  - readmfg
   - reboot-service
   - routing-manager
   - ssh-server
@@ -155,3 +160,7 @@ diffconfig: |
           # CONFIG_BUSYBOX_CONFIG_NTPD is not set
           CONFIG_SAH_AMX_USERMANAGEMENT_DISABLE_PASSWORD_HASHED_FORMAT_STORAGE=y
           CONFIG_INCLUDE_CONFIG=y
+          CONFIG_SAH_LIB_MFG_GLOBAL_SIGNATURE=y
+          CONFIG_SAH_LIB_MFG_SECURE_MFG_KERNEL_KEYRING_SUPPORT=y
+          CONFIG_SAH_LIB_MFG_SECURE_MFG_KERNEL_KEYRING_KEY_NAME="mfg:Kuk"
+          CONFIG_SAH_LIB_MFG_SECURE_MFG_KERNEL_KEYRING_IV_FILE="/tmp/Kuk-aes-iv.hex"
