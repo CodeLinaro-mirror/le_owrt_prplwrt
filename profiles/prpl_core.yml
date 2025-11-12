@@ -32,6 +32,10 @@ packages:
   - ip6tables-zz-legacy
   - iptables-mod-ipopt
   - iptables-zz-legacy
+  - keyctl
+  - keyutils
+  - kmod-crypto-user
+  - kmod-keys-encrypted
   - libdhcpoptions
   - libfwinterface
   - libfwrules
@@ -78,6 +82,7 @@ packages:
   - prplmesh
   - prplmesh-dm-mapper
   - prplmesh-process-manager
+  - readmfg
   - reboot-service
   - routing-manager
   - ssh-server
