@@ -1,0 +1,21 @@
+---
+profiles:
+  - qcom_rdp466
+  - qcom_rdp485
+target: ipq54xx
+subtarget: generic
+external_target: True
+description: Build image for the Qualcomm Marina (ipq54xx) reference platforms
+  This profile is not yet an officially supported prplOS board profile and is
+  provided as an early preview for community evaluation purposes
+For platform status, support information, and issue reporting, see:
+  https://gitlab.com/prpl-foundation/prplos/prplos/-/wikis/Qualcomm-Marina
+
+feeds:
+  - name: feed_qca
+    uri: https://gitlab.com/prpl-foundation/prplOS/feed-qca.git
+    revision: latest-24.10@87d826f68d0a65bc7c43ca4ffab95f6eb1ea8eca
+
+packages:
+  - ipq54xx
+  - wireless-freedom
