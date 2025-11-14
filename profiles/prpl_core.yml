@@ -3,15 +3,15 @@ description: A minimal set of prpl packages and configs (no WAN support, no LCM,
 feeds:
   - name: feed_amx
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_amx.git
-    revision: main@ba84fa4f7759a1758b918368a404ea1eac522b8c
+    revision: main@a2022e76d53544db05804eb01dfc3711f4a1c1e1
 
   - name: feed_prplmesh
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplmesh.git
-    revision: main@b15975e758d59c6e90666aff85a9e47bf18d00c6
+    revision: main@ce474d0e999b336cdad9d1251dfc46380da5ec4a
 
   - name: feed_prplos
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplos.git
-    revision: main@4fa001814ae86779d209108a967603b995b4cf77
+    revision: main@e7452fd53fa122b561daa527cc1ca5df9c2f4ea2
 
 additional_packages:
   - feed: packages
@@ -76,6 +76,8 @@ packages:
   - procps-ng-uptime
   - prpl-configuration
   - prplmesh
+  - prplmesh-dm-mapper
+  - prplmesh-process-manager
   - reboot-service
   - routing-manager
   - ssh-server
