@@ -3074,6 +3074,9 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.Syslog.Source.{i}.Network.X_PRPLWARE-COM_StructuredData                                       proto::tr181-syslog
   Device.Syslog.Source.{i}.Severity                                                                    proto::tr181-syslog
   Device.Syslog.Source.{i}.SystemMessages                                                              proto::tr181-syslog
+  Device.Syslog.Source.{i}.UnixDomainSocket.                                                           proto::tr181-syslog
+  Device.Syslog.Source.{i}.UnixDomainSocket.Enable                                                     proto::tr181-syslog
+  Device.Syslog.Source.{i}.UnixDomainSocket.Path                                                       proto::tr181-syslog
   Device.Syslog.SourceNumberOfEntries                                                                  proto::tr181-syslog
   Device.Syslog.Status                                                                                 proto::tr181-syslog
   Device.Syslog.Template.{i}.                                                                          proto::tr181-syslog
@@ -8056,6 +8059,9 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.Syslog.Source.{i}.Network.X_PRPLWARE-COM_StructuredData                                       proto::tr181-syslog
   Device.Syslog.Source.{i}.Severity                                                                    proto::tr181-syslog
   Device.Syslog.Source.{i}.SystemMessages                                                              proto::tr181-syslog
+  Device.Syslog.Source.{i}.UnixDomainSocket.                                                           proto::tr181-syslog
+  Device.Syslog.Source.{i}.UnixDomainSocket.Enable                                                     proto::tr181-syslog
+  Device.Syslog.Source.{i}.UnixDomainSocket.Path                                                       proto::tr181-syslog
   Device.Syslog.SourceNumberOfEntries                                                                  proto::tr181-syslog
   Device.Syslog.Status                                                                                 proto::tr181-syslog
   Device.Syslog.Template.{i}.                                                                          proto::tr181-syslog
