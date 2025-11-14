@@ -1040,6 +1040,6 @@ get_vendorlogfile_content() {
 		file=$(${CLI_JSON} "${VendorLogFileRef}.Name?" | jsonfilter -e @[*].*.Name)
 		echo ${file}
 		file_wo_prefix="${file:7}"
-		cat ${file_wo_prefix}
+		cat ${file_wo_prefix} | grep "test-C"
 	fi
 }
