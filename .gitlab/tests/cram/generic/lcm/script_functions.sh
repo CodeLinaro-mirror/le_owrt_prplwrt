@@ -964,3 +964,82 @@ fake_fw_upgrade() {
     sleep 30
     wait_ctr_up --uuid "${DEFAULT_UUID}"
 }
+
+get_vendorlogfile_name() {
+	uuid=""
+	while [ $# -gt 0 ]; do
+		key="$1"
+		value=""
+		value_missing=false
+		case $key in
+		--*) # If argument starts with "--"
+			key="${key#--}"
+			shift
+			if [ $# -gt 0 ] && case "$1" in --*) false ;; *) true ;; esac then
+				value="$1"
+				shift
+			elif [ $# -eq 0 ] || case "$1" in --*) true ;; *) false ;; esac then
+				value_missing=true
+			fi
+
+			if [ "${key}" = "uuid" ]; then
+				uuid=$(value_or_default "${value_missing}" "${DEFAULT_UUID}" "${value}")
+			else
+				echo "Unknown argument: $key=${value}"
+			fi
+			;;
+		*)
+			echo "Unknown argument: $1"
+			shift
+			;;
+		esac
+	done
+
+	if [ -z "${uuid}" ]; then
+		echo "Missing UUID parameter"
+	else
+		VendorLogFileRef=$(get_container_parameter --uuid ${uuid} --param VendorLogList)
+		${CLI_JSON} "${VendorLogFileRef}.?" | jsonfilter -e @[*].*.Name
+	fi
+}
+
+get_vendorlogfile_content() {
+	uuid=""
+	while [ $# -gt 0 ]; do
+		key="$1"
+		value=""
+		value_missing=false
+		case $key in
+		--*) # If argument starts with "--"
+			key="${key#--}"
+			shift
+			if [ $# -gt 0 ] && case "$1" in --*) false ;; *) true ;; esac then
+				value="$1"
+				shift
+			elif [ $# -eq 0 ] || case "$1" in --*) true ;; *) false ;; esac then
+				value_missing=true
+			fi
+
+			if [ "${key}" = "uuid" ]; then
+				uuid=$(value_or_default "${value_missing}" "${DEFAULT_UUID}" "${value}")
+			else
+				echo "Unknown argument: $key=${value}"
+			fi
+			;;
+		*)
+			echo "Unknown argument: $1"
+			shift
+			;;
+		esac
+	done
+
+	if [ -z "${uuid}" ]; then
+		echo "Missing UUID parameter"
+	else
+		VendorLogFileRef=$(get_container_parameter --uuid ${uuid} --param VendorLogList)
+		file=$(${CLI_JSON} "${VendorLogFileRef}.Name?" | jsonfilter -e @[*].*.Name)
+		echo ${file}
+		file_wo_prefix="${file:7}"
+		cat ${file_wo_prefix}
+	fi
+}
