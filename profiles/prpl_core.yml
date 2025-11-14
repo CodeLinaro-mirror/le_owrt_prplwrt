@@ -7,11 +7,11 @@ feeds:
 
   - name: feed_prplmesh
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplmesh.git
-    revision: main@73ed5f2be799392fd6730cd4666f60dd4b06618f
+    revision: main@2e4e0a65fab9660b8c7dd960b3fdf2f2e7f90c02
 
   - name: feed_prplos
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplos.git
-    revision: main@3e928d18a4d035faae3fecd775d5bc4e4e465f4a
+    revision: main@ac6e0f20c9d96c529609be7dfdc929e9169a7a76
 
 additional_packages:
   - feed: packages
@@ -76,6 +76,7 @@ packages:
   - procps-ng-uptime
   - prpl-configuration
   - prplmesh
+  - prplmesh-process-manager
   - reboot-service
   - routing-manager
   - ssh-server
