@@ -23,6 +23,7 @@ Check that ubus has expected datamodels available:
   Cthulhu
   Cthulhu.Config
   Cthulhu.Config.Debug
+  Cthulhu.Config.Syslog
   Cthulhu.Container
   Cthulhu.Container.Instances
   Cthulhu.Information
@@ -347,6 +348,14 @@ Check that ubus has expected datamodels available:
   Time.Client
   Time.Server
   Timingila
+  Timingila.CthulhuAdapters
+  Timingila.CthulhuAdapters.CthulhuCommandDefaults
+  Timingila.CthulhuAdapters.CthulhuCommandDefaults.create
+  Timingila.CthulhuAdapters.CthulhuCommandDefaults.remove
+  Timingila.CthulhuAdapters.CthulhuCommandDefaults.update
+  Timingila.CthulhuAdapters.CthulhuCommandMapping
+  Timingila.CthulhuAdapters.SoftwareModulesFuncArgsOverload
+  Timingila.CthulhuAdapters.SoftwareModulesTable
   UPnP
   UPnP.Device
   UPnP.Device.Capabilities
