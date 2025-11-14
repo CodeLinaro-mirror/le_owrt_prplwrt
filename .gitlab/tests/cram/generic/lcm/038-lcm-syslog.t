@@ -36,6 +36,18 @@ Assert the socket file exists
   $ R "ls /tmp/volatile.sock"
   /tmp/volatile.sock
 
+Remove the added Source and Action
+
+  $ R "ba-cli -l -j 'Device.Syslog.Action.[Alias == \"C-1-1\"].-'"
+  
+  ["Device.Syslog.Action.*.","Device.Syslog.Action.*.LogFile.","Device.Syslog.Action.*.LogRemote."] (glob)
+  
+
+  $ R "ba-cli -l -j 'Device.Syslog.Source.[Alias == \"C-1-1\"].-'"
+  
+  ["Device.Syslog.Source.*.","Device.Syslog.Source.*.Network.","Device.Syslog.Source.*.UnixDomainSocket."] (glob)
+  
+
 C-1-2 test /lcm/volatile_log.sock
 #################################
 Add the source
@@ -58,6 +70,19 @@ Assert the socket file exists
 
   $ R "ls /lcm/volatile.sock"
   /lcm/volatile.sock
+
+Remove the add Source and Action
+
+  $ R "ba-cli -l -j 'Device.Syslog.Action.[Alias == \"C-1-2\"].-'"
+  
+  ["Device.Syslog.Action.*.","Device.Syslog.Action.*.LogFile.","Device.Syslog.Action.*.LogRemote."] (glob)
+  
+
+  $ R "ba-cli -l -j 'Device.Syslog.Source.[Alias == \"C-1-2\"].-'"
+  
+  ["Device.Syslog.Source.*.","Device.Syslog.Source.*.Network.","Device.Syslog.Source.*.UnixDomainSocket."] (glob)
+  
+
 
 C-2: Test Syslog Plugin Default Configuration
 #############################################
@@ -96,13 +121,13 @@ Check the Template
 
 Check the Action
 
-  $ R "ba-cli -l -j \"Device.Syslog.Action.[ Alias == \\\"cpe-917362a3-86e8-5332-bcfd-a4223f0e65e6\\\"].?\" | jsonfilter -e @[*].*.Enable -e @[*].*.VendorLogFileRef -e @[*].*.FilePath -e @[*].*.SourceRef -e @[*].*.TemplateRef"
-  1
+  $ R "ba-cli -l -j \"Device.Syslog.Action.[ Alias == \\\"cpe-917362a3-86e8-5332-bcfd-a4223f0e65e6\\\"].?\" | jsonfilter -e @[*].*.Enable -e @[*].*.VendorLogFileRef -e @[*].*.FilePath -e @[*].*.SourceRef -e @[*].*.TemplateRef | sort"
   0
+  1
   Device.DeviceInfo.VendorLogFile.* (glob)
-  file:///lcm/cthulhu/syslog/917362a3-86e8-5332-bcfd-a4223f0e65e6/messages
   Device.Syslog.Source.* (glob)
   Device.Syslog.Template.* (glob)
+  file:///lcm/cthulhu/syslog/917362a3-86e8-5332-bcfd-a4223f0e65e6/messages
 
 Assert the socket file exists
 
@@ -123,7 +148,7 @@ Generate log in container
 
 Check content of the log file
 
-  $ R "cat /lcm/cthulhu/syslog/917362a3-86e8-5332-bcfd-a4223f0e65e6/messages"
+  $ R "tail -n 1 /lcm/cthulhu/syslog/917362a3-86e8-5332-bcfd-a4223f0e65e6/messages"
   * 917362a3-86e8-5332-bcfd-a4223f0e65e6 root: test-C-4 (glob)
 
 C-5: Test VendorLog
@@ -154,3 +179,14 @@ Check the VendorLogFile content
   file:///lcm/cthulhu/syslog/917362a3-86e8-5332-bcfd-a4223f0e65e6/messages
   * 917362a3-86e8-5332-bcfd-a4223f0e65e6 root: test-C-4 (glob)
   * 917362a3-86e8-5332-bcfd-a4223f0e65e6 root: test-C-5 (glob)
+
+Uninstall the testing container and check datamodel cleaned:
+
+  $ R "${S} && uninstall_ctr_and_check --uuid --retaindata false"
+  [1]
+
+
+Cleanup test environment:
+
+  $ R "rm -f /tmp/script_functions.sh"
+
