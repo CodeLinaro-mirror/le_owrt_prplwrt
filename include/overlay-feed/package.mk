@@ -12,7 +12,11 @@ define Overlay/Prepare/Patch
 endef
 Hooks/Prepare/Post += Overlay/Prepare/Patch
 
+ifneq ($(wildcard $(TMP_DIR)/info/.files-packageinfo-$(SCAN_COOKIE)),)
+$(call rewrite,OVERLAY_MAKEFILE_APPENDS,$(shell grep '^[$$].*/$(PKG_DIR_NAME)/Makefile.append' $(TMP_DIR)/info/.files-packageinfo-$(SCAN_COOKIE)))
+else
 OVERLAY_MAKEFILE_APPENDS := $(foreach feed,$(shell $(TOPDIR)/scripts/feeds list -n 2>/dev/null),$(shell find -L $(TOPDIR)/feeds/$(feed)/ -path '*/$(PKG_DIR_NAME)/Makefile.append' | sort))
+endif
 PKG_FILE_DEPENDS += $(foreach mk,$(OVERLAY_MAKEFILE_APPENDS), $(dir $(mk)))
 
 define Build/IncludeOverlay
