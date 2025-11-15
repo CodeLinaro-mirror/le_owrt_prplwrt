@@ -17,6 +17,9 @@
     - touch .build_failed
 
   script:
+    - source .gitlab/scripts/helpers.sh
+
+    - section_start "build-setup" "Build Setup" "collapsed"
     - mkdir -p logs
     - set -o pipefail
     - git config --global --add safe.directory '*'
@@ -42,28 +45,39 @@
       fi
 
     - for script in .gitlab/scripts/build.d/*; do bash "$script"; done
+    - section_end "build-setup"
 
+    - section_start "gen-config" "Running gen_config.py" "collapsed"
     - |
       sed -i -E 's;git.openwrt.org/(feed|project);github.com/openwrt;' feeds.conf.default
       export CI_BUILD_PROFILE="$(echo $CI_JOB_NAME | sed 's/build test \(.*\)/\1/')"
       scripts/gen_config.py $CI_BUILD_PROFILE 2>&1 | tee logs/build.log
       git checkout -- feeds.conf.default
+    - section_end "gen-config"
 
+    - section_start "defconfig" "Running defconfig" "collapsed"
     - |
       for option in $CI_BUILD_CONFIG $CI_BUILD_CONFIG_EXTRA; do
         echo "$option" | sed -E "s/^\+(.*)$/CONFIG_\1=y/;s/^\-(.*)$/CONFIG_\1=n/" >> .config
       done
       cat .config
       make defconfig | tee --append logs/build.log
+    - section_end "defconfig"
 
+    - section_start "tools-tar-compile" "Compiling tar tool" "collapsed"
+    - make -j $(nproc) tools/tar/compile 2>&1 | tee --append logs/build.log
+    - section_end "tools-tar-compile"
+
+    - section_start "download" "Downloading source code" "collapsed"
     - |
-      make -j $(nproc) tools/tar/compile 2>&1 | tee --append logs/build.log
       if [[ "$CI_MERGE_REQUEST_LABELS" == *"skip_integrity_check"* ]]; then
         make -j $(nproc) download 2>&1 | tee --append logs/build.log
       else
         make -j $(nproc) download check FIXUP=1 2>&1 | tee --append logs/build.log
       fi
+    - section_end "download"
 
+    - section_start "integrity-check" "Package & feed integrity check" "collapsed"
     - >
       git diff-index --exit-code HEAD || {
         ret=$?
@@ -83,6 +97,7 @@
         }
         popd > /dev/null
       done
+    - section_end "integrity-check"
 
     - >
       trap "
@@ -103,7 +118,12 @@
         echo '[!] ERROR: build failed'
         exit 1
       " ERR
+
+    - section_start "compile-world" "Compiling world using $(nproc) make threads" "expanded"
     - make -j $(nproc) 2>&1 | tee --append logs/build.log
+    - section_end "compile-world"
+
+    - section_start "export-rootfs" "Exporting staging rootfs to a tarball" "collapsed"
     - >
       if [ -n "$CI_BUILD_EXPORT_STAGING_ROOTFS" ]; then
         root_dir=$(find $(pwd)/staging_dir -maxdepth 2 -type d -name root-*)
@@ -112,6 +132,7 @@
       else
         echo "Skipping export of staging/root-* as `CI_BUILD_EXPORT_STAGING_ROOTFS` is not set."
       fi
+    - section_end "export-rootfs"
     - rm .build_failed
 
   after_script:
