@@ -10,8 +10,8 @@ Assure expected build configuration (PCF-1413):
   CONFIG_TARGET_intel_x86=y
   CONFIG_TARGET_intel_x86_lgm=y
   CONFIG_TARGET_MULTI_PROFILE=y
-  CONFIG_TARGET_DEVICE_intel_x86_lgm_DEVICE_PRPL_OSP_TB341_v2=y
-  CONFIG_TARGET_DEVICE_PACKAGES_intel_x86_lgm_DEVICE_PRPL_OSP_TB341_v2=""
+  CONFIG_TARGET_DEVICE_intel_x86_lgm_DEVICE_PRPL_OSPv2_WGRTD159BE_B=y
+  CONFIG_TARGET_DEVICE_PACKAGES_intel_x86_lgm_DEVICE_PRPL_OSPv2_WGRTD159BE_B=""
   CONFIG_DEVEL=y
   CONFIG_TOOLCHAINOPTS=y
   CONFIG_BUSYBOX_CUSTOM=y
@@ -793,7 +793,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_tr181-usermanagement=y
   CONFIG_PACKAGE_tr181-xpon=y
   CONFIG_PACKAGE_uboot-envtools=y
-  CONFIG_PACKAGE_uboot-octopus-urx641-overlay-fit-p34x-phy-emmc-prpl=y
+  CONFIG_PACKAGE_uboot-octopus-urx641-4GB-ddr-overlay-fit-p34x-phy-emmc-prpl=y
   CONFIG_PACKAGE_ucode-mod-ubus=m
   CONFIG_PACKAGE_ucode-mod-uci=m
   CONFIG_PACKAGE_umbim=y
