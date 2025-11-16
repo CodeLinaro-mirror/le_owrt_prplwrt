@@ -137,7 +137,7 @@ wait_till_regulatory_domain_change() {
 
 configure_regulatory_domain() {
 	log_info "Configuring DUT for Czechia regulatory domain"
-	dm_wifi_radio_2g RegulatoryDomain=CZ
+	ba_cli WiFi.Radio.*.RegulatoryDomain='CZ'
 }
 
 main() {
