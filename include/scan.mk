@@ -62,7 +62,9 @@ define PackageDir
 	mv $$@.tmp $$@
 
   $(TMP_DIR)/info/.$(SCAN_TARGET)-$(1).stamp::
-	MD5SUM=$$$$(echo $(SCAN_DIR)/$(2)/Makefile $(foreach DEP,$(DEPS_$(SCAN_DIR)/$(2)/Makefile) $(SCAN_DEPS),$(wildcard $(if $(filter /%,$(DEP)),$(DEP),$(SCAN_DIR)/$(2)/$(DEP)))) | $(MKHASH) md5 | awk '{print $$$$1}'); \
+	FILELIST="$(strip $(foreach DEP,$(DEPS_$(SCAN_DIR)/$(2)/Makefile),$(wildcard $(if $(filter /%,$(DEP)),$(DEP),$(SCAN_DIR)/$(2)/$(DEP)))))" ; \
+	MD5SUM=68b329da9893e34099c7d8ad5cb9c940 ; \
+	[ -n "$$$$FILELIST" ] && MD5SUM=$$$$(echo $$$$FILELIST | $(MKHASH) md5) ; \
 	[ -f "$$@.$$$$MD5SUM" ] || { \
 		rm -f $$@.*; \
 		touch $$@.$$$$MD5SUM; \
