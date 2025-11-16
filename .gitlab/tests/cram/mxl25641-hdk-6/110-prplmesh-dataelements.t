@@ -61,9 +61,9 @@ Check all AccessPoint.SSIDReference+ instances are disabled
   Down
 
   $ get_ssid_ssid
-  backhaul_4C:BA:7D:*:*:* (glob)
-  backhaul_4C:BA:7D:*:*:* (glob)
-  backhaul_4C:BA:7D:*:*:* (glob)
+  backhaul_(4C:BA:7D|A8:C2:46):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
+  backhaul_(4C:BA:7D|A8:C2:46):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
+  backhaul_(4C:BA:7D|A8:C2:46):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
   prplOS
   prplOS
   prplOS
@@ -163,9 +163,9 @@ Check that wireless is operating:
   Up
 
   $ get_ssid_ssid
-  backhaul_4C:BA:7D:*:*:* (glob)
-  backhaul_4C:BA:7D:*:*:* (glob)
-  backhaul_4C:BA:7D:*:*:* (glob)
+  backhaul_(4C:BA:7D|A8:C2:46):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
+  backhaul_(4C:BA:7D|A8:C2:46):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
+  backhaul_(4C:BA:7D|A8:C2:46):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
   prplOSguest
   prplOSguest
   prplOSguest
@@ -243,9 +243,9 @@ Check that wireless is disabled:
 Check that SSIDs did not change:
 
   $ get_ssid_ssid
-  backhaul_4C:BA:7D:*:*:* (glob)
-  backhaul_4C:BA:7D:*:*:* (glob)
-  backhaul_4C:BA:7D:*:*:* (glob)
+  backhaul_(4C:BA:7D|A8:C2:46):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
+  backhaul_(4C:BA:7D|A8:C2:46):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
+  backhaul_(4C:BA:7D|A8:C2:46):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
   prplOSguest
   prplOSguest
   prplOSguest
