@@ -94,8 +94,8 @@
     - >
       if echo "$CI_RUNNER_DESCRIPTION" | grep -q testbed-02; then
         export CDROUTER_API_TOKEN="$CDROUTER_API_TOKEN_TESTBED_02"
-        export CDROUTER_CONFIG_WIFI_LAN_CHANNEL=11
-        export CDROUTER_CONFIG_WIFI_LAN_SSID=prplOS-2g-11
+        export CDROUTER_CONFIG_WIFI_LAN_CHANNEL=12
+        export CDROUTER_CONFIG_WIFI_LAN_SSID=prplOS-2g-12
       else
         export CDROUTER_CONFIG_WIFI_LAN_CHANNEL=6
         export CDROUTER_CONFIG_WIFI_LAN_SSID=prplOS-2g-6
