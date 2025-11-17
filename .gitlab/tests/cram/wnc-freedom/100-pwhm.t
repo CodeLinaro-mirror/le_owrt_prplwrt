@@ -196,6 +196,75 @@ Test activation of access point 6:
   Up
   Up
 
+Test activation of access point 7:
+
+  $ R logger -t cram "Test AccessPoint 7 activation "$(get_ssid_ref 7)""
+
+  $ enable_ap 7
+  WiFi.AccessPoint.7 enabled
+
+  $ check_ap_ref_ssid 7 Up
+  WiFi.AccessPoint.7 SSID Reference is Up
+
+  $ sleep 10
+
+  $ get_ssid_status
+  Down
+  Down
+  Up
+  Up
+  Up
+  Up
+  Up
+  Up
+  Up
+
+Test activation of access point 8:
+
+  $ R logger -t cram "Test AccessPoint 8 activation "$(get_ssid_ref 8)""
+
+  $ enable_ap 8
+  WiFi.AccessPoint.8 enabled
+
+  $ check_ap_ref_ssid 8 Up
+  WiFi.AccessPoint.8 SSID Reference is Up
+
+  $ sleep 10
+
+  $ get_ssid_status
+  Down
+  Up
+  Up
+  Up
+  Up
+  Up
+  Up
+  Up
+  Up
+
+Test activation of access point 9:
+
+  $ R logger -t cram "Test AccessPoint 9 activation "$(get_ssid_ref 9)""
+
+  $ enable_ap 9
+  WiFi.AccessPoint.9 enabled
+
+  $ check_ap_ref_ssid 9 Up
+  WiFi.AccessPoint.9 SSID Reference is Up
+
+  $ sleep 10
+
+  $ get_ssid_status
+  Up
+  Up
+  Up
+  Up
+  Up
+  Up
+  Up
+  Up
+  Up
+
 Check that hostapd is operating as expected:
 
   $ R logger -t cram "Check that hostapd is operating"
@@ -208,8 +277,11 @@ Check that hostapd is operating as expected:
   hostapd
 
   $ R "ubus list | grep hostapd. | sort"
+  hostapd.wlan0.3
+  hostapd.wlan1.3
   hostapd.wlan2.1
   hostapd.wlan2.2
+  hostapd.wlan2.3
 
 Check iw interfaces and beaconing:
 
@@ -226,12 +298,15 @@ Check iw interfaces and beaconing:
   Interface wlan2.1
   Interface wlan2.2
   Interface wlan2.3
+  ssid backhaul_(AC:91:9B|58:E4:03):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
+  ssid backhaul_(AC:91:9B|58:E4:03):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
+  ssid backhaul_(AC:91:9B|58:E4:03):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
   ssid prplOS
   ssid prplOS-guest
 
 Check that the tree interfaces are present in the main link interface:
 
-  $ R "iw dev" | grep -e link -e channel | sed 's/^[ \t]*//'
+  $ R "iw dev" | grep -e link -A 3 | grep -e link -e channel | sed 's/^[ \t]*//'
   link 0:
   channel.* (re)
   link 1:
@@ -244,6 +319,75 @@ Check that the tree interfaces are present in the main link interface:
   channel.* (re)
   link 2:
   channel.* (re)
+
+Test deactivation of access point 9:
+
+  $ R logger -t cram "Test AccessPoint 9 deactivation "$(get_ssid_ref 9)""
+
+  $ disable_ap 9
+  WiFi.AccessPoint.9 disabled
+
+  $ check_ap_ref_ssid 9 Down
+  WiFi.AccessPoint.9 SSID Reference is Down
+
+  $ sleep 10
+
+  $ get_ssid_status
+  Down
+  Up
+  Up
+  Up
+  Up
+  Up
+  Up
+  Up
+  Up
+
+Test deactivation of access point 8:
+
+  $ R logger -t cram "Test AccessPoint 8 deactivation "$(get_ssid_ref 8)""
+
+  $ disable_ap 8
+  WiFi.AccessPoint.8 disabled
+
+  $ check_ap_ref_ssid 8 Down
+  WiFi.AccessPoint.8 SSID Reference is Down
+
+  $ sleep 10
+
+  $ get_ssid_status
+  Down
+  Down
+  Up
+  Up
+  Up
+  Up
+  Up
+  Up
+  Up
+
+Test deactivation of access point 7:
+
+  $ R logger -t cram "Test AccessPoint 7 deactivation "$(get_ssid_ref 7)""
+
+  $ disable_ap 7
+  WiFi.AccessPoint.7 disabled
+
+  $ check_ap_ref_ssid 7 Down
+  WiFi.AccessPoint.7 SSID Reference is Down
+
+  $ sleep 10
+
+  $ get_ssid_status
+  Down
+  Down
+  Down
+  Up
+  Up
+  Up
+  Up
+  Up
+  Up
 
 Test deactivation of access point 6:
 
