@@ -793,7 +793,7 @@ sub uninstall {
 	return 0;
 }
 
-sub update_feed($$$$$$)
+sub update_feed($$$$$$$)
 {
 	my $type=shift;
 	my $name=shift;
@@ -801,6 +801,7 @@ sub update_feed($$$$$$)
 	my $force_update=shift;
 	my $rebase_update=shift;
 	my $stash_update=shift;
+	my $fetch_mirror=shift;
 	my $force_relocate=update_location( $name, "@$src" );
 	my $rv=0;
 
@@ -822,6 +823,10 @@ sub update_feed($$$$$$)
 				warn "failed, ignore.\n";
 				next;
 			}
+			if ($fetch_mirror) {
+				warn "Failed to  fetch '$name' from '$feedsrc', trying next \n";
+				next;
+			}
 			last;
 		}
 		$failed = 0;
@@ -841,7 +846,7 @@ sub update {
 	$ENV{SCAN_COOKIE} = $$;
 	$ENV{OPENWRT_VERBOSE} = 's';
 
-	getopts('ahifrs', \%opts);
+	getopts('ahifrsb', \%opts);
 	%argv_feeds = map { $_ => 1 } @ARGV;
 
 	if ($opts{h}) {
@@ -863,7 +868,7 @@ sub update {
 		my ($type, $name, $src) = @$feed;
 		next unless $#ARGV == -1 or $opts{a} or $argv_feeds{$name};
 		if (not $opts{i}) {
-			update_feed($type, $name, $src, $opts{f}, $opts{r}, $opts{s}) == 0 or $failed=1;
+			update_feed($type, $name, $src, $opts{f}, $opts{r}, $opts{s}, $opts{b}) == 0 or $failed=1;
 		}
 		push @index_feeds, $name;
 	}
@@ -973,6 +978,7 @@ Commands:
 	    -s :           Update by rebase and autostash. (git only. Useful if local commits and uncommited changes exist)
 	    -i :           Recreate the index only. No feed update from repository is performed.
 	    -f :           Force updating feeds even if there are changed, uncommitted files.
+	    -b :           Support fetching from mirrors
 
 	setup [options] <type,name,link> <type,name,link> ...: generate feeds.conf
 	Options:

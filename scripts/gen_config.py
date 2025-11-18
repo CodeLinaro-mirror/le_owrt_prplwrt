@@ -130,6 +130,8 @@ def handle_feed_revision(profile_feed: dict, feeds: list):
                 " 2. A human readable reference like Git tag followed by '@' and a full 40-character Git SHA-1 hash.",
             )
         f += f'^{sha1}'
+        if "mirror" in profile_feed:
+           f += f' { profile_feed["mirror"]}^{sha1}'
 
     feeds.append(f)
 
@@ -206,12 +208,12 @@ with open("feeds.conf.default", "r") as default_feeds:
            print(f"skipping commented feed: {feed}")
            continue
         print(f"Adding default feed '{feed}'")
-        feeds.append(feed.replace(" ", ","))
+        feeds.append(feed.replace(" ", ",", 2))
 
 if run_cmd(["./scripts/feeds", "setup", *feeds]).returncode:
     die(f"Error setting up feeds")
 
-if run_cmd(["./scripts/feeds", "update"]).returncode:
+if run_cmd(["./scripts/feeds", "update","-b"]).returncode:
     die(f"Error updating feeds")
 
 for p in profile.get("feeds", []):
