@@ -24,7 +24,7 @@ Check the root datamodel settings:
     },
     "Reboot.X_PRPLWARE-COM_Reasons.1.": {
       "Alias": "REASON_FIRMWARE_UPGRADE",
-      "Format": "Firmware Upgrade"
+      "Format": "Firmware Upgrade %s"
     },
     "Reboot.X_PRPLWARE-COM_Reasons.10.": {
       "Alias": "REASON_INITIATED_BY_SOURCE",
@@ -36,7 +36,7 @@ Check the root datamodel settings:
     },
     "Reboot.X_PRPLWARE-COM_Reasons.2.": {
       "Alias": "REASON_FIRMWARE_DOWNGRADE",
-      "Format": "Firmware Downgrade"
+      "Format": "Firmware Downgrade %s"
     },
     "Reboot.X_PRPLWARE-COM_Reasons.3.": {
       "Alias": "REASON_POWER_LOST",
@@ -77,7 +77,7 @@ Check if counters are flushed:
   $ R "ba-cli --json Reboot.?0 | sed -n '2p'" | jq --sort-keys '.[0]'
   {
     "Reboot.": {
-      "BootCount": 0,
+      "BootCount": 1,
       "ColdBootCount": 0,
       "MaxRebootEntries": 10,
       "RebootNumberOfEntries": 0,
