@@ -3,7 +3,7 @@ description: Add the prpl features
 
 include:
   - prpl_core
-  - lcm
+ # - lcm
   - mgmt
 
 additional_packages:
