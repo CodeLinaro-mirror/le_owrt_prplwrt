@@ -22,9 +22,11 @@ packages:
   - dmtui
   - gmap-client
   - gmap-mibs-common
+  - gmap-mod-dnssd
   - gmap-mod-ethernet-dev
   - gmap-mod-name-selector
   - gmap-mod-self
+  - gmap-mod-upnp
   - gmap-server
   - hosts-manager
   - ip-manager
