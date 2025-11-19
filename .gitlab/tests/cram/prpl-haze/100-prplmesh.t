@@ -191,21 +191,21 @@ Check that prplmesh processes are running:
 Check that prplmesh is operational:
 
   $ R logger -t cram "Check that prplmesh is operational"
-  $ R "/opt/prplmesh/scripts/prplmesh_utils.sh status" | LC_ALL=C sort
+  $ R "/opt/prplmesh/scripts/prplmesh_utils.sh status" | LC_ALL=C sort -k2,2 -k1,1n
   \x1b[0m (esc)
   \x1b[0m\x1b[1;32mOK Main radio agent operational (esc)
-  \x1b[1;32moperational test success! (esc)
-  /opt/prplmesh/scripts/prplmesh_utils.sh: status
-  [0-9]+ beerocks_contro (re)
   [0-9]+ beerocks_agent (re)
+  [0-9]+ beerocks_contro (re)
+  [0-9]+ beerocks_fronth (re)
+  [0-9]+ beerocks_fronth (re)
+  [0-9]+ beerocks_fronth (re)
   [0-9]+ beerocks_vendor (re)
-  [0-9]+ beerocks_fronth (re)
-  [0-9]+ beerocks_fronth (re)
-  [0-9]+ beerocks_fronth (re)
+  executing operational test using bml
+  /opt/prplmesh/scripts/prplmesh_utils.sh: status
+  \x1b[1;32moperational test success! (esc)
   OK wlan0 radio agent operational
   OK wlan1 radio agent operational
   OK wlan2 radio agent operational
-  executing operational test using bml
 
 Check that prplmesh is in operational state:
 
