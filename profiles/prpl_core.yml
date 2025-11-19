@@ -11,7 +11,7 @@ feeds:
 
   - name: feed_prplos
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplos.git
-    revision: main@8135c136469e6c7c5be3d2368bf9d253544abf2f
+    revision: main@135fd69ae98ce035f34dee24a7e1473ef0071af9
 
 additional_packages:
   - feed: packages
@@ -40,6 +40,7 @@ packages:
   - mod-amxb-ubus
   - mod-ba-cli
   - mod-dhcpv4c
+  - mod-deepstandby-dummy
   - mod-dmext
   - mod-dmstats
   - mod-dns-unbound
@@ -96,6 +97,7 @@ packages:
   - tr181-logical
   - tr181-neighbordiscovery
   - tr181-periodicfileupload
+  - tr181-powermanager
   - tr181-qos
   - tr181-security
   - tr181-syslog
