@@ -176,21 +176,22 @@ Check that prplmesh is operational:
 
   $ R logger -t cram "Check that prplmesh is operational"
 
-  $ R "/opt/prplmesh/scripts/prplmesh_utils.sh status" | LC_ALL=C sort
+  $ R "/opt/prplmesh/scripts/prplmesh_utils.sh status" | sed 's/^[0-9]\+ //' | LC_ALL=C sort
   \x1b[0m (esc)
   \x1b[0m\x1b[1;32mOK Main radio agent operational (esc)
   \x1b[1;32moperational test success! (esc)
   /opt/prplmesh/scripts/prplmesh_utils.sh: status
-  [0-9]+ beerocks_contro (re)
-  [0-9]+ beerocks_agent (re)
-  [0-9]+ beerocks_vendor (re)
-  [0-9]+ beerocks_fronth (re)
-  [0-9]+ beerocks_fronth (re)
-  [0-9]+ beerocks_fronth (re)
   OK wlan0 radio agent operational
   OK wlan1 radio agent operational
   OK wlan2 radio agent operational
+  beerocks_agent
+  beerocks_contro
+  beerocks_fronth
+  beerocks_fronth
+  beerocks_fronth
+  beerocks_vendor
   executing operational test using bml
+  ieee1905_transp
 
 Check that controller received correct info about wifi subsystem:
 
