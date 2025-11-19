@@ -52,6 +52,7 @@ packages:
   - mod-amxb-ubus
   - mod-ba-cli
   - mod-dhcpv4c
+  - mod-deepstandby-dummy
   - mod-dmext
   - mod-dmstats
   - mod-dns-unbound
@@ -115,6 +116,7 @@ packages:
   - tr181-logical
   - tr181-neighbordiscovery
   - tr181-periodicfileupload
+  - tr181-powermanager
   - tr181-qos
   - tr181-security
   - tr181-syslog
