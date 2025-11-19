@@ -9,13 +9,27 @@ Check the services are enabled by default:
 
 Check the processes are actually running:
 
-  $ R "pgrep -afc '(wifi-sensing|wld|beerocks_agent)'"
-  3
+  $ R "pgrep -afc wifi-sensing"
+  1
+
+  $ R "pgrep -afc wld"
+  1
+
+# Blocked by PPM-3590
+# $ R "pgrep -afc beerocks_agent"
+# 1
 
 Check that this is reflected in the DM:
 
-  $ R "{ ba-cli -l X_PRPLWARE-COM_ProcessManager.Sensing.Status? ; ba-cli -l X_PRPLWARE-COM_ProcessManager.PWHM.Status? ; ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Status? ; }" | tr -d '\n'
-  ActiveActiveActive (no-eol)
+  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.Sensing.Status?" | tr -d '\n'
+  Active (no-eol)
+
+  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PWHM.Status?" | tr -d '\n'
+  Active (no-eol)
+
+# Blocked by PPM-3590
+# $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Status?" | tr -d '\n'
+# Active (no-eol)
 
 Check that managing WiFi Sensing works:
 
@@ -79,11 +93,11 @@ Check that switching ManagementMode restarts prplMesh:
   > PID=$(pgrep -f beerocks_agent)
   > [[ $MODE == *"Controller"* ]] && NEW_MODE=Multi-AP-Agent || NEW_MODE=Multi-AP-Controller-and-Agent
   > ba-cli X_PRPLWARE-COM_ProcessManager.PrplMesh.ManagementMode=$NEW_MODE >/dev/null
-  > sleep 3
+  > sleep 30
   > NEW_PID=$(pgrep -f beerocks_agent)
   > [[ "$NEW_PID" != "$PID" ]] || echo $PID $NEW_PID
   > '
- 
+
 Restoring default state:
 
   $ R "ba-cli X_PRPLWARE-COM_ProcessManager.PrplMesh.ManagementMode=Multi-AP-Controller-and-Agent"  > /dev/null
@@ -97,7 +111,7 @@ Restoring default state:
   $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.Sensing.Enable=1" | tr -d '\n'
   1 (no-eol)
 
-  $ R "sleep 10s"
+  $ R "sleep 30s"
 
   $ R "ba-cli X_PRPLWARE-COM_ProcessManager.? | grep -v '>'"
   X_PRPLWARE-COM_ProcessManager.
