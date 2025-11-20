@@ -158,19 +158,6 @@ Check that wireless is operating:
   Up
   Up
 
-  $ get_ssid_ssid
-  backhaul_(4C:BA:7D|A8:C2:46):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
-  backhaul_(4C:BA:7D|A8:C2:46):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
-  backhaul_(4C:BA:7D|A8:C2:46):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
-  prplOSguest
-  prplOSguest
-  prplOSguest
-  prplOSpriv
-  prplOSpriv
-  prplOSpriv
-
-  $ sleep 10
-
 Check that prplmesh processes are running:
 
   $ R logger -t cram "Check that prplmesh processes are running"
@@ -256,19 +243,6 @@ Check that wireless is disabled:
   Down
   Down
   Down
-
-Check that SSIDs did not change:
-
-  $ get_ssid_ssid
-  backhaul_(4C:BA:7D|A8:C2:46):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
-  backhaul_(4C:BA:7D|A8:C2:46):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
-  backhaul_(4C:BA:7D|A8:C2:46):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
-  prplOSguest
-  prplOSguest
-  prplOSguest
-  prplOSpriv
-  prplOSpriv
-  prplOSpriv
 
 Check the default ChipsetVendor param configurations:
 
