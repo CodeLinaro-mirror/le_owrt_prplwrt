@@ -2,6 +2,11 @@ Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
+Skip test on mxl25641-hdk-6 as its currently always failing (PPW-1093):
+
+  $ [ "$DUT_BOARD" = "mxl25641-hdk-6" ] && exit 80
+  [1]
+
 Start udpst server:
 
   $ R "udpst -x -T"
