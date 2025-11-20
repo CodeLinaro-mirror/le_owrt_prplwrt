@@ -20,13 +20,16 @@ include:
     BRIDGE_COVERITY_CLEAN_COMMAND: make clean
     INCLUDE_DIAGNOSTICS: $COVERITY_ENABLE_DIAGNOSTICS
   rules:
-    - if: $CI_COMMIT_REF_PROTECTED && $CI_COMMIT_TAG
+    - if: $CI_COMMIT_REF_NAME && $CI_COMMIT_TAG
       variables:
         BRIDGE_COVERITY_CONNECT_POLICY_VIEW: Outstanding Issues
     - if: $CI_PIPELINE_SOURCE == "schedule"
       variables:
         BRIDGE_COVERITY_CONNECT_POLICY_VIEW: Outstanding Issues
     - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_PROTECTED == "true" && $CI_MERGE_REQUEST_LABELS =~ /ci::allow-expensive-jobs/'
+    - if: $CI_COMMIT_REF_NAME == "coverity_scan_prplware-4.1.0"
+      variables:
+        BRIDGE_COVERITY_CONNECT_POLICY_VIEW: Outstanding Issues
   before_script:
     - export BRIDGE_COVERITY_BUILD_COMMAND="make -j $(nproc)"
     - apt-get -qq update && apt-get install -y curl file unzip
