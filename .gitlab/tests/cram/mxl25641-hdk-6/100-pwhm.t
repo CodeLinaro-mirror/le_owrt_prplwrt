@@ -4,11 +4,11 @@ Create R alias:
 
 Provide common helpers:
 
-  $ enable_ap() { R "ba-cli -j -l WiFi.AccessPoint.${1}.Enable=1 | grep -q Enable && echo '"WiFi.AccessPoint.${1}" enabled'";}
-  $ disable_ap() { R "ba-cli -j -l WiFi.AccessPoint.${1}.Enable=0 | grep -q Enable && echo '"WiFi.AccessPoint.${1}" disabled'";}
-  $ check_ap_ref_ssid() { R "i=15 ; while [ \$i -gt 1 ]; do ba-cli -j -l WiFi.AccessPoint.${1}.SSIDReference+.Status? | grep WiFi.SSID. | grep -q "${2}" && echo '"WiFi.AccessPoint.${1}" SSID Reference is "${2}"' && i=0 ; i=\$(( i-1 )); sleep 2 ; done";}
-  $ get_ssid_ref() { msg=$(R "ba-cli -j -l WiFi.AccessPoint.${1}.SSIDReference+.Status?"); echo "$msg" | sed '/^$/d';}
-  $ get_ssid_status() { R "ba-cli -j -l WiFi.SSID.?0 | jsonfilter -e @[0]'[@.Alias != \"ep2g0\" && @.Alias != \"ep5g0\" && @.Alias != \"ep6g0\"].Status'" | LC_ALL=C sort;}
+  $ enable_ap() { R "ba-cli -j -l Device.WiFi.AccessPoint.${1}.Enable=1 | grep -q Enable && echo '"Device.WiFi.AccessPoint.${1}" enabled'";}
+  $ disable_ap() { R "ba-cli -j -l Device.WiFi.AccessPoint.${1}.Enable=0 | grep -q Enable && echo '"Device.WiFi.AccessPoint.${1}" disabled'";}
+  $ check_ap_ref_ssid() { R "i=15; while [ \$i -gt 1 ]; do ref=\$(ba-cli -l Device.WiFi.AccessPoint.${1}.SSIDReference? | tr -d '\n'); ba-cli -j -l \${ref}.Status? | grep WiFi.SSID. | grep -q \"${2}\" && echo \"Device.WiFi.AccessPoint.${1} SSID Reference is ${2}\" && i=0; i=\$((i-1)); sleep 2; done"; }
+  $ get_ssid_ref() { ref=$(R "ba-cli -l Device.WiFi.AccessPoint.${1}.SSIDReference? | tr -d '\n'"); R "ba-cli -l ${ref}.Status? | sed '/^$/d'"; }
+  $ get_ssid_status() { R "ba-cli -j -l Device.WiFi.SSID.?0 | jsonfilter -e @[0]'[@.Alias != \"ep2g0\" && @.Alias != \"ep5g0\" && @.Alias != \"ep6g0\"].Status'" | LC_ALL=C sort;}
 
   $ R logger -t cram "Starting PWHM test ..."
 
@@ -22,15 +22,15 @@ Stop prplMesh:
 
   $ R "/etc/init.d/prplmesh stop 2>&1 > /dev/null"
 
-Set AutoChannelEnable=0 on all WiFi.Radio. interfaces:
+Set AutoChannelEnable=0 on all Device.WiFi.Radio. interfaces:
 
-  $ R "ba-cli -j -l WiFi.Radio.*.AutoChannelEnable=0 | sed '/^$/d'"
-  [{"WiFi.Radio.1.":{"AutoChannelEnable":0},"WiFi.Radio.2.":{"AutoChannelEnable":0},"WiFi.Radio.3.":{"AutoChannelEnable":0}}]
+  $ R "ba-cli -j -l Device.WiFi.Radio.*.AutoChannelEnable=0 | sed '/^$/d'"
+  [{"Device.WiFi.Radio.2.":{"AutoChannelEnable":0},"Device.WiFi.Radio.3.":{"AutoChannelEnable":0},"Device.WiFi.Radio.1.":{"AutoChannelEnable":0}}]
 
 Set channel to a non DFS one:
 
-  $ R "ba-cli -j -l WiFi.Radio.2.Channel=36 | sed '/^$/d'"
-  [{"WiFi.Radio.2.":{"Channel":36}}]
+  $ R "ba-cli -j -l Device.WiFi.Radio.2.Channel=36 | sed '/^$/d'"
+  [{"Device.WiFi.Radio.2.":{"Channel":36}}]
 
   $ sleep 5
 
@@ -49,10 +49,7 @@ Check default SSID status:
 
 Check default SSID configuration of access points:
 
-  $ R "ba-cli -j -l WiFi.SSID.?0 | jsonfilter -e @[0]'[@.Alias != \"ep2g0\" && @.Alias != \"ep5g0\" && @.Alias != \"ep6g0\"].SSID'" | LC_ALL=C sort
-  backhaul_4C:BA:7D:*:*:* (glob)
-  backhaul_4C:BA:7D:*:*:* (glob)
-  backhaul_4C:BA:7D:*:*:* (glob)
+  $ R "ba-cli -j -l Device.WiFi.SSID.?0 | jsonfilter -e @[0]'[@.Alias != \"ep2g0\" && @.Alias != \"ep5g0\" && @.Alias != \"ep6g0\"].SSID'" | LC_ALL=C sort
   prplOS
   prplOS
   prplOS
@@ -70,10 +67,10 @@ Test activation of access point 1:
   $ R logger -t cram "Test AccessPoint 1 activation "$(get_ssid_ref 1)""
 
   $ enable_ap 1
-  WiFi.AccessPoint.1 enabled
+  Device.WiFi.AccessPoint.1 enabled
 
   $ check_ap_ref_ssid 1 Up
-  WiFi.AccessPoint.1 SSID Reference is Up
+  Device.WiFi.AccessPoint.1 SSID Reference is Up
 
   $ sleep 5
 
@@ -93,10 +90,10 @@ Test activation of access point 2:
   $ R logger -t cram "Test AccessPoint 2 activation "$(get_ssid_ref 2)""
 
   $ enable_ap 2
-  WiFi.AccessPoint.2 enabled
+  Device.WiFi.AccessPoint.2 enabled
 
   $ check_ap_ref_ssid 2 Up
-  WiFi.AccessPoint.2 SSID Reference is Up
+  Device.WiFi.AccessPoint.2 SSID Reference is Up
 
   $ sleep 5
 
@@ -116,10 +113,10 @@ Test activation of access point 3:
   $ R logger -t cram "Test AccessPoint 3 activation "$(get_ssid_ref 3)""
 
   $ enable_ap 3
-  WiFi.AccessPoint.3 enabled
+  Device.WiFi.AccessPoint.3 enabled
 
   $ check_ap_ref_ssid 3 Up
-  WiFi.AccessPoint.3 SSID Reference is Up
+  Device.WiFi.AccessPoint.3 SSID Reference is Up
 
   $ sleep 5
 
@@ -139,10 +136,10 @@ Test activation of access point 4:
   $ R logger -t cram "Test AccessPoint 4 activation "$(get_ssid_ref 4)""
 
   $ enable_ap 4
-  WiFi.AccessPoint.4 enabled
+  Device.WiFi.AccessPoint.4 enabled
 
   $ check_ap_ref_ssid 4 Up
-  WiFi.AccessPoint.4 SSID Reference is Up
+  Device.WiFi.AccessPoint.4 SSID Reference is Up
 
   $ sleep 5
 
@@ -162,10 +159,10 @@ Test activation of access point 5:
   $ R logger -t cram "Test AccessPoint 5 activation "$(get_ssid_ref 5)""
 
   $ enable_ap 5
-  WiFi.AccessPoint.5 enabled
+  Device.WiFi.AccessPoint.5 enabled
 
   $ check_ap_ref_ssid 5 Up
-  WiFi.AccessPoint.5 SSID Reference is Up
+  Device.WiFi.AccessPoint.5 SSID Reference is Up
 
   $ sleep 5
 
@@ -185,10 +182,10 @@ Test activation of access point 6:
   $ R logger -t cram "Test AccessPoint 6 activation "$(get_ssid_ref 6)""
 
   $ enable_ap 6
-  WiFi.AccessPoint.6 enabled
+  Device.WiFi.AccessPoint.6 enabled
 
   $ check_ap_ref_ssid 6 Up
-  WiFi.AccessPoint.6 SSID Reference is Up
+  Device.WiFi.AccessPoint.6 SSID Reference is Up
 
   $ sleep 5
 
@@ -243,10 +240,10 @@ Test deactivation of access point 6:
   $ R logger -t cram "Test AccessPoint 6 deactivation "$(get_ssid_ref 6)""
 
   $ disable_ap 6
-  WiFi.AccessPoint.6 disabled
+  Device.WiFi.AccessPoint.6 disabled
 
   $ check_ap_ref_ssid 6 Down
-  WiFi.AccessPoint.6 SSID Reference is Down
+  Device.WiFi.AccessPoint.6 SSID Reference is Down
 
   $ sleep 5
 
@@ -266,10 +263,10 @@ Test deactivation of access point 5:
   $ R logger -t cram "Test AccessPoint 5 deactivation "$(get_ssid_ref 5)""
 
   $ disable_ap 5
-  WiFi.AccessPoint.5 disabled
+  Device.WiFi.AccessPoint.5 disabled
 
   $ check_ap_ref_ssid 5 Down
-  WiFi.AccessPoint.5 SSID Reference is Down
+  Device.WiFi.AccessPoint.5 SSID Reference is Down
 
   $ sleep 5
 
@@ -289,10 +286,10 @@ Test deactivation of access point 4:
   $ R logger -t cram "Test AccessPoint 4 deactivation "$(get_ssid_ref 4)""
 
   $ disable_ap 4
-  WiFi.AccessPoint.4 disabled
+  Device.WiFi.AccessPoint.4 disabled
 
   $ check_ap_ref_ssid 4 Down
-  WiFi.AccessPoint.4 SSID Reference is Down
+  Device.WiFi.AccessPoint.4 SSID Reference is Down
 
   $ sleep 5
 
@@ -312,10 +309,10 @@ Test deactivation of access point 3:
   $ R logger -t cram "Test AccessPoint 3 deactivation "$(get_ssid_ref 3)""
 
   $ disable_ap 3
-  WiFi.AccessPoint.3 disabled
+  Device.WiFi.AccessPoint.3 disabled
 
   $ check_ap_ref_ssid 3 Down
-  WiFi.AccessPoint.3 SSID Reference is Down
+  Device.WiFi.AccessPoint.3 SSID Reference is Down
 
   $ sleep 5
 
@@ -335,10 +332,10 @@ Test deactivation of access point 2:
   $ R logger -t cram "Test AccessPoint 2 deactivation "$(get_ssid_ref 2)""
 
   $ disable_ap 2
-  WiFi.AccessPoint.2 disabled
+  Device.WiFi.AccessPoint.2 disabled
 
   $ check_ap_ref_ssid 2 Down
-  WiFi.AccessPoint.2 SSID Reference is Down
+  Device.WiFi.AccessPoint.2 SSID Reference is Down
 
   $ sleep 5
 
@@ -358,10 +355,10 @@ Test deactivation of access point 1:
   $ R logger -t cram "Test AccessPoint 1 deactivation "$(get_ssid_ref 1)""
 
   $ disable_ap 1
-  WiFi.AccessPoint.1 disabled
+  Device.WiFi.AccessPoint.1 disabled
 
   $ check_ap_ref_ssid 1 Down
-  WiFi.AccessPoint.1 SSID Reference is Down
+  Device.WiFi.AccessPoint.1 SSID Reference is Down
 
   $ sleep 5
 

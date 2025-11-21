@@ -4,11 +4,11 @@ Create R alias:
 
 Provide common helpers: 
 
-  $ enable_ap() { R "ba-cli -j -l WiFi.AccessPoint.${1}.Enable=1 | grep -q Enable && echo '"WiFi.AccessPoint.${1}" enabled'";}
-  $ disable_ap() { R "ba-cli -j -l WiFi.AccessPoint.${1}.Enable=0 | grep -q Enable && echo '"WiFi.AccessPoint.${1}" disabled'";}
-  $ check_ap_ref_ssid() { R "i=15 ; while [ \$i -gt 1 ]; do ba-cli -j -l WiFi.AccessPoint.${1}.SSIDReference+.Status? | grep WiFi.SSID. | grep -q "${2}" && echo '"WiFi.AccessPoint.${1}" SSID Reference is "${2}"' && i=0 ; i=\$(( i-1 )); sleep 2 ; done";}
-  $ get_ssid_ref() { msg=$(R "ba-cli -j -l WiFi.AccessPoint.${1}.SSIDReference+.Status?"); echo "$msg" | sed '/^$/d';}
-  $ get_ssid_status() { R "ba-cli -j -l WiFi.SSID.?0 | jsonfilter -e @[0]'[@.Alias != \"ep2g0\" && @.Alias != \"ep5g0\" && @.Alias != \"ep6g0\"].Status'" | LC_ALL=C sort;}
+  $ enable_ap() { R "ba-cli -j -l Device.WiFi.AccessPoint.${1}.Enable=1 | grep -q Enable && echo '"Device.WiFi.AccessPoint.${1}" enabled'";}
+  $ disable_ap() { R "ba-cli -j -l Device.WiFi.AccessPoint.${1}.Enable=0 | grep -q Enable && echo '"Device.WiFi.AccessPoint.${1}" disabled'";}
+  $ check_ap_ref_ssid() { R "i=15; while [ \$i -gt 1 ]; do ref=\$(ba-cli -l Device.WiFi.AccessPoint.${1}.SSIDReference? | tr -d '\n'); ba-cli -j -l \${ref}.Status? | grep WiFi.SSID. | grep -q \"${2}\" && echo \"Device.WiFi.AccessPoint.${1} SSID Reference is ${2}\" && i=0; i=\$((i-1)); sleep 2; done"; }
+  $ get_ssid_ref() { ref=$(R "ba-cli -l Device.WiFi.AccessPoint.${1}.SSIDReference? | tr -d '\n'"); R "ba-cli -l ${ref}.Status? | sed '/^$/d'"; }
+  $ get_ssid_status() { R "ba-cli -j -l Device.WiFi.SSID.?0 | jsonfilter -e @[0]'[@.Alias != \"ep2g0\" && @.Alias != \"ep5g0\" && @.Alias != \"ep6g0\"].Status'" | LC_ALL=C sort;}
 
   $ R logger -t cram "Starting wifi-scheduler test ..."
 
@@ -18,15 +18,15 @@ Wait for Device.WiFi. datamodel availability:
 
   $ sleep 10
 
-Set AutoChannelEnable=0 on all WiFi.Radio. interfaces:
+Set AutoChannelEnable=0 on all Device.WiFi.Radio. interfaces:
 
-  $ R "ba-cli -j -l WiFi.Radio.*.AutoChannelEnable=0 | sed '/^$/d'"
-  [{"WiFi.Radio.1.":{"AutoChannelEnable":0},"WiFi.Radio.2.":{"AutoChannelEnable":0},"WiFi.Radio.3.":{"AutoChannelEnable":0}}]
+  $ R "ba-cli -j -l Device.WiFi.Radio.*.AutoChannelEnable=0 | sed '/^$/d'"
+  [{"Device.WiFi.Radio.2.":{"AutoChannelEnable":0},"Device.WiFi.Radio.3.":{"AutoChannelEnable":0},"Device.WiFi.Radio.1.":{"AutoChannelEnable":0}}]
 
 Set channel to a non DFS one:
 
-  $ R "ba-cli -j -l WiFi.Radio.2.Channel=36 | sed '/^$/d'"
-  [{"WiFi.Radio.2.":{"Channel":36}}]
+  $ R "ba-cli -j -l Device.WiFi.Radio.2.Channel=36 | sed '/^$/d'"
+  [{"Device.WiFi.Radio.2.":{"Channel":36}}]
 
   $ sleep 5
 
