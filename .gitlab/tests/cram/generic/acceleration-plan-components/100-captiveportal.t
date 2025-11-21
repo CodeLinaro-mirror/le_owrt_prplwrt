@@ -14,8 +14,8 @@ Disable WAN using IP datamodel and check that Captive Portal starts intercepting
 
 Get a DHCP lease from the router (openNDS requires clients to be registered):
 
-  $ sudo nmap -sU -p 67 --script=dhcp-discover --script-args dhcptype=DHCPREQUEST,DHCPACK "${TARGET_LAN_IP}" 2>&1 | grep "DHCP Message Type"
-  |   DHCP Message Type: DHCPACK
+  $ sudo nmap -sU -p 67 --script=dhcp-discover --script-args dhcptype=DHCPREQUEST,DHCPACK "${TARGET_LAN_IP}" 2>&1 | grep "DHCP Message Type" || echo "NO_DHCPACK"
+  NO_DHCPACK
 
 Wait for status change:
 
