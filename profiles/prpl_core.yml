@@ -1,0 +1,153 @@
+---
+description: A minimal set of prpl packages and configs (no WAN support, no LCM, no management) common to prpl device classes (Gateway, Extender, ...)
+feeds:
+  - name: feed_amx
+    uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_amx.git
+    revision: main@410ace632e4749ba0e90075b607879e5579971ad
+
+  - name: feed_prplmesh
+    uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplmesh.git
+    revision: main@88854990394cf589e4d25676c5c759a23c171a0e
+
+  - name: feed_prplos
+    uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplos.git
+    revision: main@d87b7983810d29516c9b0947da47df7709cc06ad
+
+additional_packages:
+  - feed: packages
+    packages:
+      - libnl-core
+      - libnl-route
+      - syslog-ng
+
+packages:
+  - acl-manager
+  - amx-cli
+  - amx-faultmonitor
+  - amx-processmonitor
+  - debug-information
+  - deviceinfo-manager
+  - ethernet-manager
+  - ip-manager
+  - ip6tables-zz-legacy
+  - iptables-mod-ipopt
+  - iptables-zz-legacy
+  - libdhcpoptions
+  - libfwinterface
+  - libfwrules
+  - libnetmodel
+  - lua-amx
+  - mod-amxb-ubus
+  - mod-ba-cli
+  - mod-dhcpv4c
+  - mod-dmext
+  - mod-dmstats
+  - mod-dns-unbound
+  - mod-dnssd-advertisement
+  - mod-fw-amx
+  - mod-fw-host
+  - mod-logical-api
+  - mod-lua-amx
+  - mod-network-selector
+  - mod-qos-tc
+  - mod-sahtrace
+  - mod-vlan-ioctl
+  - multisettings
+  - netdev-plugin
+  - netmodel
+  - netmodel-bridge
+  - netmodel-clients
+  - netmodel-dhcpv4
+  - netmodel-dhcpv6
+  - netmodel-ethernet
+  - netmodel-ip
+  - netmodel-iprouter
+  - netmodel-logical
+  - netmodel-netdev
+  - netmodel-optical
+  - netmodel-radio
+  - netmodel-ssid
+  - netmodel-vlan
+  - odl-generator
+  - oopsmonitor
+  - pcm-manager
+  - procps-ng-pgrep
+  - procps-ng-pkill
+  - procps-ng-uptime
+  - prpl-configuration
+  - prplmesh
+  - reboot-service
+  - routing-manager
+  - ssh-server
+  - tc-tiny
+  - time-manager
+  - tr181-bridging
+  - tr181-button
+  - tr181-device
+  - tr181-dhcpv4client
+  - tr181-dhcpv6client
+  - tr181-dns
+  - tr181-firewall
+  - tr181-flashmonitor
+  - tr181-led
+  - tr181-logical
+  - tr181-neighbordiscovery
+  - tr181-periodicfileupload
+  - tr181-qos
+  - tr181-security
+  - tr181-syslog
+  - tr181-temperature
+  - tr181-usermanagement
+  - wifi-sensing
+
+diffconfig: |
+          CONFIG_DEVEL=y
+          CONFIG_KERNEL_WERROR=y
+          CONFIG_JSON_CYCLONEDX_SBOM=y
+          CONFIG_PACKAGE_unbound-daemon-prpl=y
+          CONFIG_PACKAGE_dnsmasq-prpl=y
+          CONFIG_PACKAGE_chrony-prpl=y
+          CONFIG_PACKAGE_umdns-prpl=y
+          # CONFIG_PACKAGE_ppp is not set
+          # CONFIG_PACKAGE_miniupnpd is not set
+          # CONFIG_PACKAGE_unbound-daemon is not set
+          # CONFIG_PACKAGE_dnsmasq is not set
+          # CONFIG_PACKAGE_chrony is not set
+          # CONFIG_PACKAGE_umdns is not set
+          CONFIG_DROPBEAR_ECC=y
+          CONFIG_SAH_LUA_AMX_LUA_VERSION_OVERRIDE=y
+          CONFIG_SAH_LUA_AMX_LUA_VERSION="5.1"
+          CONFIG_PACKAGE_rpcd-mod-luci=y
+          CONFIG_PACKAGE_ip-full=y
+          CONFIG_PACKAGE_ip-bridge=y
+          CONFIG_PACKAGE_logrotate=y
+          # CONFIG_PACKAGE_firewall4 is not set
+          # CONFIG_PACKAGE_logd is not set
+          # CONFIG_SAH_LIB_CTHULHU-LXC_PRPL_OS_RPATH is not set
+          # pwhm options
+          CONFIG_USE_PRPLMESH_WHM=y
+          CONFIG_SAH_WLD_INIT_SCRIPT="prplmesh_whm"
+          CONFIG_PACKAGE_prplmesh-unit-tests=m
+          # prplOS branding
+          CONFIG_IMAGEOPT=y
+          CONFIG_VERSIONOPT=y
+          CONFIG_VERSION_DIST="prplOS"
+          CONFIG_VERSION_REPO="https://downloads.openwrt.org/releases/24.10-SNAPSHOT"
+          CONFIG_VERSION_HOME_URL="https://prplfoundation.org"
+          CONFIG_VERSION_MANUFACTURER="prpl Foundation"
+          CONFIG_VERSION_MANUFACTURER_URL="https://prplfoundation.org"
+          CONFIG_VERSION_BUG_URL="https://jira.prplfoundation.org"
+          CONFIG_VERSION_SUPPORT_URL="https://jira.prplfoundation.org"
+          # CONFIG_VERSION_FILENAMES is not set
+          # CONFIG_VERSION_CODE_FILENAMES is not set
+          # OpenSSL is the default and only TLS provider
+          CONFIG_LIBCURL_OPENSSL=y
+          # CONFIG_LIBCURL_MBEDTLS is not set
+          # CONFIG_PACKAGE_libwolfssl is not set
+          # CONFIG_PACKAGE_libustream-wolfssl is not set
+          CONFIG_PACKAGE_libustream-openssl=y
+          CONFIG_BUSYBOX_CUSTOM=y
+          CONFIG_BUSYBOX_CONFIG_FLOAT_DURATION=y
+          # CONFIG_BUSYBOX_CONFIG_NTPD is not set
+          CONFIG_SAH_AMX_USERMANAGEMENT_DISABLE_PASSWORD_HASHED_FORMAT_STORAGE=y
+          CONFIG_INCLUDE_CONFIG=y
