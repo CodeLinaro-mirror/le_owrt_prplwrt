@@ -112,10 +112,10 @@ define Kernel/SetInitramfs
 			"# CONFIG_DM_DEBUG_BLOCK_MANAGER_LOCKING is not set" \
 			"# CONFIG_DM_VERITY_VERIFY_ROOTHASH_SIG is not set" \
 			"# CONFIG_DM_VERITY_FEC is not set" \
-			"CONFIG_DM_VERITY=m" \
-			"CONFIG_DM_LINEAR=m" \
-			"CONFIG_DM_BUFIO=m" \
-			"CONFIG_DM_MIRROR=m" \
+			"CONFIG_DM_VERITY=y" \
+			"CONFIG_DM_LINEAR=y" \
+			"CONFIG_DM_BUFIO=y" \
+			"CONFIG_DM_MIRROR=y" \
 			"CONFIG_INITRAMFS_SOURCE=\"\"" \
 			"CONFIG_DECOMPRESS_GZIP=y" \
 			"CONFIG_MD=y" \
