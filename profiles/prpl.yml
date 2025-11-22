@@ -15,7 +15,7 @@ feeds:
 
   - name: feed_prplos
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplos.git
-    revision: stable-4.0@8090ac060b4b66aa910cbfc8abfbe36556e364b9
+    revision: stable-4.0@68de92f3ef6021786c00d4cca3b11c986ad8512b
 
 additional_packages:
   - feed: packages
@@ -176,6 +176,7 @@ packages:
   - tr181-dslite
   - tr181-dynamicdns
   - tr181-firewall
+  - tr181-gre
   - tr181-httpaccess
   - tr181-ipdiagnostics
   - tr181-led
