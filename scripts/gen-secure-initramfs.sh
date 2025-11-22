@@ -138,11 +138,54 @@ function import_file {
 	import_file_$file_type "$file"
 }
 
+function find_optional_kernel_module {
+    local name="$1"
+    local relpath
+
+    # Work under ROOTFS_FOLDER, search entire lib/modules tree
+    relpath=$(cd "$ROOTFS_FOLDER" && \
+              find lib/modules -type f -name "$name" 2>/dev/null | head -n 1)
+
+    if [ -z "$relpath" ]; then
+        echo "Optional kernel module $name not found, skipping" >&2
+        return 1
+    fi
+
+    # Prepend leading slash to make it absolute relative to ROOTFS
+    echo "/$relpath"
+    return 0
+}
+
 function import_files_list {
-	while read -r file; do
-		[[ "$file" == /* ]] || file=`find_binary "$file"`
-		import_file "$file"
-	done < <(cat $IN_FOLDER/initramfs-files-list.txt; find "$ROOTFS_FOLDER/lib" -name 'ld-*' -printf '/lib/%P\n')
+    while read -r file; do
+        # Skip empty lines and comments
+        [ -z "$file" ] && continue
+        [[ "$file" =~ ^# ]] && continue
+
+        # Optional kernel module: syntax "(dm-mod.ko)"
+        if [[ "$file" =~ ^\((.+\.ko)\)$ ]]; then
+            local modname="${BASH_REMATCH[1]}"
+            local modpath
+
+            if modpath=$(find_optional_kernel_module "$modname"); then
+                # Only import if found
+                import_file "$modpath"
+            fi
+            # Always continue: optional, so never fatal
+            continue
+        fi
+
+        # Normal behavior for all other entries:
+        # - absolute path: use as-is
+        # - otherwise: search via find_binary
+        if [[ "$file" == /* ]]; then
+            import_file "$file"
+        else
+            file=$(find_binary "$file")
+            import_file "$file"
+        fi
+    done < <(cat "$IN_FOLDER/initramfs-files-list.txt"; \
+             find "$ROOTFS_FOLDER/lib" -name 'ld-*' -printf '/lib/%P\n')
 }
 
 function package_final_file {
