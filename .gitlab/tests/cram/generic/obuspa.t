@@ -143,6 +143,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.DHCPv4.Client.{i}.DHCPServer                                                                  proto::tr181-dhcpv4client
   Device.DHCPv4.Client.{i}.DHCPStatus                                                                  proto::tr181-dhcpv4client
   Device.DHCPv4.Client.{i}.DNSServers                                                                  proto::tr181-dhcpv4client
+  Device.DHCPv4.Client.{i}.DSCPMark                                                                    proto::tr181-dhcpv4client
   Device.DHCPv4.Client.{i}.Enable                                                                      proto::tr181-dhcpv4client
   Device.DHCPv4.Client.{i}.IPAddress                                                                   proto::tr181-dhcpv4client
   Device.DHCPv4.Client.{i}.IPRouters                                                                   proto::tr181-dhcpv4client
@@ -165,6 +166,20 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.DHCPv4.Client.{i}.SentOption.{i}.Tag                                                          proto::tr181-dhcpv4client
   Device.DHCPv4.Client.{i}.SentOption.{i}.Value                                                        proto::tr181-dhcpv4client
   Device.DHCPv4.Client.{i}.SentOptionNumberOfEntries                                                   proto::tr181-dhcpv4client
+  Device.DHCPv4.Client.{i}.Stats.                                                                      proto::tr181-dhcpv4client
+  Device.DHCPv4.Client.{i}.Stats.ACK                                                                   proto::tr181-dhcpv4client
+  Device.DHCPv4.Client.{i}.Stats.CorruptPackets                                                        proto::tr181-dhcpv4client
+  Device.DHCPv4.Client.{i}.Stats.Decline                                                               proto::tr181-dhcpv4client
+  Device.DHCPv4.Client.{i}.Stats.Discover                                                              proto::tr181-dhcpv4client
+  Device.DHCPv4.Client.{i}.Stats.FailedPackets                                                         proto::tr181-dhcpv4client
+  Device.DHCPv4.Client.{i}.Stats.ForceRenew                                                            proto::tr181-dhcpv4client
+  Device.DHCPv4.Client.{i}.Stats.Inform                                                                proto::tr181-dhcpv4client
+  Device.DHCPv4.Client.{i}.Stats.NAK                                                                   proto::tr181-dhcpv4client
+  Device.DHCPv4.Client.{i}.Stats.Offer                                                                 proto::tr181-dhcpv4client
+  Device.DHCPv4.Client.{i}.Stats.OtherMessageTypes                                                     proto::tr181-dhcpv4client
+  Device.DHCPv4.Client.{i}.Stats.Release                                                               proto::tr181-dhcpv4client
+  Device.DHCPv4.Client.{i}.Stats.Request                                                               proto::tr181-dhcpv4client
+  Device.DHCPv4.Client.{i}.Stats.Reset()                                                               proto::tr181-dhcpv4client
   Device.DHCPv4.Client.{i}.Status                                                                      proto::tr181-dhcpv4client
   Device.DHCPv4.Client.{i}.SubnetMask                                                                  proto::tr181-dhcpv4client
   Device.DHCPv4.Client.{i}.X_PRPLWARE-COM_Release                                                      proto::tr181-dhcpv4client
@@ -185,8 +200,8 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.DHCPv4.Server.Pool.{i}.Client.{i}.Chaddr                                                      proto::dhcpv4-manager
   Device.DHCPv4.Server.Pool.{i}.Client.{i}.IPv4Address.{i}.                                            proto::dhcpv4-manager
   Device.DHCPv4.Server.Pool.{i}.Client.{i}.IPv4Address.{i}.IPAddress                                   proto::dhcpv4-manager
-  Device.DHCPv4.Server.Pool.{i}.Client.{i}.IPv4Address.{i}.IsStatic                                    proto::dhcpv4-manager
   Device.DHCPv4.Server.Pool.{i}.Client.{i}.IPv4Address.{i}.LeaseTimeRemaining                          proto::dhcpv4-manager
+  Device.DHCPv4.Server.Pool.{i}.Client.{i}.IPv4Address.{i}.X_PRPLWARE-COM_IsStatic                     proto::dhcpv4-manager
   Device.DHCPv4.Server.Pool.{i}.Client.{i}.IPv4AddressNumberOfEntries                                  proto::dhcpv4-manager
   Device.DHCPv4.Server.Pool.{i}.Client.{i}.Option.{i}.                                                 proto::dhcpv4-manager
   Device.DHCPv4.Server.Pool.{i}.Client.{i}.Option.{i}.Tag                                              proto::dhcpv4-manager
@@ -225,12 +240,13 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.DHCPv4.Server.Pool.{i}.VendorClassID                                                          proto::dhcpv4-manager
   Device.DHCPv4.Server.Pool.{i}.VendorClassIDExclude                                                   proto::dhcpv4-manager
   Device.DHCPv4.Server.Pool.{i}.VendorClassIDMode                                                      proto::dhcpv4-manager
-  Device.DHCPv4.Server.Pool.{i}.X_PRPLWARE-COM_WINSServer                                              proto::dhcpv4-manager
+  Device.DHCPv4.Server.Pool.{i}.WINSServers                                                            proto::dhcpv4-manager
   Device.DHCPv4.Server.PoolNumberOfEntries                                                             proto::dhcpv4-manager
   Device.DHCPv6.
   Device.DHCPv6.Client.{i}.                                                                            proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.Alias                                                                       proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.AuthenticationProtocol                                                      proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.DSCPMark                                                                    proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.DUID                                                                        proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.Enable                                                                      proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.Interface                                                                   proto::tr181-dhcpv6client
@@ -336,6 +352,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.DHCPv6.Server.Pool.{i}.Client.{i}.OptionNumberOfEntries                                       proto::dhcpv6s-manager
   Device.DHCPv6.Server.Pool.{i}.Client.{i}.SourceAddress                                               proto::dhcpv6s-manager
   Device.DHCPv6.Server.Pool.{i}.ClientNumberOfEntries                                                  proto::dhcpv6s-manager
+  Device.DHCPv6.Server.Pool.{i}.DSCPMark                                                               proto::dhcpv6s-manager
   Device.DHCPv6.Server.Pool.{i}.DUID                                                                   proto::dhcpv6s-manager
   Device.DHCPv6.Server.Pool.{i}.DUIDExclude                                                            proto::dhcpv6s-manager
   Device.DHCPv6.Server.Pool.{i}.Enable                                                                 proto::dhcpv6s-manager
@@ -5128,6 +5145,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.DHCPv4.Client.{i}.DHCPServer                                                                  proto::tr181-dhcpv4client
   Device.DHCPv4.Client.{i}.DHCPStatus                                                                  proto::tr181-dhcpv4client
   Device.DHCPv4.Client.{i}.DNSServers                                                                  proto::tr181-dhcpv4client
+  Device.DHCPv4.Client.{i}.DSCPMark                                                                    proto::tr181-dhcpv4client
   Device.DHCPv4.Client.{i}.Enable                                                                      proto::tr181-dhcpv4client
   Device.DHCPv4.Client.{i}.IPAddress                                                                   proto::tr181-dhcpv4client
   Device.DHCPv4.Client.{i}.IPRouters                                                                   proto::tr181-dhcpv4client
@@ -5150,6 +5168,20 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.DHCPv4.Client.{i}.SentOption.{i}.Tag                                                          proto::tr181-dhcpv4client
   Device.DHCPv4.Client.{i}.SentOption.{i}.Value                                                        proto::tr181-dhcpv4client
   Device.DHCPv4.Client.{i}.SentOptionNumberOfEntries                                                   proto::tr181-dhcpv4client
+  Device.DHCPv4.Client.{i}.Stats.                                                                      proto::tr181-dhcpv4client
+  Device.DHCPv4.Client.{i}.Stats.ACK                                                                   proto::tr181-dhcpv4client
+  Device.DHCPv4.Client.{i}.Stats.CorruptPackets                                                        proto::tr181-dhcpv4client
+  Device.DHCPv4.Client.{i}.Stats.Decline                                                               proto::tr181-dhcpv4client
+  Device.DHCPv4.Client.{i}.Stats.Discover                                                              proto::tr181-dhcpv4client
+  Device.DHCPv4.Client.{i}.Stats.FailedPackets                                                         proto::tr181-dhcpv4client
+  Device.DHCPv4.Client.{i}.Stats.ForceRenew                                                            proto::tr181-dhcpv4client
+  Device.DHCPv4.Client.{i}.Stats.Inform                                                                proto::tr181-dhcpv4client
+  Device.DHCPv4.Client.{i}.Stats.NAK                                                                   proto::tr181-dhcpv4client
+  Device.DHCPv4.Client.{i}.Stats.Offer                                                                 proto::tr181-dhcpv4client
+  Device.DHCPv4.Client.{i}.Stats.OtherMessageTypes                                                     proto::tr181-dhcpv4client
+  Device.DHCPv4.Client.{i}.Stats.Release                                                               proto::tr181-dhcpv4client
+  Device.DHCPv4.Client.{i}.Stats.Request                                                               proto::tr181-dhcpv4client
+  Device.DHCPv4.Client.{i}.Stats.Reset()                                                               proto::tr181-dhcpv4client
   Device.DHCPv4.Client.{i}.Status                                                                      proto::tr181-dhcpv4client
   Device.DHCPv4.Client.{i}.SubnetMask                                                                  proto::tr181-dhcpv4client
   Device.DHCPv4.Client.{i}.X_PRPLWARE-COM_Release                                                      proto::tr181-dhcpv4client
@@ -5170,8 +5202,8 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.DHCPv4.Server.Pool.{i}.Client.{i}.Chaddr                                                      proto::dhcpv4-manager
   Device.DHCPv4.Server.Pool.{i}.Client.{i}.IPv4Address.{i}.                                            proto::dhcpv4-manager
   Device.DHCPv4.Server.Pool.{i}.Client.{i}.IPv4Address.{i}.IPAddress                                   proto::dhcpv4-manager
-  Device.DHCPv4.Server.Pool.{i}.Client.{i}.IPv4Address.{i}.IsStatic                                    proto::dhcpv4-manager
   Device.DHCPv4.Server.Pool.{i}.Client.{i}.IPv4Address.{i}.LeaseTimeRemaining                          proto::dhcpv4-manager
+  Device.DHCPv4.Server.Pool.{i}.Client.{i}.IPv4Address.{i}.X_PRPLWARE-COM_IsStatic                     proto::dhcpv4-manager
   Device.DHCPv4.Server.Pool.{i}.Client.{i}.IPv4AddressNumberOfEntries                                  proto::dhcpv4-manager
   Device.DHCPv4.Server.Pool.{i}.Client.{i}.Option.{i}.                                                 proto::dhcpv4-manager
   Device.DHCPv4.Server.Pool.{i}.Client.{i}.Option.{i}.Tag                                              proto::dhcpv4-manager
@@ -5210,12 +5242,13 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.DHCPv4.Server.Pool.{i}.VendorClassID                                                          proto::dhcpv4-manager
   Device.DHCPv4.Server.Pool.{i}.VendorClassIDExclude                                                   proto::dhcpv4-manager
   Device.DHCPv4.Server.Pool.{i}.VendorClassIDMode                                                      proto::dhcpv4-manager
-  Device.DHCPv4.Server.Pool.{i}.X_PRPLWARE-COM_WINSServer                                              proto::dhcpv4-manager
+  Device.DHCPv4.Server.Pool.{i}.WINSServers                                                            proto::dhcpv4-manager
   Device.DHCPv4.Server.PoolNumberOfEntries                                                             proto::dhcpv4-manager
   Device.DHCPv6.
   Device.DHCPv6.Client.{i}.                                                                            proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.Alias                                                                       proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.AuthenticationProtocol                                                      proto::tr181-dhcpv6client
+  Device.DHCPv6.Client.{i}.DSCPMark                                                                    proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.DUID                                                                        proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.Enable                                                                      proto::tr181-dhcpv6client
   Device.DHCPv6.Client.{i}.Interface                                                                   proto::tr181-dhcpv6client
@@ -5321,6 +5354,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.DHCPv6.Server.Pool.{i}.Client.{i}.OptionNumberOfEntries                                       proto::dhcpv6s-manager
   Device.DHCPv6.Server.Pool.{i}.Client.{i}.SourceAddress                                               proto::dhcpv6s-manager
   Device.DHCPv6.Server.Pool.{i}.ClientNumberOfEntries                                                  proto::dhcpv6s-manager
+  Device.DHCPv6.Server.Pool.{i}.DSCPMark                                                               proto::dhcpv6s-manager
   Device.DHCPv6.Server.Pool.{i}.DUID                                                                   proto::dhcpv6s-manager
   Device.DHCPv6.Server.Pool.{i}.DUIDExclude                                                            proto::dhcpv6s-manager
   Device.DHCPv6.Server.Pool.{i}.Enable                                                                 proto::dhcpv6s-manager
