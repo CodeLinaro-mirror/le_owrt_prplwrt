@@ -195,6 +195,7 @@ Check that prplmesh is operational:
   beerocks_fronth
   beerocks_vendor
   executing operational test using bml
+  ieee1905_transp
 
 Check that controller received correct info about wifi subsystem:
 
