@@ -70,7 +70,7 @@ Compare the data models before and after the firmware upgrade:
   > Cthulhu.Container.Instances.1.Pid
   > Cthulhu.Container.Instances.1.StartTime
   > Cthulhu.Container.Instances.1.AutoRestart.RunningSince
-  > Cthulhu.Container.Instances.1.Interfaces.6.Addresses.1.Address
+  > Cthulhu.Container.Instances.1.Interfaces.[[:digit:]]+.Addresses.1.Address
   > Cthulhu.Container.Instances.1.PluginsPrivate.NetworkConfig.FirewallRules.1.Path
   > Cthulhu.Container.Instances.1.PluginsPrivate.NetworkConfig.FirewallRules.2.Path
   > Cthulhu.Container.Instances.1.Resources.Stats.DiskSpace.Free
@@ -91,10 +91,19 @@ Compare the data models before and after the firmware upgrade:
   > SoftwareModules.ExecutionUnit.1.MemoryInUse
   > SoftwareModules.ExecutionUnit.1.Uptime
   > EOF
-  $ cthulhu_diff_params=$(diff -n ${TESTDIR}/cthulhu_before.dm ${TESTDIR}/cthulhu_after.dm | grep -o '^Cthulhu[^=]\+')
-  $ for param in ${cthulhu_diff_params}; do grep -Fxq "${param}" ${TESTDIR}/runtime_params || echo "ERROR: runtime parameter mismatch - ${param}"; done
-  $ timingila_diff_params=$(diff -n ${TESTDIR}/timingila_before.dm ${TESTDIR}/timingila_after.dm | grep -o '^SoftwareModules[^=]\+')
-  $ for param in ${timingila_diff_params}; do grep -Fxq "${param}" ${TESTDIR}/runtime_params || echo "ERROR: runtime parameter mismatch - ${param}"; done
+  $ verify_datamodel() { \
+  >   before=${1}; \
+  >   after=${2}; \
+  >   filter=${3}; \
+  >   diff_params=$(diff -n $before $after | grep -o "$filter"); \
+  >   for param in $diff_params; do \
+  >     if ! echo "${param}" | grep --quiet --extended-regexp --file ${TESTDIR}/runtime_params; then \
+  >       echo "ERROR: runtime parameter mismatch - ${param}"; \
+  >       printf "Before: %s | After: %s\n" $(grep $param $before) $(grep $param $after)
+  >     fi; \
+  >   done;}
+  $ verify_datamodel ${TESTDIR}/cthulhu_before.dm ${TESTDIR}/cthulhu_after.dm '^Cthulhu[^=]\+'
+  $ verify_datamodel ${TESTDIR}/timingila_before.dm ${TESTDIR}/timingila_after.dm '^SoftwareModules[^=]\+'
 
 Check that ApplicationData volumes are available inside the container and use them:
 
