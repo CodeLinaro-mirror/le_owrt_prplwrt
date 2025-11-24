@@ -1,0 +1,342 @@
+Create R alias:
+
+  $ alias R="${CRAM_REMOTE_COMMAND:-}"
+  $ . "${TESTDIR}/../scripts/wifi.sh"
+
+  $ R logger -t cram "Starting APMLD test ..."
+
+Stop prplMesh:
+
+  $ R "/etc/init.d/prplmesh stop > /dev/null 2>&1"
+
+Check default configuration:
+
+  $ R logger -t cram "Check default configuration"
+  $ wifi_dm "APMLDMaxLinks?"
+  WiFi.APMLDMaxLinks=\d+ (re)
+
+  $ R logger -t cram "Check default configuration"
+  $ wifi_dm "MaxNumMLDs?"
+  WiFi.MaxNumMLDs=\d+ (re)
+
+  $ wifi_dm "APMLD.?" | LC_ALL=C sort
+  WiFi.APMLD.1.APMLDConfig.EMLMREnabled=-1
+  WiFi.APMLD.1.APMLDConfig.EMLSREnabled=-1
+  WiFi.APMLD.1.APMLDConfig.NSTREnabled=-1
+  WiFi.APMLD.1.APMLDConfig.STREnabled=-1
+  WiFi.APMLD.1.AffiliatedAPNumberOfEntries=0
+  WiFi.APMLD.1.MLDID=0
+  WiFi.APMLD.1.MLDMACAddress=""
+  WiFi.APMLD.2.APMLDConfig.EMLMREnabled=-1
+  WiFi.APMLD.2.APMLDConfig.EMLSREnabled=-1
+  WiFi.APMLD.2.APMLDConfig.NSTREnabled=-1
+  WiFi.APMLD.2.APMLDConfig.STREnabled=-1
+  WiFi.APMLD.2.AffiliatedAPNumberOfEntries=0
+  WiFi.APMLD.2.MLDID=1
+  WiFi.APMLD.2.MLDMACAddress=""
+
+Configure radio and enable all AccessPoints:
+
+  $ R logger -t cram "Enable all vaps"
+
+  $ wifi_dm "Radio.*.AutoChannelEnable=0"
+  WiFi.Radio.1.AutoChannelEnable=0
+  WiFi.Radio.2.AutoChannelEnable=0
+  WiFi.Radio.3.AutoChannelEnable=0
+
+  $ wifi_dm "Radio.[OperatingFrequencyBand==\"2.4GHz\"].Channel=1"
+  WiFi.Radio.\d+.Channel=1 (re)
+
+  $ wifi_dm "Radio.[OperatingFrequencyBand==\"5GHz\"].Channel=36"
+  WiFi.Radio.\d+.Channel=36 (re)
+
+  $ wifi_dm "Radio.[OperatingFrequencyBand==\"6GHz\"].Channel=37"
+  WiFi.Radio.\d+.Channel=37 (re)
+
+  $ wifi_dm "AccessPoint.*.Enable=1"
+  WiFi.AccessPoint.1.Enable=1
+  WiFi.AccessPoint.2.Enable=1
+  WiFi.AccessPoint.3.Enable=1
+  WiFi.AccessPoint.4.Enable=1
+  WiFi.AccessPoint.5.Enable=1
+  WiFi.AccessPoint.6.Enable=1
+  WiFi.AccessPoint.7.Enable=1
+  WiFi.AccessPoint.8.Enable=1
+  WiFi.AccessPoint.9.Enable=1
+
+  $ sleep 10
+
+Check AccessPoints status:
+
+  $ wifi_dm "AccessPoint.*.Status?0"
+  WiFi.AccessPoint.1.Status="Enabled"
+  WiFi.AccessPoint.2.Status="Enabled"
+  WiFi.AccessPoint.3.Status="Enabled"
+  WiFi.AccessPoint.4.Status="Enabled"
+  WiFi.AccessPoint.5.Status="Enabled"
+  WiFi.AccessPoint.6.Status="Enabled"
+  WiFi.AccessPoint.7.Status="Enabled"
+  WiFi.AccessPoint.8.Status="Enabled"
+  WiFi.AccessPoint.9.Status="Enabled"
+
+Read private and guest MLDUnit:
+
+  $ private_mldunit=$(get_private_mldunit)
+  $ guest_mldunit=$(get_guest_mldunit)
+  $ test_mldunit=12
+
+Check private APMLD number of links:
+
+  $ iw_affliated_link_info_from_mldid ${private_mldunit}
+  addr ([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2} (re)
+  addr ([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2} (re)
+  addr ([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2} (re)
+  channel 1 .* (re)
+  channel 36 .* (re)
+  channel 37 .* (re)
+
+Check APMLD 2 number (guest vaps) of links:
+
+  $ iw_affliated_link_info_from_mldid ${guest_mldunit}
+  addr ([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2} (re)
+  addr ([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2} (re)
+  addr ([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2} (re)
+  channel 1 .* (re)
+  channel 36 .* (re)
+  channel 37 .* (re)
+
+Read all link IDs (3 links per MLD):
+(LinkID values do not matter, uniqueness will be checked implicitly later)
+
+  $ wifi_dm "APMLD.*.AffiliatedAP.*.LinkID?"
+  WiFi.APMLD.1.AffiliatedAP.1.LinkID=\d+ (re)
+  WiFi.APMLD.1.AffiliatedAP.2.LinkID=\d+ (re)
+  WiFi.APMLD.1.AffiliatedAP.3.LinkID=\d+ (re)
+  WiFi.APMLD.2.AffiliatedAP.1.LinkID=\d+ (re)
+  WiFi.APMLD.2.AffiliatedAP.2.LinkID=\d+ (re)
+  WiFi.APMLD.2.AffiliatedAP.3.LinkID=\d+ (re)
+
+Read AffiliatedAP MAC addresses from iw (private):
+
+  $ iw_affilated_mac_list=$(iw_affilated_mac_list_from_mldid ${private_mldunit})
+  $ echo "$iw_affilated_mac_list"
+  link \d+ addr ([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2} (re)
+  link \d+ addr ([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2} (re)
+  link \d+ addr ([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2} (re)
+
+Read AffiliatedAP MAC addresses from pwhm (private):
+
+  $ dm_affilated_mac_list=$(dm_affilated_mac_list_from_mldid ${private_mldunit})
+  $ echo "$dm_affilated_mac_list"
+  link \d+ addr ([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2} (re)
+  link \d+ addr ([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2} (re)
+  link \d+ addr ([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2} (re)
+
+Cross check Affilated MACs addresses (private):
+
+  $ merged_list=$(printf "%s\n%s\n" "$dm_affilated_mac_list" "$iw_affilated_mac_list" | tr '[:upper:]' '[:lower:]' | sort -u)
+
+  $ echo "$merged_list" | uniq
+  link \d+ addr ([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2} (re)
+  link \d+ addr ([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2} (re)
+  link \d+ addr ([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2} (re)
+
+Read AffiliatedAP MAC addresses from iw (guest):
+
+  $ iw_affilated_mac_list=$(iw_affilated_mac_list_from_mldid ${guest_mldunit})
+  $ echo "$iw_affilated_mac_list"
+  link \d+ addr ([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2} (re)
+  link \d+ addr ([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2} (re)
+  link \d+ addr ([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2} (re)
+
+Read AffiliatedAP MAC addresses from pwhm (guest):
+
+  $ dm_affilated_mac_list=$(dm_affilated_mac_list_from_mldid ${guest_mldunit})
+  $ echo "$dm_affilated_mac_list"
+  link \d+ addr ([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2} (re)
+  link \d+ addr ([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2} (re)
+  link \d+ addr ([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2} (re)
+
+Cross check Affilated MACs addresses (guest):
+
+  $ merged_list=$(printf "%s\n%s\n" "$dm_affilated_mac_list" "$iw_affilated_mac_list" | tr '[:upper:]' '[:lower:]' | sort -u)
+
+  $ echo "$merged_list" | uniq
+  link \d+ addr ([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2} (re)
+  link \d+ addr ([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2} (re)
+  link \d+ addr ([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2} (re)
+
+Remove AP1 (private) from its APMLD:
+
+  $ R logger -t cram "Remove AP1 from its APMLD"
+  $ wifi_dm "AccessPoint.1.SSIDReference+.MLDUnit=-1"
+  Device.WiFi.SSID.\d+.MLDUnit=-1 (re)
+
+  $ sleep 10
+
+Check private APMLD number of links:
+
+  $ iw_affliated_link_info_from_mldid ${private_mldunit}
+  addr ([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2} (re)
+  addr ([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2} (re)
+  channel 36 .* (re)
+  channel 37 .* (re)
+
+Read AffiliatedAP MAC addresses:
+
+  $ iw_affilated_mac_list_from_mldid ${private_mldunit}
+  link \d+ addr ([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2} (re)
+  link \d+ addr ([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2} (re)
+
+Check link id of private MLD:
+
+  $ wifi_dm "APMLD.[ MLDID == ${private_mldunit} ].AffiliatedAP.*.LinkID?"
+  WiFi.APMLD.1.AffiliatedAP.1.LinkID=0
+  WiFi.APMLD.1.AffiliatedAP.2.LinkID=1
+
+Move back AP1 to its previous APMLD:
+
+  $ R logger -t cram "Move back AP1 to its previous APMLD"
+  $ wifi_dm "AccessPoint.1.SSIDReference+.MLDUnit=${private_mldunit}"
+  Device.WiFi.SSID.\d+.MLDUnit=0 (re)
+
+  $ sleep 10
+
+Check private APMLD number of links:
+
+  $ iw_affliated_link_info_from_mldid ${private_mldunit}
+  addr ([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2} (re)
+  addr ([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2} (re)
+  addr ([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2} (re)
+  channel 1 .* (re)
+  channel 36 .* (re)
+  channel 37 .* (re)
+
+Move AP1 to a new APMLD:
+
+  $ R logger -t cram "Move AP1 to a new APMLD"
+  $ wifi_dm "AccessPoint.1.SSIDReference+.MLDUnit=${test_mldunit}"
+  Device.WiFi.SSID.1.MLDUnit=12
+
+  $ sleep 10
+
+Check private APMLD number of links:
+
+  $ iw_affliated_link_info_from_mldid ${private_mldunit}
+  addr ([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2} (re)
+  addr ([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2} (re)
+  channel 36 .* (re)
+  channel 37 .* (re)
+
+Check the new APMLD 3 number of links:
+
+  $ iw_affliated_link_info_from_mldid ${test_mldunit}
+  addr ([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2} (re)
+  channel 1 .* (re)
+
+Read AffiliatedAP MAC addresses:
+
+  $ iw_affilated_mac_list_from_mldid ${private_mldunit}
+  link \d+ addr ([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2} (re)
+  link \d+ addr ([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2} (re)
+
+  $ iw_affilated_mac_list_from_mldid ${test_mldunit}
+  link \d+ addr ([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2} (re)
+
+Move back AP1 to its  APMLD
+
+  $ R logger -t cram "Move back AP1 to its previous APMLD"
+  $ wifi_dm "AccessPoint.1.SSIDReference+.MLDUnit=${private_mldunit}"
+  Device.WiFi.SSID.1.MLDUnit=0
+
+  $ sleep 10
+
+Check private APMLD number of links:
+
+  $ iw_affliated_link_info_from_mldid ${private_mldunit}
+  addr ([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2} (re)
+  addr ([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2} (re)
+  addr ([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2} (re)
+  channel 1 .* (re)
+  channel 36 .* (re)
+  channel 37 .* (re)
+
+Check if new APMLD was cleared:
+
+  $ get_apmld_mac_from_dm ${test_mldunit}
+  not_found
+
+Disable guest vaps:
+
+  $ R logger -t cram "Disable guest vaps"
+  $ wifi_dm "AccessPoint.[DefaultDeviceType==\"Guest\"].Enable=0"
+  WiFi.AccessPoint.\d+.Enable=0 (re)
+  WiFi.AccessPoint.\d+.Enable=0 (re)
+  WiFi.AccessPoint.\d+.Enable=0 (re)
+
+  $ sleep 10
+
+  $ wifi_dm "AccessPoint.[DefaultDeviceType==\"Guest\"].Status?"
+  WiFi.AccessPoint.\d+.Status="Disabled" (re)
+  WiFi.AccessPoint.\d+.Status="Disabled" (re)
+  WiFi.AccessPoint.\d+.Status="Disabled" (re)
+
+Check if guest apmld is cleared:
+
+  $ wifi_dm "APMLD.2.?"
+  WiFi.APMLD.2.APMLDConfig.EMLMREnabled=-1
+  WiFi.APMLD.2.APMLDConfig.EMLSREnabled=-1
+  WiFi.APMLD.2.APMLDConfig.NSTREnabled=-1
+  WiFi.APMLD.2.APMLDConfig.STREnabled=-1
+  WiFi.APMLD.2.AffiliatedAPNumberOfEntries=0
+  WiFi.APMLD.2.MLDID=1
+  WiFi.APMLD.2.MLDMACAddress=""
+
+Disable all AP:
+
+  $ R logger -t cram "Disable all vaps"
+  $ wifi_dm "AccessPoint.*.Enable=0"
+  WiFi.AccessPoint.1.Enable=0
+  WiFi.AccessPoint.2.Enable=0
+  WiFi.AccessPoint.3.Enable=0
+  WiFi.AccessPoint.4.Enable=0
+  WiFi.AccessPoint.5.Enable=0
+  WiFi.AccessPoint.6.Enable=0
+  WiFi.AccessPoint.7.Enable=0
+  WiFi.AccessPoint.8.Enable=0
+  WiFi.AccessPoint.9.Enable=0
+
+  $ sleep 10
+
+Check AccessPoints status:
+
+  $ wifi_dm "AccessPoint.*.Status?0"
+  WiFi.AccessPoint.1.Status="Disabled"
+  WiFi.AccessPoint.2.Status="Disabled"
+  WiFi.AccessPoint.3.Status="Disabled"
+  WiFi.AccessPoint.4.Status="Disabled"
+  WiFi.AccessPoint.5.Status="Disabled"
+  WiFi.AccessPoint.6.Status="Disabled"
+  WiFi.AccessPoint.7.Status="Disabled"
+  WiFi.AccessPoint.8.Status="Disabled"
+  WiFi.AccessPoint.9.Status="Disabled"
+
+Check if private apmld is cleared:
+
+  $ sleep 10
+
+  $ wifi_dm "APMLD.1.?"
+  WiFi.APMLD.1.APMLDConfig.EMLMREnabled=-1
+  WiFi.APMLD.1.APMLDConfig.EMLSREnabled=-1
+  WiFi.APMLD.1.APMLDConfig.NSTREnabled=-1
+  WiFi.APMLD.1.APMLDConfig.STREnabled=-1
+  WiFi.APMLD.1.AffiliatedAPNumberOfEntries=0
+  WiFi.APMLD.1.MLDID=0
+  WiFi.APMLD.1.MLDMACAddress=""
+
+
+Resume prplMesh:
+
+  $ R "/etc/init.d/prplmesh start 2>&1 > /dev/null"
+  $ sleep 10
+  $ R logger -t cram "Test finished!"
