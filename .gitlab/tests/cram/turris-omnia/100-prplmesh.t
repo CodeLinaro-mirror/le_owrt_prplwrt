@@ -143,6 +143,7 @@ Check that prplmesh is operational:
   OK wlan0 radio agent operational
   OK wlan1 radio agent operational
   executing operational test using bml
+  ieee1905_transp
 
 Check that prplmesh is in operational state:
 
