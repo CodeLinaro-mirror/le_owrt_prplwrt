@@ -2,6 +2,20 @@
 # Common WiFi helpers:
 #
 
+# set/get wifi datamodel
+# In : path under 'WiFi.'
+# Out : print ba-cli output
+wifi_dm() {
+  local path="$1"
+  local obj_name
+  # read object name
+  obj_name=$(printf '%s\n' "$path" | awk -F. '{print $NF}' | cut -d'=' -f1)
+  # remove any trailing '?' from next grep
+  obj_name=${obj_name%%\?*}
+  R logger -t cram "set_wifi_dm: command WiFi.$path object ${obj_name}"
+  R "ba-cli 'WiFi.${path}'" | grep "${obj_name}=" | sed '/^$/d' | grep -v '>' | sort
+}
+
 # Enable AccessPoints
 # In : AccessPoint object index
 # Out : "enabled" if success, empty otherwise
@@ -130,4 +144,142 @@ get_hapd_config() {
           return 0
           ;;
   esac
+}
+#
+# APMLD helpers
+#
+
+# Print MLDUnit of private MLD based on default SSID (prplOS)
+# In : N/A
+# Out : MLDUNit
+get_private_mldunit() {
+   R 'ba-cli -j -l "WiFi.SSID.[SSID==\"prplOS\"].MLDUnit?" | jsonfilter -e @[0]'[*].MLDUnit''  | head -n 1
+}
+
+# Print MLDUnit of private MLD based on default SSID (prplOS-guest)
+# In : N/A
+# Out : MLDUnit
+get_guest_mldunit() {
+   R 'ba-cli -j -l "WiFi.SSID.[SSID==\"prplOS-guest\"].MLDUnit?" | jsonfilter -e @[0]'[*].MLDUnit''  | head -n 1
+}
+
+# validate mac address
+is_valid_mac() {
+  printf '%s\n' "$1" | grep -Eq '^([0-9A-Fa-f]{2}[:\-]){5}[0-9A-Fa-f]{2}$'
+}
+
+# Print APMLD MACAddress
+# In : MLDID (MLDUnit)
+# Out : APMLD MACAddress. If an APMLD matches the MLDID with empty MACAddress return an error message
+get_apmld_mac_from_dm() {
+  mac=$(R "ba-cli -l -j 'WiFi.APMLD.[MLDID == ${1}].MLDMACAddress?' | jsonfilter -e @[0]'[*].MLDMACAddress' | strings")
+  if ! is_valid_mac "$mac"; then
+    echo "not_found"
+    R logger -t cram "get_apmld_mac_from_dm: MLDMACAddress $mac of MLD ${1} not found"
+    #R "iw dev > /tmp/$(R date +'%Y_%m_%d_%H_%M_%S')_aplmd_iw_out.txt"
+  else
+    echo "$mac"
+  fi
+}
+
+# Print intefrace name from a MACAddress
+# In : wlan MAC address
+# Out : interface name
+get_interface_name() {
+  R "ba-cli -l -j 'WiFi.SSID.[MACAddress==\"${1}\"].Name?' | jsonfilter -e @[0]'[*].Name' || echo 'Could not find SSID'"
+}
+
+# Print link number of an interface
+# In : wlan interface
+# Out : link number
+get_link_info() {
+  R logger -t cram "get_link_info: interface ${1}"
+  R "iw dev ${1} info" | grep -e addr -e channe | sed 's/^[ \t]*//' | sort | uniq
+}
+
+# print main link interface name from MAC address
+# In : interface MAC address
+# Out : main link interface name
+get_main_link_itf () {
+  local found=0
+  local ifaces
+  local mac=$1
+
+  ifaces=$(R ba-cli -l "WiFi.SSID.*.Name?0 | strings")
+
+  for iface in $ifaces; do
+    info=$(R iw dev "$iface" info 2>/dev/null)
+    if echo "$info" | grep -i ${mac} -B2 | grep -q "link"; then
+      R logger -t cram "MAC $1 found in main link interface $iface"
+      echo "$iface"
+      found=1
+      break
+    fi
+  done
+
+  if [ "$found" -eq 0 ]; then
+    R logger -t cram "MAC $1 not associated to any main link"
+    echo "MAC $1 not associated to any main link"
+  fi
+}
+
+# print link number from iw output
+# In : APMLD index (ie MLDID)
+# Out : link number from iw output
+iw_affliated_link_info_from_mldid() {
+  # Detect main link interface
+  mac_address=$(get_apmld_mac_from_dm "$1")
+  if [ -z "$mac_address" ]; then
+    R logger -t cram "iw_affliated_link_info_from_mldid: empty mac_address !"
+  else
+    R logger -t cram "iw_affliated_link_info_from_mldid: mac_address = $mac_address"
+    itf_name=$(get_main_link_itf "$mac_address")
+    get_link_info "$itf_name"
+  fi
+}
+
+# print MAC addresses list of link interfaces from iw  output
+# In : main link interface name
+# Out : LinkID and MAC addresses list of affiliated interfaces (format : link N addr xx:xx:xx:xx:xx)
+iw_get_main_link_mac_list() {
+  local iface=$1
+  R logger -t cram "get_main_link_mac_list $iface"
+  R "iw dev $iface info"  | grep link -A3 | grep -e 'addr ' -e link | sed -nE 'N;s/.*link ([0-9]+):\n[[:space:]]*addr ([0-9a-fA-F:]+)/link \1 addr \2/p'  | LC_ALL=C sort
+}
+
+# print MAC addresses list of link interfaces from iw  output
+# In : MLDID
+# Out : MAC addresses list of link interfaces
+iw_affilated_mac_list_from_mldid() {
+  # Detect main link interface
+  mac_address=$(get_apmld_mac_from_dm "$1") && R logger -t cram "mac_address = $mac_address"
+  if [ -z "$mac_address" ]; then
+    R logger -t cram "iw_affliated_mac_from_mldid: empty mac_address !"
+  else
+    itf_name=$(get_main_link_itf "$mac_address")
+    iw_get_main_link_mac_list "$itf_name"
+  fi
+}
+
+# print MAC addresses list of link interfaces from WiFi DM
+# In : MLDID
+# Out : LinkID and MAC addresses list of affiliated interfaces (format : link N addr xx:xx:xx:xx:xx)
+dm_affilated_mac_list_from_mldid() {
+  local output=""
+  local idx=1
+  local mld_id="$1"
+  local aff_ap_nb
+  local bssid
+  local link_id
+
+  aff_ap_nb=$(R "ba-cli -l 'WiFi.APMLD.[ MLDID == ${mld_id} ].AffiliatedAPNumberOfEntries?'" | sed '/^$/d')
+
+  while [ "$idx" -le "$aff_ap_nb" ]; do
+    bssid=$(R "ba-cli -j -l 'WiFi.APMLD.[ MLDID == ${mld_id} ].AffiliatedAP.${idx}.BSSID?' | jsonfilter -e @[0]'[*].BSSID'")
+    link_id=$(R "ba-cli -j -l 'WiFi.APMLD.[ MLDID == ${mld_id} ].AffiliatedAP.${idx}.LinkID?' | jsonfilter -e @[0]'[*].LinkID'")
+    output="link ${link_id} addr ${bssid}\n${output}"
+    idx=$((idx + 1))
+  done
+
+  printf "%b" "$output"
 }
