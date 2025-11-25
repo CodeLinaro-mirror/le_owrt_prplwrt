@@ -137,9 +137,11 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_glib2=y
   CONFIG_PACKAGE_gmap-client=y
   CONFIG_PACKAGE_gmap-mibs-common=y
+  CONFIG_PACKAGE_gmap-mod-dnssd=y
   CONFIG_PACKAGE_gmap-mod-ethernet-dev=y
   CONFIG_PACKAGE_gmap-mod-name-selector=y
   CONFIG_PACKAGE_gmap-mod-self=y
+  CONFIG_PACKAGE_gmap-mod-upnp=y
   CONFIG_PACKAGE_gmap-server=y
   CONFIG_PACKAGE_hostapd-qca-utils=y
   CONFIG_PACKAGE_hosts-manager=y
