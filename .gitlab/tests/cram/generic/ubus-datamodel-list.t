@@ -375,6 +375,7 @@ Check that ubus has expected datamodels available:
   WANManager
   WANManager.WAN
   WiFi
+  WiFi.APMLD
   WiFi.AccessPoint
   WiFi.AutoCommitMgr
   WiFi.AutoNeighbourAddition

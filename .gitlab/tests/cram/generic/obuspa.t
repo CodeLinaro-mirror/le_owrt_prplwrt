@@ -3305,242 +3305,88 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.Users.User.{i}.X_PRPLWARE-COM_HomeDirectory                                                   proto::tr181-usermanagement
   Device.Users.UserNumberOfEntries                                                                     proto::tr181-usermanagement
   Device.WiFi.                                                                                         proto::prplmesh-dm-mapper
+  Device.WiFi.APMLD.{i}.                                                                               proto::prplmesh-dm-mapper
+  Device.WiFi.APMLD.{i}.APMLDConfig.                                                                   proto::prplmesh-dm-mapper
+  Device.WiFi.APMLD.{i}.APMLDConfig.EMLMREnabled                                                       proto::prplmesh-dm-mapper
+  Device.WiFi.APMLD.{i}.APMLDConfig.EMLSREnabled                                                       proto::prplmesh-dm-mapper
+  Device.WiFi.APMLD.{i}.APMLDConfig.NSTREnabled                                                        proto::prplmesh-dm-mapper
+  Device.WiFi.APMLD.{i}.APMLDConfig.STREnabled                                                         proto::prplmesh-dm-mapper
+  Device.WiFi.APMLD.{i}.AffiliatedAP.{i}.                                                              proto::prplmesh-dm-mapper
+  Device.WiFi.APMLD.{i}.AffiliatedAP.{i}.BSSID                                                         proto::prplmesh-dm-mapper
+  Device.WiFi.APMLD.{i}.AffiliatedAP.{i}.LinkID                                                        proto::prplmesh-dm-mapper
+  Device.WiFi.APMLD.{i}.AffiliatedAP.{i}.Stats.                                                        proto::prplmesh-dm-mapper
+  Device.WiFi.APMLD.{i}.AffiliatedAP.{i}.Stats.BroadcastBytesReceived                                  proto::prplmesh-dm-mapper
+  Device.WiFi.APMLD.{i}.AffiliatedAP.{i}.Stats.BroadcastBytesSent                                      proto::prplmesh-dm-mapper
+  Device.WiFi.APMLD.{i}.AffiliatedAP.{i}.Stats.ErrorsSent                                              proto::prplmesh-dm-mapper
+  Device.WiFi.APMLD.{i}.AffiliatedAP.{i}.Stats.MulticastBytesReceived                                  proto::prplmesh-dm-mapper
+  Device.WiFi.APMLD.{i}.AffiliatedAP.{i}.Stats.MulticastBytesSent                                      proto::prplmesh-dm-mapper
+  Device.WiFi.APMLD.{i}.AffiliatedAP.{i}.Stats.PacketsReceived                                         proto::prplmesh-dm-mapper
+  Device.WiFi.APMLD.{i}.AffiliatedAP.{i}.Stats.PacketsSent                                             proto::prplmesh-dm-mapper
+  Device.WiFi.APMLD.{i}.AffiliatedAP.{i}.Stats.UnicastBytesReceived                                    proto::prplmesh-dm-mapper
+  Device.WiFi.APMLD.{i}.AffiliatedAP.{i}.Stats.UnicastBytesSent                                        proto::prplmesh-dm-mapper
+  Device.WiFi.APMLD.{i}.AffiliatedAPNumberOfEntries                                                    proto::prplmesh-dm-mapper
+  Device.WiFi.APMLD.{i}.MLDID                                                                          proto::prplmesh-dm-mapper
+  Device.WiFi.APMLD.{i}.MLDMACAddress                                                                  proto::prplmesh-dm-mapper
+  Device.WiFi.APMLDMaxLinks                                                                            proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.                                                                         proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.APBridgeDisable                                                          proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.ActiveAssociatedDeviceNumberOfEntries                                    proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.ActiveVideoAssociatedDeviceNumberOfEntries                               proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.Alias                                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.ApRole                                                                   proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.AllowedMACAddress                                                        proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.                                                    proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.Active                                              proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ActiveNumberOfAffiliatedSta                         proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AffiliatedSta.{i}.                                  proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AffiliatedSta.{i}.APName                            proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AffiliatedSta.{i}.Active                            proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AffiliatedSta.{i}.BSSID                             proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AffiliatedSta.{i}.BytesReceived                     proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AffiliatedSta.{i}.BytesSent                         proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AffiliatedSta.{i}.DownlinkRateSpec                  proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AffiliatedSta.{i}.ErrorsSent                        proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AffiliatedSta.{i}.FrequencyBand                     proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AffiliatedSta.{i}.LastDataDownlinkRate              proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AffiliatedSta.{i}.LastDataUplinkRate                proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AffiliatedSta.{i}.LinkID                            proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AffiliatedSta.{i}.MACAddress                        proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AffiliatedSta.{i}.PacketsReceived                   proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AffiliatedSta.{i}.PacketsSent                       proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AffiliatedSta.{i}.SignalStrength                    proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AffiliatedSta.{i}.UplinkRateSpec                    proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AssociationTime                                     proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AuthenticationState                                 proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AvgSignalStrength                                   proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AvgSignalStrengthByChain                            proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.Capabilities                                        proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ChargeableUserId                                    proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ConnectionDuration                                  proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.DevicePriority                                      proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.DeviceType                                          proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.DisassociationTime                                  proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.DownlinkBandwidth                                   proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.DownlinkMCS                                         proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.DownlinkRateSpec                                    proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.DownlinkShortGuard                                  proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.BytesSent                                           proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.EhtCapabilities                                     proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.EncryptionMode                                      proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ErrorsSent                                          proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.FailedRetransCount                                  proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.FrequencyCapabilities                               proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.HeCapabilities                                      proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.HtCapabilities                                      proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.Inactive                                            proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.LastDataDownlinkRate                                proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.LastDataUplinkRate                                  proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.LastStateChange                                     proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.LinkBandwidth                                       proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.MACAddress                                          proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.MLOMode                                             proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.MUGroupId                                           proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.MUMimoTxPktsCount                                   proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.MUMimoTxPktsPercentage                              proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.MUUserPositionId                                    proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.MaxBandwidthSupported                               proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.MaxDownlinkRateReached                              proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.MaxDownlinkRateSupported                            proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.MaxRxSpatialStreamsSupported                        proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.MaxTxSpatialStreamsSupported                        proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.MaxUplinkRateReached                                proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.MaxUplinkRateSupported                              proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.MultipleRetryCount                                  proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.Noise                                               proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.NoiseByChain                                        proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.OperatingStandard                                   proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.PowerSave                                           proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.PacketsSent                                         proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.                                       proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.EhtCapabilities                        proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.EncryptionMode                         proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.FrequencyCapabilities                  proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.HeCapabilities                         proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.HtCapabilities                         proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.LinkBandwidth                          proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.RrmCapabilities                        proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.RrmOffChannelMaxDuration               proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.RrmOnChannelMaxDuration                proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.RxSupportedHe160MCS                    proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.RxSupportedHe80x80MCS                  proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.RxSupportedHeMCS                       proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.RxSupportedVhtMCS                      proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.SecurityModeEnabled                    proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.SupportedHtMCS                         proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.SupportedMCS                           proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.TxSupportedHe160MCS                    proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.TxSupportedHe80x80MCS                  proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.TxSupportedHeMCS                       proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.TxSupportedVhtMCS                      proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.VendorOUI                              proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.VhtCapabilities                        proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.RetransCount                                        proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.Retransmissions                                     proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.RetryCount                                          proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.RrmCapabilities                                     proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.RrmOffChannelMaxDuration                            proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.RrmOnChannelMaxDuration                             proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.RxBytes                                             proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.RxErrors                                            proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.RxMulticastPacketCount                              proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.RxPacketCount                                       proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.RxSupportedHe160MCS                                 proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.RxSupportedHe80x80MCS                               proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.RxSupportedHeMCS                                    proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.RxSupportedVhtMCS                                   proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.RxUnicastPacketCount                                proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.Rx_Retransmissions                                  proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.Rx_RetransmissionsFailed                            proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.SecurityModeEnabled                                 proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.SignalNoiseRatio                                    proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.SNR                                                 proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.SignalStrength                                      proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.SignalStrengthByChain                               proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.SignalStrengthHistory                               proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.SupportedHtMCS                                      proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.SupportedMCS                                        proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.TxBytes                                             proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.TxErrors                                            proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.TxMulticastPacketCount                              proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.TxPacketCount                                       proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.TxSupportedHe160MCS                                 proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.TxSupportedHe80x80MCS                               proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.TxSupportedHeMCS                                    proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.TxSupportedVhtMCS                                   proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.TxUnicastPacketCount                                proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.Tx_Retransmissions                                  proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.Tx_RetransmissionsFailed                            proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.UNIIBandsCapabilities                               proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.UplinkBandwidth                                     proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.UplinkMCS                                           proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.UplinkRateSpec                                      proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.UplinkShortGuard                                    proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.VendorCapabilities                                  proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.VendorOUI                                           proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.VhtCapabilities                                     proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.getLastAssocReq()                                   proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.WdsInterfaceName                                    proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.X_PRPLWARE-COM_AvgSignalStrength                    proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.X_PRPLWARE-COM_AvgSignalStrengthByChain             proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.X_PRPLWARE-COM_DeviceType                           proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.X_PRPLWARE-COM_MaxRxSpatialStreamsSupported         proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.X_PRPLWARE-COM_MaxTxSpatialStreamsSupported         proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.X_PRPLWARE-COM_SecurityModeEnabled                  proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.X_PRPLWARE-COM_SignalStrengthByChain                proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDeviceNumberOfEntries                                          proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociationCount.                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociationCount.Disconnect                                              proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociationCount.Fail                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociationCount.FailSecurity                                            proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociationCount.FastReconnectTypes.{i}.                                 proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociationCount.FastReconnectTypes.{i}.Count                            proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociationCount.FastReconnectTypes.{i}.Type                             proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociationCount.FastReconnects                                          proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociationCount.ResetCounters                                           proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociationCount.Success                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.BSS-TM-RESP!                                                             proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.BridgeInterface                                                          proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.CpeOperationMode                                                         proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.DefaultDeviceType                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.Disassociation!                                                          proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.DiscoveryMethodEnabled                                                   proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.DriverConfig.                                                            proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.DriverConfig.BssMaxIdlePeriod                                            proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.Enable                                                                   proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.HotSpot2.                                                                proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.HotSpot2.AccessNetworkType                                               proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.HotSpot2.Additional                                                      proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.HotSpot2.Anqp3gpp_CellNet                                                proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.HotSpot2.DgafDisable                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.HotSpot2.DomainName                                                      proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.HotSpot2.Enable                                                          proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.HotSpot2.GasDelay                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.HotSpot2.HeSSID                                                          proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.HotSpot2.Hs2Ie                                                           proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.HotSpot2.IcmpV4Echo                                                      proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.HotSpot2.Internet                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.HotSpot2.Interworking                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.HotSpot2.L2TrafficInspect                                                proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.HotSpot2.OperatingClass                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.HotSpot2.P2PEnable                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.HotSpot2.RoamingConsortium                                               proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.HotSpot2.VenueGroup                                                      proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.HotSpot2.VenueName                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.HotSpot2.VenueType                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.HotSpot2.WanMetrics                                                      proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.IEEE80211kEnabled                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.IEEE80211r.                                                              proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.IEEE80211r.Enabled                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.IEEE80211r.FTOverDSEnable                                                proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.IEEE80211r.MobilityDomain                                                proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.IEEE80211r.NASIdentifier                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.IEEE80211r.R0KHKey                                                       proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.IEEE80211u.                                                              proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.IEEE80211u.InterworkingEnable                                            proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.IEEE80211u.QoSMapSet                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.Index                                                                    proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.IsolationEnable                                                          proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.MACAddressControlEnabled                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MACFilterAddressList                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MACFiltering.                                                            proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.MACFiltering.
   Device.WiFi.AccessPoint.{i}.MACFiltering.Entry.{i}.                                                  proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.MACFiltering.Entry.{i}.Alias                                             proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.MACFiltering.Entry.{i}.MACAddress                                        proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MACFiltering.Mode                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MACFiltering.TempBlacklistEnable                                         proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MACFiltering.TempEntry.{i}.                                              proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MACFiltering.TempEntry.{i}.MACAddress                                    proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MACFiltering.addEntry()                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MACFiltering.addEntry() input:mac
-  Device.WiFi.AccessPoint.{i}.MACFiltering.addTempEntry()                                              proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MACFiltering.addTempEntry() input:mac
-  Device.WiFi.AccessPoint.{i}.MACFiltering.delEntry()                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MACFiltering.delEntry() input:mac
-  Device.WiFi.AccessPoint.{i}.MACFiltering.delTempEntry()                                              proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MACFiltering.delTempEntry() input:mac
-  Device.WiFi.AccessPoint.{i}.MBOAssocDisallowReason                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MBOEnable                                                                proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MCEnable                                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MLDConfig.                                                               proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MLDConfig.EMLMREnable                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MLDConfig.EMLSREnable                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MLDConfig.NSTREnable                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MLDConfig.STREnable                                                      proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MLOStats.                                                                proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MLOStats.BroadcastBytesReceived                                          proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MLOStats.BroadcastBytesSent                                              proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MLOStats.ErrorsSent                                                      proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MLOStats.EstServiceParametersBE                                          proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MLOStats.EstServiceParametersBK                                          proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MLOStats.EstServiceParametersVI                                          proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MLOStats.EstServiceParametersVO                                          proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MLOStats.LinkID                                                          proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MLOStats.MLORole                                                         proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MLOStats.MulticastBytesReceived                                          proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MLOStats.MulticastBytesSent                                              proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MLOStats.PacketsReceived                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MLOStats.PacketsSent                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MLOStats.UnicastBytesReceived                                            proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MLOStats.UnicastBytesSent                                                proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.MaxAssociatedDevices                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MgmtActionFrameReceived!                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MgmtDeauthFrame!                                                         proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MgmtDisassocFrame!                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MultiAPProfile                                                           proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MultiAPType                                                              proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MultiAPVlanId                                                            proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.Neighbour.{i}.                                                           proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.Neighbour.{i}.BSSID                                                      proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.Neighbour.{i}.Channel                                                    proto::prplmesh-dm-mapper
@@ -3553,30 +3399,8 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.AccessPoint.{i}.Neighbour.{i}.SSID                                                       proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.ProbeFiltering.                                                          proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.ProbeFiltering.TempEntry.{i}.                                            proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.ProbeFiltering.TempEntry.{i}.MACAddress                                  proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.ProbeFiltering.addTempEntry()                                            proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.ProbeFiltering.addTempEntry() input:mac
-  Device.WiFi.AccessPoint.{i}.ProbeFiltering.delTempEntry()                                            proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.ProbeFiltering.delTempEntry() input:mac
-  Device.WiFi.AccessPoint.{i}.RadioReference                                                           proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.ReferenceApRelay                                                         proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.RetryLimit                                                               proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.RssiEventing.                                                            proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.RssiEventing.AveragingFactor                                             proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.RssiEventing.Enable                                                      proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.RssiEventing.HistoryEnable                                               proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.RssiEventing.HistoryIntervalCoeff                                        proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.RssiEventing.HistoryLen                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.RssiEventing.Interval                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.RssiEventing.RssiInterval                                                proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.RssiEventing.RssiUpdate!                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.RssiEventing.RssiUpdateShortHistory!                                     proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.RssiEventing.RssiUpdateShortHistoryAssoc!                                proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.RssiEventing.RssiUpdateShortHistoryDisassoc!                             proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.RssiEventing.SendEventOnAssoc                                            proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.RssiEventing.SendEventOnDisassoc                                         proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.RssiEventing.SendPeriodicEvent                                           proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.RssiEventing.getShortHistoryStats()                                      proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.SSIDAdvertisementEnabled                                                 proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.SSIDReference                                                            proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.Security.                                                                proto::prplmesh-dm-mapper
@@ -3584,149 +3408,150 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.AccessPoint.{i}.Security.KeyPassPhrase                                                   proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.Security.MFPConfig                                                       proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.Security.ModeEnabled                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.Security.ModesAvailable                                                  proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.Security.ModesSupported                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.Security.OWETransitionInterface                                          proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.Security.PreSharedKey                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.Security.RadiusCalledStationId                                           proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.Security.RadiusChargeableUserId                                          proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.Security.RadiusDefaultSessionTimeout                                     proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.Security.RadiusNASIdentifier                                             proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.Security.RadiusOwnIPAddress                                              proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.Security.RadiusSecret                                                    proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.Security.RadiusServerIPAddr                                              proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.Security.RadiusServerPort                                                proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.Security.RekeyingInterval                                                proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.Security.SAEPassphrase                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.Security.SHA256Enable                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.Security.SPPAmsdu                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.Security.TransitionDisable                                               proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.Security.WEPKey                                                          proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.Security.X_PRPLWARE-COM_ModesAvailable                                   proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.Status                                                                   proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.UAPSDCapability                                                          proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.UAPSDEnable                                                              proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.WDSEnable                                                                proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.WMMCapability                                                            proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.WMMEnable                                                                proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.WPS.                                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.WPS.CertModeEnable                                                       proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.WPS.ConfigMethodsEnabled                                                 proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.WPS.ConfigMethodsSupported                                               proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.WPS.Configured                                                           proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.WPS.Enable                                                               proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.WPS.InitiateWPSPBC()                                                     proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.WPS.InitiateWPSPBC() input:isRelay
-  Device.WiFi.AccessPoint.{i}.WPS.InitiateWPSPIN()                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.WPS.InitiateWPSPIN() input:clientPIN
-  Device.WiFi.AccessPoint.{i}.WPS.InitiateWPSPIN() input:isRelay
-  Device.WiFi.AccessPoint.{i}.WPS.PairingInProgress                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.WPS.RelayCredentialsEnable                                               proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.WPS.RestartOnRequest                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.WPS.SelfPIN                                                              proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.WPS.PIN                                                                  proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.WPS.Status                                                               proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.WPS.UUID                                                                 proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.WPS.Version                                                              proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.WPS.cancelWPSPairing()                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.WPS.generateSelfPIN()                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.WPS.pairingDone!                                                         proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.WPS.pairingError!                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.WPS.pairingNoMessage!                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.WPS.pairingReady!                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.WPS.setCompatibilityWPS()                                                proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.WPS.setCompatibilityWPS() input:supVerWPS
-  Device.WiFi.AccessPoint.{i}.WPS.useRelayCredentials()                                                proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.WPS.useRelayCredentials() input:refApRelayPath
-  Device.WiFi.AccessPoint.{i}.cleanStation()                                                           proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.cleanStation() input:macaddress
-  Device.WiFi.AccessPoint.{i}.dbgAPEnable                                                              proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.dbgAPFile                                                                proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.dbgClearInactiveEntries()                                                proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.debug()                                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.debug() input:op
-  Device.WiFi.AccessPoint.{i}.delNeighbourAP()                                                         proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.delNeighbourAP() input:BSSID
-  Device.WiFi.AccessPoint.{i}.disassocStation()                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.disassocStation() input:mac
-  Device.WiFi.AccessPoint.{i}.disassocStation() input:reason
-  Device.WiFi.AccessPoint.{i}.getFarAssociatedDevicesCount()                                           proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.getFarAssociatedDevicesCount() input:threshold
-  Device.WiFi.AccessPoint.{i}.getLastAssocReq()                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.getLastAssocReq() input:mac
-  Device.WiFi.AccessPoint.{i}.getStationStats()                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.kickStation()                                                            proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.kickStation() input:macaddress
-  Device.WiFi.AccessPoint.{i}.kickStationReason()                                                      proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.kickStationReason() input:macaddress
-  Device.WiFi.AccessPoint.{i}.kickStationReason() input:reason
-  Device.WiFi.AccessPoint.{i}.sendBssTransferRequest()                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.sendBssTransferRequest() input:bssidInfo
-  Device.WiFi.AccessPoint.{i}.sendBssTransferRequest() input:channel
-  Device.WiFi.AccessPoint.{i}.sendBssTransferRequest() input:class
-  Device.WiFi.AccessPoint.{i}.sendBssTransferRequest() input:disassoc
-  Device.WiFi.AccessPoint.{i}.sendBssTransferRequest() input:mac
-  Device.WiFi.AccessPoint.{i}.sendBssTransferRequest() input:mode
-  Device.WiFi.AccessPoint.{i}.sendBssTransferRequest() input:retries
-  Device.WiFi.AccessPoint.{i}.sendBssTransferRequest() input:target
-  Device.WiFi.AccessPoint.{i}.sendBssTransferRequest() input:transitionReason
-  Device.WiFi.AccessPoint.{i}.sendBssTransferRequest() input:validity
-  Device.WiFi.AccessPoint.{i}.sendBssTransferRequest() input:wait
-  Device.WiFi.AccessPoint.{i}.sendManagementFrame()                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.sendManagementFrame() input:channel
-  Device.WiFi.AccessPoint.{i}.sendManagementFrame() input:data
-  Device.WiFi.AccessPoint.{i}.sendManagementFrame() input:fc
-  Device.WiFi.AccessPoint.{i}.sendManagementFrame() input:mac
-  Device.WiFi.AccessPoint.{i}.sendRemoteMeasumentRequest()                                             proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.sendRemoteMeasumentRequest() input:bssid
-  Device.WiFi.AccessPoint.{i}.sendRemoteMeasumentRequest() input:channel
-  Device.WiFi.AccessPoint.{i}.sendRemoteMeasumentRequest() input:class
-  Device.WiFi.AccessPoint.{i}.sendRemoteMeasumentRequest() input:duration
-  Device.WiFi.AccessPoint.{i}.sendRemoteMeasumentRequest() input:interval
-  Device.WiFi.AccessPoint.{i}.sendRemoteMeasumentRequest() input:mac
-  Device.WiFi.AccessPoint.{i}.sendRemoteMeasumentRequest() input:mode
-  Device.WiFi.AccessPoint.{i}.sendRemoteMeasumentRequest() input:modeMask
-  Device.WiFi.AccessPoint.{i}.sendRemoteMeasumentRequest() input:neighbor
-  Device.WiFi.AccessPoint.{i}.sendRemoteMeasumentRequest() input:optionalElements
-  Device.WiFi.AccessPoint.{i}.sendRemoteMeasumentRequest() input:ssid
-  Device.WiFi.AccessPoint.{i}.sendRemoteMeasumentRequest() input:timeout
-  Device.WiFi.AccessPoint.{i}.sendRemoteMeasumentRequest() input:token
-  Device.WiFi.AccessPoint.{i}.setNeighbourAP()                                                         proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.setNeighbourAP() input:BSSID
-  Device.WiFi.AccessPoint.{i}.setNeighbourAP() input:Channel
-  Device.WiFi.AccessPoint.{i}.setNeighbourAP() input:Information
-  Device.WiFi.AccessPoint.{i}.setNeighbourAP() input:NASIdentifier
-  Device.WiFi.AccessPoint.{i}.setNeighbourAP() input:OperatingClass
-  Device.WiFi.AccessPoint.{i}.setNeighbourAP() input:PhyType
-  Device.WiFi.AccessPoint.{i}.setNeighbourAP() input:R0KHKey
-  Device.WiFi.AccessPoint.{i}.setNeighbourAP() input:SSID
-  Device.WiFi.AccessPoint.{i}.wpaCtrlEvents!                                                           proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.WPS.X_PRPLWARE-COM_InitiateWPSPIN()                                      proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.WPS.X_PRPLWARE-COM_InitiateWPSPIN() input:clientPIN
+  Device.WiFi.AccessPoint.{i}.WPS.X_PRPLWARE-COM_InitiateWPSPIN() input:isRelay
+  Device.WiFi.AccessPoint.{i}.WPS.X_PRPLWARE-COM_generateSelfPIN()                                     proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.WPS.X_PRPLWARE-COM_pairingDone!                                          proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.WPS.X_PRPLWARE-COM_pairingError!                                         proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.WPS.X_PRPLWARE-COM_pairingReady!                                         proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_Disassociation!                                           proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_IEEE80211kEnabled                                         proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_IEEE80211r.                                               proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_IEEE80211r.Enabled                                        proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_IEEE80211r.FTOverDSEnable                                 proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_IEEE80211r.MobilityDomain                                 proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_IEEE80211r.NASIdentifier                                  proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_IEEE80211r.R0KHKey                                        proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_MACFiltering.                                             proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_MACFiltering.Mode                                         proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_MACFiltering.TempBlacklistEnable                          proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_MACFiltering.addEntry()                                   proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_MACFiltering.addEntry() input:mac
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_MACFiltering.addTempEntry()                               proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_MACFiltering.addTempEntry() input:mac
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_MACFiltering.delEntry()                                   proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_MACFiltering.delEntry() input:mac
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_MACFiltering.delTempEntry()                               proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_MACFiltering.delTempEntry() input:mac
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_MgmtActionFrameReceived!                                  proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_MgmtDeauthFrame!                                          proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_MgmtDisassocFrame!                                        proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_cleanStation()                                            proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_cleanStation() input:macaddress
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_delNeighbourAP()                                          proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_delNeighbourAP() input:BSSID
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_disassocStation()                                         proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_disassocStation() input:mac
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_disassocStation() input:reason
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_kickStation()                                             proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_kickStation() input:macaddress
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_kickStationReason()                                       proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_kickStationReason() input:macaddress
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_kickStationReason() input:reason
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_sendBssTransferRequest()                                  proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_sendBssTransferRequest() input:bssidInfo
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_sendBssTransferRequest() input:channel
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_sendBssTransferRequest() input:class
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_sendBssTransferRequest() input:disassoc
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_sendBssTransferRequest() input:mac
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_sendBssTransferRequest() input:mode
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_sendBssTransferRequest() input:retries
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_sendBssTransferRequest() input:target
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_sendBssTransferRequest() input:transitionReason
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_sendBssTransferRequest() input:validity
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_sendBssTransferRequest() input:wait
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_sendManagementFrame()                                     proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_sendManagementFrame() input:channel
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_sendManagementFrame() input:data
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_sendManagementFrame() input:fc
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_sendManagementFrame() input:mac
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_sendRemoteMeasumentRequest()                              proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_sendRemoteMeasumentRequest() input:bssid
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_sendRemoteMeasumentRequest() input:channel
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_sendRemoteMeasumentRequest() input:class
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_sendRemoteMeasumentRequest() input:duration
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_sendRemoteMeasumentRequest() input:interval
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_sendRemoteMeasumentRequest() input:mac
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_sendRemoteMeasumentRequest() input:mode
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_sendRemoteMeasumentRequest() input:modeMask
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_sendRemoteMeasumentRequest() input:neighbor
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_sendRemoteMeasumentRequest() input:optionalElements
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_sendRemoteMeasumentRequest() input:ssid
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_sendRemoteMeasumentRequest() input:timeout
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_sendRemoteMeasumentRequest() input:token
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_setNeighbourAP()                                          proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_setNeighbourAP() input:BSSID
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_setNeighbourAP() input:Channel
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_setNeighbourAP() input:Information
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_setNeighbourAP() input:NASIdentifier
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_setNeighbourAP() input:OperatingClass
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_setNeighbourAP() input:PhyType
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_setNeighbourAP() input:R0KHKey
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_setNeighbourAP() input:SSID
   Device.WiFi.AccessPointNumberOfEntries                                                               proto::prplmesh-dm-mapper
   Device.WiFi.AutoCommitMgr.                                                                           proto::prplmesh-dm-mapper
-  Device.WiFi.AutoCommitMgr.BootDelayTime                                                              proto::prplmesh-dm-mapper
-  Device.WiFi.AutoCommitMgr.DelayTime                                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.AutoCommitMgr.Enable                                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.AutoCommitMgr.debug()                                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.AutoCommitMgr.debug() input:op
+  Device.WiFi.DataElements.                                                                            proto::prplmesh-dm-mapper
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Agent.                                                       proto::prplmesh-dm-mapper
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Agent.Configuration.                                         proto::prplmesh-dm-mapper
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Agent.Configuration.BackhaulBand                             proto::prplmesh-dm-mapper
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Agent.Configuration.BackhaulWireInterface                    proto::prplmesh-dm-mapper
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Agent.Configuration.BandSteeringEnabled                      proto::prplmesh-dm-mapper
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Agent.Configuration.BestChannelRankThreshold                 proto::prplmesh-dm-mapper
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Agent.Configuration.ClientRoamingEnabled                     proto::prplmesh-dm-mapper
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Agent.Configuration.ClientsMeasurementMode                   proto::prplmesh-dm-mapper
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Agent.Configuration.ExcludeHostapInterface                   proto::prplmesh-dm-mapper
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Agent.Configuration.MandatoryInterfaces                      proto::prplmesh-dm-mapper
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Agent.Configuration.MultiAPProfile                           proto::prplmesh-dm-mapper
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Agent.Configuration.Passphrase                               proto::prplmesh-dm-mapper
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Agent.Configuration.SSID                                     proto::prplmesh-dm-mapper
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Agent.Configuration.Security                                 proto::prplmesh-dm-mapper
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Agent.Configuration.StopOnFailureAttempts                    proto::prplmesh-dm-mapper
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Agent.Configuration.WEPKey                                   proto::prplmesh-dm-mapper
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Agent.Configuration.ZeroWaitDFSFlag                          proto::prplmesh-dm-mapper
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Agent.Info.                                                  proto::prplmesh-dm-mapper
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Agent.Info.BestState                                         proto::prplmesh-dm-mapper
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Agent.Info.CurrentState                                      proto::prplmesh-dm-mapper
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Agent.Info.Fronthaul.{i}.                                    proto::prplmesh-dm-mapper
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Agent.Info.Fronthaul.{i}.BestState                           proto::prplmesh-dm-mapper
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Agent.Info.Fronthaul.{i}.CurrentState                        proto::prplmesh-dm-mapper
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Agent.Info.Fronthaul.{i}.Iface                               proto::prplmesh-dm-mapper
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Agent.Info.FronthaulIfaces                                   proto::prplmesh-dm-mapper
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Agent.Info.FronthaulNumberOfEntries                          proto::prplmesh-dm-mapper
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Agent.Info.MACAddress                                        proto::prplmesh-dm-mapper
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Agent.Info.ManagementMode                                    proto::prplmesh-dm-mapper
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Agent.WPS.                                                   proto::prplmesh-dm-mapper
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Agent.WPS.InitiateWPSPBC()                                   proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.                                                                            proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.Alias                                                                       proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.AssocStats.                                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.AssocStats.AssocTime                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.AssocStats.DisassocTime                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.AssocStats.NrAssocAttempsSinceDc                                            proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.AssocStats.NrAssocAttempts                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.AssocStats.NrAssociations                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.BridgeInterface                                                             proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.ConnectionStatus                                                            proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.Enable                                                                      proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.Index                                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.IntfName                                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.LastError                                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.MultiAPEnable                                                               proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.MultiAPProfile                                                              proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.MultiAPVlanId                                                               proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.Profile.{i}.                                                                proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.Profile.{i}.Alias                                                           proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.Profile.{i}.Enable                                                          proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.Profile.{i}.ForceBSSID                                                      proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.Profile.{i}.Location                                                        proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.Profile.{i}.Priority                                                        proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.Profile.{i}.SSID                                                            proto::prplmesh-dm-mapper
@@ -3739,206 +3564,64 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.EndPoint.{i}.Profile.{i}.Security.WEPKey                                                 proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.Profile.{i}.Status                                                          proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.ProfileReference                                                            proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.RadioReference                                                              proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.ReconnectDelay                                                              proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.ReconnectInterval                                                           proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.ReconnectRadioToggleThreshold                                               proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.SSIDReference                                                               proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.Security.                                                                   proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.Security.ModesSupported                                                     proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.Stats.                                                                      proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.Stats.EhtCapabilities                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.Stats.EncryptionMode                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.Stats.FrequencyCapabilities                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.Stats.HeCapabilities                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.Stats.HtCapabilities                                                        proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.Stats.LastDataDownlinkRate                                                  proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.Stats.LastDataUplinkRate                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.Stats.LinkBandwidth                                                         proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.Stats.MaxRxSpatialStreamsSupported                                          proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.Stats.MaxTxSpatialStreamsSupported                                          proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.Stats.Noise                                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.Stats.OperatingStandard                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.Stats.RSSI                                                                  proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.Stats.Retransmissions                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.Stats.RxBytes                                                               proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.Stats.RxPacketCount                                                         proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.Stats.Rx_Retransmissions                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.Stats.SecurityModeEnabled                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.Stats.SignalNoiseRatio                                                      proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.Stats.SignalStrength                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.Stats.SupportedHe160MCS                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.Stats.SupportedHeMCS                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.Stats.SupportedMCS                                                          proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.Stats.SupportedVhtMCS                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.Stats.TxBytes                                                               proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.Stats.TxPacketCount                                                         proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.Stats.Tx_Retransmissions                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.Stats.VendorOUI                                                             proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.Stats.VhtCapabilities                                                       proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.Status                                                                      proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.WPS.                                                                        proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.WPS.ConfigMethodsEnabled                                                    proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.WPS.ConfigMethodsSupported                                                  proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.WPS.Enable                                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.WPS.PairingInProgress                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.WPS.cancelPairing()                                                         proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.WPS.pairingDone!                                                            proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.WPS.pairingError!                                                           proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.WPS.pairingNoMessage!                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.WPS.pairingReady!                                                           proto::prplmesh-dm-mapper
+  Device.WiFi.EndPoint.{i}.WPS.X_PRPLWARE-COM_pairingDone!                                             proto::prplmesh-dm-mapper
+  Device.WiFi.EndPoint.{i}.WPS.X_PRPLWARE-COM_pairingError!                                            proto::prplmesh-dm-mapper
+  Device.WiFi.EndPoint.{i}.WPS.X_PRPLWARE-COM_pairingReady!                                            proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.WPS.pushButton()                                                            proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.WPS.pushButton() input:bssid
   Device.WiFi.EndPoint.{i}.WPS.pushButton() input:clientPIN
   Device.WiFi.EndPoint.{i}.WPS.pushButton() input:ssid
-  Device.WiFi.EndPoint.{i}.debug()                                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.debug() input:op
-  Device.WiFi.EndPoint.{i}.getDebug()                                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.getStats()                                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.roamTo()                                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.roamTo() input:bssid
-  Device.WiFi.EndPoint.{i}.roamTo() input:timeoutInSec
-  Device.WiFi.EndPoint.{i}.roamTo() input:tries
-  Device.WiFi.EndPoint.{i}.sendManagementFrame()                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.sendManagementFrame() input:channel
-  Device.WiFi.EndPoint.{i}.sendManagementFrame() input:data
-  Device.WiFi.EndPoint.{i}.sendManagementFrame() input:fc
-  Device.WiFi.EndPoint.{i}.sendManagementFrame() input:mac
-  Device.WiFi.EndPoint.{i}.wpaCtrlEvents!                                                              proto::prplmesh-dm-mapper
+  Device.WiFi.EndPoint.{i}.X_PRPLWARE-COM_sendManagementFrame()                                        proto::prplmesh-dm-mapper
+  Device.WiFi.EndPoint.{i}.X_PRPLWARE-COM_sendManagementFrame() input:channel
+  Device.WiFi.EndPoint.{i}.X_PRPLWARE-COM_sendManagementFrame() input:data
+  Device.WiFi.EndPoint.{i}.X_PRPLWARE-COM_sendManagementFrame() input:fc
+  Device.WiFi.EndPoint.{i}.X_PRPLWARE-COM_sendManagementFrame() input:mac
   Device.WiFi.EndPointNumberOfEntries                                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.FSM_Start()                                                                              proto::prplmesh-dm-mapper
-  Device.WiFi.FSM_Start() input:bitnr
-  Device.WiFi.FSM_Start() input:vap
+  Device.WiFi.MaxNumMLDs                                                                               proto::prplmesh-dm-mapper
   Device.WiFi.NeighboringWiFiDiagnostic()                                                              proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.                                                                               proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.AP_Mode                                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ActiveAntennaCtrl                                                              proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ActiveAssociatedDevices                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ActiveVideoAssociatedDevices                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.AirtimeFairnessEnabled                                                         proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.Alias                                                                          proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.AutoBandwidthSelectMode                                                        proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.AutoChannelEnable                                                              proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.AutoChannelRefreshPeriod                                                       proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.AutoChannelSupported                                                           proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.BaseMACAddress                                                                 proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.BasicDataTransmitRates                                                         proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.BeaconPeriod                                                                   proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.Capabilities.                                                                  proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.Capabilities.WiFi7APRole.                                                      proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Capabilities.WiFi7APRole.EMLMRSupport                                          proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Capabilities.WiFi7APRole.EMLSRSupport                                          proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Capabilities.WiFi7APRole.NSTRSupport                                           proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Capabilities.WiFi7APRole.STRSupport                                            proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.Capabilities.WiFi7STARole.                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Capabilities.WiFi7STARole.EMLMRSupport                                         proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Capabilities.WiFi7STARole.EMLSRSupport                                         proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Capabilities.WiFi7STARole.NSTRSupport                                          proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Capabilities.WiFi7STARole.STRSupport                                           proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.Channel                                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Channel change event!                                                          proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelBandwidthChangeReason                                                   proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.ChannelChangeReason                                                            proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelLoad                                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.                                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.AcsBootChannel                                                      proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.ChannelMgt.
   Device.WiFi.Radio.{i}.ChannelMgt.BgDfs.                                                              proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.BgDfs.AllowProvider                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.BgDfs.Available                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.BgDfs.Bandwidth                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.BgDfs.Channel                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.BgDfs.PreclearEnable                                                proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.BgDfs.Stats.{i}.                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.BgDfs.Stats.{i}.Alias                                               proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.BgDfs.Stats.{i}.NrClearFailOther                                    proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.BgDfs.Stats.{i}.NrClearFailRadar                                    proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.BgDfs.Stats.{i}.NrClearStart                                        proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.BgDfs.Stats.{i}.NrClearStopChange                                   proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.BgDfs.Stats.{i}.NrClearStopQuit                                     proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.BgDfs.Stats.{i}.NrClearSuccess                                      proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.BgDfs.Status                                                        proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.ChannelMgt.BgDfs.startBgDfsClear()                                             proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.ChannelMgt.BgDfs.startBgDfsClear() input:bandwidth
   Device.WiFi.Radio.{i}.ChannelMgt.BgDfs.startBgDfsClear() input:channel
   Device.WiFi.Radio.{i}.ChannelMgt.BgDfs.stopBgDfsClear()                                              proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.ChangeLogSize                                                       proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.ChannelMgt.ChannelChanges.{i}.                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.ChannelChanges.{i}.ChannelChangeReason                              proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.ChannelChanges.{i}.ChannelChangeReasonExt                           proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.ChannelChanges.{i}.NewBandwidth                                     proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.ChannelChanges.{i}.NewChannel                                       proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.ChannelChanges.{i}.NrSta                                            proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.ChannelChanges.{i}.NrVideoSta                                       proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.ChannelChanges.{i}.OldBandwidth                                     proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.ChannelChanges.{i}.OldChannel                                       proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.ChannelChanges.{i}.TargetBandwidth                                  proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.ChannelChanges.{i}.TargetChangeTime                                 proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.ChannelChanges.{i}.TargetChannel                                    proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.ChannelChanges.{i}.TimeStamp                                        proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.ChanspecShowing                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.ClearedDfsChannels                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.CurrentChanspec.                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.CurrentChanspec.Bandwidth                                           proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.CurrentChanspec.Channel                                             proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.CurrentChanspec.Frequency                                           proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.CurrentChanspec.LastChangeTime                                      proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.CurrentChanspec.Reason                                              proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.CurrentChanspec.ReasonExt                                           proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.RadarTriggeredDfsChannels                                           proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.RadioStatus                                                         proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.ChannelMgt.TargetChanspec.                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.TargetChanspec.Bandwidth                                            proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.TargetChanspec.Channel                                              proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.TargetChanspec.Frequency                                            proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.TargetChanspec.LastChangeTime                                       proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.TargetChanspec.Reason                                               proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.TargetChanspec.ReasonExt                                            proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelSwitchComplete!                                                         proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.ChannelsInUse                                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChipsetVendor                                                                  proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.CurrentOperatingChannelBandwidth                                               proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.DFS Done!                                                                      proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.DFS.                                                                           proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.DFS.Event.{i}.                                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.DFS.Event.{i}.Bandwidth                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.DFS.Event.{i}.Channel                                                          proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.DFS.Event.{i}.DFSRadarDetectionList                                            proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.DFS.Event.{i}.NewBandwidth                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.DFS.Event.{i}.NewChannel                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.DFS.Event.{i}.RadarIndex                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.DFS.Event.{i}.RadarZone                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.DFS.Event.{i}.TimeStamp                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.DFS.EventLogLimit                                                              proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.DFS.FileLogLimit                                                               proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.DFSChannelChangeEventCounter                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.DFSChannelChangeEventTimestamp                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.DFS_drvdbg()                                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.DFS_drvdbg() input:dbg_action
   Device.WiFi.Radio.{i}.DTIMPeriod                                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.DelayApUpPeriod                                                                proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.DriverConfig.                                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.DriverConfig.Ampdu                                                             proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.DriverConfig.Amsdu                                                             proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.DriverConfig.BroadcastMaxBwCapability                                          proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.DriverConfig.FragmentationThreshold                                            proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.DriverConfig.RtsThreshold                                                      proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.DriverConfig.TPCMode                                                           proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.DriverConfig.TxBeamforming                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.DriverConfig.TxBurst                                                           proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.DriverConfig.VhtOmnEnabled                                                     proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.DriverStatus.                                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.DriverStatus.NrActiveRxAntenna                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.DriverStatus.NrActiveTxAntenna                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.DriverStatus.NrRxAntenna                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.DriverStatus.NrTxAntenna                                                       proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.Enable                                                                         proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.EventCounter.{i}.                                                              proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.EventCounter.{i}.Info                                                          proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.EventCounter.{i}.Key                                                           proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.EventCounter.{i}.LastOccurrence                                                proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.EventCounter.{i}.Value                                                         proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ExplicitBeamFormingEnabled                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ExplicitBeamFormingSupported                                                   proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.ExtensionChannel                                                               proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.FirmwareVersion                                                                proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.FullScan()                                                                     proto::prplmesh-dm-mapper
@@ -3947,285 +3630,163 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.Radio.{i}.FullScan() input:HomeTime
   Device.WiFi.Radio.{i}.FullScan() input:SSID
   Device.WiFi.Radio.{i}.GuardInterval                                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.HTCapabilities                                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.HeCapsEnabled                                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.HeCapsSupported                                                                proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.HeMacCapabilities                                                              proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.HePhyCapabilities                                                              proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.IEEE80211_Caps                                                                 proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.IEEE80211ax.                                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.IEEE80211ax.BssColor                                                           proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.IEEE80211ax.BssColorPartial                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.IEEE80211ax.HESIGASpatialReuseValue15Allowed                                   proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.IEEE80211ax.MBSSIDAdvertisementMode                                            proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.IEEE80211ax.NonSRGOBSSPDMaxOffset                                              proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.IEEE80211ax.NonSRGOffsetValid                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.IEEE80211ax.PSRDisallowed                                                      proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.IEEE80211ax.SRGBSSColorBitmap                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.IEEE80211ax.SRGInformationValid                                                proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.IEEE80211ax.SRGOBSSPDMaxOffset                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.IEEE80211ax.SRGOBSSPDMinOffset                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.IEEE80211ax.SRGPartialBSSIDBitmap                                              proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.IEEE80211hEnabled                                                              proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.IEEE80211hSupported                                                            proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.IEEE80211kSupported                                                            proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.IEEE80211rSupported                                                            proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ImplicitBeamFormingEnabled                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ImplicitBeamFormingSupported                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Index                                                                          proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.IntelligentAirtimeSchedulingEnable                                             proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Interference                                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.KickRoamingStation                                                             proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.LastChange                                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.LastStatusChangeTimeStamp                                                      proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.LongRetryLimit                                                                 proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.LowerLayers                                                                    proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.MACConfig.                                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.MACConfig.BaseMacOffset                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.MACConfig.LocalGuestMacOffset                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.MACConfig.NrBssRequired                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.MACConfig.UseBaseMacOffset                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.MACConfig.UseLocalBitForGuest                                                  proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.MCS                                                                            proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.MaxAssociatedDevices                                                           proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.MaxBitRate                                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.MaxChannelBandwidth                                                            proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.MaxSupportedSSIDs                                                              proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.MultiAPTypesSupported                                                          proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.MultiUserMIMOEnabled                                                           proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.MultiUserMIMOSupported                                                         proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.Name                                                                           proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Noise                                                                          proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ObssCoexistenceEnable                                                          proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.OfdmaEnable                                                                    proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.OperatingChannelBandwidth                                                      proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.OperatingClass                                                                 proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.OperatingFrequencyBand                                                         proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.OperatingStandards                                                             proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.OperatingStandardsFormat                                                       proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.OperationalDataTransmitRates                                                   proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.PacketAggregationEnable                                                        proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.PossibleChannels                                                               proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.PreambleType                                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.RIFSEnabled                                                                    proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.RTSThreshold                                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.RadCapabilitiesHTStr                                                           proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.RadCapabilitiesHeMacStr                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.RadCapabilitiesHePhysStr                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.RadCapabilitiesVHTStr                                                          proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.RadCaps.                                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.RadCaps.Available                                                              proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.RadCaps.Disable()                                                              proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.RadCaps.Disable() input:capability
-  Device.WiFi.Radio.{i}.RadCaps.Enable()                                                               proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.RadCaps.Enable() input:capability
-  Device.WiFi.Radio.{i}.RadCaps.Enabled                                                                proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.RadCaps.Status                                                                 proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.RegulatoryDomain                                                               proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.RetryLimit                                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.RxBeamformingCapsAvailable                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.RxBeamformingCapsEnabled                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.RxChainCtrl                                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.RxPowerSaveEnabled                                                             proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.RxPowerSaveRepeaterEnable                                                      proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.STASupported_Mode                                                              proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.STA_Mode                                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ScanChange!                                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ScanComplete!                                                                  proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.ScanConfig.                                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ScanConfig.ActiveChannelTime                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ScanConfig.FastScanReasons                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ScanConfig.HomeTime                                                            proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ScanConfig.MaxChannelsPerScan                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ScanConfig.PassiveChannelTime                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ScanConfig.ScanChannelCount                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ScanConfig.ScanRequestInterval                                                 proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.ScanResults.                                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ScanResults.NrCoChannelAP                                                      proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ScanResults.ScanInProgress                                                     proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.ScanResults.SurroundingChannels.{i}.                                           proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.ScanResults.SurroundingChannels.{i}.Accesspoint.{i}.                           proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.ScanResults.SurroundingChannels.{i}.Accesspoint.{i}.BSSID                      proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ScanResults.SurroundingChannels.{i}.Accesspoint.{i}.RSSI                       proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.ScanResults.SurroundingChannels.{i}.Accesspoint.{i}.SSID.{i}.                  proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ScanResults.SurroundingChannels.{i}.Accesspoint.{i}.SSID.{i}.BSSID             proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ScanResults.SurroundingChannels.{i}.Accesspoint.{i}.SSID.{i}.Bandwidth         proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ScanResults.SurroundingChannels.{i}.Accesspoint.{i}.SSID.{i}.ChannelUtilization proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ScanResults.SurroundingChannels.{i}.Accesspoint.{i}.SSID.{i}.SSID              proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ScanResults.SurroundingChannels.{i}.Accesspoint.{i}.SSID.{i}.StationCount      proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ScanResults.SurroundingChannels.{i}.Channel                                    proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.ScanStats.                                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ScanStats.NrScanBlocked                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ScanStats.NrScanDone                                                           proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ScanStats.NrScanError                                                          proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ScanStats.NrScanRequested                                                      proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.ScanStats.ScanReason.{i}.                                                      proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ScanStats.ScanReason.{i}.Name                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ScanStats.ScanReason.{i}.NrScanDone                                            proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ScanStats.ScanReason.{i}.NrScanError                                           proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ScanStats.ScanReason.{i}.NrScanRequested                                       proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Sensing.                                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Sensing.CSIClient.{i}.                                                         proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Sensing.CSIClient.{i}.Alias                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Sensing.CSIClient.{i}.MACAddress                                               proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Sensing.CSIClient.{i}.MonitorInterval                                          proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Sensing.Enable                                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Sensing.addClient()                                                            proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Sensing.addClient() input:Bandwidth
-  Device.WiFi.Radio.{i}.Sensing.addClient() input:DataType
-  Device.WiFi.Radio.{i}.Sensing.addClient() input:ExchangeType
-  Device.WiFi.Radio.{i}.Sensing.addClient() input:MACAddress
-  Device.WiFi.Radio.{i}.Sensing.addClient() input:MonitorInterval
-  Device.WiFi.Radio.{i}.Sensing.addClient() input:NRx
-  Device.WiFi.Radio.{i}.Sensing.addClient() input:NTx
-  Device.WiFi.Radio.{i}.Sensing.addClient() input:Receiver
-  Device.WiFi.Radio.{i}.Sensing.csiStats()                                                             proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Sensing.debug()                                                                proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Sensing.delClient()                                                            proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Sensing.delClient() input:MACAddress
-  Device.WiFi.Radio.{i}.Sensing.resetStats()                                                           proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.StaticPuncturing.                                                              proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.StaticPuncturing.DisabledSubChannels                                           proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.Stats.                                                                         proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.BroadcastPacketsReceived                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.BroadcastPacketsSent                                                     proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.Stats.BytesReceived                                                            proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.Stats.BytesSent                                                                proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.Stats.DiscardPacketsReceived                                                   proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.Stats.DiscardPacketsSent                                                       proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.Stats.ErrorsReceived                                                           proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.Stats.ErrorsSent                                                               proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.FailedRetransCount                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.MulticastPacketsReceived                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.MulticastPacketsSent                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.MultipleRetryCount                                                       proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.Stats.Noise                                                                    proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.Stats.PacketsReceived                                                          proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.Stats.PacketsSent                                                              proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.RetransCount                                                             proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.RetryCount                                                               proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.Temperature                                                              proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.UnicastPacketsReceived                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.UnicastPacketsSent                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.UnknownProtoPacketsReceived                                              proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmBytesReceived.                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmBytesReceived.AC_BE                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmBytesReceived.AC_BK                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmBytesReceived.AC_VI                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmBytesReceived.AC_VO                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmBytesSent.                                                            proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmBytesSent.AC_BE                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmBytesSent.AC_BK                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmBytesSent.AC_VI                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmBytesSent.AC_VO                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmFailedBytesReceived.                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmFailedBytesReceived.AC_BE                                             proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmFailedBytesReceived.AC_BK                                             proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmFailedBytesReceived.AC_VI                                             proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmFailedBytesReceived.AC_VO                                             proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmFailedReceived.                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmFailedReceived.AC_BE                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmFailedReceived.AC_BK                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmFailedReceived.AC_VI                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmFailedReceived.AC_VO                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmFailedSent.                                                           proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmFailedSent.AC_BE                                                      proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmFailedSent.AC_BK                                                      proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmFailedSent.AC_VI                                                      proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmFailedSent.AC_VO                                                      proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmFailedbytesSent.                                                      proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmFailedbytesSent.AC_BE                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmFailedbytesSent.AC_BK                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmFailedbytesSent.AC_VI                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmFailedbytesSent.AC_VO                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmPacketsReceived.                                                      proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmPacketsReceived.AC_BE                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmPacketsReceived.AC_BK                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmPacketsReceived.AC_VI                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmPacketsReceived.AC_VO                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmPacketsSent.                                                          proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmPacketsSent.AC_BE                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmPacketsSent.AC_BK                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmPacketsSent.AC_VI                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmPacketsSent.AC_VO                                                     proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_BroadcastPacketsReceived                                  proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_BroadcastPacketsSent                                      proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_FailedRetransCount                                        proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_MulticastPacketsReceived                                  proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_MulticastPacketsSent                                      proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_MultipleRetryCount                                        proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_RetransCount                                              proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_RetryCount                                                proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_UnicastPacketsReceived                                    proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_UnicastPacketsSent                                        proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmBytesReceived.                                         proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmBytesReceived.AC_BE                                    proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmBytesReceived.AC_BK                                    proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmBytesReceived.AC_VI                                    proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmBytesReceived.AC_VO                                    proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmBytesSent.                                             proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmBytesSent.AC_BE                                        proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmBytesSent.AC_BK                                        proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmBytesSent.AC_VI                                        proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmBytesSent.AC_VO                                        proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmFailedBytesReceived.                                   proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmFailedBytesReceived.AC_BE                              proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmFailedBytesReceived.AC_BK                              proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmFailedBytesReceived.AC_VI                              proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmFailedBytesReceived.AC_VO                              proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmFailedReceived.                                        proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmFailedReceived.AC_BE                                   proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmFailedReceived.AC_BK                                   proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmFailedReceived.AC_VI                                   proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmFailedReceived.AC_VO                                   proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmFailedSent.                                            proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmFailedSent.AC_BE                                       proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmFailedSent.AC_BK                                       proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmFailedSent.AC_VI                                       proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmFailedSent.AC_VO                                       proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmFailedbytesSent.                                       proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmFailedbytesSent.AC_BE                                  proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmFailedbytesSent.AC_BK                                  proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmFailedbytesSent.AC_VI                                  proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmFailedbytesSent.AC_VO                                  proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmPacketsReceived.                                       proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmPacketsReceived.AC_BE                                  proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmPacketsReceived.AC_BK                                  proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmPacketsReceived.AC_VI                                  proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmPacketsReceived.AC_VO                                  proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmPacketsSent.                                           proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmPacketsSent.AC_BE                                      proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmPacketsSent.AC_BK                                      proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmPacketsSent.AC_VI                                      proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmPacketsSent.AC_VO                                      proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.Status                                                                         proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.SupportedDataTransmitRates                                                     proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.SupportedFrequencyBands                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.SupportedHeMcsNssSet                                                           proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.SupportedHtMcsSet                                                              proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.SupportedOperatingChannelBandwidth                                             proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.SupportedSensingDataTypes                                                      proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.SupportedSensingExchangeTypes                                                  proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.SupportedStandards                                                             proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.SupportedVhtMcsNssSet                                                          proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.TargetWakeTimeEnable                                                           proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.TransmitPower                                                                  proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.TransmitPowerSupported                                                         proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.TxBeamformingCapsAvailable                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.TxBeamformingCapsEnabled                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.TxChainCtrl                                                                    proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.Upstream                                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.WDS_Mode                                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.WET_Mode                                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.WPS_Enrollee_Mode                                                              proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.apDelayUpDone()                                                                proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.commit()                                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.dbgRADEnable                                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.dbgRADFile                                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.debug()                                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.edit()                                                                         proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_Channel change event!                                           proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_ChannelMgt.                                                     proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_ChannelMgt.ClearedDfsChannels                                   proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_IEEE80211kSupported                                             proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_IEEE80211rSupported                                             proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.                                                   proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.Enable                                             proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.OffChannelSupported                                proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.clearMonitorDevices()                              proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.clearNonAssociatedDevices()                        proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.createMonitorDevice()                              proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.createMonitorDevice() input:macaddress
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.createNonAssociatedDevice()                        proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.createNonAssociatedDevice() input:bandwidth
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.createNonAssociatedDevice() input:bssid
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.createNonAssociatedDevice() input:channel
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.createNonAssociatedDevice() input:macaddress
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.createNonAssociatedDevice() input:operatingClass
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.deleteMonitorDevice()                              proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.deleteMonitorDevice() input:macaddress
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.deleteNonAssociatedDevice()                        proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.deleteNonAssociatedDevice() input:macaddress
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.getMonitorDeviceStats()                            proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.getNaStationStats()                                proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_ScanComplete!                                                   proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_Sensing.                                                        proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_Sensing.Enable                                                  proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_Sensing.addClient()                                             proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_Sensing.addClient() input:Bandwidth
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_Sensing.addClient() input:DataType
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_Sensing.addClient() input:ExchangeType
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_Sensing.addClient() input:MACAddress
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_Sensing.addClient() input:MonitorInterval
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_Sensing.addClient() input:NRx
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_Sensing.addClient() input:NTx
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_Sensing.addClient() input:Receiver
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_Sensing.csiStats()                                              proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_Sensing.delClient()                                             proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_Sensing.delClient() input:MACAddress
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_getRadioAirStats()                                              proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_getRadioStats()                                                 proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_scan()                                                          proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_scan() input:BSSID
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_scan() input:SSID
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_scan() input:channels
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_scan() input:minRssi
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_scan() input:scanReason
   Device.WiFi.Radio.{i}.getChanSurveyReport()                                                          proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.getCurrentTransmitPowerdBm()                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.getLatestPower()                                                               proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.getMaxTransmitPowerdBm()                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.getMaxTransmitPowerdBm() input:channel
-  Device.WiFi.Radio.{i}.getRadioAirStats()                                                             proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.getRadioStats()                                                                proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.getScanCombinedData()                                                          proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.getScanCombinedData() input:minRssi
-  Device.WiFi.Radio.{i}.getScanResults()                                                               proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.getScanResults() input:minRssi
-  Device.WiFi.Radio.{i}.getSpectrumInfo()                                                              proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.getSpectrumInfo() input:update
-  Device.WiFi.Radio.{i}.getStatusHistogram()                                                           proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.scan()                                                                         proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.scan() input:BSSID
-  Device.WiFi.Radio.{i}.scan() input:SSID
-  Device.WiFi.Radio.{i}.scan() input:channels
-  Device.WiFi.Radio.{i}.scan() input:minRssi
-  Device.WiFi.Radio.{i}.scan() input:scanReason
-  Device.WiFi.Radio.{i}.scanCombinedData()                                                             proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.scanCombinedData() input:BSSID
-  Device.WiFi.Radio.{i}.scanCombinedData() input:SSID
-  Device.WiFi.Radio.{i}.scanCombinedData() input:channels
-  Device.WiFi.Radio.{i}.scanCombinedData() input:minRssi
-  Device.WiFi.Radio.{i}.scanCombinedData() input:scanReason
-  Device.WiFi.Radio.{i}.setChanspec()                                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.setChanspec() input:bandwidth
-  Device.WiFi.Radio.{i}.setChanspec() input:channel
-  Device.WiFi.Radio.{i}.setChanspec() input:direct
-  Device.WiFi.Radio.{i}.setChanspec() input:reason
-  Device.WiFi.Radio.{i}.setChanspec() input:reasonExt
-  Device.WiFi.Radio.{i}.startACS()                                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.startAutoChannelSelection()                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.startPlatformACS()                                                             proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.startPlatformACS() input:acs_list
-  Device.WiFi.Radio.{i}.startScan()                                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.startScan() input:BSSID
-  Device.WiFi.Radio.{i}.startScan() input:SSID
-  Device.WiFi.Radio.{i}.startScan() input:channels
-  Device.WiFi.Radio.{i}.startScan() input:forceFast
-  Device.WiFi.Radio.{i}.startScan() input:scanReason
-  Device.WiFi.Radio.{i}.startScan() input:updateUsage
-  Device.WiFi.Radio.{i}.stopScan()                                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.wpaCtrlEvents!                                                                 proto::prplmesh-dm-mapper
   Device.WiFi.RadioNumberOfEntries                                                                     proto::prplmesh-dm-mapper
   Device.WiFi.Reset()                                                                                  proto::prplmesh-dm-mapper
   Device.WiFi.SSID.{i}.                                                                                proto::prplmesh-dm-mapper
   Device.WiFi.SSID.{i}.Alias                                                                           proto::prplmesh-dm-mapper
   Device.WiFi.SSID.{i}.BSSID                                                                           proto::prplmesh-dm-mapper
   Device.WiFi.SSID.{i}.Enable                                                                          proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Index                                                                           proto::prplmesh-dm-mapper
   Device.WiFi.SSID.{i}.LastChange                                                                      proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.LastStatusChangeTimeStamp                                                       proto::prplmesh-dm-mapper
   Device.WiFi.SSID.{i}.LowerLayers                                                                     proto::prplmesh-dm-mapper
   Device.WiFi.SSID.{i}.MACAddress                                                                      proto::prplmesh-dm-mapper
   Device.WiFi.SSID.{i}.MLDUnit                                                                         proto::prplmesh-dm-mapper
@@ -4251,83 +3812,99 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.SSID.{i}.Stats.UnicastPacketsReceived                                                    proto::prplmesh-dm-mapper
   Device.WiFi.SSID.{i}.Stats.UnicastPacketsSent                                                        proto::prplmesh-dm-mapper
   Device.WiFi.SSID.{i}.Stats.UnknownProtoPacketsReceived                                               proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmBytesReceived.                                                         proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmBytesReceived.AC_BE                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmBytesReceived.AC_BK                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmBytesReceived.AC_VI                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmBytesReceived.AC_VO                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmBytesSent.                                                             proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmBytesSent.AC_BE                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmBytesSent.AC_BK                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmBytesSent.AC_VI                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmBytesSent.AC_VO                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmFailedBytesReceived.                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmFailedBytesReceived.AC_BE                                              proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmFailedBytesReceived.AC_BK                                              proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmFailedBytesReceived.AC_VI                                              proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmFailedBytesReceived.AC_VO                                              proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmFailedReceived.                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmFailedReceived.AC_BE                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmFailedReceived.AC_BK                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmFailedReceived.AC_VI                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmFailedReceived.AC_VO                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmFailedSent.                                                            proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmFailedSent.AC_BE                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmFailedSent.AC_BK                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmFailedSent.AC_VI                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmFailedSent.AC_VO                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmFailedbytesSent.                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmFailedbytesSent.AC_BE                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmFailedbytesSent.AC_BK                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmFailedbytesSent.AC_VI                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmFailedbytesSent.AC_VO                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmPacketsReceived.                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmPacketsReceived.AC_BE                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmPacketsReceived.AC_BK                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmPacketsReceived.AC_VI                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmPacketsReceived.AC_VO                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmPacketsSent.                                                           proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmPacketsSent.AC_BE                                                      proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmPacketsSent.AC_BK                                                      proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmPacketsSent.AC_VI                                                      proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmPacketsSent.AC_VO                                                      proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmBytesReceived.                                          proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmBytesReceived.AC_BE                                     proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmBytesReceived.AC_BK                                     proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmBytesReceived.AC_VI                                     proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmBytesReceived.AC_VO                                     proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmBytesSent.                                              proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmBytesSent.AC_BE                                         proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmBytesSent.AC_BK                                         proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmBytesSent.AC_VI                                         proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmBytesSent.AC_VO                                         proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmFailedBytesReceived.                                    proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmFailedBytesReceived.AC_BE                               proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmFailedBytesReceived.AC_BK                               proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmFailedBytesReceived.AC_VI                               proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmFailedBytesReceived.AC_VO                               proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmFailedReceived.                                         proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmFailedReceived.AC_BE                                    proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmFailedReceived.AC_BK                                    proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmFailedReceived.AC_VI                                    proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmFailedReceived.AC_VO                                    proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmFailedSent.                                             proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmFailedSent.AC_BE                                        proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmFailedSent.AC_BK                                        proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmFailedSent.AC_VI                                        proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmFailedSent.AC_VO                                        proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmFailedbytesSent.                                        proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmFailedbytesSent.AC_BE                                   proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmFailedbytesSent.AC_BK                                   proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmFailedbytesSent.AC_VI                                   proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmFailedbytesSent.AC_VO                                   proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmPacketsReceived.                                        proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmPacketsReceived.AC_BE                                   proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmPacketsReceived.AC_BK                                   proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmPacketsReceived.AC_VI                                   proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmPacketsReceived.AC_VO                                   proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmPacketsSent.                                            proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmPacketsSent.AC_BE                                       proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmPacketsSent.AC_BK                                       proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmPacketsSent.AC_VI                                       proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmPacketsSent.AC_VO                                       proto::prplmesh-dm-mapper
   Device.WiFi.SSID.{i}.Status                                                                          proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.getSSIDStats()                                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.getStatusHistogram()                                                            proto::prplmesh-dm-mapper
   Device.WiFi.SSIDNumberOfEntries                                                                      proto::prplmesh-dm-mapper
   Device.WiFi.Vendor.                                                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.addEndPointIntf()                                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.addEndPointIntf() input:endpoint
-  Device.WiFi.addEndPointIntf() input:ifname
-  Device.WiFi.addEndPointIntf() input:radio
-  Device.WiFi.addVAPIntf()                                                                             proto::prplmesh-dm-mapper
-  Device.WiFi.addVAPIntf() input:bridge
-  Device.WiFi.addVAPIntf() input:ifname
-  Device.WiFi.addVAPIntf() input:radio
-  Device.WiFi.addVAPIntf() input:vap
-  Device.WiFi.checkWPSPIN()                                                                            proto::prplmesh-dm-mapper
-  Device.WiFi.checkWPSPIN() input:PIN
-  Device.WiFi.delEndPointIntf()                                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.delEndPointIntf() input:endpoint
-  Device.WiFi.delVAPIntf()                                                                             proto::prplmesh-dm-mapper
-  Device.WiFi.delVAPIntf() input:vap
+  Device.WiFi.X_PRPLWARE-COM_ProcessManager.                                                           proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_ProcessManager.PWHM.                                                      proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_ProcessManager.PWHM.Enable                                                proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_ProcessManager.PWHM.FaultCode                                             proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_ProcessManager.PWHM.Status                                                proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_ProcessManager.PrplMesh.                                                  proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable                                            proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_ProcessManager.PrplMesh.FaultCode                                         proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_ProcessManager.PrplMesh.ManagementMode                                    proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_ProcessManager.PrplMesh.Status                                            proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_ProcessManager.Sensing.                                                   proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_ProcessManager.Sensing.Enable                                             proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_ProcessManager.Sensing.FaultCode                                          proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_ProcessManager.Sensing.Status                                             proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.                                                              proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.CreateSession()                                               proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.CreateSession() input:ApplicationName
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.                                                  proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.AddExchange()                                     proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.AddExchange() input:Bandwidth
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.AddExchange() input:DataType
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.AddExchange() input:ExchangeType
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.AddExchange() input:NRx
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.AddExchange() input:NTx
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.AddExchange() input:Rate
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.AddExchange() input:Receiver
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.AddExchange() input:Transmitter
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.Alias                                             proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.ApplicationName                                   proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.DataSocketPath                                    proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.DeleteSession()                                   proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.Exchange.{i}.                                     proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.Exchange.{i}.Alias                                proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.Exchange.{i}.Bandwidth                            proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.Exchange.{i}.DataType                             proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.Exchange.{i}.ExchangeID                           proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.Exchange.{i}.ExchangeTerminated!                  proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.Exchange.{i}.ExchangeTerminated! event_arg:Cause
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.Exchange.{i}.ExchangeTerminated! event_arg:ExchangeID
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.Exchange.{i}.ExchangeType                         proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.Exchange.{i}.NRx                                  proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.Exchange.{i}.NTx                                  proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.Exchange.{i}.Rate                                 proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.Exchange.{i}.Receiver                             proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.Exchange.{i}.RemoveExchange()                     proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.Exchange.{i}.Transmitter                          proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.ExchangeNumberOfEntries                           proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.SessionID                                         proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.SessionNumberOfEntries                                        proto::prplmesh-dm-mapper
   Device.WiFi.wps_DefParam.                                                                            proto::prplmesh-dm-mapper
-  Device.WiFi.wps_DefParam.DefaultPin                                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.wps_DefParam.DevName                                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.wps_DefParam.FriendlyName                                                                proto::prplmesh-dm-mapper
-  Device.WiFi.wps_DefParam.Manufacturer                                                                proto::prplmesh-dm-mapper
-  Device.WiFi.wps_DefParam.ManufacturerUrl                                                             proto::prplmesh-dm-mapper
-  Device.WiFi.wps_DefParam.ModelDescription                                                            proto::prplmesh-dm-mapper
-  Device.WiFi.wps_DefParam.ModelName                                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.wps_DefParam.ModelNumber                                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.wps_DefParam.ModelUrl                                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.wps_DefParam.OUI                                                                         proto::prplmesh-dm-mapper
-  Device.WiFi.wps_DefParam.OsVersion                                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.wps_DefParam.SerialNumber                                                                proto::prplmesh-dm-mapper
-  Device.WiFi.wps_DefParam.UUID                                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.wps_DefParam.wpsSupVer                                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.wps_DefParam.wpsUUIDShared                                                               proto::prplmesh-dm-mapper
-  Device.WiFi.wps_DefParam.wps_GenSelfPIN()                                                            proto::prplmesh-dm-mapper
   Device.XPON.                                                                                         proto::tr181-xpon
   Device.XPON.ONU.{i}.                                                                                 proto::tr181-xpon
   Device.XPON.ONU.{i}.ANI.{i}.                                                                         proto::tr181-xpon
@@ -8173,242 +7750,88 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.Users.User.{i}.X_PRPLWARE-COM_HomeDirectory                                                   proto::tr181-usermanagement
   Device.Users.UserNumberOfEntries                                                                     proto::tr181-usermanagement
   Device.WiFi.                                                                                         proto::prplmesh-dm-mapper
+  Device.WiFi.APMLD.{i}.                                                                               proto::prplmesh-dm-mapper
+  Device.WiFi.APMLD.{i}.APMLDConfig.                                                                   proto::prplmesh-dm-mapper
+  Device.WiFi.APMLD.{i}.APMLDConfig.EMLMREnabled                                                       proto::prplmesh-dm-mapper
+  Device.WiFi.APMLD.{i}.APMLDConfig.EMLSREnabled                                                       proto::prplmesh-dm-mapper
+  Device.WiFi.APMLD.{i}.APMLDConfig.NSTREnabled                                                        proto::prplmesh-dm-mapper
+  Device.WiFi.APMLD.{i}.APMLDConfig.STREnabled                                                         proto::prplmesh-dm-mapper
+  Device.WiFi.APMLD.{i}.AffiliatedAP.{i}.                                                              proto::prplmesh-dm-mapper
+  Device.WiFi.APMLD.{i}.AffiliatedAP.{i}.BSSID                                                         proto::prplmesh-dm-mapper
+  Device.WiFi.APMLD.{i}.AffiliatedAP.{i}.LinkID                                                        proto::prplmesh-dm-mapper
+  Device.WiFi.APMLD.{i}.AffiliatedAP.{i}.Stats.                                                        proto::prplmesh-dm-mapper
+  Device.WiFi.APMLD.{i}.AffiliatedAP.{i}.Stats.BroadcastBytesReceived                                  proto::prplmesh-dm-mapper
+  Device.WiFi.APMLD.{i}.AffiliatedAP.{i}.Stats.BroadcastBytesSent                                      proto::prplmesh-dm-mapper
+  Device.WiFi.APMLD.{i}.AffiliatedAP.{i}.Stats.ErrorsSent                                              proto::prplmesh-dm-mapper
+  Device.WiFi.APMLD.{i}.AffiliatedAP.{i}.Stats.MulticastBytesReceived                                  proto::prplmesh-dm-mapper
+  Device.WiFi.APMLD.{i}.AffiliatedAP.{i}.Stats.MulticastBytesSent                                      proto::prplmesh-dm-mapper
+  Device.WiFi.APMLD.{i}.AffiliatedAP.{i}.Stats.PacketsReceived                                         proto::prplmesh-dm-mapper
+  Device.WiFi.APMLD.{i}.AffiliatedAP.{i}.Stats.PacketsSent                                             proto::prplmesh-dm-mapper
+  Device.WiFi.APMLD.{i}.AffiliatedAP.{i}.Stats.UnicastBytesReceived                                    proto::prplmesh-dm-mapper
+  Device.WiFi.APMLD.{i}.AffiliatedAP.{i}.Stats.UnicastBytesSent                                        proto::prplmesh-dm-mapper
+  Device.WiFi.APMLD.{i}.AffiliatedAPNumberOfEntries                                                    proto::prplmesh-dm-mapper
+  Device.WiFi.APMLD.{i}.MLDID                                                                          proto::prplmesh-dm-mapper
+  Device.WiFi.APMLD.{i}.MLDMACAddress                                                                  proto::prplmesh-dm-mapper
+  Device.WiFi.APMLDMaxLinks                                                                            proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.                                                                         proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.APBridgeDisable                                                          proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.ActiveAssociatedDeviceNumberOfEntries                                    proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.ActiveVideoAssociatedDeviceNumberOfEntries                               proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.Alias                                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.ApRole                                                                   proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.AllowedMACAddress                                                        proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.                                                    proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.Active                                              proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ActiveNumberOfAffiliatedSta                         proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AffiliatedSta.{i}.                                  proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AffiliatedSta.{i}.APName                            proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AffiliatedSta.{i}.Active                            proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AffiliatedSta.{i}.BSSID                             proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AffiliatedSta.{i}.BytesReceived                     proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AffiliatedSta.{i}.BytesSent                         proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AffiliatedSta.{i}.DownlinkRateSpec                  proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AffiliatedSta.{i}.ErrorsSent                        proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AffiliatedSta.{i}.FrequencyBand                     proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AffiliatedSta.{i}.LastDataDownlinkRate              proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AffiliatedSta.{i}.LastDataUplinkRate                proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AffiliatedSta.{i}.LinkID                            proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AffiliatedSta.{i}.MACAddress                        proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AffiliatedSta.{i}.PacketsReceived                   proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AffiliatedSta.{i}.PacketsSent                       proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AffiliatedSta.{i}.SignalStrength                    proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AffiliatedSta.{i}.UplinkRateSpec                    proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AssociationTime                                     proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AuthenticationState                                 proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AvgSignalStrength                                   proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AvgSignalStrengthByChain                            proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.Capabilities                                        proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ChargeableUserId                                    proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ConnectionDuration                                  proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.DevicePriority                                      proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.DeviceType                                          proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.DisassociationTime                                  proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.DownlinkBandwidth                                   proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.DownlinkMCS                                         proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.DownlinkRateSpec                                    proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.DownlinkShortGuard                                  proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.BytesSent                                           proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.EhtCapabilities                                     proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.EncryptionMode                                      proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ErrorsSent                                          proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.FailedRetransCount                                  proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.FrequencyCapabilities                               proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.HeCapabilities                                      proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.HtCapabilities                                      proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.Inactive                                            proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.LastDataDownlinkRate                                proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.LastDataUplinkRate                                  proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.LastStateChange                                     proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.LinkBandwidth                                       proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.MACAddress                                          proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.MLOMode                                             proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.MUGroupId                                           proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.MUMimoTxPktsCount                                   proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.MUMimoTxPktsPercentage                              proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.MUUserPositionId                                    proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.MaxBandwidthSupported                               proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.MaxDownlinkRateReached                              proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.MaxDownlinkRateSupported                            proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.MaxRxSpatialStreamsSupported                        proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.MaxTxSpatialStreamsSupported                        proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.MaxUplinkRateReached                                proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.MaxUplinkRateSupported                              proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.MultipleRetryCount                                  proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.Noise                                               proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.NoiseByChain                                        proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.OperatingStandard                                   proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.PowerSave                                           proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.PacketsSent                                         proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.                                       proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.EhtCapabilities                        proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.EncryptionMode                         proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.FrequencyCapabilities                  proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.HeCapabilities                         proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.HtCapabilities                         proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.LinkBandwidth                          proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.RrmCapabilities                        proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.RrmOffChannelMaxDuration               proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.RrmOnChannelMaxDuration                proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.RxSupportedHe160MCS                    proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.RxSupportedHe80x80MCS                  proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.RxSupportedHeMCS                       proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.RxSupportedVhtMCS                      proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.SecurityModeEnabled                    proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.SupportedHtMCS                         proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.SupportedMCS                           proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.TxSupportedHe160MCS                    proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.TxSupportedHe80x80MCS                  proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.TxSupportedHeMCS                       proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.TxSupportedVhtMCS                      proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.VendorOUI                              proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ProbeReqCaps.VhtCapabilities                        proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.RetransCount                                        proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.Retransmissions                                     proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.RetryCount                                          proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.RrmCapabilities                                     proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.RrmOffChannelMaxDuration                            proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.RrmOnChannelMaxDuration                             proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.RxBytes                                             proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.RxErrors                                            proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.RxMulticastPacketCount                              proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.RxPacketCount                                       proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.RxSupportedHe160MCS                                 proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.RxSupportedHe80x80MCS                               proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.RxSupportedHeMCS                                    proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.RxSupportedVhtMCS                                   proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.RxUnicastPacketCount                                proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.Rx_Retransmissions                                  proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.Rx_RetransmissionsFailed                            proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.SecurityModeEnabled                                 proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.SignalNoiseRatio                                    proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.SNR                                                 proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.SignalStrength                                      proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.SignalStrengthByChain                               proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.SignalStrengthHistory                               proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.SupportedHtMCS                                      proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.SupportedMCS                                        proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.TxBytes                                             proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.TxErrors                                            proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.TxMulticastPacketCount                              proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.TxPacketCount                                       proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.TxSupportedHe160MCS                                 proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.TxSupportedHe80x80MCS                               proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.TxSupportedHeMCS                                    proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.TxSupportedVhtMCS                                   proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.TxUnicastPacketCount                                proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.Tx_Retransmissions                                  proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.Tx_RetransmissionsFailed                            proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.UNIIBandsCapabilities                               proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.UplinkBandwidth                                     proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.UplinkMCS                                           proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.UplinkRateSpec                                      proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.UplinkShortGuard                                    proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.VendorCapabilities                                  proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.VendorOUI                                           proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.VhtCapabilities                                     proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.getLastAssocReq()                                   proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.WdsInterfaceName                                    proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.X_PRPLWARE-COM_AvgSignalStrength                    proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.X_PRPLWARE-COM_AvgSignalStrengthByChain             proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.X_PRPLWARE-COM_DeviceType                           proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.X_PRPLWARE-COM_MaxRxSpatialStreamsSupported         proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.X_PRPLWARE-COM_MaxTxSpatialStreamsSupported         proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.X_PRPLWARE-COM_SecurityModeEnabled                  proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.X_PRPLWARE-COM_SignalStrengthByChain                proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDeviceNumberOfEntries                                          proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociationCount.                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociationCount.Disconnect                                              proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociationCount.Fail                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociationCount.FailSecurity                                            proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociationCount.FastReconnectTypes.{i}.                                 proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociationCount.FastReconnectTypes.{i}.Count                            proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociationCount.FastReconnectTypes.{i}.Type                             proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociationCount.FastReconnects                                          proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociationCount.ResetCounters                                           proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociationCount.Success                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.BSS-TM-RESP!                                                             proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.BridgeInterface                                                          proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.CpeOperationMode                                                         proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.DefaultDeviceType                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.Disassociation!                                                          proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.DiscoveryMethodEnabled                                                   proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.DriverConfig.                                                            proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.DriverConfig.BssMaxIdlePeriod                                            proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.Enable                                                                   proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.HotSpot2.                                                                proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.HotSpot2.AccessNetworkType                                               proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.HotSpot2.Additional                                                      proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.HotSpot2.Anqp3gpp_CellNet                                                proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.HotSpot2.DgafDisable                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.HotSpot2.DomainName                                                      proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.HotSpot2.Enable                                                          proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.HotSpot2.GasDelay                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.HotSpot2.HeSSID                                                          proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.HotSpot2.Hs2Ie                                                           proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.HotSpot2.IcmpV4Echo                                                      proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.HotSpot2.Internet                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.HotSpot2.Interworking                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.HotSpot2.L2TrafficInspect                                                proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.HotSpot2.OperatingClass                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.HotSpot2.P2PEnable                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.HotSpot2.RoamingConsortium                                               proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.HotSpot2.VenueGroup                                                      proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.HotSpot2.VenueName                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.HotSpot2.VenueType                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.HotSpot2.WanMetrics                                                      proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.IEEE80211kEnabled                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.IEEE80211r.                                                              proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.IEEE80211r.Enabled                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.IEEE80211r.FTOverDSEnable                                                proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.IEEE80211r.MobilityDomain                                                proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.IEEE80211r.NASIdentifier                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.IEEE80211r.R0KHKey                                                       proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.IEEE80211u.                                                              proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.IEEE80211u.InterworkingEnable                                            proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.IEEE80211u.QoSMapSet                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.Index                                                                    proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.IsolationEnable                                                          proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.MACAddressControlEnabled                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MACFilterAddressList                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MACFiltering.                                                            proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.MACFiltering.
   Device.WiFi.AccessPoint.{i}.MACFiltering.Entry.{i}.                                                  proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.MACFiltering.Entry.{i}.Alias                                             proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.MACFiltering.Entry.{i}.MACAddress                                        proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MACFiltering.Mode                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MACFiltering.TempBlacklistEnable                                         proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MACFiltering.TempEntry.{i}.                                              proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MACFiltering.TempEntry.{i}.MACAddress                                    proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MACFiltering.addEntry()                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MACFiltering.addEntry() input:mac
-  Device.WiFi.AccessPoint.{i}.MACFiltering.addTempEntry()                                              proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MACFiltering.addTempEntry() input:mac
-  Device.WiFi.AccessPoint.{i}.MACFiltering.delEntry()                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MACFiltering.delEntry() input:mac
-  Device.WiFi.AccessPoint.{i}.MACFiltering.delTempEntry()                                              proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MACFiltering.delTempEntry() input:mac
-  Device.WiFi.AccessPoint.{i}.MBOAssocDisallowReason                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MBOEnable                                                                proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MCEnable                                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MLDConfig.                                                               proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MLDConfig.EMLMREnable                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MLDConfig.EMLSREnable                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MLDConfig.NSTREnable                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MLDConfig.STREnable                                                      proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MLOStats.                                                                proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MLOStats.BroadcastBytesReceived                                          proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MLOStats.BroadcastBytesSent                                              proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MLOStats.ErrorsSent                                                      proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MLOStats.EstServiceParametersBE                                          proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MLOStats.EstServiceParametersBK                                          proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MLOStats.EstServiceParametersVI                                          proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MLOStats.EstServiceParametersVO                                          proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MLOStats.LinkID                                                          proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MLOStats.MLORole                                                         proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MLOStats.MulticastBytesReceived                                          proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MLOStats.MulticastBytesSent                                              proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MLOStats.PacketsReceived                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MLOStats.PacketsSent                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MLOStats.UnicastBytesReceived                                            proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MLOStats.UnicastBytesSent                                                proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.MaxAssociatedDevices                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MgmtActionFrameReceived!                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MgmtDeauthFrame!                                                         proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MgmtDisassocFrame!                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MultiAPProfile                                                           proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MultiAPType                                                              proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MultiAPVlanId                                                            proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.Neighbour.{i}.                                                           proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.Neighbour.{i}.BSSID                                                      proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.Neighbour.{i}.Channel                                                    proto::prplmesh-dm-mapper
@@ -8421,30 +7844,8 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.AccessPoint.{i}.Neighbour.{i}.SSID                                                       proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.ProbeFiltering.                                                          proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.ProbeFiltering.TempEntry.{i}.                                            proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.ProbeFiltering.TempEntry.{i}.MACAddress                                  proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.ProbeFiltering.addTempEntry()                                            proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.ProbeFiltering.addTempEntry() input:mac
-  Device.WiFi.AccessPoint.{i}.ProbeFiltering.delTempEntry()                                            proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.ProbeFiltering.delTempEntry() input:mac
-  Device.WiFi.AccessPoint.{i}.RadioReference                                                           proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.ReferenceApRelay                                                         proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.RetryLimit                                                               proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.RssiEventing.                                                            proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.RssiEventing.AveragingFactor                                             proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.RssiEventing.Enable                                                      proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.RssiEventing.HistoryEnable                                               proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.RssiEventing.HistoryIntervalCoeff                                        proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.RssiEventing.HistoryLen                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.RssiEventing.Interval                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.RssiEventing.RssiInterval                                                proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.RssiEventing.RssiUpdate!                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.RssiEventing.RssiUpdateShortHistory!                                     proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.RssiEventing.RssiUpdateShortHistoryAssoc!                                proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.RssiEventing.RssiUpdateShortHistoryDisassoc!                             proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.RssiEventing.SendEventOnAssoc                                            proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.RssiEventing.SendEventOnDisassoc                                         proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.RssiEventing.SendPeriodicEvent                                           proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.RssiEventing.getShortHistoryStats()                                      proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.SSIDAdvertisementEnabled                                                 proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.SSIDReference                                                            proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.Security.                                                                proto::prplmesh-dm-mapper
@@ -8452,149 +7853,150 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.AccessPoint.{i}.Security.KeyPassPhrase                                                   proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.Security.MFPConfig                                                       proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.Security.ModeEnabled                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.Security.ModesAvailable                                                  proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.Security.ModesSupported                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.Security.OWETransitionInterface                                          proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.Security.PreSharedKey                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.Security.RadiusCalledStationId                                           proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.Security.RadiusChargeableUserId                                          proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.Security.RadiusDefaultSessionTimeout                                     proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.Security.RadiusNASIdentifier                                             proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.Security.RadiusOwnIPAddress                                              proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.Security.RadiusSecret                                                    proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.Security.RadiusServerIPAddr                                              proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.Security.RadiusServerPort                                                proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.Security.RekeyingInterval                                                proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.Security.SAEPassphrase                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.Security.SHA256Enable                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.Security.SPPAmsdu                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.Security.TransitionDisable                                               proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.Security.WEPKey                                                          proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.Security.X_PRPLWARE-COM_ModesAvailable                                   proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.Status                                                                   proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.UAPSDCapability                                                          proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.UAPSDEnable                                                              proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.WDSEnable                                                                proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.WMMCapability                                                            proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.WMMEnable                                                                proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.WPS.                                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.WPS.CertModeEnable                                                       proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.WPS.ConfigMethodsEnabled                                                 proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.WPS.ConfigMethodsSupported                                               proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.WPS.Configured                                                           proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.WPS.Enable                                                               proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.WPS.InitiateWPSPBC()                                                     proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.WPS.InitiateWPSPBC() input:isRelay
-  Device.WiFi.AccessPoint.{i}.WPS.InitiateWPSPIN()                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.WPS.InitiateWPSPIN() input:clientPIN
-  Device.WiFi.AccessPoint.{i}.WPS.InitiateWPSPIN() input:isRelay
-  Device.WiFi.AccessPoint.{i}.WPS.PairingInProgress                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.WPS.RelayCredentialsEnable                                               proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.WPS.RestartOnRequest                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.WPS.SelfPIN                                                              proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.WPS.PIN                                                                  proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.WPS.Status                                                               proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.WPS.UUID                                                                 proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.WPS.Version                                                              proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.WPS.cancelWPSPairing()                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.WPS.generateSelfPIN()                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.WPS.pairingDone!                                                         proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.WPS.pairingError!                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.WPS.pairingNoMessage!                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.WPS.pairingReady!                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.WPS.setCompatibilityWPS()                                                proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.WPS.setCompatibilityWPS() input:supVerWPS
-  Device.WiFi.AccessPoint.{i}.WPS.useRelayCredentials()                                                proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.WPS.useRelayCredentials() input:refApRelayPath
-  Device.WiFi.AccessPoint.{i}.cleanStation()                                                           proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.cleanStation() input:macaddress
-  Device.WiFi.AccessPoint.{i}.dbgAPEnable                                                              proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.dbgAPFile                                                                proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.dbgClearInactiveEntries()                                                proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.debug()                                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.debug() input:op
-  Device.WiFi.AccessPoint.{i}.delNeighbourAP()                                                         proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.delNeighbourAP() input:BSSID
-  Device.WiFi.AccessPoint.{i}.disassocStation()                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.disassocStation() input:mac
-  Device.WiFi.AccessPoint.{i}.disassocStation() input:reason
-  Device.WiFi.AccessPoint.{i}.getFarAssociatedDevicesCount()                                           proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.getFarAssociatedDevicesCount() input:threshold
-  Device.WiFi.AccessPoint.{i}.getLastAssocReq()                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.getLastAssocReq() input:mac
-  Device.WiFi.AccessPoint.{i}.getStationStats()                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.kickStation()                                                            proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.kickStation() input:macaddress
-  Device.WiFi.AccessPoint.{i}.kickStationReason()                                                      proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.kickStationReason() input:macaddress
-  Device.WiFi.AccessPoint.{i}.kickStationReason() input:reason
-  Device.WiFi.AccessPoint.{i}.sendBssTransferRequest()                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.sendBssTransferRequest() input:bssidInfo
-  Device.WiFi.AccessPoint.{i}.sendBssTransferRequest() input:channel
-  Device.WiFi.AccessPoint.{i}.sendBssTransferRequest() input:class
-  Device.WiFi.AccessPoint.{i}.sendBssTransferRequest() input:disassoc
-  Device.WiFi.AccessPoint.{i}.sendBssTransferRequest() input:mac
-  Device.WiFi.AccessPoint.{i}.sendBssTransferRequest() input:mode
-  Device.WiFi.AccessPoint.{i}.sendBssTransferRequest() input:retries
-  Device.WiFi.AccessPoint.{i}.sendBssTransferRequest() input:target
-  Device.WiFi.AccessPoint.{i}.sendBssTransferRequest() input:transitionReason
-  Device.WiFi.AccessPoint.{i}.sendBssTransferRequest() input:validity
-  Device.WiFi.AccessPoint.{i}.sendBssTransferRequest() input:wait
-  Device.WiFi.AccessPoint.{i}.sendManagementFrame()                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.sendManagementFrame() input:channel
-  Device.WiFi.AccessPoint.{i}.sendManagementFrame() input:data
-  Device.WiFi.AccessPoint.{i}.sendManagementFrame() input:fc
-  Device.WiFi.AccessPoint.{i}.sendManagementFrame() input:mac
-  Device.WiFi.AccessPoint.{i}.sendRemoteMeasumentRequest()                                             proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.sendRemoteMeasumentRequest() input:bssid
-  Device.WiFi.AccessPoint.{i}.sendRemoteMeasumentRequest() input:channel
-  Device.WiFi.AccessPoint.{i}.sendRemoteMeasumentRequest() input:class
-  Device.WiFi.AccessPoint.{i}.sendRemoteMeasumentRequest() input:duration
-  Device.WiFi.AccessPoint.{i}.sendRemoteMeasumentRequest() input:interval
-  Device.WiFi.AccessPoint.{i}.sendRemoteMeasumentRequest() input:mac
-  Device.WiFi.AccessPoint.{i}.sendRemoteMeasumentRequest() input:mode
-  Device.WiFi.AccessPoint.{i}.sendRemoteMeasumentRequest() input:modeMask
-  Device.WiFi.AccessPoint.{i}.sendRemoteMeasumentRequest() input:neighbor
-  Device.WiFi.AccessPoint.{i}.sendRemoteMeasumentRequest() input:optionalElements
-  Device.WiFi.AccessPoint.{i}.sendRemoteMeasumentRequest() input:ssid
-  Device.WiFi.AccessPoint.{i}.sendRemoteMeasumentRequest() input:timeout
-  Device.WiFi.AccessPoint.{i}.sendRemoteMeasumentRequest() input:token
-  Device.WiFi.AccessPoint.{i}.setNeighbourAP()                                                         proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.setNeighbourAP() input:BSSID
-  Device.WiFi.AccessPoint.{i}.setNeighbourAP() input:Channel
-  Device.WiFi.AccessPoint.{i}.setNeighbourAP() input:Information
-  Device.WiFi.AccessPoint.{i}.setNeighbourAP() input:NASIdentifier
-  Device.WiFi.AccessPoint.{i}.setNeighbourAP() input:OperatingClass
-  Device.WiFi.AccessPoint.{i}.setNeighbourAP() input:PhyType
-  Device.WiFi.AccessPoint.{i}.setNeighbourAP() input:R0KHKey
-  Device.WiFi.AccessPoint.{i}.setNeighbourAP() input:SSID
-  Device.WiFi.AccessPoint.{i}.wpaCtrlEvents!                                                           proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.WPS.X_PRPLWARE-COM_InitiateWPSPIN()                                      proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.WPS.X_PRPLWARE-COM_InitiateWPSPIN() input:clientPIN
+  Device.WiFi.AccessPoint.{i}.WPS.X_PRPLWARE-COM_InitiateWPSPIN() input:isRelay
+  Device.WiFi.AccessPoint.{i}.WPS.X_PRPLWARE-COM_generateSelfPIN()                                     proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.WPS.X_PRPLWARE-COM_pairingDone!                                          proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.WPS.X_PRPLWARE-COM_pairingError!                                         proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.WPS.X_PRPLWARE-COM_pairingReady!                                         proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_Disassociation!                                           proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_IEEE80211kEnabled                                         proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_IEEE80211r.                                               proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_IEEE80211r.Enabled                                        proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_IEEE80211r.FTOverDSEnable                                 proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_IEEE80211r.MobilityDomain                                 proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_IEEE80211r.NASIdentifier                                  proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_IEEE80211r.R0KHKey                                        proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_MACFiltering.                                             proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_MACFiltering.Mode                                         proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_MACFiltering.TempBlacklistEnable                          proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_MACFiltering.addEntry()                                   proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_MACFiltering.addEntry() input:mac
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_MACFiltering.addTempEntry()                               proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_MACFiltering.addTempEntry() input:mac
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_MACFiltering.delEntry()                                   proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_MACFiltering.delEntry() input:mac
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_MACFiltering.delTempEntry()                               proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_MACFiltering.delTempEntry() input:mac
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_MgmtActionFrameReceived!                                  proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_MgmtDeauthFrame!                                          proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_MgmtDisassocFrame!                                        proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_cleanStation()                                            proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_cleanStation() input:macaddress
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_delNeighbourAP()                                          proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_delNeighbourAP() input:BSSID
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_disassocStation()                                         proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_disassocStation() input:mac
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_disassocStation() input:reason
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_kickStation()                                             proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_kickStation() input:macaddress
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_kickStationReason()                                       proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_kickStationReason() input:macaddress
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_kickStationReason() input:reason
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_sendBssTransferRequest()                                  proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_sendBssTransferRequest() input:bssidInfo
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_sendBssTransferRequest() input:channel
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_sendBssTransferRequest() input:class
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_sendBssTransferRequest() input:disassoc
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_sendBssTransferRequest() input:mac
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_sendBssTransferRequest() input:mode
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_sendBssTransferRequest() input:retries
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_sendBssTransferRequest() input:target
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_sendBssTransferRequest() input:transitionReason
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_sendBssTransferRequest() input:validity
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_sendBssTransferRequest() input:wait
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_sendManagementFrame()                                     proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_sendManagementFrame() input:channel
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_sendManagementFrame() input:data
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_sendManagementFrame() input:fc
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_sendManagementFrame() input:mac
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_sendRemoteMeasumentRequest()                              proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_sendRemoteMeasumentRequest() input:bssid
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_sendRemoteMeasumentRequest() input:channel
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_sendRemoteMeasumentRequest() input:class
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_sendRemoteMeasumentRequest() input:duration
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_sendRemoteMeasumentRequest() input:interval
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_sendRemoteMeasumentRequest() input:mac
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_sendRemoteMeasumentRequest() input:mode
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_sendRemoteMeasumentRequest() input:modeMask
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_sendRemoteMeasumentRequest() input:neighbor
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_sendRemoteMeasumentRequest() input:optionalElements
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_sendRemoteMeasumentRequest() input:ssid
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_sendRemoteMeasumentRequest() input:timeout
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_sendRemoteMeasumentRequest() input:token
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_setNeighbourAP()                                          proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_setNeighbourAP() input:BSSID
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_setNeighbourAP() input:Channel
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_setNeighbourAP() input:Information
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_setNeighbourAP() input:NASIdentifier
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_setNeighbourAP() input:OperatingClass
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_setNeighbourAP() input:PhyType
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_setNeighbourAP() input:R0KHKey
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_setNeighbourAP() input:SSID
   Device.WiFi.AccessPointNumberOfEntries                                                               proto::prplmesh-dm-mapper
   Device.WiFi.AutoCommitMgr.                                                                           proto::prplmesh-dm-mapper
-  Device.WiFi.AutoCommitMgr.BootDelayTime                                                              proto::prplmesh-dm-mapper
-  Device.WiFi.AutoCommitMgr.DelayTime                                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.AutoCommitMgr.Enable                                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.AutoCommitMgr.debug()                                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.AutoCommitMgr.debug() input:op
+  Device.WiFi.DataElements.                                                                            proto::prplmesh-dm-mapper
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Agent.                                                       proto::prplmesh-dm-mapper
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Agent.Configuration.                                         proto::prplmesh-dm-mapper
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Agent.Configuration.BackhaulBand                             proto::prplmesh-dm-mapper
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Agent.Configuration.BackhaulWireInterface                    proto::prplmesh-dm-mapper
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Agent.Configuration.BandSteeringEnabled                      proto::prplmesh-dm-mapper
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Agent.Configuration.BestChannelRankThreshold                 proto::prplmesh-dm-mapper
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Agent.Configuration.ClientRoamingEnabled                     proto::prplmesh-dm-mapper
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Agent.Configuration.ClientsMeasurementMode                   proto::prplmesh-dm-mapper
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Agent.Configuration.ExcludeHostapInterface                   proto::prplmesh-dm-mapper
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Agent.Configuration.MandatoryInterfaces                      proto::prplmesh-dm-mapper
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Agent.Configuration.MultiAPProfile                           proto::prplmesh-dm-mapper
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Agent.Configuration.Passphrase                               proto::prplmesh-dm-mapper
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Agent.Configuration.SSID                                     proto::prplmesh-dm-mapper
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Agent.Configuration.Security                                 proto::prplmesh-dm-mapper
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Agent.Configuration.StopOnFailureAttempts                    proto::prplmesh-dm-mapper
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Agent.Configuration.WEPKey                                   proto::prplmesh-dm-mapper
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Agent.Configuration.ZeroWaitDFSFlag                          proto::prplmesh-dm-mapper
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Agent.Info.                                                  proto::prplmesh-dm-mapper
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Agent.Info.BestState                                         proto::prplmesh-dm-mapper
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Agent.Info.CurrentState                                      proto::prplmesh-dm-mapper
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Agent.Info.Fronthaul.{i}.                                    proto::prplmesh-dm-mapper
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Agent.Info.Fronthaul.{i}.BestState                           proto::prplmesh-dm-mapper
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Agent.Info.Fronthaul.{i}.CurrentState                        proto::prplmesh-dm-mapper
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Agent.Info.Fronthaul.{i}.Iface                               proto::prplmesh-dm-mapper
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Agent.Info.FronthaulIfaces                                   proto::prplmesh-dm-mapper
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Agent.Info.FronthaulNumberOfEntries                          proto::prplmesh-dm-mapper
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Agent.Info.MACAddress                                        proto::prplmesh-dm-mapper
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Agent.Info.ManagementMode                                    proto::prplmesh-dm-mapper
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Agent.WPS.                                                   proto::prplmesh-dm-mapper
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Agent.WPS.InitiateWPSPBC()                                   proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.                                                                            proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.Alias                                                                       proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.AssocStats.                                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.AssocStats.AssocTime                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.AssocStats.DisassocTime                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.AssocStats.NrAssocAttempsSinceDc                                            proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.AssocStats.NrAssocAttempts                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.AssocStats.NrAssociations                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.BridgeInterface                                                             proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.ConnectionStatus                                                            proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.Enable                                                                      proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.Index                                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.IntfName                                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.LastError                                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.MultiAPEnable                                                               proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.MultiAPProfile                                                              proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.MultiAPVlanId                                                               proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.Profile.{i}.                                                                proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.Profile.{i}.Alias                                                           proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.Profile.{i}.Enable                                                          proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.Profile.{i}.ForceBSSID                                                      proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.Profile.{i}.Location                                                        proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.Profile.{i}.Priority                                                        proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.Profile.{i}.SSID                                                            proto::prplmesh-dm-mapper
@@ -8607,206 +8009,64 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.EndPoint.{i}.Profile.{i}.Security.WEPKey                                                 proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.Profile.{i}.Status                                                          proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.ProfileReference                                                            proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.RadioReference                                                              proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.ReconnectDelay                                                              proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.ReconnectInterval                                                           proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.ReconnectRadioToggleThreshold                                               proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.SSIDReference                                                               proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.Security.                                                                   proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.Security.ModesSupported                                                     proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.Stats.                                                                      proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.Stats.EhtCapabilities                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.Stats.EncryptionMode                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.Stats.FrequencyCapabilities                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.Stats.HeCapabilities                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.Stats.HtCapabilities                                                        proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.Stats.LastDataDownlinkRate                                                  proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.Stats.LastDataUplinkRate                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.Stats.LinkBandwidth                                                         proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.Stats.MaxRxSpatialStreamsSupported                                          proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.Stats.MaxTxSpatialStreamsSupported                                          proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.Stats.Noise                                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.Stats.OperatingStandard                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.Stats.RSSI                                                                  proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.Stats.Retransmissions                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.Stats.RxBytes                                                               proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.Stats.RxPacketCount                                                         proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.Stats.Rx_Retransmissions                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.Stats.SecurityModeEnabled                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.Stats.SignalNoiseRatio                                                      proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.Stats.SignalStrength                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.Stats.SupportedHe160MCS                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.Stats.SupportedHeMCS                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.Stats.SupportedMCS                                                          proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.Stats.SupportedVhtMCS                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.Stats.TxBytes                                                               proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.Stats.TxPacketCount                                                         proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.Stats.Tx_Retransmissions                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.Stats.VendorOUI                                                             proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.Stats.VhtCapabilities                                                       proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.Status                                                                      proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.WPS.                                                                        proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.WPS.ConfigMethodsEnabled                                                    proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.WPS.ConfigMethodsSupported                                                  proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.WPS.Enable                                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.WPS.PairingInProgress                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.WPS.cancelPairing()                                                         proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.WPS.pairingDone!                                                            proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.WPS.pairingError!                                                           proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.WPS.pairingNoMessage!                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.WPS.pairingReady!                                                           proto::prplmesh-dm-mapper
+  Device.WiFi.EndPoint.{i}.WPS.X_PRPLWARE-COM_pairingDone!                                             proto::prplmesh-dm-mapper
+  Device.WiFi.EndPoint.{i}.WPS.X_PRPLWARE-COM_pairingError!                                            proto::prplmesh-dm-mapper
+  Device.WiFi.EndPoint.{i}.WPS.X_PRPLWARE-COM_pairingReady!                                            proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.WPS.pushButton()                                                            proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.WPS.pushButton() input:bssid
   Device.WiFi.EndPoint.{i}.WPS.pushButton() input:clientPIN
   Device.WiFi.EndPoint.{i}.WPS.pushButton() input:ssid
-  Device.WiFi.EndPoint.{i}.debug()                                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.debug() input:op
-  Device.WiFi.EndPoint.{i}.getDebug()                                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.getStats()                                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.roamTo()                                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.roamTo() input:bssid
-  Device.WiFi.EndPoint.{i}.roamTo() input:timeoutInSec
-  Device.WiFi.EndPoint.{i}.roamTo() input:tries
-  Device.WiFi.EndPoint.{i}.sendManagementFrame()                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.sendManagementFrame() input:channel
-  Device.WiFi.EndPoint.{i}.sendManagementFrame() input:data
-  Device.WiFi.EndPoint.{i}.sendManagementFrame() input:fc
-  Device.WiFi.EndPoint.{i}.sendManagementFrame() input:mac
-  Device.WiFi.EndPoint.{i}.wpaCtrlEvents!                                                              proto::prplmesh-dm-mapper
+  Device.WiFi.EndPoint.{i}.X_PRPLWARE-COM_sendManagementFrame()                                        proto::prplmesh-dm-mapper
+  Device.WiFi.EndPoint.{i}.X_PRPLWARE-COM_sendManagementFrame() input:channel
+  Device.WiFi.EndPoint.{i}.X_PRPLWARE-COM_sendManagementFrame() input:data
+  Device.WiFi.EndPoint.{i}.X_PRPLWARE-COM_sendManagementFrame() input:fc
+  Device.WiFi.EndPoint.{i}.X_PRPLWARE-COM_sendManagementFrame() input:mac
   Device.WiFi.EndPointNumberOfEntries                                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.FSM_Start()                                                                              proto::prplmesh-dm-mapper
-  Device.WiFi.FSM_Start() input:bitnr
-  Device.WiFi.FSM_Start() input:vap
+  Device.WiFi.MaxNumMLDs                                                                               proto::prplmesh-dm-mapper
   Device.WiFi.NeighboringWiFiDiagnostic()                                                              proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.                                                                               proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.AP_Mode                                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ActiveAntennaCtrl                                                              proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ActiveAssociatedDevices                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ActiveVideoAssociatedDevices                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.AirtimeFairnessEnabled                                                         proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.Alias                                                                          proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.AutoBandwidthSelectMode                                                        proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.AutoChannelEnable                                                              proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.AutoChannelRefreshPeriod                                                       proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.AutoChannelSupported                                                           proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.BaseMACAddress                                                                 proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.BasicDataTransmitRates                                                         proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.BeaconPeriod                                                                   proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.Capabilities.                                                                  proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.Capabilities.WiFi7APRole.                                                      proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Capabilities.WiFi7APRole.EMLMRSupport                                          proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Capabilities.WiFi7APRole.EMLSRSupport                                          proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Capabilities.WiFi7APRole.NSTRSupport                                           proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Capabilities.WiFi7APRole.STRSupport                                            proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.Capabilities.WiFi7STARole.                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Capabilities.WiFi7STARole.EMLMRSupport                                         proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Capabilities.WiFi7STARole.EMLSRSupport                                         proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Capabilities.WiFi7STARole.NSTRSupport                                          proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Capabilities.WiFi7STARole.STRSupport                                           proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.Channel                                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Channel change event!                                                          proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelBandwidthChangeReason                                                   proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.ChannelChangeReason                                                            proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelLoad                                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.                                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.AcsBootChannel                                                      proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.ChannelMgt.
   Device.WiFi.Radio.{i}.ChannelMgt.BgDfs.                                                              proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.BgDfs.AllowProvider                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.BgDfs.Available                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.BgDfs.Bandwidth                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.BgDfs.Channel                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.BgDfs.PreclearEnable                                                proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.BgDfs.Stats.{i}.                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.BgDfs.Stats.{i}.Alias                                               proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.BgDfs.Stats.{i}.NrClearFailOther                                    proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.BgDfs.Stats.{i}.NrClearFailRadar                                    proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.BgDfs.Stats.{i}.NrClearStart                                        proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.BgDfs.Stats.{i}.NrClearStopChange                                   proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.BgDfs.Stats.{i}.NrClearStopQuit                                     proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.BgDfs.Stats.{i}.NrClearSuccess                                      proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.BgDfs.Status                                                        proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.ChannelMgt.BgDfs.startBgDfsClear()                                             proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.ChannelMgt.BgDfs.startBgDfsClear() input:bandwidth
   Device.WiFi.Radio.{i}.ChannelMgt.BgDfs.startBgDfsClear() input:channel
   Device.WiFi.Radio.{i}.ChannelMgt.BgDfs.stopBgDfsClear()                                              proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.ChangeLogSize                                                       proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.ChannelMgt.ChannelChanges.{i}.                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.ChannelChanges.{i}.ChannelChangeReason                              proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.ChannelChanges.{i}.ChannelChangeReasonExt                           proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.ChannelChanges.{i}.NewBandwidth                                     proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.ChannelChanges.{i}.NewChannel                                       proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.ChannelChanges.{i}.NrSta                                            proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.ChannelChanges.{i}.NrVideoSta                                       proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.ChannelChanges.{i}.OldBandwidth                                     proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.ChannelChanges.{i}.OldChannel                                       proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.ChannelChanges.{i}.TargetBandwidth                                  proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.ChannelChanges.{i}.TargetChangeTime                                 proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.ChannelChanges.{i}.TargetChannel                                    proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.ChannelChanges.{i}.TimeStamp                                        proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.ChanspecShowing                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.ClearedDfsChannels                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.CurrentChanspec.                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.CurrentChanspec.Bandwidth                                           proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.CurrentChanspec.Channel                                             proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.CurrentChanspec.Frequency                                           proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.CurrentChanspec.LastChangeTime                                      proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.CurrentChanspec.Reason                                              proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.CurrentChanspec.ReasonExt                                           proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.RadarTriggeredDfsChannels                                           proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.RadioStatus                                                         proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.ChannelMgt.TargetChanspec.                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.TargetChanspec.Bandwidth                                            proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.TargetChanspec.Channel                                              proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.TargetChanspec.Frequency                                            proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.TargetChanspec.LastChangeTime                                       proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.TargetChanspec.Reason                                               proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.TargetChanspec.ReasonExt                                            proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelSwitchComplete!                                                         proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.ChannelsInUse                                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChipsetVendor                                                                  proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.CurrentOperatingChannelBandwidth                                               proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.DFS Done!                                                                      proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.DFS.                                                                           proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.DFS.Event.{i}.                                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.DFS.Event.{i}.Bandwidth                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.DFS.Event.{i}.Channel                                                          proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.DFS.Event.{i}.DFSRadarDetectionList                                            proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.DFS.Event.{i}.NewBandwidth                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.DFS.Event.{i}.NewChannel                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.DFS.Event.{i}.RadarIndex                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.DFS.Event.{i}.RadarZone                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.DFS.Event.{i}.TimeStamp                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.DFS.EventLogLimit                                                              proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.DFS.FileLogLimit                                                               proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.DFSChannelChangeEventCounter                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.DFSChannelChangeEventTimestamp                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.DFS_drvdbg()                                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.DFS_drvdbg() input:dbg_action
   Device.WiFi.Radio.{i}.DTIMPeriod                                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.DelayApUpPeriod                                                                proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.DriverConfig.                                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.DriverConfig.Ampdu                                                             proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.DriverConfig.Amsdu                                                             proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.DriverConfig.BroadcastMaxBwCapability                                          proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.DriverConfig.FragmentationThreshold                                            proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.DriverConfig.RtsThreshold                                                      proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.DriverConfig.TPCMode                                                           proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.DriverConfig.TxBeamforming                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.DriverConfig.TxBurst                                                           proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.DriverConfig.VhtOmnEnabled                                                     proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.DriverStatus.                                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.DriverStatus.NrActiveRxAntenna                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.DriverStatus.NrActiveTxAntenna                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.DriverStatus.NrRxAntenna                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.DriverStatus.NrTxAntenna                                                       proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.Enable                                                                         proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.EventCounter.{i}.                                                              proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.EventCounter.{i}.Info                                                          proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.EventCounter.{i}.Key                                                           proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.EventCounter.{i}.LastOccurrence                                                proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.EventCounter.{i}.Value                                                         proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ExplicitBeamFormingEnabled                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ExplicitBeamFormingSupported                                                   proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.ExtensionChannel                                                               proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.FirmwareVersion                                                                proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.FullScan()                                                                     proto::prplmesh-dm-mapper
@@ -8815,285 +8075,163 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.Radio.{i}.FullScan() input:HomeTime
   Device.WiFi.Radio.{i}.FullScan() input:SSID
   Device.WiFi.Radio.{i}.GuardInterval                                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.HTCapabilities                                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.HeCapsEnabled                                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.HeCapsSupported                                                                proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.HeMacCapabilities                                                              proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.HePhyCapabilities                                                              proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.IEEE80211_Caps                                                                 proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.IEEE80211ax.                                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.IEEE80211ax.BssColor                                                           proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.IEEE80211ax.BssColorPartial                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.IEEE80211ax.HESIGASpatialReuseValue15Allowed                                   proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.IEEE80211ax.MBSSIDAdvertisementMode                                            proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.IEEE80211ax.NonSRGOBSSPDMaxOffset                                              proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.IEEE80211ax.NonSRGOffsetValid                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.IEEE80211ax.PSRDisallowed                                                      proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.IEEE80211ax.SRGBSSColorBitmap                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.IEEE80211ax.SRGInformationValid                                                proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.IEEE80211ax.SRGOBSSPDMaxOffset                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.IEEE80211ax.SRGOBSSPDMinOffset                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.IEEE80211ax.SRGPartialBSSIDBitmap                                              proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.IEEE80211hEnabled                                                              proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.IEEE80211hSupported                                                            proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.IEEE80211kSupported                                                            proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.IEEE80211rSupported                                                            proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ImplicitBeamFormingEnabled                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ImplicitBeamFormingSupported                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Index                                                                          proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.IntelligentAirtimeSchedulingEnable                                             proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Interference                                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.KickRoamingStation                                                             proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.LastChange                                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.LastStatusChangeTimeStamp                                                      proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.LongRetryLimit                                                                 proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.LowerLayers                                                                    proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.MACConfig.                                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.MACConfig.BaseMacOffset                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.MACConfig.LocalGuestMacOffset                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.MACConfig.NrBssRequired                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.MACConfig.UseBaseMacOffset                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.MACConfig.UseLocalBitForGuest                                                  proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.MCS                                                                            proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.MaxAssociatedDevices                                                           proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.MaxBitRate                                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.MaxChannelBandwidth                                                            proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.MaxSupportedSSIDs                                                              proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.MultiAPTypesSupported                                                          proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.MultiUserMIMOEnabled                                                           proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.MultiUserMIMOSupported                                                         proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.Name                                                                           proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Noise                                                                          proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ObssCoexistenceEnable                                                          proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.OfdmaEnable                                                                    proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.OperatingChannelBandwidth                                                      proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.OperatingClass                                                                 proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.OperatingFrequencyBand                                                         proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.OperatingStandards                                                             proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.OperatingStandardsFormat                                                       proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.OperationalDataTransmitRates                                                   proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.PacketAggregationEnable                                                        proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.PossibleChannels                                                               proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.PreambleType                                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.RIFSEnabled                                                                    proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.RTSThreshold                                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.RadCapabilitiesHTStr                                                           proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.RadCapabilitiesHeMacStr                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.RadCapabilitiesHePhysStr                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.RadCapabilitiesVHTStr                                                          proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.RadCaps.                                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.RadCaps.Available                                                              proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.RadCaps.Disable()                                                              proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.RadCaps.Disable() input:capability
-  Device.WiFi.Radio.{i}.RadCaps.Enable()                                                               proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.RadCaps.Enable() input:capability
-  Device.WiFi.Radio.{i}.RadCaps.Enabled                                                                proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.RadCaps.Status                                                                 proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.RegulatoryDomain                                                               proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.RetryLimit                                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.RxBeamformingCapsAvailable                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.RxBeamformingCapsEnabled                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.RxChainCtrl                                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.RxPowerSaveEnabled                                                             proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.RxPowerSaveRepeaterEnable                                                      proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.STASupported_Mode                                                              proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.STA_Mode                                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ScanChange!                                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ScanComplete!                                                                  proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.ScanConfig.                                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ScanConfig.ActiveChannelTime                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ScanConfig.FastScanReasons                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ScanConfig.HomeTime                                                            proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ScanConfig.MaxChannelsPerScan                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ScanConfig.PassiveChannelTime                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ScanConfig.ScanChannelCount                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ScanConfig.ScanRequestInterval                                                 proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.ScanResults.                                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ScanResults.NrCoChannelAP                                                      proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ScanResults.ScanInProgress                                                     proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.ScanResults.SurroundingChannels.{i}.                                           proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.ScanResults.SurroundingChannels.{i}.Accesspoint.{i}.                           proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.ScanResults.SurroundingChannels.{i}.Accesspoint.{i}.BSSID                      proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ScanResults.SurroundingChannels.{i}.Accesspoint.{i}.RSSI                       proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.ScanResults.SurroundingChannels.{i}.Accesspoint.{i}.SSID.{i}.                  proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ScanResults.SurroundingChannels.{i}.Accesspoint.{i}.SSID.{i}.BSSID             proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ScanResults.SurroundingChannels.{i}.Accesspoint.{i}.SSID.{i}.Bandwidth         proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ScanResults.SurroundingChannels.{i}.Accesspoint.{i}.SSID.{i}.ChannelUtilization proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ScanResults.SurroundingChannels.{i}.Accesspoint.{i}.SSID.{i}.SSID              proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ScanResults.SurroundingChannels.{i}.Accesspoint.{i}.SSID.{i}.StationCount      proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ScanResults.SurroundingChannels.{i}.Channel                                    proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.ScanStats.                                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ScanStats.NrScanBlocked                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ScanStats.NrScanDone                                                           proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ScanStats.NrScanError                                                          proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ScanStats.NrScanRequested                                                      proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.ScanStats.ScanReason.{i}.                                                      proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ScanStats.ScanReason.{i}.Name                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ScanStats.ScanReason.{i}.NrScanDone                                            proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ScanStats.ScanReason.{i}.NrScanError                                           proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ScanStats.ScanReason.{i}.NrScanRequested                                       proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Sensing.                                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Sensing.CSIClient.{i}.                                                         proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Sensing.CSIClient.{i}.Alias                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Sensing.CSIClient.{i}.MACAddress                                               proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Sensing.CSIClient.{i}.MonitorInterval                                          proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Sensing.Enable                                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Sensing.addClient()                                                            proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Sensing.addClient() input:Bandwidth
-  Device.WiFi.Radio.{i}.Sensing.addClient() input:DataType
-  Device.WiFi.Radio.{i}.Sensing.addClient() input:ExchangeType
-  Device.WiFi.Radio.{i}.Sensing.addClient() input:MACAddress
-  Device.WiFi.Radio.{i}.Sensing.addClient() input:MonitorInterval
-  Device.WiFi.Radio.{i}.Sensing.addClient() input:NRx
-  Device.WiFi.Radio.{i}.Sensing.addClient() input:NTx
-  Device.WiFi.Radio.{i}.Sensing.addClient() input:Receiver
-  Device.WiFi.Radio.{i}.Sensing.csiStats()                                                             proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Sensing.debug()                                                                proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Sensing.delClient()                                                            proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Sensing.delClient() input:MACAddress
-  Device.WiFi.Radio.{i}.Sensing.resetStats()                                                           proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.StaticPuncturing.                                                              proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.StaticPuncturing.DisabledSubChannels                                           proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.Stats.                                                                         proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.BroadcastPacketsReceived                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.BroadcastPacketsSent                                                     proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.Stats.BytesReceived                                                            proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.Stats.BytesSent                                                                proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.Stats.DiscardPacketsReceived                                                   proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.Stats.DiscardPacketsSent                                                       proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.Stats.ErrorsReceived                                                           proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.Stats.ErrorsSent                                                               proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.FailedRetransCount                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.MulticastPacketsReceived                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.MulticastPacketsSent                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.MultipleRetryCount                                                       proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.Stats.Noise                                                                    proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.Stats.PacketsReceived                                                          proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.Stats.PacketsSent                                                              proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.RetransCount                                                             proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.RetryCount                                                               proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.Temperature                                                              proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.UnicastPacketsReceived                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.UnicastPacketsSent                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.UnknownProtoPacketsReceived                                              proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmBytesReceived.                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmBytesReceived.AC_BE                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmBytesReceived.AC_BK                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmBytesReceived.AC_VI                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmBytesReceived.AC_VO                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmBytesSent.                                                            proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmBytesSent.AC_BE                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmBytesSent.AC_BK                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmBytesSent.AC_VI                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmBytesSent.AC_VO                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmFailedBytesReceived.                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmFailedBytesReceived.AC_BE                                             proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmFailedBytesReceived.AC_BK                                             proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmFailedBytesReceived.AC_VI                                             proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmFailedBytesReceived.AC_VO                                             proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmFailedReceived.                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmFailedReceived.AC_BE                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmFailedReceived.AC_BK                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmFailedReceived.AC_VI                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmFailedReceived.AC_VO                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmFailedSent.                                                           proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmFailedSent.AC_BE                                                      proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmFailedSent.AC_BK                                                      proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmFailedSent.AC_VI                                                      proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmFailedSent.AC_VO                                                      proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmFailedbytesSent.                                                      proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmFailedbytesSent.AC_BE                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmFailedbytesSent.AC_BK                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmFailedbytesSent.AC_VI                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmFailedbytesSent.AC_VO                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmPacketsReceived.                                                      proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmPacketsReceived.AC_BE                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmPacketsReceived.AC_BK                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmPacketsReceived.AC_VI                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmPacketsReceived.AC_VO                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmPacketsSent.                                                          proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmPacketsSent.AC_BE                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmPacketsSent.AC_BK                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmPacketsSent.AC_VI                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.Stats.WmmPacketsSent.AC_VO                                                     proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_BroadcastPacketsReceived                                  proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_BroadcastPacketsSent                                      proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_FailedRetransCount                                        proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_MulticastPacketsReceived                                  proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_MulticastPacketsSent                                      proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_MultipleRetryCount                                        proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_RetransCount                                              proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_RetryCount                                                proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_UnicastPacketsReceived                                    proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_UnicastPacketsSent                                        proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmBytesReceived.                                         proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmBytesReceived.AC_BE                                    proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmBytesReceived.AC_BK                                    proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmBytesReceived.AC_VI                                    proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmBytesReceived.AC_VO                                    proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmBytesSent.                                             proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmBytesSent.AC_BE                                        proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmBytesSent.AC_BK                                        proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmBytesSent.AC_VI                                        proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmBytesSent.AC_VO                                        proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmFailedBytesReceived.                                   proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmFailedBytesReceived.AC_BE                              proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmFailedBytesReceived.AC_BK                              proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmFailedBytesReceived.AC_VI                              proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmFailedBytesReceived.AC_VO                              proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmFailedReceived.                                        proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmFailedReceived.AC_BE                                   proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmFailedReceived.AC_BK                                   proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmFailedReceived.AC_VI                                   proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmFailedReceived.AC_VO                                   proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmFailedSent.                                            proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmFailedSent.AC_BE                                       proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmFailedSent.AC_BK                                       proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmFailedSent.AC_VI                                       proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmFailedSent.AC_VO                                       proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmFailedbytesSent.                                       proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmFailedbytesSent.AC_BE                                  proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmFailedbytesSent.AC_BK                                  proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmFailedbytesSent.AC_VI                                  proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmFailedbytesSent.AC_VO                                  proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmPacketsReceived.                                       proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmPacketsReceived.AC_BE                                  proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmPacketsReceived.AC_BK                                  proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmPacketsReceived.AC_VI                                  proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmPacketsReceived.AC_VO                                  proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmPacketsSent.                                           proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmPacketsSent.AC_BE                                      proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmPacketsSent.AC_BK                                      proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmPacketsSent.AC_VI                                      proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.Stats.X_PRPLWARE-COM_WmmPacketsSent.AC_VO                                      proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.Status                                                                         proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.SupportedDataTransmitRates                                                     proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.SupportedFrequencyBands                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.SupportedHeMcsNssSet                                                           proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.SupportedHtMcsSet                                                              proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.SupportedOperatingChannelBandwidth                                             proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.SupportedSensingDataTypes                                                      proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.SupportedSensingExchangeTypes                                                  proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.SupportedStandards                                                             proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.SupportedVhtMcsNssSet                                                          proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.TargetWakeTimeEnable                                                           proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.TransmitPower                                                                  proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.TransmitPowerSupported                                                         proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.TxBeamformingCapsAvailable                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.TxBeamformingCapsEnabled                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.TxChainCtrl                                                                    proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.Upstream                                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.WDS_Mode                                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.WET_Mode                                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.WPS_Enrollee_Mode                                                              proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.apDelayUpDone()                                                                proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.commit()                                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.dbgRADEnable                                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.dbgRADFile                                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.debug()                                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.edit()                                                                         proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_Channel change event!                                           proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_ChannelMgt.                                                     proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_ChannelMgt.ClearedDfsChannels                                   proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_IEEE80211kSupported                                             proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_IEEE80211rSupported                                             proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.                                                   proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.Enable                                             proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.OffChannelSupported                                proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.clearMonitorDevices()                              proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.clearNonAssociatedDevices()                        proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.createMonitorDevice()                              proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.createMonitorDevice() input:macaddress
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.createNonAssociatedDevice()                        proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.createNonAssociatedDevice() input:bandwidth
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.createNonAssociatedDevice() input:bssid
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.createNonAssociatedDevice() input:channel
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.createNonAssociatedDevice() input:macaddress
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.createNonAssociatedDevice() input:operatingClass
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.deleteMonitorDevice()                              proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.deleteMonitorDevice() input:macaddress
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.deleteNonAssociatedDevice()                        proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.deleteNonAssociatedDevice() input:macaddress
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.getMonitorDeviceStats()                            proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.getNaStationStats()                                proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_ScanComplete!                                                   proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_Sensing.                                                        proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_Sensing.Enable                                                  proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_Sensing.addClient()                                             proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_Sensing.addClient() input:Bandwidth
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_Sensing.addClient() input:DataType
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_Sensing.addClient() input:ExchangeType
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_Sensing.addClient() input:MACAddress
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_Sensing.addClient() input:MonitorInterval
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_Sensing.addClient() input:NRx
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_Sensing.addClient() input:NTx
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_Sensing.addClient() input:Receiver
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_Sensing.csiStats()                                              proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_Sensing.delClient()                                             proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_Sensing.delClient() input:MACAddress
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_getRadioAirStats()                                              proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_getRadioStats()                                                 proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_scan()                                                          proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_scan() input:BSSID
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_scan() input:SSID
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_scan() input:channels
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_scan() input:minRssi
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_scan() input:scanReason
   Device.WiFi.Radio.{i}.getChanSurveyReport()                                                          proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.getCurrentTransmitPowerdBm()                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.getLatestPower()                                                               proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.getMaxTransmitPowerdBm()                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.getMaxTransmitPowerdBm() input:channel
-  Device.WiFi.Radio.{i}.getRadioAirStats()                                                             proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.getRadioStats()                                                                proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.getScanCombinedData()                                                          proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.getScanCombinedData() input:minRssi
-  Device.WiFi.Radio.{i}.getScanResults()                                                               proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.getScanResults() input:minRssi
-  Device.WiFi.Radio.{i}.getSpectrumInfo()                                                              proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.getSpectrumInfo() input:update
-  Device.WiFi.Radio.{i}.getStatusHistogram()                                                           proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.scan()                                                                         proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.scan() input:BSSID
-  Device.WiFi.Radio.{i}.scan() input:SSID
-  Device.WiFi.Radio.{i}.scan() input:channels
-  Device.WiFi.Radio.{i}.scan() input:minRssi
-  Device.WiFi.Radio.{i}.scan() input:scanReason
-  Device.WiFi.Radio.{i}.scanCombinedData()                                                             proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.scanCombinedData() input:BSSID
-  Device.WiFi.Radio.{i}.scanCombinedData() input:SSID
-  Device.WiFi.Radio.{i}.scanCombinedData() input:channels
-  Device.WiFi.Radio.{i}.scanCombinedData() input:minRssi
-  Device.WiFi.Radio.{i}.scanCombinedData() input:scanReason
-  Device.WiFi.Radio.{i}.setChanspec()                                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.setChanspec() input:bandwidth
-  Device.WiFi.Radio.{i}.setChanspec() input:channel
-  Device.WiFi.Radio.{i}.setChanspec() input:direct
-  Device.WiFi.Radio.{i}.setChanspec() input:reason
-  Device.WiFi.Radio.{i}.setChanspec() input:reasonExt
-  Device.WiFi.Radio.{i}.startACS()                                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.startAutoChannelSelection()                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.startPlatformACS()                                                             proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.startPlatformACS() input:acs_list
-  Device.WiFi.Radio.{i}.startScan()                                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.startScan() input:BSSID
-  Device.WiFi.Radio.{i}.startScan() input:SSID
-  Device.WiFi.Radio.{i}.startScan() input:channels
-  Device.WiFi.Radio.{i}.startScan() input:forceFast
-  Device.WiFi.Radio.{i}.startScan() input:scanReason
-  Device.WiFi.Radio.{i}.startScan() input:updateUsage
-  Device.WiFi.Radio.{i}.stopScan()                                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.wpaCtrlEvents!                                                                 proto::prplmesh-dm-mapper
   Device.WiFi.RadioNumberOfEntries                                                                     proto::prplmesh-dm-mapper
   Device.WiFi.Reset()                                                                                  proto::prplmesh-dm-mapper
   Device.WiFi.SSID.{i}.                                                                                proto::prplmesh-dm-mapper
   Device.WiFi.SSID.{i}.Alias                                                                           proto::prplmesh-dm-mapper
   Device.WiFi.SSID.{i}.BSSID                                                                           proto::prplmesh-dm-mapper
   Device.WiFi.SSID.{i}.Enable                                                                          proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Index                                                                           proto::prplmesh-dm-mapper
   Device.WiFi.SSID.{i}.LastChange                                                                      proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.LastStatusChangeTimeStamp                                                       proto::prplmesh-dm-mapper
   Device.WiFi.SSID.{i}.LowerLayers                                                                     proto::prplmesh-dm-mapper
   Device.WiFi.SSID.{i}.MACAddress                                                                      proto::prplmesh-dm-mapper
   Device.WiFi.SSID.{i}.MLDUnit                                                                         proto::prplmesh-dm-mapper
@@ -9119,83 +8257,99 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.SSID.{i}.Stats.UnicastPacketsReceived                                                    proto::prplmesh-dm-mapper
   Device.WiFi.SSID.{i}.Stats.UnicastPacketsSent                                                        proto::prplmesh-dm-mapper
   Device.WiFi.SSID.{i}.Stats.UnknownProtoPacketsReceived                                               proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmBytesReceived.                                                         proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmBytesReceived.AC_BE                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmBytesReceived.AC_BK                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmBytesReceived.AC_VI                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmBytesReceived.AC_VO                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmBytesSent.                                                             proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmBytesSent.AC_BE                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmBytesSent.AC_BK                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmBytesSent.AC_VI                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmBytesSent.AC_VO                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmFailedBytesReceived.                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmFailedBytesReceived.AC_BE                                              proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmFailedBytesReceived.AC_BK                                              proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmFailedBytesReceived.AC_VI                                              proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmFailedBytesReceived.AC_VO                                              proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmFailedReceived.                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmFailedReceived.AC_BE                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmFailedReceived.AC_BK                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmFailedReceived.AC_VI                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmFailedReceived.AC_VO                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmFailedSent.                                                            proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmFailedSent.AC_BE                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmFailedSent.AC_BK                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmFailedSent.AC_VI                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmFailedSent.AC_VO                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmFailedbytesSent.                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmFailedbytesSent.AC_BE                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmFailedbytesSent.AC_BK                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmFailedbytesSent.AC_VI                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmFailedbytesSent.AC_VO                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmPacketsReceived.                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmPacketsReceived.AC_BE                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmPacketsReceived.AC_BK                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmPacketsReceived.AC_VI                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmPacketsReceived.AC_VO                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmPacketsSent.                                                           proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmPacketsSent.AC_BE                                                      proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmPacketsSent.AC_BK                                                      proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmPacketsSent.AC_VI                                                      proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.Stats.WmmPacketsSent.AC_VO                                                      proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmBytesReceived.                                          proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmBytesReceived.AC_BE                                     proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmBytesReceived.AC_BK                                     proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmBytesReceived.AC_VI                                     proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmBytesReceived.AC_VO                                     proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmBytesSent.                                              proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmBytesSent.AC_BE                                         proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmBytesSent.AC_BK                                         proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmBytesSent.AC_VI                                         proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmBytesSent.AC_VO                                         proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmFailedBytesReceived.                                    proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmFailedBytesReceived.AC_BE                               proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmFailedBytesReceived.AC_BK                               proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmFailedBytesReceived.AC_VI                               proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmFailedBytesReceived.AC_VO                               proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmFailedReceived.                                         proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmFailedReceived.AC_BE                                    proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmFailedReceived.AC_BK                                    proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmFailedReceived.AC_VI                                    proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmFailedReceived.AC_VO                                    proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmFailedSent.                                             proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmFailedSent.AC_BE                                        proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmFailedSent.AC_BK                                        proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmFailedSent.AC_VI                                        proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmFailedSent.AC_VO                                        proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmFailedbytesSent.                                        proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmFailedbytesSent.AC_BE                                   proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmFailedbytesSent.AC_BK                                   proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmFailedbytesSent.AC_VI                                   proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmFailedbytesSent.AC_VO                                   proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmPacketsReceived.                                        proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmPacketsReceived.AC_BE                                   proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmPacketsReceived.AC_BK                                   proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmPacketsReceived.AC_VI                                   proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmPacketsReceived.AC_VO                                   proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmPacketsSent.                                            proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmPacketsSent.AC_BE                                       proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmPacketsSent.AC_BK                                       proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmPacketsSent.AC_VI                                       proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmPacketsSent.AC_VO                                       proto::prplmesh-dm-mapper
   Device.WiFi.SSID.{i}.Status                                                                          proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.getSSIDStats()                                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.SSID.{i}.getStatusHistogram()                                                            proto::prplmesh-dm-mapper
   Device.WiFi.SSIDNumberOfEntries                                                                      proto::prplmesh-dm-mapper
   Device.WiFi.Vendor.                                                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.addEndPointIntf()                                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.addEndPointIntf() input:endpoint
-  Device.WiFi.addEndPointIntf() input:ifname
-  Device.WiFi.addEndPointIntf() input:radio
-  Device.WiFi.addVAPIntf()                                                                             proto::prplmesh-dm-mapper
-  Device.WiFi.addVAPIntf() input:bridge
-  Device.WiFi.addVAPIntf() input:ifname
-  Device.WiFi.addVAPIntf() input:radio
-  Device.WiFi.addVAPIntf() input:vap
-  Device.WiFi.checkWPSPIN()                                                                            proto::prplmesh-dm-mapper
-  Device.WiFi.checkWPSPIN() input:PIN
-  Device.WiFi.delEndPointIntf()                                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.delEndPointIntf() input:endpoint
-  Device.WiFi.delVAPIntf()                                                                             proto::prplmesh-dm-mapper
-  Device.WiFi.delVAPIntf() input:vap
+  Device.WiFi.X_PRPLWARE-COM_ProcessManager.                                                           proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_ProcessManager.PWHM.                                                      proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_ProcessManager.PWHM.Enable                                                proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_ProcessManager.PWHM.FaultCode                                             proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_ProcessManager.PWHM.Status                                                proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_ProcessManager.PrplMesh.                                                  proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable                                            proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_ProcessManager.PrplMesh.FaultCode                                         proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_ProcessManager.PrplMesh.ManagementMode                                    proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_ProcessManager.PrplMesh.Status                                            proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_ProcessManager.Sensing.                                                   proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_ProcessManager.Sensing.Enable                                             proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_ProcessManager.Sensing.FaultCode                                          proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_ProcessManager.Sensing.Status                                             proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.                                                              proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.CreateSession()                                               proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.CreateSession() input:ApplicationName
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.                                                  proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.AddExchange()                                     proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.AddExchange() input:Bandwidth
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.AddExchange() input:DataType
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.AddExchange() input:ExchangeType
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.AddExchange() input:NRx
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.AddExchange() input:NTx
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.AddExchange() input:Rate
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.AddExchange() input:Receiver
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.AddExchange() input:Transmitter
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.Alias                                             proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.ApplicationName                                   proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.DataSocketPath                                    proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.DeleteSession()                                   proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.Exchange.{i}.                                     proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.Exchange.{i}.Alias                                proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.Exchange.{i}.Bandwidth                            proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.Exchange.{i}.DataType                             proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.Exchange.{i}.ExchangeID                           proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.Exchange.{i}.ExchangeTerminated!                  proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.Exchange.{i}.ExchangeTerminated! event_arg:Cause
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.Exchange.{i}.ExchangeTerminated! event_arg:ExchangeID
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.Exchange.{i}.ExchangeType                         proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.Exchange.{i}.NRx                                  proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.Exchange.{i}.NTx                                  proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.Exchange.{i}.Rate                                 proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.Exchange.{i}.Receiver                             proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.Exchange.{i}.RemoveExchange()                     proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.Exchange.{i}.Transmitter                          proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.ExchangeNumberOfEntries                           proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.SessionID                                         proto::prplmesh-dm-mapper
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.SessionNumberOfEntries                                        proto::prplmesh-dm-mapper
   Device.WiFi.wps_DefParam.                                                                            proto::prplmesh-dm-mapper
-  Device.WiFi.wps_DefParam.DefaultPin                                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.wps_DefParam.DevName                                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.wps_DefParam.FriendlyName                                                                proto::prplmesh-dm-mapper
-  Device.WiFi.wps_DefParam.Manufacturer                                                                proto::prplmesh-dm-mapper
-  Device.WiFi.wps_DefParam.ManufacturerUrl                                                             proto::prplmesh-dm-mapper
-  Device.WiFi.wps_DefParam.ModelDescription                                                            proto::prplmesh-dm-mapper
-  Device.WiFi.wps_DefParam.ModelName                                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.wps_DefParam.ModelNumber                                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.wps_DefParam.ModelUrl                                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.wps_DefParam.OUI                                                                         proto::prplmesh-dm-mapper
-  Device.WiFi.wps_DefParam.OsVersion                                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.wps_DefParam.SerialNumber                                                                proto::prplmesh-dm-mapper
-  Device.WiFi.wps_DefParam.UUID                                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.wps_DefParam.wpsSupVer                                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.wps_DefParam.wpsUUIDShared                                                               proto::prplmesh-dm-mapper
-  Device.WiFi.wps_DefParam.wps_GenSelfPIN()                                                            proto::prplmesh-dm-mapper
   Device.XPON.                                                                                         proto::tr181-xpon
   Device.XPON.ONU.{i}.                                                                                 proto::tr181-xpon
   Device.XPON.ONU.{i}.ANI.{i}.                                                                         proto::tr181-xpon
