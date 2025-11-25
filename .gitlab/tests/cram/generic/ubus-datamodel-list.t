@@ -27,6 +27,8 @@ Check that ubus has expected datamodels available:
   Cthulhu.Container
   Cthulhu.Container.Instances
   Cthulhu.Information
+  Cthulhu.Information.LocalPolicyManager
+  Cthulhu.Information.LocalPolicyManager.Logs
   Cthulhu.Plugins
   Cthulhu.PluginsPrivate
   Cthulhu.PluginsPrivate.NetworkConfig

@@ -98,8 +98,10 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_cthulhu=y
   CONFIG_PACKAGE_cthulhu-capabilities=y
   CONFIG_PACKAGE_cthulhu-dhcpc=y
+  CONFIG_PACKAGE_cthulhu-lpm=y
   CONFIG_PACKAGE_cthulhu-lxc=y
   CONFIG_PACKAGE_cthulhu-networking=y
+  CONFIG_PACKAGE_cthulhu-pcm=y
   CONFIG_PACKAGE_cthulhu-plugin-usp=y
   CONFIG_PACKAGE_cthulhu-syslog=y
   CONFIG_PACKAGE_curl=y
