@@ -63,6 +63,9 @@ packages:
   - kmod-gre6
   - gre
   - wifi-scripts
+  - health-monitor
+  - libhealth_monitor
+  - health-monitor-demo
 
 diffconfig: |
   CONFIG_TARGET_ROOTFS_UBIFS=y
