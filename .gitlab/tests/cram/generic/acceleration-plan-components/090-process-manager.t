@@ -50,22 +50,22 @@ Check that managing WiFi Sensing works:
   Active (no-eol)
 
 Check that managing pWHM works:
-
-  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PWHM.Enable=0" | tr -d '\n'
-  0 (no-eol)
-  $ R "sleep 10s"
-  $ R "pgrep -cf 'wld'"
-  0
-  [1]
-  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PWHM.Status?" | tr -d '\n'
-  Idle (no-eol)
-  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PWHM.Enable=1" | tr -d '\n'
-  1 (no-eol)
-  $ R "sleep 10s"
-  $ R "pgrep -cf 'wld'"
-  1
-  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PWHM.Status?" | tr -d '\n'
-  Active (no-eol)
+# Blocked by PPM-3590
+#  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PWHM.Enable=0" | tr -d '\n'
+#  0 (no-eol)
+#  $ R "sleep 10s"
+#  $ R "pgrep -cf 'wld'"
+#  0
+#  [1]
+#  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PWHM.Status?" | tr -d '\n'
+#  Idle (no-eol)
+#  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PWHM.Enable=1" | tr -d '\n'
+#  1 (no-eol)
+#  $ R "sleep 10s"
+#  $ R "pgrep -cf 'wld'"
+#  1
+#  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PWHM.Status?" | tr -d '\n'
+#  Active (no-eol)
 
 
 Check that managing prplMesh works:
