@@ -11,6 +11,11 @@ Don't run test on Turris Omnia, OSPv1 and Haze boards as they don't have USB fla
   > turris-omnia|urx851-hdk-3|prpl-haze) exit 80 ;;
   > esac
 
+Check Storage service exist
+
+  $ R "which tr140-storageservice"
+  /usr/bin/tr140-storageservice
+
 Check USB key is detected:
 
   $ R "ubus-cli USB.USBHosts.Host.*.Device.*.ConfigurationNumberOfEntries? | grep = | wc -l"
