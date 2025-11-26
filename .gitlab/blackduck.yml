@@ -12,13 +12,18 @@
     - export CI_BUILD_PROFILE="$(echo $CI_JOB_NAME | sed 's/blackduck scan \(.*\)/\1/')"
   script:
     - !reference [.build test config, script]
+    - pwd
     - target_name=$(sed -n 's/.*CONFIG_TARGET_BOARD="\([^"]\+\)".*/\1/p' .config)
     - sudo apt update
     - sudo apt install openjdk-17-jdk -y
     - curl -s --output detect.sh https://detect.blackduck.com/detect10.sh
     - sudo chmod +x detect.sh
+    - rm -rf build_dir/target-*/prplos-sdk-* build_dir/target-*/prplos-imagebuilder-*
+    - echo "=== Remaining directories ==="
+    - ls -d build_dir/target-*/* || echo "No directories found"
+    - echo "=== End directory list ==="
     - |
-      for dir in $(ls -d build_dir/target-*/*); do
+      for dir in $(ls -d build_dir/target-*/* | grep -v -e 'prplos-sdk-' -e 'prplos-imagebuilder-'); do
         ./detect.sh \
             --blackduck.url=https://prplfoundation.app.blackduck.com \
             --blackduck.api.token=$BLACKDUCK_API_KEY \
