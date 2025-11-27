@@ -3,7 +3,7 @@ Setup the test configuration:
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
   $ alias C="${CRAM_REMOTE_COPY:-}"
   $ S="/tmp/storageservice.sh"
-  $ C ${TESTDIR}/05-storageservice/storageservice.sh root@${TARGET_LAN_IP}:/tmp/storageservice.sh
+  $ C ${TESTDIR}/005-storageservice/storageservice.sh root@${TARGET_LAN_IP}:/tmp/storageservice.sh
 
 Don't run test on Turris Omnia, OSPv1 and Haze boards as they don't have USB flash disk available:
 
