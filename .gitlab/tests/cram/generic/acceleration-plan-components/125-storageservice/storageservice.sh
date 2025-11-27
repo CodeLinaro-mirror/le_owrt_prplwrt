@@ -61,8 +61,8 @@ if [ "$1" = "restart_service" ]; then
 	sleep 5
 	killall -9 tr140-storageservice >/dev/null 2>/dev/null
 	service tr140-storageservice start >/dev/null 2>/dev/null
-	ubus -t10 wait_for StorageService >/dev/null 2>/dev/null
 	sleep 5
+	ubus -t10 wait_for StorageService
 fi
 
 if [ "$1" = "check_partitions" ]; then
