@@ -1,0 +1,40 @@
+Index: fstools-2024.07.14~408c2cc4/libfstools/partname.c
+===================================================================
+--- fstools-2024.07.14~408c2cc4.orig/libfstools/partname.c
++++ fstools-2024.07.14~408c2cc4/libfstools/partname.c
+@@ -15,11 +15,6 @@ struct partname_volume {
+ 		char devpathstr[16];
+ 		struct devpath devpath;
+ 	} dev;
+-
+-	union {
+-		char devpathstr[16];
+-		struct devpath devpath;
+-	} parent_dev;
+ };
+ 
+ static struct driver partname_driver;
+@@ -56,7 +51,7 @@ static int partname_volume_init(struct v
+ 	v->size = volsize << 9; /* size is returned in sectors of 512 bytes */
+ 	v->blk = p->dev.devpathstr;
+ 
+-	return block_volume_format(v, 0, p->parent_dev.devpathstr);
++	return block_volume_format(v, 0, p->dev.devpathstr);
+ }
+ 
+ /* adapted from procd/utils.c -> should go to libubox */
+@@ -182,14 +177,6 @@ static struct volume *partname_volume_fi
+ 	strncpy(p->dev.devpath.device, devname, sizeof(p->dev.devpath.device) - 1);
+ 	p->dev.devpath.device[sizeof(p->dev.devpath.device)-1] = '\0';
+ 
+-	memcpy(p->parent_dev.devpath.prefix, "/dev/", sizeof(p->parent_dev.devpath.prefix));
+-	if (rootdev)
+-		strncpy(p->parent_dev.devpath.device, rootdev, sizeof(p->parent_dev.devpath.device) - 1);
+-	else
+-		strncpy(p->parent_dev.devpath.device, rootdevname(devname), sizeof(p->parent_dev.devpath.device) - 1);
+-
+-	p->parent_dev.devpath.device[sizeof(p->parent_dev.devpath.device)-1] = '\0';
+-
+ 	p->v.drv = &partname_driver;
+ 	p->v.blk = p->dev.devpathstr;
+ 	p->v.name = name;
