@@ -16,6 +16,35 @@ wifi_dm() {
   R "ba-cli 'WiFi.${path}'" | grep "${obj_name}=" | sed '/^$/d' | grep -v '>' | sort
 }
 
+# set/get wifi datamodel based on band
+# In : band (2: 2.4GHz, 5: 5GHz, 6: 6GHz), path under 'WiFi.Radio.N.'
+# Out : print ba-cli output
+wifi_dm_radio_band() {
+  local band="$1"
+  local obj="$2"
+  local base_path="WiFi.Radio."
+
+  if [ -z "$obj" ]; then
+    R logger -t cram "wifi_dm_radio_band: empty object"
+    echo "wifi_dm_radio_band: empty object"
+    return 1
+  fi
+
+  if [ "$band" = "2" ]; then
+    rad_filter='[OperatingFrequencyBand=="2.4GHz"]'
+  elif [ "$band" = "5" ]; then
+   rad_filter='[OperatingFrequencyBand=="5GHz"]'
+  elif [ "$band" = "6" ]; then
+   rad_filter='[OperatingFrequencyBand=="6GHz"]'
+  else
+    R logger -t cram "wifi_dm_radio_band: unknown band: $band"
+    echo "wifi_dm_radio_band: unknown band: $band"
+    return 1
+  fi
+
+  wifi_dm "Radio.${rad_filter}.${obj}"
+}
+
 # Enable AccessPoints
 # In : AccessPoint object index
 # Out : "enabled" if success, empty otherwise
