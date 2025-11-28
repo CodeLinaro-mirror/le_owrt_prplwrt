@@ -327,7 +327,8 @@ Check that ubus has expected datamodels available:
   USB.Port
   USB.USBHosts
   USB.USBHosts.Host
-  Unbound
+  Unbound-br-lan
+  Unbound-lo
   UserInterface
   UserInterface.HTTPAccess
   Users
