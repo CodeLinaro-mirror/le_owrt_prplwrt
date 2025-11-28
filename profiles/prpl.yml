@@ -9,6 +9,7 @@ include:
 additional_packages:
   - feed: packages
     packages:
+      - lvm2
       - opensc
       - pciids
       - pciutils
