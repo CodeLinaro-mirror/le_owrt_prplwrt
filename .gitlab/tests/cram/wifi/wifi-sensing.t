@@ -6,17 +6,17 @@ Create R alias:
 
 Check default WiFi Sensing configuration:
 
-  $ R "ba-cli -j -l WiFi.Radio.*.Sensing.Enable?0 | jsonfilter -e @[0]'[*].Enable'"
+  $ R "ba-cli -j -l Device.WiFi.Radio.*.Sensing.Enable?0 | jsonfilter -e @[0]'[*].Enable'"
   1
   1
   1
 
-  $ R "ba-cli -j -l WiFi.Radio.*.SupportedSensingDataTypes?0 | jsonfilter -e @[0]'[*].SupportedSensingDataTypes'"
+  $ R "ba-cli -j -l Device.WiFi.Radio.*.SupportedSensingDataTypes?0 | jsonfilter -e @[0]'[*].SupportedSensingDataTypes'"
   AC9A9680
   AC9A9680
   AC9A9680
 
-  $ R "ba-cli -j -l WiFi.Radio.*.SupportedSensingExchangeTypes?0 | jsonfilter -e @[0]'[*].SupportedSensingExchangeTypes'"
+  $ R "ba-cli -j -l Device.WiFi.Radio.*.SupportedSensingExchangeTypes?0 | jsonfilter -e @[0]'[*].SupportedSensingExchangeTypes'"
   qosnull
   qosnull
   qosnull
