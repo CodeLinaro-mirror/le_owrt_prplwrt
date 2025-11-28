@@ -4822,6 +4822,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.X_PRPLWARE-COM_SFPs.X_PRPLWARE-COM_SFPDatabase.{i}.VendorName                                 proto::tr181-sfp
   Device.X_PRPLWARE-COM_SFPs.X_PRPLWARE-COM_SFPDatabase.{i}.VendorPN                                   proto::tr181-sfp
   Device.X_PRPLWARE-COM_WANManager.                                                                    proto::wan-manager
+  Device.X_PRPLWARE-COM_WANManager.LastSuccessfulMode                                                  proto::wan-manager
   Device.X_PRPLWARE-COM_WANManager.OperationMode                                                       proto::wan-manager
   Device.X_PRPLWARE-COM_WANManager.Reset()                                                             proto::wan-manager
   Device.X_PRPLWARE-COM_WANManager.SensingPolicy                                                       proto::wan-manager
@@ -9740,6 +9741,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.X_PRPLWARE-COM_SFPs.X_PRPLWARE-COM_SFPDatabase.{i}.VendorName                                 proto::tr181-sfp
   Device.X_PRPLWARE-COM_SFPs.X_PRPLWARE-COM_SFPDatabase.{i}.VendorPN                                   proto::tr181-sfp
   Device.X_PRPLWARE-COM_WANManager.                                                                    proto::wan-manager
+  Device.X_PRPLWARE-COM_WANManager.LastSuccessfulMode                                                  proto::wan-manager
   Device.X_PRPLWARE-COM_WANManager.OperationMode                                                       proto::wan-manager
   Device.X_PRPLWARE-COM_WANManager.Reset()                                                             proto::wan-manager
   Device.X_PRPLWARE-COM_WANManager.SensingPolicy                                                       proto::wan-manager
