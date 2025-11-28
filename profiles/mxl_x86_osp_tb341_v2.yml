@@ -184,7 +184,6 @@ packages:
   - libext2fs
   - libfdisk
   - initramfs-generator
-  - lvm2
   - blkid
   - libfdt
   - fdt-utils
