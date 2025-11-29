@@ -3915,6 +3915,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.Radio.{i}.ChannelSwitchComplete!                                                         proto::wld
   Device.WiFi.Radio.{i}.ChannelsInUse                                                                  proto::wld
   Device.WiFi.Radio.{i}.ChipsetVendor                                                                  proto::wld
+  Device.WiFi.Radio.{i}.CurrentEhtOperatingIE                                                          proto::wld
   Device.WiFi.Radio.{i}.CurrentOperatingChannelBandwidth                                               proto::wld
   Device.WiFi.Radio.{i}.DFS Done!                                                                      proto::wld
   Device.WiFi.Radio.{i}.DFS.                                                                           proto::wld
@@ -3950,6 +3951,8 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.Radio.{i}.DriverStatus.NrActiveTxAntenna                                                 proto::wld
   Device.WiFi.Radio.{i}.DriverStatus.NrRxAntenna                                                       proto::wld
   Device.WiFi.Radio.{i}.DriverStatus.NrTxAntenna                                                       proto::wld
+  Device.WiFi.Radio.{i}.EhtPhyCapabilities                                                             proto::wld
+  Device.WiFi.Radio.{i}.EhtPhyCapabilitiesStr                                                          proto::wld
   Device.WiFi.Radio.{i}.Enable                                                                         proto::wld
   Device.WiFi.Radio.{i}.EventCounter.{i}.                                                              proto::wld
   Device.WiFi.Radio.{i}.EventCounter.{i}.Info                                                          proto::wld
@@ -4196,6 +4199,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.Radio.{i}.edit()                                                                         proto::wld
   Device.WiFi.Radio.{i}.getChanSurveyReport()                                                          proto::wld
   Device.WiFi.Radio.{i}.getCurrentTransmitPowerdBm()                                                   proto::wld
+  Device.WiFi.Radio.{i}.getEHTOperations()                                                             proto::wld
   Device.WiFi.Radio.{i}.getLatestPower()                                                               proto::wld
   Device.WiFi.Radio.{i}.getMaxTransmitPowerdBm()                                                       proto::wld
   Device.WiFi.Radio.{i}.getMaxTransmitPowerdBm() input:channel
@@ -8805,6 +8809,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.Radio.{i}.ChannelSwitchComplete!                                                         proto::wld
   Device.WiFi.Radio.{i}.ChannelsInUse                                                                  proto::wld
   Device.WiFi.Radio.{i}.ChipsetVendor                                                                  proto::wld
+  Device.WiFi.Radio.{i}.CurrentEhtOperatingIE                                                          proto::wld
   Device.WiFi.Radio.{i}.CurrentOperatingChannelBandwidth                                               proto::wld
   Device.WiFi.Radio.{i}.DFS Done!                                                                      proto::wld
   Device.WiFi.Radio.{i}.DFS.                                                                           proto::wld
@@ -8840,6 +8845,8 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.Radio.{i}.DriverStatus.NrActiveTxAntenna                                                 proto::wld
   Device.WiFi.Radio.{i}.DriverStatus.NrRxAntenna                                                       proto::wld
   Device.WiFi.Radio.{i}.DriverStatus.NrTxAntenna                                                       proto::wld
+  Device.WiFi.Radio.{i}.EhtPhyCapabilities                                                             proto::wld
+  Device.WiFi.Radio.{i}.EhtPhyCapabilitiesStr                                                          proto::wld
   Device.WiFi.Radio.{i}.Enable                                                                         proto::wld
   Device.WiFi.Radio.{i}.EventCounter.{i}.                                                              proto::wld
   Device.WiFi.Radio.{i}.EventCounter.{i}.Info                                                          proto::wld
@@ -9086,6 +9093,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.Radio.{i}.edit()                                                                         proto::wld
   Device.WiFi.Radio.{i}.getChanSurveyReport()                                                          proto::wld
   Device.WiFi.Radio.{i}.getCurrentTransmitPowerdBm()                                                   proto::wld
+  Device.WiFi.Radio.{i}.getEHTOperations()                                                             proto::wld
   Device.WiFi.Radio.{i}.getLatestPower()                                                               proto::wld
   Device.WiFi.Radio.{i}.getMaxTransmitPowerdBm()                                                       proto::wld
   Device.WiFi.Radio.{i}.getMaxTransmitPowerdBm() input:channel
