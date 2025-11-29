@@ -3762,6 +3762,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.EndPoint.{i}.ReconnectDelay                                                              proto::wld
   Device.WiFi.EndPoint.{i}.ReconnectInterval                                                           proto::wld
   Device.WiFi.EndPoint.{i}.ReconnectRadioToggleThreshold                                               proto::wld
+  Device.WiFi.EndPoint.{i}.RequiredOperatingStandards                                                  proto::wld
   Device.WiFi.EndPoint.{i}.SSIDReference                                                               proto::wld
   Device.WiFi.EndPoint.{i}.Security.                                                                   proto::wld
   Device.WiFi.EndPoint.{i}.Security.ModesSupported                                                     proto::wld
@@ -4061,6 +4062,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.Radio.{i}.ScanConfig.FastScanReasons                                                     proto::wld
   Device.WiFi.Radio.{i}.ScanConfig.HomeTime                                                            proto::wld
   Device.WiFi.Radio.{i}.ScanConfig.MaxChannelsPerScan                                                  proto::wld
+  Device.WiFi.Radio.{i}.ScanConfig.OnlyScanPscChannels                                                 proto::wld
   Device.WiFi.Radio.{i}.ScanConfig.PassiveChannelTime                                                  proto::wld
   Device.WiFi.Radio.{i}.ScanConfig.ScanChannelCount                                                    proto::wld
   Device.WiFi.Radio.{i}.ScanConfig.ScanRequestInterval                                                 proto::wld
@@ -4256,6 +4258,9 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.SSID.{i}.LastStatusChangeTimeStamp                                                       proto::wld
   Device.WiFi.SSID.{i}.LowerLayers                                                                     proto::wld
   Device.WiFi.SSID.{i}.MACAddress                                                                      proto::wld
+  Device.WiFi.SSID.{i}.MLDLinkID                                                                       proto::wld
+  Device.WiFi.SSID.{i}.MLDRole                                                                         proto::wld
+  Device.WiFi.SSID.{i}.MLDStatus                                                                       proto::wld
   Device.WiFi.SSID.{i}.MLDUnit                                                                         proto::wld
   Device.WiFi.SSID.{i}.Name                                                                            proto::wld
   Device.WiFi.SSID.{i}.SSID                                                                            proto::wld
@@ -4333,6 +4338,16 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.addVAPIntf() input:ifname
   Device.WiFi.addVAPIntf() input:radio
   Device.WiFi.addVAPIntf() input:vap
+  Device.WiFi.bSTAMLD.{i}.                                                                             proto::wld
+  Device.WiFi.bSTAMLD.{i}.AffiliatedbSTAList                                                           proto::wld
+  Device.WiFi.bSTAMLD.{i}.BSSID                                                                        proto::wld
+  Device.WiFi.bSTAMLD.{i}.MLDID                                                                        proto::wld
+  Device.WiFi.bSTAMLD.{i}.MLDMACAddress                                                                proto::wld
+  Device.WiFi.bSTAMLD.{i}.bSTAMLDConfig.                                                               proto::wld
+  Device.WiFi.bSTAMLD.{i}.bSTAMLDConfig.EMLMREnabled                                                   proto::wld
+  Device.WiFi.bSTAMLD.{i}.bSTAMLDConfig.EMLSREnabled                                                   proto::wld
+  Device.WiFi.bSTAMLD.{i}.bSTAMLDConfig.NSTREnabled                                                    proto::wld
+  Device.WiFi.bSTAMLD.{i}.bSTAMLDConfig.STREnabled                                                     proto::wld
   Device.WiFi.checkWPSPIN()                                                                            proto::wld
   Device.WiFi.checkWPSPIN() input:PIN
   Device.WiFi.delEndPointIntf()                                                                        proto::wld
@@ -8662,6 +8677,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.EndPoint.{i}.ReconnectDelay                                                              proto::wld
   Device.WiFi.EndPoint.{i}.ReconnectInterval                                                           proto::wld
   Device.WiFi.EndPoint.{i}.ReconnectRadioToggleThreshold                                               proto::wld
+  Device.WiFi.EndPoint.{i}.RequiredOperatingStandards                                                  proto::wld
   Device.WiFi.EndPoint.{i}.SSIDReference                                                               proto::wld
   Device.WiFi.EndPoint.{i}.Security.                                                                   proto::wld
   Device.WiFi.EndPoint.{i}.Security.ModesSupported                                                     proto::wld
@@ -8961,6 +8977,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.Radio.{i}.ScanConfig.FastScanReasons                                                     proto::wld
   Device.WiFi.Radio.{i}.ScanConfig.HomeTime                                                            proto::wld
   Device.WiFi.Radio.{i}.ScanConfig.MaxChannelsPerScan                                                  proto::wld
+  Device.WiFi.Radio.{i}.ScanConfig.OnlyScanPscChannels                                                 proto::wld
   Device.WiFi.Radio.{i}.ScanConfig.PassiveChannelTime                                                  proto::wld
   Device.WiFi.Radio.{i}.ScanConfig.ScanChannelCount                                                    proto::wld
   Device.WiFi.Radio.{i}.ScanConfig.ScanRequestInterval                                                 proto::wld
@@ -9156,6 +9173,9 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.SSID.{i}.LastStatusChangeTimeStamp                                                       proto::wld
   Device.WiFi.SSID.{i}.LowerLayers                                                                     proto::wld
   Device.WiFi.SSID.{i}.MACAddress                                                                      proto::wld
+  Device.WiFi.SSID.{i}.MLDLinkID                                                                       proto::wld
+  Device.WiFi.SSID.{i}.MLDRole                                                                         proto::wld
+  Device.WiFi.SSID.{i}.MLDStatus                                                                       proto::wld
   Device.WiFi.SSID.{i}.MLDUnit                                                                         proto::wld
   Device.WiFi.SSID.{i}.Name                                                                            proto::wld
   Device.WiFi.SSID.{i}.SSID                                                                            proto::wld
@@ -9233,6 +9253,16 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.addVAPIntf() input:ifname
   Device.WiFi.addVAPIntf() input:radio
   Device.WiFi.addVAPIntf() input:vap
+  Device.WiFi.bSTAMLD.{i}.                                                                             proto::wld
+  Device.WiFi.bSTAMLD.{i}.AffiliatedbSTAList                                                           proto::wld
+  Device.WiFi.bSTAMLD.{i}.BSSID                                                                        proto::wld
+  Device.WiFi.bSTAMLD.{i}.MLDID                                                                        proto::wld
+  Device.WiFi.bSTAMLD.{i}.MLDMACAddress                                                                proto::wld
+  Device.WiFi.bSTAMLD.{i}.bSTAMLDConfig.                                                               proto::wld
+  Device.WiFi.bSTAMLD.{i}.bSTAMLDConfig.EMLMREnabled                                                   proto::wld
+  Device.WiFi.bSTAMLD.{i}.bSTAMLDConfig.EMLSREnabled                                                   proto::wld
+  Device.WiFi.bSTAMLD.{i}.bSTAMLDConfig.NSTREnabled                                                    proto::wld
+  Device.WiFi.bSTAMLD.{i}.bSTAMLDConfig.STREnabled                                                     proto::wld
   Device.WiFi.checkWPSPIN()                                                                            proto::wld
   Device.WiFi.checkWPSPIN() input:PIN
   Device.WiFi.delEndPointIntf()                                                                        proto::wld
