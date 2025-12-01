@@ -1900,6 +1900,15 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.LocalAgent.Controller.{i}.MTP.{i}.UDS.
   Device.LocalAgent.Controller.{i}.MTP.{i}.UDS.USPServiceRef
   Device.LocalAgent.Controller.{i}.MTP.{i}.UDS.UnixDomainSocketRef
+  Device.LocalAgent.Controller.{i}.MTP.{i}.WebSocket.
+  Device.LocalAgent.Controller.{i}.MTP.{i}.WebSocket.CurrentRetryCount
+  Device.LocalAgent.Controller.{i}.MTP.{i}.WebSocket.EnableEncryption
+  Device.LocalAgent.Controller.{i}.MTP.{i}.WebSocket.Host
+  Device.LocalAgent.Controller.{i}.MTP.{i}.WebSocket.KeepAliveInterval
+  Device.LocalAgent.Controller.{i}.MTP.{i}.WebSocket.Path
+  Device.LocalAgent.Controller.{i}.MTP.{i}.WebSocket.Port
+  Device.LocalAgent.Controller.{i}.MTP.{i}.WebSocket.SessionRetryIntervalMultiplier
+  Device.LocalAgent.Controller.{i}.MTP.{i}.WebSocket.SessionRetryMinimumWaitInterval
   Device.LocalAgent.Controller.{i}.MTPNumberOfEntries
   Device.LocalAgent.Controller.{i}.PeriodicNotifInterval
   Device.LocalAgent.Controller.{i}.PeriodicNotifTime
@@ -1971,6 +1980,11 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.LocalAgent.MTP.{i}.Status
   Device.LocalAgent.MTP.{i}.UDS.
   Device.LocalAgent.MTP.{i}.UDS.UnixDomainSocketRef
+  Device.LocalAgent.MTP.{i}.WebSocket.
+  Device.LocalAgent.MTP.{i}.WebSocket.EnableEncryption
+  Device.LocalAgent.MTP.{i}.WebSocket.KeepAliveInterval
+  Device.LocalAgent.MTP.{i}.WebSocket.Path
+  Device.LocalAgent.MTP.{i}.WebSocket.Port
   Device.LocalAgent.MTPNumberOfEntries
   Device.LocalAgent.Periodic!
   Device.LocalAgent.Request.{i}.
@@ -7410,6 +7424,15 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.LocalAgent.Controller.{i}.MTP.{i}.UDS.
   Device.LocalAgent.Controller.{i}.MTP.{i}.UDS.USPServiceRef
   Device.LocalAgent.Controller.{i}.MTP.{i}.UDS.UnixDomainSocketRef
+  Device.LocalAgent.Controller.{i}.MTP.{i}.WebSocket.
+  Device.LocalAgent.Controller.{i}.MTP.{i}.WebSocket.CurrentRetryCount
+  Device.LocalAgent.Controller.{i}.MTP.{i}.WebSocket.EnableEncryption
+  Device.LocalAgent.Controller.{i}.MTP.{i}.WebSocket.Host
+  Device.LocalAgent.Controller.{i}.MTP.{i}.WebSocket.KeepAliveInterval
+  Device.LocalAgent.Controller.{i}.MTP.{i}.WebSocket.Path
+  Device.LocalAgent.Controller.{i}.MTP.{i}.WebSocket.Port
+  Device.LocalAgent.Controller.{i}.MTP.{i}.WebSocket.SessionRetryIntervalMultiplier
+  Device.LocalAgent.Controller.{i}.MTP.{i}.WebSocket.SessionRetryMinimumWaitInterval
   Device.LocalAgent.Controller.{i}.MTPNumberOfEntries
   Device.LocalAgent.Controller.{i}.PeriodicNotifInterval
   Device.LocalAgent.Controller.{i}.PeriodicNotifTime
@@ -7481,6 +7504,11 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.LocalAgent.MTP.{i}.Status
   Device.LocalAgent.MTP.{i}.UDS.
   Device.LocalAgent.MTP.{i}.UDS.UnixDomainSocketRef
+  Device.LocalAgent.MTP.{i}.WebSocket.
+  Device.LocalAgent.MTP.{i}.WebSocket.EnableEncryption
+  Device.LocalAgent.MTP.{i}.WebSocket.KeepAliveInterval
+  Device.LocalAgent.MTP.{i}.WebSocket.Path
+  Device.LocalAgent.MTP.{i}.WebSocket.Port
   Device.LocalAgent.MTPNumberOfEntries
   Device.LocalAgent.Periodic!
   Device.LocalAgent.Request.{i}.
