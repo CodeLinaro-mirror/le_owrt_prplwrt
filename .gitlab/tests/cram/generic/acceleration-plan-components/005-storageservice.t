@@ -39,7 +39,7 @@ Force tr140-storageservice restart to detect newly created partitions:
 
 Read syslog
 
-  $ R "grep storage /var/log/messages"
+  $ R "grep storage /var/log/messages && ubus-cli 'protected=1; StorageService.?'"
 
 Check filesystem are correctly mounted:
 
