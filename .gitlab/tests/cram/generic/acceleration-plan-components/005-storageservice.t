@@ -29,9 +29,17 @@ Create and format the partitions:
 
   $ R "${S} create_partition"
 
+Clear syslog
+
+  $ R "echo > /var/log/messages"
+
 Force tr140-storageservice restart to detect newly created partitions:
 
   $ R "${S} restart_service"
+
+Read syslog
+
+  $ R "grep storage /var/log/messages"
 
 Check filesystem are correctly mounted:
 
