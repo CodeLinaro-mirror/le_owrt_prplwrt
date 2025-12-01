@@ -278,6 +278,14 @@ Check that SSIDs did not change:
   prplOSpriv
   prplOSpriv
 
+Restore Security Mode to default values
+
+  $ R "ba-cli \"WiFi.AccessPoint.[RadioReference == 'WiFi.Radio.radio0_band0'].Security.ModeEnabled='WPA2-WPA3-Personal'\" > /dev/null "
+
+  $ R "ba-cli \"WiFi.AccessPoint.[RadioReference == 'WiFi.Radio.radio0_band1'].Security.ModeEnabled='WPA2-WPA3-Personal'\" > /dev/null "
+
+  $ R "ba-cli \"WiFi.AccessPoint.[RadioReference == 'WiFi.Radio.radio0_band2'].Security.ModeEnabled='WPA3-Personal'\" > /dev/null "
+
 Check the default ChipsetVendor param configurations:
 
   $ R logger -t cram "Check the default ChipsetVendor param configurations:"
