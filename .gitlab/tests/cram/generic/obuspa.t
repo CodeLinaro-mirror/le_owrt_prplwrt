@@ -3291,6 +3291,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.AccessPoint.{i}.BSS-TM-RESP!                                                             proto::wld
   Device.WiFi.AccessPoint.{i}.BridgeInterface                                                          proto::wld
   Device.WiFi.AccessPoint.{i}.CpeOperationMode                                                         proto::wld
+  Device.WiFi.AccessPoint.{i}.CustomAlias                                                              proto::wld
   Device.WiFi.AccessPoint.{i}.DefaultDeviceType                                                        proto::wld
   Device.WiFi.AccessPoint.{i}.Disassociation!                                                          proto::wld
   Device.WiFi.AccessPoint.{i}.DiscoveryMethodEnabled                                                   proto::wld
@@ -4001,6 +4002,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.Radio.{i}.TxBeamformingCapsEnabled                                                       proto::wld
   Device.WiFi.Radio.{i}.TxChainCtrl                                                                    proto::wld
   Device.WiFi.Radio.{i}.Upstream                                                                       proto::wld
+  Device.WiFi.Radio.{i}.VHTCapabilities                                                                proto::wld
   Device.WiFi.Radio.{i}.WDS_Mode                                                                       proto::wld
   Device.WiFi.Radio.{i}.WET_Mode                                                                       proto::wld
   Device.WiFi.Radio.{i}.WPS_Enrollee_Mode                                                              proto::wld
@@ -7943,6 +7945,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.AccessPoint.{i}.BSS-TM-RESP!                                                             proto::wld
   Device.WiFi.AccessPoint.{i}.BridgeInterface                                                          proto::wld
   Device.WiFi.AccessPoint.{i}.CpeOperationMode                                                         proto::wld
+  Device.WiFi.AccessPoint.{i}.CustomAlias                                                              proto::wld
   Device.WiFi.AccessPoint.{i}.DefaultDeviceType                                                        proto::wld
   Device.WiFi.AccessPoint.{i}.Disassociation!                                                          proto::wld
   Device.WiFi.AccessPoint.{i}.DiscoveryMethodEnabled                                                   proto::wld
@@ -8653,6 +8656,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.Radio.{i}.TxBeamformingCapsEnabled                                                       proto::wld
   Device.WiFi.Radio.{i}.TxChainCtrl                                                                    proto::wld
   Device.WiFi.Radio.{i}.Upstream                                                                       proto::wld
+  Device.WiFi.Radio.{i}.VHTCapabilities                                                                proto::wld
   Device.WiFi.Radio.{i}.WDS_Mode                                                                       proto::wld
   Device.WiFi.Radio.{i}.WET_Mode                                                                       proto::wld
   Device.WiFi.Radio.{i}.WPS_Enrollee_Mode                                                              proto::wld
