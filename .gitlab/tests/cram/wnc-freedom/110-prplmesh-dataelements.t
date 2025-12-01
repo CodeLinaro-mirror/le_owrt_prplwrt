@@ -311,3 +311,34 @@ Check the default ChipsetVendor param configurations:
   Qualcomm
   Qualcomm
   Qualcomm
+
+Check enabling AP via pWHM:
+
+  $ R "sed -i 's/use_dataelements_vap_configs=1/use_dataelements_vap_configs=0/g' /opt/prplmesh/config/beerocks_controller.conf 1>/dev/null"
+
+  $ R logger -t cram "Restart prplmesh"
+
+  $ R "( /etc/init.d/prplmesh gateway_mode ; sleep 2 ) > /tmp/prplmesh-gw-mode.log 2>&1 ; logger -t prplmesh-gateway-mode < /tmp/prplmesh-gw-mode.log"
+
+  $ R "ubus -t 60 wait_for X_PRPLWARE-COM_WiFiController.Network.Device.1"
+
+  $ sleep 10
+
+  $ R "ba-cli 'Device.WiFi.AccessPoint.1.SSIDReference+.SSID="ap1"' >> /dev/null"
+  $ R "ba-cli 'Device.WiFi.AccessPoint.2.SSIDReference+.SSID="ap2"' >> /dev/null"
+  $ R "ba-cli 'Device.WiFi.AccessPoint.3.SSIDReference+.SSID="ap3"' >> /dev/null"
+  $ R "ba-cli 'Device.WiFi.AccessPoint.4.SSIDReference+.SSID="ap4"' >> /dev/null"
+  $ R "ba-cli 'Device.WiFi.AccessPoint.5.SSIDReference+.SSID="ap5"' >> /dev/null"
+  $ R "ba-cli 'Device.WiFi.AccessPoint.6.SSIDReference+.SSID="ap6"' >> /dev/null"
+
+  $ R "ba-cli 'Device.WiFi.AccessPoint.1.Enable=1' >> /dev/null"
+  $ R "ba-cli 'Device.WiFi.AccessPoint.2.Enable=1' >> /dev/null"
+  $ R "ba-cli 'Device.WiFi.AccessPoint.3.Enable=1' >> /dev/null"
+  $ R "ba-cli 'Device.WiFi.AccessPoint.4.Enable=1' >> /dev/null"
+  $ R "ba-cli 'Device.WiFi.AccessPoint.5.Enable=1' >> /dev/null"
+  $ R "ba-cli 'Device.WiFi.AccessPoint.6.Enable=1' >> /dev/null"
+
+  $ sleep 10
+
+  $ R "ba-cli 'Device.WiFi.DataElements.Network.Device.*.Radio.*.BSS.?0' -j -l | jsonfilter -e @[0]'[*].SSID' -e @[0]'[*].Enabled' | sort | xargs" 
+  1 1 1 1 1 1 ap1 ap2 ap3 ap4 ap5 ap6
