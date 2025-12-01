@@ -136,7 +136,7 @@ In case the controller does not yet have this parameter, catch error here isof l
   {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.":{"Enable":true}}
   {}
   {"amxd-error-code":0}
- 
+
   $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network AccessPointCommit"
   {"retval":""}
   {}
@@ -243,6 +243,14 @@ Check that wireless is disabled:
   Down
   Down
   Down
+
+Restore Security Mode to default values
+
+  $ R "ba-cli \"WiFi.AccessPoint.[RadioReference == 'WiFi.Radio.radio0'].Security.ModeEnabled='WPA2-WPA3-Personal'\" > /dev/null "
+
+  $ R "ba-cli \"WiFi.AccessPoint.[RadioReference == 'WiFi.Radio.radio2'].Security.ModeEnabled='WPA2-WPA3-Personal'\" > /dev/null "
+
+  $ R "ba-cli \"WiFi.AccessPoint.[RadioReference == 'WiFi.Radio.radio4'].Security.ModeEnabled='WPA3-Personal'\" > /dev/null "
 
 Check the default ChipsetVendor param configurations:
 
