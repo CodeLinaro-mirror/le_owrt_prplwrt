@@ -39,7 +39,19 @@ Force tr140-storageservice restart to detect newly created partitions:
 
 Read syslog
 
-  $ R "grep storage /var/log/messages && ubus-cli 'protected=1; StorageService.?'"
+  $ R "grep storage /var/log/messages |grep already |wc -l"
+  6
+
+Read mount
+
+  $ R "mount |grep sda"
+  /dev/sda1 on /mnt/sda1 type ext3 (rw,nosuid,nodev,noexec,relatime)
+  /dev/sda2 on /mnt/sda2 type ext4 (rw,nosuid,nodev,noexec,relatime)
+  /dev/sda3 on /mnt/sda3 type hfsplus (rw,nosuid,nodev,noexec,noatime,umask=0,uid=10,gid=10,nls=utf8)
+  /dev/sda5 on /mnt/sda5 type ntfs3 (rw,nosuid,nodev,noexec,relatime,uid=10,gid=10,dmask=0000,fmask=0000,iocharset=iso8859-1)
+  /dev/sda6 on /mnt/sda6 type vfat (rw,nosuid,nodev,noexec,relatime,uid=10,gid=10,fmask=0000,dmask=0000,allow_utime=0022,codepage=437,iocharset=iso8859-1,shortname=mixed,errors=remount-ro)
+  /dev/sda7 on /mnt/sda7 type exfat (rw,nosuid,nodev,noexec,relatime,uid=10,gid=10,fmask=0000,dmask=0000,allow_utime=0022,iocharset=utf8,errors=remount-ro)
+
 
 Check filesystem are correctly mounted:
 
