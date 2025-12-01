@@ -2505,7 +2505,7 @@ SECTION "CDRouter USP Add-On" {
 
         # testvar uspControllerUseNonPayloadProtection no
         # testvar uspControllerUseSessionContext   no
-          testvar uspControllerMTP                 stomp
+          testvar uspControllerMTP                 mqtt
           testvar uspControllerMTPEncryption       yes
         # testvar uspControllerUSPEncryption       no
           testvar uspControllerDomain              controller.cdroutertest.com

@@ -123,6 +123,32 @@ CDRouter-USP-prpl MXL25641-HDK-6 eMMC:
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
       .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
 
+CDRouter-USP-prpl mqtt MXL25641-HDK-6 eMMC:
+  <<: *mxl25641_cdrouter
+  allow_failure: true
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: never
+    - when: manual
+  variables:
+    CDROUTER_TEST_CONFIG: generic-usp-mqtt
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
+      .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
+
+CDRouter-USP-prpl websockets MXL25641-HDK-6 eMMC:
+  <<: *mxl25641_cdrouter
+  allow_failure: true
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: never
+    - when: manual
+  variables:
+    CDROUTER_TEST_CONFIG: generic-usp-ws
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
+      .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
+
 prplWare-Smoke-Test-Suite MXL25641-HDK-6 eMMC:
   <<: *mxl25641_cdrouter_ipv6
   timeout: 45 minutes
