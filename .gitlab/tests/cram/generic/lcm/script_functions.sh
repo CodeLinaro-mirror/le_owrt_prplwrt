@@ -71,6 +71,26 @@ get_container_by_name() {
         echo "${hw_ctr_name}"
 }
 
+get_arch_name() {
+	board_name=$(cut -d',' -f2 </tmp/sysinfo/board_name)
+	case "${board_name}" in
+	"haze" | \
+		"freedom")
+		echo arm32v7
+		;;
+	"lgm" | \
+		"qemu-standard-pc-"*)
+		echo x86-64
+		;;
+	"turris-omnia")
+		echo cortexa9
+		;;
+	*)
+		echo arm32v7
+		;;
+	esac
+}
+
 ## Return architecture name for the board
 get_board_arch() {
 	board_name=$(cut -d',' -f2 </tmp/sysinfo/board_name)
@@ -245,6 +265,9 @@ install_update_ctr_with_params() {
 				ctr_name=$(get_container_by_name ${value})
                                 ctr_version=$(get_container_version_by_name ${value})
 				str_params=$(concat_comma_string "${str_params}" "URL = \"${DEFAULT_URL}/${ctr_name}:${ctr_version}\"")
+			elif [ "${key}" = "url_arch" ]; then
+				ctr_arch=$(get_arch_name)
+				str_params=$(concat_comma_string "${str_params}" "URL = \"${DEFAULT_URL}/lcm_tests/${ctr_arch}_${value}\"")
 			elif [ "${key}" = "version" ]; then
 				ctr_name=$(get_container_name)
 				str_params=$(concat_comma_string "${str_params}" "URL = \"${DEFAULT_URL}/prplos/${ctr_name}:${value}\"")
@@ -285,6 +308,8 @@ install_update_ctr_with_params() {
 			elif [ "${key}" = "userroles" ]; then
 				value=$(value_or_default "${value_missing}" "" "${value}")
 				str_params=$(concat_comma_string "${str_params}" "RequiredUserRoles = \"${value}\"")
+			elif [ "${key}" = "moduleversion" ]; then
+				str_params=$(concat_comma_string "${str_params}" "ModuleVersion = \"${value}\"")
 			elif [ "${key}" = "debugargs" ]; then
 				debugargs=$(value_or_default "${value_missing}" "1" "${value}")
 			else
@@ -1042,4 +1067,47 @@ get_vendorlogfile_content() {
 		file_wo_prefix="${file:7}"
 		cat ${file_wo_prefix} | grep "test-C"
 	fi
+}
+
+add_containers_descriptors() {
+	DEFAULT_PATH="/lcm/rlyeh/images/prpl-foundation/prplos/prplos"
+	ctr_name1="3_16_alpine_copy"
+	ctr_arch=$(get_arch_name)
+	DISK_LOCATION1="${DEFAULT_PATH}/lcm_tests/${ctr_arch}_${ctr_name1}"
+
+	ctr_name2=$(get_container_name)
+	DISK_LOCATION2="${DEFAULT_PATH}/prplos/${ctr_name2}"
+
+	echo "
+        {
+          \"Bundle\": \"arm32v7/alpine\",
+          \"Autostart\": 1,
+          \"DiskLocation\": \"${DISK_LOCATION1}\",
+          \"LinkedUUID\": \"00000000-0000-5000-b000-000000000001\",
+          \"BundleVersion\": \"latest\",
+          \"ModuleVersion\": \"3.16.1\",
+          \"Description\": \"\",
+          \"ContainerId\": \"917362a3-86e8-5332-bcfd-a4223f0e65e6\",
+          \"Sandbox\": \"generic\",
+          \"Privileged\": 1,
+          \"EnvVariable\": [
+            {\"Key\": \"EnvVar1\", \"Value\": \"MOD_VarValue1\"},
+            {\"Key\": \"EnvVar2\", \"Value\": \"MOD_VarValue2\"}
+          ]
+        }" > /etc/amx/cthulhu/onboard/917362a3-86e8-5332-bcfd-a4223f0e65e6.json
+
+        echo "
+        {
+          \"Bundle\": \"prpl-foundation/prplos/prplos/prplos/lcm-test-ipq807x-generic\",
+          \"Autostart\": 1,
+          \"DiskLocation\": \"${DISK_LOCATION2}\",
+          \"LinkedUUID\": \"00000000-0000-5000-b000-000000000006\",
+          \"BundleVersion\": \"prplos-v2\",
+          \"ModuleVersion\": \"2.0.0\",
+          \"Description\": \"\",
+          \"ContainerId\": \"70a9bf70-9df9-5221-b51b-184c74d022e3\",
+          \"AllocatedCPUPercent\": 50,
+          \"Sandbox\": \"generic\",
+          \"Privileged\": 1
+        }" > /etc/amx/cthulhu/onboard/70a9bf70-9df9-5221-b51b-184c74d022e3.json
 }
