@@ -1171,6 +1171,37 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.Hardware.X_PRPLWARE-COM_FlashDevice.{i}.Name                                                  proto::tr181-flashmonitor
   Device.Hardware.X_PRPLWARE-COM_FlashDevice.{i}.Path                                                  proto::tr181-flashmonitor
   Device.Hardware.X_PRPLWARE-COM_FlashDevice.{i}.Version                                               proto::tr181-flashmonitor
+  Device.HomePlug.
+  Device.HomePlug.Interface.{i}.                                                                       proto::tr181-homeplug
+  Device.HomePlug.Interface.{i}.Alias                                                                  proto::tr181-homeplug
+  Device.HomePlug.Interface.{i}.AssociateDeviceNumberOfEntries                                         proto::tr181-homeplug
+  Device.HomePlug.Interface.{i}.AssociatedDevice.{i}.                                                  proto::tr181-homeplug
+  Device.HomePlug.Interface.{i}.AssociatedDevice.{i}.Active                                            proto::tr181-homeplug
+  Device.HomePlug.Interface.{i}.AssociatedDevice.{i}.AvgAttenuation                                    proto::tr181-homeplug
+  Device.HomePlug.Interface.{i}.AssociatedDevice.{i}.EndStationMACs                                    proto::tr181-homeplug
+  Device.HomePlug.Interface.{i}.AssociatedDevice.{i}.FirmwareVersion                                   proto::tr181-homeplug
+  Device.HomePlug.Interface.{i}.AssociatedDevice.{i}.MACAddress                                        proto::tr181-homeplug
+  Device.HomePlug.Interface.{i}.AssociatedDevice.{i}.Manufacturer                                      proto::tr181-homeplug
+  Device.HomePlug.Interface.{i}.AssociatedDevice.{i}.RxPhyRate                                         proto::tr181-homeplug
+  Device.HomePlug.Interface.{i}.AssociatedDevice.{i}.SNRPerTone                                        proto::tr181-homeplug
+  Device.HomePlug.Interface.{i}.AssociatedDevice.{i}.TxPhyRate                                         proto::tr181-homeplug
+  Device.HomePlug.Interface.{i}.Enable                                                                 proto::tr181-homeplug
+  Device.HomePlug.Interface.{i}.FirmwareVersion                                                        proto::tr181-homeplug
+  Device.HomePlug.Interface.{i}.ForceCCo                                                               proto::tr181-homeplug
+  Device.HomePlug.Interface.{i}.Interface                                                              proto::tr181-homeplug
+  Device.HomePlug.Interface.{i}.LastChange                                                             proto::tr181-homeplug
+  Device.HomePlug.Interface.{i}.LogicalNetwork                                                         proto::tr181-homeplug
+  Device.HomePlug.Interface.{i}.LowerLayers                                                            proto::tr181-homeplug
+  Device.HomePlug.Interface.{i}.MACAddress                                                             proto::tr181-homeplug
+  Device.HomePlug.Interface.{i}.MaxBitRate                                                             proto::tr181-homeplug
+  Device.HomePlug.Interface.{i}.Name                                                                   proto::tr181-homeplug
+  Device.HomePlug.Interface.{i}.NetworkPassword                                                        proto::tr181-homeplug
+  Device.HomePlug.Interface.{i}.OtherNetworksPresent                                                   proto::tr181-homeplug
+  Device.HomePlug.Interface.{i}.Status                                                                 proto::tr181-homeplug
+  Device.HomePlug.Interface.{i}.Type                                                                   proto::tr181-homeplug
+  Device.HomePlug.Interface.{i}.Upstream                                                               proto::tr181-homeplug
+  Device.HomePlug.Interface.{i}.Version                                                                proto::tr181-homeplug
+  Device.HomePlug.InterfaceNumberOfEntries                                                             proto::tr181-homeplug
   Device.Hosts.                                                                                        proto::hosts-manager
   Device.Hosts.AccessControl.{i}.                                                                      proto::hosts-manager
   Device.Hosts.AccessControl.{i}.AccessPolicy                                                          proto::hosts-manager
@@ -6089,6 +6120,37 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.Hardware.X_PRPLWARE-COM_FlashDevice.{i}.Name                                                  proto::tr181-flashmonitor
   Device.Hardware.X_PRPLWARE-COM_FlashDevice.{i}.Path                                                  proto::tr181-flashmonitor
   Device.Hardware.X_PRPLWARE-COM_FlashDevice.{i}.Version                                               proto::tr181-flashmonitor
+  Device.HomePlug.
+  Device.HomePlug.Interface.{i}.                                                                       proto::tr181-homeplug
+  Device.HomePlug.Interface.{i}.Alias                                                                  proto::tr181-homeplug
+  Device.HomePlug.Interface.{i}.AssociateDeviceNumberOfEntries                                         proto::tr181-homeplug
+  Device.HomePlug.Interface.{i}.AssociatedDevice.{i}.                                                  proto::tr181-homeplug
+  Device.HomePlug.Interface.{i}.AssociatedDevice.{i}.Active                                            proto::tr181-homeplug
+  Device.HomePlug.Interface.{i}.AssociatedDevice.{i}.AvgAttenuation                                    proto::tr181-homeplug
+  Device.HomePlug.Interface.{i}.AssociatedDevice.{i}.EndStationMACs                                    proto::tr181-homeplug
+  Device.HomePlug.Interface.{i}.AssociatedDevice.{i}.FirmwareVersion                                   proto::tr181-homeplug
+  Device.HomePlug.Interface.{i}.AssociatedDevice.{i}.MACAddress                                        proto::tr181-homeplug
+  Device.HomePlug.Interface.{i}.AssociatedDevice.{i}.Manufacturer                                      proto::tr181-homeplug
+  Device.HomePlug.Interface.{i}.AssociatedDevice.{i}.RxPhyRate                                         proto::tr181-homeplug
+  Device.HomePlug.Interface.{i}.AssociatedDevice.{i}.SNRPerTone                                        proto::tr181-homeplug
+  Device.HomePlug.Interface.{i}.AssociatedDevice.{i}.TxPhyRate                                         proto::tr181-homeplug
+  Device.HomePlug.Interface.{i}.Enable                                                                 proto::tr181-homeplug
+  Device.HomePlug.Interface.{i}.FirmwareVersion                                                        proto::tr181-homeplug
+  Device.HomePlug.Interface.{i}.ForceCCo                                                               proto::tr181-homeplug
+  Device.HomePlug.Interface.{i}.Interface                                                              proto::tr181-homeplug
+  Device.HomePlug.Interface.{i}.LastChange                                                             proto::tr181-homeplug
+  Device.HomePlug.Interface.{i}.LogicalNetwork                                                         proto::tr181-homeplug
+  Device.HomePlug.Interface.{i}.LowerLayers                                                            proto::tr181-homeplug
+  Device.HomePlug.Interface.{i}.MACAddress                                                             proto::tr181-homeplug
+  Device.HomePlug.Interface.{i}.MaxBitRate                                                             proto::tr181-homeplug
+  Device.HomePlug.Interface.{i}.Name                                                                   proto::tr181-homeplug
+  Device.HomePlug.Interface.{i}.NetworkPassword                                                        proto::tr181-homeplug
+  Device.HomePlug.Interface.{i}.OtherNetworksPresent                                                   proto::tr181-homeplug
+  Device.HomePlug.Interface.{i}.Status                                                                 proto::tr181-homeplug
+  Device.HomePlug.Interface.{i}.Type                                                                   proto::tr181-homeplug
+  Device.HomePlug.Interface.{i}.Upstream                                                               proto::tr181-homeplug
+  Device.HomePlug.Interface.{i}.Version                                                                proto::tr181-homeplug
+  Device.HomePlug.InterfaceNumberOfEntries                                                             proto::tr181-homeplug
   Device.Hosts.                                                                                        proto::hosts-manager
   Device.Hosts.AccessControl.{i}.                                                                      proto::hosts-manager
   Device.Hosts.AccessControl.{i}.AccessPolicy                                                          proto::hosts-manager
