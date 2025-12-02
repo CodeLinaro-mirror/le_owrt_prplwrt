@@ -3,7 +3,7 @@ Setup the test configuration:
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
   $ alias C="${CRAM_REMOTE_COPY:-}"
   $ S="/tmp/storageservice.sh"
-  $ C ${TESTDIR}/005-storageservice/storageservice.sh root@${TARGET_LAN_IP}:/tmp/storageservice.sh
+  $ C ${TESTDIR}/125-storageservice/storageservice.sh root@${TARGET_LAN_IP}:/tmp/storageservice.sh
 
 Don't run test on Turris Omnia, OSPv1 and Haze boards as they don't have USB flash disk available:
 
@@ -37,6 +37,10 @@ Force tr140-storageservice restart to detect newly created partitions:
 
   $ R "${S} restart_service"
 
+Read DM
+
+  $ R "ba-cli StorageService.1.LogicalVolume.*.?"
+
 Read syslog
 
   $ R "grep storage /var/log/messages |grep already |wc -l"
@@ -51,7 +55,6 @@ Read mount
   /dev/sda5 on /mnt/sda5 type ntfs3 (rw,nosuid,nodev,noexec,relatime,uid=10,gid=10,dmask=0000,fmask=0000,iocharset=iso8859-1)
   /dev/sda6 on /mnt/sda6 type vfat (rw,nosuid,nodev,noexec,relatime,uid=10,gid=10,fmask=0000,dmask=0000,allow_utime=0022,codepage=437,iocharset=iso8859-1,shortname=mixed,errors=remount-ro)
   /dev/sda7 on /mnt/sda7 type exfat (rw,nosuid,nodev,noexec,relatime,uid=10,gid=10,fmask=0000,dmask=0000,allow_utime=0022,iocharset=utf8,errors=remount-ro)
-
 
 Check filesystem are correctly mounted:
 
