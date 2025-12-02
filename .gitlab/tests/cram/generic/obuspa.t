@@ -3139,7 +3139,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.Time.X_PRPLWARE-COM_SetTime() input:Time
   Device.Time.X_PRPLWARE-COM_SetTime() input:TimeZone
   Device.Time.update_status()                                                                          proto::time-manager
-  Device.UPnP.                                                                                         proto::tr181-upnp
+  Device.UPnP.
   Device.UPnP.Device.                                                                                  proto::tr181-upnp
   Device.UPnP.Device.Capabilities.                                                                     proto::tr181-upnp
   Device.UPnP.Device.Capabilities.UPnPArchitecture                                                     proto::tr181-upnp
@@ -3156,6 +3156,37 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.UPnP.Device.Capabilities.UPnPWLANAccessPoint                                                  proto::tr181-upnp
   Device.UPnP.Device.Enable                                                                            proto::tr181-upnp
   Device.UPnP.Device.UPnPIGD                                                                           proto::tr181-upnp
+  Device.UPnP.Discovery.                                                                               proto::tr181-upnpdiscovery
+  Device.UPnP.Discovery.Device.{i}.                                                                    proto::tr181-upnpdiscovery
+  Device.UPnP.Discovery.Device.{i}.Host                                                                proto::tr181-upnpdiscovery
+  Device.UPnP.Discovery.Device.{i}.LastUpdate                                                          proto::tr181-upnpdiscovery
+  Device.UPnP.Discovery.Device.{i}.LeaseTime                                                           proto::tr181-upnpdiscovery
+  Device.UPnP.Discovery.Device.{i}.Location                                                            proto::tr181-upnpdiscovery
+  Device.UPnP.Discovery.Device.{i}.Server                                                              proto::tr181-upnpdiscovery
+  Device.UPnP.Discovery.Device.{i}.Status                                                              proto::tr181-upnpdiscovery
+  Device.UPnP.Discovery.Device.{i}.USN                                                                 proto::tr181-upnpdiscovery
+  Device.UPnP.Discovery.Device.{i}.UUID                                                                proto::tr181-upnpdiscovery
+  Device.UPnP.Discovery.DeviceNumberOfEntries                                                          proto::tr181-upnpdiscovery
+  Device.UPnP.Discovery.RootDevice.{i}.                                                                proto::tr181-upnpdiscovery
+  Device.UPnP.Discovery.RootDevice.{i}.Host                                                            proto::tr181-upnpdiscovery
+  Device.UPnP.Discovery.RootDevice.{i}.LastUpdate                                                      proto::tr181-upnpdiscovery
+  Device.UPnP.Discovery.RootDevice.{i}.LeaseTime                                                       proto::tr181-upnpdiscovery
+  Device.UPnP.Discovery.RootDevice.{i}.Location                                                        proto::tr181-upnpdiscovery
+  Device.UPnP.Discovery.RootDevice.{i}.Server                                                          proto::tr181-upnpdiscovery
+  Device.UPnP.Discovery.RootDevice.{i}.Status                                                          proto::tr181-upnpdiscovery
+  Device.UPnP.Discovery.RootDevice.{i}.USN                                                             proto::tr181-upnpdiscovery
+  Device.UPnP.Discovery.RootDevice.{i}.UUID                                                            proto::tr181-upnpdiscovery
+  Device.UPnP.Discovery.RootDeviceNumberOfEntries                                                      proto::tr181-upnpdiscovery
+  Device.UPnP.Discovery.Service.{i}.                                                                   proto::tr181-upnpdiscovery
+  Device.UPnP.Discovery.Service.{i}.Host                                                               proto::tr181-upnpdiscovery
+  Device.UPnP.Discovery.Service.{i}.LastUpdate                                                         proto::tr181-upnpdiscovery
+  Device.UPnP.Discovery.Service.{i}.LeaseTime                                                          proto::tr181-upnpdiscovery
+  Device.UPnP.Discovery.Service.{i}.Location                                                           proto::tr181-upnpdiscovery
+  Device.UPnP.Discovery.Service.{i}.ParentDevice                                                       proto::tr181-upnpdiscovery
+  Device.UPnP.Discovery.Service.{i}.Server                                                             proto::tr181-upnpdiscovery
+  Device.UPnP.Discovery.Service.{i}.Status                                                             proto::tr181-upnpdiscovery
+  Device.UPnP.Discovery.Service.{i}.USN                                                                proto::tr181-upnpdiscovery
+  Device.UPnP.Discovery.ServiceNumberOfEntries                                                         proto::tr181-upnpdiscovery
   Device.UPnP.X_PRPLWARE-COM_IGDConfig.                                                                proto::tr181-upnp
   Device.UPnP.X_PRPLWARE-COM_IGDConfig.AllowReservedAddr                                               proto::tr181-upnp
   Device.UPnP.X_PRPLWARE-COM_IGDConfig.AutoCleanupEnable                                               proto::tr181-upnp
@@ -8090,7 +8121,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.Time.X_PRPLWARE-COM_SetTime() input:Time
   Device.Time.X_PRPLWARE-COM_SetTime() input:TimeZone
   Device.Time.update_status()                                                                          proto::time-manager
-  Device.UPnP.                                                                                         proto::tr181-upnp
+  Device.UPnP.
   Device.UPnP.Device.                                                                                  proto::tr181-upnp
   Device.UPnP.Device.Capabilities.                                                                     proto::tr181-upnp
   Device.UPnP.Device.Capabilities.UPnPArchitecture                                                     proto::tr181-upnp
@@ -8107,6 +8138,37 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.UPnP.Device.Capabilities.UPnPWLANAccessPoint                                                  proto::tr181-upnp
   Device.UPnP.Device.Enable                                                                            proto::tr181-upnp
   Device.UPnP.Device.UPnPIGD                                                                           proto::tr181-upnp
+  Device.UPnP.Discovery.                                                                               proto::tr181-upnpdiscovery
+  Device.UPnP.Discovery.Device.{i}.                                                                    proto::tr181-upnpdiscovery
+  Device.UPnP.Discovery.Device.{i}.Host                                                                proto::tr181-upnpdiscovery
+  Device.UPnP.Discovery.Device.{i}.LastUpdate                                                          proto::tr181-upnpdiscovery
+  Device.UPnP.Discovery.Device.{i}.LeaseTime                                                           proto::tr181-upnpdiscovery
+  Device.UPnP.Discovery.Device.{i}.Location                                                            proto::tr181-upnpdiscovery
+  Device.UPnP.Discovery.Device.{i}.Server                                                              proto::tr181-upnpdiscovery
+  Device.UPnP.Discovery.Device.{i}.Status                                                              proto::tr181-upnpdiscovery
+  Device.UPnP.Discovery.Device.{i}.USN                                                                 proto::tr181-upnpdiscovery
+  Device.UPnP.Discovery.Device.{i}.UUID                                                                proto::tr181-upnpdiscovery
+  Device.UPnP.Discovery.DeviceNumberOfEntries                                                          proto::tr181-upnpdiscovery
+  Device.UPnP.Discovery.RootDevice.{i}.                                                                proto::tr181-upnpdiscovery
+  Device.UPnP.Discovery.RootDevice.{i}.Host                                                            proto::tr181-upnpdiscovery
+  Device.UPnP.Discovery.RootDevice.{i}.LastUpdate                                                      proto::tr181-upnpdiscovery
+  Device.UPnP.Discovery.RootDevice.{i}.LeaseTime                                                       proto::tr181-upnpdiscovery
+  Device.UPnP.Discovery.RootDevice.{i}.Location                                                        proto::tr181-upnpdiscovery
+  Device.UPnP.Discovery.RootDevice.{i}.Server                                                          proto::tr181-upnpdiscovery
+  Device.UPnP.Discovery.RootDevice.{i}.Status                                                          proto::tr181-upnpdiscovery
+  Device.UPnP.Discovery.RootDevice.{i}.USN                                                             proto::tr181-upnpdiscovery
+  Device.UPnP.Discovery.RootDevice.{i}.UUID                                                            proto::tr181-upnpdiscovery
+  Device.UPnP.Discovery.RootDeviceNumberOfEntries                                                      proto::tr181-upnpdiscovery
+  Device.UPnP.Discovery.Service.{i}.                                                                   proto::tr181-upnpdiscovery
+  Device.UPnP.Discovery.Service.{i}.Host                                                               proto::tr181-upnpdiscovery
+  Device.UPnP.Discovery.Service.{i}.LastUpdate                                                         proto::tr181-upnpdiscovery
+  Device.UPnP.Discovery.Service.{i}.LeaseTime                                                          proto::tr181-upnpdiscovery
+  Device.UPnP.Discovery.Service.{i}.Location                                                           proto::tr181-upnpdiscovery
+  Device.UPnP.Discovery.Service.{i}.ParentDevice                                                       proto::tr181-upnpdiscovery
+  Device.UPnP.Discovery.Service.{i}.Server                                                             proto::tr181-upnpdiscovery
+  Device.UPnP.Discovery.Service.{i}.Status                                                             proto::tr181-upnpdiscovery
+  Device.UPnP.Discovery.Service.{i}.USN                                                                proto::tr181-upnpdiscovery
+  Device.UPnP.Discovery.ServiceNumberOfEntries                                                         proto::tr181-upnpdiscovery
   Device.UPnP.X_PRPLWARE-COM_IGDConfig.                                                                proto::tr181-upnp
   Device.UPnP.X_PRPLWARE-COM_IGDConfig.AllowReservedAddr                                               proto::tr181-upnp
   Device.UPnP.X_PRPLWARE-COM_IGDConfig.AutoCleanupEnable                                               proto::tr181-upnp
