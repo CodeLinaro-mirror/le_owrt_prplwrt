@@ -2926,7 +2926,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.Services.StorageService.{i}.UserGroup.{i}.Alias                                               proto::tr140-storageservice
   Device.Services.StorageService.{i}.UserGroup.{i}.Enable                                              proto::tr140-storageservice
   Device.Services.StorageService.{i}.UserGroup.{i}.GroupName                                           proto::tr140-storageservice
-  Device.Services.StorageService.{i}.UserGroupNumberOfEntries                                          proto::tr140-storageservice 
+  Device.Services.StorageService.{i}.UserGroupNumberOfEntries                                          proto::tr140-storageservice
   Device.SoftwareModules.                                                                              proto::timingila
   Device.SoftwareModules.AddExecEnv()                                                                  proto::timingila
   Device.SoftwareModules.AddExecEnv() input:AllocatedCPUPercent

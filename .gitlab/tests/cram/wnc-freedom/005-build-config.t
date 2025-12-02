@@ -23,6 +23,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_BUILD_LOG=y
   CONFIG_BUSYBOX_CONFIG_FLOAT_DURATION=y
   CONFIG_BUSYBOX_CONFIG_I2CSET=y
+  CONFIG_BUSYBOX_CONFIG_MKFS_VFAT=y
   # CONFIG_BUSYBOX_CONFIG_NTPD is not set
   CONFIG_BUSYBOX_CONFIG_PIE=y
   CONFIG_BUSYBOX_DEFAULT_PIE=y
@@ -80,6 +81,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_ODHCP6C_ENABLE_UBUS=y
   CONFIG_PACKAGE_ATH_DEBUG=y
   CONFIG_PACKAGE_MAC80211_SFE_SUPPORT=y
+  CONFIG_PACKAGE_NTFS-3G_HAS_PROBE=y
   CONFIG_PACKAGE_acl=y
   CONFIG_PACKAGE_acl-manager=y
   CONFIG_PACKAGE_amx-cli=y
@@ -115,6 +117,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_ddns-scripts-route53=y
   CONFIG_PACKAGE_ddns-scripts-services=y
   CONFIG_PACKAGE_debug-information=y
+  CONFIG_PACKAGE_debugfs=y
   CONFIG_PACKAGE_deviceinfo-manager=y
   CONFIG_PACKAGE_dhcpv4-manager=y
   CONFIG_PACKAGE_dhcpv6s-manager=y
@@ -126,6 +129,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_efr32-boot-config=y
   CONFIG_PACKAGE_ethernet-manager=y
   CONFIG_PACKAGE_ethtool-full=y
+  CONFIG_PACKAGE_exfat-mkfs=y
   CONFIG_PACKAGE_fcgi=y
   # CONFIG_PACKAGE_firewall4 is not set
   CONFIG_PACKAGE_flock=y
@@ -286,12 +290,15 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_libevdev=y
   CONFIG_PACKAGE_libevent2=y
   CONFIG_PACKAGE_libexpat=y
+  CONFIG_PACKAGE_libfdisk=y
   CONFIG_PACKAGE_libffi=y
   CONFIG_PACKAGE_libfiletransfer=y
   CONFIG_PACKAGE_libfwinterface=y
   CONFIG_PACKAGE_libfwrules=y
+  CONFIG_PACKAGE_libgcrypt=y
   CONFIG_PACKAGE_libgmap-client=y
   CONFIG_PACKAGE_libgmap-ext=y
+  CONFIG_PACKAGE_libgpg-error=y
   CONFIG_PACKAGE_libimtp=y
   CONFIG_PACKAGE_libip4tc=y
   CONFIG_PACKAGE_libip6tc=y
@@ -408,6 +415,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_mbim-utils=y
   CONFIG_PACKAGE_mcastd-noforward=y
   CONFIG_PACKAGE_miniupnpd-prpl=y
+  CONFIG_PACKAGE_mkhfs=y
   CONFIG_PACKAGE_mod-amxb-ubus=y
   CONFIG_PACKAGE_mod-amxb-usp=y
   CONFIG_PACKAGE_mod-autosensing=y
@@ -465,6 +473,8 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_netmodel-vlan=y
   CONFIG_PACKAGE_netmodel-xpon=y
   # CONFIG_PACKAGE_nftables-json is not set
+  CONFIG_PACKAGE_ntfs-3g=y
+  CONFIG_PACKAGE_ntfs-3g-utils=y
   CONFIG_PACKAGE_obudpst=y
   CONFIG_PACKAGE_obuspa=y
   CONFIG_PACKAGE_odl-generator=y
@@ -499,6 +509,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_rlyeh=y
   CONFIG_PACKAGE_routing-manager=y
   CONFIG_PACKAGE_rpcd=y
+  CONFIG_PACKAGE_sfdisk=y
   CONFIG_PACKAGE_sgdisk=y
   CONFIG_PACKAGE_shadow=y
   CONFIG_PACKAGE_shadow-chage=y
