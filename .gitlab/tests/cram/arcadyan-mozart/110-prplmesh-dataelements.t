@@ -176,22 +176,29 @@ Check that prplmesh is operational:
 
   $ R logger -t cram "Check that prplmesh is operational"
 
-  $ R "/opt/prplmesh/scripts/prplmesh_utils.sh status" | sed 's/^[0-9]\+ //' | LC_ALL=C sort
-  \x1b[0m (esc)
-  \x1b[0m\x1b[1;32mOK Main radio agent operational (esc)
-  \x1b[1;32moperational test success! (esc)
-  /opt/prplmesh/scripts/prplmesh_utils.sh: status
-  OK wlan0 radio agent operational
-  OK wlan1 radio agent operational
-  OK wlan2 radio agent operational
-  beerocks_agent
-  beerocks_contro
-  beerocks_fronth
-  beerocks_fronth
-  beerocks_fronth
-  beerocks_vendor
-  executing operational test using bml
-  ieee1905_transp
+  $ R "/opt/prplmesh/bin/prplmesh_cli -c status -o pretty" | sed 's/\t/        /g'
+  Mode: Agent+Controller
+  Controller:
+          bridge MAC: [0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
+          1 agent(s) connected
+  Agent:
+          MAC address: [0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
+          management mode: Multi-AP-Controller-and-Agent
+          fronthaul ifaces: wlan0,wlan1,wlan2
+          current state: OPERATIONAL
+          best state: OPERATIONAL
+          Fronthaul:
+                  interface: wlan0
+                  current state: OPERATIONAL
+                  best state: OPERATIONAL
+          Fronthaul:
+                  interface: wlan1
+                  current state: OPERATIONAL
+                  best state: OPERATIONAL
+          Fronthaul:
+                  interface: wlan2
+                  current state: OPERATIONAL
+                  best state: OPERATIONAL
 
 Check that controller received correct info about wifi subsystem:
 
