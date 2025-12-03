@@ -4821,6 +4821,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.X_PRPLWARE-COM_WANManager.WAN.{i}.Intf.{i}.IPv4Address.{i}.DefaultRouter                      proto::wan-manager
   Device.X_PRPLWARE-COM_WANManager.WAN.{i}.Intf.{i}.IPv4Address.{i}.IPv4Address                        proto::wan-manager
   Device.X_PRPLWARE-COM_WANManager.WAN.{i}.Intf.{i}.IPv4Address.{i}.SubnetMask                         proto::wan-manager
+  Device.X_PRPLWARE-COM_WANManager.WAN.{i}.Intf.{i}.IPv4AddressNumberOfEntries                         proto::wan-manager
   Device.X_PRPLWARE-COM_WANManager.WAN.{i}.Intf.{i}.IPv4Mode                                           proto::wan-manager
   Device.X_PRPLWARE-COM_WANManager.WAN.{i}.Intf.{i}.IPv4Reference                                      proto::wan-manager
   Device.X_PRPLWARE-COM_WANManager.WAN.{i}.Intf.{i}.IPv6Address.{i}.                                   proto::wan-manager
@@ -4830,6 +4831,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.X_PRPLWARE-COM_WANManager.WAN.{i}.Intf.{i}.IPv6Address.{i}.IPv6Address                        proto::wan-manager
   Device.X_PRPLWARE-COM_WANManager.WAN.{i}.Intf.{i}.IPv6Address.{i}.PrefixLength                       proto::wan-manager
   Device.X_PRPLWARE-COM_WANManager.WAN.{i}.Intf.{i}.IPv6AddressDelegate                                proto::wan-manager
+  Device.X_PRPLWARE-COM_WANManager.WAN.{i}.Intf.{i}.IPv6AddressNumberOfEntries                         proto::wan-manager
   Device.X_PRPLWARE-COM_WANManager.WAN.{i}.Intf.{i}.IPv6Mode                                           proto::wan-manager
   Device.X_PRPLWARE-COM_WANManager.WAN.{i}.Intf.{i}.IPv6Reference                                      proto::wan-manager
   Device.X_PRPLWARE-COM_WANManager.WAN.{i}.Intf.{i}.Name                                               proto::wan-manager
@@ -4842,6 +4844,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.X_PRPLWARE-COM_WANManager.WAN.{i}.Intf.{i}.UserName                                           proto::wan-manager
   Device.X_PRPLWARE-COM_WANManager.WAN.{i}.Intf.{i}.VlanID                                             proto::wan-manager
   Device.X_PRPLWARE-COM_WANManager.WAN.{i}.Intf.{i}.VlanPriority                                       proto::wan-manager
+  Device.X_PRPLWARE-COM_WANManager.WAN.{i}.IntfNumberOfEntries                                         proto::wan-manager
   Device.X_PRPLWARE-COM_WANManager.WAN.{i}.Origin                                                      proto::wan-manager
   Device.X_PRPLWARE-COM_WANManager.WAN.{i}.PhysicalReference                                           proto::wan-manager
   Device.X_PRPLWARE-COM_WANManager.WAN.{i}.PhysicalType                                                proto::wan-manager
@@ -4855,6 +4858,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.X_PRPLWARE-COM_WANManager.WANModeEnable()                                                     proto::wan-manager
   Device.X_PRPLWARE-COM_WANManager.WANModeEnable() input:Autosensing
   Device.X_PRPLWARE-COM_WANManager.WANModeEnable() input:WANMode
+  Device.X_PRPLWARE-COM_WANManager.WANNumberOfEntries                                                  proto::wan-manager
   Device.X_PRPLWARE-COM_WANManager.getWANMode()                                                        proto::wan-manager
   Device.X_PRPLWARE-COM_WANManager.setIPv4Mode()                                                       proto::wan-manager
   Device.X_PRPLWARE-COM_WANManager.setIPv4Mode() input:IPv4Mode
@@ -9711,6 +9715,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.X_PRPLWARE-COM_WANManager.WAN.{i}.Intf.{i}.IPv4Address.{i}.DefaultRouter                      proto::wan-manager
   Device.X_PRPLWARE-COM_WANManager.WAN.{i}.Intf.{i}.IPv4Address.{i}.IPv4Address                        proto::wan-manager
   Device.X_PRPLWARE-COM_WANManager.WAN.{i}.Intf.{i}.IPv4Address.{i}.SubnetMask                         proto::wan-manager
+  Device.X_PRPLWARE-COM_WANManager.WAN.{i}.Intf.{i}.IPv4AddressNumberOfEntries                         proto::wan-manager
   Device.X_PRPLWARE-COM_WANManager.WAN.{i}.Intf.{i}.IPv4Mode                                           proto::wan-manager
   Device.X_PRPLWARE-COM_WANManager.WAN.{i}.Intf.{i}.IPv4Reference                                      proto::wan-manager
   Device.X_PRPLWARE-COM_WANManager.WAN.{i}.Intf.{i}.IPv6Address.{i}.                                   proto::wan-manager
@@ -9720,6 +9725,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.X_PRPLWARE-COM_WANManager.WAN.{i}.Intf.{i}.IPv6Address.{i}.IPv6Address                        proto::wan-manager
   Device.X_PRPLWARE-COM_WANManager.WAN.{i}.Intf.{i}.IPv6Address.{i}.PrefixLength                       proto::wan-manager
   Device.X_PRPLWARE-COM_WANManager.WAN.{i}.Intf.{i}.IPv6AddressDelegate                                proto::wan-manager
+  Device.X_PRPLWARE-COM_WANManager.WAN.{i}.Intf.{i}.IPv6AddressNumberOfEntries                         proto::wan-manager
   Device.X_PRPLWARE-COM_WANManager.WAN.{i}.Intf.{i}.IPv6Mode                                           proto::wan-manager
   Device.X_PRPLWARE-COM_WANManager.WAN.{i}.Intf.{i}.IPv6Reference                                      proto::wan-manager
   Device.X_PRPLWARE-COM_WANManager.WAN.{i}.Intf.{i}.Name                                               proto::wan-manager
@@ -9732,6 +9738,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.X_PRPLWARE-COM_WANManager.WAN.{i}.Intf.{i}.UserName                                           proto::wan-manager
   Device.X_PRPLWARE-COM_WANManager.WAN.{i}.Intf.{i}.VlanID                                             proto::wan-manager
   Device.X_PRPLWARE-COM_WANManager.WAN.{i}.Intf.{i}.VlanPriority                                       proto::wan-manager
+  Device.X_PRPLWARE-COM_WANManager.WAN.{i}.IntfNumberOfEntries                                         proto::wan-manager
   Device.X_PRPLWARE-COM_WANManager.WAN.{i}.Origin                                                      proto::wan-manager
   Device.X_PRPLWARE-COM_WANManager.WAN.{i}.PhysicalReference                                           proto::wan-manager
   Device.X_PRPLWARE-COM_WANManager.WAN.{i}.PhysicalType                                                proto::wan-manager
@@ -9745,6 +9752,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.X_PRPLWARE-COM_WANManager.WANModeEnable()                                                     proto::wan-manager
   Device.X_PRPLWARE-COM_WANManager.WANModeEnable() input:Autosensing
   Device.X_PRPLWARE-COM_WANManager.WANModeEnable() input:WANMode
+  Device.X_PRPLWARE-COM_WANManager.WANNumberOfEntries                                                  proto::wan-manager
   Device.X_PRPLWARE-COM_WANManager.getWANMode()                                                        proto::wan-manager
   Device.X_PRPLWARE-COM_WANManager.setIPv4Mode()                                                       proto::wan-manager
   Device.X_PRPLWARE-COM_WANManager.setIPv4Mode() input:IPv4Mode
