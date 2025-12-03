@@ -2,6 +2,9 @@ Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
   $ export SERVER_IP="`ip route | grep "192.168.1.0/24" | grep -o "src [0-9.]*" | cut -d' ' -f2 | head -1`"
+Install servefile from pip as a workaround until PPW-1258 is fixed:
+
+  $ pip install servefile >/dev/null 2>&1
 
 Start Servefile to act as HTTP server:
 
