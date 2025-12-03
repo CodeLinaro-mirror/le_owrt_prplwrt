@@ -168,6 +168,7 @@ Check that ubus has expected datamodels available:
   Ethernet.Link
   Ethernet.RMONStats
   Ethernet.VLANTermination
+  Ethernet.WoL
   Firewall
   Firewall.Chain
   Firewall.ConnectionTracking
