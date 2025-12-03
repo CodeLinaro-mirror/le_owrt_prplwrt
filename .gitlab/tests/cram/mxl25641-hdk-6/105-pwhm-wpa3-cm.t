@@ -25,6 +25,14 @@ Stop prplmesh:
 
   $ R "( /etc/init.d/prplmesh stop 2>&1 > /dev/null; sleep 2 )"  2>&1 > /dev/null
 
+Provisory: update Security.ModesAvailable as required by PPM-3660
+
+  $ R "ba-cli \"WiFi.AccessPoint.[RadioReference == 'WiFi.Radio.radio0'].Security.ModesAvailable='None,WPA2-Personal,WPA3-Personal,WPA2-WPA3-Personal,WPA3-Personal-Compatibility,OWE'\" > /dev/null "
+
+  $ R "ba-cli \"WiFi.AccessPoint.[RadioReference == 'WiFi.Radio.radio2'].Security.ModesAvailable='None,WPA2-Personal,WPA3-Personal,WPA2-WPA3-Personal,WPA3-Personal-Compatibility,OWE'\" > /dev/null "
+
+  $ R "ba-cli \"WiFi.AccessPoint.[RadioReference == 'WiFi.Radio.radio4'].Security.ModesAvailable='WPA3-Personal,WPA3-Personal-Compatibility,OWE'\" > /dev/null "
+
 Silently disable MLO:
 
   $ R logger -t cram "Disable MLO"
