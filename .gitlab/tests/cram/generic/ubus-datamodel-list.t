@@ -329,6 +329,7 @@ Check that ubus has expected datamodels available:
   SSH.AuthorizedKey
   SSH.Server
   Security
+  Security.CABundle
   Security.Certificate
   SoftwareModules
   SoftwareModules.DeploymentUnit

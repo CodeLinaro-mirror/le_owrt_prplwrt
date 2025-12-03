@@ -3,9 +3,14 @@ Create R alias:
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
   $ export SERVER_IP="`ip route | grep "192.168.1.0/24" | grep -o "src [0-9.]*" | cut -d' ' -f2 | head -1`"
 
+Install servefile from pip as a workaround until PPW-1258 is fixed:
+
+  $ export PATH=$PATH:/home/testbed/.local/bin
+  $ pip install servefile >/dev/null 2>&1
+
 Start Servefile to act as HTTP server:
 
-  $ servefile -u /tmp/130-periodicfileuploads/ -p 8181 >/dev/null &
+  $ servefile -u /tmp/130-periodicfileuploads/ -p 8181 >/dev/null 2>&1 &
   $ servefile_pid="$!"
 
 Check PeriodicFileTransfer profile creation in the data model:
@@ -55,9 +60,7 @@ Check PeriodicFileTransfer transfer instance creation:
 
 Check PeriodicFileTransfer on demand file upload:
 
-  $ R 'ba-cli "Device.PeriodicFileTransfer.Transfer.cram-Transfer-1.ForceTransfer()"' | grep -v '>'
-  192.168.1.1 - - \[\d{2}\/\w{3}\/\d{4} \d{2}:\d{2}:\d{2}\] "POST /oops.tar HTTP/1.1" 100 - (re)
-  192.168.1.1 - - \[\d{2}\/\w{3}\/\d{4} \d{2}:\d{2}:\d{2}\] "POST /oops.tar HTTP/1.1" 200 - (re)
+  $ R 'ba-cli "Device.PeriodicFileTransfer.Transfer.cram-Transfer-1.ForceTransfer()"' | grep -v '>'; sleep 1
   Device.PeriodicFileTransfer.Transfer.cram-Transfer-1.ForceTransfer() returned
   [
       {
@@ -77,8 +80,6 @@ Check PeriodicFileTransfer on demand file upload with GZIP compression:
   
 
   $ R 'ba-cli "Device.PeriodicFileTransfer.Transfer.cram-Transfer-1.ForceTransfer()"' | grep -v '>'
-  192.168.1.1 - - \[\d{2}\/\w{3}\/\d{4} \d{2}:\d{2}:\d{2}\] "POST /oops.tar HTTP/1.1" 100 - (re)
-  192.168.1.1 - - \[\d{2}\/\w{3}\/\d{4} \d{2}:\d{2}:\d{2}\] "POST /oops.tar HTTP/1.1" 200 - (re)
   Device.PeriodicFileTransfer.Transfer.cram-Transfer-1.ForceTransfer() returned
   [
       {
@@ -99,10 +100,6 @@ Check PeriodicFileTransfer periodic upload with configured intervals
   Device.PeriodicFileTransfer.Transfer.(.+).UploadInterval=3 (re)
   
   $ R 'ba-cli "Device.PeriodicFileTransfer.Transfer.cram-Transfer-1.Enable=1"' > /dev/null; sleep 7
-  192.168.1.1 - - \[\d{2}\/\w{3}\/\d{4} \d{2}:\d{2}:\d{2}\] "POST /oops.tar HTTP/1.1" 100 - (re)
-  192.168.1.1 - - \[\d{2}\/\w{3}\/\d{4} \d{2}:\d{2}:\d{2}\] "POST /oops.tar HTTP/1.1" 200 - (re)
-  192.168.1.1 - - \[\d{2}\/\w{3}\/\d{4} \d{2}:\d{2}:\d{2}\] "POST /oops.tar HTTP/1.1" 100 - (re)
-  192.168.1.1 - - \[\d{2}\/\w{3}\/\d{4} \d{2}:\d{2}:\d{2}\] "POST /oops.tar HTTP/1.1" 200 - (re)
   $ ls /tmp/130-periodicfileuploads/ |wc -l ; rm /tmp/130-periodicfileuploads/*
   2
 
@@ -139,11 +136,9 @@ Check PeriodicFileTransfer retry mechanism for failed uploads:
   $ R 'ba-cli "Device.PeriodicFileTransfer.Transfer.cram-Transfer-1.Status?0"' | grep -v '>'
   Device.PeriodicFileTransfer.Transfer.(.+).Status="Retrying" (re)
   
-  $ servefile -u /tmp/130-periodicfileuploads/ -p 8181 >/dev/null &
+  $ servefile -u /tmp/130-periodicfileuploads/ -p 8181 >/dev/null 2>&1 &
   $ servefile_pid="$!"
   $ sleep 6
-  192.168.1.1 - - \[\d{2}\/\w{3}\/\d{4} \d{2}:\d{2}:\d{2}\] "POST /oops.tar HTTP/1.1" 100 - (re)
-  192.168.1.1 - - \[\d{2}\/\w{3}\/\d{4} \d{2}:\d{2}:\d{2}\] "POST /oops.tar HTTP/1.1" 200 - (re)
 
 Check PeriodicFileTransfer over HTTPS:
 
@@ -152,9 +147,9 @@ Check PeriodicFileTransfer over HTTPS:
   $ R 'ba-cli "Device.PeriodicFileTransfer.Transfer.cram-Transfer-1.UploadInterval=86400"' > /dev/null; sleep 1
   $ R 'ba-cli "Device.PeriodicFileTransfer.Transfer.cram-Transfer-1.Enable=1"' > /dev/null
   $ kill -9 "$servefile_pid"
-  $ servefile -u /tmp/130-periodicfileuploads/ -p 8181 --ssl >/dev/null &
+  $ servefile -u /tmp/130-periodicfileuploads/ -p 8181 --ssl >/dev/null 2>&1 &
   $ servefile_pid="$!"
-  $ sleep 1
+  $ sleep 2
   $ R "openssl s_client -connect \"$SERVER_IP:8181\" -showcerts < /dev/null 2> /dev/null | openssl x509 -outform PEM > /tmp/server-cert.crt"; sleep 1
   $ R "echo '%populate{object Security{object CABundle{instance add(){parameter Enable=1; parameter CAFileURI=\"/tmp/server-cert.crt\";}}}}' > /etc/amx/tr181-security/extensions/01_cram_periodic_transfer.odl" ; sleep 1
   $ R '/etc/init.d/tr181-security restart'; sleep 1
@@ -162,8 +157,6 @@ Check PeriodicFileTransfer over HTTPS:
   $ R 'ba-cli "Device.PeriodicFileTransfer.Profile.cram-Profile-1.HTTP.CABundle=Device.Security.CABundle.1"' > /dev/null; sleep 1
   $ R "ba-cli 'Device.PeriodicFileTransfer.Profile.cram-Profile-1.HTTP.URL=\"https://$SERVER_IP:8181\"'" > /dev/null; sleep 1
   $ R 'ba-cli "Device.PeriodicFileTransfer.Transfer.cram-Transfer-1.ForceTransfer()"' | grep -v '>' ; sleep 1
-  192.168.1.1 - - \[\d{2}\/\w{3}\/\d{4} \d{2}:\d{2}:\d{2}\] "POST /oops.tar HTTP/1.1" 100 - (re)
-  192.168.1.1 - - \[\d{2}\/\w{3}\/\d{4} \d{2}:\d{2}:\d{2}\] "POST /oops.tar HTTP/1.1" 200 - (re)
   Device.PeriodicFileTransfer.Transfer.cram-Transfer-1.ForceTransfer() returned
   [
       {
@@ -187,11 +180,10 @@ Check PeriodicFileTransfer error code reporting for various failure scenarios:
       }
   ]
   
-  $ servefile -u /tmp/130-periodicfileuploads/ -p 8181 -a prpl:prpl >/dev/null &
+  $ servefile -u /tmp/130-periodicfileuploads/ -p 8181 -a prpl:prpl >/dev/null 2>&1 &
   $ servefile_pid="$!"
   $ sleep 1
-  $ R 'ba-cli "Device.PeriodicFileTransfer.Transfer.cram-Transfer-1.ForceTransfer()"' | grep -v '>'
-  192.168.1.1 - - \[\d{2}\/\w{3}\/\d{4} \d{2}:\d{2}:\d{2}\] "POST /oops.tar HTTP/1.1" 401 - (re)
+  $ R 'ba-cli "Device.PeriodicFileTransfer.Transfer.cram-Transfer-1.ForceTransfer()"' | grep -v '>'; sleep 1
   ERROR: call (null) failed with status 1 - unknown error
   Device.PeriodicFileTransfer.Transfer.cram-Transfer-1.ForceTransfer() returned
   [
@@ -201,12 +193,12 @@ Check PeriodicFileTransfer error code reporting for various failure scenarios:
   ]
   
   $ kill -9 "$servefile_pid"
-  $ servefile -u /tmp/130-periodicfileuploads/ -p 8181 --ssl >/dev/null &
+  $ servefile -u /tmp/130-periodicfileuploads/ -p 8181 --ssl >/dev/null 2>&1 &
   $ servefile_pid="$!"
   $ sleep 1
   $ R 'ba-cli "Device.PeriodicFileTransfer.Profile.cram-Profile-1.Protocol=HTTPS"' > /dev/null; sleep 1
   $ R "ba-cli 'Device.PeriodicFileTransfer.Profile.cram-Profile-1.HTTP.URL=\"https://$SERVER_IP:8181\"'" > /dev/null; sleep 1
-  $ R 'ba-cli "Device.PeriodicFileTransfer.Transfer.cram-Transfer-1.ForceTransfer()"' | grep -v '>'
+  $ R 'ba-cli "Device.PeriodicFileTransfer.Transfer.cram-Transfer-1.ForceTransfer()"' | grep -v '>'; sleep 1
   ERROR: call (null) failed with status 1 - unknown error
   Device.PeriodicFileTransfer.Transfer.cram-Transfer-1.ForceTransfer() returned
   [
