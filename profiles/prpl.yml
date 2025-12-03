@@ -59,6 +59,7 @@ packages:
   - netmodel-gni
   - netmodel-ppp
   - netmodel-xpon
+  - packet-interception
   - prpl-webui
   - pkcs11-provider
   - softhsm2
