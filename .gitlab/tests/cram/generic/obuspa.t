@@ -3131,6 +3131,37 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.UPnP.X_PRPLWARE-COM_IGDConfig.MaxLifetime                                                     proto::tr181-upnp
   Device.UPnP.X_PRPLWARE-COM_IGDConfig.UPnPInterface                                                   proto::tr181-upnp
   Device.UPnP.X_PRPLWARE-COM_IGDConfig.WANAccessProvider                                               proto::tr181-upnp
+  Device.UPnPDiscovery.
+  Device.UPnPDiscovery.Device.{i}.                                                                     proto::tr181-upnpdiscovery
+  Device.UPnPDiscovery.Device.{i}.Host                                                                 proto::tr181-upnpdiscovery
+  Device.UPnPDiscovery.Device.{i}.LastUpdate                                                           proto::tr181-upnpdiscovery
+  Device.UPnPDiscovery.Device.{i}.LeaseTime                                                            proto::tr181-upnpdiscovery
+  Device.UPnPDiscovery.Device.{i}.Location                                                             proto::tr181-upnpdiscovery
+  Device.UPnPDiscovery.Device.{i}.Server                                                               proto::tr181-upnpdiscovery
+  Device.UPnPDiscovery.Device.{i}.Status                                                               proto::tr181-upnpdiscovery
+  Device.UPnPDiscovery.Device.{i}.USN                                                                  proto::tr181-upnpdiscovery
+  Device.UPnPDiscovery.Device.{i}.UUID                                                                 proto::tr181-upnpdiscovery
+  Device.UPnPDiscovery.DeviceNumberOfEntries                                                           proto::tr181-upnpdiscovery
+  Device.UPnPDiscovery.RootDevice.{i}.                                                                 proto::tr181-upnpdiscovery
+  Device.UPnPDiscovery.RootDevice.{i}.Host                                                             proto::tr181-upnpdiscovery
+  Device.UPnPDiscovery.RootDevice.{i}.LastUpdate                                                       proto::tr181-upnpdiscovery
+  Device.UPnPDiscovery.RootDevice.{i}.LeaseTime                                                        proto::tr181-upnpdiscovery
+  Device.UPnPDiscovery.RootDevice.{i}.Location                                                         proto::tr181-upnpdiscovery
+  Device.UPnPDiscovery.RootDevice.{i}.Server                                                           proto::tr181-upnpdiscovery
+  Device.UPnPDiscovery.RootDevice.{i}.Status                                                           proto::tr181-upnpdiscovery
+  Device.UPnPDiscovery.RootDevice.{i}.USN                                                              proto::tr181-upnpdiscovery
+  Device.UPnPDiscovery.RootDevice.{i}.UUID                                                             proto::tr181-upnpdiscovery
+  Device.UPnPDiscovery.RootDeviceNumberOfEntries                                                       proto::tr181-upnpdiscovery
+  Device.UPnPDiscovery.Service.{i}.                                                                    proto::tr181-upnpdiscovery
+  Device.UPnPDiscovery.Service.{i}.Host                                                                proto::tr181-upnpdiscovery
+  Device.UPnPDiscovery.Service.{i}.LastUpdate                                                          proto::tr181-upnpdiscovery
+  Device.UPnPDiscovery.Service.{i}.LeaseTime                                                           proto::tr181-upnpdiscovery
+  Device.UPnPDiscovery.Service.{i}.Location                                                            proto::tr181-upnpdiscovery
+  Device.UPnPDiscovery.Service.{i}.ParentDevice                                                        proto::tr181-upnpdiscovery
+  Device.UPnPDiscovery.Service.{i}.Server                                                              proto::tr181-upnpdiscovery
+  Device.UPnPDiscovery.Service.{i}.Status                                                              proto::tr181-upnpdiscovery
+  Device.UPnPDiscovery.Service.{i}.USN                                                                 proto::tr181-upnpdiscovery
+  Device.UPnPDiscovery.ServiceNumberOfEntries                                                          proto::tr181-upnpdiscovery
   Device.USB.                                                                                          proto::tr181-usb
   Device.USB.Interface.{i}.                                                                            proto::tr181-usb
   Device.USB.Interface.{i}.Alias                                                                       proto::tr181-usb
@@ -8021,6 +8052,37 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.UPnP.X_PRPLWARE-COM_IGDConfig.MaxLifetime                                                     proto::tr181-upnp
   Device.UPnP.X_PRPLWARE-COM_IGDConfig.UPnPInterface                                                   proto::tr181-upnp
   Device.UPnP.X_PRPLWARE-COM_IGDConfig.WANAccessProvider                                               proto::tr181-upnp
+  Device.UPnPDiscovery.
+  Device.UPnPDiscovery.Device.{i}.                                                                     proto::tr181-upnpdiscovery
+  Device.UPnPDiscovery.Device.{i}.Host                                                                 proto::tr181-upnpdiscovery
+  Device.UPnPDiscovery.Device.{i}.LastUpdate                                                           proto::tr181-upnpdiscovery
+  Device.UPnPDiscovery.Device.{i}.LeaseTime                                                            proto::tr181-upnpdiscovery
+  Device.UPnPDiscovery.Device.{i}.Location                                                             proto::tr181-upnpdiscovery
+  Device.UPnPDiscovery.Device.{i}.Server                                                               proto::tr181-upnpdiscovery
+  Device.UPnPDiscovery.Device.{i}.Status                                                               proto::tr181-upnpdiscovery
+  Device.UPnPDiscovery.Device.{i}.USN                                                                  proto::tr181-upnpdiscovery
+  Device.UPnPDiscovery.Device.{i}.UUID                                                                 proto::tr181-upnpdiscovery
+  Device.UPnPDiscovery.DeviceNumberOfEntries                                                           proto::tr181-upnpdiscovery
+  Device.UPnPDiscovery.RootDevice.{i}.                                                                 proto::tr181-upnpdiscovery
+  Device.UPnPDiscovery.RootDevice.{i}.Host                                                             proto::tr181-upnpdiscovery
+  Device.UPnPDiscovery.RootDevice.{i}.LastUpdate                                                       proto::tr181-upnpdiscovery
+  Device.UPnPDiscovery.RootDevice.{i}.LeaseTime                                                        proto::tr181-upnpdiscovery
+  Device.UPnPDiscovery.RootDevice.{i}.Location                                                         proto::tr181-upnpdiscovery
+  Device.UPnPDiscovery.RootDevice.{i}.Server                                                           proto::tr181-upnpdiscovery
+  Device.UPnPDiscovery.RootDevice.{i}.Status                                                           proto::tr181-upnpdiscovery
+  Device.UPnPDiscovery.RootDevice.{i}.USN                                                              proto::tr181-upnpdiscovery
+  Device.UPnPDiscovery.RootDevice.{i}.UUID                                                             proto::tr181-upnpdiscovery
+  Device.UPnPDiscovery.RootDeviceNumberOfEntries                                                       proto::tr181-upnpdiscovery
+  Device.UPnPDiscovery.Service.{i}.                                                                    proto::tr181-upnpdiscovery
+  Device.UPnPDiscovery.Service.{i}.Host                                                                proto::tr181-upnpdiscovery
+  Device.UPnPDiscovery.Service.{i}.LastUpdate                                                          proto::tr181-upnpdiscovery
+  Device.UPnPDiscovery.Service.{i}.LeaseTime                                                           proto::tr181-upnpdiscovery
+  Device.UPnPDiscovery.Service.{i}.Location                                                            proto::tr181-upnpdiscovery
+  Device.UPnPDiscovery.Service.{i}.ParentDevice                                                        proto::tr181-upnpdiscovery
+  Device.UPnPDiscovery.Service.{i}.Server                                                              proto::tr181-upnpdiscovery
+  Device.UPnPDiscovery.Service.{i}.Status                                                              proto::tr181-upnpdiscovery
+  Device.UPnPDiscovery.Service.{i}.USN                                                                 proto::tr181-upnpdiscovery
+  Device.UPnPDiscovery.ServiceNumberOfEntries                                                          proto::tr181-upnpdiscovery
   Device.USB.                                                                                          proto::tr181-usb
   Device.USB.Interface.{i}.                                                                            proto::tr181-usb
   Device.USB.Interface.{i}.Alias                                                                       proto::tr181-usb
