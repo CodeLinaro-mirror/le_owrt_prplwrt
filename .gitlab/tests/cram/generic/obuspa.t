@@ -3288,8 +3288,12 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.USB.InterfaceNumberOfEntries                                                                  proto::tr181-usb
   Device.USB.Port.{i}.                                                                                 proto::tr181-usb
   Device.USB.Port.{i}.Alias                                                                            proto::tr181-usb
+  Device.USB.Port.{i}.ChangePowerMode()                                                                proto::tr181-usb
+  Device.USB.Port.{i}.ChangePowerMode() input:PowerState
   Device.USB.Port.{i}.Name                                                                             proto::tr181-usb
   Device.USB.Port.{i}.Power                                                                            proto::tr181-usb
+  Device.USB.Port.{i}.PowerCapability                                                                  proto::tr181-usb
+  Device.USB.Port.{i}.PowerStatus                                                                      proto::tr181-usb
   Device.USB.Port.{i}.Rate                                                                             proto::tr181-usb
   Device.USB.Port.{i}.Receptacle                                                                       proto::tr181-usb
   Device.USB.Port.{i}.Standard                                                                         proto::tr181-usb
@@ -8347,8 +8351,12 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.USB.InterfaceNumberOfEntries                                                                  proto::tr181-usb
   Device.USB.Port.{i}.                                                                                 proto::tr181-usb
   Device.USB.Port.{i}.Alias                                                                            proto::tr181-usb
+  Device.USB.Port.{i}.ChangePowerMode()                                                                proto::tr181-usb
+  Device.USB.Port.{i}.ChangePowerMode() input:PowerState
   Device.USB.Port.{i}.Name                                                                             proto::tr181-usb
   Device.USB.Port.{i}.Power                                                                            proto::tr181-usb
+  Device.USB.Port.{i}.PowerCapability                                                                  proto::tr181-usb
+  Device.USB.Port.{i}.PowerStatus                                                                      proto::tr181-usb
   Device.USB.Port.{i}.Rate                                                                             proto::tr181-usb
   Device.USB.Port.{i}.Receptacle                                                                       proto::tr181-usb
   Device.USB.Port.{i}.Standard                                                                         proto::tr181-usb
