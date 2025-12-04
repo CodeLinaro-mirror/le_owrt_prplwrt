@@ -149,20 +149,43 @@ Check default timezone:
 
 Check LocalTimeZone correctly filter wrong TZ:
 
-  $ (R "ba-cli Time.LocalTimeZone=\"AKST9AKDT\"") | sed 's|[>,]||g'
-   Time.LocalTimeZone=AKST9AKDT
+  $ (R "ba-cli Time.LocalTimeZone=\"JST-9\"") | sed 's|[>,]||g'
+   Time.LocalTimeZone=JST-9
   Time.
-  Time.LocalTimeZone="AKST9AKDT"
+  Time.LocalTimeZone="JST-9"
   
   $ (R "date +%Z")
-  AKDT
+  JST
+
+  $ (R "ba-cli Time.LocalTimeZone=\"UTC0\"") | sed 's|[>,]||g'
+   Time.LocalTimeZone=UTC0
+  Time.
+  Time.LocalTimeZone="UTC0"
+  
+  $ (R "date +%Z")
+  UTC
 
   $ (R "ba-cli Time.LocalTimeZone=\"NOTAVALIDETZ\"") | sed 's|[>,]||g'
    Time.LocalTimeZone=NOTAVALIDETZ
   ERROR: set Time.LocalTimeZone failed (10 - invalid value)
   
   $ (R "date +%Z")
-  AKDT
+  UTC
+
+  $ (R "ba-cli Time.LocalTimeZone=\"GMT0\"") | sed 's|[>,]||g'
+   Time.LocalTimeZone=GMT0
+  Time.
+  Time.LocalTimeZone="GMT0"
+  
+  $ (R "date +%Z")
+  GMT
+
+  $ (R "ba-cli Time.LocalTimeZone=\"/usr/share/zoneinfo/Universal\"") | sed 's|[>,]||g'
+   Time.LocalTimeZone=/usr/share/zoneinfo/Universal
+  ERROR: set Time.LocalTimeZone failed (10 - invalid value)
+  
+  $ (R "date +%Z")
+  GMT
 
 Set back default timezone:
 
