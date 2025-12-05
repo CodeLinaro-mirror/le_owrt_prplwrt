@@ -16,6 +16,7 @@
   before_script:
     - sudo apt-get update
     - sudo apt-get install --yes libbsd-dev
+    - sudo apt-get install --yes libssl-dev
     - touch .build_failed
     - export CI_BUILD_PROFILE="$(echo $CI_JOB_NAME | sed 's/build test \(.*\)/\1/')"
 
