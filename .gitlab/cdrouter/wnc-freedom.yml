@@ -149,6 +149,7 @@ prplWare-Smoke-Test-Suite Freedom initramfs:
       .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
       .gitlab/scripts/dut-init/cdrouter-dut-configure-prplmesh-controller.sh
       .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
+      .gitlab/scripts/dut-init/staticrouting.sh
 
 .wnc-freedom-certification: &wnc_freedom_certification
   <<: *wnc_freedom_ipv6

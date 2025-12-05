@@ -60,8 +60,8 @@ SECTION "Base Configuration" {
             # testvar dhcpServerOptionCode1            69
             # testvar dhcpServerOptionData1            04040404
 
-            # testvar wanDhcpClientOptionCode1         60
-            # testvar wanDhcpClientOptionData1         04040404
+              testvar wanDhcpClientOptionCode1         57
+              testvar wanDhcpClientOptionData1         05c0
 
             # testvar dhcpClientMac                    auto
 
@@ -93,7 +93,7 @@ SECTION "Base Configuration" {
             # testvar pptpConnectOnDemand              yes
             # testvar pptpServerIp                     202.254.201.1
             # testvar pptpClientIp                     202.254.201.2
-            # testvar pptpUseDHCP                      no
+              testvar pptpUseDHCP                      yes
 
         }
 
@@ -104,7 +104,7 @@ SECTION "Base Configuration" {
             # testvar l2tpConnectOnDemand              yes
             # testvar l2tpServerIp                     202.254.201.1
             # testvar l2tpClientIp                     202.254.201.2
-            # testvar l2tpUseDHCP                      no
+             testvar l2tpUseDHCP                       yes
 
         }
 
@@ -510,8 +510,8 @@ SECTION "Base Configuration" {
 
         SECTION "LAN Static Routes" {
 
-            # testvar staticRouteLanNetwork1           2.0.0.0/255.255.255.0
-            # testvar staticRouteLanNextHop1           192.168.1.18
+             testvar staticRouteLanNetwork1           172.16.5.0/255.255.255.0
+             testvar staticRouteLanNextHop1           192.168.1.150
 
         }
 
@@ -781,7 +781,7 @@ SECTION "Base Configuration" {
 
         SECTION "IGMP (Multicast)" {
 
-            # testvar supportsMulticast                yes
+              testvar supportsMulticast                yes
             # testvar multicastType                    proxy
             # testvar supportsMulticastOut             no
             # testvar igmpVersion                      2
@@ -860,7 +860,7 @@ SECTION "Base Configuration" {
         # testvar cdrouterOui                      B0750C
         # testvar forwardingMaxFailures            20
         # testvar forwardingPort                   5001
-        # testvar jumboMtu                         disabled
+         testvar jumboMtu                          2000
         # testvar tcpUdpPortStart                  10000
 
         SECTION "General Purpose HTTP Server" {
@@ -1437,16 +1437,16 @@ SECTION "CDRouter Multiport Add-On" {
                 SECTION "WAN Interface" {
 
                     # testvar wanInterface                     eth2
-                    # testvar wanMode                          DHCP
-                    # testvar wanIspIp                         202.254.2.1
-                    # testvar wanIspAssignIp                   202.254.2.2
-                    # testvar wanIspMask                       255.255.255.0
+                      testvar wanMode                          static
+                      testvar wanIspIp                         10.0.0.1
+                      testvar wanIspAssignIp                   10.0.0.2
+                      testvar wanIspMask                       255.255.255.0
                     # testvar wanDomainName                    qacafe.com
                     # testvar forwardingMode                   route
                     # testvar wanDutMac                        none
                     # testvar wanDutClientID                   01000000000001
                     # testvar wanAuthenticator                 no
-                    # testvar wanNatIp                         202.254.2.2
+                      testvar wanNatIp                         10.0.0.1
                     # testvar wanIspNextIp                     202.254.2.3
                     # testvar wanAlwaysOn                      yes
 
@@ -1535,8 +1535,8 @@ SECTION "CDRouter Multiport Add-On" {
                 }
                 SECTION "WAN Static Routes" {
 
-                    # testvar staticRouteWanNetwork1           7.1.1.0/255.255.255.0
-                    # testvar staticRouteWanNextHop1           wan
+                     testvar staticRouteWanNetwork1           7.1.1.0/255.255.255.0
+                     testvar staticRouteWanNextHop1           10.0.0.1
 
                 }
 
