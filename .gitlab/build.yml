@@ -27,6 +27,7 @@
 
     - sudo apt-get update && sudo apt-get install --yes --no-install-recommends swig coccinelle
     - sudo apt-get install --yes libbsd-dev
+    - sudo apt-get install --yes libssl-dev
 
     - |
       crlf_check_failed=$(rgrep -U $'\x0D' profiles | cut -d: -f1 | sort -u || true)
