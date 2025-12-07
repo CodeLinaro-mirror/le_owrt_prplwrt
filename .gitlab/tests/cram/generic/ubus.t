@@ -30,6 +30,9 @@ Check that we've correct DHCP pool settings:
   \t\t"Status": "Enabled", (esc)
   \t\t"Status": "Enabled", (esc)
   \t\t"Status": "Enabled", (esc)
+  \t\t"WINSServers": "", (esc)
+  \t\t"WINSServers": "", (esc)
+  \t\t"WINSServers": "", (esc)
 
   $ R "ubus call DHCPv6Server.Pool _get \"{'rel_path':''}\" | grep -E '(Alias|Enable|Status)' | sort"
   \t\t"Alias": "guest", (esc)
