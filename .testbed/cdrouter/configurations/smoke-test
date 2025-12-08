@@ -510,8 +510,8 @@ SECTION "Base Configuration" {
 
         SECTION "LAN Static Routes" {
 
-            # testvar staticRouteLanNetwork1           2.0.0.0/255.255.255.0
-            # testvar staticRouteLanNextHop1           192.168.1.18
+             testvar staticRouteLanNetwork1           172.16.5.0/255.255.255.0
+             testvar staticRouteLanNextHop1           192.168.1.150
 
         }
 
