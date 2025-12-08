@@ -44,7 +44,7 @@ def usage(code: int = 0):
 def load_yaml(fname: str, profile: dict, seen: set[str]):
 
     if fname in seen:
-        return profile
+        return (profile, seen)
 
     # Allow profile overriding by searching in reverse order
     for folder in profile_folders.split(':')[::-1]:
