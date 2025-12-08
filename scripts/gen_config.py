@@ -8,6 +8,7 @@ import re
 import sys
 from subprocess import run
 from os import getenv
+from typing import Set
 
 sys.stdout = io.TextIOWrapper(open(sys.stdout.fileno(), "wb", 0), write_through=True)
 profile_folders = getenv("GENCONFIG_PROFILE_DIRS", "./profiles")
@@ -41,7 +42,7 @@ def usage(code: int = 0):
     quit(code)
 
 
-def load_yaml(fname: str, profile: dict, seen: set[str]):
+def load_yaml(fname: str, profile: dict, seen: Set[str]):
 
     if fname in seen:
         return (profile, seen)
