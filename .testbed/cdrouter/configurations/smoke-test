@@ -60,8 +60,8 @@ SECTION "Base Configuration" {
             # testvar dhcpServerOptionCode1            69
             # testvar dhcpServerOptionData1            04040404
 
-            # testvar wanDhcpClientOptionCode1         60
-            # testvar wanDhcpClientOptionData1         04040404
+              testvar wanDhcpClientOptionCode1         57
+              testvar wanDhcpClientOptionData1         05c0
 
             # testvar dhcpClientMac                    auto
 
@@ -93,7 +93,7 @@ SECTION "Base Configuration" {
             # testvar pptpConnectOnDemand              yes
             # testvar pptpServerIp                     202.254.201.1
             # testvar pptpClientIp                     202.254.201.2
-            # testvar pptpUseDHCP                      no
+              testvar pptpUseDHCP                      yes
 
         }
 
@@ -104,7 +104,7 @@ SECTION "Base Configuration" {
             # testvar l2tpConnectOnDemand              yes
             # testvar l2tpServerIp                     202.254.201.1
             # testvar l2tpClientIp                     202.254.201.2
-            # testvar l2tpUseDHCP                      no
+             testvar l2tpUseDHCP                       yes
 
         }
 
@@ -781,7 +781,7 @@ SECTION "Base Configuration" {
 
         SECTION "IGMP (Multicast)" {
 
-            # testvar supportsMulticast                yes
+              testvar supportsMulticast                yes
             # testvar multicastType                    proxy
             # testvar supportsMulticastOut             no
             # testvar igmpVersion                      2
@@ -1437,7 +1437,7 @@ SECTION "CDRouter Multiport Add-On" {
                 SECTION "WAN Interface" {
 
                     # testvar wanInterface                     eth2
-                    # testvar wanMode                          DHCP
+                     testvar wanMode                          DHCP
                     # testvar wanIspIp                         202.254.2.1
                     # testvar wanIspAssignIp                   202.254.2.2
                     # testvar wanIspMask                       255.255.255.0
