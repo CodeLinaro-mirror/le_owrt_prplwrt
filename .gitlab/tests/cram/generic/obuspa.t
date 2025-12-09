@@ -4798,6 +4798,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.X_PRPLWARE-COM_PersistentConfiguration.Service.{i}.ExportCallback                             proto::pcm-manager
   Device.X_PRPLWARE-COM_PersistentConfiguration.Service.{i}.ExportStatus                               proto::pcm-manager
   Device.X_PRPLWARE-COM_PersistentConfiguration.Service.{i}.ImportCallback                             proto::pcm-manager
+  Device.X_PRPLWARE-COM_PersistentConfiguration.Service.{i}.ImportFailureReason                        proto::pcm-manager
   Device.X_PRPLWARE-COM_PersistentConfiguration.Service.{i}.ImportStatus                               proto::pcm-manager
   Device.X_PRPLWARE-COM_PersistentConfiguration.Service.{i}.Name                                       proto::pcm-manager
   Device.X_PRPLWARE-COM_PersistentConfiguration.Service.{i}.Order                                      proto::pcm-manager
@@ -4805,9 +4806,11 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.X_PRPLWARE-COM_PersistentConfiguration.Service.{i}.Schema.{i}.Alias                           proto::pcm-manager
   Device.X_PRPLWARE-COM_PersistentConfiguration.Service.{i}.Schema.{i}.Name                            proto::pcm-manager
   Device.X_PRPLWARE-COM_PersistentConfiguration.Service.{i}.SchemaNumberOfEntries                      proto::pcm-manager
+  Device.X_PRPLWARE-COM_PersistentConfiguration.Service.{i}.SchemaVersion                              proto::pcm-manager
   Device.X_PRPLWARE-COM_PersistentConfiguration.Service.{i}.ServiceStatus                              proto::pcm-manager
   Device.X_PRPLWARE-COM_PersistentConfiguration.Service.{i}.SetActionStatus()                          proto::pcm-manager
   Device.X_PRPLWARE-COM_PersistentConfiguration.Service.{i}.SetActionStatus() input:ActionStatus
+  Device.X_PRPLWARE-COM_PersistentConfiguration.Service.{i}.SetActionStatus() input:Reason
   Device.X_PRPLWARE-COM_PersistentConfiguration.Service.{i}.SetActionStatus() input:State
   Device.X_PRPLWARE-COM_PersistentConfiguration.ServiceConfigurationChanged()                          proto::pcm-manager
   Device.X_PRPLWARE-COM_PersistentConfiguration.ServiceConfigurationChanged() input:name
@@ -9833,6 +9836,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.X_PRPLWARE-COM_PersistentConfiguration.Service.{i}.ExportCallback                             proto::pcm-manager
   Device.X_PRPLWARE-COM_PersistentConfiguration.Service.{i}.ExportStatus                               proto::pcm-manager
   Device.X_PRPLWARE-COM_PersistentConfiguration.Service.{i}.ImportCallback                             proto::pcm-manager
+  Device.X_PRPLWARE-COM_PersistentConfiguration.Service.{i}.ImportFailureReason                        proto::pcm-manager
   Device.X_PRPLWARE-COM_PersistentConfiguration.Service.{i}.ImportStatus                               proto::pcm-manager
   Device.X_PRPLWARE-COM_PersistentConfiguration.Service.{i}.Name                                       proto::pcm-manager
   Device.X_PRPLWARE-COM_PersistentConfiguration.Service.{i}.Order                                      proto::pcm-manager
@@ -9840,9 +9844,11 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.X_PRPLWARE-COM_PersistentConfiguration.Service.{i}.Schema.{i}.Alias                           proto::pcm-manager
   Device.X_PRPLWARE-COM_PersistentConfiguration.Service.{i}.Schema.{i}.Name                            proto::pcm-manager
   Device.X_PRPLWARE-COM_PersistentConfiguration.Service.{i}.SchemaNumberOfEntries                      proto::pcm-manager
+  Device.X_PRPLWARE-COM_PersistentConfiguration.Service.{i}.SchemaVersion                              proto::pcm-manager
   Device.X_PRPLWARE-COM_PersistentConfiguration.Service.{i}.ServiceStatus                              proto::pcm-manager
   Device.X_PRPLWARE-COM_PersistentConfiguration.Service.{i}.SetActionStatus()                          proto::pcm-manager
   Device.X_PRPLWARE-COM_PersistentConfiguration.Service.{i}.SetActionStatus() input:ActionStatus
+  Device.X_PRPLWARE-COM_PersistentConfiguration.Service.{i}.SetActionStatus() input:Reason
   Device.X_PRPLWARE-COM_PersistentConfiguration.Service.{i}.SetActionStatus() input:State
   Device.X_PRPLWARE-COM_PersistentConfiguration.ServiceConfigurationChanged()                          proto::pcm-manager
   Device.X_PRPLWARE-COM_PersistentConfiguration.ServiceConfigurationChanged() input:name
