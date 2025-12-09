@@ -18,6 +18,16 @@
     - curl -s --output detect.sh https://detect.blackduck.com/detect10.sh
     - sudo chmod +x detect.sh
     - |
+      rm -rf \
+        build_dir/target-*/prplos-sdk-* \
+        build_dir/target-*/prplos-imagebuilder-* \
+        build_dir/target-*/krb5-* \
+        build_dir/target-*/gnutls-* \
+        build_dir/target-*/mbedtls-* \
+        build_dir/target-*/Linux-PAM-* \
+        build_dir/target-*/db-* \
+        build_dir/target-*/lrzsz-*
+    - |
       for dir in $(ls -d build_dir/target-*/*); do
         ./detect.sh \
             --blackduck.url=https://prplfoundation.app.blackduck.com \
