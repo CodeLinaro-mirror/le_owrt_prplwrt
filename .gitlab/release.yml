@@ -12,7 +12,6 @@ upload:
     - job: build test qca_ipq95xx prpl cellular security thread
     - job: build test mtk_filogic prpl security
     - job: build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread
-    - job: build test mxl_x86_osp_wgrtd159be_b_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread
 
   rules:
     - if: '$CI_COMMIT_TAG =~ /^prplware-v[0-9]+\.[0-9]+\.[0-9]+.*$/'
@@ -56,14 +55,14 @@ upload:
     # ospv2 A-Step
     - |
       curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
-        --upload-file bin/targets/intel_x86/lgm/single-images/prplos-intel_x86-lgm-PRPL_OSP_TB341_v2-osp_tb341_v2_wav700_fullimage.fit \
-        ${PACKAGE_REGISTRY_URL}/gemtek-ospv2/${prplware_version}/prplos-intel_x86-lgm-PRPL_OSP_TB341_v2-osp_tb341_v2_wav700_fullimage.fit
+        --upload-file bin/targets/intel_x86/lgm/single-images/prplos-intel_x86-lgm-PRPL_OSP_v2-tb341_wav700_fullimage.fit \
+        ${PACKAGE_REGISTRY_URL}/gemtek-ospv2/${prplware_version}/prplos-intel_x86-lgm-PRPL_OSP_v2-tb341_wav700_fullimage.fit
 
     # ospv2 B-Step
     - |
       curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
-        --upload-file bin/targets/intel_x86/lgm/single-images/prplos-intel_x86-lgm-PRPL_OSPv2_WGRTD159BE_B-wav700_fullimage.fit \
-        ${PACKAGE_REGISTRY_URL}/gemtek-ospv2-b/${prplware_version}/prplos-intel_x86-lgm-PRPL_OSPv2_WGRTD159BE_B-wav700_fullimage.fit
+        --upload-file bin/targets/intel_x86/lgm/single-images/prplos-intel_x86-lgm-PRPL_OSP_v2-wgrtd159be_b_wav700_fullimage.fit \
+        ${PACKAGE_REGISTRY_URL}/gemtek-ospv2-b/${prplware_version}/prplos-intel_x86-lgm-PRPL_OSP_v2-wgrtd159be_b_wav700_fullimage.fit
 
     # qca_ipq95xx
     - |
@@ -113,8 +112,8 @@ release:
 
     - |
       release-cli create --name "prplWare release $prplware_version" --tag-name $CI_COMMIT_TAG \
-        --assets-link "{\"name\":\"MaxLinear/Gemtek OSPv2 A-Step single-image\",\"url\":\"${PACKAGE_REGISTRY_URL}/gemtek-ospv2/${prplware_version}/prplos-intel_x86-lgm-PRPL_OSP_TB341_v2-osp_tb341_v2_wav700_fullimage.fit\"}" \
-        --assets-link "{\"name\":\"MaxLinear/Gemtek OSPv2 B-Step single-image\",\"url\":\"${PACKAGE_REGISTRY_URL}/gemtek-ospv2-b/${prplware_version}/prplos-intel_x86-lgm-PRPL_OSPv2_WGRTD159BE_B-wav700_fullimage.fit\"}" \
+        --assets-link "{\"name\":\"MaxLinear/Gemtek OSPv2 A-Step single-image\",\"url\":\"${PACKAGE_REGISTRY_URL}/gemtek-ospv2/${prplware_version}/prplos-intel_x86-lgm-PRPL_OSP_v2-tb341_wav700_fullimage.fit\"}" \
+        --assets-link "{\"name\":\"MaxLinear/Gemtek OSPv2 B-Step single-image\",\"url\":\"${PACKAGE_REGISTRY_URL}/gemtek-ospv2-b/${prplware_version}/prplos-intel_x86-lgm-PRPL_OSP_v2-wgrtd159be_b_wav700_fullimage.fit\"}" \
         --assets-link "{\"name\":\"MediaTek/Arcadyan Mozart bootstack\",\"url\":\"${PACKAGE_REGISTRY_URL}/arcadyan-mozart/${prplware_version}/prplos-mediatek-filogic-arcadyan_mozart-emmc-bootstack.tar.gz\"}" \
         --assets-link "{\"name\":\"MediaTek/Arcadyan Mozart sysupgrade\",\"url\":\"${PACKAGE_REGISTRY_URL}/arcadyan-mozart/${prplware_version}/prplos-mediatek-filogic-arcadyan_mozart-squashfs-sysupgrade.itb\"}" \
         --assets-link "{\"name\":\"MediaTek/Arcadyan Mozart initramfs\",\"url\":\"${PACKAGE_REGISTRY_URL}/arcadyan-mozart/${prplware_version}/prplos-mediatek-filogic-arcadyan_mozart-initramfs.itb\"}" \

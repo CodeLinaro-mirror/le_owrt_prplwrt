@@ -158,7 +158,7 @@ targets:
           - setenv serverip 192.168.1.2
           - setenv ipaddr 192.168.1.1
           - setenv lcm_data_block_start 0xa6c00
-          - setenv fullimage prplos-intel_x86-lgm-PRPL_OSPv2_WGRTD159BE_B-wav700_fullimage.fit
+          - setenv fullimage prplos-intel_x86-lgm-PRPL_OSP_v2-wgrtd159be_b_wav700_fullimage.fit
           - mmc dev 0 && mmc erase ${lcm_data_block_start} 0x400
           - mmc dev 0 && mmc erase ${rootfs_data_block_start} ${rootfs_data_block_size} && run update_fullimage
       UBootStrategy: {}
