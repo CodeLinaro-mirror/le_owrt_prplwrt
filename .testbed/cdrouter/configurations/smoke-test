@@ -860,7 +860,7 @@ SECTION "Base Configuration" {
         # testvar cdrouterOui                      B0750C
         # testvar forwardingMaxFailures            20
         # testvar forwardingPort                   5001
-        # testvar jumboMtu                         disabled
+         testvar jumboMtu                          2000
         # testvar tcpUdpPortStart                  10000
 
         SECTION "General Purpose HTTP Server" {
@@ -1535,8 +1535,8 @@ SECTION "CDRouter Multiport Add-On" {
                 }
                 SECTION "WAN Static Routes" {
 
-                    # testvar staticRouteWanNetwork1           7.1.1.0/255.255.255.0
-                    # testvar staticRouteWanNextHop1           wan
+                     testvar staticRouteWanNetwork1           7.1.1.0/255.255.255.0
+                     testvar staticRouteWanNextHop1           80.81.82.83
 
                 }
 
