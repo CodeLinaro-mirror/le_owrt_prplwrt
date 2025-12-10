@@ -183,6 +183,7 @@ packages:
   - libuuid
   - libext2fs
   - libfdisk
+  - imagegenerator
   - initramfs-generator
   - blkid
   - libfdt
@@ -238,3 +239,4 @@ diffconfig: |
   CONFIG_BUSYBOX_CONFIG_FEATURE_STAT_FORMAT=y
   CONFIG_BUSYBOX_CONFIG_FEATURE_STAT_FILESYSTEM=y
   CONFIG_SAH_LIB_MFG_RO_PART_FILE="/dev/mmcblk0p13"
+  CONFIG_IMAGEGENERATOR=y
