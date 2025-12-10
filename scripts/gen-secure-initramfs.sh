@@ -104,9 +104,16 @@ function find_binary {
 
 
 function import_file_symlink {
-	import_file_other "$1"
+	mkdir -p `dirname $TMP_FOLDER$1`
 	target=`readlink "$ROOTFS_FOLDER$1"`
-	[[ "$target" == /* ]] || target=`dirname "$1"`/$target
+	if [[ "$target" == /* ]] ; then
+		# Create a relative symlink
+		reltarget=$(realpath --relative-to="$(dirname "$ROOTFS_FOLDER$1")" "$ROOTFS_FOLDER$target")
+		ln -sf "$reltarget" "$TMP_FOLDER$1"
+	else
+		cp -pPTr "$ROOTFS_FOLDER$1" "$TMP_FOLDER$1"
+		target=`dirname "$1"`/$target
+	fi
 	import_file "$target"
 }
 
