@@ -3352,20 +3352,14 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AssociationTime                                     proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AuthenticationState                                 proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.BytesSent                                           proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.EhtCapabilities                                     proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.EncryptionMode                                      proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ErrorsSent                                          proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.FailedRetransCount                                  proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.FrequencyCapabilities                               proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.HeCapabilities                                      proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.HtCapabilities                                      proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.LastDataDownlinkRate                                proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.LastDataUplinkRate                                  proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.LinkBandwidth                                       proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.MACAddress                                          proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.MaxBandwidthSupported                               proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.MaxDownlinkRateSupported                            proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.MaxUplinkRateSupported                              proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.MaxSupportedBandwidth                               proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.MaxSupportedDataDownlinkRate                        proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.MaxSupportedDataUplinkRate                          proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.MultipleRetryCount                                  proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.Noise                                               proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.OperatingStandard                                   proto::prplmesh-dm-mapper
@@ -3397,21 +3391,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.AccessPoint.{i}.IEEE80211u.                                                              proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.IsolationEnable                                                          proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.MACAddressControlEnabled                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MACFiltering.
-  Device.WiFi.AccessPoint.{i}.MACFiltering.Entry.{i}.                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MACFiltering.Entry.{i}.Alias                                             proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MACFiltering.Entry.{i}.MACAddress                                        proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.MaxAssociatedDevices                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.Neighbour.{i}.                                                           proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.Neighbour.{i}.BSSID                                                      proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.Neighbour.{i}.Channel                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.Neighbour.{i}.ColocatedAP                                                proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.Neighbour.{i}.Information                                                proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.Neighbour.{i}.NASIdentifier                                              proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.Neighbour.{i}.OperatingClass                                             proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.Neighbour.{i}.PhyType                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.Neighbour.{i}.R0KHKey                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.Neighbour.{i}.SSID                                                       proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.ProbeFiltering.                                                          proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.ProbeFiltering.TempEntry.{i}.                                            proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.RetryLimit                                                               proto::prplmesh-dm-mapper
@@ -3420,7 +3400,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.AccessPoint.{i}.SSIDReference                                                            proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.Security.                                                                proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.Security.EncryptionMode                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.Security.KeyPassPhrase                                                   proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.Security.KeyPassphrase                                                   proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.Security.MFPConfig                                                       proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.Security.ModeEnabled                                                     proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.Security.ModesSupported                                                  proto::prplmesh-dm-mapper
@@ -3462,8 +3442,13 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_IEEE80211r.NASIdentifier                                  proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_IEEE80211r.R0KHKey                                        proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_MACFiltering.                                             proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_MACFiltering.Entry.{i}.                                   proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_MACFiltering.Entry.{i}.Alias                              proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_MACFiltering.Entry.{i}.MACAddress                         proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_MACFiltering.Mode                                         proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_MACFiltering.TempBlacklistEnable                          proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_MACFiltering.TempEntry.{i}.                               proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_MACFiltering.TempEntry.{i}.MACAddress                     proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_MACFiltering.addEntry()                                   proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_MACFiltering.addEntry() input:mac
   Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_MACFiltering.addTempEntry()                               proto::prplmesh-dm-mapper
@@ -3475,6 +3460,16 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_MgmtActionFrameReceived!                                  proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_MgmtDeauthFrame!                                          proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_MgmtDisassocFrame!                                        proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_Neighbour.{i}.                                            proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_Neighbour.{i}.BSSID                                       proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_Neighbour.{i}.Channel                                     proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_Neighbour.{i}.ColocatedAP                                 proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_Neighbour.{i}.Information                                 proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_Neighbour.{i}.NASIdentifier                               proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_Neighbour.{i}.OperatingClass                              proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_Neighbour.{i}.PhyType                                     proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_Neighbour.{i}.R0KHKey                                     proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_Neighbour.{i}.SSID                                        proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_cleanStation()                                            proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_cleanStation() input:macaddress
   Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_delNeighbourAP()                                          proto::prplmesh-dm-mapper
@@ -3571,7 +3566,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.EndPoint.{i}.Profile.{i}.Priority                                                        proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.Profile.{i}.SSID                                                            proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.Profile.{i}.Security.                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.Profile.{i}.Security.KeyPassPhrase                                          proto::prplmesh-dm-mapper
+  Device.WiFi.EndPoint.{i}.Profile.{i}.Security.KeyPassphrase                                          proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.Profile.{i}.Security.MFPConfig                                              proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.Profile.{i}.Security.ModeEnabled                                            proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.Profile.{i}.Security.PreSharedKey                                           proto::prplmesh-dm-mapper
@@ -3579,6 +3574,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.EndPoint.{i}.Profile.{i}.Security.WEPKey                                                 proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.Profile.{i}.Status                                                          proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.ProfileReference                                                            proto::prplmesh-dm-mapper
+  Device.WiFi.EndPoint.{i}.RequiredOperatingStandards                                                  proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.SSIDReference                                                               proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.Security.                                                                   proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.Security.ModesSupported                                                     proto::prplmesh-dm-mapper
@@ -3595,10 +3591,10 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.EndPoint.{i}.WPS.X_PRPLWARE-COM_pairingDone!                                             proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.WPS.X_PRPLWARE-COM_pairingError!                                            proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.WPS.X_PRPLWARE-COM_pairingReady!                                            proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.WPS.pushButton()                                                            proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.WPS.pushButton() input:bssid
-  Device.WiFi.EndPoint.{i}.WPS.pushButton() input:clientPIN
-  Device.WiFi.EndPoint.{i}.WPS.pushButton() input:ssid
+  Device.WiFi.EndPoint.{i}.WPS.X_PRPLWARE-COM_pushButton()                                             proto::prplmesh-dm-mapper
+  Device.WiFi.EndPoint.{i}.WPS.X_PRPLWARE-COM_pushButton() input:bssid
+  Device.WiFi.EndPoint.{i}.WPS.X_PRPLWARE-COM_pushButton() input:clientPIN
+  Device.WiFi.EndPoint.{i}.WPS.X_PRPLWARE-COM_pushButton() input:ssid
   Device.WiFi.EndPoint.{i}.X_PRPLWARE-COM_sendManagementFrame()                                        proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.X_PRPLWARE-COM_sendManagementFrame() input:channel
   Device.WiFi.EndPoint.{i}.X_PRPLWARE-COM_sendManagementFrame() input:data
@@ -3618,23 +3614,16 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.Radio.{i}.Capabilities.WiFi7APRole.                                                      proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.Capabilities.WiFi7STARole.                                                     proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.Channel                                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelChangeReason                                                            proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.
-  Device.WiFi.Radio.{i}.ChannelMgt.BgDfs.                                                              proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.BgDfs.startBgDfsClear()                                             proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.BgDfs.startBgDfsClear() input:bandwidth
-  Device.WiFi.Radio.{i}.ChannelMgt.BgDfs.startBgDfsClear() input:channel
-  Device.WiFi.Radio.{i}.ChannelMgt.BgDfs.stopBgDfsClear()                                              proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.ChannelChanges.{i}.                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.TargetChanspec.                                                     proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.ChannelsInUse                                                                  proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.CurrentEhtOperatingIE                                                          proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.CurrentOperatingChannelBandwidth                                               proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.DFS Done!                                                                      proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.DFS.                                                                           proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.DFS.Event.{i}.                                                                 proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.DTIMPeriod                                                                     proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.DriverConfig.                                                                  proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.DriverStatus.                                                                  proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.EhtPhyCapabilities                                                             proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.EhtPhyCapabilitiesStr                                                          proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.Enable                                                                         proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.EventCounter.{i}.                                                              proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.ExtensionChannel                                                               proto::prplmesh-dm-mapper
@@ -3668,10 +3657,10 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.Radio.{i}.RegulatoryDomain                                                               proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.RetryLimit                                                                     proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.ScanConfig.                                                                    proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.ScanConfig.OnlyScanPscChannels                                                 proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.ScanResults.                                                                   proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.ScanResults.SurroundingChannels.{i}.                                           proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.ScanResults.SurroundingChannels.{i}.Accesspoint.{i}.                           proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ScanResults.SurroundingChannels.{i}.Accesspoint.{i}.BSSID                      proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.ScanResults.SurroundingChannels.{i}.Accesspoint.{i}.SSID.{i}.                  proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.ScanStats.                                                                     proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.ScanStats.ScanReason.{i}.                                                      proto::prplmesh-dm-mapper
@@ -3740,21 +3729,43 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.Radio.{i}.Status                                                                         proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.SupportedDataTransmitRates                                                     proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.SupportedFrequencyBands                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.SupportedOperatingChannelBandwidth                                             proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.SupportedSensingDataTypes                                                      proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.SupportedSensingExchangeTypes                                                  proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.SupportedOperatingChannelBandwidths                                            proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.SupportedStandards                                                             proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.TransmitPower                                                                  proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.TransmitPowerSupported                                                         proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.Upstream                                                                       proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.X_PRPLWARE-COM_Channel change event!                                           proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.X_PRPLWARE-COM_ChannelMgt.                                                     proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_ChannelMgt.BgDfs.                                               proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_ChannelMgt.BgDfs.Stats.{i}.                                     proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_ChannelMgt.BgDfs.startBgDfsClear()                              proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_ChannelMgt.BgDfs.startBgDfsClear() input:bandwidth
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_ChannelMgt.BgDfs.startBgDfsClear() input:channel
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_ChannelMgt.BgDfs.stopBgDfsClear()                               proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_ChannelMgt.ChannelChanges.{i}.                                  proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.X_PRPLWARE-COM_ChannelMgt.ClearedDfsChannels                                   proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_ChannelMgt.CurrentChanspec.                                     proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_ChannelMgt.TargetChanspec.                                      proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_DFS Done!                                                       proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.X_PRPLWARE-COM_IEEE80211kSupported                                             proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.X_PRPLWARE-COM_IEEE80211rSupported                                             proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.                                                   proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.Enable                                             proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.MonitorDevice.{i}.                                 proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.MonitorDevice.{i}.Alias                            proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.MonitorDevice.{i}.MACAddress                       proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.MonitorDevice.{i}.SignalStrength                   proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.MonitorDevice.{i}.TimeStamp                        proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.NonAssociatedDevice.{i}.                           proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.NonAssociatedDevice.{i}.Alias                      proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.NonAssociatedDevice.{i}.Channel                    proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.NonAssociatedDevice.{i}.MACAddress                 proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.NonAssociatedDevice.{i}.OperatingClass             proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.NonAssociatedDevice.{i}.RequestedBSSID             proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.NonAssociatedDevice.{i}.SignalStrength             proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.NonAssociatedDevice.{i}.TimeStamp                  proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.OffChannelSupported                                proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.RssiEventing.                                      proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.clearMonitorDevices()                              proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.clearNonAssociatedDevices()                        proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.createMonitorDevice()                              proto::prplmesh-dm-mapper
@@ -3773,6 +3784,10 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.getNaStationStats()                                proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.X_PRPLWARE-COM_ScanComplete!                                                   proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.X_PRPLWARE-COM_Sensing.                                                        proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_Sensing.CSIClient.{i}.                                          proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_Sensing.CSIClient.{i}.Alias                                     proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_Sensing.CSIClient.{i}.MACAddress                                proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_Sensing.CSIClient.{i}.MonitorInterval                           proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.X_PRPLWARE-COM_Sensing.Enable                                                  proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.X_PRPLWARE-COM_Sensing.addClient()                                             proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.X_PRPLWARE-COM_Sensing.addClient() input:Bandwidth
@@ -3786,6 +3801,8 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.Radio.{i}.X_PRPLWARE-COM_Sensing.csiStats()                                              proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.X_PRPLWARE-COM_Sensing.delClient()                                             proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.X_PRPLWARE-COM_Sensing.delClient() input:MACAddress
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_SupportedSensingDataTypes                                       proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_SupportedSensingExchangeTypes                                   proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.X_PRPLWARE-COM_getRadioAirStats()                                              proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.X_PRPLWARE-COM_getRadioStats()                                                 proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.X_PRPLWARE-COM_scan()                                                          proto::prplmesh-dm-mapper
@@ -3795,6 +3812,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.Radio.{i}.X_PRPLWARE-COM_scan() input:minRssi
   Device.WiFi.Radio.{i}.X_PRPLWARE-COM_scan() input:scanReason
   Device.WiFi.Radio.{i}.getChanSurveyReport()                                                          proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.getEHTOperations()                                                             proto::prplmesh-dm-mapper
   Device.WiFi.RadioNumberOfEntries                                                                     proto::prplmesh-dm-mapper
   Device.WiFi.Reset()                                                                                  proto::prplmesh-dm-mapper
   Device.WiFi.SSID.{i}.                                                                                proto::prplmesh-dm-mapper
@@ -3804,6 +3822,9 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.SSID.{i}.LastChange                                                                      proto::prplmesh-dm-mapper
   Device.WiFi.SSID.{i}.LowerLayers                                                                     proto::prplmesh-dm-mapper
   Device.WiFi.SSID.{i}.MACAddress                                                                      proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.MLDLinkID                                                                       proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.MLDRole                                                                         proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.MLDStatus                                                                       proto::prplmesh-dm-mapper
   Device.WiFi.SSID.{i}.MLDUnit                                                                         proto::prplmesh-dm-mapper
   Device.WiFi.SSID.{i}.Name                                                                            proto::prplmesh-dm-mapper
   Device.WiFi.SSID.{i}.SSID                                                                            proto::prplmesh-dm-mapper
@@ -3919,6 +3940,16 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.ExchangeNumberOfEntries                           proto::prplmesh-dm-mapper
   Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.SessionID                                         proto::prplmesh-dm-mapper
   Device.WiFi.X_PRPLWARE-COM_WiFiSensing.SessionNumberOfEntries                                        proto::prplmesh-dm-mapper
+  Device.WiFi.bSTAMLD.{i}.                                                                             proto::prplmesh-dm-mapper
+  Device.WiFi.bSTAMLD.{i}.AffiliatedbSTAList                                                           proto::prplmesh-dm-mapper
+  Device.WiFi.bSTAMLD.{i}.BSSID                                                                        proto::prplmesh-dm-mapper
+  Device.WiFi.bSTAMLD.{i}.MLDID                                                                        proto::prplmesh-dm-mapper
+  Device.WiFi.bSTAMLD.{i}.MLDMACAddress                                                                proto::prplmesh-dm-mapper
+  Device.WiFi.bSTAMLD.{i}.bSTAMLDConfig.                                                               proto::prplmesh-dm-mapper
+  Device.WiFi.bSTAMLD.{i}.bSTAMLDConfig.EMLMREnabled                                                   proto::prplmesh-dm-mapper
+  Device.WiFi.bSTAMLD.{i}.bSTAMLDConfig.EMLSREnabled                                                   proto::prplmesh-dm-mapper
+  Device.WiFi.bSTAMLD.{i}.bSTAMLDConfig.NSTREnabled                                                    proto::prplmesh-dm-mapper
+  Device.WiFi.bSTAMLD.{i}.bSTAMLDConfig.STREnabled                                                     proto::prplmesh-dm-mapper
   Device.WiFi.wps_DefParam.                                                                            proto::prplmesh-dm-mapper
   Device.XPON.                                                                                         proto::tr181-xpon
   Device.XPON.ONU.{i}.                                                                                 proto::tr181-xpon
@@ -7816,20 +7847,14 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AssociationTime                                     proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AuthenticationState                                 proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.BytesSent                                           proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.EhtCapabilities                                     proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.EncryptionMode                                      proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ErrorsSent                                          proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.FailedRetransCount                                  proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.FrequencyCapabilities                               proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.HeCapabilities                                      proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.HtCapabilities                                      proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.LastDataDownlinkRate                                proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.LastDataUplinkRate                                  proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.LinkBandwidth                                       proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.MACAddress                                          proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.MaxBandwidthSupported                               proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.MaxDownlinkRateSupported                            proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.MaxUplinkRateSupported                              proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.MaxSupportedBandwidth                               proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.MaxSupportedDataDownlinkRate                        proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.MaxSupportedDataUplinkRate                          proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.MultipleRetryCount                                  proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.Noise                                               proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.OperatingStandard                                   proto::prplmesh-dm-mapper
@@ -7861,21 +7886,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.AccessPoint.{i}.IEEE80211u.                                                              proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.IsolationEnable                                                          proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.MACAddressControlEnabled                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MACFiltering.
-  Device.WiFi.AccessPoint.{i}.MACFiltering.Entry.{i}.                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MACFiltering.Entry.{i}.Alias                                             proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.MACFiltering.Entry.{i}.MACAddress                                        proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.MaxAssociatedDevices                                                     proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.Neighbour.{i}.                                                           proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.Neighbour.{i}.BSSID                                                      proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.Neighbour.{i}.Channel                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.Neighbour.{i}.ColocatedAP                                                proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.Neighbour.{i}.Information                                                proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.Neighbour.{i}.NASIdentifier                                              proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.Neighbour.{i}.OperatingClass                                             proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.Neighbour.{i}.PhyType                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.Neighbour.{i}.R0KHKey                                                    proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.Neighbour.{i}.SSID                                                       proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.ProbeFiltering.                                                          proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.ProbeFiltering.TempEntry.{i}.                                            proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.RetryLimit                                                               proto::prplmesh-dm-mapper
@@ -7884,7 +7895,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.AccessPoint.{i}.SSIDReference                                                            proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.Security.                                                                proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.Security.EncryptionMode                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.AccessPoint.{i}.Security.KeyPassPhrase                                                   proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.Security.KeyPassphrase                                                   proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.Security.MFPConfig                                                       proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.Security.ModeEnabled                                                     proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.Security.ModesSupported                                                  proto::prplmesh-dm-mapper
@@ -7926,8 +7937,13 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_IEEE80211r.NASIdentifier                                  proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_IEEE80211r.R0KHKey                                        proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_MACFiltering.                                             proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_MACFiltering.Entry.{i}.                                   proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_MACFiltering.Entry.{i}.Alias                              proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_MACFiltering.Entry.{i}.MACAddress                         proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_MACFiltering.Mode                                         proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_MACFiltering.TempBlacklistEnable                          proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_MACFiltering.TempEntry.{i}.                               proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_MACFiltering.TempEntry.{i}.MACAddress                     proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_MACFiltering.addEntry()                                   proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_MACFiltering.addEntry() input:mac
   Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_MACFiltering.addTempEntry()                               proto::prplmesh-dm-mapper
@@ -7939,6 +7955,16 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_MgmtActionFrameReceived!                                  proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_MgmtDeauthFrame!                                          proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_MgmtDisassocFrame!                                        proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_Neighbour.{i}.                                            proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_Neighbour.{i}.BSSID                                       proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_Neighbour.{i}.Channel                                     proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_Neighbour.{i}.ColocatedAP                                 proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_Neighbour.{i}.Information                                 proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_Neighbour.{i}.NASIdentifier                               proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_Neighbour.{i}.OperatingClass                              proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_Neighbour.{i}.PhyType                                     proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_Neighbour.{i}.R0KHKey                                     proto::prplmesh-dm-mapper
+  Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_Neighbour.{i}.SSID                                        proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_cleanStation()                                            proto::prplmesh-dm-mapper
   Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_cleanStation() input:macaddress
   Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_delNeighbourAP()                                          proto::prplmesh-dm-mapper
@@ -8035,7 +8061,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.EndPoint.{i}.Profile.{i}.Priority                                                        proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.Profile.{i}.SSID                                                            proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.Profile.{i}.Security.                                                       proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.Profile.{i}.Security.KeyPassPhrase                                          proto::prplmesh-dm-mapper
+  Device.WiFi.EndPoint.{i}.Profile.{i}.Security.KeyPassphrase                                          proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.Profile.{i}.Security.MFPConfig                                              proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.Profile.{i}.Security.ModeEnabled                                            proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.Profile.{i}.Security.PreSharedKey                                           proto::prplmesh-dm-mapper
@@ -8043,6 +8069,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.EndPoint.{i}.Profile.{i}.Security.WEPKey                                                 proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.Profile.{i}.Status                                                          proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.ProfileReference                                                            proto::prplmesh-dm-mapper
+  Device.WiFi.EndPoint.{i}.RequiredOperatingStandards                                                  proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.SSIDReference                                                               proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.Security.                                                                   proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.Security.ModesSupported                                                     proto::prplmesh-dm-mapper
@@ -8059,10 +8086,10 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.EndPoint.{i}.WPS.X_PRPLWARE-COM_pairingDone!                                             proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.WPS.X_PRPLWARE-COM_pairingError!                                            proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.WPS.X_PRPLWARE-COM_pairingReady!                                            proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.WPS.pushButton()                                                            proto::prplmesh-dm-mapper
-  Device.WiFi.EndPoint.{i}.WPS.pushButton() input:bssid
-  Device.WiFi.EndPoint.{i}.WPS.pushButton() input:clientPIN
-  Device.WiFi.EndPoint.{i}.WPS.pushButton() input:ssid
+  Device.WiFi.EndPoint.{i}.WPS.X_PRPLWARE-COM_pushButton()                                             proto::prplmesh-dm-mapper
+  Device.WiFi.EndPoint.{i}.WPS.X_PRPLWARE-COM_pushButton() input:bssid
+  Device.WiFi.EndPoint.{i}.WPS.X_PRPLWARE-COM_pushButton() input:clientPIN
+  Device.WiFi.EndPoint.{i}.WPS.X_PRPLWARE-COM_pushButton() input:ssid
   Device.WiFi.EndPoint.{i}.X_PRPLWARE-COM_sendManagementFrame()                                        proto::prplmesh-dm-mapper
   Device.WiFi.EndPoint.{i}.X_PRPLWARE-COM_sendManagementFrame() input:channel
   Device.WiFi.EndPoint.{i}.X_PRPLWARE-COM_sendManagementFrame() input:data
@@ -8082,23 +8109,16 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.Radio.{i}.Capabilities.WiFi7APRole.                                                      proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.Capabilities.WiFi7STARole.                                                     proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.Channel                                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelChangeReason                                                            proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.
-  Device.WiFi.Radio.{i}.ChannelMgt.BgDfs.                                                              proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.BgDfs.startBgDfsClear()                                             proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.BgDfs.startBgDfsClear() input:bandwidth
-  Device.WiFi.Radio.{i}.ChannelMgt.BgDfs.startBgDfsClear() input:channel
-  Device.WiFi.Radio.{i}.ChannelMgt.BgDfs.stopBgDfsClear()                                              proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.ChannelChanges.{i}.                                                 proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ChannelMgt.TargetChanspec.                                                     proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.ChannelsInUse                                                                  proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.CurrentEhtOperatingIE                                                          proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.CurrentOperatingChannelBandwidth                                               proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.DFS Done!                                                                      proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.DFS.                                                                           proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.DFS.Event.{i}.                                                                 proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.DTIMPeriod                                                                     proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.DriverConfig.                                                                  proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.DriverStatus.                                                                  proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.EhtPhyCapabilities                                                             proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.EhtPhyCapabilitiesStr                                                          proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.Enable                                                                         proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.EventCounter.{i}.                                                              proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.ExtensionChannel                                                               proto::prplmesh-dm-mapper
@@ -8132,10 +8152,10 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.Radio.{i}.RegulatoryDomain                                                               proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.RetryLimit                                                                     proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.ScanConfig.                                                                    proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.ScanConfig.OnlyScanPscChannels                                                 proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.ScanResults.                                                                   proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.ScanResults.SurroundingChannels.{i}.                                           proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.ScanResults.SurroundingChannels.{i}.Accesspoint.{i}.                           proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.ScanResults.SurroundingChannels.{i}.Accesspoint.{i}.BSSID                      proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.ScanResults.SurroundingChannels.{i}.Accesspoint.{i}.SSID.{i}.                  proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.ScanStats.                                                                     proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.ScanStats.ScanReason.{i}.                                                      proto::prplmesh-dm-mapper
@@ -8204,21 +8224,43 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.Radio.{i}.Status                                                                         proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.SupportedDataTransmitRates                                                     proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.SupportedFrequencyBands                                                        proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.SupportedOperatingChannelBandwidth                                             proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.SupportedSensingDataTypes                                                      proto::prplmesh-dm-mapper
-  Device.WiFi.Radio.{i}.SupportedSensingExchangeTypes                                                  proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.SupportedOperatingChannelBandwidths                                            proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.SupportedStandards                                                             proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.TransmitPower                                                                  proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.TransmitPowerSupported                                                         proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.Upstream                                                                       proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.X_PRPLWARE-COM_Channel change event!                                           proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.X_PRPLWARE-COM_ChannelMgt.                                                     proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_ChannelMgt.BgDfs.                                               proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_ChannelMgt.BgDfs.Stats.{i}.                                     proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_ChannelMgt.BgDfs.startBgDfsClear()                              proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_ChannelMgt.BgDfs.startBgDfsClear() input:bandwidth
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_ChannelMgt.BgDfs.startBgDfsClear() input:channel
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_ChannelMgt.BgDfs.stopBgDfsClear()                               proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_ChannelMgt.ChannelChanges.{i}.                                  proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.X_PRPLWARE-COM_ChannelMgt.ClearedDfsChannels                                   proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_ChannelMgt.CurrentChanspec.                                     proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_ChannelMgt.TargetChanspec.                                      proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_DFS Done!                                                       proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.X_PRPLWARE-COM_IEEE80211kSupported                                             proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.X_PRPLWARE-COM_IEEE80211rSupported                                             proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.                                                   proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.Enable                                             proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.MonitorDevice.{i}.                                 proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.MonitorDevice.{i}.Alias                            proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.MonitorDevice.{i}.MACAddress                       proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.MonitorDevice.{i}.SignalStrength                   proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.MonitorDevice.{i}.TimeStamp                        proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.NonAssociatedDevice.{i}.                           proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.NonAssociatedDevice.{i}.Alias                      proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.NonAssociatedDevice.{i}.Channel                    proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.NonAssociatedDevice.{i}.MACAddress                 proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.NonAssociatedDevice.{i}.OperatingClass             proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.NonAssociatedDevice.{i}.RequestedBSSID             proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.NonAssociatedDevice.{i}.SignalStrength             proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.NonAssociatedDevice.{i}.TimeStamp                  proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.OffChannelSupported                                proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.RssiEventing.                                      proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.clearMonitorDevices()                              proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.clearNonAssociatedDevices()                        proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.createMonitorDevice()                              proto::prplmesh-dm-mapper
@@ -8237,6 +8279,10 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.getNaStationStats()                                proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.X_PRPLWARE-COM_ScanComplete!                                                   proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.X_PRPLWARE-COM_Sensing.                                                        proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_Sensing.CSIClient.{i}.                                          proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_Sensing.CSIClient.{i}.Alias                                     proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_Sensing.CSIClient.{i}.MACAddress                                proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_Sensing.CSIClient.{i}.MonitorInterval                           proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.X_PRPLWARE-COM_Sensing.Enable                                                  proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.X_PRPLWARE-COM_Sensing.addClient()                                             proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.X_PRPLWARE-COM_Sensing.addClient() input:Bandwidth
@@ -8250,6 +8296,8 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.Radio.{i}.X_PRPLWARE-COM_Sensing.csiStats()                                              proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.X_PRPLWARE-COM_Sensing.delClient()                                             proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.X_PRPLWARE-COM_Sensing.delClient() input:MACAddress
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_SupportedSensingDataTypes                                       proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.X_PRPLWARE-COM_SupportedSensingExchangeTypes                                   proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.X_PRPLWARE-COM_getRadioAirStats()                                              proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.X_PRPLWARE-COM_getRadioStats()                                                 proto::prplmesh-dm-mapper
   Device.WiFi.Radio.{i}.X_PRPLWARE-COM_scan()                                                          proto::prplmesh-dm-mapper
@@ -8259,6 +8307,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.Radio.{i}.X_PRPLWARE-COM_scan() input:minRssi
   Device.WiFi.Radio.{i}.X_PRPLWARE-COM_scan() input:scanReason
   Device.WiFi.Radio.{i}.getChanSurveyReport()                                                          proto::prplmesh-dm-mapper
+  Device.WiFi.Radio.{i}.getEHTOperations()                                                             proto::prplmesh-dm-mapper
   Device.WiFi.RadioNumberOfEntries                                                                     proto::prplmesh-dm-mapper
   Device.WiFi.Reset()                                                                                  proto::prplmesh-dm-mapper
   Device.WiFi.SSID.{i}.                                                                                proto::prplmesh-dm-mapper
@@ -8268,6 +8317,9 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.SSID.{i}.LastChange                                                                      proto::prplmesh-dm-mapper
   Device.WiFi.SSID.{i}.LowerLayers                                                                     proto::prplmesh-dm-mapper
   Device.WiFi.SSID.{i}.MACAddress                                                                      proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.MLDLinkID                                                                       proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.MLDRole                                                                         proto::prplmesh-dm-mapper
+  Device.WiFi.SSID.{i}.MLDStatus                                                                       proto::prplmesh-dm-mapper
   Device.WiFi.SSID.{i}.MLDUnit                                                                         proto::prplmesh-dm-mapper
   Device.WiFi.SSID.{i}.Name                                                                            proto::prplmesh-dm-mapper
   Device.WiFi.SSID.{i}.SSID                                                                            proto::prplmesh-dm-mapper
@@ -8383,6 +8435,16 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.ExchangeNumberOfEntries                           proto::prplmesh-dm-mapper
   Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.{i}.SessionID                                         proto::prplmesh-dm-mapper
   Device.WiFi.X_PRPLWARE-COM_WiFiSensing.SessionNumberOfEntries                                        proto::prplmesh-dm-mapper
+  Device.WiFi.bSTAMLD.{i}.                                                                             proto::prplmesh-dm-mapper
+  Device.WiFi.bSTAMLD.{i}.AffiliatedbSTAList                                                           proto::prplmesh-dm-mapper
+  Device.WiFi.bSTAMLD.{i}.BSSID                                                                        proto::prplmesh-dm-mapper
+  Device.WiFi.bSTAMLD.{i}.MLDID                                                                        proto::prplmesh-dm-mapper
+  Device.WiFi.bSTAMLD.{i}.MLDMACAddress                                                                proto::prplmesh-dm-mapper
+  Device.WiFi.bSTAMLD.{i}.bSTAMLDConfig.                                                               proto::prplmesh-dm-mapper
+  Device.WiFi.bSTAMLD.{i}.bSTAMLDConfig.EMLMREnabled                                                   proto::prplmesh-dm-mapper
+  Device.WiFi.bSTAMLD.{i}.bSTAMLDConfig.EMLSREnabled                                                   proto::prplmesh-dm-mapper
+  Device.WiFi.bSTAMLD.{i}.bSTAMLDConfig.NSTREnabled                                                    proto::prplmesh-dm-mapper
+  Device.WiFi.bSTAMLD.{i}.bSTAMLDConfig.STREnabled                                                     proto::prplmesh-dm-mapper
   Device.WiFi.wps_DefParam.                                                                            proto::prplmesh-dm-mapper
   Device.XPON.                                                                                         proto::tr181-xpon
   Device.XPON.ONU.{i}.                                                                                 proto::tr181-xpon

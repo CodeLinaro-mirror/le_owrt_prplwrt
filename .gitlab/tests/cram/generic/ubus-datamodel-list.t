@@ -437,10 +437,11 @@ Check that ubus has expected datamodels available:
   X_PRPLWARE-COM_SoftwareModules.SetRunLevelCmd
   X_PRPLWARE-COM_SoftwareModules.SetRunLevelCmd.Input
   X_PRPLWARE-COM_WiFiMapped
-  X_PRPLWARE-COM_WiFiMapped.DataElements
-  X_PRPLWARE-COM_WiFiMapped.DataElements.X_PRPLWARE-COM_Agent
-  X_PRPLWARE-COM_WiFiMapped.X_PRPLWARE-COM_ProcessManager
-  X_PRPLWARE-COM_WiFiMapped.X_PRPLWARE-COM_WiFiSensing
+  X_PRPLWARE-COM_WiFiMapped.WiFi
+  X_PRPLWARE-COM_WiFiMapped.WiFi.DataElements
+  X_PRPLWARE-COM_WiFiMapped.WiFi.DataElements.X_PRPLWARE-COM_Agent
+  X_PRPLWARE-COM_WiFiMapped.WiFi.X_PRPLWARE-COM_ProcessManager
+  X_PRPLWARE-COM_WiFiMapped.WiFi.X_PRPLWARE-COM_WiFiSensing
   X_PRPLWARE-COM_WiFiSensing
   X_PRPLWARE-COM_WiFiSensing.Session
   X_PRPLWARE-COM_WiFiSensing.Session.Exchange
