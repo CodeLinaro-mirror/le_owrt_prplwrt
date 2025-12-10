@@ -33,7 +33,7 @@ Check that managing WiFi Sensing works:
 
   $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.Sensing.Enable=0" | tr -d '\n'
   0 (no-eol)
-  $ R "sleep 10s"
+  $ sleep 10
   $ R " pgrep -cf 'wifi-sensing'"
   0
   [1]
@@ -41,7 +41,7 @@ Check that managing WiFi Sensing works:
   Idle (no-eol)
   $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.Sensing.Enable=1" | tr -d '\n'
   1 (no-eol)
-#$ R "sleep 10s"
+#$ sleep 10
   $ R "amx_wait_for "X_PRPLWARE-COM_WiFiSensing." "
   $ R "pgrep -cf 'wifi-sensing'"
   1
@@ -53,7 +53,7 @@ Check that managing pWHM and prplMesh works:
   $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=0" | tr -d '\n'
   0 (no-eol)
 
-  $ R "sleep 25s"
+  $ sleep 25
 
   $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Status?" | tr -d '\n'
   Idle (no-eol)
@@ -65,7 +65,7 @@ Check that managing pWHM and prplMesh works:
   $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PWHM.Enable=0" | tr -d '\n'
   0 (no-eol)
 
-  $ R "sleep 25s"
+  $ sleep 25
 
   $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PWHM.Status?" | tr -d '\n'
   Idle (no-eol)
@@ -77,7 +77,7 @@ Check that managing pWHM and prplMesh works:
   $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PWHM.Enable=1" | tr -d '\n'
   1 (no-eol)
 
-#$ R "sleep 25s"
+#$ sleep 25
   $ R "amx_wait_for "WiFi." "
 
   $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PWHM.Status?" | tr -d '\n'
@@ -89,7 +89,7 @@ Check that managing pWHM and prplMesh works:
   $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=1" | tr -d '\n'
   1 (no-eol)
 
-# $ R "sleep 25s"
+# $ sleep 25
   $ R "amx_wait_for "X_PRPLWARE-COM_Agent." "
 
   $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Status?" | tr -d '\n'
@@ -117,7 +117,7 @@ Check that managing pWHM and prplMesh works:
 #
 
 # Waiting for agent to complete statup
-  $ R ""amx_wait_for "X_PRPLWARE-COM_Agent.Info." "
+  $ R "amx_wait_for "X_PRPLWARE-COM_Agent.Info." "
 
   $ R "ba-cli X_PRPLWARE-COM_ProcessManager.? | grep -v '>'"
   X_PRPLWARE-COM_ProcessManager.

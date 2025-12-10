@@ -1,17 +1,17 @@
 Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
-  $ . "${TESTDIR}/../scripts/wifi.sh"
+  $ . "${TESTDIR}/../scripts/wifi-dm-mapper.sh"
 
-Set AutoChannelEnable=0 on all WiFi.Radio. interfaces:
+Set AutoChannelEnable=0 on all Device.WiFi.Radio. interfaces:
 
-  $ R "ba-cli -j -l WiFi.Radio.*.AutoChannelEnable=0 | sed '/^$/d'"
-  [{"WiFi.Radio.1.":{"AutoChannelEnable":0},"WiFi.Radio.2.":{"AutoChannelEnable":0},"WiFi.Radio.3.":{"AutoChannelEnable":0}}]
+  $ R "ba-cli -j -l Device.WiFi.Radio.*.AutoChannelEnable=0 | sed '/^$/d'"
+  [{"Device.WiFi.Radio.2.":{"AutoChannelEnable":0},"Device.WiFi.Radio.3.":{"AutoChannelEnable":0},"Device.WiFi.Radio.1.":{"AutoChannelEnable":0}}]
 
 Set channel to a non DFS one:
 
-  $ R "ba-cli -j -l WiFi.Radio.2.Channel=36 | sed '/^$/d'"
-  [{"WiFi.Radio.2.":{"Channel":36}}]
+  $ R "ba-cli -j -l Device.WiFi.Radio.2.Channel=36 | sed '/^$/d'"
+  [{"Device.WiFi.Radio.2.":{"Channel":36}}]
 
   $ sleep 5
 
@@ -57,9 +57,9 @@ Check all AccessPoint.SSIDReference+ instances are disabled
   Down
 
   $ get_ssid_ssid
-  backhaul_(4C:BA:7D|A8:C2:46):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
-  backhaul_(4C:BA:7D|A8:C2:46):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
-  backhaul_(4C:BA:7D|A8:C2:46):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
+  backhaul_(AC:91:9B|58:E4:03):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
+  backhaul_(AC:91:9B|58:E4:03):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
+  backhaul_(AC:91:9B|58:E4:03):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
   prplOS
   prplOS
   prplOS
@@ -136,7 +136,7 @@ In case the controller does not yet have this parameter, catch error here isof l
   {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.":{"Enable":true}}
   {}
   {"amxd-error-code":0}
- 
+
   $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network AccessPointCommit"
   {"retval":""}
   {}
@@ -158,6 +158,19 @@ Check that wireless is operating:
   Up
   Up
 
+  $ get_ssid_ssid
+  backhaul_(AC:91:9B|58:E4:03):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
+  backhaul_(AC:91:9B|58:E4:03):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
+  backhaul_(AC:91:9B|58:E4:03):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
+  prplOSguest
+  prplOSguest
+  prplOSguest
+  prplOSpriv
+  prplOSpriv
+  prplOSpriv
+
+  $ sleep 10
+
 Check that prplmesh processes are running:
 
   $ R logger -t cram "Check that prplmesh processes are running"
@@ -166,8 +179,8 @@ Check that prplmesh processes are running:
   /opt/prplmesh/bin/beerocks_agent
   /opt/prplmesh/bin/beerocks_controller
   /opt/prplmesh/bin/beerocks_fronthaul -i wlan0
+  /opt/prplmesh/bin/beerocks_fronthaul -i wlan1
   /opt/prplmesh/bin/beerocks_fronthaul -i wlan2
-  /opt/prplmesh/bin/beerocks_fronthaul -i wlan4
   /opt/prplmesh/bin/beerocks_vendor_message
   /opt/prplmesh/bin/ieee1905_transport
 
@@ -181,8 +194,8 @@ Check that prplmesh is operational:
   \x1b[1;32moperational test success! (esc)
   /opt/prplmesh/scripts/prplmesh_utils.sh: status
   OK wlan0 radio agent operational
+  OK wlan1 radio agent operational
   OK wlan2 radio agent operational
-  OK wlan4 radio agent operational
   beerocks_agent
   beerocks_contro
   beerocks_fronth
@@ -203,12 +216,12 @@ Check that controller received correct info about wifi subsystem:
   wlan0
   wlan0.0
   wlan0.1
+  wlan1
+  wlan1.0
+  wlan1.1
   wlan2
   wlan2.0
   wlan2.1
-  wlan4
-  wlan4.0
-  wlan4.1
 
 To disable wireless, disable instances of Network.AccessPoint{i} and call AccessPointCommit():
 
@@ -244,10 +257,82 @@ Check that wireless is disabled:
   Down
   Down
 
+Check that SSIDs did not change:
+
+  $ get_ssid_ssid
+  backhaul_(AC:91:9B|58:E4:03):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
+  backhaul_(AC:91:9B|58:E4:03):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
+  backhaul_(AC:91:9B|58:E4:03):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
+  prplOSguest
+  prplOSguest
+  prplOSguest
+  prplOSpriv
+  prplOSpriv
+  prplOSpriv
+
 Check the default ChipsetVendor param configurations:
 
   $ R logger -t cram "Check the default ChipsetVendor param configurations:"
   $ R "ba-cli -j -l WiFi.Radio.*.ChipsetVendor?0 | jsonfilter -e @[0]'[*].ChipsetVendor'"
-  MaxLinear
-  MaxLinear
-  MaxLinear
+  Qualcomm
+  Qualcomm
+  Qualcomm
+
+
+To return back SSID, remove instances:
+
+  $ R logger -t cram "Stop wireless"
+
+  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1 _set '{\"parameters\":{\"SSID\":\"prplOS\"}}'"
+  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.":{"SSID":"prplOS"}}
+  {}
+  {"amxd-error-code":0}
+
+  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2 _set '{\"parameters\":{\"SSID\":\"prplOS-guest\"}}'"
+  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.":{"SSID":"prplOS-guest"}}
+  {}
+  {"amxd-error-code":0}
+
+  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1 _set '{\"parameters\":{\"Enable\":1}}'"
+  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.":{"Enable":true}}
+  {}
+  {"amxd-error-code":0}
+
+  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2 _set '{\"parameters\":{\"Enable\":1}}'"
+  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.":{"Enable":true}}
+  {}
+  {"amxd-error-code":0}
+
+  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network AccessPointCommit"
+  {"retval":""}
+  {}
+  {"amxd-error-code":0}
+
+  $ sleep 5
+
+  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1 _set '{\"parameters\":{\"Enable\":0}}'"
+  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.":{"Enable":false}}
+  {}
+  {"amxd-error-code":0}
+
+  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2 _set '{\"parameters\":{\"Enable\":0}}'"
+  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.":{"Enable":false}}
+  {}
+  {"amxd-error-code":0}
+
+  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network AccessPointCommit"
+  {"retval":""}
+  {}
+  {"amxd-error-code":0}
+
+  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1 _del"
+  {"retval":["X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.","X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.Security."]}
+  {}
+  {"amxd-error-code":0}
+
+  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2 _del"
+  {"retval":["X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.","X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.Security."]}
+  {}
+  {"amxd-error-code":0}
+
+  $ sleep 10
