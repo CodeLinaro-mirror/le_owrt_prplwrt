@@ -21,16 +21,26 @@ Assure expected build configuration (PCF-1413):
   CONFIG_BIND_ENABLE_DOH=y
   CONFIG_BUILD_LOG=y
   CONFIG_BUILD_SDK="prplos"
+  CONFIG_BUSYBOX_CONFIG_BLKID=y
+  CONFIG_BUSYBOX_CONFIG_BLOCKDEV=y
+  CONFIG_BUSYBOX_CONFIG_DEFAULT_DEPMOD_FILE=""
+  CONFIG_BUSYBOX_CONFIG_DEFAULT_MODULES_DIR=""
   CONFIG_BUSYBOX_CONFIG_DEVMEM=y
   CONFIG_BUSYBOX_CONFIG_FEATURE_FIND_INUM=y
+  CONFIG_BUSYBOX_CONFIG_FEATURE_STAT_FILESYSTEM=y
+  CONFIG_BUSYBOX_CONFIG_FEATURE_STAT_FORMAT=y
   CONFIG_BUSYBOX_CONFIG_FEATURE_TFTP_GET=y
   CONFIG_BUSYBOX_CONFIG_FEATURE_TFTP_PUT=y
   CONFIG_BUSYBOX_CONFIG_FLOAT_DURATION=y
+  CONFIG_BUSYBOX_CONFIG_LOSETUP=y
   CONFIG_BUSYBOX_CONFIG_LSMOD=y
+  CONFIG_BUSYBOX_CONFIG_MODPROBE=y
   # CONFIG_BUSYBOX_CONFIG_NTPD is not set
   CONFIG_BUSYBOX_CONFIG_PIE=y
+  CONFIG_BUSYBOX_CONFIG_STAT=y
   CONFIG_BUSYBOX_CONFIG_TFTP=y
   CONFIG_BUSYBOX_CONFIG_TFTPD=y
+  CONFIG_BUSYBOX_CONFIG_VOLUMEID=y
   CONFIG_BUSYBOX_DEFAULT_PIE=y
   CONFIG_COMMON_CLI_DEBUG_PRINTS=y
   CONFIG_COMMON_CLI_ERROR_PRINTS=y
@@ -64,8 +74,12 @@ Assure expected build configuration (PCF-1413):
   CONFIG_IFX_DDR_RAM="166"
   CONFIG_IFX_MODEL_NAME=""
   CONFIG_IFX_UBOOT_RAM_TEXT_BASE=0xA0400000
+  CONFIG_IMAGEGENERATOR_BOARD="tb341_wav700"
   CONFIG_IMAGEOPT=y
   CONFIG_INCLUDE_CONFIG=y
+  CONFIG_INITRAMFS_GENERATOR_FLASH_TYPE_EMMC=y
+  CONFIG_INITRAMFS_GENERATOR_ROOTFS_SIG_PRELOAD=y
+  CONFIG_INITRAMFS_GENERATOR_ROOTFS_SIG_PRELOAD_MANDATORY=y
   CONFIG_INTERFACE1_BONDMEMBERS=""
   CONFIG_INTERFACE1_ENABLE=y
   CONFIG_INTERFACE1_IFNAME="eth0_1"
@@ -132,6 +146,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_KERNEL_CGROUP_FREEZER=y
   CONFIG_KERNEL_CGROUP_PERF=y
   CONFIG_KERNEL_DEVMEM=y
+  CONFIG_KERNEL_DEVTMPFS=y
   CONFIG_KERNEL_FTRACE=y
   CONFIG_KERNEL_GIT_CLONE_URI="https://github.com/maxlinear/linux.git"
   CONFIG_KERNEL_GIT_LOCAL_REPOSITORY=""
@@ -177,6 +192,9 @@ Assure expected build configuration (PCF-1413):
   CONFIG_MXL_WLAN_OSS_BUILD=y
   CONFIG_OBUSPA_WEBSOCKET_MTP_SUPPORT=y
   CONFIG_ODHCP6C_ENABLE_UBUS=y
+  CONFIG_OPENSOURCE_SWUPDATE_DISKFORMAT_HANDLER=y
+  CONFIG_OPENSOURCE_SWUPDATE_DISKPART_HANDLER=y
+  CONFIG_OPENSOURCE_SWUPDATE_EXT_FILESYSTEM=y
   CONFIG_PACKAGE_acl=y
   CONFIG_PACKAGE_acl-manager=y
   CONFIG_PACKAGE_afcd=y
@@ -191,6 +209,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_base-files-prpl=y
   CONFIG_PACKAGE_bind-client=y
   CONFIG_PACKAGE_bind-libs=y
+  CONFIG_PACKAGE_blkid=y
   CONFIG_PACKAGE_block-mount=y
   CONFIG_PACKAGE_blockd=y
   CONFIG_PACKAGE_bridge=y
@@ -236,6 +255,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_ethtool-full=y
   CONFIG_PACKAGE_f2fsck=y
   CONFIG_PACKAGE_fcgi=y
+  CONFIG_PACKAGE_fdt-utils=y
   CONFIG_PACKAGE_firewall4=m
   CONFIG_PACKAGE_flock=y
   CONFIG_PACKAGE_getopt=y
@@ -253,6 +273,8 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_hosts-manager=y
   CONFIG_PACKAGE_ifxos=y
   CONFIG_PACKAGE_image-authentication=y
+  CONFIG_PACKAGE_imagegenerator=y
+  CONFIG_PACKAGE_initramfs-generator=y
   CONFIG_PACKAGE_ip-bridge=y
   CONFIG_PACKAGE_ip-full=y
   CONFIG_PACKAGE_ip-manager=y
@@ -272,8 +294,10 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_iwlwav-iw=y
   CONFIG_PACKAGE_iwlwav-tools-osp=y
   CONFIG_PACKAGE_jansson=m
+  CONFIG_PACKAGE_keyctl=y
   CONFIG_PACKAGE_keyutils=y
   CONFIG_PACKAGE_kmod-asn1-decoder=y
+  CONFIG_PACKAGE_kmod-asn1-encoder=y
   CONFIG_PACKAGE_kmod-crypto-acompress=y
   CONFIG_PACKAGE_kmod-crypto-aead=y
   CONFIG_PACKAGE_kmod-crypto-authenc=y
@@ -288,9 +312,13 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-crypto-null=y
   CONFIG_PACKAGE_kmod-crypto-rng=y
   CONFIG_PACKAGE_kmod-crypto-sha1=y
+  CONFIG_PACKAGE_kmod-crypto-sha256=y
   CONFIG_PACKAGE_kmod-crypto-sha3=y
   CONFIG_PACKAGE_kmod-crypto-sha512=y
+  CONFIG_PACKAGE_kmod-crypto-user=y
+  CONFIG_PACKAGE_kmod-dax=y
   CONFIG_PACKAGE_kmod-directconnect-dp=y
+  CONFIG_PACKAGE_kmod-dm=y
   CONFIG_PACKAGE_kmod-dnsresolver=y
   CONFIG_PACKAGE_kmod-dp-eth-reinsert=y
   CONFIG_PACKAGE_kmod-dpl=y
@@ -333,6 +361,8 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-iptunnel4=y
   CONFIG_PACKAGE_kmod-iptunnel6=y
   CONFIG_PACKAGE_kmod-iwlwav-driver-uci=y
+  CONFIG_PACKAGE_kmod-keys-encrypted=y
+  CONFIG_PACKAGE_kmod-keys-trusted=y
   CONFIG_PACKAGE_kmod-l2tp=y
   CONFIG_PACKAGE_kmod-lib-crc-ccitt=y
   CONFIG_PACKAGE_kmod-lib-crc16=y
@@ -369,6 +399,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-nft-bridge=y
   CONFIG_PACKAGE_kmod-nft-fib=m
   CONFIG_PACKAGE_kmod-nls-base=y
+  CONFIG_PACKAGE_kmod-oid-registry=y
   CONFIG_PACKAGE_kmod-p34x_phy_fwdl=y
   CONFIG_PACKAGE_kmod-packet_learn=y
   CONFIG_PACKAGE_kmod-phy-lgm-usb=y
@@ -391,6 +422,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-pppox=y
   CONFIG_PACKAGE_kmod-ppv4=y
   CONFIG_PACKAGE_kmod-qos-tc=y
+  CONFIG_PACKAGE_kmod-random-core=y
   CONFIG_PACKAGE_kmod-safexcel=y
   CONFIG_PACKAGE_kmod-sched=y
   CONFIG_PACKAGE_kmod-sched-act-colmark=y
@@ -404,6 +436,8 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-scsi-core=y
   CONFIG_PACKAGE_kmod-slhc=y
   CONFIG_PACKAGE_kmod-speedtest-driver=y
+  CONFIG_PACKAGE_kmod-sysregister=y
+  CONFIG_PACKAGE_kmod-tpm=y
   CONFIG_PACKAGE_kmod-tun=y
   CONFIG_PACKAGE_kmod-udptunnel4=y
   CONFIG_PACKAGE_kmod-udptunnel6=y
@@ -429,6 +463,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-wwan=y
   CONFIG_PACKAGE_lib-cli=y
   CONFIG_PACKAGE_libacl=y
+  CONFIG_PACKAGE_libaio=y
   CONFIG_PACKAGE_libamxa=y
   CONFIG_PACKAGE_libamxb=y
   CONFIG_PACKAGE_libamxc=y
@@ -453,10 +488,12 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_libcap-ng=y
   CONFIG_PACKAGE_libcares=y
   CONFIG_PACKAGE_libcomerr=y
+  CONFIG_PACKAGE_libconfig=y
   CONFIG_PACKAGE_libcthulhu=y
   CONFIG_PACKAGE_libcurl=y
   CONFIG_PACKAGE_libdbi=y
   CONFIG_PACKAGE_libdbus=y
+  CONFIG_PACKAGE_libdevmapper=y
   CONFIG_PACKAGE_libdhcpoptions=y
   CONFIG_PACKAGE_libdiscoping=y
   CONFIG_PACKAGE_libe2p=y
@@ -467,6 +504,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_libexpat=y
   CONFIG_PACKAGE_libext2fs=y
   CONFIG_PACKAGE_libf2fs=y
+  CONFIG_PACKAGE_libfdisk=y
   CONFIG_PACKAGE_libfdt=y
   CONFIG_PACKAGE_libffi=y
   CONFIG_PACKAGE_libfiletransfer=y
@@ -485,13 +523,16 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_libiptext6=y
   CONFIG_PACKAGE_libiwinfo=y
   CONFIG_PACKAGE_libiwinfo-data=y
+  CONFIG_PACKAGE_libkcapi=y
   CONFIG_PACKAGE_libkeyutils=y
   CONFIG_PACKAGE_libkmod=y
   CONFIG_PACKAGE_liblcm=y
   CONFIG_PACKAGE_liblua=y
+  CONFIG_PACKAGE_liblua5.3=y
   CONFIG_PACKAGE_liblxc=y
   CONFIG_PACKAGE_liblzma=y
   CONFIG_PACKAGE_libmbim=y
+  CONFIG_PACKAGE_libmfg=y
   CONFIG_PACKAGE_libmicrohttpd-no-ssl=y
   CONFIG_PACKAGE_libmosquitto-ssl=y
   CONFIG_PACKAGE_libmsgapi=y
@@ -527,6 +568,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_libqosmodule=y
   CONFIG_PACKAGE_libqosnode=y
   CONFIG_PACKAGE_libqrtr-glib=y
+  CONFIG_PACKAGE_libreadline=y
   CONFIG_PACKAGE_librlyeh=y
   CONFIG_PACKAGE_librnp=y
   CONFIG_PACKAGE_librt=y
@@ -545,6 +587,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_libtr181-hosts=y
   CONFIG_PACKAGE_libtr181-schedules=y
   CONFIG_PACKAGE_libtr69-engine=y
+  CONFIG_PACKAGE_libubootenv=y
   CONFIG_PACKAGE_libudev-zero=y
   CONFIG_PACKAGE_libugwhelper=y
   CONFIG_PACKAGE_libunbound-prpl=y
@@ -559,6 +602,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_libwebsockets4-full=y
   CONFIG_PACKAGE_libxml2=y
   CONFIG_PACKAGE_libxtables=y
+  CONFIG_PACKAGE_libyaml=y
   CONFIG_PACKAGE_lighttpd=y
   CONFIG_PACKAGE_lighttpd-mod-access=y
   CONFIG_PACKAGE_lighttpd-mod-auth=y
@@ -570,11 +614,14 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_lighttpd-mod-setenv=y
   CONFIG_PACKAGE_logd=m
   CONFIG_PACKAGE_logrotate=y
+  CONFIG_PACKAGE_losetup=y
   CONFIG_PACKAGE_lrzsz=y
   CONFIG_PACKAGE_ltq-wlan-wave_6x-uci-osp=y
   CONFIG_PACKAGE_lua=y
   CONFIG_PACKAGE_lua-amx=y
   CONFIG_PACKAGE_lua-cjson=m
+  CONFIG_PACKAGE_lua5.3=y
+  CONFIG_PACKAGE_lvm2=y
   CONFIG_PACKAGE_lxc=y
   CONFIG_PACKAGE_lxc-attach=y
   CONFIG_PACKAGE_lxc-auto=y
@@ -717,6 +764,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_procps-ng-ps=y
   CONFIG_PACKAGE_procps-ng-uptime=y
   CONFIG_PACKAGE_prpl-configuration=y
+  CONFIG_PACKAGE_prpl-securestore=y
   CONFIG_PACKAGE_prpl-webui=y
   CONFIG_PACKAGE_prplmesh=y
   CONFIG_PACKAGE_prplmesh-dm-mapper=y
@@ -725,6 +773,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_pwhm=y
   CONFIG_PACKAGE_qmi-utils=y
   CONFIG_PACKAGE_radvd=y
+  CONFIG_PACKAGE_readmfg=y
   CONFIG_PACKAGE_reboot-service=y
   CONFIG_PACKAGE_resize2fs=y
   CONFIG_PACKAGE_rlyeh=y
@@ -772,6 +821,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_sse_fapi_lgm=y
   CONFIG_PACKAGE_ssh-server=y
   CONFIG_PACKAGE_swpal_6x-uci-prpl=y
+  CONFIG_PACKAGE_swupdate=y
   CONFIG_PACKAGE_syslog-ng=y
   CONFIG_PACKAGE_tc-tiny=y
   CONFIG_PACKAGE_terminfo=y
@@ -828,6 +878,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_uboot-envtools=y
   CONFIG_PACKAGE_uboot-octopus-urx641-4GB-ddr-overlay-fit-p34x-phy-emmc-prpl=y
   CONFIG_PACKAGE_uboot-octopus-urx641-overlay-fit-p34x-phy-emmc-prpl=y
+  CONFIG_PACKAGE_uboot-tools=y
   CONFIG_PACKAGE_ucode-mod-ubus=m
   CONFIG_PACKAGE_ucode-mod-uci=m
   CONFIG_PACKAGE_umbim=y
@@ -909,6 +960,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_SAH_AMX_PCM_ORDER=17
   CONFIG_SAH_AMX_PCM_RUN_AS_GROUP="tr181_app"
   CONFIG_SAH_AMX_PCM_RUN_AS_USER="tr181_app"
+  CONFIG_SAH_AMX_PCM_SECURESTORE=y
   CONFIG_SAH_AMX_PCM_TARBALL=y
   CONFIG_SAH_AMX_PROCESSMONITOR=y
   CONFIG_SAH_AMX_PROCESSMONITOR_START_ORDER=99
@@ -1113,6 +1165,16 @@ Assure expected build configuration (PCF-1413):
   CONFIG_SAH_LIB_AMXRT=y
   CONFIG_SAH_LIB_CTHULHU-LXC=y
   CONFIG_SAH_LIB_FWINTERFACE_INTERFACE_IPTC=y
+  CONFIG_SAH_LIB_MFG=y
+  CONFIG_SAH_LIB_MFG_GLOBAL_SIGNATURE=y
+  CONFIG_SAH_LIB_MFG_GLOBAL_SIGNATURE_PADDING_MODE="pss"
+  CONFIG_SAH_LIB_MFG_GLOBAL_SIGNATURE_PUBLIC_PEM_FILE="/security/smd_pub.pem"
+  CONFIG_SAH_LIB_MFG_ROOT_NODE_NAME="MFG_DATA"
+  CONFIG_SAH_LIB_MFG_RO_PART_FILE="/dev/mmcblk0p13"
+  CONFIG_SAH_LIB_MFG_RW_PART_FILE=""
+  CONFIG_SAH_LIB_MFG_SECURE_MFG_KERNEL_KEYRING_IV_FILE="/rom/security/initramfs/Kuk-aes-iv.hex"
+  CONFIG_SAH_LIB_MFG_SECURE_MFG_KERNEL_KEYRING_KEY_NAME="mfg:Kuk"
+  CONFIG_SAH_LIB_MFG_SECURE_MFG_KERNEL_KEYRING_SUPPORT=y
   CONFIG_SAH_LIB_NETLINK-UTILS=y
   CONFIG_SAH_LIB_NETMODEL=y
   CONFIG_SAH_LIB_SAHTRACE=y
@@ -1211,7 +1273,10 @@ Assure expected build configuration (PCF-1413):
   CONFIG_SWITCH_DEVICE_ID=0
   CONFIG_SWITCH_LAN_PORTS="0 1 2 4"
   CONFIG_SWITCH_MII1_PORT="5"
+  CONFIG_SYSREGISTER_RESET_BOOTCOUNT=y
   # CONFIG_TARGET_ROOTFS_EXT4FS is not set
+  CONFIG_TARGET_SECURE_INITRAMFS=y
+  CONFIG_TARGET_SECURE_INITRAMFS_COMPRESSION_GZIP=y
   CONFIG_USE_PRPLMESH_WHM=y
   CONFIG_VERSIONOPT=y
   CONFIG_VERSION_BUG_URL="https://jira.prplfoundation.org"
