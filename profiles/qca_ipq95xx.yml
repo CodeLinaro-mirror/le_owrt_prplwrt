@@ -55,6 +55,7 @@ packages:
   - wifi-helper-scripts
   - swupdate
   - libubootenv
+  - imagegenerator
   - initramfs-generator
   - libblkid
   - libuuid
@@ -98,3 +99,4 @@ diffconfig: |
   BUSYBOX_CONFIG_FEATURE_STAT_FORMAT=y
   BUSYBOX_CONFIG_FEATURE_STAT_FILESYSTEM=y
   CONFIG_SAH_LIB_MFG_RO_PART_FILE="/dev/mmcblk0p32"
+  CONFIG_IMAGEGENERATOR=y
