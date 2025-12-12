@@ -19,18 +19,24 @@ Configure controller, requires PPM-3022 to work:
 
   $ R logger -t cram "Stop prplmesh"
 
-  $ R "( /etc/init.d/prplmesh stop ; sleep 2 )  2>&1 > /dev/null"
+  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=0" | tr -d '\n'
+  0 (no-eol)
 
-
+  $ sleep 2
   $ R "sed -i 's/use_dataelements_vap_configs=0/use_dataelements_vap_configs=1/g' /opt/prplmesh/config/beerocks_controller.conf"
 
 Restart prplmesh:
 
   $ R logger -t cram "Restart prplmesh"
 
-  $ R "( /etc/init.d/prplmesh gateway_mode ; sleep 2 ) > /tmp/prplmesh-gw-mode.log 2>&1 ; logger -t prplmesh-gateway-mode < /tmp/prplmesh-gw-mode.log"
+  $ R "ba-cli X_PRPLWARE-COM_ProcessManager.PrplMesh.ManagementMode=Multi-AP-Controller-and-Agent"  > /dev/null
+
+  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=1" | tr -d '\n'
+  1 (no-eol)
 
   $ R "ubus -t 60 wait_for X_PRPLWARE-COM_WiFiController.Network.Device.1"
+
+  $ sleep 5
 
 First call of AccessPointCommit, controller should push empty config to agents:
 

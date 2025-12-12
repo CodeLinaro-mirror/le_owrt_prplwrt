@@ -259,7 +259,8 @@ Restore defautlt MLDUnit values:
 
 Resume prplMesh:
 
-  $ R "/etc/init.d/prplmesh start 2>&1 > /dev/null"
+  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=1" | tr -d '\n'
+  1 (no-eol)
 
   $ R logger -t cram "Stopping MLO test .."
 

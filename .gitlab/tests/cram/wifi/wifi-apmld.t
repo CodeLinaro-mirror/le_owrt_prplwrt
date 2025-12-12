@@ -7,7 +7,12 @@ Create R alias:
 
 Stop prplMesh:
 
-  $ R "/etc/init.d/prplmesh stop > /dev/null 2>&1"
+  $ R logger -t cram "Stop prplmesh"
+
+  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=0" | tr -d '\n'
+  0 (no-eol)
+
+  $ sleep 2
 
 Check default configuration:
 
@@ -469,6 +474,8 @@ Check if private apmld is cleared:
 
 Resume prplMesh:
 
-  $ R "/etc/init.d/prplmesh start 2>&1 > /dev/null"
+  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=1" | tr -d '\n'
+  1 (no-eol)
+
   $ sleep 10
   $ R logger -t cram "Test finished!"

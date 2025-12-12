@@ -13,7 +13,10 @@ Wait for Device.WiFi. datamodel availability:
 
 Stop prplMesh:
 
-  $ R "/etc/init.d/prplmesh stop 2>&1 > /dev/null"
+  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=0" | tr -d '\n'
+  0 (no-eol)
+
+  $ sleep 2
 
 Enabling few accesspoints to check hostapd:
 
@@ -162,7 +165,8 @@ Test deactivation of access point 1:
 
 Resume prplMesh:
 
-  $ R "/etc/init.d/prplmesh start 2>&1 > /dev/null"
+  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=1" | tr -d '\n'
+  1 (no-eol)
 
   $ R logger -t cram "Stopping PWHM test for custom arguments.."
 
