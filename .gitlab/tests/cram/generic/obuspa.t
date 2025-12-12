@@ -3350,6 +3350,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.AccessPoint.{i}.Alias                                                                    proto::wld
   Device.WiFi.AccessPoint.{i}.ApRole                                                                   proto::wld
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.                                                    proto::wld
+  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.APMLDMacAddress                                     proto::wld
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.Active                                              proto::wld
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ActiveNumberOfAffiliatedSta                         proto::wld
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AffiliatedSta.{i}.                                  proto::wld
@@ -8265,6 +8266,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.AccessPoint.{i}.Alias                                                                    proto::wld
   Device.WiFi.AccessPoint.{i}.ApRole                                                                   proto::wld
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.                                                    proto::wld
+  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.APMLDMacAddress                                     proto::wld
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.Active                                              proto::wld
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.ActiveNumberOfAffiliatedSta                         proto::wld
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AffiliatedSta.{i}.                                  proto::wld
