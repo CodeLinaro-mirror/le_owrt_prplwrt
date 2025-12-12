@@ -24,7 +24,9 @@ Stop prplMesh:
 
   $ R logger -t cram "Stop prplmesh"
 
-  $ R "/etc/init.d/prplmesh stop > /dev/null 2>&1"
+  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=0" | tr -d '\n'
+  0 (no-eol)
+
   $ sleep 2
 
 Enable private vaps:
@@ -160,7 +162,9 @@ Disable all AccessPoints (implicitly - the ones that was enabled for this test):
 
 Restart prplMesh:
 
-  $ R "( /etc/init.d/prplmesh gateway_mode ; sleep 2 ) > /tmp/prplmesh-gw-mode.log 2>&1 ; logger -t prplmesh-gateway-mode < /tmp/prplmesh-gw-mode.log"
+  $ R "ba-cli X_PRPLWARE-COM_ProcessManager.PrplMesh.ManagementMode=Multi-AP-Controller-and-Agent"  > /dev/null
+  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=1" | tr -d '\n'
+  1 (no-eol)
 
   $ R "ubus -t 60 wait_for X_PRPLWARE-COM_WiFiController.Network.Device.1"
 
