@@ -11,7 +11,10 @@ Wait for Device.WiFi. datamodel availability:
 
 Stop prplMesh:
 
-  $ R "/etc/init.d/prplmesh stop > /dev/null 2>&1"
+  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=0" | tr -d '\n'
+  0 (no-eol)
+
+  $ sleep 2
 
 Set AutoChannelEnable=0 on all WiFi.Radio. interfaces:
 
@@ -696,7 +699,8 @@ Check if hostapd process is stopped:
 
 Resume prplMesh:
 
-  $ R "/etc/init.d/prplmesh start 2>&1 > /dev/null"
+  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=1" | tr -d '\n'
+  1 (no-eol)
 
   $ R logger -t cram "Stopping PWHM test .."
 
