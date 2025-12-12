@@ -13,7 +13,10 @@ Wait for Device.WiFi. datamodel availability:
 
 Stop prplMesh:
 
-  $ R "/etc/init.d/prplmesh stop 2>&1 > /dev/null"
+  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=0" | tr -d '\n'
+  0 (no-eol)
+
+  $ sleep 2
 
 Set AutoChannelEnable=0 on all WiFi.Radio. interfaces:
 
