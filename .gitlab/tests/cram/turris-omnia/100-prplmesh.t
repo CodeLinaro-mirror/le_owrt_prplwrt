@@ -27,8 +27,11 @@ Check that wireless has desired configuration and state after boot:
 Restart prplmesh:
 
   $ R logger -t cram "Restart prplmesh"
-  $ R "( /etc/init.d/prplmesh gateway_mode ; sleep 2 ) > /tmp/prplmesh-gw-mode.log 2>&1 ; logger -t prplmesh-gateway-mode < /tmp/prplmesh-gw-mode.log"
 
+  $ R "ba-cli X_PRPLWARE-COM_ProcessManager.PrplMesh.ManagementMode=Multi-AP-Controller-and-Agent"  > /dev/null
+  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=1" | tr -d '\n'
+  1 (no-eol)
+  
   $ R "ubus -t 60 wait_for X_PRPLWARE-COM_WiFiController.Network.Device.1"
 
 
