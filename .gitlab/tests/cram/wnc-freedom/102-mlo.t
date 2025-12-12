@@ -591,7 +591,7 @@ Restore defautlt MLDUnit values:
 
 Resume prplMesh:
 
-  $ R "/etc/init.d/prplmesh start 2>&1 > /dev/null"
+  $ R "/etc/init.d/prplmesh setmode --mode Multi-AP-Controller-and-Agent 2>&1 > /dev/null"
 
   $ R logger -t cram "Stopping MLO test .."
 

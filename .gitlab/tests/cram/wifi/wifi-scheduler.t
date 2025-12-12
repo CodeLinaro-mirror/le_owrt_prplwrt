@@ -53,7 +53,7 @@ Configure controller:
   $ R "( /etc/init.d/prplmesh stop ; sleep 2 )  2>&1 > /dev/null"
 
   $ R "sed -i 's/use_dataelements_vap_configs=0/use_dataelements_vap_configs=1/g' /opt/prplmesh/config/beerocks_controller.conf"
-  $ R "( /etc/init.d/prplmesh gateway_mode ; sleep 2 ) > /tmp/prplmesh-gw-mode.log 2>&1 ; logger -t prplmesh-gateway-mode < /tmp/prplmesh-gw-mode.log"
+  $ R "( /etc/init.d/prplmesh setmode --mode Multi-AP-Controller-and-Agent ; sleep 2 ) > /tmp/prplmesh-gw-mode.log 2>&1 ; logger -t prplmesh-gateway-mode < /tmp/prplmesh-gw-mode.log"
 
   $ R "ubus -t 60 wait_for X_PRPLWARE-COM_WiFiController.Network.Device.1"
 
