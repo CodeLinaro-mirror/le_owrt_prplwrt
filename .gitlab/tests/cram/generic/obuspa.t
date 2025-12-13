@@ -7,6 +7,9 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   $ R "obuspa -f /etc/obuspa.db -c dump datamodel | grep '^Device.' " | grep -v -e 'Device.Cellular.' -e 'Device.WiFi.AccessPoint.{i}.Vendor.' -e 'Device.WiFi.EndPoint.{i}.Vendor.' -e 'Device.WiFi.Radio.{i}.Vendor.' -e 'Device.WiFi.Radio.{i}.NaStaMonitor.' -e 'Device.WiFi.Vendor.ReconfManager.'
   Device.
   Device.Boot!                                                                                         proto::tr181-device
+  Device.Boot! event_arg:Cause
+  Device.Boot! event_arg:FirmwareUpdated
+  Device.Boot! event_arg:Reason
   Device.Bridging.                                                                                     proto::tr181-bridging
   Device.Bridging.Bridge.{i}.                                                                          proto::tr181-bridging
   Device.Bridging.Bridge.{i}.AgingTime                                                                 proto::tr181-bridging
@@ -982,6 +985,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.Firewall.Chain.{i}.Rule.{i}.ExpiryDate                                                        proto::tr181-firewall
   Device.Firewall.Chain.{i}.Rule.{i}.IPVersion                                                         proto::tr181-firewall
   Device.Firewall.Chain.{i}.Rule.{i}.Log                                                               proto::tr181-firewall
+  Device.Firewall.Chain.{i}.Rule.{i}.LogRef                                                            proto::tr181-firewall
   Device.Firewall.Chain.{i}.Rule.{i}.Order                                                             proto::tr181-firewall
   Device.Firewall.Chain.{i}.Rule.{i}.Protocol                                                          proto::tr181-firewall
   Device.Firewall.Chain.{i}.Rule.{i}.ProtocolExclude                                                   proto::tr181-firewall
@@ -1020,11 +1024,12 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.Firewall.DMZ.{i}.Enable                                                                       proto::tr181-firewall
   Device.Firewall.DMZ.{i}.Interface                                                                    proto::tr181-firewall
   Device.Firewall.DMZ.{i}.LeaseDuration                                                                proto::tr181-firewall
+  Device.Firewall.DMZ.{i}.Log                                                                          proto::tr181-firewall
+  Device.Firewall.DMZ.{i}.LogRef                                                                       proto::tr181-firewall
   Device.Firewall.DMZ.{i}.Origin                                                                       proto::tr181-firewall
   Device.Firewall.DMZ.{i}.RemainingLeaseTime                                                           proto::tr181-firewall
   Device.Firewall.DMZ.{i}.SourcePrefix                                                                 proto::tr181-firewall
   Device.Firewall.DMZ.{i}.Status                                                                       proto::tr181-firewall
-  Device.Firewall.DMZ.{i}.X_PRPLWARE-COM_Log                                                           proto::tr181-firewall
   Device.Firewall.DMZNumberOfEntries                                                                   proto::tr181-firewall
   Device.Firewall.Enable                                                                               proto::tr181-firewall
   Device.Firewall.InterfaceSetting.{i}.                                                                proto::tr181-firewall
@@ -1051,6 +1056,16 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.Firewall.Level.{i}.Policies                                                                   proto::tr181-firewall
   Device.Firewall.Level.{i}.PortMappingEnabled                                                         proto::tr181-firewall
   Device.Firewall.LevelNumberOfEntries                                                                 proto::tr181-firewall
+  Device.Firewall.Log.{i}.                                                                             proto::tr181-firewall
+  Device.Firewall.Log.{i}.Alias                                                                        proto::tr181-firewall
+  Device.Firewall.Log.{i}.Description                                                                  proto::tr181-firewall
+  Device.Firewall.Log.{i}.Enable                                                                       proto::tr181-firewall
+  Device.Firewall.Log.{i}.FilterDestinationInterface                                                   proto::tr181-firewall
+  Device.Firewall.Log.{i}.FilterPolicy                                                                 proto::tr181-firewall
+  Device.Firewall.Log.{i}.FilterSourceInterface                                                        proto::tr181-firewall
+  Device.Firewall.Log.{i}.Level                                                                        proto::tr181-firewall
+  Device.Firewall.Log.{i}.Prefix                                                                       proto::tr181-firewall
+  Device.Firewall.LogNumberOfEntries                                                                   proto::tr181-firewall
   Device.Firewall.Pinhole.{i}.                                                                         proto::tr181-firewall
   Device.Firewall.Pinhole.{i}.Alias                                                                    proto::tr181-firewall
   Device.Firewall.Pinhole.{i}.Description                                                              proto::tr181-firewall
@@ -1062,6 +1077,8 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.Firewall.Pinhole.{i}.IPVersion                                                                proto::tr181-firewall
   Device.Firewall.Pinhole.{i}.Interface                                                                proto::tr181-firewall
   Device.Firewall.Pinhole.{i}.LeaseDuration                                                            proto::tr181-firewall
+  Device.Firewall.Pinhole.{i}.Log                                                                      proto::tr181-firewall
+  Device.Firewall.Pinhole.{i}.LogRef                                                                   proto::tr181-firewall
   Device.Firewall.Pinhole.{i}.Origin                                                                   proto::tr181-firewall
   Device.Firewall.Pinhole.{i}.Protocol                                                                 proto::tr181-firewall
   Device.Firewall.Pinhole.{i}.RemainingLeaseTime                                                       proto::tr181-firewall
@@ -1070,7 +1087,6 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.Firewall.Pinhole.{i}.SourcePortRangeMax                                                       proto::tr181-firewall
   Device.Firewall.Pinhole.{i}.SourcePrefixes                                                           proto::tr181-firewall
   Device.Firewall.Pinhole.{i}.Status                                                                   proto::tr181-firewall
-  Device.Firewall.Pinhole.{i}.X_PRPLWARE-COM_Log                                                       proto::tr181-firewall
   Device.Firewall.PinholeNumberOfEntries                                                               proto::tr181-firewall
   Device.Firewall.Policy.{i}.                                                                          proto::tr181-firewall
   Device.Firewall.Policy.{i}.Alias                                                                     proto::tr181-firewall
@@ -1078,12 +1094,13 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.Firewall.Policy.{i}.DestinationInterface                                                      proto::tr181-firewall
   Device.Firewall.Policy.{i}.Enable                                                                    proto::tr181-firewall
   Device.Firewall.Policy.{i}.IPVersion                                                                 proto::tr181-firewall
+  Device.Firewall.Policy.{i}.Log                                                                       proto::tr181-firewall
+  Device.Firewall.Policy.{i}.LogRef                                                                    proto::tr181-firewall
   Device.Firewall.Policy.{i}.ReverseChain                                                              proto::tr181-firewall
   Device.Firewall.Policy.{i}.ReverseTargetChain                                                        proto::tr181-firewall
   Device.Firewall.Policy.{i}.SourceInterface                                                           proto::tr181-firewall
   Device.Firewall.Policy.{i}.Status                                                                    proto::tr181-firewall
   Device.Firewall.Policy.{i}.TargetChain                                                               proto::tr181-firewall
-  Device.Firewall.Policy.{i}.X_PRPLWARE-COM_Log                                                        proto::tr181-firewall
   Device.Firewall.PolicyLevel                                                                          proto::tr181-firewall
   Device.Firewall.PolicyNumberOfEntries                                                                proto::tr181-firewall
   Device.Firewall.Service.{i}.                                                                         proto::tr181-firewall
@@ -1094,10 +1111,11 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.Firewall.Service.{i}.ICMPType                                                                 proto::tr181-firewall
   Device.Firewall.Service.{i}.IPVersion                                                                proto::tr181-firewall
   Device.Firewall.Service.{i}.Interface                                                                proto::tr181-firewall
+  Device.Firewall.Service.{i}.Log                                                                      proto::tr181-firewall
+  Device.Firewall.Service.{i}.LogRef                                                                   proto::tr181-firewall
   Device.Firewall.Service.{i}.Protocol                                                                 proto::tr181-firewall
   Device.Firewall.Service.{i}.SourcePrefixes                                                           proto::tr181-firewall
   Device.Firewall.Service.{i}.Status                                                                   proto::tr181-firewall
-  Device.Firewall.Service.{i}.X_PRPLWARE-COM_Log                                                       proto::tr181-firewall
   Device.Firewall.ServiceNumberOfEntries                                                               proto::tr181-firewall
   Device.Firewall.Set.{i}.                                                                             proto::tr181-firewall
   Device.Firewall.Set.{i}.Alias                                                                        proto::tr181-firewall
@@ -1144,16 +1162,6 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.Firewall.X_PRPLWARE-COM_InterfaceSetting.{i}.StealthMode                                      proto::tr181-firewall
   Device.Firewall.X_PRPLWARE-COM_InterfaceSetting.{i}.StealthModeStatus                                proto::tr181-firewall
   Device.Firewall.X_PRPLWARE-COM_InterfaceSettingNumberOfEntries                                       proto::tr181-firewall
-  Device.Firewall.X_PRPLWARE-COM_Log.{i}.                                                              proto::tr181-firewall
-  Device.Firewall.X_PRPLWARE-COM_Log.{i}.Alias                                                         proto::tr181-firewall
-  Device.Firewall.X_PRPLWARE-COM_Log.{i}.Description                                                   proto::tr181-firewall
-  Device.Firewall.X_PRPLWARE-COM_Log.{i}.Enable                                                        proto::tr181-firewall
-  Device.Firewall.X_PRPLWARE-COM_Log.{i}.FilterDestinationInterface                                    proto::tr181-firewall
-  Device.Firewall.X_PRPLWARE-COM_Log.{i}.FilterPolicy                                                  proto::tr181-firewall
-  Device.Firewall.X_PRPLWARE-COM_Log.{i}.FilterSourceInterface                                         proto::tr181-firewall
-  Device.Firewall.X_PRPLWARE-COM_Log.{i}.Level                                                         proto::tr181-firewall
-  Device.Firewall.X_PRPLWARE-COM_Log.{i}.Prefix                                                        proto::tr181-firewall
-  Device.Firewall.X_PRPLWARE-COM_LogNumberOfEntries                                                    proto::tr181-firewall
   Device.Firewall.X_PRPLWARE-COM_MaxPinholeNumberOfEntries                                             proto::tr181-firewall
   Device.Firewall.X_PRPLWARE-COM_WANAccess.                                                            proto::tr181-firewall
   Device.Firewall.X_PRPLWARE-COM_WANAccess.BlockList.{i}.                                              proto::tr181-firewall
@@ -2182,13 +2190,14 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.NAT.PortMapping.{i}.InternalClient                                                            proto::tr181-firewall
   Device.NAT.PortMapping.{i}.InternalPort                                                              proto::tr181-firewall
   Device.NAT.PortMapping.{i}.LeaseDuration                                                             proto::tr181-firewall
+  Device.NAT.PortMapping.{i}.Log                                                                       proto::tr181-firewall
+  Device.NAT.PortMapping.{i}.LogRef                                                                    proto::tr181-firewall
   Device.NAT.PortMapping.{i}.Origin                                                                    proto::tr181-firewall
   Device.NAT.PortMapping.{i}.Protocol                                                                  proto::tr181-firewall
   Device.NAT.PortMapping.{i}.RemainingLeaseTime                                                        proto::tr181-firewall
   Device.NAT.PortMapping.{i}.RemoteHost                                                                proto::tr181-firewall
   Device.NAT.PortMapping.{i}.ScheduleRef                                                               proto::tr181-firewall
   Device.NAT.PortMapping.{i}.Status                                                                    proto::tr181-firewall
-  Device.NAT.PortMapping.{i}.X_PRPLWARE-COM_Log                                                        proto::tr181-firewall
   Device.NAT.PortMappingNumberOfEntries                                                                proto::tr181-firewall
   Device.NAT.PortTrigger.{i}.                                                                          proto::tr181-firewall
   Device.NAT.PortTrigger.{i}.ActivationDate                                                            proto::tr181-firewall
@@ -2203,10 +2212,11 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.NAT.PortTrigger.{i}.Protocol                                                                  proto::tr181-firewall
   Device.NAT.PortTrigger.{i}.Rule.{i}.                                                                 proto::tr181-firewall
   Device.NAT.PortTrigger.{i}.Rule.{i}.Alias                                                            proto::tr181-firewall
+  Device.NAT.PortTrigger.{i}.Rule.{i}.Log                                                              proto::tr181-firewall
+  Device.NAT.PortTrigger.{i}.Rule.{i}.LogRef                                                           proto::tr181-firewall
   Device.NAT.PortTrigger.{i}.Rule.{i}.Port                                                             proto::tr181-firewall
   Device.NAT.PortTrigger.{i}.Rule.{i}.PortEndRange                                                     proto::tr181-firewall
   Device.NAT.PortTrigger.{i}.Rule.{i}.Protocol                                                         proto::tr181-firewall
-  Device.NAT.PortTrigger.{i}.Rule.{i}.X_PRPLWARE-COM_Log                                               proto::tr181-firewall
   Device.NAT.PortTrigger.{i}.RuleNumberOfEntries                                                       proto::tr181-firewall
   Device.NAT.PortTrigger.{i}.ScheduleRef                                                               proto::tr181-firewall
   Device.NAT.PortTrigger.{i}.Status                                                                    proto::tr181-firewall
@@ -2794,7 +2804,13 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.SSH.Server.{i}.Session.{i}.Port                                                               proto::ssh_server
   Device.SSH.Server.{i}.Session.{i}.User                                                               proto::ssh_server
   Device.SSH.Server.{i}.SessionNumberOfEntries                                                         proto::ssh_server
+  Device.SSH.Server.{i}.Stats.                                                                         proto::ssh_server
+  Device.SSH.Server.{i}.Stats.NumberOfFailedAttempts                                                   proto::ssh_server
+  Device.SSH.Server.{i}.Stats.NumberOfFailedAttemptsSinceActivation                                    proto::ssh_server
+  Device.SSH.Server.{i}.Stats.NumberOfSuccessAttempts                                                  proto::ssh_server
+  Device.SSH.Server.{i}.Stats.NumberOfSuccessAttemptsSinceActivation                                   proto::ssh_server
   Device.SSH.Server.{i}.Status                                                                         proto::ssh_server
+  Device.SSH.Server.{i}.UserGroupAccess                                                                proto::ssh_server
   Device.SSH.Server.{i}.X_PRPLWARE-COM_FailedAttempt.{i}.                                              proto::ssh_server
   Device.SSH.Server.{i}.X_PRPLWARE-COM_FailedAttempt.{i}.Alias                                         proto::ssh_server
   Device.SSH.Server.{i}.X_PRPLWARE-COM_FailedAttempt.{i}.IPAddress                                     proto::ssh_server
@@ -2802,12 +2818,6 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.SSH.Server.{i}.X_PRPLWARE-COM_FailedAttempt.{i}.Time                                          proto::ssh_server
   Device.SSH.Server.{i}.X_PRPLWARE-COM_FailedAttempt.{i}.User                                          proto::ssh_server
   Device.SSH.Server.{i}.X_PRPLWARE-COM_FailedAttemptNumberOfEntries                                    proto::ssh_server
-  Device.SSH.Server.{i}.X_PRPLWARE-COM_GroupRestriction                                                proto::ssh_server
-  Device.SSH.Server.{i}.X_PRPLWARE-COM_Stats.                                                          proto::ssh_server
-  Device.SSH.Server.{i}.X_PRPLWARE-COM_Stats.NumberOfFailedAttempts                                    proto::ssh_server
-  Device.SSH.Server.{i}.X_PRPLWARE-COM_Stats.NumberOfFailedAttemptsSinceActivation                     proto::ssh_server
-  Device.SSH.Server.{i}.X_PRPLWARE-COM_Stats.NumberOfSuccessAttempts                                   proto::ssh_server
-  Device.SSH.Server.{i}.X_PRPLWARE-COM_Stats.NumberOfSuccessAttemptsSinceActivation                    proto::ssh_server
   Device.SSH.ServerNumberOfEntries                                                                     proto::ssh_server
   Device.SSH.Status                                                                                    proto::ssh_server
   Device.STOMP.
@@ -3061,8 +3071,8 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.Syslog.Action.{i}.LogRemote.PeerVerify                                                        proto::tr181-syslog
   Device.Syslog.Action.{i}.LogRemote.Port                                                              proto::tr181-syslog
   Device.Syslog.Action.{i}.LogRemote.Protocol                                                          proto::tr181-syslog
+  Device.Syslog.Action.{i}.LogRemote.Status                                                            proto::tr181-syslog
   Device.Syslog.Action.{i}.LogRemote.X_PRPLWARE-COM_CACertificate                                      proto::tr181-syslog
-  Device.Syslog.Action.{i}.LogRemote.X_PRPLWARE-COM_Status                                             proto::tr181-syslog
   Device.Syslog.Action.{i}.SourceRef                                                                   proto::tr181-syslog
   Device.Syslog.Action.{i}.StructuredData                                                              proto::tr181-syslog
   Device.Syslog.Action.{i}.TemplateRef                                                                 proto::tr181-syslog
@@ -3081,13 +3091,13 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.Syslog.Source.{i}.FacilityLevel                                                               proto::tr181-syslog
   Device.Syslog.Source.{i}.KernelMessages                                                              proto::tr181-syslog
   Device.Syslog.Source.{i}.Network.                                                                    proto::tr181-syslog
+  Device.Syslog.Source.{i}.Network.Certificate                                                         proto::tr181-syslog
   Device.Syslog.Source.{i}.Network.Enable                                                              proto::tr181-syslog
   Device.Syslog.Source.{i}.Network.Interface                                                           proto::tr181-syslog
+  Device.Syslog.Source.{i}.Network.PeerVerify                                                          proto::tr181-syslog
   Device.Syslog.Source.{i}.Network.Port                                                                proto::tr181-syslog
   Device.Syslog.Source.{i}.Network.Protocol                                                            proto::tr181-syslog
   Device.Syslog.Source.{i}.Network.X_PRPLWARE-COM_CACertificate                                        proto::tr181-syslog
-  Device.Syslog.Source.{i}.Network.X_PRPLWARE-COM_Certificate                                          proto::tr181-syslog
-  Device.Syslog.Source.{i}.Network.X_PRPLWARE-COM_PeerVerify                                           proto::tr181-syslog
   Device.Syslog.Source.{i}.Network.X_PRPLWARE-COM_StructuredData                                       proto::tr181-syslog
   Device.Syslog.Source.{i}.Severity                                                                    proto::tr181-syslog
   Device.Syslog.Source.{i}.SystemMessages                                                              proto::tr181-syslog
@@ -3112,6 +3122,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.Time.Client.{i}.Burst                                                                         proto::time-manager
   Device.Time.Client.{i}.Enable                                                                        proto::time-manager
   Device.Time.Client.{i}.IBurst                                                                        proto::time-manager
+  Device.Time.Client.{i}.IPVersion                                                                     proto::time-manager
   Device.Time.Client.{i}.Interface                                                                     proto::time-manager
   Device.Time.Client.{i}.MaxPoll                                                                       proto::time-manager
   Device.Time.Client.{i}.MinPoll                                                                       proto::time-manager
@@ -3158,7 +3169,6 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.Time.X_PRPLWARE-COM_SetTime()                                                                 proto::time-manager
   Device.Time.X_PRPLWARE-COM_SetTime() input:Time
   Device.Time.X_PRPLWARE-COM_SetTime() input:TimeZone
-  Device.Time.update_status()                                                                          proto::time-manager
   Device.UPnP.
   Device.UPnP.Device.                                                                                  proto::tr181-upnp
   Device.UPnP.Device.Capabilities.                                                                     proto::tr181-upnp
@@ -3328,9 +3338,17 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.UserInterface.HTTPAccess.{i}.AllowAllIPv4                                                     proto::tr181-httpaccess
   Device.UserInterface.HTTPAccess.{i}.AllowAllIPv6                                                     proto::tr181-httpaccess
   Device.UserInterface.HTTPAccess.{i}.AllowedHosts                                                     proto::tr181-httpaccess
-  Device.UserInterface.HTTPAccess.{i}.AllowedPathPrefix                                                proto::tr181-httpaccess
+  Device.UserInterface.HTTPAccess.{i}.AllowedPathPrefixes                                              proto::tr181-httpaccess
   Device.UserInterface.HTTPAccess.{i}.AllowedRoles                                                     proto::tr181-httpaccess
   Device.UserInterface.HTTPAccess.{i}.Certificate                                                      proto::tr181-httpaccess
+  Device.UserInterface.HTTPAccess.{i}.CreateWebSession()                                               proto::tr181-httpaccess
+  Device.UserInterface.HTTPAccess.{i}.CreateWebSession() input:AbsoluteTimeout
+  Device.UserInterface.HTTPAccess.{i}.CreateWebSession() input:IdleTimeout
+  Device.UserInterface.HTTPAccess.{i}.CreateWebSession() input:ip
+  Device.UserInterface.HTTPAccess.{i}.CreateWebSession() input:port
+  Device.UserInterface.HTTPAccess.{i}.CreateWebSession() input:protocol
+  Device.UserInterface.HTTPAccess.{i}.CreateWebSession() input:user
+  Device.UserInterface.HTTPAccess.{i}.CreateWebSession() output:SessionID
   Device.UserInterface.HTTPAccess.{i}.Enable                                                           proto::tr181-httpaccess
   Device.UserInterface.HTTPAccess.{i}.IPv4AllowedSourcePrefix                                          proto::tr181-httpaccess
   Device.UserInterface.HTTPAccess.{i}.IPv6AllowedSourcePrefix                                          proto::tr181-httpaccess
@@ -3357,10 +3375,10 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.UserInterface.HTTPAccess.{i}.X_PRPLWARE-COM_LoginAttempts                                     proto::tr181-httpaccess
   Device.UserInterface.HTTPAccessNumberOfEntries                                                       proto::tr181-httpaccess
   Device.UserInterface.HTTPAccessSupportedProtocols                                                    proto::tr181-httpaccess
-  Device.UserInterface.HTTPAccessSupportedTLSOptions                                                   proto::tr181-httpaccess
   Device.UserInterface.PasswordRequired                                                                proto::tr181-httpaccess
   Device.UserInterface.PasswordReset()                                                                 proto::tr181-httpaccess
   Device.UserInterface.PasswordUserSelectable                                                          proto::tr181-httpaccess
+  Device.UserInterface.X_PRPLWARE-COM_HTTPAccessSupportedTLSOptions                                    proto::tr181-httpaccess
   Device.Users.                                                                                        proto::tr181-usermanagement
   Device.Users.CheckCredentialsDiagnostics()                                                           proto::tr181-usermanagement
   Device.Users.CheckCredentialsDiagnostics() input:IsHashed
@@ -5012,6 +5030,9 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   $ R "obuspa -f /etc/obuspa.db -c dump datamodel | grep '^Device.' " | grep -v -e 'Device.Cellular.' -e 'Device.WiFi.AccessPoint.{i}.Vendor.' -e 'Device.WiFi.EndPoint.{i}.Vendor.' -e 'Device.WiFi.Radio.{i}.Vendor.' -e 'Device.WiFi.Radio.{i}.NaStaMonitor.' -e 'Device.WiFi.Vendor.ReconfManager.'
   Device.
   Device.Boot!                                                                                         proto::tr181-device
+  Device.Boot! event_arg:Cause
+  Device.Boot! event_arg:FirmwareUpdated
+  Device.Boot! event_arg:Reason
   Device.Bridging.                                                                                     proto::tr181-bridging
   Device.Bridging.Bridge.{i}.                                                                          proto::tr181-bridging
   Device.Bridging.Bridge.{i}.AgingTime                                                                 proto::tr181-bridging
@@ -5987,6 +6008,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.Firewall.Chain.{i}.Rule.{i}.ExpiryDate                                                        proto::tr181-firewall
   Device.Firewall.Chain.{i}.Rule.{i}.IPVersion                                                         proto::tr181-firewall
   Device.Firewall.Chain.{i}.Rule.{i}.Log                                                               proto::tr181-firewall
+  Device.Firewall.Chain.{i}.Rule.{i}.LogRef                                                            proto::tr181-firewall
   Device.Firewall.Chain.{i}.Rule.{i}.Order                                                             proto::tr181-firewall
   Device.Firewall.Chain.{i}.Rule.{i}.Protocol                                                          proto::tr181-firewall
   Device.Firewall.Chain.{i}.Rule.{i}.ProtocolExclude                                                   proto::tr181-firewall
@@ -6025,11 +6047,12 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.Firewall.DMZ.{i}.Enable                                                                       proto::tr181-firewall
   Device.Firewall.DMZ.{i}.Interface                                                                    proto::tr181-firewall
   Device.Firewall.DMZ.{i}.LeaseDuration                                                                proto::tr181-firewall
+  Device.Firewall.DMZ.{i}.Log                                                                          proto::tr181-firewall
+  Device.Firewall.DMZ.{i}.LogRef                                                                       proto::tr181-firewall
   Device.Firewall.DMZ.{i}.Origin                                                                       proto::tr181-firewall
   Device.Firewall.DMZ.{i}.RemainingLeaseTime                                                           proto::tr181-firewall
   Device.Firewall.DMZ.{i}.SourcePrefix                                                                 proto::tr181-firewall
   Device.Firewall.DMZ.{i}.Status                                                                       proto::tr181-firewall
-  Device.Firewall.DMZ.{i}.X_PRPLWARE-COM_Log                                                           proto::tr181-firewall
   Device.Firewall.DMZNumberOfEntries                                                                   proto::tr181-firewall
   Device.Firewall.Enable                                                                               proto::tr181-firewall
   Device.Firewall.InterfaceSetting.{i}.                                                                proto::tr181-firewall
@@ -6056,6 +6079,16 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.Firewall.Level.{i}.Policies                                                                   proto::tr181-firewall
   Device.Firewall.Level.{i}.PortMappingEnabled                                                         proto::tr181-firewall
   Device.Firewall.LevelNumberOfEntries                                                                 proto::tr181-firewall
+  Device.Firewall.Log.{i}.                                                                             proto::tr181-firewall
+  Device.Firewall.Log.{i}.Alias                                                                        proto::tr181-firewall
+  Device.Firewall.Log.{i}.Description                                                                  proto::tr181-firewall
+  Device.Firewall.Log.{i}.Enable                                                                       proto::tr181-firewall
+  Device.Firewall.Log.{i}.FilterDestinationInterface                                                   proto::tr181-firewall
+  Device.Firewall.Log.{i}.FilterPolicy                                                                 proto::tr181-firewall
+  Device.Firewall.Log.{i}.FilterSourceInterface                                                        proto::tr181-firewall
+  Device.Firewall.Log.{i}.Level                                                                        proto::tr181-firewall
+  Device.Firewall.Log.{i}.Prefix                                                                       proto::tr181-firewall
+  Device.Firewall.LogNumberOfEntries                                                                   proto::tr181-firewall
   Device.Firewall.Pinhole.{i}.                                                                         proto::tr181-firewall
   Device.Firewall.Pinhole.{i}.Alias                                                                    proto::tr181-firewall
   Device.Firewall.Pinhole.{i}.Description                                                              proto::tr181-firewall
@@ -6067,6 +6100,8 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.Firewall.Pinhole.{i}.IPVersion                                                                proto::tr181-firewall
   Device.Firewall.Pinhole.{i}.Interface                                                                proto::tr181-firewall
   Device.Firewall.Pinhole.{i}.LeaseDuration                                                            proto::tr181-firewall
+  Device.Firewall.Pinhole.{i}.Log                                                                      proto::tr181-firewall
+  Device.Firewall.Pinhole.{i}.LogRef                                                                   proto::tr181-firewall
   Device.Firewall.Pinhole.{i}.Origin                                                                   proto::tr181-firewall
   Device.Firewall.Pinhole.{i}.Protocol                                                                 proto::tr181-firewall
   Device.Firewall.Pinhole.{i}.RemainingLeaseTime                                                       proto::tr181-firewall
@@ -6075,7 +6110,6 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.Firewall.Pinhole.{i}.SourcePortRangeMax                                                       proto::tr181-firewall
   Device.Firewall.Pinhole.{i}.SourcePrefixes                                                           proto::tr181-firewall
   Device.Firewall.Pinhole.{i}.Status                                                                   proto::tr181-firewall
-  Device.Firewall.Pinhole.{i}.X_PRPLWARE-COM_Log                                                       proto::tr181-firewall
   Device.Firewall.PinholeNumberOfEntries                                                               proto::tr181-firewall
   Device.Firewall.Policy.{i}.                                                                          proto::tr181-firewall
   Device.Firewall.Policy.{i}.Alias                                                                     proto::tr181-firewall
@@ -6083,12 +6117,13 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.Firewall.Policy.{i}.DestinationInterface                                                      proto::tr181-firewall
   Device.Firewall.Policy.{i}.Enable                                                                    proto::tr181-firewall
   Device.Firewall.Policy.{i}.IPVersion                                                                 proto::tr181-firewall
+  Device.Firewall.Policy.{i}.Log                                                                       proto::tr181-firewall
+  Device.Firewall.Policy.{i}.LogRef                                                                    proto::tr181-firewall
   Device.Firewall.Policy.{i}.ReverseChain                                                              proto::tr181-firewall
   Device.Firewall.Policy.{i}.ReverseTargetChain                                                        proto::tr181-firewall
   Device.Firewall.Policy.{i}.SourceInterface                                                           proto::tr181-firewall
   Device.Firewall.Policy.{i}.Status                                                                    proto::tr181-firewall
   Device.Firewall.Policy.{i}.TargetChain                                                               proto::tr181-firewall
-  Device.Firewall.Policy.{i}.X_PRPLWARE-COM_Log                                                        proto::tr181-firewall
   Device.Firewall.PolicyLevel                                                                          proto::tr181-firewall
   Device.Firewall.PolicyNumberOfEntries                                                                proto::tr181-firewall
   Device.Firewall.Service.{i}.                                                                         proto::tr181-firewall
@@ -6099,10 +6134,11 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.Firewall.Service.{i}.ICMPType                                                                 proto::tr181-firewall
   Device.Firewall.Service.{i}.IPVersion                                                                proto::tr181-firewall
   Device.Firewall.Service.{i}.Interface                                                                proto::tr181-firewall
+  Device.Firewall.Service.{i}.Log                                                                      proto::tr181-firewall
+  Device.Firewall.Service.{i}.LogRef                                                                   proto::tr181-firewall
   Device.Firewall.Service.{i}.Protocol                                                                 proto::tr181-firewall
   Device.Firewall.Service.{i}.SourcePrefixes                                                           proto::tr181-firewall
   Device.Firewall.Service.{i}.Status                                                                   proto::tr181-firewall
-  Device.Firewall.Service.{i}.X_PRPLWARE-COM_Log                                                       proto::tr181-firewall
   Device.Firewall.ServiceNumberOfEntries                                                               proto::tr181-firewall
   Device.Firewall.Set.{i}.                                                                             proto::tr181-firewall
   Device.Firewall.Set.{i}.Alias                                                                        proto::tr181-firewall
@@ -6149,16 +6185,6 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.Firewall.X_PRPLWARE-COM_InterfaceSetting.{i}.StealthMode                                      proto::tr181-firewall
   Device.Firewall.X_PRPLWARE-COM_InterfaceSetting.{i}.StealthModeStatus                                proto::tr181-firewall
   Device.Firewall.X_PRPLWARE-COM_InterfaceSettingNumberOfEntries                                       proto::tr181-firewall
-  Device.Firewall.X_PRPLWARE-COM_Log.{i}.                                                              proto::tr181-firewall
-  Device.Firewall.X_PRPLWARE-COM_Log.{i}.Alias                                                         proto::tr181-firewall
-  Device.Firewall.X_PRPLWARE-COM_Log.{i}.Description                                                   proto::tr181-firewall
-  Device.Firewall.X_PRPLWARE-COM_Log.{i}.Enable                                                        proto::tr181-firewall
-  Device.Firewall.X_PRPLWARE-COM_Log.{i}.FilterDestinationInterface                                    proto::tr181-firewall
-  Device.Firewall.X_PRPLWARE-COM_Log.{i}.FilterPolicy                                                  proto::tr181-firewall
-  Device.Firewall.X_PRPLWARE-COM_Log.{i}.FilterSourceInterface                                         proto::tr181-firewall
-  Device.Firewall.X_PRPLWARE-COM_Log.{i}.Level                                                         proto::tr181-firewall
-  Device.Firewall.X_PRPLWARE-COM_Log.{i}.Prefix                                                        proto::tr181-firewall
-  Device.Firewall.X_PRPLWARE-COM_LogNumberOfEntries                                                    proto::tr181-firewall
   Device.Firewall.X_PRPLWARE-COM_MaxPinholeNumberOfEntries                                             proto::tr181-firewall
   Device.Firewall.X_PRPLWARE-COM_WANAccess.                                                            proto::tr181-firewall
   Device.Firewall.X_PRPLWARE-COM_WANAccess.BlockList.{i}.                                              proto::tr181-firewall
@@ -7187,13 +7213,14 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.NAT.PortMapping.{i}.InternalClient                                                            proto::tr181-firewall
   Device.NAT.PortMapping.{i}.InternalPort                                                              proto::tr181-firewall
   Device.NAT.PortMapping.{i}.LeaseDuration                                                             proto::tr181-firewall
+  Device.NAT.PortMapping.{i}.Log                                                                       proto::tr181-firewall
+  Device.NAT.PortMapping.{i}.LogRef                                                                    proto::tr181-firewall
   Device.NAT.PortMapping.{i}.Origin                                                                    proto::tr181-firewall
   Device.NAT.PortMapping.{i}.Protocol                                                                  proto::tr181-firewall
   Device.NAT.PortMapping.{i}.RemainingLeaseTime                                                        proto::tr181-firewall
   Device.NAT.PortMapping.{i}.RemoteHost                                                                proto::tr181-firewall
   Device.NAT.PortMapping.{i}.ScheduleRef                                                               proto::tr181-firewall
   Device.NAT.PortMapping.{i}.Status                                                                    proto::tr181-firewall
-  Device.NAT.PortMapping.{i}.X_PRPLWARE-COM_Log                                                        proto::tr181-firewall
   Device.NAT.PortMappingNumberOfEntries                                                                proto::tr181-firewall
   Device.NAT.PortTrigger.{i}.                                                                          proto::tr181-firewall
   Device.NAT.PortTrigger.{i}.ActivationDate                                                            proto::tr181-firewall
@@ -7208,10 +7235,11 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.NAT.PortTrigger.{i}.Protocol                                                                  proto::tr181-firewall
   Device.NAT.PortTrigger.{i}.Rule.{i}.                                                                 proto::tr181-firewall
   Device.NAT.PortTrigger.{i}.Rule.{i}.Alias                                                            proto::tr181-firewall
+  Device.NAT.PortTrigger.{i}.Rule.{i}.Log                                                              proto::tr181-firewall
+  Device.NAT.PortTrigger.{i}.Rule.{i}.LogRef                                                           proto::tr181-firewall
   Device.NAT.PortTrigger.{i}.Rule.{i}.Port                                                             proto::tr181-firewall
   Device.NAT.PortTrigger.{i}.Rule.{i}.PortEndRange                                                     proto::tr181-firewall
   Device.NAT.PortTrigger.{i}.Rule.{i}.Protocol                                                         proto::tr181-firewall
-  Device.NAT.PortTrigger.{i}.Rule.{i}.X_PRPLWARE-COM_Log                                               proto::tr181-firewall
   Device.NAT.PortTrigger.{i}.RuleNumberOfEntries                                                       proto::tr181-firewall
   Device.NAT.PortTrigger.{i}.ScheduleRef                                                               proto::tr181-firewall
   Device.NAT.PortTrigger.{i}.Status                                                                    proto::tr181-firewall
@@ -7799,7 +7827,13 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.SSH.Server.{i}.Session.{i}.Port                                                               proto::ssh_server
   Device.SSH.Server.{i}.Session.{i}.User                                                               proto::ssh_server
   Device.SSH.Server.{i}.SessionNumberOfEntries                                                         proto::ssh_server
+  Device.SSH.Server.{i}.Stats.                                                                         proto::ssh_server
+  Device.SSH.Server.{i}.Stats.NumberOfFailedAttempts                                                   proto::ssh_server
+  Device.SSH.Server.{i}.Stats.NumberOfFailedAttemptsSinceActivation                                    proto::ssh_server
+  Device.SSH.Server.{i}.Stats.NumberOfSuccessAttempts                                                  proto::ssh_server
+  Device.SSH.Server.{i}.Stats.NumberOfSuccessAttemptsSinceActivation                                   proto::ssh_server
   Device.SSH.Server.{i}.Status                                                                         proto::ssh_server
+  Device.SSH.Server.{i}.UserGroupAccess                                                                proto::ssh_server
   Device.SSH.Server.{i}.X_PRPLWARE-COM_FailedAttempt.{i}.                                              proto::ssh_server
   Device.SSH.Server.{i}.X_PRPLWARE-COM_FailedAttempt.{i}.Alias                                         proto::ssh_server
   Device.SSH.Server.{i}.X_PRPLWARE-COM_FailedAttempt.{i}.IPAddress                                     proto::ssh_server
@@ -7807,12 +7841,6 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.SSH.Server.{i}.X_PRPLWARE-COM_FailedAttempt.{i}.Time                                          proto::ssh_server
   Device.SSH.Server.{i}.X_PRPLWARE-COM_FailedAttempt.{i}.User                                          proto::ssh_server
   Device.SSH.Server.{i}.X_PRPLWARE-COM_FailedAttemptNumberOfEntries                                    proto::ssh_server
-  Device.SSH.Server.{i}.X_PRPLWARE-COM_GroupRestriction                                                proto::ssh_server
-  Device.SSH.Server.{i}.X_PRPLWARE-COM_Stats.                                                          proto::ssh_server
-  Device.SSH.Server.{i}.X_PRPLWARE-COM_Stats.NumberOfFailedAttempts                                    proto::ssh_server
-  Device.SSH.Server.{i}.X_PRPLWARE-COM_Stats.NumberOfFailedAttemptsSinceActivation                     proto::ssh_server
-  Device.SSH.Server.{i}.X_PRPLWARE-COM_Stats.NumberOfSuccessAttempts                                   proto::ssh_server
-  Device.SSH.Server.{i}.X_PRPLWARE-COM_Stats.NumberOfSuccessAttemptsSinceActivation                    proto::ssh_server
   Device.SSH.ServerNumberOfEntries                                                                     proto::ssh_server
   Device.SSH.Status                                                                                    proto::ssh_server
   Device.STOMP.
@@ -8066,8 +8094,8 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.Syslog.Action.{i}.LogRemote.PeerVerify                                                        proto::tr181-syslog
   Device.Syslog.Action.{i}.LogRemote.Port                                                              proto::tr181-syslog
   Device.Syslog.Action.{i}.LogRemote.Protocol                                                          proto::tr181-syslog
+  Device.Syslog.Action.{i}.LogRemote.Status                                                            proto::tr181-syslog
   Device.Syslog.Action.{i}.LogRemote.X_PRPLWARE-COM_CACertificate                                      proto::tr181-syslog
-  Device.Syslog.Action.{i}.LogRemote.X_PRPLWARE-COM_Status                                             proto::tr181-syslog
   Device.Syslog.Action.{i}.SourceRef                                                                   proto::tr181-syslog
   Device.Syslog.Action.{i}.StructuredData                                                              proto::tr181-syslog
   Device.Syslog.Action.{i}.TemplateRef                                                                 proto::tr181-syslog
@@ -8086,13 +8114,13 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.Syslog.Source.{i}.FacilityLevel                                                               proto::tr181-syslog
   Device.Syslog.Source.{i}.KernelMessages                                                              proto::tr181-syslog
   Device.Syslog.Source.{i}.Network.                                                                    proto::tr181-syslog
+  Device.Syslog.Source.{i}.Network.Certificate                                                         proto::tr181-syslog
   Device.Syslog.Source.{i}.Network.Enable                                                              proto::tr181-syslog
   Device.Syslog.Source.{i}.Network.Interface                                                           proto::tr181-syslog
+  Device.Syslog.Source.{i}.Network.PeerVerify                                                          proto::tr181-syslog
   Device.Syslog.Source.{i}.Network.Port                                                                proto::tr181-syslog
   Device.Syslog.Source.{i}.Network.Protocol                                                            proto::tr181-syslog
   Device.Syslog.Source.{i}.Network.X_PRPLWARE-COM_CACertificate                                        proto::tr181-syslog
-  Device.Syslog.Source.{i}.Network.X_PRPLWARE-COM_Certificate                                          proto::tr181-syslog
-  Device.Syslog.Source.{i}.Network.X_PRPLWARE-COM_PeerVerify                                           proto::tr181-syslog
   Device.Syslog.Source.{i}.Network.X_PRPLWARE-COM_StructuredData                                       proto::tr181-syslog
   Device.Syslog.Source.{i}.Severity                                                                    proto::tr181-syslog
   Device.Syslog.Source.{i}.SystemMessages                                                              proto::tr181-syslog
@@ -8117,6 +8145,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.Time.Client.{i}.Burst                                                                         proto::time-manager
   Device.Time.Client.{i}.Enable                                                                        proto::time-manager
   Device.Time.Client.{i}.IBurst                                                                        proto::time-manager
+  Device.Time.Client.{i}.IPVersion                                                                     proto::time-manager
   Device.Time.Client.{i}.Interface                                                                     proto::time-manager
   Device.Time.Client.{i}.MaxPoll                                                                       proto::time-manager
   Device.Time.Client.{i}.MinPoll                                                                       proto::time-manager
@@ -8163,7 +8192,6 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.Time.X_PRPLWARE-COM_SetTime()                                                                 proto::time-manager
   Device.Time.X_PRPLWARE-COM_SetTime() input:Time
   Device.Time.X_PRPLWARE-COM_SetTime() input:TimeZone
-  Device.Time.update_status()                                                                          proto::time-manager
   Device.UPnP.
   Device.UPnP.Device.                                                                                  proto::tr181-upnp
   Device.UPnP.Device.Capabilities.                                                                     proto::tr181-upnp
@@ -8333,9 +8361,17 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.UserInterface.HTTPAccess.{i}.AllowAllIPv4                                                     proto::tr181-httpaccess
   Device.UserInterface.HTTPAccess.{i}.AllowAllIPv6                                                     proto::tr181-httpaccess
   Device.UserInterface.HTTPAccess.{i}.AllowedHosts                                                     proto::tr181-httpaccess
-  Device.UserInterface.HTTPAccess.{i}.AllowedPathPrefix                                                proto::tr181-httpaccess
+  Device.UserInterface.HTTPAccess.{i}.AllowedPathPrefixes                                              proto::tr181-httpaccess
   Device.UserInterface.HTTPAccess.{i}.AllowedRoles                                                     proto::tr181-httpaccess
   Device.UserInterface.HTTPAccess.{i}.Certificate                                                      proto::tr181-httpaccess
+  Device.UserInterface.HTTPAccess.{i}.CreateWebSession()                                               proto::tr181-httpaccess
+  Device.UserInterface.HTTPAccess.{i}.CreateWebSession() input:AbsoluteTimeout
+  Device.UserInterface.HTTPAccess.{i}.CreateWebSession() input:IdleTimeout
+  Device.UserInterface.HTTPAccess.{i}.CreateWebSession() input:ip
+  Device.UserInterface.HTTPAccess.{i}.CreateWebSession() input:port
+  Device.UserInterface.HTTPAccess.{i}.CreateWebSession() input:protocol
+  Device.UserInterface.HTTPAccess.{i}.CreateWebSession() input:user
+  Device.UserInterface.HTTPAccess.{i}.CreateWebSession() output:SessionID
   Device.UserInterface.HTTPAccess.{i}.Enable                                                           proto::tr181-httpaccess
   Device.UserInterface.HTTPAccess.{i}.IPv4AllowedSourcePrefix                                          proto::tr181-httpaccess
   Device.UserInterface.HTTPAccess.{i}.IPv6AllowedSourcePrefix                                          proto::tr181-httpaccess
@@ -8362,10 +8398,10 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.UserInterface.HTTPAccess.{i}.X_PRPLWARE-COM_LoginAttempts                                     proto::tr181-httpaccess
   Device.UserInterface.HTTPAccessNumberOfEntries                                                       proto::tr181-httpaccess
   Device.UserInterface.HTTPAccessSupportedProtocols                                                    proto::tr181-httpaccess
-  Device.UserInterface.HTTPAccessSupportedTLSOptions                                                   proto::tr181-httpaccess
   Device.UserInterface.PasswordRequired                                                                proto::tr181-httpaccess
   Device.UserInterface.PasswordReset()                                                                 proto::tr181-httpaccess
   Device.UserInterface.PasswordUserSelectable                                                          proto::tr181-httpaccess
+  Device.UserInterface.X_PRPLWARE-COM_HTTPAccessSupportedTLSOptions                                    proto::tr181-httpaccess
   Device.Users.                                                                                        proto::tr181-usermanagement
   Device.Users.CheckCredentialsDiagnostics()                                                           proto::tr181-usermanagement
   Device.Users.CheckCredentialsDiagnostics() input:IsHashed
