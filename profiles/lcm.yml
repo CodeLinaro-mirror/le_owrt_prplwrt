@@ -14,6 +14,8 @@ packages:
   - cthulhu-networking
   - cthulhu-plugin-usp
   - cthulhu-syslog
+  - cthulhu-pcm
+  - cthulhu-lpm
   - lxc
   - lxc-attach
   - lxc-auto
