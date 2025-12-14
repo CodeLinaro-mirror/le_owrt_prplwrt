@@ -168,12 +168,12 @@ Check that ubus has expected datamodels available:
   Firewall.DMZ
   Firewall.InterfaceSetting
   Firewall.Level
+  Firewall.Log
   Firewall.Pinhole
   Firewall.Policy
   Firewall.Service
   Firewall.Set
   Firewall.X_PRPLWARE-COM_InterfaceSetting
-  Firewall.X_PRPLWARE-COM_Log
   Firewall.X_PRPLWARE-COM_WANAccess
   Firewall.X_PRPLWARE-COM_WANAccess.BlockList
   GenericNetworkInterface
