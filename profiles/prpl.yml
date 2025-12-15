@@ -15,7 +15,7 @@ feeds:
 
   - name: feed_prplos
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplos.git
-    revision: prplware-v4.0.2@5e5bd50b7816712f36777b43fb4891e1fec42014
+    revision: dev_HOP-11230@40d3de8e54276eb5f7df3f90f78090128a6e4660
 
 additional_packages:
   - feed: packages
@@ -64,6 +64,7 @@ packages:
   - libfwinterface
   - libfwrules
   - libnetmodel
+  - libtr181-hosts
   - lua-amx
   - lxc
   - lxc-attach
@@ -195,6 +196,7 @@ packages:
   - tr181-sfp
   - tr181-temperature
   - tr181-upnp
+  - tr181-upnpdiscovery
   - tr181-usb
   - tr181-usermanagement
   - tr181-xpon
