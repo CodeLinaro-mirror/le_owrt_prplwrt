@@ -962,6 +962,14 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.Ethernet.VLANTermination.{i}.VLANID                                                           proto::ethernet-manager
   Device.Ethernet.VLANTermination.{i}.VLANPriority                                                     proto::ethernet-manager
   Device.Ethernet.VLANTerminationNumberOfEntries                                                       proto::ethernet-manager
+  Device.Ethernet.WoL.                                                                                 proto::ethernet-manager
+  Device.Ethernet.WoL.MACAddress                                                                       proto::ethernet-manager
+  Device.Ethernet.WoL.Password                                                                         proto::ethernet-manager
+  Device.Ethernet.WoL.SendMagicPacket                                                                  proto::ethernet-manager
+  Device.Ethernet.WoL.SendMagicPacket()                                                                proto::ethernet-manager
+  Device.Ethernet.WoL.SendMagicPacket() input:MACAddress
+  Device.Ethernet.WoL.SendMagicPacket() input:Password
+  Device.Ethernet.WoLSupported                                                                         proto::ethernet-manager
   Device.FactoryReset()                                                                                proto::tr181-device
   Device.FactoryReset() input:Cause
   Device.FactoryReset() input:Reason
@@ -6472,6 +6480,14 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.Ethernet.VLANTermination.{i}.VLANID                                                           proto::ethernet-manager
   Device.Ethernet.VLANTermination.{i}.VLANPriority                                                     proto::ethernet-manager
   Device.Ethernet.VLANTerminationNumberOfEntries                                                       proto::ethernet-manager
+  Device.Ethernet.WoL.                                                                                 proto::ethernet-manager
+  Device.Ethernet.WoL.MACAddress                                                                       proto::ethernet-manager
+  Device.Ethernet.WoL.Password                                                                         proto::ethernet-manager
+  Device.Ethernet.WoL.SendMagicPacket                                                                  proto::ethernet-manager
+  Device.Ethernet.WoL.SendMagicPacket()                                                                proto::ethernet-manager
+  Device.Ethernet.WoL.SendMagicPacket() input:MACAddress
+  Device.Ethernet.WoL.SendMagicPacket() input:Password
+  Device.Ethernet.WoLSupported                                                                         proto::ethernet-manager
   Device.FactoryReset()                                                                                proto::tr181-device
   Device.FactoryReset() input:Cause
   Device.FactoryReset() input:Reason
