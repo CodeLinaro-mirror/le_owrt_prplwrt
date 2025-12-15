@@ -34,9 +34,9 @@ Check Cthulhu.Config datamodel:
 Check Rlyeh datamodel:
 
   $ R "ba-cli -l -j Rlyeh.?0 | jsonfilter -e @[*].*.PluginLocation  -e @[*].*.ImageLocation -e @[*].*.ROImageLocation -e @[*].*.ROStorageLocation -e @[*].*.CertificateVerification -e @[*].*.SignatureVerification -e @[*].*.StorageLocation -e @[*].*.RemainingDiskSpaceBytes -e @[*].*.OnboardingFile  | sort"
+  /etc/config/rlyeh/rlyeh_onboarded_lpm
   /lcm/rlyeh/blobs
   /lcm/rlyeh/images
-  /lcm/rlyeh_onboarded
   /usr/lib/amx/rlyeh/plugins
   /usr/rlyeh/blobs
   /usr/rlyeh/images
