@@ -23,12 +23,15 @@ Check that ubus has expected datamodels available:
   Cthulhu
   Cthulhu.Config
   Cthulhu.Config.Debug
+  Cthulhu.Config.LocalPolicyManager
   Cthulhu.Config.Syslog
   Cthulhu.Container
   Cthulhu.Container.Instances
   Cthulhu.Information
   Cthulhu.Information.LocalPolicyManager
-  Cthulhu.Information.LocalPolicyManager.Logs
+  Cthulhu.Information.LocalPolicyManager.Action
+  Cthulhu.LocalManagement
+  Cthulhu.LocalManagement.Action
   Cthulhu.Plugins
   Cthulhu.PluginsPrivate
   Cthulhu.PluginsPrivate.NetworkConfig
@@ -337,6 +340,8 @@ Check that ubus has expected datamodels available:
   SoftwareModules.DeploymentUnit
   SoftwareModules.ExecEnv
   SoftwareModules.ExecutionUnit
+  SoftwareModules.LocalManagement
+  SoftwareModules.LocalManagement.Action
   SoftwareModules.NetworkConfig
   SoftwareModules.NetworkConfig.Interfaces
   Syslog

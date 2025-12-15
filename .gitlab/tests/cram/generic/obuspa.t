@@ -3038,6 +3038,18 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.SoftwareModules.InstallDU() input:URL
   Device.SoftwareModules.InstallDU() input:UUID
   Device.SoftwareModules.InstallDU() input:Username
+  Device.SoftwareModules.LocalManagement.                                                              proto::timingila
+  Device.SoftwareModules.LocalManagement.Action.{i}.                                                   proto::timingila
+  Device.SoftwareModules.LocalManagement.Action.{i}.Action                                             proto::timingila
+  Device.SoftwareModules.LocalManagement.Action.{i}.Alias                                              proto::timingila
+  Device.SoftwareModules.LocalManagement.Action.{i}.CurrentModuleVersion                               proto::timingila
+  Device.SoftwareModules.LocalManagement.Action.{i}.ExecEnvName                                        proto::timingila
+  Device.SoftwareModules.LocalManagement.Action.{i}.FaultMessage                                       proto::timingila
+  Device.SoftwareModules.LocalManagement.Action.{i}.PreviousModuleVersion                              proto::timingila
+  Device.SoftwareModules.LocalManagement.Action.{i}.Status                                             proto::timingila
+  Device.SoftwareModules.LocalManagement.Action.{i}.UUID                                               proto::timingila
+  Device.SoftwareModules.LocalManagement.ActionNumberOfEntries                                         proto::timingila
+  Device.SoftwareModules.LocalManagement.SystemName                                                    proto::timingila
   Device.SoftwareModules.NetworkConfig.                                                                proto::timingila
   Device.SoftwareModules.NetworkConfig.DefaultBridge                                                   proto::timingila
   Device.SoftwareModules.NetworkConfig.DefaultFirewallChain                                            proto::timingila
@@ -8040,6 +8052,18 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.SoftwareModules.InstallDU() input:URL
   Device.SoftwareModules.InstallDU() input:UUID
   Device.SoftwareModules.InstallDU() input:Username
+  Device.SoftwareModules.LocalManagement.                                                              proto::timingila
+  Device.SoftwareModules.LocalManagement.Action.{i}.                                                   proto::timingila
+  Device.SoftwareModules.LocalManagement.Action.{i}.Action                                             proto::timingila
+  Device.SoftwareModules.LocalManagement.Action.{i}.Alias                                              proto::timingila
+  Device.SoftwareModules.LocalManagement.Action.{i}.CurrentModuleVersion                               proto::timingila
+  Device.SoftwareModules.LocalManagement.Action.{i}.ExecEnvName                                        proto::timingila
+  Device.SoftwareModules.LocalManagement.Action.{i}.FaultMessage                                       proto::timingila
+  Device.SoftwareModules.LocalManagement.Action.{i}.PreviousModuleVersion                              proto::timingila
+  Device.SoftwareModules.LocalManagement.Action.{i}.Status                                             proto::timingila
+  Device.SoftwareModules.LocalManagement.Action.{i}.UUID                                               proto::timingila
+  Device.SoftwareModules.LocalManagement.ActionNumberOfEntries                                         proto::timingila
+  Device.SoftwareModules.LocalManagement.SystemName                                                    proto::timingila
   Device.SoftwareModules.NetworkConfig.                                                                proto::timingila
   Device.SoftwareModules.NetworkConfig.DefaultBridge                                                   proto::timingila
   Device.SoftwareModules.NetworkConfig.DefaultFirewallChain                                            proto::timingila
