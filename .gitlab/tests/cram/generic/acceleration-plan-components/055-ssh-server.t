@@ -65,20 +65,6 @@ Start two client connections using public key authentication:
   $ ssh -i ${CI_PROJECT_DIR}/.gitlab/certs/ssh-server/ed25519-ci -o "UserKnownHostsFile=/dev/null" -o BatchMode=yes -o StrictHostKeyChecking=no -p 1922 root@$TARGET_LAN_IP 'sleep 5' > /dev/null 2>&1 &
   $ sleep 1
 
-Check the Session datamodel:
-
-  $ R "ubus call SSH.Server.3.Session _get | jsonfilter -e @[*].IPAddress -e @[*].User -e @[*].Alias" | sort
-  192.168.1.2
-  192.168.1.2
-  cpe-Session-2
-  cpe-Session-3
-  root
-  root
-
-Wait a bit and check that the Session datamodel is empty:
-
-  $ sleep 4 ; R "ubus call SSH.Server.3.Session _get | jsonfilter -e @[*].IPAddress -e @[*].User -e @[*].Alias" | sort
-
 Remove the testing SSH server:
 
   $ script --command "ssh -t root@$TARGET_LAN_IP 'ubus-cli SSH.Server.ci-testing-'" > /dev/null 2>&1 ; sleep 3

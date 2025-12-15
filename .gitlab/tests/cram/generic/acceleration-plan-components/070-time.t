@@ -141,3 +141,35 @@ Check that CPE provides again NTP to the LAN clients:
 
   $ ntpdate -q 192.168.1.1 2>&1 | grep adjust
   .* adjust time server .* (re)
+
+Check default timezone:
+
+  $ (R "date +%Z")
+  GMT
+
+Check LocalTimeZone correctly filter wrong TZ:
+
+  $ (R "ba-cli Time.LocalTimeZone=\"AKST9AKDT\"") | sed 's|[>,]||g'
+   Time.LocalTimeZone=AKST9AKDT
+  Time.
+  Time.LocalTimeZone="AKST9AKDT"
+  
+  $ (R "date +%Z")
+  AKDT
+
+  $ (R "ba-cli Time.LocalTimeZone=\"NOTAVALIDETZ\"") | sed 's|[>,]||g'
+   Time.LocalTimeZone=NOTAVALIDETZ
+  ERROR: set Time.LocalTimeZone failed (10 - invalid value)
+  
+  $ (R "date +%Z")
+  AKDT
+
+Set back default timezone:
+
+  $ (R "ba-cli Time.LocalTimeZone=\"GMT0\"") | sed 's|[>,]||g'
+   Time.LocalTimeZone=GMT0
+  Time.
+  Time.LocalTimeZone="GMT0"
+  
+  $ (R "date +%Z")
+  GMT

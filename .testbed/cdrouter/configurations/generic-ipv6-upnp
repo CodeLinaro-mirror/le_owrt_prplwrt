@@ -2297,9 +2297,9 @@ SECTION "CDRouter TR-069 Add-On" {
     SECTION "Basic ACS Configuration" {
 
         # testvar acsIp                            6.0.0.1
-        # testvar acsPort                          80
+        testvar acsPort                            443
         testvar acsDomain                          acs-download.qacafe.com
-        # testvar acsTransport                     http
+        testvar acsTransport                       https
         # testvar acsAuth                          digest
         # testvar acsDigestQopAuth                 yes
         # testvar acsInterface                     wan
@@ -2352,9 +2352,9 @@ SECTION "CDRouter TR-069 Add-On" {
 
     SECTION "SSL Configuration" {
 
-        # testvar acsSslVersion                    tls
-        # testvar acsCertPath                      /usr/cdrouter/tests/acs.cdroutertest.com.pem
-        # testvar acsCaCertPath                    /usr/cdrouter/tests/acs.cdroutertest.com-ca.pem
+        testvar acsSslVersion                      tlsv1_3
+        testvar acsCertPath                        /usr/cdrouter-data/prplos-ci/softhsm-ssl-certs/server.pem
+        testvar acsCaCertPath                      /usr/cdrouter-data/prplos-ci/softhsm-ssl-certs/ca.crt
         # testvar acsDownloadCertPath              /usr/cdrouter/tests/acs-download.cdroutertest.com.pem
         # testvar acsDownloadCaCertPath            /usr/cdrouter/tests/acs.cdroutertest.com-ca.pem
         # testvar acsCipherSuite                   auto

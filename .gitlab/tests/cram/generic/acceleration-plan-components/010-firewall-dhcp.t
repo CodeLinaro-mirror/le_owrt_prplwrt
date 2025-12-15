@@ -26,20 +26,20 @@ Check that client is unable to get new lease:
 
 Add back firewall rule for cpe-dhcpv4s-lan access from LAN:
 
-  $ printf "\
-  > ubus-cli 'Firewall.Service+{Alias=\"cpe-dhcpv4s-lan\"}'
-  > ubus-cli 'Firewall.Service.cpe-dhcpv4s-lan.Action=Accept'
-  > ubus-cli 'Firewall.Service.cpe-dhcpv4s-lan.DestPort=67'
-  > ubus-cli 'Firewall.Service.cpe-dhcpv4s-lan.IPVersion=4'
-  > ubus-cli 'Firewall.Service.cpe-dhcpv4s-lan.Interface=Device.IP.Interface.3.'
-  > ubus-cli 'Firewall.Service.cpe-dhcpv4s-lan.Protocol=17'
-  > ubus-cli 'Firewall.Service.cpe-dhcpv4s-lan.Enable=1'
-  > " > /tmp/cram
-  $ script --command "ssh -t root@$TARGET_LAN_IP '$(cat /tmp/cram)'" > /dev/null
+  $ cat > /tmp/dhcpv4s-lan-config <<EOF
+  > ba-cli 'Firewall.Service+{Alias="cpe-dhcpv4s-lan"}'
+  > ba-cli 'Firewall.Service.cpe-dhcpv4s-lan.Action=Accept'
+  > ba-cli 'Firewall.Service.cpe-dhcpv4s-lan.DestPort=67'
+  > ba-cli 'Firewall.Service.cpe-dhcpv4s-lan.IPVersion=4'
+  > ba-cli 'Firewall.Service.cpe-dhcpv4s-lan.Interface=Device.IP.Interface.3'
+  > ba-cli 'Firewall.Service.cpe-dhcpv4s-lan.Protocol=17'
+  > ba-cli 'Firewall.Service.cpe-dhcpv4s-lan.Enable=1'
+  > EOF
+  $ script --command "ssh -t root@$TARGET_LAN_IP '$(cat /tmp/dhcpv4s-lan-config)'" > /dev/null
 
 Check that the firewall rule was actually created:
 
-  $ R "iptables -vnL INPUT_Services | grep :67 | cut -d ' ' -f 11,16,21,54 | sort"
+  $ R "iptables -vnL INPUT_Services | grep :67 | awk '/ACCEPT.*udp/ {print \$3, \$4, \$6, \$11}' | sort"
   ACCEPT 17 br-guest dpt:67
   ACCEPT 17 br-lan dpt:67
   ACCEPT 17 br-lcm dpt:67

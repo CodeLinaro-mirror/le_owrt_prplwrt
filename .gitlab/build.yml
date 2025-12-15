@@ -11,7 +11,7 @@
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
       when: never
     - if: '$CI_COMMIT_BRANCH == $CI_DESIGNATED_BRANCH'
-    - if: '$CI_COMMIT_TAG =~ /^prplos-v[0-9]+\.[0-9]+\.[0-9]+.*$/'
+    - if: '$CI_COMMIT_TAG =~ /^prplware-v[0-9]+\.[0-9]+\.[0-9]+.*$/'
     - when: manual
   before_script:
     - touch .build_failed
@@ -20,6 +20,8 @@
     - mkdir -p logs
     - set -o pipefail
     - git config --global --add safe.directory '*'
+
+    - sudo apt-get update && sudo apt-get install --yes --no-install-recommends swig
 
     - |
       crlf_check_failed=$(rgrep -U $'\x0D' profiles | cut -d: -f1 | sort -u || true)
@@ -81,6 +83,19 @@
           ret=$?
           echo "Feed $(dirname $feed) packages integrity issues, please check the output bellow or feed-packages-hash-issues.patch from artifacts"
           git diff | tee --append $topdir/feed-packages-hash-issues.patch
+
+          #
+          # Check if the only change is the whitelisted ebtables hash issue PPW-981
+          #
+          if git diff --name-only | grep -q "^ebtables/Makefile$" && \
+             git diff ebtables/Makefile | grep -q "PKG_MIRROR_HASH.*3039d73b167c41025b1b401b647743b9c6d786613c693eef34de325b30de6d47" && \
+             [ $(git diff --name-only | wc -l) -eq 1 ]; then
+            # Print warning in orange color with warning icon
+            echo -e "\n\033[38;5;208m⚠️  Whitelisted ebtables package hash change detected in feed \033[1m$(dirname $feed)\033[0;38;5;208m, allowing build to continue (PPW-981)\033[0m\n"
+            popd > /dev/null
+            continue
+          fi
+
           exit $ret
         }
         popd > /dev/null

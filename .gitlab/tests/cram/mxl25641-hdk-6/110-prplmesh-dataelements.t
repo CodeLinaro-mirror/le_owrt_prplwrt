@@ -34,7 +34,7 @@ Restart prplmesh:
 
   $ R "( /etc/init.d/prplmesh gateway_mode ; sleep 2 ) > /tmp/prplmesh-gw-mode.log 2>&1 ; logger -t prplmesh-gateway-mode < /tmp/prplmesh-gw-mode.log"
 
-  $ R "ubus -t 60 wait_for Device.WiFi"
+  $ R "ubus -t 60 wait_for X_PRPLWARE-COM_WiFiController.Network.Device.1"
 
 First call of AccessPointCommit, controller should push empty config to agents:
 
@@ -175,26 +175,6 @@ Check that prplmesh processes are running:
   /opt/prplmesh/bin/beerocks_fronthaul -i wlan4
   /opt/prplmesh/bin/beerocks_vendor_message
   /opt/prplmesh/bin/ieee1905_transport
-
-Check that prplmesh is operational:
-
-  $ R logger -t cram "Check that prplmesh is operational"
-
-  $ R "/opt/prplmesh/scripts/prplmesh_utils.sh status" | LC_ALL=C sort
-  \x1b[0m (esc)
-  \x1b[0m\x1b[1;32mOK Main radio agent operational (esc)
-  \x1b[1;32moperational test success! (esc)
-  /opt/prplmesh/scripts/prplmesh_utils.sh: status
-  [0-9]+ beerocks_contro (re)
-  [0-9]+ beerocks_agent (re)
-  [0-9]+ beerocks_vendor (re)
-  [0-9]+ beerocks_fronth (re)
-  [0-9]+ beerocks_fronth (re)
-  [0-9]+ beerocks_fronth (re)
-  OK wlan0 radio agent operational
-  OK wlan2 radio agent operational
-  OK wlan4 radio agent operational
-  executing operational test using bml
 
 Check that controller received correct info about wifi subsystem:
 

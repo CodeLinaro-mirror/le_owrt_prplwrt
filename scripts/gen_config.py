@@ -78,6 +78,11 @@ def load_yaml(fname: str, profile: dict):
                     if not f.get("feed") or not f.get("packages"):
                         die(f"Found bad additional_packages {f}")
                 profile["additional_packages"].extend(new.get(n))
+            elif n in {"include"}:
+                profile["include"].extend(new.get(n))
+            elif n in {"packages_remove"}:
+                profile["packages_remove"].extend(new.get(n))
+
         return profile
 
     if not profile_file.is_file():
@@ -162,9 +167,14 @@ profile = {
     "feeds": {},
     "packages": [],
     "profiles": [],
+    "include": [],
+    "packages_remove": [],
 }
 
 for p in sys.argv[1:]:
+    profile = load_yaml(p, profile)
+
+for p in profile.get("include", []):
     profile = load_yaml(p, profile)
 
 if getenv("GENCONFIG_VERBOSE"):
@@ -213,6 +223,8 @@ for p in profile.get("feeds", []):
 
 for ap in profile.get("additional_packages"):
     feed = ap["feed"]
+    # "install -f -p feed package" will override only base package and would not override package from other feed without uninstall
+    run_cmd(["./scripts/feeds", "uninstall", *ap["packages"]])
     if run_cmd(
         ["./scripts/feeds", "install", "-f", "-p", feed, *ap["packages"]]
     ).returncode:
@@ -254,6 +266,10 @@ for ap in profile.get("additional_packages"):
         config_output += f"CONFIG_PACKAGE_{package}=y\n"
 
 config_output += f"{profile.get('diffconfig', '')}"
+
+for package in profile.get("packages_remove", []):
+    print(f"Remove package from .config: {package}")
+    config_output += f"# CONFIG_PACKAGE_{package} is not set\n"
 
 Path(".config").write_text(config_output)
 print("Configuration written to .config")

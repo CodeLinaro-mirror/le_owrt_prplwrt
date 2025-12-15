@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 
 import argparse
+import glob
 import os
 import sys
 import logging
 import json
 import time
+import traceback
 
 from labgrid import Environment, StepReporter
 from labgrid.driver import ExecutionError
@@ -207,6 +209,27 @@ class TestbedDevice:
         shell.wait_for("ping -c1 {} || true".format(host), ", 0% packet loss", 180.0)
 
 
+def handle_exception_dump_console(args):
+    """Handle exception by printing stack trace and dumping console logs"""
+    logging.error("An error occurred during execution")
+    logging.error("=" * 80)
+    logging.error("Stack trace:")
+    traceback.print_exc()
+    logging.error("=" * 80)
+    logging.error("Console log dump:")
+
+    console_log_pattern = os.path.join(args.console_logpath, "console_*")
+    console_log_files = glob.glob(console_log_pattern)
+    if console_log_files:
+        console_log_file = max(console_log_files, key=os.path.getctime)
+        with open(console_log_file, "r") as f:
+            logging.error(f.read())
+    else:
+        logging.error("Console log file not found or not available")
+    logging.error("=" * 80)
+    sys.exit(1)
+
+
 def main():
     logging.basicConfig(
         level=logging.INFO, format="%(levelname)7s: %(message)s", stream=sys.stderr
@@ -310,8 +333,11 @@ def main():
         print("command is missing")
         exit(1)
 
-    device = TestbedDevice(args)
-    args.func(device)
+    try:
+        device = TestbedDevice(args)
+        args.func(device)
+    except Exception as e:
+        handle_exception_dump_console(args)
 
 
 if __name__ == "__main__":

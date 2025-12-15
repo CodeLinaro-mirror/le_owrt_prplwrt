@@ -28,6 +28,11 @@ Check openNDS http interface has been opened on br-lan:
   $ R "ba-cli 'UserInterface.HTTPAccess.[Alias==\"captive\"].Interface?' | sed -n '2p'"
   UserInterface.HTTPAccess.3.Interface="Device.IP.Interface.3"
 
+Send a curl http request to detectportal.firefox.com and check we have a 307 temporary redirect:
+
+  $ curl -i --resolve "detectportal.firefox.com:80:${TARGET_LAN_IP}" detectportal.firefox.com 2>/dev/null | head -1
+  HTTP/1.1 307 Temporary Redirect\r (esc)
+
 Reenable WAN:
 
   $ R "ba-cli -lj 'Device.IP.Interface.[Alias==\"wan\"].Enable=1' | sed -n '2p'"

@@ -1,0 +1,23 @@
+---
+description: The prpl Extender profile with additional features (LCM, USP/CWMP)
+
+include:
+  - lcm
+  - mgmt
+  - prpl_core
+
+packages:
+  - extender-config
+  - tr181-gatewayinfo
+  - tr069-connectionrequest
+  - tr069-discovery
+  - usp-discovery
+
+diffconfig: |
+          CONFIG_BUSYBOX_CONFIG_GETOPT=y
+          CONFIG_BUSYBOX_CONFIG_FEATURE_GETOPT_LONG=y
+          CONFIG_SAH_AMX_TR181_BRIDGING_MSTPD=n
+          CONFIG_PRPL_CPE_OPMODE_EXTENDER=y
+          CONFIG_OBUSPA_WEBSOCKET_MTP_SUPPORT=y
+          CONFIG_USP_DISCOVERY_SUPPORT_MQTT_MTP=y
+          CONFIG_USP_DISCOVERY_SUPPORT_STOMP_MTP=y

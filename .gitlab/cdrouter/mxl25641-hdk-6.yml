@@ -1,5 +1,5 @@
 .mxl25641-cdrouter: &mxl25641_cdrouter
-  needs: ["build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security"]
+  needs: ["build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread"]
   extends:
     - .mxl25641-hdk-6 testbed
     - .cdrouter
@@ -52,7 +52,15 @@ CDRouter-Wireless MXL25641-HDK-6 eMMC:
 
 CDRouter-UPnP-IPv46 MXL25641-HDK-6 eMMC:
   <<: *mxl25641_cdrouter_ipv6
-  timeout: 70 minutes
+  timeout: 60 minutes
+  variables:
+    CDROUTER_TEST_CONFIG: generic-ipv6-upnp
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
+
+CDRouter-UPnP-IPv46-Failing MXL25641-HDK-6 eMMC:
+  <<: *mxl25641_cdrouter_ipv6
+  timeout: 120 minutes
   allow_failure: true
   variables:
     CDROUTER_TEST_CONFIG: generic-ipv6-upnp
@@ -117,6 +125,7 @@ CDRouter-USP-prpl MXL25641-HDK-6 eMMC:
 
 prplWare-Smoke-Test-Suite MXL25641-HDK-6 eMMC:
   <<: *mxl25641_cdrouter_ipv6
+  timeout: 45 minutes
   stage: smoke tests
   variables:
     CDROUTER_TEST_CONFIG: smoke-test
@@ -125,3 +134,25 @@ prplWare-Smoke-Test-Suite MXL25641-HDK-6 eMMC:
       .gitlab/scripts/dut-init/cdrouter-tr181-mockups.sh
       .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
       .gitlab/scripts/dut-init/cdrouter-dut-configure-prplmesh-controller.sh
+
+.mxl25641-certification: &mxl25641_certification
+  <<: *mxl25641_cdrouter_ipv6
+  timeout: 70 minutes
+  stage: certification tests
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: never
+    - when: manual
+  variables:
+    CDROUTER_TEST_CONFIG: prplos-certification
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
+      .gitlab/scripts/dut-init/cdrouter-dut-configure-cwmpd.sh
+      .gitlab/scripts/dut-init/cdrouter-dut-configure-prplos-certification.sh
+
+prplOS-Network-Test-Plan-Mandatory-v1.1.0 MXL25641-HDK-6 eMMC:
+  <<: *mxl25641_certification
+
+prplOS-Network-Test-Plan-Candidate-v1.1.0 MXL25641-HDK-6 eMMC:
+  <<: *mxl25641_certification
+  timeout: 90 minutes

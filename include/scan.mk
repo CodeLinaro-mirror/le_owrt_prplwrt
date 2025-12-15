@@ -45,7 +45,7 @@ endif
 
 define PackageDir
   $(TMP_DIR)/.$(SCAN_TARGET): $(TMP_DIR)/info/.$(SCAN_TARGET)-$(1)
-  $(TMP_DIR)/info/.$(SCAN_TARGET)-$(1): $(SCAN_DIR)/$(2)/Makefile $(foreach DEP,$(DEPS_$(SCAN_DIR)/$(2)/Makefile) $(SCAN_DEPS),$(wildcard $(if $(filter /%,$(DEP)),$(DEP),$(SCAN_DIR)/$(2)/$(DEP))))
+  $(TMP_DIR)/info/.$(SCAN_TARGET)-$(1): $(SCAN_DIR)/$(2)/Makefile $(foreach DEP,$(DEPS_$(SCAN_DIR)/$(2)/Makefile) $(SCAN_DEPS),$(wildcard $(if $(filter /%,$(DEP)),$(DEP),$(SCAN_DIR)/$(2)/$(DEP)))) $(TMP_DIR)/info/.$(SCAN_TARGET)-$(1).stamp
 	{ \
 		$$(call progress,Collecting $(SCAN_NAME) info: $(SCAN_DIR)/$(2)) \
 		echo Source-Makefile: $(SCAN_DIR)/$(2)/Makefile; \
@@ -60,6 +60,14 @@ define PackageDir
 		echo; \
 	} > $$@.tmp
 	mv $$@.tmp $$@
+
+  $(TMP_DIR)/info/.$(SCAN_TARGET)-$(1).stamp::
+	MD5SUM=$$$$(echo $(SCAN_DIR)/$(2)/Makefile $(foreach DEP,$(DEPS_$(SCAN_DIR)/$(2)/Makefile) $(SCAN_DEPS),$(wildcard $(if $(filter /%,$(DEP)),$(DEP),$(SCAN_DIR)/$(2)/$(DEP)))) | $(MKHASH) md5 | awk '{print $$$$1}'); \
+	[ -f "$$@.$$$$MD5SUM" ] || { \
+		rm -f $$@.*; \
+		touch $$@.$$$$MD5SUM; \
+		touch $$@; \
+	}
 endef
 
 $(OVERRIDELIST):
@@ -78,14 +86,15 @@ $(FILELIST): $(OVERRIDELIST)
 
 $(TMP_DIR)/info/.files-$(SCAN_TARGET).mk: $(FILELIST)
 	( \
-		cat $< | awk '{print "$(SCAN_DIR)/" $$0 "/Makefile" }' | xargs grep -HE '^ *SCAN_DEPS *= *' | awk -F: '{ gsub(/^.*DEPS *= */, "", $$2); print "DEPS_" $$1 "=" $$2 }'; \
+		cat $< | grep -v '^[$$]' | awk '{print "$(SCAN_DIR)/" $$0 "/Makefile" }' | xargs grep -HE '^ *SCAN_DEPS *= *' | awk -F: '{ gsub(/^.*DEPS *= */, "", $$2); print "DEPS_" $$1 "=" $$2 }'; \
+		cat $< | grep '^[$$]' -B1 | awk '/^[^$$]/ {MAKEFILE="$(SCAN_DIR)/" $$0 "/Makefile"} /^[$$]/ {print "DEPS_" MAKEFILE "+=" $$0}'; \
 		awk -F/ -v deps="$$DEPS" -v of="$(OVERRIDELIST)" ' \
 		BEGIN { \
 			while (getline < (of)) \
 				override[$$NF]=$$0; \
 			close(of) \
 		} \
-		{ \
+		/^[^$$]/ { \
 			info=$$0; \
 			gsub(/\//, "_", info); \
 			dir=$$0; \
@@ -113,7 +122,7 @@ $(TARGET_STAMP)::
 
 $(TMP_DIR)/.$(SCAN_TARGET): $(TARGET_STAMP)
 	$(call progress,Collecting $(SCAN_NAME) info: merging...)
-	-cat $(FILELIST) | awk '{gsub(/\//, "_", $$0);print "$(TMP_DIR)/info/.$(SCAN_TARGET)-" $$0}' | xargs cat > $@ 2>/dev/null
+	-cat $(FILELIST) | grep -v '^[$$]' | awk '{gsub(/\//, "_", $$1);print "$(TMP_DIR)/info/.$(SCAN_TARGET)-" $$1}' | xargs cat > $@ 2>/dev/null
 	$(call progress,Collecting $(SCAN_NAME) info: done)
 	echo
 
