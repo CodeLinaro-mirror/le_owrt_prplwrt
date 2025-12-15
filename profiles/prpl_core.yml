@@ -7,7 +7,7 @@ feeds:
 
   - name: feed_prplmesh
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplmesh.git
-    revision: main@952ff19c8ca2a09578ae82f7fb1bfdc97ef1f685
+    revision: bugfix/PPM-3710-fronthaul-agent-kill-in-order@467e19619289bbb69c309ec94dee3a6721ea98bf
 
   - name: feed_prplos
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplos.git
