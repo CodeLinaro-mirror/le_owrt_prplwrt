@@ -68,6 +68,7 @@ wait for cthulhu to terminate all containers and itself, before clear its data
 ### restart lcm ###
 
   $ R "/etc/init.d/rlyeh start"
+  $ sleep 1
   $ R "/etc/init.d/cthulhu start"
   $ R "/etc/init.d/timingila start"
   $ R "sleep 1"
@@ -200,8 +201,9 @@ wait for cthulhu to terminate all containers and itself, before clear its data
 
 ### Simulate reboot after upgrade ###
 
-  $ R "/etc/init.d/cthulhu start"
   $ R "/etc/init.d/rlyeh start"
+  $ sleep 1
+  $ R "/etc/init.d/cthulhu start"
   $ R "/etc/init.d/timingila start"
   $ while ! R ba-cli 'SoftwareModules.ExecEnv.? | grep "SoftwareModules\.ExecEnv\.1\." | head -n 1 | grep "SoftwareModules\.ExecEnv\.1\."' ; do sleep 1 ; done
   SoftwareModules.ExecEnv.1.
