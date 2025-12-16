@@ -205,6 +205,7 @@ wait for cthulhu to terminate all containers and itself, before clear its data
   $ R "/etc/init.d/timingila start"
   $ while ! R ba-cli 'SoftwareModules.ExecEnv.? | grep "SoftwareModules\.ExecEnv\.1\." | head -n 1 | grep "SoftwareModules\.ExecEnv\.1\."' ; do sleep 1 ; done
   SoftwareModules.ExecEnv.1.
+  $ sleep 10
 
 ## check state after the simulated reboot
 
