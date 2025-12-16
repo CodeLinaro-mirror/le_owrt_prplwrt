@@ -11,7 +11,7 @@ feeds:
 
   - name: feed_prplos
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplos.git
-    branch: FEAT-29
+    branch: dev_FEAT-29_fix_gpt_swap
 
 additional_packages:
   - feed: packages
