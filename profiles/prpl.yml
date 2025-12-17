@@ -63,6 +63,7 @@ packages:
   - iptables-mod-ipopt
   - iptables-zz-legacy
   - libdhcpoptions
+  - libupnp
   - libfwinterface
   - libfwrules
   - libnetmodel
