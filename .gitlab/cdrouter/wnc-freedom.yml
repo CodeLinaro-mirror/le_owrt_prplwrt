@@ -10,6 +10,7 @@ CDRouter-Top-100+mDNS Freedom initramfs:
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
       .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
+      .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
 
 CDRouter-Top-100+mDNS Freedom VLAN WAN/LAN initramfs:
   <<: *wnc_freedom
@@ -19,6 +20,7 @@ CDRouter-Top-100+mDNS Freedom VLAN WAN/LAN initramfs:
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
       .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
       .gitlab/scripts/dut-init/cdrouter-dut-enable-vlans.sh
+      .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
 
 CDRouter-Top-100+mDNS Freedom PPPoE WAN initramfs:
   <<: *wnc_freedom
@@ -28,6 +30,7 @@ CDRouter-Top-100+mDNS Freedom PPPoE WAN initramfs:
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
       .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
       .gitlab/scripts/dut-init/cdrouter-dut-enable-pppoe.sh
+      .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
 
 CDRouter-Wireless Freedom initramfs:
   <<: *wnc_freedom
@@ -40,6 +43,7 @@ CDRouter-Wireless Freedom initramfs:
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
       .gitlab/scripts/dut-init/cdrouter-dut-configure-wireless.sh
+      .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
 
 
 .wnc-freedom-ipv6: &wnc_freedom_ipv6
@@ -57,6 +61,7 @@ CDRouter-UPnP-IPv46 Freedom initramfs:
     CDROUTER_TEST_CONFIG: generic-ipv6-upnp
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
+      .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
 
 CDRouter-UPnP-IPv46-Failing Freedom initramfs:
   <<: *wnc_freedom_ipv6
@@ -66,6 +71,7 @@ CDRouter-UPnP-IPv46-Failing Freedom initramfs:
     CDROUTER_TEST_CONFIG: generic-ipv6-upnp
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
+      .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
 
 CDRouter-IPv6-Top-100+mDNS Freedom initramfs:
   <<: *wnc_freedom_ipv6
@@ -73,6 +79,7 @@ CDRouter-IPv6-Top-100+mDNS Freedom initramfs:
     CDROUTER_TEST_CONFIG: generic-ipv6
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
+      .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
 
 prpl-Certification Freedom initramfs:
   <<: *wnc_freedom_ipv6
@@ -87,6 +94,7 @@ prpl-Certification Freedom initramfs:
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
       .gitlab/scripts/dut-init/cdrouter-dut-configure-cwmpd.sh
+      .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
 
 CDRouter-IPv6-Top-100+mDNS Freedom VLAN WAN/LAN initramfs:
   <<: *wnc_freedom_ipv6
@@ -95,6 +103,7 @@ CDRouter-IPv6-Top-100+mDNS Freedom VLAN WAN/LAN initramfs:
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
       .gitlab/scripts/dut-init/cdrouter-dut-enable-vlans.sh
+      .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
 
 .CDRouter-IPv6-Top-100+mDNS Freedom PPPoE WAN initramfs:
   <<: *wnc_freedom_ipv6
@@ -103,6 +112,7 @@ CDRouter-IPv6-Top-100+mDNS Freedom VLAN WAN/LAN initramfs:
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
       .gitlab/scripts/dut-init/cdrouter-dut-enable-pppoe.sh
+      .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
 
 CDRouter-TR-069 Freedom eMMC:
   <<: *wnc_freedom
@@ -113,6 +123,7 @@ CDRouter-TR-069 Freedom eMMC:
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
       .gitlab/scripts/dut-init/cdrouter-tr181-mockups.sh
+      .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
 
 CDRouter-USP-prpl Freedom initramfs:
   <<: *wnc_freedom
@@ -125,6 +136,7 @@ CDRouter-USP-prpl Freedom initramfs:
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
       .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
+      .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
 
 prplWare-Smoke-Test-Suite Freedom initramfs:
   <<: *wnc_freedom_ipv6
@@ -136,6 +148,7 @@ prplWare-Smoke-Test-Suite Freedom initramfs:
       .gitlab/scripts/dut-init/cdrouter-tr181-mockups.sh
       .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
       .gitlab/scripts/dut-init/cdrouter-dut-configure-prplmesh-controller.sh
+      .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
 
 .wnc-freedom-certification: &wnc_freedom_certification
   <<: *wnc_freedom_ipv6
@@ -151,6 +164,7 @@ prplWare-Smoke-Test-Suite Freedom initramfs:
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
       .gitlab/scripts/dut-init/cdrouter-dut-configure-cwmpd.sh
       .gitlab/scripts/dut-init/cdrouter-dut-configure-prplos-certification.sh
+      .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
 
 prplOS-Network-Test-Plan-Mandatory-v1.2.0 Freedom initramfs:
   <<: *wnc_freedom_certification

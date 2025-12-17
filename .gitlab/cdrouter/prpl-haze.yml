@@ -15,6 +15,7 @@ CDRouter-Top-100+mDNS Haze initramfs:
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
       .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
+      .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
 
 CDRouter-Top-100+mDNS Haze VLAN WAN/LAN initramfs:
   <<: *prpl_haze
@@ -24,6 +25,7 @@ CDRouter-Top-100+mDNS Haze VLAN WAN/LAN initramfs:
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
       .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
       .gitlab/scripts/dut-init/cdrouter-dut-enable-vlans.sh
+      .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
 
 CDRouter-Top-100+mDNS Haze PPPoE WAN initramfs:
   <<: *prpl_haze
@@ -33,6 +35,7 @@ CDRouter-Top-100+mDNS Haze PPPoE WAN initramfs:
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
       .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
       .gitlab/scripts/dut-init/cdrouter-dut-enable-pppoe.sh
+      .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
 
 CDRouter-Wireless Haze initramfs:
   <<: *prpl_haze
@@ -43,6 +46,7 @@ CDRouter-Wireless Haze initramfs:
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
       .gitlab/scripts/dut-init/cdrouter-dut-configure-wireless.sh
+      .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
 
 
 .prpl-haze-ipv6: &prpl_haze_ipv6
@@ -59,6 +63,7 @@ CDRouter-UPnP-IPv46 Haze initramfs:
     CDROUTER_TEST_CONFIG: generic-ipv6-upnp
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
+      .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
 
 CDRouter-UPnP-IPv46-Failing Haze initramfs:
   <<: *prpl_haze_ipv6
@@ -68,6 +73,7 @@ CDRouter-UPnP-IPv46-Failing Haze initramfs:
     CDROUTER_TEST_CONFIG: generic-ipv6-upnp
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
+      .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
 
 CDRouter-IPv6-Top-100+mDNS Haze initramfs:
   <<: *prpl_haze_ipv6
@@ -75,6 +81,7 @@ CDRouter-IPv6-Top-100+mDNS Haze initramfs:
     CDROUTER_TEST_CONFIG: generic-ipv6
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
+      .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
 
 prpl-Certification Haze initramfs:
   <<: *prpl_haze_ipv6
@@ -88,6 +95,7 @@ prpl-Certification Haze initramfs:
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
       .gitlab/scripts/dut-init/cdrouter-dut-configure-cwmpd.sh
+      .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
 
 CDRouter-IPv6-Top-100+mDNS Haze VLAN WAN/LAN initramfs:
   <<: *prpl_haze_ipv6
@@ -96,6 +104,7 @@ CDRouter-IPv6-Top-100+mDNS Haze VLAN WAN/LAN initramfs:
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
       .gitlab/scripts/dut-init/cdrouter-dut-enable-vlans.sh
+      .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
 
 .CDRouter-IPv6-Top-100+mDNS Haze PPPoE WAN initramfs:
   <<: *prpl_haze_ipv6
@@ -104,6 +113,7 @@ CDRouter-IPv6-Top-100+mDNS Haze VLAN WAN/LAN initramfs:
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
       .gitlab/scripts/dut-init/cdrouter-dut-enable-pppoe.sh
+      .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
 
 CDRouter-TR-069 Haze eMMC:
   <<: *prpl_haze
@@ -114,6 +124,7 @@ CDRouter-TR-069 Haze eMMC:
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
       .gitlab/scripts/dut-init/cdrouter-tr181-mockups.sh
+      .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
 
 CDRouter-USP-prpl Haze initramfs:
   <<: *prpl_haze
@@ -125,6 +136,7 @@ CDRouter-USP-prpl Haze initramfs:
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
       .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
+      .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
 
 prplWare-Smoke-Test-Suite Haze initramfs:
   <<: *prpl_haze_ipv6
@@ -136,6 +148,7 @@ prplWare-Smoke-Test-Suite Haze initramfs:
       .gitlab/scripts/dut-init/cdrouter-tr181-mockups.sh
       .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
       .gitlab/scripts/dut-init/cdrouter-dut-configure-prplmesh-controller.sh
+      .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
 
 .prpl-haze-certification: &prpl_haze_certification
   <<: *prpl_haze_ipv6
@@ -152,6 +165,7 @@ prplWare-Smoke-Test-Suite Haze initramfs:
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
       .gitlab/scripts/dut-init/cdrouter-dut-configure-cwmpd.sh
       .gitlab/scripts/dut-init/cdrouter-dut-configure-prplos-certification.sh
+      .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
 
 prplOS-Network-Test-Plan-Mandatory-v1.2.0 Haze initramfs:
   <<: *prpl_haze_certification

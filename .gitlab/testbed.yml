@@ -32,6 +32,8 @@
       .gitlab/tests/cram/$DUT_BOARD
     CRAM_TEST_SUITE_POST: |
       .gitlab/tests/cram/post/generic
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
 
   before_script:
     - source .gitlab/scripts/helpers.sh
@@ -99,6 +101,11 @@
     - ssh root@$TARGET_LAN_IP 'logger -t CI -p local0.info "System accessible over SSH, $(uptime -p)"' || true
     - ssh root@$TARGET_LAN_IP "cat /var/log/messages" > syslog-$LABGRID_TARGET.txt 2> /dev/null || true
     - ssh root@$TARGET_LAN_IP "ubus call system board" | tee system-$LABGRID_TARGET.json
+
+    - >
+      for dut_init_script in $DUT_INIT_SCRIPTS;
+        do echo "Running $dut_init_script"; "${CI_PROJECT_DIR}/$dut_init_script";
+      done
 
     - section_end "dut-system-info"
 
