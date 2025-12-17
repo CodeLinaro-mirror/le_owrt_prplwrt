@@ -14,6 +14,10 @@ additional_packages:
       - openvpn-mbedtls
       - openssh-sftp-client
       - iputils-arping
+      - conntrack-tools
+      - file
+      - fping
+      - rng-tools
 
 packages:
   - dssp
