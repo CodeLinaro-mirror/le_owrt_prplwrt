@@ -188,4 +188,11 @@ Restart process service to clear the respawns from above tests:
   $ R "service tr181-qos restart > /dev/null 2>&1"
   $ R "service dhcpv4-manager restart  > /dev/null 2>&1"
 
+Verify for any amx-processmonitoring failure action during tests, Any pre-test\
+failures seen by 004-amx-pre-test-verify-fail-action.t will be seen again:
+
+  $ R "grep \"amx-processmonitor: process - \[!\]Test.*failed too often,"\
+  > " executing action\" /var/log/messages* /var/log/messagess.? 2>/dev/null" \
+  > "|| true"
+
   $ R logger -t cram "Amx-processmonitoring process fail test finished"

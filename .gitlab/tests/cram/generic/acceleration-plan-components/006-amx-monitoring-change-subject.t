@@ -13,7 +13,8 @@ Set script parameters and copy the script to device:
 
   $ R logger -t cram "Starting with amx-processmonitoring change subject reset cram test"
 
-Pre-test actions, Restart the process service to clear the respawns and other failures before starting with tests:
+Pre-test actions, Restart the process service to clear the respawns and other
+failures before starting with tests:
 
   $ R "service tr181-mcastd restart  > /dev/null 2>&1"
   $ R "service tr181-pcp restart  > /dev/null 2>&1"
@@ -221,4 +222,4 @@ Restart the process service to clear the respawns from above tests:
   $ R "service tr181-qos restart > /dev/null 2>&1"
   $ R "service dhcpv4-manager restart  > /dev/null 2>&1"
 
-  $ R logger -t cram "Amx-processmonitoring change subject reset cram test finished"
+  $ R logger -t cram "Amx-processmonitoring reset cram test finished"
