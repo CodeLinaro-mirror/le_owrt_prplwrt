@@ -4,6 +4,11 @@ local req_object = arg[1]
 local req_event = arg[2]
 local lamx = require 'lamx'
 
+local usp_socket = "usp:/var/run/pwhm_usp.sock"
+if arg[3] == "broker" then
+    usp_socket = "usp:/var/run/usp/broker_agent_path"
+end
+
 local usp_backend_config = {
     usp = {
         EndpointID = 'proto::local_controller'
@@ -12,7 +17,7 @@ local usp_backend_config = {
 
 lamx.backend.load("/usr/bin/mods/usp/mod-amxb-usp.so")
 lamx.backend.push_config(usp_backend_config)
-lamx.bus.open("usp:/var/run/pwhm_usp.sock")
+lamx.bus.open(usp_socket)
 
 local el = lamx.eventloop.new()
 local print_event = function(event, data)
