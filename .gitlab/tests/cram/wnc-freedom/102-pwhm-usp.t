@@ -1,1 +1,1 @@
-../generic/wifi-usp.t
+../wifi/wifi-usp.t
