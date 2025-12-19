@@ -1,0 +1,54 @@
+From 6baf7ae21657cd03e2a224cc7ffdf963d3a4b6e3 Mon Sep 17 00:00:00 2001
+From: Alexander Van Parys <alexander.vanparys@softathome.com>
+Date: Mon, 8 Sep 2025 12:32:44 +0200
+Subject: [PATCH] Ignore ubusd txqueue maximum size
+
+Log a message whenever the txq_len goes above or below the configured
+maximum size.
+---
+ ubusd.c      | 6 ++++--
+ ubusd_main.c | 4 ++++
+ 2 files changed, 8 insertions(+), 2 deletions(-)
+
+diff --git a/ubusd.c b/ubusd.c
+index 1d76b72..2fa4b92 100644
+--- a/ubusd.c
++++ b/ubusd.c
+@@ -16,6 +16,7 @@
+ #include <sys/param.h>
+ #endif
+ 
++#include <syslog.h>
+ #include "ubusd.h"
+ 
+ #define USES_EXTERNAL_BUFFER ~0U
+@@ -144,8 +145,9 @@ static void ubus_msg_enqueue(struct ubus_client *cl, struct ubus_msg_buf *ub)
+ {
+ 	struct ubus_msg_buf_list *ubl;
+ 
+-	if (cl->txq_len + ub->len > UBUS_CLIENT_MAX_TXQ_LEN)
+-		return;
++	if ((cl->txq_len < UBUS_CLIENT_MAX_TXQ_LEN) && (cl->txq_len + ub->len > UBUS_CLIENT_MAX_TXQ_LEN)) {
++		syslog(LOG_USER | LOG_CRIT, "UBUSD: Tx queue size for client %08x has exceeded the configured maximum of %u (messages will still be queued)\n", cl->id.id, UBUS_CLIENT_MAX_TXQ_LEN);
++    }
+ 
+ 	ubl = calloc(1, sizeof(struct ubus_msg_buf_list));
+ 	if (!ubl)
+diff --git a/ubusd_main.c b/ubusd_main.c
+index adbd293..418a95a 100644
+--- a/ubusd_main.c
++++ b/ubusd_main.c
+@@ -95,6 +95,10 @@ static void client_cb(struct uloop_fd *sock, unsigned int events)
+ 			break;
+ 		}
+ 
++		if((cl->txq_len > UBUS_CLIENT_MAX_TXQ_LEN) && ((cl->txq_len - written) <= UBUS_CLIENT_MAX_TXQ_LEN)) {
++			syslog(LOG_USER | LOG_CRIT, "UBUSD: Tx queue size for client %08x is back below the configured maximum of %u\n", cl->id.id, UBUS_CLIENT_MAX_TXQ_LEN);
++		}
++
+ 		cl->txq_ofs += written;
+ 		cl->txq_len -= written;
+ 		if (cl->txq_ofs < ub->len + sizeof(ub->hdr))
+-- 
+2.34.1
+
