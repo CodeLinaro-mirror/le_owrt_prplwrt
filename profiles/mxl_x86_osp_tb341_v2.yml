@@ -9,11 +9,11 @@ feeds:
   - name: intel_x86
     uri: https://github.com/maxlinear/feed_target_x86.git
     tracking_branch:  updk_9.1.100
-    revision: 2ec58237361a19e7f2d13d79c16a08a5b6bf1c10
+    revision: 0bc1f88595b6f807a56311a3077c77d19d5be6c4
   - name: rootfs
     uri: https://github.com/maxlinear/rootfs.git
     tracking_branch:  updk_9.1.100
-    revision: 22128ed538ffa9c341fd1ec970ee024a82a56a7e
+    revision: 3b02b6396740d5f96b8e545968f1ea6d30cbdc36
   - name: eip
     uri: https://github.com/maxlinear/feed_eip.git
     tracking_branch:  updk_9.1.100
@@ -49,7 +49,7 @@ feeds:
   - name: pon
     uri: https://github.com/maxlinear/feed_pon.git
     tracking_branch:  updk_9.1.100
-    revision: 9141796c3727d4a4c075162f2a8257d31d40c226
+    revision: 100dc30d9d08494f29b19ccda86d871d4fbba6d4
   - name: ppa
     uri: https://github.com/maxlinear/feed_ppa.git
     tracking_branch:  updk_9.1.100
@@ -175,14 +175,15 @@ diffconfig: |
   CONFIG_DEVEL=y
   CONFIG_EXTRA_OPTIMIZATION="-fno-caller-saves -fno-plt -Wno-error=deprecated-declarations -Wno-error=address"
   CONFIG_KERNEL_GIT_CLONE_URI="https://github.com/maxlinear/linux.git"
-  CONFIG_KERNEL_GIT_REF="UPDK_9.1.100_UPDATE"
+  CONFIG_KERNEL_GIT_REF="UPDK_9.1.100_PKCS_UPDATE"
   CONFIG_GPON_OMCI_ONU_UBUS_INTERFACE=y
   CONFIG_TARGET_MULTI_PROFILE=y
   CONFIG_TARGET_PER_DEVICE_ROOTFS=y
-  CONFIG_TARGET_DEVICE_intel_x86_lgm_DEVICE_PRPL_OSP_TB341_v2=y
+  CONFIG_TARGET_DEVICE_intel_x86_lgm_DEVICE_PRPL_OSP_v2=y
   # CONFIG_TARGET_ROOTFS_EXT4FS is not set
   CONFIG_BUILD_LOG=y
   CONFIG_PACKAGE_uboot-octopus-urx641-overlay-fit-p34x-phy-emmc-prpl=y
+  CONFIG_PACKAGE_uboot-octopus-urx641-4GB-ddr-overlay-fit-p34x-phy-emmc-prpl=y
   CONFIG_VERSION_FILENAMES=n
   CONFIG_VERSION_CODE_FILENAMES=n
   # CONFIG_PACKAGE_bios_images is not set
