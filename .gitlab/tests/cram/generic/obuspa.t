@@ -1107,6 +1107,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.Hosts.AccessControl.{i}.ScheduleNumberOfEntries                                               proto::hosts-manager
   Device.Hosts.AccessControl.{i}.ScheduleRef                                                           proto::hosts-manager
   Device.Hosts.AccessControlNumberOfEntries                                                            proto::hosts-manager
+  Device.Hosts.CleanupHostsThreshold                                                                   proto::hosts-manager
   Device.Hosts.Host.{i}.                                                                               proto::hosts-manager
   Device.Hosts.Host.{i}.Active                                                                         proto::hosts-manager
   Device.Hosts.Host.{i}.ActiveLastChange                                                               proto::hosts-manager
@@ -1131,6 +1132,9 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.Hosts.Host.{i}.WANStats.PacketsSent                                                           proto::hosts-manager
   Device.Hosts.Host.{i}.X_PRPLWARE-COM_Protected                                                       proto::hosts-manager
   Device.Hosts.HostNumberOfEntries                                                                     proto::hosts-manager
+  Device.Hosts.RemoveInactiveHosts()                                                                   proto::hosts-manager
+  Device.Hosts.RemoveInactiveHosts() input:MinimumInactiveTime
+  Device.Hosts.RemoveInactiveHosts() output:NumberOfRemovedHosts
   Device.Hosts.X_PRPLWARE-COM_HostConfig.                                                              proto::hosts-manager
   Device.Hosts.X_PRPLWARE-COM_HostConfig.InactiveCheckInterval                                         proto::hosts-manager
   Device.Hosts.X_PRPLWARE-COM_HostConfig.InactiveCheckThreshold                                        proto::hosts-manager
@@ -2961,6 +2965,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.UPnP.X_PRPLWARE-COM_IGDConfig.EnableIPv6                                                      proto::tr181-upnp
   Device.UPnP.X_PRPLWARE-COM_IGDConfig.MaxLifetime                                                     proto::tr181-upnp
   Device.UPnP.X_PRPLWARE-COM_IGDConfig.UPnPInterface                                                   proto::tr181-upnp
+  Device.UPnP.X_PRPLWARE-COM_IGDConfig.WANAccessProvider                                               proto::tr181-upnp
   Device.USB.                                                                                          proto::tr181-usb
   Device.USB.Interface.{i}.                                                                            proto::tr181-usb
   Device.USB.Interface.{i}.Alias                                                                       proto::tr181-usb
@@ -5747,6 +5752,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.Hosts.AccessControl.{i}.ScheduleNumberOfEntries                                               proto::hosts-manager
   Device.Hosts.AccessControl.{i}.ScheduleRef                                                           proto::hosts-manager
   Device.Hosts.AccessControlNumberOfEntries                                                            proto::hosts-manager
+  Device.Hosts.CleanupHostsThreshold                                                                   proto::hosts-manager
   Device.Hosts.Host.{i}.                                                                               proto::hosts-manager
   Device.Hosts.Host.{i}.Active                                                                         proto::hosts-manager
   Device.Hosts.Host.{i}.ActiveLastChange                                                               proto::hosts-manager
@@ -5771,6 +5777,9 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.Hosts.Host.{i}.WANStats.PacketsSent                                                           proto::hosts-manager
   Device.Hosts.Host.{i}.X_PRPLWARE-COM_Protected                                                       proto::hosts-manager
   Device.Hosts.HostNumberOfEntries                                                                     proto::hosts-manager
+  Device.Hosts.RemoveInactiveHosts()                                                                   proto::hosts-manager
+  Device.Hosts.RemoveInactiveHosts() input:MinimumInactiveTime
+  Device.Hosts.RemoveInactiveHosts() output:NumberOfRemovedHosts
   Device.Hosts.X_PRPLWARE-COM_HostConfig.                                                              proto::hosts-manager
   Device.Hosts.X_PRPLWARE-COM_HostConfig.InactiveCheckInterval                                         proto::hosts-manager
   Device.Hosts.X_PRPLWARE-COM_HostConfig.InactiveCheckThreshold                                        proto::hosts-manager
@@ -7601,6 +7610,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.UPnP.X_PRPLWARE-COM_IGDConfig.EnableIPv6                                                      proto::tr181-upnp
   Device.UPnP.X_PRPLWARE-COM_IGDConfig.MaxLifetime                                                     proto::tr181-upnp
   Device.UPnP.X_PRPLWARE-COM_IGDConfig.UPnPInterface                                                   proto::tr181-upnp
+  Device.UPnP.X_PRPLWARE-COM_IGDConfig.WANAccessProvider                                               proto::tr181-upnp
   Device.USB.                                                                                          proto::tr181-usb
   Device.USB.Interface.{i}.                                                                            proto::tr181-usb
   Device.USB.Interface.{i}.Alias                                                                       proto::tr181-usb

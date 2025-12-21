@@ -251,9 +251,11 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_glib2=y
   CONFIG_PACKAGE_gmap-client=y
   CONFIG_PACKAGE_gmap-mibs-common=y
+  CONFIG_PACKAGE_gmap-mod-dnssd=y
   CONFIG_PACKAGE_gmap-mod-ethernet-dev=y
   CONFIG_PACKAGE_gmap-mod-name-selector=y
   CONFIG_PACKAGE_gmap-mod-self=y
+  CONFIG_PACKAGE_gmap-mod-upnp=y
   CONFIG_PACKAGE_gmap-server=y
   CONFIG_PACKAGE_gpon-libs=y
   CONFIG_PACKAGE_gpon-omci-onu-binary=y
@@ -529,12 +531,13 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_libswla=y
   CONFIG_PACKAGE_libswlc=y
   CONFIG_PACKAGE_libsysfs=y
+  CONFIG_PACKAGE_libtr181-hosts=y
   CONFIG_PACKAGE_libtr181-schedules=y
   CONFIG_PACKAGE_libtr69-engine=y
   CONFIG_PACKAGE_libudev-zero=y
   CONFIG_PACKAGE_libugwhelper=y
   CONFIG_PACKAGE_libunbound-prpl=y
-  CONFIG_PACKAGE_libupnp=y
+  CONFIG_PACKAGE_libupnp-prpl=y
   CONFIG_PACKAGE_libusb-1.0=y
   CONFIG_PACKAGE_libusp=y
   CONFIG_PACKAGE_libuspi=y
@@ -788,6 +791,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_tr181-syslog=y
   CONFIG_PACKAGE_tr181-temperature=y
   CONFIG_PACKAGE_tr181-upnp=y
+  CONFIG_PACKAGE_tr181-upnpdiscovery=y
   CONFIG_PACKAGE_tr181-usb=y
   CONFIG_PACKAGE_tr181-usermanagement=y
   CONFIG_PACKAGE_tr181-xpon=y
@@ -977,6 +981,11 @@ Assure expected build configuration (PCF-1413):
   CONFIG_SAH_AMX_TR181_TIME=y
   CONFIG_SAH_AMX_TR181_TIME_ORDER=30
   CONFIG_SAH_AMX_TR181_UPNP=y
+  CONFIG_SAH_AMX_TR181_UPNPDISCOVERY=y
+  CONFIG_SAH_AMX_TR181_UPNPDISCOVERY_RUN_AS_GROUP="tr181_app"
+  CONFIG_SAH_AMX_TR181_UPNPDISCOVERY_RUN_AS_USER="tr181_app"
+  CONFIG_SAH_AMX_TR181_UPNPDISCOVERY_START_ORDER=80
+  CONFIG_SAH_AMX_TR181_UPNPDISCOVERY_STOP_ORDER=20
   CONFIG_SAH_AMX_TR181_UPNP_MOD_UPNPADVERTISE_LIBUPNP=y
   CONFIG_SAH_AMX_TR181_UPNP_ORDER=80
   CONFIG_SAH_AMX_TR181_UPNP_RUN_AS_GROUP="tr181_app"
