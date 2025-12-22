@@ -3572,7 +3572,6 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.EndPoint.{i}.ReconnectRadioToggleThreshold                                               proto::wld
   Device.WiFi.EndPoint.{i}.SSIDReference                                                               proto::wld
   Device.WiFi.EndPoint.{i}.Security.                                                                   proto::wld
-  Device.WiFi.EndPoint.{i}.Security.ModeEnabled                                                        proto::wld
   Device.WiFi.EndPoint.{i}.Security.ModesSupported                                                     proto::wld
   Device.WiFi.EndPoint.{i}.Stats.                                                                      proto::wld
   Device.WiFi.EndPoint.{i}.Stats.EhtCapabilities                                                       proto::wld
@@ -8213,7 +8212,6 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.EndPoint.{i}.ReconnectRadioToggleThreshold                                               proto::wld
   Device.WiFi.EndPoint.{i}.SSIDReference                                                               proto::wld
   Device.WiFi.EndPoint.{i}.Security.                                                                   proto::wld
-  Device.WiFi.EndPoint.{i}.Security.ModeEnabled                                                        proto::wld
   Device.WiFi.EndPoint.{i}.Security.ModesSupported                                                     proto::wld
   Device.WiFi.EndPoint.{i}.Stats.                                                                      proto::wld
   Device.WiFi.EndPoint.{i}.Stats.EhtCapabilities                                                       proto::wld
