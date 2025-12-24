@@ -119,3 +119,33 @@ verify_num_Process_fail() {
                 echo "Fail $process_name, Expected value for ProcessMonitor.Test.$1.NumProcessFail: $2, found: $num_process_fail"
         fi
 }
+
+# Gets TestInterval for provided ProcessMonitor.Test.i
+get_test_interval() {
+        ${CLI} "ProcessMonitor.Test.$1.TestInterval?" > /dev/null
+}
+
+# Sets TestInterval for provided ProcessMonitor.Test.i to shorter interval
+# Parameter #1 - Value i of ProcessMonitor.Test.i
+# Parameter #2 - TestInterval value
+set_test_interval() {
+	set -- "$@"
+	test_interval=$1
+	shift
+	for test in "$@"; do
+		${CLI} "ProcessMonitor.Test.$test.TestInterval=$test_interval" > /dev/null
+	done
+}
+
+# Retrieves CurrentTestInterval and Health for provided ProcessMonitor.Test.i
+# Parameter #1 - values of ProcessMonitor.Test.i for all of which Health and
+# CurrentTestInterval is retruned
+get_health_and_interval() {
+        for test in "$@"; do
+                name=$(${CLI} "ProcessMonitor.Test.$test.Name?")
+                current_test_interval=$(${CLI} "ProcessMonitor.Test.$test.CurrentTestInterval?")
+                health=$(${CLI} "ProcessMonitor.Test.$test.Health?")
+                echo $name $current_test_interval $health
+        done
+}
+

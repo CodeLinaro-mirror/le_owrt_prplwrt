@@ -75,6 +75,15 @@ Change MaxFail parameter for the processes to higher value:
   $ R "ba-cli -l ProcessMonitor.Test.$Dhcpv4ManagerId.MaxFailNum=30 | sed '/^$/d'"
   30
 
+Get existing values of CurrentTestInterval, Health for processes:
+
+  $ R "${S} && get_health_and_interval \"$Tr181McastId\" \"$Tr181PcpId\""\
+  > " \"$Tr181QosId\" \"$Dhcpv4ManagerId\""
+  tr181-mcastd \d+ .* (re)
+  tr181-pcp \d+ .* (re)
+  tr181-qos \d+ .* (re)
+  dhcpv4-manager \d+ .* (re)
+
 Kill the processes - first kill attempt:
 
   $ for process_name in tr181-mcastd tr181-pcp tr181-qos dhcpv4-manager; do
