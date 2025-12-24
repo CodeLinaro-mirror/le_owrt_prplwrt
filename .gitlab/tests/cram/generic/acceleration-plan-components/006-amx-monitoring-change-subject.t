@@ -11,7 +11,7 @@ Set script parameters and copy the script to device:
   $ C ${TESTDIR}/script_functions_amx.sh root@${TARGET_LAN_IP}:/tmp/script_functions_amx.sh
   Warning: Permanently added '*' (*) to the list of known hosts* (glob)
 
-  $ R logger -t cram "Starting with amx-processmonitoring reset cram test"
+  $ R logger -t cram "Starting with amx-processmonitoring change subject reset cram test"
 
 Pre-test actions, Restart the process service to clear the respawns and other failures before starting with tests:
 
@@ -26,31 +26,59 @@ Wait 5 seconds for the process to turn functional:
 
 Initialize the ProcessMonitor.Test.i Id for required processes:
 
-  $ Tr181McastId=$(R "ba-cli  ProcessMonitor.Test.*.Name? | grep tr181-mcastd | sed -n 's/.*Test\.\([0-9]\+\)\..*/\1/p'")
-  $ Tr181PcpId=$(R "ba-cli  ProcessMonitor.Test.*.Name? | grep tr181-pcp | sed -n 's/.*Test\.\([0-9]\+\)\..*/\1/p'")
-  $ Tr181QosId=$(R "ba-cli  ProcessMonitor.Test.*.Name? | grep tr181-qos | sed -n 's/.*Test\.\([0-9]\+\)\..*/\1/p'")
-  $ Dhcpv4ManagerId=$(R "ba-cli  ProcessMonitor.Test.*.Name? | grep dhcpv4-manager | sed -n 's/.*Test\.\([0-9]\+\)\..*/\1/p'")
+  $ Tr181McastId=$(R "ba-cli  ProcessMonitor.Test.*.Name\? | grep tr181-mcastd | sed -n 's/.*Test\.\([0-9]\+\)\..*/\1/p'")
+  $ Tr181PcpId=$(R "ba-cli  ProcessMonitor.Test.*.Name\? | grep tr181-pcp | sed -n 's/.*Test\.\([0-9]\+\)\..*/\1/p'")
+  $ Tr181QosId=$(R "ba-cli  ProcessMonitor.Test.*.Name\? | grep tr181-qos | sed -n 's/.*Test\.\([0-9]\+\)\..*/\1/p'")
+  $ Dhcpv4ManagerId=$(R "ba-cli  ProcessMonitor.Test.*.Name\? | grep dhcpv4-manager | sed -n 's/.*Test\.\([0-9]\+\)\..*/\1/p'")
 
 Get the initial NumProcessRespawn for all the process:
 
-  $ Tr181McastRespawn=$(R "ba-cli -l ProcessMonitor.Test.$Tr181McastId.NumProcessRespawn? | sed '/^$/d'")
-  $ Tr181PcpRespawn=$(R "ba-cli -l ProcessMonitor.Test.$Tr181PcpId.NumProcessRespawn? | sed '/^$/d'")
-  $ Tr181QosRespawn=$(R "ba-cli -l ProcessMonitor.Test.$Tr181QosId.NumProcessRespawn? | sed '/^$/d'")
-  $ Dhcpv4ManagerRespawn=$(R "ba-cli -l ProcessMonitor.Test.$Dhcpv4ManagerId.NumProcessRespawn? | sed '/^$/d'")
+  $ Tr181McastRespawn=$(R "ba-cli -l ProcessMonitor.Test.$Tr181McastId.NumProcessRespawn\? | sed '/^$/d'")
+  $ Tr181PcpRespawn=$(R "ba-cli -l ProcessMonitor.Test.$Tr181PcpId.NumProcessRespawn\? | sed '/^$/d'")
+  $ Tr181QosRespawn=$(R "ba-cli -l ProcessMonitor.Test.$Tr181QosId.NumProcessRespawn\? | sed '/^$/d'")
+  $ Dhcpv4ManagerRespawn=$(R "ba-cli -l ProcessMonitor.Test.$Dhcpv4ManagerId.NumProcessRespawn\? | sed '/^$/d'")
 
 Get the initial MaxFailNum for all the process:
 
-  $ Tr181McastMaxFail=$(R "ba-cli -l ProcessMonitor.Test.$Tr181McastId.MaxFailNum? | sed '/^$/d'")
-  $ Tr181PcpMaxFail=$(R "ba-cli -l ProcessMonitor.Test.$Tr181PcpId.MaxFailNum? | sed '/^$/d'")
-  $ Tr181QosMaxFail=$(R "ba-cli -l ProcessMonitor.Test.$Tr181QosId.MaxFailNum? | sed '/^$/d'")
-  $ Dhcpv4ManagerMaxFail=$(R "ba-cli -l ProcessMonitor.Test.$Dhcpv4ManagerId.MaxFailNum? | sed '/^$/d'")
+  $ Tr181McastMaxFail=$(R "ba-cli -l ProcessMonitor.Test.$Tr181McastId.MaxFailNum\? | sed '/^$/d'")
+  $ Tr181PcpMaxFail=$(R "ba-cli -l ProcessMonitor.Test.$Tr181PcpId.MaxFailNum\? | sed '/^$/d'")
+  $ Tr181QosMaxFail=$(R "ba-cli -l ProcessMonitor.Test.$Tr181QosId.MaxFailNum\? | sed '/^$/d'")
+  $ Dhcpv4ManagerMaxFail=$(R "ba-cli -l ProcessMonitor.Test.$Dhcpv4ManagerId.MaxFailNum\? | sed '/^$/d'")
 
 Get the Subject value for all the process:
 
-  $ Tr181McastSubject=$(R "ba-cli -l ProcessMonitor.Test.$Tr181McastId.Subject? | sed '/^$/d'")
-  $ Tr181PcpSubject=$(R "ba-cli -l ProcessMonitor.Test.$Tr181PcpId.Subject? | sed '/^$/d'")
-  $ Tr181QosSubject=$(R "ba-cli -l ProcessMonitor.Test.$Tr181QosId.Subject? | sed '/^$/d'")
-  $ Dhcpv4ManagerSubject=$(R "ba-cli -l ProcessMonitor.Test.$Dhcpv4ManagerId.Subject? | sed '/^$/d'")
+  $ Tr181McastSubject=$(R "ba-cli -l ProcessMonitor.Test.$Tr181McastId.Subject\? | sed '/^$/d'")
+  $ Tr181PcpSubject=$(R "ba-cli -l ProcessMonitor.Test.$Tr181PcpId.Subject\? | sed '/^$/d'")
+  $ Tr181QosSubject=$(R "ba-cli -l ProcessMonitor.Test.$Tr181QosId.Subject\? | sed '/^$/d'")
+  $ Dhcpv4ManagerSubject=$(R "ba-cli -l ProcessMonitor.Test.$Dhcpv4ManagerId.Subject\? | sed '/^$/d'")
+
+Change MaxFail parameter for the processes to higher value:
+
+  $ R "ba-cli -l  ProcessMonitor.Test.$Tr181McastId.MaxFailNum=30 | sed '/^$/d'"
+  30
+
+  $ R "ba-cli -l ProcessMonitor.Test.$Tr181PcpId.MaxFailNum=30 | sed '/^$/d'"
+  30
+
+  $ R "ba-cli -l ProcessMonitor.Test.$Tr181QosId.MaxFailNum=30 | sed '/^$/d'"
+  30
+
+  $ R "ba-cli -l ProcessMonitor.Test.$Dhcpv4ManagerId.MaxFailNum=30 | sed '/^$/d'"
+  30
+
+Get initial ProcessMonitor.Test.i.TestInterval:
+
+  $ Tr181McastTestInterval=$(R "${S} && get_test_interval $Tr181McastId")
+  $ Tr181PcpTestInterval=$(R "${S} && get_test_interval $Tr181PcpId")
+  $ Tr181QosTestInterval=$(R "${S} && get_test_interval $Tr181QosId")
+  $ Dhcpv4ManagerTestInterval=$(R "${S} && get_test_interval $Dhcpv4ManagerId")
+
+Update Monitoring interval to shorter duration for all process, because When\
+monitoring of a process is performed and expected process is still performing\
+some pre-handling tasks before becoming fully functional. This similar issue\
+may be seen in other processes also:
+
+  $ R "${S} && set_test_interval \"10\" \"$Tr181McastId\" \"$Tr181PcpId\" \"$Tr181QosId\" \"$Dhcpv4ManagerId\""
 
 Get the Process ID and verify all expected process are running:
 
@@ -61,31 +89,13 @@ Get the Process ID and verify all expected process are running:
   tr181-qos.* \d+ (re)
   dhcpv4-manager.* \d+ (re)
 
-Get existing values for Health and CurrentTestInterval attributes for the processes:
+Get existing values of CurrentTestInterval, Health for processes:
 
-  $ R "ba-cli -l ProcessMonitor.Test.$Tr181McastId.Health? | sed '/^$/d'"
-  .* (re)
-
-  $ R "ba-cli -l ProcessMonitor.Test.$Tr181McastId.CurrentTestInterval? | sed '/^$/d'"
-  \d+ (re)
-
-  $ R "ba-cli -l ProcessMonitor.Test.$Tr181PcpId.Health? | sed '/^$/d'"
-  .* (re)
-
-  $ R "ba-cli -l ProcessMonitor.Test.$Tr181PcpId.CurrentTestInterval? | sed '/^$/d'"
-  \d+ (re)
-
-  $ R "ba-cli -l ProcessMonitor.Test.$Tr181QosId.Health? | sed '/^$/d'"
-  .* (re)
-
-  $ R "ba-cli -l ProcessMonitor.Test.$Tr181QosId.CurrentTestInterval? | sed '/^$/d'"
-  \d+ (re)
-
-  $ R "ba-cli -l ProcessMonitor.Test.$Dhcpv4ManagerId.Health? | sed '/^$/d'"
-  .* (re)
-
-  $ R "ba-cli -l ProcessMonitor.Test.$Dhcpv4ManagerId.CurrentTestInterval? | sed '/^$/d'"
-  \d+ (re)
+  $ R "${S} && get_health_and_interval \"$Tr181McastId\" \"$Tr181PcpId\" \"$Tr181QosId\" \"$Dhcpv4ManagerId\""
+  tr181-mcastd \d+ .* (re)
+  tr181-pcp \d+ .* (re)
+  tr181-qos \d+ .* (re)
+  dhcpv4-manager \d+ .* (re)
 
 Kill the processes - Frist kill attempt:
 
@@ -161,31 +171,13 @@ Verify ProcessMonitoring parameter reset after calling reset method:
   dhcpv4-manager NumProcessFail PASS
   dhcpv4-manager NumProcessRespawn PASS
 
-Get existing values for Health and CurrentTestInterval attributes for the processes:
+Get existing values of CurrentTestInterval, Health for processes:
 
-  $ R "ba-cli -l ProcessMonitor.Test.$Tr181McastId.Health? | sed '/^$/d'"
-  .* (re)
-
-  $ R "ba-cli -l ProcessMonitor.Test.$Tr181McastId.CurrentTestInterval? | sed '/^$/d'"
-  \d+ (re)
-
-  $ R "ba-cli -l ProcessMonitor.Test.$Tr181PcpId.Health? | sed '/^$/d'"
-  .* (re)
-
-  $ R "ba-cli -l ProcessMonitor.Test.$Tr181PcpId.CurrentTestInterval? | sed '/^$/d'"
-  \d+ (re)
-
-  $ R "ba-cli -l ProcessMonitor.Test.$Tr181QosId.Health? | sed '/^$/d'"
-  .* (re)
-
-  $ R "ba-cli -l ProcessMonitor.Test.$Tr181QosId.CurrentTestInterval? | sed '/^$/d'"
-  \d+ (re)
-
-  $ R "ba-cli -l ProcessMonitor.Test.$Dhcpv4ManagerId.Health? | sed '/^$/d'"
-  .* (re)
-
-  $ R "ba-cli -l ProcessMonitor.Test.$Dhcpv4ManagerId.CurrentTestInterval? | sed '/^$/d'"
-  \d+ (re)
+  $ R "${S} && get_health_and_interval \"$Tr181McastId\" \"$Tr181PcpId\" \"$Tr181QosId\" \"$Dhcpv4ManagerId\""
+  tr181-mcastd \d+ .* (re)
+  tr181-pcp \d+ .* (re)
+  tr181-qos \d+ .* (re)
+  dhcpv4-manager \d+ .* (re)
 
 Revert the ProcessMonitor.Test.{i}.Type and Subject from Process/Pid to Plugin/DM values:
 
@@ -201,6 +193,27 @@ Revert the ProcessMonitor.Test.{i}.Type and Subject from Process/Pid to Plugin/D
   $ R "${S} && revert_process_subject dhcpv4-manager DHCPv4Server"
   dhcpv4-manager subject revert OK
 
+Clean-up Revert MaxFail parameter for the process to initial value:
+
+  $ R "ba-cli -l  ProcessMonitor.Test.$Tr181McastId.MaxFailNum=$Tr181McastMaxFail | sed '/^$/d'"
+  \d+ (re)
+
+  $ R "ba-cli -l ProcessMonitor.Test.$Tr181PcpId.MaxFailNum=$Tr181PcpMaxFail | sed '/^$/d'"
+  \d+ (re)
+
+  $ R "ba-cli -l ProcessMonitor.Test.$Tr181QosId.MaxFailNum=$Tr181QosMaxFail | sed '/^$/d'"
+  \d+ (re)
+
+  $ R "ba-cli -l ProcessMonitor.Test.$Dhcpv4ManagerId.MaxFailNum=$Dhcpv4ManagerMaxFail | sed '/^$/d'"
+  \d+ (re)
+
+Revert ProcessMonitor.Test.i TestInterval:
+
+  $ R "${S} && set_test_interval \"$Tr181McastTestInterval\" \"$Tr181McastId\""
+  $ R "${S} && set_test_interval \"$Tr181PcpTestInterval\" \"$Tr181PcpId\""
+  $ R "${S} && set_test_interval \"$Tr181QosTestInterval\" \"$Tr181QosId\""
+  $ R "${S} && set_test_interval \"$Dhcpv4ManagerTestInterval\" \"$Dhcpv4ManagerId\""
+
 Restart the process service to clear the respawns from above tests:
 
   $ R "service tr181-mcastd restart  > /dev/null 2>&1"
@@ -208,4 +221,4 @@ Restart the process service to clear the respawns from above tests:
   $ R "service tr181-qos restart > /dev/null 2>&1"
   $ R "service dhcpv4-manager restart  > /dev/null 2>&1"
 
-  $ R logger -t cram "Amx-processmonitoring reset cram test finished"
+  $ R logger -t cram "Amx-processmonitoring change subject reset cram test finished"
