@@ -32,6 +32,7 @@ packages:
   - ip6tables-zz-legacy
   - iptables-mod-ipopt
   - iptables-zz-legacy
+  - json-hal-library
   - libdhcpoptions
   - libfwinterface
   - libfwrules
@@ -83,6 +84,7 @@ packages:
   - ssh-server
   - tc-tiny
   - time-manager
+  - tr104-voip
   - tr181-bridging
   - tr181-button
   - tr181-cpu
