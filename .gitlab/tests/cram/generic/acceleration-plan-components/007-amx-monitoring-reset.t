@@ -11,7 +11,8 @@ Set script parameters and copy the script to device:
   $ C ${TESTDIR}/script_functions_amx.sh root@${TARGET_LAN_IP}:/tmp/amx_script_functions.sh
   Warning: Permanently added '*' (*) to the list of known hosts* (glob)
 
-  $ R logger -t cram "Starting with amx-processmonitoring reset cram test"
+  $ R logger -t cram "Starting with amx-processmonitoring reset method cram "\
+  > "test"
 
 Pre-test actions, Restart the process service to clear the respawns and other failures before starting with tests:
 
@@ -48,6 +49,14 @@ Get the Process ID and verify all expected process are running:
   tr181-mcastd.* \d+ (re)
   tr181-pcp.* \d+ (re)
   dhcpv4-manager.* \d+ (re)
+
+Get existing values of CurrentTestInterval, Health for processes:
+
+  $ R "${S} && get_health_and_interval \"$Tr181McastId\" \"$Tr181PcpId\""\
+  > " \"$Dhcpv4ManagerId\""
+  tr181-mcastd \d+ .* (re)
+  tr181-pcp \d+ .* (re)
+  dhcpv4-manager \d+ .* (re)
 
 Kill the processes - Frist kill attempt:
 
@@ -112,4 +121,4 @@ Restart the process service to clear the respawns from above tests:
   $ R "service tr181-pcp restart  > /dev/null 2>&1"
   $ R "service dhcpv4-manager restart  > /dev/null 2>&1"
 
-  $ R logger -t cram "Amx-processmonitoring reset cram test finished"
+  $ R logger -t cram "Amx-processmonitoring reset method cram test finished"
