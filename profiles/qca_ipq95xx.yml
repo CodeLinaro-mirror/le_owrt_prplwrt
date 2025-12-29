@@ -8,7 +8,7 @@ description: Build image for prpl Foundation Freedom board
 feeds:
   - name: feed_qca
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-qca.git
-    revision: dev/ath13.1-freedom@0d3820f29ac5840d019badaceb6811c6f6c0967f
+    revision: dev/ath13.1-freedom@7e90e58c21b9587895073a00cf84cb43e24e1ec3
 
 packages:
   - ipq95xx
@@ -42,6 +42,11 @@ packages:
   - kmod-qca-nss-gre-mgr
   - ppecfg
   - taskset
+  - kmod-qca-nss-ppe-pppoe-mgr
+  - kmod-qca-nss-ppe-gre-mgr
+  - kmod-qca-mdio
+  - kmod-qca-nss-ppe-ath-clients
+  - kmod-qca-wifi-nss-plugins
 
 diffconfig: |
   CONFIG_TARGET_INITRAMFS_COMPRESSION_LZMA=y
@@ -53,3 +58,4 @@ diffconfig: |
   CONFIG_PACKAGE_ppecfg=y
   CONFIG_PACKAGE_libnl-ppe=y
   CONFIG_PACKAGE_kmod-qseecom=m
+  CONFIG_BUSYBOX_CONFIG_DEVMEM=y
