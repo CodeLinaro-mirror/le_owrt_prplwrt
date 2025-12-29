@@ -324,7 +324,7 @@ SECTION "Base Configuration" {
 
         SECTION "LAN Interface" {
 
-            testvar lanInterface                       wifi0-acn
+            testvar lanInterface                       wifi1-ax24
             # testvar lanMode                          DHCP
             # testvar lanClients                       1
             testvar lanSecurity                        WPA
