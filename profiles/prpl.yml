@@ -17,7 +17,7 @@ additional_packages:
       - usbutils
 
 packages:
-  - dhcpv4-manager
+  - dhcpv4-manager 
   - dhcpv6s-manager
   - dmtui
   - gmap-client
