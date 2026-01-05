@@ -4,8 +4,8 @@ Setup the test configuration:
   $ S=". /tmp/script_functions.sh"
   $ scp ${TESTDIR}/../lcm/script_functions.sh root@${TARGET_LAN_IP}:/tmp/script_functions.sh
   $ scp ${CI_PROJECT_DIR}/${DUT_ARCH_PACKAGES_PATH}/feed_prplos/data-model-mapper*.ipk "root@${TARGET_LAN_IP}:/tmp/"
-  $ R "opkg install -V0 --force-reinstall /tmp/data-model-mapper*.ipk"
-  Usage : /etc/init.d/data-model-mapper [start|boot|debuginfo|stop|shutdown|restart]
+  $ R "opkg install -V0 --force-reinstall /tmp/data-model-mapper*.ipk;echo $?"
+  0
 
 Compare SoftwareModules and SoftwareModules via data-model-mapper proxy:
 
@@ -330,6 +330,6 @@ Cleanup:
   $ rm /tmp/dmm_test_software_modules_orig.txt /tmp/dmm_test_software_modules_proxy.txt
   $ R "rm /tmp/script_functions.sh"
   $ R "/etc/init.d/data-model-mapper stop" > /dev/null 2>&1
-  $ R "opkg remove -V0 data-model-mapper"
-  Usage : /etc/init.d/data-model-mapper [start|boot|debuginfo|stop|shutdown|restart]
+  $ R "opkg remove -V0 data-model-mapper >/dev/null 2>&1;echo $?"
+  0
 
