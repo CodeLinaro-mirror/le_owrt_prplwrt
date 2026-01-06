@@ -136,6 +136,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_iptables-mod-nfqueue=y
   CONFIG_PACKAGE_iptables-zz-legacy=y
   CONFIG_PACKAGE_iputils-ping=y
+  CONFIG_PACKAGE_ivykis=y
   # CONFIG_PACKAGE_jansson is not set
   # CONFIG_PACKAGE_iw is not set
   CONFIG_PACKAGE_iw-full=y
@@ -276,6 +277,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_libunbound-prpl=y
   CONFIG_PACKAGE_libupnp=y
   CONFIG_PACKAGE_liburcu=y
+  CONFIG_PACKAGE_liburing=y
   CONFIG_PACKAGE_libusb-1.0=y
   CONFIG_PACKAGE_libusp=y
   CONFIG_PACKAGE_libuspi=y
@@ -796,5 +798,4 @@ Assure expected build configuration (PCF-1413):
   CONFIG_VERSION_REPO="https://downloads.openwrt.org/releases/24.10-SNAPSHOT"
   CONFIG_VERSION_SUPPORT_URL="https://jira.prplfoundation.org"
   CONFIG_shadow-all=y
-  # CONFIG_VERSION_CODE_FILENAMES is not set
   # CONFIG_VERSION_FILENAMES is not set
