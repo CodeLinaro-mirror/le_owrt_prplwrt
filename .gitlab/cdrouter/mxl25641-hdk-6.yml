@@ -137,7 +137,7 @@ prplWare-Smoke-Test-Suite MXL25641-HDK-6 eMMC:
 
 .mxl25641-certification: &mxl25641_certification
   <<: *mxl25641_cdrouter_ipv6
-  timeout: 70 minutes
+  timeout: 1h 45m
   stage: certification tests
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
@@ -150,9 +150,9 @@ prplWare-Smoke-Test-Suite MXL25641-HDK-6 eMMC:
       .gitlab/scripts/dut-init/cdrouter-dut-configure-cwmpd.sh
       .gitlab/scripts/dut-init/cdrouter-dut-configure-prplos-certification.sh
 
-prplOS-Network-Test-Plan-Mandatory-v1.1.0 MXL25641-HDK-6 eMMC:
+prplOS-Network-Test-Plan-Mandatory-v1.2.0 MXL25641-HDK-6 eMMC:
   <<: *mxl25641_certification
 
-prplOS-Network-Test-Plan-Candidate-v1.1.0 MXL25641-HDK-6 eMMC:
+prplOS-Network-Test-Plan-Candidate-v1.2.0 MXL25641-HDK-6 eMMC:
   <<: *mxl25641_certification
-  timeout: 95 minutes
+  timeout: 52 minutes
