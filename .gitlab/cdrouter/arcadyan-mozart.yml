@@ -139,7 +139,7 @@ prplWare-Smoke-Test-Suite Mozart initramfs:
 .arcadyan-mozart-certification: &arcadyan_mozart_certification
   <<: *arcadyan_mozart_ipv6
   stage: certification tests
-  timeout: 70 minutes
+  timeout: 1h 45m
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
       when: never
@@ -151,9 +151,9 @@ prplWare-Smoke-Test-Suite Mozart initramfs:
       .gitlab/scripts/dut-init/cdrouter-dut-configure-cwmpd.sh
       .gitlab/scripts/dut-init/cdrouter-dut-configure-prplos-certification.sh
 
-prplOS-Network-Test-Plan-Mandatory-v1.1.0 Mozart initramfs:
+prplOS-Network-Test-Plan-Mandatory-v1.2.0 Mozart initramfs:
   <<: *arcadyan_mozart_certification
 
-prplOS-Network-Test-Plan-Candidate-v1.1.0 Mozart initramfs:
+prplOS-Network-Test-Plan-Candidate-v1.2.0 Mozart initramfs:
   <<: *arcadyan_mozart_certification
-  timeout: 90 minutes
+  timeout: 52 minutes

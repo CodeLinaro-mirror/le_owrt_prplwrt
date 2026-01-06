@@ -140,7 +140,7 @@ prplWare-Smoke-Test-Suite Freedom initramfs:
 .wnc-freedom-certification: &wnc_freedom_certification
   <<: *wnc_freedom_ipv6
   stage: certification tests
-  timeout: 70 minutes
+  timeout: 1h 45m
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
       when: never
@@ -152,9 +152,9 @@ prplWare-Smoke-Test-Suite Freedom initramfs:
       .gitlab/scripts/dut-init/cdrouter-dut-configure-cwmpd.sh
       .gitlab/scripts/dut-init/cdrouter-dut-configure-prplos-certification.sh
 
-prplOS-Network-Test-Plan-Mandatory-v1.1.0 Freedom initramfs:
+prplOS-Network-Test-Plan-Mandatory-v1.2.0 Freedom initramfs:
   <<: *wnc_freedom_certification
 
-prplOS-Network-Test-Plan-Candidate-v1.1.0 Freedom initramfs:
+prplOS-Network-Test-Plan-Candidate-v1.2.0 Freedom initramfs:
   <<: *wnc_freedom_certification
-  timeout: 90 minutes
+  timeout: 52 minutes
