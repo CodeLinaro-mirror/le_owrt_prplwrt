@@ -85,7 +85,7 @@ ktype_all='ed25519 ecdsa rsa'
 hk_generate_as_needed()
 {
 	local hk_cfg_dir kgen ktype kfile hk_tmp_dir
-	hk_cfg_dir='/etc/dropbear'
+	hk_cfg_dir='/etc/config/ssh_server/'
 
 	[ -d "${hk_cfg_dir}" ] || mkdir -p "${hk_cfg_dir}"
 

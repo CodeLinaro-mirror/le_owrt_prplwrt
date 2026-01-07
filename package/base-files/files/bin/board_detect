@@ -2,7 +2,7 @@
 
 CFG=$1
 
-[ -n "$CFG" ] || CFG=/etc/board.json
+[ -n "$CFG" ] || CFG=/cfg/board.json
 
 [ -d "/etc/board.d/" -a ! -s "$CFG" ] && {
 	for a in $(ls /etc/board.d/*); do

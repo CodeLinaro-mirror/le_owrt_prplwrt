@@ -15,6 +15,6 @@ save() {
 SEED="$(uci -q get system.@system[0].urandom_seed || true)"
 [ "${SEED:0:1}" = "/" ] && save "$SEED"
 
-SEED=/etc/urandom.seed
+SEED=/tmp/urandom.seed
 [ ! -f $SEED ] && save "$SEED"
 true

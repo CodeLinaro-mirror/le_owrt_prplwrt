@@ -34,7 +34,28 @@ compose_rootfs_mount_options() {
 }
 
 do_mount_root() {
-	mount_root start "$(compose_rootfs_mount_options)"
+	#mount_root start "$(compose_rootfs_mount_options)"
+    mount -t ext4 -rw /dev/flash-config1 /cfg
+    if [ ! $? -eq 0 ]; then
+        mkdir -p /cfg
+        mount -t ext4 -rw /dev/flash-config1 /cfg
+        if [ ! $? -eq 0 ]; then
+            mount -t ext4 -rw /dev/flash-securestore /cfg
+            if [ ! $? -eq 0 ]; then
+                mkfs.ext4 -I 256 -b 4096 /dev/flash-securestore
+                mount -t ext4 -rw /dev/flash-securestore /cfg
+            fi
+        fi
+    fi
+    echo ">>>>> Mounting odl/config partition <<<<<"
+    mkdir -p /tmp/amx
+    mkdir -p /tmp/config
+    mkdir -p /cfg/config_overlay/default/upper
+    mkdir -p /cfg/config_overlay/default/work
+    mkdir -p /cfg/config_overlay/persistent/upper
+    mkdir -p /cfg/config_overlay/persistent/work
+    mount -t overlay overlay/ -o lowerdir=/etc/amx_original/,upperdir=/cfg/config_overlay/default/upper,workdir=/cfg/config_overlay/default/work /tmp/amx/
+    mount -t overlay overlay/ -o lowerdir=/etc/config_original/,upperdir=/cfg/config_overlay/persistent/upper,workdir=/cfg/config_overlay/persistent/work /tmp/config/
 	boot_run_hook preinit_mount_root
 	[ -f /sysupgrade.tgz -o -f /tmp/sysupgrade.tar ] && {
 		echo "- config restore -"
@@ -49,6 +70,72 @@ do_mount_root() {
 		# Prevent configuration corruption on a power loss
 		sync
 	}
+    
+    cp /etc/passwd_static /tmp/passwd
+    cp /etc/hosts_static /tmp/hosts
+    cp /etc/group_static /tmp/group
+    cp /etc/shadow_static /tmp/shadow
+    mkdir -p /tmp/iproute2/
+    cp /etc/iproute2/ematch_map_static /tmp/iproute2/ematch_map
+    cp /etc/iproute2/rt_protos_static /tmp/iproute2/rt_protos
+    cp /etc/iproute2/rt_tables_static /tmp/iproute2/rt_tables
+
+    mkdir -p /tmp/lighttpd/
+    mkdir -p /tmp/logrotate.d/
+    mkdir -p /tmp/unbound/
+    mkdir -p /tmp/crontabs/
+    cp /etc/crontabs/root.static /tmp/crontabs/root
+
+    mount -t tmpfs -rw tmpfs /www/assets/pcm.usr/
+    if [ ! $? -eq 0 ]; then
+        mkdir -p /www/assets/pcm.usr/
+        mount -t tmpfs -rw tmpfs /www/assets/pcm.usr/
+    fi
+
+    echo ">>>>> Mounting log partition <<<<<"
+    mount -t ext4 -rw /dev/flash-log /mnt/log
+    if [ ! $? -eq 0 ]; then
+        mkfs.ext4 -I 256 -b 4096 /dev/flash-log
+        mount -t ext4 -rw /dev/flash-log /mnt/log
+    fi
+
+    mount -t ext4 -rw /dev/flash-lcm_data /lcm
+    if [ ! $? -eq 0 ]; then
+        mkdir -p /lcm
+        mkfs.ext4 -I 256 -b 4096 /dev/flash-lcm_data
+        mount -t ext4 -rw /dev/flash-lcm_data /lcm
+    fi
+    
+    if [ ! -d "/cfg/uci-defaults/" ];then
+        mkdir -p /cfg/uci-defaults/
+        cp /etc/uci-defaults/* /cfg/uci-defaults/
+    fi
+     mount -t tmpfs cgroup /sys/fs/cgroup
+	 for d in cpuset cpu cpuacct memory devices freezer blkio; do
+	    mkdir -p /sys/fs/cgroup/$d
+	    (mount -n -t cgroup -o $d cgroup /sys/fs/cgroup/$d || rm -rf /sys/fs/cgroup/$d || true)
+     done
+    
+    #mkdir -p /perm
+    mount -t ext4 -rw /dev/flash-config2 /perm
+    if [ "$?" != "0" ];then
+        echo "Info: Formatting flash-config2 partition and remount /perm"
+        mkfs.ext2 -I 256 -b 4096 /dev/flash-config2
+        mount -t ext4 -rw /dev/flash-config2 /perm
+        if [ "$?" != "0" ];then
+            mount -t ext4 -rw /dev/flash-securestore2 /perm
+            if [ "$?" != "0" ];then
+                mkfs.ext4 -I 256 -b 4096 /dev/flash-securestore2
+                mount -t ext4 -rw /dev/flash-securestore2 /perm
+            fi
+        fi
+    fi
+    #mount -t jffs2 /dev/mtdblock11 /perm
+    mkdir /tmp/hw_info
+    cp /etc/pid /tmp/hw_info/pid
+
+    #copy the networklayout_static.json to cfg
+    cp /etc/networklayout_static.json /cfg/networklayout.json 
 }
 
 [ "$INITRAMFS" = "1" ] || boot_hook_add preinit_main do_mount_root
