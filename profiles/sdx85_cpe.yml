@@ -167,3 +167,4 @@ diffconfig: |
   CONFIG_PACKAGE_libdbus=m
   CONFIG_PACKAGE_dbus=m
   CONFIG_SDK=y
+  CONFIG_PACKAGE_ATH_DEBUG=y
