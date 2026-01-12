@@ -1,0 +1,44 @@
+!amx silent true
+
+# Load Ambiorix Bus Agnostic CLI
+!addon load mod_ba /usr/lib/amx/amx-cli/mod-ba-cli.so
+
+# Loading USP back-end
+backend add /usr/bin/mods/usp/mod-amxb-usp.so
+
+# Open connection to USP endpoint
+connection open usp:/var/run/usp/broker_agent_path
+
+# Select connection
+connections
+select usp:/var/run/usp/broker_agent_path
+
+# Set mode cli
+!addon select mod_ba cli
+
+# Disable ACL verification by default
+
+!amx variable acl-enable=false
+!amx variable acl-dir="/etc/acl/"
+!amx variable cli-name="usp-cli"
+
+# Define some aliases
+!amx alias printenv "!amx variable"
+!amx alias setenv "!amx variable"
+!amx alias mode-cli "!addon select mod_ba cli"
+!amx alias connections "!addon select mod_ba connection"
+!amx alias pcb-connection "connections; select pcb:/var/run/pcb_sys; mode-cli;"
+!amx alias ubus-connection "connections; select ubus:; mode-cli;"
+!amx alias any-connection "connections; select *; mode-cli;"
+!amx alias ubus-protected "connections; access ubus: protected; mode-cli"
+!amx alias ubus-public "connections; access ubus: public; mode-cli"
+!amx alias pcb-protected "connections; access pcb:/var/run/pcb_sys protected; mode-cli"
+!amx alias pcb-public "connections; access pcb:/var/run/pcb_sys public; mode-cli"
+!amx alias exit "!amx exit"
+!amx alias quit "!amx exit"
+
+# Reset history
+!history clear
+!history load /tmp/ba_cli.history
+
+!amx silent false
