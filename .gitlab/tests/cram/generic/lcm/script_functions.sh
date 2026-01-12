@@ -214,7 +214,7 @@ install_update_ctr_with_params() {
 	done
 
 	if [ "${operation}" = "install" ]; then
-		${CLI} "SoftwareModules.InstallDU($str_params)"
+		${CLI_JSON} "SoftwareModules.InstallDU($str_params)"
 	elif [ "${operation}" = "update" ]; then
 		${CLI} "SoftwareModules.DeploymentUnit.[ UUID == \"${uuid}\" ].Update($str_params)"
 		wait_ctr_down
@@ -387,6 +387,47 @@ set_ee_usp_roles() {
 
 	## Roles list can be empty
 	${CLI} "SoftwareModules.ExecEnv.[ Name == \"${ee}\" ].ModifyAvailableRoles(AvailableRoles = \"${roles}\")"
+}
+
+set_ee_roles() {
+	roles=""
+	userroles=""
+	ee=${DEFAULT_EE}
+
+	while [ $# -gt 0 ]; do
+		key="$1"
+		value=""
+		value_missing=false
+		case $key in
+		--*) # If argument starts with "--"
+			key="${key#--}"
+			shift
+			if [ $# -gt 0 ] && case "$1" in --*) false ;; *) true ;; esac then
+				value="$1"
+				shift
+			elif [ $# -eq 0 ] || case "$1" in --*) true ;; *) false ;; esac then
+				value_missing=true
+			fi
+
+			if [ "${key}" = "roles" ]; then
+				roles=$(value_or_default "${value_missing}" "" "${value}")
+			elif [ "${key}" = "userroles" ]; then
+				userroles=$(value_or_default "${value_missing}" "" "${value}")
+			elif [ "${key}" = "ee" ]; then
+				ee=$(value_or_default "${value_missing}" "${DEFAULT_EE}" "${value}")
+			else
+				echo "Unknown argument: ${key}=${value}"
+			fi
+			;;
+		*)
+			echo "Unknown argument: $1"
+			shift
+			;;
+		esac
+	done
+
+	## Roles list can be empty
+	${CLI_JSON} "SoftwareModules.ExecEnv.[ Name == \"${ee}\" ].ModifyAvailableRoles(AvailableRoles = \"${roles}\", AvailableUserRoles = \"${userroles}\")"
 }
 
 check_available_roles() {

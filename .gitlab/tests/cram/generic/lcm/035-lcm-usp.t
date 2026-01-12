@@ -5,6 +5,9 @@ Setup the test configuration:
   $ alias C="${CRAM_REMOTE_COPY:-}"
   $ S=". /tmp/script_functions.sh"
   $ C ${TESTDIR}/script_functions.sh root@${TARGET_LAN_IP}:/tmp/script_functions.sh 2>/dev/null
+  $ C ${TESTDIR}/usp-cli/usp-cli.conf root@${TARGET_LAN_IP}:/etc/amx/cli/usp-cli.conf 2>/dev/null
+  $ C ${TESTDIR}/usp-cli/usp-cli.init root@${TARGET_LAN_IP}:/etc/amx/cli/usp-cli.init 2>/dev/null
+  $ R "if [ ! -f /usr/bin/usp-cli ] ; then ln -s amx-cli /usr/bin/usp-cli; fi"
 
 
 Set-up ExecEnv configuration
@@ -42,6 +45,27 @@ Uninstall the container and check everything is cleaned:
 
   $ R "${S} && uninstall_ctr_and_check --uuid"
   [1]
+
+
+Add a User role foo and add it to the EE
+  $ R "usp-cli 'Device.LocalAgent.ControllerTrust.Role.+{Alias=\"foo\", Name=\"foo\", Enable=1}'" > /dev/null
+  $ R "${S} && set_ee_roles --roles \"Full Access, foo\"" > /dev/null
+  $ R "${S} && check_available_roles --ee"
+  Device.LocalAgent.ControllerTrust.Role.1.,Device.LocalAgent.ControllerTrust.Role.*. (glob)
+
+
+Remove the role foo from the EE and check it cannot be used to install a container
+  $ R "usp-cli 'Device.LocalAgent.ControllerTrust.Role.[Alias==\"foo\"].-'" > /dev/null
+  $ R "${S} && check_available_roles --ee"
+  Device.LocalAgent.ControllerTrust.Role.1.
+
+  $ R "${S} && install_ctr --version prplos-v1 --ee --uuid --privileged true --usprequired \"foo\""
+  
+  ERROR: call (null) failed with status 1 - unknown error
+  SoftwareModules.InstallDU() returned
+  ["",{"err_code":7032,"err_msg":"Role not found in 'Device.LocalAgent.ControllerTrust.Role.' or in the 'AvailableRoles': 'foo'"}]
+  
+  Container with UUID=00000000-0000-5000-b000-000000000001 is not found
 
 
 ### UNPRIVILEGED CONTAINER SECTION ###
