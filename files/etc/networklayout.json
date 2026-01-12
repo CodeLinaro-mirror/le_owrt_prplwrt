@@ -1,0 +1,44 @@
+{
+    "Interfaces": [
+            {"Alias": "ETH0","Name": "eth0","Type": "ethernet","Upstream": "true","DefaultUpstream": "true"},
+            {"Alias": "ETH1","Name": "eth1","Type": "ethernet"},
+            {"Alias": "vap5g0priv", "Name": "wlan0","Type": "wireless", "OperatingFrequency": "5GHz", "SSID": "prplOS"},
+            {"Alias": "vap5g0guest", "Name": "wlan1","Type": "wireless", "OperatingFrequency": "5GHz", "SSID": "prplOS-guest"},
+            {"Alias": "vap2g0priv", "Name": "wlan2","Type": "wireless", "OperatingFrequency": "2.4GHz", "SSID": "prplOS"},
+            {"Alias": "vap2g0guest", "Name": "wlan3","Type": "wireless", "OperatingFrequency": "2.4GHz", "SSID": "prplOS-guest"},
+            {"Alias": "vap6g0priv", "Name": "wlan4","Type": "wireless", "OperatingFrequency": "6GHz", "SSID": "prplOS"}
+            ]
+    ,
+    "Bridges": {
+        "Lan": {
+            "Name": "br-lan",
+            "Ports": [
+                {"Alias": "eth_port1","Name": "eth1"},
+                {"Alias": "wlan_port0","Name": "wlan0"},
+                {"Alias": "wlan_port2","Name": "wlan2"},
+                {"Alias": "wlan_port4","Name": "wlan4"}
+            ]
+        },
+        "Guest": {
+            "Name": "br-guest",
+            "Ports": [
+                {"Alias": "eth_port1","Name": "eth1", "Vlan": "10", "VlanPriority": "1"},
+                {"Alias": "wlan_port1","Name": "wlan1"},
+                {"Alias": "wlan_port3","Name": "wlan3"}
+            ]
+        },
+        "Lcm": {
+            "Name": "br-lcm",
+            "IPv4Address": "192.168.5.1",
+            "SubnetMask": "255.255.255.0",
+            "Ports": [
+            ]
+        }
+    },
+    "Radios": [
+        {"Alias": "rad5g0", "OperatingFrequency": "5GHz"},
+        {"Alias": "rad2g0", "OperatingFrequency": "2.4GHz"},
+        {"Alias": "rad6g0", "OperatingFrequency": "6GHz"}
+    ]
+}
+
