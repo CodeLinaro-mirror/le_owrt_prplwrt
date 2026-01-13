@@ -13,6 +13,10 @@ feeds:
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplos.git
     revision: main@4fa001814ae86779d209108a967603b995b4cf77
 
+  - name: feed_swupdate
+    uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_swupdate.git
+    revision: main@1ba2e42ce17feb61b89c203d314aafd4bdb3c5a8
+
 additional_packages:
   - feed: packages
     packages:
@@ -21,6 +25,7 @@ additional_packages:
       - syslog-ng
 
 packages:
+  - mod-fwi-swupdate
   - acl-manager
   - amx-cli
   - amx-faultmonitor
