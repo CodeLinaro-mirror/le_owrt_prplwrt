@@ -152,6 +152,4 @@
     when: always
     paths:
       - bin
-      - logs
-      - ./*packages-hash-issues.patch
-      - rootfs-debug.tar.xz
+
