@@ -4468,6 +4468,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.XPON.ONU.{i}.ANI.{i}.LastChange                                                               proto::tr181-xpon
   Device.XPON.ONU.{i}.ANI.{i}.Name                                                                     proto::tr181-xpon
   Device.XPON.ONU.{i}.ANI.{i}.PONMode                                                                  proto::tr181-xpon
+  Device.XPON.ONU.{i}.ANI.{i}.SFPReferenceList                                                         proto::tr181-xpon
   Device.XPON.ONU.{i}.ANI.{i}.Status                                                                   proto::tr181-xpon
   Device.XPON.ONU.{i}.ANI.{i}.TC.                                                                      proto::tr181-xpon
   Device.XPON.ONU.{i}.ANI.{i}.TC.Alarms.                                                               proto::tr181-xpon
@@ -4544,7 +4545,6 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.XPON.ONU.{i}.ANI.{i}.Transceiver.{i}.VendorPartNumber                                         proto::tr181-xpon
   Device.XPON.ONU.{i}.ANI.{i}.Transceiver.{i}.VendorRevision                                           proto::tr181-xpon
   Device.XPON.ONU.{i}.ANI.{i}.Transceiver.{i}.Voltage                                                  proto::tr181-xpon
-  Device.XPON.ONU.{i}.ANI.{i}.Transceiver.{i}.X_PRPLWARE-COM_SFPReference                              proto::tr181-xpon
   Device.XPON.ONU.{i}.ANI.{i}.TransceiverNumberOfEntries                                               proto::tr181-xpon
   Device.XPON.ONU.{i}.ANINumberOfEntries                                                               proto::tr181-xpon
   Device.XPON.ONU.{i}.Enable                                                                           proto::tr181-xpon
@@ -9473,6 +9473,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.XPON.ONU.{i}.ANI.{i}.LastChange                                                               proto::tr181-xpon
   Device.XPON.ONU.{i}.ANI.{i}.Name                                                                     proto::tr181-xpon
   Device.XPON.ONU.{i}.ANI.{i}.PONMode                                                                  proto::tr181-xpon
+  Device.XPON.ONU.{i}.ANI.{i}.SFPReferenceList                                                         proto::tr181-xpon
   Device.XPON.ONU.{i}.ANI.{i}.Status                                                                   proto::tr181-xpon
   Device.XPON.ONU.{i}.ANI.{i}.TC.                                                                      proto::tr181-xpon
   Device.XPON.ONU.{i}.ANI.{i}.TC.Alarms.                                                               proto::tr181-xpon
@@ -9549,7 +9550,6 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.XPON.ONU.{i}.ANI.{i}.Transceiver.{i}.VendorPartNumber                                         proto::tr181-xpon
   Device.XPON.ONU.{i}.ANI.{i}.Transceiver.{i}.VendorRevision                                           proto::tr181-xpon
   Device.XPON.ONU.{i}.ANI.{i}.Transceiver.{i}.Voltage                                                  proto::tr181-xpon
-  Device.XPON.ONU.{i}.ANI.{i}.Transceiver.{i}.X_PRPLWARE-COM_SFPReference                              proto::tr181-xpon
   Device.XPON.ONU.{i}.ANI.{i}.TransceiverNumberOfEntries                                               proto::tr181-xpon
   Device.XPON.ONU.{i}.ANINumberOfEntries                                                               proto::tr181-xpon
   Device.XPON.ONU.{i}.Enable                                                                           proto::tr181-xpon
