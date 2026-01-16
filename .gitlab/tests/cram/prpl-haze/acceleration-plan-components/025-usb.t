@@ -8,13 +8,15 @@ Assure USB. datamodel content with no USB devices plugged in:
   [
     {
       "USB.Port.1.": {
+        "Power": "Unknown",
+        "Receptacle": "Standard-A",
         "Standard": "2.0",
         "Name": "usb-Port-1",
-        "Power": "Unknown",
         "Alias": "usb-Port-1",
         "Rate": "High",
+        "PowerCapability": "On,Off,LowPower",
         "Type": "Host",
-        "Receptacle": "Standard-A"
+        "PowerStatus": "On"
       },
       "USB.USBHosts.": {
         "HostNumberOfEntries": 4
