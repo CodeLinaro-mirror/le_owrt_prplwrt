@@ -24,6 +24,7 @@
     - mkdir -p logs
     - set -o pipefail
     - git config --global --add safe.directory '*'
+    - git config --global url."https://git.w1.fi/hostap.git".insteadOf "https://w1.fi/hostap.git"
 
     - sudo apt-get update && sudo apt-get install --yes --no-install-recommends swig
 
