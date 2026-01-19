@@ -173,3 +173,28 @@ Set back default timezone:
   
   $ (R "date +%Z")
   GMT
+  
+Force IPVersion to use ipv4 or ipv6 :
+
+  $ (R "ba-cli protected ") | sed -r 's/\x1B\[[0-9;]*[A-Za-z]//g' | grep -o 'protected'   | head -n 1
+  protected
+
+  $ (R "ba-cli Time.Client.1.IPVersion=4") | sed 's|[>,]||g'  ; sleep 10
+   Time.Client.1.IPVersion=4
+  Time.Client.1.
+  Time.Client.1.IPVersion=4
+
+Check that Status has expected Synchronized state:
+
+  $ R "ubus -S call Time.Client.1 _get | jsonfilter -e @[*].Status"
+  Synchronized
+
+  $ (R "ba-cli  Time.Client.1.IPVersion=6") | sed 's|[>,]||g' ; sleep 10
+   Time.Client.1.IPVersion=6
+  Time.Client.1.
+  Time.Client.1.IPVersion=6
+
+Check that Status has expected Synchronized state:
+
+  $ R "ubus -S call Time.Client.1 _get | jsonfilter -e @[*].Status"
+  Synchronized
