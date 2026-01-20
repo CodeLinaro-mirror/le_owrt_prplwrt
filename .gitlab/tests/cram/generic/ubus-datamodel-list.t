@@ -331,7 +331,8 @@ Check that ubus has expected datamodels available:
   SFPs.Mgmt
   SFPs.Mgmt.SFF8472
   SFPs.SFPCage
-  SFPs.X_PRPLWARE-COM_SFPDatabase
+  SFPs.SFPProperties
+  SFPs.SFPProperties.SFP
   SSH
   SSH.AuthorizedKey
   SSH.Server
