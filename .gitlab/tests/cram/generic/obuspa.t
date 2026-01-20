@@ -3156,7 +3156,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.UPnP.Device.Capabilities.UPnPWLANAccessPoint                                                  proto::tr181-upnp
   Device.UPnP.Device.Enable                                                                            proto::tr181-upnp
   Device.UPnP.Device.UPnPIGD                                                                           proto::tr181-upnp
-  Device.UPnP.Discovery.                                                                               proto::tr181-upnpdiscovery
+  Device.UPnP.Discovery.
   Device.UPnP.Discovery.Device.{i}.                                                                    proto::tr181-upnpdiscovery
   Device.UPnP.Discovery.Device.{i}.Host                                                                proto::tr181-upnpdiscovery
   Device.UPnP.Discovery.Device.{i}.LastUpdate                                                          proto::tr181-upnpdiscovery
@@ -8137,7 +8137,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.UPnP.Device.Capabilities.UPnPWLANAccessPoint                                                  proto::tr181-upnp
   Device.UPnP.Device.Enable                                                                            proto::tr181-upnp
   Device.UPnP.Device.UPnPIGD                                                                           proto::tr181-upnp
-  Device.UPnP.Discovery.                                                                               proto::tr181-upnpdiscovery
+  Device.UPnP.Discovery.
   Device.UPnP.Discovery.Device.{i}.                                                                    proto::tr181-upnpdiscovery
   Device.UPnP.Discovery.Device.{i}.Host                                                                proto::tr181-upnpdiscovery
   Device.UPnP.Discovery.Device.{i}.LastUpdate                                                          proto::tr181-upnpdiscovery
