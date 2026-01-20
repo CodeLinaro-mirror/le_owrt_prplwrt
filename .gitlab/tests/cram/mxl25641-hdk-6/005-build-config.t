@@ -626,7 +626,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_mod-vlan-ioctl=y
   CONFIG_PACKAGE_mod-vlan-uci=y
   CONFIG_PACKAGE_mod-wanmgr-sfp=y
-  CONFIG_PACKAGE_mod-wanmgr-system=y
+  CONFIG_PACKAGE_mod-wanmgr-system-ospv2=y
   CONFIG_PACKAGE_mod-whm=y
   CONFIG_PACKAGE_mod-xpon-prpl=y
   CONFIG_PACKAGE_mod-xpon-prpl-mock=m
