@@ -47,6 +47,8 @@ packages:
   - kmod-qca-mdio
   - kmod-qca-nss-ppe-ath-clients
   - kmod-qca-wifi-nss-plugins
+  - wifi-scripts
+  - wifi-helper-scripts
 
 diffconfig: |
   CONFIG_TARGET_INITRAMFS_COMPRESSION_LZMA=y
