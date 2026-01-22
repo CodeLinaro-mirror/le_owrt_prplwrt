@@ -2,11 +2,9 @@ Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
-Don't run test on Turris Omnia and OSPv1 boards as they don't have Reset and WPS buttons:
+Don't run test on Turris Omnia as it doesn't have Reset and WPS buttons:
 
   $ [ "$DUT_BOARD" = "turris-omnia" ] && exit 80
-  [1]
-  $ [ "$DUT_BOARD" = "urx851-hdk-3" ] && exit 80
   [1]
 
 Check that all buttons are in the expected state:
