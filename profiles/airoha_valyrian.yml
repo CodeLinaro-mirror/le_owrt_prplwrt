@@ -1,0 +1,15 @@
+---
+profiles:
+  - airoha_valyrian
+target: airoha
+subtarget: an7581
+external_target: True
+description: Build image for Airoha/Nokia Valyrian board
+feeds:
+  - name: feed_airoha
+    method: src-link
+    uri: ../../feed-airoha
+
+packages:
+  - airoha
+
