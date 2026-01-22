@@ -3745,6 +3745,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.EndPoint.{i}.MultiAPEnable                                                               proto::wld
   Device.WiFi.EndPoint.{i}.MultiAPProfile                                                              proto::wld
   Device.WiFi.EndPoint.{i}.MultiAPVlanId                                                               proto::wld
+  Device.WiFi.EndPoint.{i}.PeerMultiAPProfile                                                          proto::wld
   Device.WiFi.EndPoint.{i}.Profile.{i}.                                                                proto::wld
   Device.WiFi.EndPoint.{i}.Profile.{i}.Alias                                                           proto::wld
   Device.WiFi.EndPoint.{i}.Profile.{i}.Enable                                                          proto::wld
@@ -8663,6 +8664,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.EndPoint.{i}.MultiAPEnable                                                               proto::wld
   Device.WiFi.EndPoint.{i}.MultiAPProfile                                                              proto::wld
   Device.WiFi.EndPoint.{i}.MultiAPVlanId                                                               proto::wld
+  Device.WiFi.EndPoint.{i}.PeerMultiAPProfile                                                          proto::wld
   Device.WiFi.EndPoint.{i}.Profile.{i}.                                                                proto::wld
   Device.WiFi.EndPoint.{i}.Profile.{i}.Alias                                                           proto::wld
   Device.WiFi.EndPoint.{i}.Profile.{i}.Enable                                                          proto::wld
