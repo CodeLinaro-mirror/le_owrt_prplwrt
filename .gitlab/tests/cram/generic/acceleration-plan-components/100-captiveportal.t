@@ -7,6 +7,7 @@ Enable Captive Portal (not activated by default):
   $ R "ba-cli 'CaptivePortal.Enable=1'" >/dev/null
   $ R "ba-cli 'CaptivePortal.Status?' | sed -n '2p'"
   CaptivePortal.Status="Enabled"
+  $ sleep 1
 
 Disable WAN using IP datamodel and check that Captive Portal starts intercepting:
 
@@ -20,8 +21,8 @@ Get a DHCP lease from the router (openNDS requires clients to be registered):
 Wait for status change:
 
   $ sleep 15
-  $ R "ba-cli -lj 'ubus-protected;CaptivePortal.Status?'" 2>&1 | grep -v "^>" | sed -n "4p" 
-  [{"CaptivePortal.":{"Status":"Enabled"}}]
+  $ R "ba-cli -lj 'ubus-protected;CaptivePortal.State?'" 2>&1 | grep -v "^>" | sed -n "4p" 
+  [{"CaptivePortal.":{"State":"Running"}}]
 
 Check openNDS http interface has been opened on br-lan:
 
