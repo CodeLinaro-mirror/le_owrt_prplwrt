@@ -282,8 +282,6 @@ Check that hostapd is operating as expected:
   hostapd
 
   $ R "ubus list | grep hostapd. | sort"
-  hostapd.wlan0.3
-  hostapd.wlan1.3
   hostapd.wlan2.1
   hostapd.wlan2.2
   hostapd.wlan2.3
@@ -304,14 +302,18 @@ Check iw interfaces and beaconing:
   Interface wlan2.2
   Interface wlan2.3
   ssid backhaul_(AC:91:9B|58:E4:03):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
-  ssid backhaul_(AC:91:9B|58:E4:03):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
-  ssid backhaul_(AC:91:9B|58:E4:03):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
   ssid prplOS
   ssid prplOS-guest
 
 Check that the tree interfaces are present in the main link interface:
 
   $ R "iw dev" | grep -e link -A 3 | grep -e link -e channel | sed 's/^[ \t]*//'
+  link 0:
+  channel.* (re)
+  link 1:
+  channel.* (re)
+  link 2:
+  channel.* (re)
   link 0:
   channel.* (re)
   link 1:
