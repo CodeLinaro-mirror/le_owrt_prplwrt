@@ -64,16 +64,15 @@ Check default MLDUnit configuration:
   -1
   -1
   -1
-  -1
-  -1
-  -1
   0
   0
   0
   1
   1
   1
-
+  2
+  2
+  2
 
 Disable MLO on private and guest vaps:
   $ R logger -t cram "Disable MLO for all interfaces"
