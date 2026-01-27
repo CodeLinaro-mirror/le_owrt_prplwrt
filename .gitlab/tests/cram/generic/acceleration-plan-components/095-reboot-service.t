@@ -1,3 +1,8 @@
+Skip test on Freedom board until PCF-2288 is fixed:
+
+  $ [ "$DUT_BOARD" = "wnc-freedom" ] && exit 80
+  [1]
+
 Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
