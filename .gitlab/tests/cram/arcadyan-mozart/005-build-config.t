@@ -338,6 +338,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_mod-autosensing=y
   CONFIG_PACKAGE_mod-ba-cli=y
   CONFIG_PACKAGE_mod-busstats=y
+  CONFIG_PACKAGE_mod-deepstandby-dummy=y
   CONFIG_PACKAGE_mod-dhcpv4c=y
   CONFIG_PACKAGE_mod-dmext=y
   CONFIG_PACKAGE_mod-dmproxy=y
@@ -536,6 +537,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_REMOVE_CAPS_ODLS=y
   CONFIG_SAH_AMXRT_RWDATAPATH="/etc/config"
   CONFIG_SAH_AMX_ADD_DBREADY_SCRIPT=y
+  CONFIG_SAH_AMX_ADD_SYSINIT_DONE_SCRIPT=y
   CONFIG_SAH_AMX_FAULTMONITOR=y
   CONFIG_SAH_AMX_FAULTMONITOR_RUN_AS_GROUP="tr181_app"
   CONFIG_SAH_AMX_FAULTMONITOR_RUN_AS_USER="tr181_app"
