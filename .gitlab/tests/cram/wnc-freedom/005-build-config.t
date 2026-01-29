@@ -466,6 +466,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_prpl-configuration=y
   CONFIG_PACKAGE_prpl-webui=y
   CONFIG_PACKAGE_prplmesh=y
+  CONFIG_PACKAGE_prplmesh-process-manager=y
   CONFIG_PACKAGE_prplmesh-unit-tests=m
   CONFIG_PACKAGE_pwhm=y
   CONFIG_PACKAGE_qca-ssdk-shell=y
@@ -588,6 +589,8 @@ Assure expected build configuration (PCF-1413):
   # CONFIG_PKG_FORTIFY_SOURCE_1 is not set
   CONFIG_PKG_FORTIFY_SOURCE_2=y
   CONFIG_PRPLMESH_ENABLE_UNIT_TESTS=y
+  CONFIG_PRPLMESH_PROCESS_MANAGER_START_ORDER=99
+  CONFIG_PRPLMESH_PROCESS_MANAGER_STOP_ORDER=0
   CONFIG_PRPL_CONTROLLER_ROOT_PATH="X_PRPLWARE-COM_WiFiController"
   CONFIG_PRPL_CPE_OPMODE="gateway"
   CONFIG_PRPL_CPE_OPMODE_GATEWAY=y
