@@ -75,9 +75,8 @@ feeds:
     tracking_branch:  updk_9.2.4
     revision: d82b27f1ca167d8735964af7f2676933b615cbf4
   - name: bootloader
-    uri: https://github.com/maxlinear/feed_uboot.git
-    tracking_branch:  updk_9.2.4
-    revision: 31262aca3c3eeeca0e138602c329dc0effd96770
+    uri: https://gitlab.com/prpl-foundation/mirrors/maxlinear/feed_uboot.git
+    branch:  FEAT-29
   - name: dpl
     uri: https://github.com/maxlinear/feed_dpl.git
     tracking_branch:  updk_9.2.4
