@@ -411,6 +411,10 @@ Check that ubus has expected datamodels available:
   X_PRPLWARE-COM_Agent.Info
   X_PRPLWARE-COM_Agent.Info.Fronthaul
   X_PRPLWARE-COM_Agent.WPS
+  X_PRPLWARE-COM_ProcessManager
+  X_PRPLWARE-COM_ProcessManager.PWHM
+  X_PRPLWARE-COM_ProcessManager.PrplMesh
+  X_PRPLWARE-COM_ProcessManager.Sensing
   X_PRPLWARE-COM_WiFiSensing
   X_PRPLWARE-COM_WiFiSensing.Session
   X_PRPLWARE-COM_WiFiSensing.Session.Exchange
