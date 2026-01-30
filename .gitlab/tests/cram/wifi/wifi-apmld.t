@@ -21,19 +21,19 @@ Check default configuration:
   $ R "ba-cli WiFi.APMLD.?  | sed '/^$/d'" | tail -n +2 | LC_ALL=C sort
   WiFi.APMLD.1.
   WiFi.APMLD.1.APMLDConfig.
-  WiFi.APMLD.1.APMLDConfig.EMLMREnabled=-1
-  WiFi.APMLD.1.APMLDConfig.EMLSREnabled=-1
-  WiFi.APMLD.1.APMLDConfig.NSTREnabled=-1
-  WiFi.APMLD.1.APMLDConfig.STREnabled=-1
+  WiFi.APMLD.1.APMLDConfig.EMLMREnabled=1
+  WiFi.APMLD.1.APMLDConfig.EMLSREnabled=1
+  WiFi.APMLD.1.APMLDConfig.NSTREnabled=1
+  WiFi.APMLD.1.APMLDConfig.STREnabled=1
   WiFi.APMLD.1.AffiliatedAPNumberOfEntries=0
   WiFi.APMLD.1.MLDID=0
   WiFi.APMLD.1.MLDMACAddress=""
   WiFi.APMLD.2.
   WiFi.APMLD.2.APMLDConfig.
-  WiFi.APMLD.2.APMLDConfig.EMLMREnabled=-1
-  WiFi.APMLD.2.APMLDConfig.EMLSREnabled=-1
-  WiFi.APMLD.2.APMLDConfig.NSTREnabled=-1
-  WiFi.APMLD.2.APMLDConfig.STREnabled=-1
+  WiFi.APMLD.2.APMLDConfig.EMLMREnabled=1
+  WiFi.APMLD.2.APMLDConfig.EMLSREnabled=1
+  WiFi.APMLD.2.APMLDConfig.NSTREnabled=1
+  WiFi.APMLD.2.APMLDConfig.STREnabled=1
   WiFi.APMLD.2.AffiliatedAPNumberOfEntries=0
   WiFi.APMLD.2.MLDID=1
   WiFi.APMLD.2.MLDMACAddress=""
@@ -266,10 +266,10 @@ Check if guest apmld is cleared:
   $ R "ba-cli WiFi.APMLD.2.?  | sed '/^$/d'" | tail -n +2 | LC_ALL=C sort
   WiFi.APMLD.2.
   WiFi.APMLD.2.APMLDConfig.
-  WiFi.APMLD.2.APMLDConfig.EMLMREnabled=-1
-  WiFi.APMLD.2.APMLDConfig.EMLSREnabled=-1
-  WiFi.APMLD.2.APMLDConfig.NSTREnabled=-1
-  WiFi.APMLD.2.APMLDConfig.STREnabled=-1
+  WiFi.APMLD.2.APMLDConfig.EMLMREnabled=1
+  WiFi.APMLD.2.APMLDConfig.EMLSREnabled=1
+  WiFi.APMLD.2.APMLDConfig.NSTREnabled=1
+  WiFi.APMLD.2.APMLDConfig.STREnabled=1
   WiFi.APMLD.2.AffiliatedAPNumberOfEntries=0
   WiFi.APMLD.2.MLDID=1
   WiFi.APMLD.2.MLDMACAddress=""
@@ -286,10 +286,10 @@ Check if private apmld is cleared:
   $ R "ba-cli WiFi.APMLD.1.?  | sed '/^$/d'" | tail -n +2 | LC_ALL=C sort
   WiFi.APMLD.1.
   WiFi.APMLD.1.APMLDConfig.
-  WiFi.APMLD.1.APMLDConfig.EMLMREnabled=-1
-  WiFi.APMLD.1.APMLDConfig.EMLSREnabled=-1
-  WiFi.APMLD.1.APMLDConfig.NSTREnabled=-1
-  WiFi.APMLD.1.APMLDConfig.STREnabled=-1
+  WiFi.APMLD.1.APMLDConfig.EMLMREnabled=1
+  WiFi.APMLD.1.APMLDConfig.EMLSREnabled=1
+  WiFi.APMLD.1.APMLDConfig.NSTREnabled=1
+  WiFi.APMLD.1.APMLDConfig.STREnabled=1
   WiFi.APMLD.1.AffiliatedAPNumberOfEntries=0
   WiFi.APMLD.1.MLDID=0
   WiFi.APMLD.1.MLDMACAddress=""
