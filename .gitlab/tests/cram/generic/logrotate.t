@@ -14,5 +14,11 @@ Check that logrotate is properly setup:
   /var/log/messages
   /var/log/messages_firewall
 
+  $ R 'grep /var/log/hostapd /var/lib/logrotate.status | cut -d\" -f2'
+  /var/log/hostapd
+
+  $ R 'grep /var/log/wpa_supplicant /var/lib/logrotate.status | cut -d\" -f2'
+  /var/log/wpa_supplicant
+
   $ R "grep /usr/sbin/logrotate /etc/crontabs/root"
   */10 * * * * /usr/sbin/logrotate /etc/logrotate.conf
