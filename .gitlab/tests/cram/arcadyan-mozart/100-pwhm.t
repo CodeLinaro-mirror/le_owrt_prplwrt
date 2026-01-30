@@ -50,7 +50,7 @@ Check default SSID configuration of access points:
 
 Check that no hostapd instance is running:
 
-  $ R "pgrep -f 'hostapd -ddt'"
+  $ R "pgrep -f 'hostapd'"
   [1]
 
 Test activation of access point 1:
@@ -177,11 +177,11 @@ Check that hostapd is operating as expected:
 
   $ R logger -t cram "Check that hostapd is operating"
 
-  $ R "ps axw" | sed -nE 's/.*(hostapd.*)/\1/p' | head -1 | tr -s ' ' '\n' | LC_ALL=C sort
-  -ddt
-  /tmp/wlan0_hapd.conf
-  /tmp/wlan1_hapd.conf
+  $ R "ps axw" | sed -nE 's/.*(hostapd .*)/\1/p' | head -1 | tr -s ' ' '\n' | LC_ALL=C sort
+  -g
+  -s
   /tmp/wlan2_hapd.conf
+  /var/run/hostapd/global\.0x.* (re)
   hostapd
 
   $ R "ubus list | grep -e 'hostapd\.' | sort"
@@ -210,6 +210,88 @@ Check iw interfaces and beaconing:
   ssid prplOS-guest
   ssid prplOS-guest
   ssid prplOS-guest
+
+Test custom arguments
+
+  $ R "ba-cli 'Device.WiFi.EndPoint.*.Enable=1' | sed '1d' | awk 'NF'"
+  Device.WiFi.EndPoint.1.
+  Device.WiFi.EndPoint.1.Enable=1
+  Device.WiFi.EndPoint.2.
+  Device.WiFi.EndPoint.2.Enable=1
+  Device.WiFi.EndPoint.3.
+  Device.WiFi.EndPoint.3.Enable=1
+
+  $ R "ba-cli -j -l 'protected; WiFi.DaemonMgt.Daemon.hostapd.ExecutionSettings.CustomArguments=-dds' | grep CustomArguments"
+  [{"WiFi.DaemonMgt.Daemon.1.ExecutionSettings.":{"CustomArguments":"-dds"}}]
+
+  $ R "ba-cli -j -l 'protected; WiFi.DaemonMgt.Daemon.hostapd.ExecutionSettings.CustomArguments?' | grep CustomArguments"
+  [{"WiFi.DaemonMgt.Daemon.1.ExecutionSettings.":{"CustomArguments":"-dds"}}]
+
+  $ R "ba-cli -j -l 'protected; WiFi.DaemonMgt.Daemon.wpa_supplicant.ExecutionSettings.CustomArguments=-ds' | grep CustomArguments"
+  [{"WiFi.DaemonMgt.Daemon.2.ExecutionSettings.":{"CustomArguments":"-ds"}}]
+
+  $ R "ba-cli -j -l 'protected; WiFi.DaemonMgt.Daemon.wpa_supplicant.ExecutionSettings.CustomArguments?' | grep CustomArguments"
+  [{"WiFi.DaemonMgt.Daemon.2.ExecutionSettings.":{"CustomArguments":"-ds"}}]
+
+$ sleep 10
+
+  $ R logger -t cram "Check that hostapd is operating"
+
+  $ R "ps axw" | sed -nE 's/.*(hostapd .*)/\1/p' | head -1 | tr -s ' ' '\n' | LC_ALL=C sort
+  -dds
+  -g
+  /tmp/wlan0_hapd.conf
+  /tmp/wlan1_hapd.conf
+  /tmp/wlan2_hapd.conf
+  /var/run/hostapd/global\.0x.* (re)
+  hostapd
+
+  $ R logger -t cram "Check that wpa_supplicant is operating"
+
+  $ R "ps axw" | sed -n '/[w]pa_supplicant/ { s/^.*\bwpa_supplicant[[:space:]]/wpa_supplicant /; p }' | sort | head -3
+  wpa_supplicant -ds -i wlan0 -Dnl80211 -c /tmp/wlan0_wpa_supplicant.conf
+  wpa_supplicant -ds -i wlan1 -Dnl80211 -c /tmp/wlan1_wpa_supplicant.conf
+  wpa_supplicant -ds -i wlan2 -Dnl80211 -c /tmp/wlan2_wpa_supplicant.conf
+
+Setting the custom arguments back to default value:
+
+  $ R "ba-cli -j -l 'protected; WiFi.DaemonMgt.Daemon.hostapd.ExecutionSettings.CustomArguments="-s"' | grep CustomArguments"
+  [{"WiFi.DaemonMgt.Daemon.1.ExecutionSettings.":{"CustomArguments":"-s"}}]
+
+  $ R "ba-cli -j -l 'protected; WiFi.DaemonMgt.Daemon.hostapd.ExecutionSettings.CustomArguments?' | grep CustomArguments"
+  [{"WiFi.DaemonMgt.Daemon.1.ExecutionSettings.":{"CustomArguments":"-s"}}]
+
+$ R "ba-cli -j -l 'protected; WiFi.DaemonMgt.Daemon.wpa_supplicant.ExecutionSettings.CustomArguments="-s"' | grep CustomArguments"
+  [{"WiFi.DaemonMgt.Daemon.2.ExecutionSettings.":{"CustomArguments":"-s"}}]
+
+  $ R "ba-cli -j -l 'protected; WiFi.DaemonMgt.Daemon.wpa_supplicant.ExecutionSettings.CustomArguments?' | grep CustomArguments"
+  [{"WiFi.DaemonMgt.Daemon.2.ExecutionSettings.":{"CustomArguments":"-s"}}]
+
+  $ sleep 10
+
+  $ R logger -t cram "Check that hostapd is operating"
+
+  $ R "ps axw" | sed -nE 's/.*(hostapd .*)/\1/p' | head -1 | tr -s ' ' '\n' | LC_ALL=C sort
+  -g
+  -s
+  /tmp/wlan0_hapd.conf
+  /tmp/wlan1_hapd.conf
+  /tmp/wlan2_hapd.conf
+  /var/run/hostapd/global\.0x.* (re)
+  hostapd
+
+  $ R "ps axw" | sed -n '/[w]pa_supplicant/ { s/^.*\bwpa_supplicant[[:space:]]/wpa_supplicant /; p }' | sort | head -3
+  wpa_supplicant -s -i wlan0 -Dnl80211 -c /tmp/wlan0_wpa_supplicant.conf
+  wpa_supplicant -s -i wlan1 -Dnl80211 -c /tmp/wlan1_wpa_supplicant.conf
+  wpa_supplicant -s -i wlan2 -Dnl80211 -c /tmp/wlan2_wpa_supplicant.conf
+
+  $ R "ba-cli 'Device.WiFi.EndPoint.*.Enable=0' | sed '1d' | awk 'NF'"
+  Device.WiFi.EndPoint.1.
+  Device.WiFi.EndPoint.1.Enable=0
+  Device.WiFi.EndPoint.2.
+  Device.WiFi.EndPoint.2.Enable=0
+  Device.WiFi.EndPoint.3.
+  Device.WiFi.EndPoint.3.Enable=0
 
 Test deactivation of access point 6:
 
