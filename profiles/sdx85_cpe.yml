@@ -18,6 +18,7 @@ additional_packages:
       - file
       - fping
       - rng-tools
+      - lvm2
 
 packages:
   - busybox
@@ -64,6 +65,8 @@ packages:
   - health-monitor
   - libhealth_monitor
   - health-monitor-demo
+  - e2fsprogs
+  - resize2fs
 
 diffconfig: |
   CONFIG_TARGET_ROOTFS_UBIFS=y
