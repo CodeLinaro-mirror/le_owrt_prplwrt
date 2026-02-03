@@ -3,7 +3,7 @@ Create R alias:
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
   $ . "${TESTDIR}/../scripts/wifi.sh"
 
-Set AutoChannelEnable=0 on all WiFi.Radio. interfaces:
+Set AutoChannelEnable=0 on all Device.WiFi.Radio. interfaces:
 
   $ R "ba-cli -j -l WiFi.Radio.*.AutoChannelEnable=0 | sed '/^$/d'"
   [{"WiFi.Radio.1.":{"AutoChannelEnable":0},"WiFi.Radio.2.":{"AutoChannelEnable":0},"WiFi.Radio.3.":{"AutoChannelEnable":0}}]
@@ -11,12 +11,12 @@ Set AutoChannelEnable=0 on all WiFi.Radio. interfaces:
 Reset 2.4GHz bandwidth to the default 20MHz (PCF-2420):
 
   $ wifi_dm_radio_band 2 "OperatingChannelBandwidth=\"20MHz\""
-  WiFi.Radio.\d+.OperatingChannelBandwidth="20MHz" (re)
+  Device.WiFi.Radio.\d+.OperatingChannelBandwidth="20MHz" (re)
 
 Set channel to a non DFS one:
 
-  $ R "ba-cli -j -l WiFi.Radio.2.Channel=36 | sed '/^$/d'"
-  [{"WiFi.Radio.2.":{"Channel":36}}]
+  $ R "usp-cli -j -l Device.WiFi.Radio.2.Channel=36 | sed '/^$/d'"
+  [{"Device.WiFi.Radio.2.":{"Channel":36}}]
 
   $ sleep 5
 
@@ -326,3 +326,62 @@ Check the default ChipsetVendor param configurations:
   Qualcomm
   Qualcomm
   Qualcomm
+
+
+To return back SSID, remove instances:
+
+  $ R logger -t cram "Stop wireless"
+
+  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1 _set '{\"parameters\":{\"SSID\":\"prplOS\"}}'"
+  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.":{"SSID":"prplOS"}}
+  {}
+  {"amxd-error-code":0}
+
+  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2 _set '{\"parameters\":{\"SSID\":\"prplOS-guest\"}}'"
+  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.":{"SSID":"prplOS-guest"}}
+  {}
+  {"amxd-error-code":0}
+
+  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1 _set '{\"parameters\":{\"Enable\":1}}'"
+  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.":{"Enable":true}}
+  {}
+  {"amxd-error-code":0}
+
+  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2 _set '{\"parameters\":{\"Enable\":1}}'"
+  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.":{"Enable":true}}
+  {}
+  {"amxd-error-code":0}
+
+  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network AccessPointCommit"
+  {"retval":""}
+  {}
+  {"amxd-error-code":0}
+
+  $ sleep 5
+
+  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1 _set '{\"parameters\":{\"Enable\":0}}'"
+  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.":{"Enable":false}}
+  {}
+  {"amxd-error-code":0}
+
+  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2 _set '{\"parameters\":{\"Enable\":0}}'"
+  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.":{"Enable":false}}
+  {}
+  {"amxd-error-code":0}
+
+  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network AccessPointCommit"
+  {"retval":""}
+  {}
+  {"amxd-error-code":0}
+
+  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1 _del"
+  {"retval":["X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.","X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.Security."]}
+  {}
+  {"amxd-error-code":0}
+
+  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2 _del"
+  {"retval":["X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.","X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.Security."]}
+  {}
+  {"amxd-error-code":0}
+
+  $ sleep 10

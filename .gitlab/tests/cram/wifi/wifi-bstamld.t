@@ -29,9 +29,9 @@ Check default configuration:
   Device.WiFi.SSID.\d+.MLDUnit=-1 (re)
 
   $ wifi_dm "bSTAMLDMaxLinks?"
-  WiFi.bSTAMLDMaxLinks=3
+  Device.WiFi.bSTAMLDMaxLinks=3
 
-  $ wifi_dm "Radio.*.Capabilities.WiFi7STARole.?"
+  $ wifi_dm "Radio.*.Capabilities.WiFi7STARole.?" "WiFi." "ba-cli"
   WiFi.Radio.1.Capabilities.WiFi7STARole.EMLMRSupport=0
   WiFi.Radio.1.Capabilities.WiFi7STARole.EMLSRSupport=1
   WiFi.Radio.1.Capabilities.WiFi7STARole.NSTRSupport=0
@@ -63,14 +63,14 @@ Configure an EP MLD with same MLD unit:
 Check DM. At this step only MLDID can be checked. All other objects can't be updated unless we perform an onboarding:
 
   $ wifi_dm "bSTAMLD.?"
-  WiFi.bSTAMLD.1.AffiliatedbSTAList=""
-  WiFi.bSTAMLD.1.BSSID=""
-  WiFi.bSTAMLD.1.MLDID=11
-  WiFi.bSTAMLD.1.MLDMACAddress=""
-  WiFi.bSTAMLD.1.bSTAMLDConfig.EMLMREnabled=0
-  WiFi.bSTAMLD.1.bSTAMLDConfig.EMLSREnabled=1
-  WiFi.bSTAMLD.1.bSTAMLDConfig.NSTREnabled=0
-  WiFi.bSTAMLD.1.bSTAMLDConfig.STREnabled=0
+  Device.WiFi.bSTAMLD.1.AffiliatedbSTAList=""
+  Device.WiFi.bSTAMLD.1.BSSID=""
+  Device.WiFi.bSTAMLD.1.MLDID=11
+  Device.WiFi.bSTAMLD.1.MLDMACAddress=""
+  Device.WiFi.bSTAMLD.1.bSTAMLDConfig.EMLMREnabled=0
+  Device.WiFi.bSTAMLD.1.bSTAMLDConfig.EMLSREnabled=1
+  Device.WiFi.bSTAMLD.1.bSTAMLDConfig.NSTREnabled=0
+  Device.WiFi.bSTAMLD.1.bSTAMLDConfig.STREnabled=0
 
 Create profile for EP 1:
 
@@ -78,71 +78,71 @@ Create profile for EP 1:
   $ echo $ep1_alias
   cpe-Profile.* (re)
 
-  $ wifi_dm "EndPoint.1.ProfileReference=WiFi.EndPoint.1.Profile.${ep1_alias}"
-  WiFi.EndPoint.1.ProfileReference="WiFi.EndPoint.1.Profile.* (re)
+  $ wifi_dm "EndPoint.1.ProfileReference=WiFi.EndPoint.1.Profile.${ep1_alias}" "Device.WiFi." "ba-cli"
+  Device.WiFi.EndPoint.1.ProfileReference="WiFi.EndPoint.1.Profile.* (re)
 
-  $ wifi_dm "EndPoint.1.Profile.${ep1_alias}.Enable=1"
-  WiFi.EndPoint.1.Profile.\d+.Enable=1 (re)
+  $ wifi_dm "EndPoint.1.Profile.${ep1_alias}.Enable=1" "Device.WiFi." "ba-cli"
+  Device.WiFi.EndPoint.1.Profile.\d+.Enable=1 (re)
 
-  $ wifi_dm "EndPoint.1.Profile.${ep1_alias}.SSID=\"TEST_MLO\""
-  WiFi.EndPoint.1.Profile.\d+.SSID="TEST_MLO" (re)
+  $ wifi_dm "EndPoint.1.Profile.${ep1_alias}.SSID=\"TEST_MLO\"" "Device.WiFi." "ba-cli"
+  Device.WiFi.EndPoint.1.Profile.\d+.SSID="TEST_MLO" (re)
 
-  $ wifi_dm "EndPoint.1.Profile.${ep1_alias}.Security.ModeEnabled=\"WPA2-WPA3-Personal\""
-  WiFi.EndPoint.1.Profile.\d+.Security.ModeEnabled="WPA2-WPA3-Personal" (re)
+  $ wifi_dm "EndPoint.1.Profile.${ep1_alias}.Security.ModeEnabled=\"WPA2-WPA3-Personal\"" "Device.WiFi." "ba-cli"
+  Device.WiFi.EndPoint.1.Profile.\d+.Security.ModeEnabled="WPA2-WPA3-Personal" (re)
 
-  $ wifi_dm "EndPoint.1.Profile.${ep1_alias}.Security.KeyPassPhrase=\"password\""
-  WiFi.EndPoint.1.Profile.\d+.Security.KeyPassPhrase="password" (re)
+  $ wifi_dm "EndPoint.1.Profile.${ep1_alias}.Security.KeyPassphrase=\"password\"" "Device.WiFi." "ba-cli"
+  Device.WiFi.EndPoint.1.Profile.\d+.Security.KeyPassphrase="password" (re)
 
 Create profile for EP 2:
 
-  $ ep2_alias=$(R 'ba-cli -l "WiFi.EndPoint.2.Profile+"' | sed '/^$/d')
+  $ ep2_alias=$(R 'ba-cli -l "Device.WiFi.EndPoint.2.Profile+"' | sed '/^$/d')
   $ echo $ep2_alias
   cpe-Profile.* (re)
 
-  $ wifi_dm "EndPoint.2.ProfileReference=WiFi.EndPoint.2.Profile.${ep2_alias}"
-  WiFi.EndPoint.2.Profile.* (re)
+  $ wifi_dm "EndPoint.2.ProfileReference=WiFi.EndPoint.2.Profile.${ep2_alias}" "Device.WiFi." "ba-cli"
+  Device.WiFi.EndPoint.2.Profile.* (re)
 
-  $ wifi_dm "EndPoint.2.Profile.${ep2_alias}.Enable=1"
-  WiFi.EndPoint.2.Profile.\d+.Enable=1 (re)
+  $ wifi_dm "EndPoint.2.Profile.${ep2_alias}.Enable=1" "Device.WiFi." "ba-cli"
+  Device.WiFi.EndPoint.2.Profile.\d+.Enable=1 (re)
 
-  $ wifi_dm "EndPoint.2.Profile.${ep2_alias}.SSID=\"TEST_MLO\""
-  WiFi.EndPoint.2.Profile.\d+.SSID="TEST_MLO" (re)
+  $ wifi_dm "EndPoint.2.Profile.${ep2_alias}.SSID=\"TEST_MLO\"" "Device.WiFi." "ba-cli"
+  Device.WiFi.EndPoint.2.Profile.\d+.SSID="TEST_MLO" (re)
 
-  $ wifi_dm "EndPoint.2.Profile.${ep2_alias}.Security.ModeEnabled=\"WPA2-WPA3-Personal\""
-  WiFi.EndPoint.2.Profile.\d+.Security.ModeEnabled="WPA2-WPA3-Personal" (re)
+  $ wifi_dm "EndPoint.2.Profile.${ep2_alias}.Security.ModeEnabled=\"WPA2-WPA3-Personal\"" "Device.WiFi." "ba-cli"
+  Device.WiFi.EndPoint.2.Profile.\d+.Security.ModeEnabled="WPA2-WPA3-Personal" (re)
 
-  $ wifi_dm "EndPoint.2.Profile.${ep2_alias}.Security.KeyPassPhrase=\"password\""
-  WiFi.EndPoint.2.Profile.\d+.Security.KeyPassPhrase="password" (re)
+  $ wifi_dm "EndPoint.2.Profile.${ep2_alias}.Security.KeyPassphrase=\"password\"" "Device.WiFi." "ba-cli"
+  Device.WiFi.EndPoint.2.Profile.\d+.Security.KeyPassphrase="password" (re)
 
 Create profile for EP 3:
 
-  $ ep3_alias=$(R 'ba-cli -l "WiFi.EndPoint.3.Profile+"' | sed '/^$/d')
+  $ ep3_alias=$(R 'ba-cli -l "Device.WiFi.EndPoint.3.Profile+"' | sed '/^$/d')
   $ echo $ep3_alias
   cpe-Profile.* (re)
 
-  $ wifi_dm "EndPoint.3.ProfileReference=WiFi.EndPoint.3.Profile.${ep3_alias}"
-  WiFi.EndPoint.3.Profile.* (re)
+  $ wifi_dm "EndPoint.3.ProfileReference=WiFi.EndPoint.3.Profile.${ep3_alias}" "Device.WiFi." "ba-cli"
+  Device.WiFi.EndPoint.3.Profile.* (re)
 
-  $ wifi_dm "EndPoint.3.Profile.${ep3_alias}.Enable=1"
-  WiFi.EndPoint.3.Profile.\d+.Enable=1 (re)
+  $ wifi_dm "EndPoint.3.Profile.${ep3_alias}.Enable=1" "Device.WiFi." "ba-cli"
+  Device.WiFi.EndPoint.3.Profile.\d+.Enable=1 (re)
 
-  $ wifi_dm "EndPoint.3.Profile.${ep3_alias}.SSID=\"TEST_MLO\""
-  WiFi.EndPoint.3.Profile.\d+.SSID="TEST_MLO" (re)
+  $ wifi_dm "EndPoint.3.Profile.${ep3_alias}.SSID=\"TEST_MLO\"" "Device.WiFi." "ba-cli"
+  Device.WiFi.EndPoint.3.Profile.\d+.SSID="TEST_MLO" (re)
 
-  $ wifi_dm "EndPoint.3.Profile.${ep3_alias}.Security.ModeEnabled=\"WPA2-WPA3-Personal\""
-  WiFi.EndPoint.3.Profile.\d+.Security.ModeEnabled="WPA2-WPA3-Personal" (re)
+  $ wifi_dm "EndPoint.3.Profile.${ep3_alias}.Security.ModeEnabled=\"WPA2-WPA3-Personal\"" "Device.WiFi." "ba-cli"
+  Device.WiFi.EndPoint.3.Profile.\d+.Security.ModeEnabled="WPA2-WPA3-Personal" (re)
 
-  $ wifi_dm "EndPoint.3.Profile.${ep3_alias}.Security.KeyPassPhrase=\"password\""
-  WiFi.EndPoint.3.Profile.\d+.Security.KeyPassPhrase="password" (re)
+  $ wifi_dm "EndPoint.3.Profile.${ep3_alias}.Security.KeyPassphrase=\"password\"" "Device.WiFi." "ba-cli"
+  Device.WiFi.EndPoint.3.Profile.\d+.Security.KeyPassphrase="password" (re)
 
 Enable all EPs:
 
   $ R logger -t cram "Enable all EndPoints"
 
   $ wifi_dm "EndPoint.*.Enable=1"
-  WiFi.EndPoint.1.Enable=1
-  WiFi.EndPoint.2.Enable=1
-  WiFi.EndPoint.3.Enable=1
+  Device.WiFi.EndPoint.1.Enable=1
+  Device.WiFi.EndPoint.2.Enable=1
+  Device.WiFi.EndPoint.3.Enable=1
 
   $ sleep 5
 
@@ -170,17 +170,17 @@ Restore defaults:
 
   $ R logger -t cram "Finishing bSTAMLD test"
 
-  $ R "ba-cli -l \"WiFi.EndPoint.1.Profile.${ep1_alias}-\"" | sed '/^$/d'
-  WiFi.EndPoint.1.Profile.\d+. (re)
-  WiFi.EndPoint.1.Profile.\d+.Security. (re)
+  $ R "ba-cli -l \"Device.WiFi.EndPoint.1.Profile.${ep1_alias}-\"" | sed '/^$/d'
+  Device.WiFi.EndPoint.1.Profile.\d+. (re)
+  Device.WiFi.EndPoint.1.Profile.\d+.Security. (re)
 
-  $ R "ba-cli -l \"WiFi.EndPoint.2.Profile.${ep2_alias}-\"" | sed '/^$/d'
-  WiFi.EndPoint.2.Profile.\d+. (re)
-  WiFi.EndPoint.2.Profile.\d+.Security. (re)
+  $ R "ba-cli -l \"Device.WiFi.EndPoint.2.Profile.${ep2_alias}-\"" | sed '/^$/d'
+  Device.WiFi.EndPoint.2.Profile.\d+. (re)
+  Device.WiFi.EndPoint.2.Profile.\d+.Security. (re)
 
-  $ R "ba-cli -l \"WiFi.EndPoint.3.Profile.${ep3_alias}-\"" | sed '/^$/d'
-  WiFi.EndPoint.3.Profile.\d+. (re)
-  WiFi.EndPoint.3.Profile.\d+.Security. (re)
+  $ R "ba-cli -l \"Device.WiFi.EndPoint.3.Profile.${ep3_alias}-\"" | sed '/^$/d'
+  Device.WiFi.EndPoint.3.Profile.\d+. (re)
+  Device.WiFi.EndPoint.3.Profile.\d+.Security. (re)
 
   $ wifi_dm "EndPoint.1.SSIDReference+.MLDUnit=-1"
   Device.WiFi.SSID.\d+.MLDUnit=-1 (re)
