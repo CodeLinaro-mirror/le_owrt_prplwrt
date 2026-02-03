@@ -10,27 +10,27 @@ Create R alias:
 Set AutoChannelEnable=0 on all WiFi.Radio. interfaces:
 
   $ wifi_dm "Radio.*.AutoChannelEnable=0"
-  WiFi.Radio.1.AutoChannelEnable=0
-  WiFi.Radio.2.AutoChannelEnable=0
-  WiFi.Radio.3.AutoChannelEnable=0
+  Device.WiFi.Radio.1.AutoChannelEnable=0
+  Device.WiFi.Radio.2.AutoChannelEnable=0
+  Device.WiFi.Radio.3.AutoChannelEnable=0
 
 Set channel to a non DFS one:
 
   $ wifi_dm "Radio.2.Channel=36"
-  WiFi.Radio.2.Channel=36 (re)
+  Device.WiFi.Radio.2.Channel=36 (re)
 
 Check default SecMode:
 
   $ R logger -t cram "Check default SecMode"
 
   $ wifi_dm "AccessPoint.1.Security.ModeEnabled?"
-  WiFi.AccessPoint.1.Security.ModeEnabled="WPA2-WPA3-Personal"
+  Device.WiFi.AccessPoint.1.Security.ModeEnabled="WPA2-WPA3-Personal"
 
   $ wifi_dm "AccessPoint.2.Security.ModeEnabled?"
-  WiFi.AccessPoint.2.Security.ModeEnabled="WPA2-WPA3-Personal"
+  Device.WiFi.AccessPoint.2.Security.ModeEnabled="WPA2-WPA3-Personal"
 
   $ wifi_dm "AccessPoint.3.Security.ModeEnabled?"
-  WiFi.AccessPoint.3.Security.ModeEnabled="WPA3-Personal"
+  Device.WiFi.AccessPoint.3.Security.ModeEnabled="WPA3-Personal"
 
 Provisory: On OSPv2 add WPA3-Personal compatibility to the available security modes for 6GHz VAPs:
 
@@ -41,7 +41,7 @@ Provisory: On OSPv2 add WPA3-Personal compatibility to the available security mo
 
 Check if private/guest VAPs contain WPA3-Personal-Compatibility in the Security.ModesAvailable list:
 
-  $ wifi_dm "AccessPoint.*.Security.ModesAvailable?" | sed -n 's/^\(WiFi\.AccessPoint\.[1-6]\+\.Security\.ModesAvailable\).*WPA3-Personal-Compatibility.*/\1 has WPA3-Personal-Compatibility mode/p'
+  $ wifi_dm "AccessPoint.*.Security.ModesAvailable?" "WiFi." "ba-cli" | sed -n 's/^\(WiFi\.AccessPoint\.[1-6]\+\.Security\.ModesAvailable\).*WPA3-Personal-Compatibility.*/\1 has WPA3-Personal-Compatibility mode/p'
   WiFi.AccessPoint.1.Security.ModesAvailable has WPA3-Personal-Compatibility mode
   WiFi.AccessPoint.2.Security.ModesAvailable has WPA3-Personal-Compatibility mode
   WiFi.AccessPoint.3.Security.ModesAvailable has WPA3-Personal-Compatibility mode
@@ -70,13 +70,13 @@ Configure controller for NBAPI configuration:
 Set WPA3-Personal-Compatibility and check that : 1. Controller reads it correctly, 2. triggers reconfiguration, and 3. agent applies the correct value:
 
   $ wifi_dm "AccessPoint.1.Security.ModeEnabled=\"WPA3-Personal-Compatibility\""
-  WiFi.AccessPoint.1.Security.ModeEnabled="WPA3-Personal-Compatibility"
+  Device.WiFi.AccessPoint.1.Security.ModeEnabled="WPA3-Personal-Compatibility"
 
   $ wifi_dm "AccessPoint.2.Security.ModeEnabled=\"WPA3-Personal-Compatibility\""
-  WiFi.AccessPoint.2.Security.ModeEnabled="WPA3-Personal-Compatibility"
+  Device.WiFi.AccessPoint.2.Security.ModeEnabled="WPA3-Personal-Compatibility"
 
   $ wifi_dm "AccessPoint.3.Security.ModeEnabled=\"WPA3-Personal-Compatibility\""
-  WiFi.AccessPoint.3.Security.ModeEnabled="WPA3-Personal-Compatibility"
+  Device.WiFi.AccessPoint.3.Security.ModeEnabled="WPA3-Personal-Compatibility"
 
 Enable private vaps:
 
@@ -92,13 +92,13 @@ Enable private vaps:
   AccessPoint.\d+.Enable=1 (re)
 
   $ check_ap_ref_ssid 1 Up
-  WiFi.AccessPoint.1 SSID Reference is Up
+  Device.WiFi.AccessPoint.1 SSID Reference is Up
 
   $ check_ap_ref_ssid 2 Up
-  WiFi.AccessPoint.2 SSID Reference is Up
+  Device.WiFi.AccessPoint.2 SSID Reference is Up
 
   $ check_ap_ref_ssid 3 Up
-  WiFi.AccessPoint.3 SSID Reference is Up
+  Device.WiFi.AccessPoint.3 SSID Reference is Up
 
 Create one instances of Network.AccessPoint with WPA3-Personal enabled and push it to the agent:
 
@@ -120,13 +120,13 @@ Check that 3 SSID instances are still operating:
   $ R logger -t cram "Check private vaps"
 
   $ check_ap_ref_ssid 1 Up
-  WiFi.AccessPoint.1 SSID Reference is Up
+  Device.WiFi.AccessPoint.1 SSID Reference is Up
 
   $ check_ap_ref_ssid 2 Up
-  WiFi.AccessPoint.2 SSID Reference is Up
+  Device.WiFi.AccessPoint.2 SSID Reference is Up
 
   $ check_ap_ref_ssid 3 Up
-  WiFi.AccessPoint.3 SSID Reference is Up
+  Device.WiFi.AccessPoint.3 SSID Reference is Up
 
 Check config from Nbapi AccessPoint is correctly applied : SSID / Security.ModeEnabled:
 
@@ -142,13 +142,13 @@ Check config from Nbapi AccessPoint is correctly applied : SSID / Security.ModeE
 Check if agent overrides the security mode:
 
   $ wifi_dm "AccessPoint.1.Security.ModeEnabled?"
-  WiFi.AccessPoint.1.Security.ModeEnabled="WPA3-Personal"
+  Device.WiFi.AccessPoint.1.Security.ModeEnabled="WPA3-Personal"
 
   $ wifi_dm "AccessPoint.2.Security.ModeEnabled?"
-  WiFi.AccessPoint.2.Security.ModeEnabled="WPA3-Personal"
+  Device.WiFi.AccessPoint.2.Security.ModeEnabled="WPA3-Personal"
 
   $ wifi_dm "AccessPoint.3.Security.ModeEnabled?"
-  WiFi.AccessPoint.3.Security.ModeEnabled="WPA3-Personal"
+  Device.WiFi.AccessPoint.3.Security.ModeEnabled="WPA3-Personal"
 
 Push WPA3-Personal-Compatibility:
 
@@ -168,13 +168,13 @@ Push WPA3-Personal-Compatibility:
 Check if agent overrides the security mode:
 
   $ wifi_dm "AccessPoint.1.Security.ModeEnabled?"
-  WiFi.AccessPoint.1.Security.ModeEnabled="WPA3-Personal-Compatibility"
+  Device.WiFi.AccessPoint.1.Security.ModeEnabled="WPA3-Personal-Compatibility"
 
   $ wifi_dm "AccessPoint.2.Security.ModeEnabled?"
-  WiFi.AccessPoint.2.Security.ModeEnabled="WPA3-Personal-Compatibility"
+  Device.WiFi.AccessPoint.2.Security.ModeEnabled="WPA3-Personal-Compatibility"
 
   $ wifi_dm "AccessPoint.3.Security.ModeEnabled?"
-  WiFi.AccessPoint.3.Security.ModeEnabled="WPA3-Personal-Compatibility"
+  Device.WiFi.AccessPoint.3.Security.ModeEnabled="WPA3-Personal-Compatibility"
 
 Check hostapd configuration file:
 (RSN Override 1 is set, RSN Override 2 shouldn't be present)
@@ -254,13 +254,13 @@ Disable private vaps:
   AccessPoint.\d+.Enable=0 (re)
 
   $ check_ap_ref_ssid 5 Down
-  WiFi.AccessPoint.5 SSID Reference is Down
+  Device.WiFi.AccessPoint.5 SSID Reference is Down
 
   $ check_ap_ref_ssid 3 Down
-  WiFi.AccessPoint.3 SSID Reference is Down
+  Device.WiFi.AccessPoint.3 SSID Reference is Down
 
   $ check_ap_ref_ssid 1 Down
-  WiFi.AccessPoint.1 SSID Reference is Down
+  Device.WiFi.AccessPoint.1 SSID Reference is Down
 
 Restart prplmesh:
 
