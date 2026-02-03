@@ -124,8 +124,6 @@ Check that ubus has expected datamodels available:
   Device.UserInterface
   Device.Users
   Device.WiFi
-  Device.WiFi.DataElements
-  Device.WiFi.Sensing
   Device.XPON
   Device.X_PRPLWARE-COM_Buttons
   Device.X_PRPLWARE-COM_ConMon
@@ -541,6 +539,11 @@ Check that ubus has expected datamodels available:
   X_PRPLWARE-COM_WiFiController.Network.Device.bSTAMLD.bSTAMLDConfig
   X_PRPLWARE-COM_WiFiController.Network.MultiAPSteeringSummaryStats
   X_PRPLWARE-COM_WiFiController.Network.X-PRPL_ORG_Group
+  X_PRPLWARE-COM_WiFiMapped
+  X_PRPLWARE-COM_WiFiMapped.WiFi
+  X_PRPLWARE-COM_WiFiMapped.WiFi.DataElements
+  X_PRPLWARE-COM_WiFiMapped.WiFi.DataElements.X_PRPLWARE-COM_Controller
+  X_PRPLWARE-COM_WiFiMapped.WiFi.X_PRPLWARE-COM_WiFiSensing
   X_PRPLWARE-COM_WiFiSensing
   X_PRPLWARE-COM_WiFiSensing.Session
   X_PRPLWARE-COM_WiFiSensing.Session.Exchange

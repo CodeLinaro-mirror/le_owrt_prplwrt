@@ -11,21 +11,21 @@ Wait for Device.WiFi. datamodel availability:
 
   $ sleep 10
 
-Set AutoChannelEnable=0 on all WiFi.Radio. interfaces:
+Set AutoChannelEnable=0 on all Device.WiFi.Radio. interfaces:
 
-  $ R "ba-cli -j -l WiFi.Radio.*.AutoChannelEnable=0 | sed '/^$/d'"
-  [{"WiFi.Radio.1.":{"AutoChannelEnable":0},"WiFi.Radio.2.":{"AutoChannelEnable":0},"WiFi.Radio.3.":{"AutoChannelEnable":0}}]
+  $ R "usp-cli -j -l Device.WiFi.Radio.*.AutoChannelEnable=0 | sed '/^$/d'"
+  [{"Device.WiFi.Radio.2.":{"AutoChannelEnable":false},"Device.WiFi.Radio.3.":{"AutoChannelEnable":false},"Device.WiFi.Radio.1.":{"AutoChannelEnable":false}}]
 
 Set channel to a non DFS one:
 
-  $ R "ba-cli -j -l WiFi.Radio.2.Channel=36 | sed '/^$/d'"
-  [{"WiFi.Radio.2.":{"Channel":36}}]
+  $ R "usp-cli -j -l Device.WiFi.Radio.2.Channel=36 | sed '/^$/d'"
+  [{"Device.WiFi.Radio.2.":{"Channel":36}}]
 
   $ sleep 5
 
 Check default WiFiScheduler configuration:
 
-  $ R "ba-cli  'Device.X_PRPLWARE-COM_WiFiScheduler.?'"  | sed '/^$/d' | tail -n +2
+  $ R "usp-cli  'Device.X_PRPLWARE-COM_WiFiScheduler.?'"  | sed '/^$/d' | tail -n +2
   Device.X_PRPLWARE-COM_WiFiScheduler.
   Device.X_PRPLWARE-COM_WiFiScheduler.Enable=1
   Device.X_PRPLWARE-COM_WiFiScheduler.EnableMethod="Parameter"

@@ -28,15 +28,15 @@ Check root object and default session number:
 
 Test session creation & deletion:
 
-  $ R "ba-cli -j -l 'Device.WiFi.Sensing.CreateSession(ApplicationName='TestSession')' | sed '/^$/d' | tail -n +2 | jsonfilter -e '@[0].SessionID' -e '@[0].DataSocketPath'" | LC_ALL=C sort
+  $ R "usp-cli -j -l 'Device.WiFi.X_PRPLWARE-COM_WiFiSensing.CreateSession(ApplicationName='TestSession')' | sed '/^$/d' | tail -n +2 | jsonfilter -e '@[0].SessionID' -e '@[0].DataSocketPath'" | LC_ALL=C sort
   /var/run/wifisensing/session-[0-9]+.sock (re)
   \d+ (re)
 
 
 Store SessionID and DataSocketPath for next operations
 
-  $ SessionID=$(R "ba-cli -j -l 'Device.WiFi.Sensing.?'  | jsonfilter -e @[0]'[*].SessionID'")
-  $ DataSocketPath=$(R "ba-cli -j -l 'Device.WiFi.Sensing.Session.$SessionID.DataSocketPath?' | sed '/^$/d' | jsonfilter -e '@[0].*[\"DataSocketPath\"]'")
+  $ SessionID=$(R "usp-cli -j -l 'Device.WiFi.X_PRPLWARE-COM_WiFiSensing.?'  | jsonfilter -e @[0]'[*].SessionID'")
+  $ DataSocketPath=$(R "usp-cli -j -l 'Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.$SessionID.DataSocketPath?' | sed '/^$/d' | jsonfilter -e '@[0].*[\"DataSocketPath\"]'")
   $ R logger -t cram "SessionID:$SessionID"
   $ R logger -t cram "DataSocketPath:$DataSocketPath"
 
@@ -47,7 +47,7 @@ Check socket presence:
 
 Check sessions number:
 
-  $ R "ba-cli -j -l 'Device.WiFi.Sensing.?'  | jsonfilter -e @[0]'[*].SessionNumberOfEntries'" | LC_ALL=C sort
+  $ R "usp-cli -j -l 'Device.WiFi.X_PRPLWARE-COM_WiFiSensing.?'  | jsonfilter -e @[0]'[*].SessionNumberOfEntries'" | LC_ALL=C sort
   1
 
 Check AddExchange API: 
@@ -58,15 +58,15 @@ Note: To fully test this API an associated station is required but let's test wi
 
 Delete session using SessionID:
 
-  $ R "ba-cli -j -l 'Device.WiFi.Sensing.Session.$SessionID.DeleteSession()'" | sed '/^$/d' | tail -n +2
-  [""]
+  $ R "usp-cli -j -l 'Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.$SessionID.DeleteSession()'" | sed '/^$/d' | tail -n +2
+  [{}]
 
 Check that socket is deleted and sessions number is zero:
 
   $ R "ls $DataSocketPath >/dev/null 2>&1 && echo found || echo not_found"
   not_found
 
-  $ R "ba-cli -j -l Device.WiFi.Sensing.?  | jsonfilter -e @[0]'[*].SessionNumberOfEntries'" 
+  $ R "usp-cli -j -l Device.WiFi.X_PRPLWARE-COM_WiFiSensing.?  | jsonfilter -e @[0]'[*].SessionNumberOfEntries'" 
   0
 
   $ R logger -t cram "Test finished!"

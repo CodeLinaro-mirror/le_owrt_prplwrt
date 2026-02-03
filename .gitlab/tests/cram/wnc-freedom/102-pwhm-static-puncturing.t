@@ -7,18 +7,18 @@ Create R alias:
 
 Set AutoChannelEnable=0 on all WiFi.Radio. interfaces:
 
-  $ R "ba-cli -j -l WiFi.Radio.*.AutoChannelEnable=0 | sed '/^$/d'"
-  [{"WiFi.Radio.1.":{"AutoChannelEnable":0},"WiFi.Radio.2.":{"AutoChannelEnable":0},"WiFi.Radio.3.":{"AutoChannelEnable":0}}]
+  $ R "ba-cli -j -l Device.WiFi.Radio.*.AutoChannelEnable=0 | sed '/^$/d'"
+  [{"Device.WiFi.Radio.1.":{"AutoChannelEnable":0},"Device.WiFi.Radio.2.":{"AutoChannelEnable":0},"Device.WiFi.Radio.3.":{"AutoChannelEnable":0}}]
 
 Set channel to a non DFS one:
 
-  $ R "ba-cli -j -l WiFi.Radio.2.Channel=36 | sed '/^$/d'"
-  [{"WiFi.Radio.2.":{"Channel":36}}]
+  $ R "ba-cli -j -l Device.WiFi.Radio.2.Channel=36 | sed '/^$/d'"
+  [{"Device.WiFi.Radio.2.":{"Channel":36}}]
 
 Check default static puncturing configuration:
 
-  $ R "ba-cli -j -l \"WiFi.Radio.*.StaticPuncturing.DisabledSubChannels?\"" | sed '/^$/d'
-  [{"WiFi.Radio.2.StaticPuncturing.":{"DisabledSubChannels":""},"WiFi.Radio.1.StaticPuncturing.":{"DisabledSubChannels":""},"WiFi.Radio.3.StaticPuncturing.":{"DisabledSubChannels":""}}]
+  $ R "ba-cli -j -l \"Device.WiFi.Radio.*.StaticPuncturing.DisabledSubChannels?\"" | sed '/^$/d'
+  [{"Device.WiFi.Radio.2.StaticPuncturing.":{"DisabledSubChannels":""},"Device.WiFi.Radio.1.StaticPuncturing.":{"DisabledSubChannels":""},"Device.WiFi.Radio.3.StaticPuncturing.":{"DisabledSubChannels":""}}]
 
 Stop prplMesh:
 
@@ -32,13 +32,13 @@ Stop prplMesh:
 Enable private vaps:
 
   $ R logger -t cram "Enable private vaps"
-  $ R "ba-cli -j -l \"WiFi.AccessPoint.1.Enable=1\" | jsonfilter -e @[0]'[*].Enable'"
+  $ R "ba-cli -j -l \"Device.WiFi.AccessPoint.1.Enable=1\" | jsonfilter -e @[0]'[*].Enable'"
   1
 
-  $ R "ba-cli -j -l \"WiFi.AccessPoint.3.Enable=1\" | jsonfilter -e @[0]'[*].Enable'"
+  $ R "ba-cli -j -l \"Device.WiFi.AccessPoint.3.Enable=1\" | jsonfilter -e @[0]'[*].Enable'"
   1
 
-  $ R "ba-cli -j -l \"WiFi.AccessPoint.5.Enable=1\" | jsonfilter -e @[0]'[*].Enable'"
+  $ R "ba-cli -j -l \"Device.WiFi.AccessPoint.5.Enable=1\" | jsonfilter -e @[0]'[*].Enable'"
   1
 
   $ sleep 10
@@ -50,21 +50,21 @@ Check that static puncturing is disabled in hostpad config files:
 
 Check that SSID are enabled:
 
-  $ R "ba-cli -j -l \"WiFi.AccessPoint.1.SSIDReference+.Status?\" | jsonfilter -e @[0]'[*].Status'"
+  $ R "ba-cli -j -l \"Device.WiFi.AccessPoint.1.SSIDReference+.Status?\" | jsonfilter -e @[0]'[*].Status'"
   Up
 
-  $ R "ba-cli -j -l \"WiFi.AccessPoint.3.SSIDReference+.Status?\" | jsonfilter -e @[0]'[*].Status'"
+  $ R "ba-cli -j -l \"Device.WiFi.AccessPoint.3.SSIDReference+.Status?\" | jsonfilter -e @[0]'[*].Status'"
   Up
 
-  $ R "ba-cli -j -l \"WiFi.AccessPoint.5.SSIDReference+.Status?\" | jsonfilter -e @[0]'[*].Status'"
+  $ R "ba-cli -j -l \"Device.WiFi.AccessPoint.5.SSIDReference+.Status?\" | jsonfilter -e @[0]'[*].Status'"
   Up
 
 Check that 5GHz Radio reports opClass 115 channels 36,40,44,48:
 
-  $ R "ba-cli -j -l \"WiFi.Radio.[OperatingFrequencyBand=='5GHz'].ChannelsInUse?\" | jsonfilter -e @[0]'[*].ChannelsInUse'"
+  $ R "ba-cli -j -l \"Device.WiFi.Radio.[OperatingFrequencyBand=='5GHz'].ChannelsInUse?\" | jsonfilter -e @[0]'[*].ChannelsInUse'"
   36,40,44,48
 
-  $ R "ba-cli -l \"WiFi.Radio.[OperatingFrequencyBand=='5GHz'].OperatingChannelBandwidth='80MHz'\" | grep 80"
+  $ R "ba-cli -l \"Device.WiFi.Radio.[OperatingFrequencyBand=='5GHz'].OperatingChannelBandwidth='80MHz'\" | grep 80"
   80MHz
 
 Interacting with pwhm and hostapd.conf now
@@ -74,7 +74,7 @@ Test static puncturing on 5GHz band:
 
   $ R logger -t cram "Test static puncturing on 5GHz band"
   $ R logger -t cram "disable channels 40,44"
-  $ R "ba-cli -j -l \"WiFi.Radio.[OperatingFrequencyBand=='5GHz'].StaticPuncturing.DisabledSubChannels='40,44'\" | jsonfilter -e @[0]'[*].DisabledSubChannels'"
+  $ R "ba-cli -j -l \"Device.WiFi.Radio.[OperatingFrequencyBand=='5GHz'].StaticPuncturing.DisabledSubChannels='40,44'\" | jsonfilter -e @[0]'[*].DisabledSubChannels'"
   40,44
 
   $ sleep 5
@@ -83,7 +83,7 @@ Test static puncturing on 5GHz band:
   punct_bitmap=6
 
   $ R logger -t cram "disable channels 40,48"
-  $ R "ba-cli -j -l \"WiFi.Radio.[OperatingFrequencyBand=='5GHz'].StaticPuncturing.DisabledSubChannels='40,48'\" | jsonfilter -e @[0]'[*].DisabledSubChannels'"
+  $ R "ba-cli -j -l \"Device.WiFi.Radio.[OperatingFrequencyBand=='5GHz'].StaticPuncturing.DisabledSubChannels='40,48'\" | jsonfilter -e @[0]'[*].DisabledSubChannels'"
   40,48
 
   $ sleep 5
@@ -92,7 +92,7 @@ Test static puncturing on 5GHz band:
   punct_bitmap=10
 
   $ R logger -t cram "disable channels 40,44,48"
-  $ R "ba-cli -j -l \"WiFi.Radio.[OperatingFrequencyBand=='5GHz'].StaticPuncturing.DisabledSubChannels='40,44,48'\" | jsonfilter -e @[0]'[*].DisabledSubChannels'"
+  $ R "ba-cli -j -l \"Device.WiFi.Radio.[OperatingFrequencyBand=='5GHz'].StaticPuncturing.DisabledSubChannels='40,44,48'\" | jsonfilter -e @[0]'[*].DisabledSubChannels'"
   40,44,48
 
   $ sleep 5
@@ -101,7 +101,7 @@ Test static puncturing on 5GHz band:
   punct_bitmap=14
 
   $ R logger -t cram "disable channels 44"
-  $ R "ba-cli -j -l \"WiFi.Radio.[OperatingFrequencyBand=='5GHz'].StaticPuncturing.DisabledSubChannels='44'\" | jsonfilter -e @[0]'[*].DisabledSubChannels'"
+  $ R "ba-cli -j -l \"Device.WiFi.Radio.[OperatingFrequencyBand=='5GHz'].StaticPuncturing.DisabledSubChannels='44'\" | jsonfilter -e @[0]'[*].DisabledSubChannels'"
   44
 
   $ sleep 5
@@ -112,14 +112,14 @@ Test static puncturing on 5GHz band:
 Test static puncturing on 6GHz band:
 
   $ R logger -t cram "Test static puncturing on 6GHz band"
-  $ R "ba-cli -l \"WiFi.Radio.[OperatingFrequencyBand=='6GHz'].OperatingChannelBandwidth='320MHz-1'\" | grep 320"
+  $ R "ba-cli -l \"Device.WiFi.Radio.[OperatingFrequencyBand=='6GHz'].OperatingChannelBandwidth='320MHz-1'\" | grep 320"
   320MHz-1
 
   $ sleep 10
 
 Check that 6GHz Radio reports opClass 137 channels, 16 in total:
 
-  $ R "ba-cli -j -l \"WiFi.Radio.[OperatingFrequencyBand=='6GHz'].ChannelsInUse?\" | jsonfilter -e @[0]'[*].ChannelsInUse'"
+  $ R "ba-cli -j -l \"Device.WiFi.Radio.[OperatingFrequencyBand=='6GHz'].ChannelsInUse?\" | jsonfilter -e @[0]'[*].ChannelsInUse'"
   1,5,9,13,17,21,25,29,33,37,41,45,49,53,57,61
 
 Disable top 4 channels : 49,53,57,61; from python:
@@ -127,7 +127,7 @@ Disable top 4 channels : 49,53,57,61; from python:
 61440
 
   $ R logger -t cram "disable channels 49,53,57,61"
-  $ R "ba-cli -j -l \"WiFi.Radio.[OperatingFrequencyBand=='6GHz'].StaticPuncturing.DisabledSubChannels='49,53,57,61'\" | jsonfilter -e @[0]'[*].DisabledSubChannels'"
+  $ R "ba-cli -j -l \"Device.WiFi.Radio.[OperatingFrequencyBand=='6GHz'].StaticPuncturing.DisabledSubChannels='49,53,57,61'\" | jsonfilter -e @[0]'[*].DisabledSubChannels'"
   49,53,57,61
 
   $ sleep 5
@@ -135,13 +135,13 @@ Disable top 4 channels : 49,53,57,61; from python:
   $ R "cat /tmp/wlan0_hapd.conf | grep punct"
   punct_bitmap=61440
 
-  $ R "ba-cli -j -l \"WiFi.Radio.3.Channel='37'\" | jsonfilter -e @[0]'[*].Channel'"
+  $ R "ba-cli -j -l \"Device.WiFi.Radio.3.Channel='37'\" | jsonfilter -e @[0]'[*].Channel'"
   37
 
 Disable all channels except 37:
 
   $ R logger -t cram "disable all channels except 37"
-  $ R "ba-cli -j -l \"WiFi.Radio.[OperatingFrequencyBand=='6GHz'].StaticPuncturing.DisabledSubChannels='1,5,9,13,17,21,25,29,33,41,45,49,53,57,61'\" | jsonfilter -e @[0]'[*].DisabledSubChannels'"
+  $ R "ba-cli -j -l \"Device.WiFi.Radio.[OperatingFrequencyBand=='6GHz'].StaticPuncturing.DisabledSubChannels='1,5,9,13,17,21,25,29,33,41,45,49,53,57,61'\" | jsonfilter -e @[0]'[*].DisabledSubChannels'"
   1,5,9,13,17,21,25,29,33,41,45,49,53,57,61
 
   $ R sleep 5
@@ -154,11 +154,11 @@ MAX Uint16 : 65535 - 65023 is 512 : (2^(10-1)), i.e., all except channel number 
 Push 0b0000 0d00 - clear Radio.StaticPuncturing.DisabledSubChannels list:
 
   $ R logger -t cram "clear all DisabledSubChannels"
-  $ R "ba-cli -j -l \"WiFi.Radio.*.StaticPuncturing.DisabledSubChannels=''\" > /dev/null"
+  $ R "ba-cli -j -l \"Device.WiFi.Radio.*.StaticPuncturing.DisabledSubChannels=''\" > /dev/null"
 
 Disable all AccessPoints (implicitly - the ones that was enabled for this test):
 
-  $ R "ba-cli \"WiFi.AccessPoint.*.Enable=0\" > /dev/null"
+  $ R "ba-cli \"Device.WiFi.AccessPoint.*.Enable=0\" > /dev/null"
 
 Restart prplMesh:
 
