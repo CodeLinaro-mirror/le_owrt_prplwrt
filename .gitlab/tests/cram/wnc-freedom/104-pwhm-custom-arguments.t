@@ -7,7 +7,7 @@ Create R alias:
 
 Wait for Device.WiFi. datamodel availability:
 
-  $ R "amx_wait_for "Device.WiFi." "
+  $ R "amx_wait_for 'Device.WiFi.AccessPoint.'"
 
   $ sleep 10
 
@@ -23,21 +23,21 @@ Enabling few accesspoints to check hostapd:
   $ R logger -t cram "Test AccessPoint 1 activation"
 
   $ enable_ap 1
-  WiFi.AccessPoint.1 enabled
+  Device.WiFi.AccessPoint.1 enabled
 
   $ sleep 5
 
   $ R logger -t cram "Test AccessPoint 3 activation"
 
   $ enable_ap 3
-  WiFi.AccessPoint.3 enabled
+  Device.WiFi.AccessPoint.3 enabled
 
   $ sleep 5
 
   $ R logger -t cram "Test AccessPoint 5 activation"
 
   $ enable_ap 5
-  WiFi.AccessPoint.5 enabled
+  Device.WiFi.AccessPoint.5 enabled
 
   $ sleep 5
 
@@ -141,7 +141,7 @@ Disabling the accesspoints back:
   $ R logger -t cram "Test AccessPoint 5 deactivation"
 
   $ disable_ap 5
-  WiFi.AccessPoint.5 disabled
+  Device.WiFi.AccessPoint.5 disabled
 
   $ sleep 5
 
@@ -150,7 +150,7 @@ Test deactivation of access point 3:
   $ R logger -t cram "Test AccessPoint 3 deactivation"
 
   $ disable_ap 3
-  WiFi.AccessPoint.3 disabled
+  Device.WiFi.AccessPoint.3 disabled
 
   $ sleep 5
 
@@ -159,7 +159,7 @@ Test deactivation of access point 1:
   $ R logger -t cram "Test AccessPoint 1 deactivation"
 
   $ disable_ap 1
-  WiFi.AccessPoint.1 disabled
+  Device.WiFi.AccessPoint.1 disabled
 
   $ sleep 5
 
@@ -175,4 +175,3 @@ Wait 20s before leaving the test:
   $ sleep 20
 
   $ R logger -t cram "Test finished!"
-
