@@ -45,13 +45,11 @@ Restart WiFiSensing mapper service and verify DM disappears/returns:
  
   $ R "amx_wait_for Device.WiFi.X_PRPLWARE-COM_WiFiSensing."
 
-  $ R "ba-cli -j -l X_PRPLWARE-COM_ProcessManager.Sensing.Enable=0 | sed '/^$/d'"
-  [{"X_PRPLWARE-COM_ProcessManager.Sensing.":{"Enable":0}}]
+  $ R "service wifi-sensing stop"
 
   $ sleep 3
 
-  $ R "ba-cli -j -l X_PRPLWARE-COM_ProcessManager.Sensing.Enable=1 | sed '/^$/d'"
-  [{"X_PRPLWARE-COM_ProcessManager.Sensing.":{"Enable":1}}]
+  $ R "service wifi-sensing start"
 
   $ R "amx_wait_for Device.WiFi.X_PRPLWARE-COM_WiFiSensing."
 

@@ -3893,20 +3893,6 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.SSID.{i}.Status                                                                          proto::prplmesh-dm-mapper
   Device.WiFi.SSIDNumberOfEntries                                                                      proto::prplmesh-dm-mapper
   Device.WiFi.Vendor.                                                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.X_PRPLWARE-COM_ProcessManager.                                                           proto::prplmesh-dm-mapper
-  Device.WiFi.X_PRPLWARE-COM_ProcessManager.PWHM.                                                      proto::prplmesh-dm-mapper
-  Device.WiFi.X_PRPLWARE-COM_ProcessManager.PWHM.Enable                                                proto::prplmesh-dm-mapper
-  Device.WiFi.X_PRPLWARE-COM_ProcessManager.PWHM.FaultCode                                             proto::prplmesh-dm-mapper
-  Device.WiFi.X_PRPLWARE-COM_ProcessManager.PWHM.Status                                                proto::prplmesh-dm-mapper
-  Device.WiFi.X_PRPLWARE-COM_ProcessManager.PrplMesh.                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable                                            proto::prplmesh-dm-mapper
-  Device.WiFi.X_PRPLWARE-COM_ProcessManager.PrplMesh.FaultCode                                         proto::prplmesh-dm-mapper
-  Device.WiFi.X_PRPLWARE-COM_ProcessManager.PrplMesh.ManagementMode                                    proto::prplmesh-dm-mapper
-  Device.WiFi.X_PRPLWARE-COM_ProcessManager.PrplMesh.Status                                            proto::prplmesh-dm-mapper
-  Device.WiFi.X_PRPLWARE-COM_ProcessManager.Sensing.                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.X_PRPLWARE-COM_ProcessManager.Sensing.Enable                                             proto::prplmesh-dm-mapper
-  Device.WiFi.X_PRPLWARE-COM_ProcessManager.Sensing.FaultCode                                          proto::prplmesh-dm-mapper
-  Device.WiFi.X_PRPLWARE-COM_ProcessManager.Sensing.Status                                             proto::prplmesh-dm-mapper
   Device.WiFi.X_PRPLWARE-COM_WiFiSensing.                                                              proto::prplmesh-dm-mapper
   Device.WiFi.X_PRPLWARE-COM_WiFiSensing.CreateSession()                                               proto::prplmesh-dm-mapper
   Device.WiFi.X_PRPLWARE-COM_WiFiSensing.CreateSession() input:ApplicationName
@@ -8390,20 +8376,6 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.SSID.{i}.Status                                                                          proto::prplmesh-dm-mapper
   Device.WiFi.SSIDNumberOfEntries                                                                      proto::prplmesh-dm-mapper
   Device.WiFi.Vendor.                                                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.X_PRPLWARE-COM_ProcessManager.                                                           proto::prplmesh-dm-mapper
-  Device.WiFi.X_PRPLWARE-COM_ProcessManager.PWHM.                                                      proto::prplmesh-dm-mapper
-  Device.WiFi.X_PRPLWARE-COM_ProcessManager.PWHM.Enable                                                proto::prplmesh-dm-mapper
-  Device.WiFi.X_PRPLWARE-COM_ProcessManager.PWHM.FaultCode                                             proto::prplmesh-dm-mapper
-  Device.WiFi.X_PRPLWARE-COM_ProcessManager.PWHM.Status                                                proto::prplmesh-dm-mapper
-  Device.WiFi.X_PRPLWARE-COM_ProcessManager.PrplMesh.                                                  proto::prplmesh-dm-mapper
-  Device.WiFi.X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable                                            proto::prplmesh-dm-mapper
-  Device.WiFi.X_PRPLWARE-COM_ProcessManager.PrplMesh.FaultCode                                         proto::prplmesh-dm-mapper
-  Device.WiFi.X_PRPLWARE-COM_ProcessManager.PrplMesh.ManagementMode                                    proto::prplmesh-dm-mapper
-  Device.WiFi.X_PRPLWARE-COM_ProcessManager.PrplMesh.Status                                            proto::prplmesh-dm-mapper
-  Device.WiFi.X_PRPLWARE-COM_ProcessManager.Sensing.                                                   proto::prplmesh-dm-mapper
-  Device.WiFi.X_PRPLWARE-COM_ProcessManager.Sensing.Enable                                             proto::prplmesh-dm-mapper
-  Device.WiFi.X_PRPLWARE-COM_ProcessManager.Sensing.FaultCode                                          proto::prplmesh-dm-mapper
-  Device.WiFi.X_PRPLWARE-COM_ProcessManager.Sensing.Status                                             proto::prplmesh-dm-mapper
   Device.WiFi.X_PRPLWARE-COM_WiFiSensing.                                                              proto::prplmesh-dm-mapper
   Device.WiFi.X_PRPLWARE-COM_WiFiSensing.CreateSession()                                               proto::prplmesh-dm-mapper
   Device.WiFi.X_PRPLWARE-COM_WiFiSensing.CreateSession() input:ApplicationName
