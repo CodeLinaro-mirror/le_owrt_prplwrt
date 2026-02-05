@@ -167,6 +167,13 @@ Verify amx-process monitor has updated the NumProcessRespawn after process respa
   $ R "${S} && verify_respawn_value $Dhcpv4ManagerId $((Dhcpv4ManagerRespawn+3))"
   dhcpv4-manager NumProcessRespawn PASS
 
+Restart process service to clear the respawns from above tests:
+
+  $ R "service tr181-mcastd restart  > /dev/null 2>&1"
+  $ R "service tr181-pcp restart  > /dev/null 2>&1"
+  $ R "service tr181-qos restart > /dev/null 2>&1"
+  $ R "service dhcpv4-manager restart  > /dev/null 2>&1"
+
 Clean-up Revert MaxFail parameter for the process to initial value:
 
   $ R "ba-cli -l  ProcessMonitor.Test.$Tr181McastId.MaxFailNum=$Tr181McastMaxFail | sed '/^$/d'"
@@ -180,13 +187,6 @@ Clean-up Revert MaxFail parameter for the process to initial value:
 
   $ R "ba-cli -l ProcessMonitor.Test.$Dhcpv4ManagerId.MaxFailNum=$Dhcpv4ManagerMaxFail | sed '/^$/d'"
   \d+ (re)
-
-Restart process service to clear the respawns from above tests:
-
-  $ R "service tr181-mcastd restart  > /dev/null 2>&1"
-  $ R "service tr181-pcp restart  > /dev/null 2>&1"
-  $ R "service tr181-qos restart > /dev/null 2>&1"
-  $ R "service dhcpv4-manager restart  > /dev/null 2>&1"
 
 Verify for any amx-processmonitoring failure action during tests, Any pre-test\
 failures seen by 004-amx-pre-test-verify-fail-action.t will be seen again:
