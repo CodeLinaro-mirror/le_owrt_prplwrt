@@ -34,6 +34,13 @@ Check default configuration:
   WiFi.APMLD.2.AffiliatedAPNumberOfEntries=0
   WiFi.APMLD.2.MLDID=1
   WiFi.APMLD.2.MLDMACAddress=""
+  WiFi.APMLD.3.APMLDConfig.EMLMREnabled=-1
+  WiFi.APMLD.3.APMLDConfig.EMLSREnabled=-1
+  WiFi.APMLD.3.APMLDConfig.NSTREnabled=-1
+  WiFi.APMLD.3.APMLDConfig.STREnabled=-1
+  WiFi.APMLD.3.AffiliatedAPNumberOfEntries=0
+  WiFi.APMLD.3.MLDID=2
+  WiFi.APMLD.3.MLDMACAddress=""
 
 Configure radio and enable all AccessPoints:
 
