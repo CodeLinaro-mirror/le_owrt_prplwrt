@@ -12,7 +12,7 @@ description: Build images for the Maxlinear x86 devices - OSP TB341 v2
 feeds:
   - name: intel_x86
     uri: https://gitlab.com/prpl-foundation/mirrors/maxlinear/feed_target_x86.git
-    branch: FEAT-29
+    branch: dev_FEAT-29_rebase
   - name: rootfs
     uri: https://github.com/maxlinear/rootfs.git
     tracking_branch: updk_9.2.3
@@ -75,7 +75,7 @@ feeds:
     revision: d82b27f1ca167d8735964af7f2676933b615cbf4
   - name: bootloader
     uri: https://gitlab.com/prpl-foundation/mirrors/maxlinear/feed_uboot.git
-    branch:  FEAT-29
+    branch:  dev_FEAT-29_rebase
   - name: dpl
     uri: https://github.com/maxlinear/feed_dpl.git
     tracking_branch:  updk_9.2.3
