@@ -43,6 +43,9 @@ Check default SSID status:
   Down
   Down
   Down
+  Down
+  Down
+  Down
 
 Configure controller:
 
@@ -87,6 +90,9 @@ Check access points status:
   Down
   Down
   Down
+  Down
+  Down
+  Down
   Up
   Up
   Up
@@ -108,7 +114,10 @@ Check access points status:
   Down
   Down
   Down
-
+  Down
+  Down
+  Down
+  
 Schedule prplMesh network activation:
 
 Wait for the next minute tick to trigger the test, assume it's T0:
@@ -151,6 +160,9 @@ Wait few seconds before checking wifi activation:
   Down
   Down
   Down
+  Down
+  Down
+  Down
   Up
   Up
   Up
@@ -161,6 +173,9 @@ Wait 1 minute before checking wifi deactivation T1+1min
   $ sleep 60
   $ R logger -t cram "Check that private acceess points are disabled"
   $ get_ssid_status
+  Down
+  Down
+  Down
   Down
   Down
   Down
