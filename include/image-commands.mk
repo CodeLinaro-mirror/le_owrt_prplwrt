@@ -752,3 +752,40 @@ define Build/zyxel-ras-image
 			$(if $(findstring separate-kernel,$(word 1,$(1))),-k $(IMAGE_KERNEL)) \
 		&& mv $@.new $@
 endef
+
+define Build/imagegenerator-init
+	$(eval IMG_GEN_DIR := $(wildcard $(BUILD_DIR_BASE)/hostpkg/imagegenerator-*))
+	rm -rf $(IMG_GEN_DIR)/build
+	mkdir -p $(IMG_GEN_DIR)/build
+	cp -r $(IMG_GEN_DIR)/scripts $(IMG_GEN_DIR)/build
+	cp -r $(IMG_GEN_DIR)/keys $(IMG_GEN_DIR)/build
+	# Copy all files passed in argument in Imagegenerator build directory
+	$(foreach f,$(1), \
+		$(if $(findstring ./,$(f)), \
+			rsync -R $(f) $(IMG_GEN_DIR)/build;, \
+			cp -r $(f) $(IMG_GEN_DIR)/build;) \
+	)
+endef
+
+define Build/binman
+	$(eval IMG_GEN_DIR := $(wildcard $(BUILD_DIR_BASE)/hostpkg/imagegenerator-*))
+	$(eval device := $(DEVICE_NAME))
+	@echo "Running binman for $(device) using $(1)"
+	ln -sf $(1) $(IMG_GEN_DIR)/build/binman.dts
+	cd $(IMG_GEN_DIR) && ./scripts/gen_binman.sh
+	# FIXME: The destination image names are hardcoded but it could be nice to pass them somehow
+	for image in u-boot.itb kernel.itb rootfs.itb ; do \
+		if [ -f $(IMG_GEN_DIR)/build/$${image} ] ; then \
+			cp $(IMG_GEN_DIR)/build/$${image} $(BIN_DIR)/$(DEVICE_IMG_PREFIX)-$${image} ; \
+		fi ; \
+	done
+endef
+
+define Build/swugenerator
+	$(eval IMG_GEN_DIR := $(wildcard $(BUILD_DIR_BASE)/hostpkg/imagegenerator-*))
+	$(eval device := $(DEVICE_NAME))
+	@echo "Running SWUGenerator for $(device) using $(1)"
+	ln -sf $(1) $(IMG_GEN_DIR)/build/sw-description
+	cd $(IMG_GEN_DIR) && ./scripts/gen_swu.sh
+	cp $(IMG_GEN_DIR)/build/image.swu $(KDIR)/tmp/$(DEVICE_IMG_PREFIX)-image.swu
+endef
