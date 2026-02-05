@@ -194,7 +194,14 @@ Revert the ProcessMonitor.Test.{i}.Type and Subject from Process/Pid to Plugin/D
   $ R "${S} && revert_process_subject dhcpv4-manager DHCPv4Server"
   dhcpv4-manager subject revert OK
 
-Clean-up Revert MaxFail parameter for the process to initial value:
+Cleanup Restart the process service to clear the respawns from above tests:
+
+  $ R "service tr181-mcastd restart  > /dev/null 2>&1"
+  $ R "service tr181-pcp restart  > /dev/null 2>&1"
+  $ R "service tr181-qos restart > /dev/null 2>&1"
+  $ R "service dhcpv4-manager restart  > /dev/null 2>&1"
+
+Revert MaxFail parameter for the process to initial value:
 
   $ R "ba-cli -l  ProcessMonitor.Test.$Tr181McastId.MaxFailNum=$Tr181McastMaxFail | sed '/^$/d'"
   \d+ (re)
@@ -214,12 +221,5 @@ Revert ProcessMonitor.Test.i TestInterval:
   $ R "${S} && set_test_interval \"$Tr181PcpTestInterval\" \"$Tr181PcpId\""
   $ R "${S} && set_test_interval \"$Tr181QosTestInterval\" \"$Tr181QosId\""
   $ R "${S} && set_test_interval \"$Dhcpv4ManagerTestInterval\" \"$Dhcpv4ManagerId\""
-
-Restart the process service to clear the respawns from above tests:
-
-  $ R "service tr181-mcastd restart  > /dev/null 2>&1"
-  $ R "service tr181-pcp restart  > /dev/null 2>&1"
-  $ R "service tr181-qos restart > /dev/null 2>&1"
-  $ R "service dhcpv4-manager restart  > /dev/null 2>&1"
 
   $ R logger -t cram "Amx-processmonitoring reset cram test finished"
