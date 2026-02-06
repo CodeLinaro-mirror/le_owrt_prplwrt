@@ -52,8 +52,14 @@ Check all AccessPoint.SSIDReference+ instances are disabled
   Down
   Down
   Down
+  Down
+  Down
+  Down
 
   $ get_ssid_ssid
+  backhaul_20:37:F0:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
+  backhaul_20:37:F0:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
+  backhaul_20:37:F0:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
   prplOS
   prplOS
   prplOS
@@ -142,6 +148,9 @@ In case the controller does not yet have this parameter, catch error here isof l
 Check that wireless is operating:
 
   $ get_ssid_status
+  Down
+  Down
+  Down
   Up
   Up
   Up
@@ -150,6 +159,9 @@ Check that wireless is operating:
   Up
 
   $ get_ssid_ssid
+  backhaul_20:37:F0:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
+  backhaul_20:37:F0:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
+  backhaul_20:37:F0:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
   prplOSguest
   prplOSguest
   prplOSguest
@@ -232,9 +244,20 @@ To disable wireless, disable instances of Network.AccessPoint{i} and call Access
 
   $ sleep 10
 
+Restore Security.ModeEnabled for AccessPoints used in the test
+
+  $ R "ba-cli \"WiFi.AccessPoint.[RadioReference == 'WiFi.Radio.radio0_band0'].Security.ModeEnabled='WPA2-WPA3-Personal'\" > /dev/null "
+
+  $ R "ba-cli \"WiFi.AccessPoint.[RadioReference == 'WiFi.Radio.radio0_band1'].Security.ModeEnabled='WPA2-WPA3-Personal'\" > /dev/null "
+
+  $ R "ba-cli \"WiFi.AccessPoint.[RadioReference == 'WiFi.Radio.radio0_band2'].Security.ModeEnabled='WPA3-Personal'\" > /dev/null "
+
 Check that wireless is disabled:
 
   $ get_ssid_status
+  Down
+  Down
+  Down
   Down
   Down
   Down
@@ -245,9 +268,20 @@ Check that wireless is disabled:
 Check that SSIDs did not change:
 
   $ get_ssid_ssid
+  backhaul_20:37:F0:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
+  backhaul_20:37:F0:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
+  backhaul_20:37:F0:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
   prplOSguest
   prplOSguest
   prplOSguest
   prplOSpriv
   prplOSpriv
   prplOSpriv
+
+Restore Security Mode to default values
+
+  $ R "ba-cli \"WiFi.AccessPoint.[RadioReference == 'WiFi.Radio.radio0_band0'].Security.ModeEnabled='WPA2-WPA3-Personal'\" > /dev/null "
+
+  $ R "ba-cli \"WiFi.AccessPoint.[RadioReference == 'WiFi.Radio.radio0_band1'].Security.ModeEnabled='WPA2-WPA3-Personal'\" > /dev/null "
+
+  $ R "ba-cli \"WiFi.AccessPoint.[RadioReference == 'WiFi.Radio.radio0_band2'].Security.ModeEnabled='WPA3-Personal'\" > /dev/null "

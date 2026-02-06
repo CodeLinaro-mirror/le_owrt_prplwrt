@@ -11,10 +11,9 @@ Wait for Device.WiFi. datamodel availability:
 
   $ sleep 10
 
-Try Suspending prplMesh processes:
+Stop prplMesh:
 
-  $ R "killall -SIGSTOP beerocks_agent > /dev/null 2>&1 || true"
-  $ R "killall -SIGSTOP beerocks_fronthaul > /dev/null 2>&1 || true"
+  $ R "/etc/init.d/prplmesh stop 2>&1 > /dev/null"
 
 Set AutoChannelEnable=0 on all WiFi.Radio. interfaces:
 
@@ -37,10 +36,16 @@ Check default SSID status:
   Down
   Down
   Down
+  Down
+  Down
+  Down
 
 Check default SSID configuration of access points:
 
   $ R "ba-cli -j -l WiFi.SSID.?0 | jsonfilter -e @[0]'[@.Alias != \"ep2g0\" && @.Alias != \"ep5g0\" && @.Alias != \"ep6g0\"].SSID'" | LC_ALL=C sort
+  backhaul_20:37:F0:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
+  backhaul_20:37:F0:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
+  backhaul_20:37:F0:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
   prplOS
   prplOS
   prplOS
@@ -71,7 +76,15 @@ Test activation of access point 1:
   Down
   Down
   Down
+  Down
+  Down
+  Down
   Up
+
+Save hostap pid:
+
+  $ hostap_pid=$(R pgrep -f 'hostapd')
+  $ R logger -t cram "hostap PID : $hostap_pid"
 
 Test activation of access point 2:
 
@@ -86,6 +99,9 @@ Test activation of access point 2:
   $ sleep 10
 
   $ get_ssid_status
+  Down
+  Down
+  Down
   Down
   Down
   Down
@@ -109,6 +125,9 @@ Test activation of access point 3:
   Down
   Down
   Down
+  Down
+  Down
+  Down
   Up
   Up
   Up
@@ -126,6 +145,9 @@ Test activation of access point 4:
   $ sleep 10
 
   $ get_ssid_status
+  Down
+  Down
+  Down
   Down
   Down
   Up
@@ -147,6 +169,9 @@ Test activation of access point 5:
 
   $ get_ssid_status
   Down
+  Down
+  Down
+  Down
   Up
   Up
   Up
@@ -166,6 +191,55 @@ Test activation of access point 6:
   $ sleep 10
 
   $ get_ssid_status
+  Down
+  Down
+  Down
+  Up
+  Up
+  Up
+  Up
+  Up
+  Up
+
+Test activation of access point 7:
+
+  $ R logger -t cram "Test AccessPoint 7 activation "$(get_ssid_ref 7)""
+
+  $ enable_ap 7
+  WiFi.AccessPoint.7 enabled
+
+  $ check_ap_ref_ssid 7 Up
+  WiFi.AccessPoint.7 SSID Reference is Up
+
+  $ sleep 10
+
+  $ get_ssid_status
+  Down
+  Down
+  Up
+  Up
+  Up
+  Up
+  Up
+  Up
+  Up
+
+Test activation of access point 8:
+
+  $ R logger -t cram "Test AccessPoint 8 activation "$(get_ssid_ref 8)""
+
+  $ enable_ap 8
+  WiFi.AccessPoint.8 enabled
+
+  $ check_ap_ref_ssid 8 Up
+  WiFi.AccessPoint.8 SSID Reference is Up
+
+  $ sleep 10
+
+  $ get_ssid_status
+  Down
+  Up
+  Up
   Up
   Up
   Up
@@ -177,20 +251,23 @@ Check that hostapd is operating as expected:
 
   $ R logger -t cram "Check that hostapd is operating"
 
-  $ R "ps axw" | sed -nE 's/.*(hostapd.*)/\1/p' | head -1 | tr -s ' ' '\n' | LC_ALL=C sort
+  $ R "ps axw" | sed -nE 's/.*(hostapd .*)/\1/p' | head -1 | tr -s ' ' '\n' | LC_ALL=C sort
   -ddt
-  /tmp/wlan0_hapd.conf
-  /tmp/wlan1_hapd.conf
+  -g
   /tmp/wlan2_hapd.conf
+  /var/run/hostapd/global\.0x.* (re)
   hostapd
 
-  $ R "ubus list | grep -e 'hostapd\.' | sort"
+  $ R "ubus list | grep hostapd. | sort"
+  hostapd-auth
   hostapd.wlan0.1
   hostapd.wlan0.2
   hostapd.wlan1.1
   hostapd.wlan1.2
+  hostapd.wlan1.3
   hostapd.wlan2.1
   hostapd.wlan2.2
+  hostapd.wlan2.3
 
 Check iw interfaces and beaconing:
 
@@ -198,18 +275,69 @@ Check iw interfaces and beaconing:
   Interface wlan0
   Interface wlan0.1
   Interface wlan0.2
+  Interface wlan0.3
   Interface wlan1
   Interface wlan1.1
   Interface wlan1.2
+  Interface wlan1.3
   Interface wlan2
   Interface wlan2.1
   Interface wlan2.2
+  Interface wlan2.3
+  ssid backhaul_20:37:F0:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
+  ssid backhaul_20:37:F0:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
   ssid prplOS
   ssid prplOS
   ssid prplOS
   ssid prplOS-guest
   ssid prplOS-guest
   ssid prplOS-guest
+
+Test deactivation of access point 8:
+
+  $ R logger -t cram "Test AccessPoint 8 deactivation "$(get_ssid_ref 8)""
+
+  $ disable_ap 8
+  WiFi.AccessPoint.8 disabled
+
+  $ check_ap_ref_ssid 8 Down
+  WiFi.AccessPoint.8 SSID Reference is Down
+
+  $ sleep 10
+
+  $ get_ssid_status
+  Down
+  Down
+  Up
+  Up
+  Up
+  Up
+  Up
+  Up
+  Up
+
+Test deactivation of access point 7:
+
+  $ R logger -t cram "Test AccessPoint 7 deactivation "$(get_ssid_ref 7)""
+
+  $ disable_ap 7
+  WiFi.AccessPoint.7 disabled
+
+  $ check_ap_ref_ssid 7 Down
+  WiFi.AccessPoint.7 SSID Reference is Down
+
+  $ sleep 10
+
+  $ get_ssid_status
+  Down
+  Down
+  Down
+  Up
+  Up
+  Up
+  Up
+  Up
+  Up
 
 Test deactivation of access point 6:
 
@@ -224,6 +352,9 @@ Test deactivation of access point 6:
   $ sleep 10
 
   $ get_ssid_status
+  Down
+  Down
+  Down
   Down
   Up
   Up
@@ -244,6 +375,9 @@ Test deactivation of access point 5:
   $ sleep 10
 
   $ get_ssid_status
+  Down
+  Down
+  Down
   Down
   Down
   Up
@@ -267,6 +401,9 @@ Test deactivation of access point 4:
   Down
   Down
   Down
+  Down
+  Down
+  Down
   Up
   Up
   Up
@@ -284,6 +421,9 @@ Test deactivation of access point 3:
   $ sleep 10
 
   $ get_ssid_status
+  Down
+  Down
+  Down
   Down
   Down
   Down
@@ -309,7 +449,15 @@ Test deactivation of access point 2:
   Down
   Down
   Down
+  Down
+  Down
+  Down
   Up
+
+Before deactivating last AP (ie stopping hostpad), check if hostap pid has changed or not:
+
+  $ if [ "$(R pgrep -f 'hostapd')" = "$hostap_pid" ]; then echo "true"; else echo "hostap restarted during the test !"; fi
+  true
 
 Test deactivation of access point 1:
 
@@ -330,16 +478,18 @@ Test deactivation of access point 1:
   Down
   Down
   Down
+  Down
+  Down
+  Down
 
 Check if hostapd process is stopped:
 
   $ R "pgrep -f 'hostapd -ddt'"
   [1]
 
-Resume prplMesh processes:
+Resume prplMesh:
 
-  $ R "killall -SIGCONT beerocks_agent > /dev/null 2>&1 || true"
-  $ R "killall -SIGCONT beerocks_fronthaul > /dev/null 2>&1 || true"
+  $ R "/etc/init.d/prplmesh start 2>&1 > /dev/null"
 
   $ R logger -t cram "Stopping PWHM test .."
 
