@@ -55,8 +55,14 @@ Check all AccessPoint.SSIDReference+ instances are disabled
   Down
   Down
   Down
+  Down
+  Down
+  Down
 
   $ get_ssid_ssid
+  backhaul_(1C:F4:3F|20:37:F0):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
+  backhaul_(1C:F4:3F|20:37:F0):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
+  backhaul_(1C:F4:3F|20:37:F0):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
   prplOS
   prplOS
   prplOS
@@ -145,6 +151,9 @@ In case the controller does not yet have this parameter, catch error here isof l
 Check that wireless is operating:
 
   $ get_ssid_status
+  Down
+  Down
+  Down
   Up
   Up
   Up
@@ -153,6 +162,9 @@ Check that wireless is operating:
   Up
 
   $ get_ssid_ssid
+  backhaul_(1C:F4:3F|20:37:F0):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
+  backhaul_(1C:F4:3F|20:37:F0):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
+  backhaul_(1C:F4:3F|20:37:F0):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
   prplOSguest
   prplOSguest
   prplOSguest
@@ -217,9 +229,11 @@ Check that controller received correct info about wifi subsystem:
   wlan1
   wlan1.0
   wlan1.1
+  wlan1.2
   wlan2
   wlan2.0
   wlan2.1
+  wlan2.2
 
 To disable wireless, disable instances of Network.AccessPoint{i} and call AccessPointCommit():
 
@@ -242,9 +256,29 @@ To disable wireless, disable instances of Network.AccessPoint{i} and call Access
 
   $ sleep 10
 
+Restore Security.ModeEnabled for AccessPoints used in the test
+
+  $ R "ba-cli  \"WiFi.AccessPoint.[RadioReference == 'Device.WiFi.Radio.1'].Security.ModeEnabled='WPA3-Personal-Transition'\"" | grep 'ModeEnabled=' | sed '/^$/d' | grep -v '>'
+  WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal-Transition" (re)
+  WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal-Transition" (re)
+  WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal-Transition" (re)
+
+  $ R "ba-cli  \"WiFi.AccessPoint.[RadioReference == 'Device.WiFi.Radio.2'].Security.ModeEnabled='WPA3-Personal-Transition'\"" | grep 'ModeEnabled=' | sed '/^$/d' | grep -v '>'
+  WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal-Transition" (re)
+  WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal-Transition" (re)
+  WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal-Transition" (re)
+
+  $ R "ba-cli  \"WiFi.AccessPoint.[RadioReference == 'Device.WiFi.Radio.3'].Security.ModeEnabled='WPA3-Personal'\"" | grep 'ModeEnabled=' | sed '/^$/d' | grep -v '>'
+  WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal" (re)
+  WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal" (re)
+  WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal" (re)
+
 Check that wireless is disabled:
 
   $ get_ssid_status
+  Down
+  Down
+  Down
   Down
   Down
   Down
@@ -255,9 +289,29 @@ Check that wireless is disabled:
 Check that SSIDs did not change:
 
   $ get_ssid_ssid
+  backhaul_(1C:F4:3F|20:37:F0):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
+  backhaul_(1C:F4:3F|20:37:F0):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
+  backhaul_(1C:F4:3F|20:37:F0):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
   prplOSguest
   prplOSguest
   prplOSguest
   prplOSpriv
   prplOSpriv
   prplOSpriv
+
+Restore Security Mode to default values
+
+  $ R "ba-cli  \"WiFi.AccessPoint.[RadioReference == 'Device.WiFi.Radio.1'].Security.ModeEnabled='WPA3-Personal-Transition'\"" | grep 'ModeEnabled=' | sed '/^$/d' | grep -v '>'
+  WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal-Transition" (re)
+  WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal-Transition" (re)
+  WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal-Transition" (re)
+
+  $ R "ba-cli  \"WiFi.AccessPoint.[RadioReference == 'Device.WiFi.Radio.2'].Security.ModeEnabled='WPA3-Personal-Transition'\"" | grep 'ModeEnabled=' | sed '/^$/d' | grep -v '>'
+  WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal-Transition" (re)
+  WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal-Transition" (re)
+  WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal-Transition" (re)
+
+  $ R "ba-cli  \"WiFi.AccessPoint.[RadioReference == 'Device.WiFi.Radio.3'].Security.ModeEnabled='WPA3-Personal'\"" | grep 'ModeEnabled=' | sed '/^$/d' | grep -v '>'
+  WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal" (re)
+  WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal" (re)
+  WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal" (re)
