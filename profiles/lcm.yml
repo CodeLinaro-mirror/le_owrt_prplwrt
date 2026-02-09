@@ -4,7 +4,7 @@ description: Packages and features for LCM
 feeds:
   - name: feed_lcm
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_lcm.git
-    revision: main@71b4daa6694523a469423d62b2363054267305f5
+    revision: main@9b67ac753d9a4625ece2cd63fb7641a745323f5b
 
 packages:
   - cthulhu
