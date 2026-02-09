@@ -21,8 +21,10 @@ additional_packages:
       - lvm2
 
 packages:
-  - busybox
-  - procd
+  - dssp
+  - busybox-selinux
+  - procd-selinux
+  - selinux-policy
   - iptables-mod-conntrack-extra
   - kmod-ipt-ipopt
   - kmod-ipt-ipset
@@ -41,6 +43,10 @@ packages:
   - ebtables-utils
   - ip-full
   - libipset
+  - libselinux
+  - libselinux-getenforce
+  - libselinux-setenforce
+  - libselinux-setfilecon
   - procd-seccomp
   - procd-ujail
   - procd-ujail-console
@@ -126,6 +132,9 @@ diffconfig: |
   # CONFIG_TARGET_ROOTFS_INITRAMFS is not set
   CONFIG_KERNEL_PERF_EVENTS=y
   CONFIG_KERNEL_PROFILING=y
+  CONFIG_TARGET_ROOTFS_SECURITY_LABELS=y
+  CONFIG_SELINUX=y
+  CONFIG_SELINUXTYPE_dssp=y
   CONFIG_ARIA2_SFTP=y
   CONFIG_PACKAGE_dnsmasq=n
   # CONFIG_PACKAGE_dnsmasq_full_broken_rtc is not set
