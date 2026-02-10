@@ -5,10 +5,15 @@ targets:
     resources:
       RawSerialPort:
         port: "/dev/turris-omnia"
+      ModbusTCPCoil:
+        host: quido.testbed-01.vpn.true.cz
+        coil: 0
+        managed_coils: 8
+        exclusive_coil_mode: True
+        write_multiple_coils: True
     drivers:
-      ExternalPowerDriver:
-        cmd_on: ssh root@uart-relay.testbed.vpn.true.cz power_on 0
-        cmd_off: ssh root@uart-relay.testbed.vpn.true.cz power_off 0
+      ModbusCoilDriver: {}
+      DigitalOutputPowerDriver: {}
       SerialDriver:
         txdelay: 0.01
       ShellDriver:
@@ -30,10 +35,15 @@ targets:
     resources:
       RawSerialPort:
         port: "/dev/turris-omnia"
+      ModbusTCPCoil:
+        host: quido.testbed-01.vpn.true.cz
+        coil: 0
+        managed_coils: 8
+        exclusive_coil_mode: True
+        write_multiple_coils: True
     drivers:
-      ExternalPowerDriver:
-        cmd_on: ssh root@uart-relay.testbed.vpn.true.cz power_on 0
-        cmd_off: ssh root@uart-relay.testbed.vpn.true.cz power_off 0
+      ModbusCoilDriver: {}
+      DigitalOutputPowerDriver: {}
       SerialDriver:
         txdelay: 0.01
       ShellDriver:
@@ -83,10 +93,15 @@ targets:
     resources:
       RawSerialPort:
         port: "/dev/wnc-freedom"
+      ModbusTCPCoil:
+        host: quido.testbed-01.vpn.true.cz
+        coil: 2
+        managed_coils: 8
+        exclusive_coil_mode: True
+        write_multiple_coils: True
     drivers:
-      ExternalPowerDriver:
-        cmd_on: ssh root@uart-relay.testbed.vpn.true.cz power_on 2
-        cmd_off: ssh root@uart-relay.testbed.vpn.true.cz power_off 2
+      ModbusCoilDriver: {}
+      DigitalOutputPowerDriver: {}
       SerialDriver: {}
       ShellDriver:
         console_ready: Please press Enter to activate this console.
@@ -108,10 +123,15 @@ targets:
     resources:
       RawSerialPort:
         port: "/dev/wnc-freedom"
+      ModbusTCPCoil:
+        host: quido.testbed-01.vpn.true.cz
+        coil: 2
+        managed_coils: 8
+        exclusive_coil_mode: True
+        write_multiple_coils: True
     drivers:
-      ExternalPowerDriver:
-        cmd_on: ssh root@uart-relay.testbed.vpn.true.cz power_on 2
-        cmd_off: ssh root@uart-relay.testbed.vpn.true.cz power_off 2
+      ModbusCoilDriver: {}
+      DigitalOutputPowerDriver: {}
       SerialDriver: {}
       ShellDriver:
         console_ready: Please press Enter to activate this console.
@@ -139,10 +159,15 @@ targets:
     resources:
       RawSerialPort:
         port: "/dev/mxl25641-hdk-6"
+      ModbusTCPCoil:
+        host: quido.testbed-01.vpn.true.cz
+        coil: 1
+        managed_coils: 8
+        exclusive_coil_mode: True
+        write_multiple_coils: True
     drivers:
-      ExternalPowerDriver:
-        cmd_on: ssh root@uart-relay.testbed.vpn.true.cz power_on 1
-        cmd_off: ssh root@uart-relay.testbed.vpn.true.cz power_off 1
+      ModbusCoilDriver: {}
+      DigitalOutputPowerDriver: {}
       SerialDriver:
         txdelay: 0.01
       ShellDriver:
