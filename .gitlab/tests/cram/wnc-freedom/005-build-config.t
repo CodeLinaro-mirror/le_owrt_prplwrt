@@ -436,6 +436,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_mod-ra-radvd=y
   CONFIG_PACKAGE_mod-routing-dhcp=y
   CONFIG_PACKAGE_mod-sahtrace=y
+  CONFIG_PACKAGE_mod-scheduler-amxp=y
   CONFIG_PACKAGE_mod-usp-registration=y
   CONFIG_PACKAGE_mod-vlan-ioctl=y
   CONFIG_PACKAGE_mod-vlan-uci=y
