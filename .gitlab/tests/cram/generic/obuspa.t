@@ -335,6 +335,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.DHCPv6.Server.Pool.{i}.Client.{i}.OptionNumberOfEntries                                       proto::dhcpv6s-manager
   Device.DHCPv6.Server.Pool.{i}.Client.{i}.SourceAddress                                               proto::dhcpv6s-manager
   Device.DHCPv6.Server.Pool.{i}.ClientNumberOfEntries                                                  proto::dhcpv6s-manager
+  Device.DHCPv6.Server.Pool.{i}.DSCPMark                                                               proto::dhcpv6s-manager
   Device.DHCPv6.Server.Pool.{i}.DUID                                                                   proto::dhcpv6s-manager
   Device.DHCPv6.Server.Pool.{i}.DUIDExclude                                                            proto::dhcpv6s-manager
   Device.DHCPv6.Server.Pool.{i}.Enable                                                                 proto::dhcpv6s-manager
@@ -4980,6 +4981,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.DHCPv6.Server.Pool.{i}.Client.{i}.OptionNumberOfEntries                                       proto::dhcpv6s-manager
   Device.DHCPv6.Server.Pool.{i}.Client.{i}.SourceAddress                                               proto::dhcpv6s-manager
   Device.DHCPv6.Server.Pool.{i}.ClientNumberOfEntries                                                  proto::dhcpv6s-manager
+  Device.DHCPv6.Server.Pool.{i}.DSCPMark                                                               proto::dhcpv6s-manager
   Device.DHCPv6.Server.Pool.{i}.DUID                                                                   proto::dhcpv6s-manager
   Device.DHCPv6.Server.Pool.{i}.DUIDExclude                                                            proto::dhcpv6s-manager
   Device.DHCPv6.Server.Pool.{i}.Enable                                                                 proto::dhcpv6s-manager
