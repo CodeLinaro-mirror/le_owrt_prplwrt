@@ -44,7 +44,7 @@ Check that we've correct DHCP pool settings:
   \t\t"IAPDEnable": false, (esc)
   \t\t"IAPDEnable": false, (esc)
   \t\t"IAPDEnable": false, (esc)
-  \t\t"Status": "Error_Misconfigured", (esc)
+  \t\t"Status": "Enabled", (esc)
   \t\t"Status": "Error_Misconfigured", (esc)
   \t\t"Status": "Error_Misconfigured", (esc)
 
