@@ -122,6 +122,9 @@ Read all link IDs (3 links per MLD):
   WiFi.APMLD.2.AffiliatedAP.1.LinkID=\d+ (re)
   WiFi.APMLD.2.AffiliatedAP.2.LinkID=\d+ (re)
   WiFi.APMLD.2.AffiliatedAP.3.LinkID=\d+ (re)
+  WiFi.APMLD.3.AffiliatedAP.1.LinkID=\d+ (re)
+  WiFi.APMLD.3.AffiliatedAP.2.LinkID=\d+ (re)
+  WiFi.APMLD.3.AffiliatedAP.3.LinkID=\d+ (re)
 
 Read AffiliatedAP MAC addresses from iw (private):
 

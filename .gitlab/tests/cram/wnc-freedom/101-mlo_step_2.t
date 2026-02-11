@@ -248,6 +248,15 @@ Restore defautlt MLDUnit values:
   $ R 'ba-cli -l WiFi.AccessPoint.6.SSIDReference+.MLDUnit=1' | sed '/^$/d'
   1
 
+  $ R 'ba-cli -l WiFi.AccessPoint.7.SSIDReference+.MLDUnit=2' | sed '/^$/d'
+  2
+
+  $ R 'ba-cli -l WiFi.AccessPoint.8.SSIDReference+.MLDUnit=2' | sed '/^$/d'
+  2
+
+  $ R 'ba-cli -l WiFi.AccessPoint.9.SSIDReference+.MLDUnit=2' | sed '/^$/d'
+  2
+
 Resume prplMesh:
 
   $ R "/etc/init.d/prplmesh start 2>&1 > /dev/null"
