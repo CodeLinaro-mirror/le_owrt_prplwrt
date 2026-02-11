@@ -29,7 +29,7 @@ check the event
   $ R "cat /tmp/captured_event"
   Event DUStateChange!
   {
-      CompleteTime = "20\d{2}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{9}Z", (re)
+      CompleteTime = <amxc_ts_t>:20\d{2}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{9}Z, (re)
       CurrentState = "Installed",
       DeploymentUnitRef = "Device.SoftwareModules.DeploymentUnit.[Alias == "cpe-917362a3-86e8-5332-bcfd-a4223f0e65e6"]",
       ExecutionUnitRefList = "Device.SoftwareModules.ExecutionUnit.[Alias == "cpe-917362a3-86e8-5332-bcfd-a4223f0e65e6"]",
@@ -39,7 +39,7 @@ check the event
       },
       OperationPerformed = "Install",
       Resolved = true,
-      StartTime = "20\d{2}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{9}Z", (re)
+      StartTime = <amxc_ts_t>:20\d{2}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{9}Z, (re)
       UUID = "00000000-0000-5000-b000-000000000001",
       Version = "prplos-v1",
       path = "Device.SoftwareModules."
@@ -58,7 +58,7 @@ check the event
   $ R "cat /tmp/captured_event"
   Event DUStateChange!
   {
-      CompleteTime = "20\d{2}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{9}Z", (re)
+      CompleteTime = <amxc_ts_t>:20\d{2}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{9}Z, (re)
       CurrentState = "Installed",
       DeploymentUnitRef = "Device.SoftwareModules.DeploymentUnit.[Alias == "cpe-917362a3-86e8-5332-bcfd-a4223f0e65e6"]",
       ExecutionUnitRefList = "Device.SoftwareModules.ExecutionUnit.[Alias == "cpe-917362a3-86e8-5332-bcfd-a4223f0e65e6"]",
@@ -68,7 +68,7 @@ check the event
       },
       OperationPerformed = "Update",
       Resolved = true,
-      StartTime = "20\d{2}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{9}Z", (re)
+      StartTime = <amxc_ts_t>:20\d{2}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{9}Z, (re)
       UUID = "00000000-0000-5000-b000-000000000001",
       Version = "prplos-v2",
       path = "Device.SoftwareModules."
@@ -88,7 +88,7 @@ check the event
   $ R "cat /tmp/captured_event"
   Event DUStateChange!
   {
-      CompleteTime = "20\d{2}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{9}Z", (re)
+      CompleteTime = <amxc_ts_t>:20\d{2}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{9}Z, (re)
       CurrentState = "Uninstalled",
       DeploymentUnitRef = "Device.SoftwareModules.DeploymentUnit.[Alias == "cpe-917362a3-86e8-5332-bcfd-a4223f0e65e6"]",
       ExecutionUnitRefList = "Device.SoftwareModules.ExecutionUnit.[Alias == "cpe-917362a3-86e8-5332-bcfd-a4223f0e65e6"]",
@@ -98,7 +98,7 @@ check the event
       },
       OperationPerformed = "Uninstall",
       Resolved = true,
-      StartTime = "20\d{2}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{9}Z", (re)
+      StartTime = <amxc_ts_t>:20\d{2}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{9}Z, (re)
       UUID = "00000000-0000-5000-b000-000000000001",
       Version = "prplos-v2",
       path = "Device.SoftwareModules."
