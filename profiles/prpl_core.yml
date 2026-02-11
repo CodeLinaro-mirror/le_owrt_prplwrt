@@ -104,6 +104,8 @@ packages:
 diffconfig: |
           CONFIG_DEVEL=y
           CONFIG_KERNEL_WERROR=y
+          CONFIG_KERNEL_SLUB_DEBUG=y
+          CONFIG_KERNEL_PROC_PAGE_MONITOR=y
           CONFIG_JSON_CYCLONEDX_SBOM=y
           CONFIG_PACKAGE_unbound-daemon-prpl=y
           CONFIG_PACKAGE_dnsmasq-prpl=y
