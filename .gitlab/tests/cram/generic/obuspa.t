@@ -3427,6 +3427,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.APMLD.{i}.MLDID                                                                          proto::wld
   Device.WiFi.APMLD.{i}.MLDMACAddress                                                                  proto::wld
   Device.WiFi.APMLDMaxLinks                                                                            proto::wld
+  Device.WiFi.APMLDNumberOfEntries                                                                     proto::wld
   Device.WiFi.AccessPoint.{i}.                                                                         proto::wld
   Device.WiFi.AccessPoint.{i}.APBridgeDisable                                                          proto::wld
   Device.WiFi.AccessPoint.{i}.ActiveAssociatedDeviceNumberOfEntries                                    proto::wld
@@ -4434,6 +4435,8 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.bSTAMLD.{i}.bSTAMLDConfig.EMLSREnabled                                                   proto::wld
   Device.WiFi.bSTAMLD.{i}.bSTAMLDConfig.NSTREnabled                                                    proto::wld
   Device.WiFi.bSTAMLD.{i}.bSTAMLDConfig.STREnabled                                                     proto::wld
+  Device.WiFi.bSTAMLDMaxLinks                                                                          proto::wld
+  Device.WiFi.bSTAMLDNumberOfEntries                                                                   proto::wld
   Device.WiFi.checkWPSPIN()                                                                            proto::wld
   Device.WiFi.checkWPSPIN() input:PIN
   Device.WiFi.delEndPointIntf()                                                                        proto::wld
@@ -8429,6 +8432,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.APMLD.{i}.MLDID                                                                          proto::wld
   Device.WiFi.APMLD.{i}.MLDMACAddress                                                                  proto::wld
   Device.WiFi.APMLDMaxLinks                                                                            proto::wld
+  Device.WiFi.APMLDNumberOfEntries                                                                     proto::wld
   Device.WiFi.AccessPoint.{i}.                                                                         proto::wld
   Device.WiFi.AccessPoint.{i}.APBridgeDisable                                                          proto::wld
   Device.WiFi.AccessPoint.{i}.ActiveAssociatedDeviceNumberOfEntries                                    proto::wld
@@ -9436,6 +9440,8 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.bSTAMLD.{i}.bSTAMLDConfig.EMLSREnabled                                                   proto::wld
   Device.WiFi.bSTAMLD.{i}.bSTAMLDConfig.NSTREnabled                                                    proto::wld
   Device.WiFi.bSTAMLD.{i}.bSTAMLDConfig.STREnabled                                                     proto::wld
+  Device.WiFi.bSTAMLDMaxLinks                                                                          proto::wld
+  Device.WiFi.bSTAMLDNumberOfEntries                                                                   proto::wld
   Device.WiFi.checkWPSPIN()                                                                            proto::wld
   Device.WiFi.checkWPSPIN() input:PIN
   Device.WiFi.delEndPointIntf()                                                                        proto::wld
