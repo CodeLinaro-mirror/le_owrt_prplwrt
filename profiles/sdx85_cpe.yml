@@ -67,6 +67,8 @@ packages:
   - health-monitor-demo
   - e2fsprogs
   - resize2fs
+  - recovery-std
+  - updater-std
 
 diffconfig: |
   CONFIG_TARGET_ROOTFS_UBIFS=y
