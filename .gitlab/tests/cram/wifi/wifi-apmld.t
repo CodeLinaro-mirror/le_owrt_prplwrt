@@ -20,24 +20,24 @@ Check default configuration:
   WiFi.MaxNumMLDs=\d+ (re)
 
   $ wifi_dm "APMLD.?" | LC_ALL=C sort
-  WiFi.APMLD.1.APMLDConfig.EMLMREnabled=-1
-  WiFi.APMLD.1.APMLDConfig.EMLSREnabled=-1
-  WiFi.APMLD.1.APMLDConfig.NSTREnabled=-1
-  WiFi.APMLD.1.APMLDConfig.STREnabled=-1
+  WiFi.APMLD.1.APMLDConfig.EMLMREnabled=0
+  WiFi.APMLD.1.APMLDConfig.EMLSREnabled=1
+  WiFi.APMLD.1.APMLDConfig.NSTREnabled=1
+  WiFi.APMLD.1.APMLDConfig.STREnabled=1
   WiFi.APMLD.1.AffiliatedAPNumberOfEntries=0
   WiFi.APMLD.1.MLDID=0
   WiFi.APMLD.1.MLDMACAddress=""
-  WiFi.APMLD.2.APMLDConfig.EMLMREnabled=-1
-  WiFi.APMLD.2.APMLDConfig.EMLSREnabled=-1
-  WiFi.APMLD.2.APMLDConfig.NSTREnabled=-1
-  WiFi.APMLD.2.APMLDConfig.STREnabled=-1
+  WiFi.APMLD.2.APMLDConfig.EMLMREnabled=0
+  WiFi.APMLD.2.APMLDConfig.EMLSREnabled=1
+  WiFi.APMLD.2.APMLDConfig.NSTREnabled=1
+  WiFi.APMLD.2.APMLDConfig.STREnabled=1
   WiFi.APMLD.2.AffiliatedAPNumberOfEntries=0
   WiFi.APMLD.2.MLDID=1
   WiFi.APMLD.2.MLDMACAddress=""
-  WiFi.APMLD.3.APMLDConfig.EMLMREnabled=-1
-  WiFi.APMLD.3.APMLDConfig.EMLSREnabled=-1
-  WiFi.APMLD.3.APMLDConfig.NSTREnabled=-1
-  WiFi.APMLD.3.APMLDConfig.STREnabled=-1
+  WiFi.APMLD.3.APMLDConfig.EMLMREnabled=0
+  WiFi.APMLD.3.APMLDConfig.EMLSREnabled=1
+  WiFi.APMLD.3.APMLDConfig.NSTREnabled=1
+  WiFi.APMLD.3.APMLDConfig.STREnabled=1
   WiFi.APMLD.3.AffiliatedAPNumberOfEntries=0
   WiFi.APMLD.3.MLDID=2
   WiFi.APMLD.3.MLDMACAddress=""
@@ -406,10 +406,10 @@ Disable guest vaps:
 Check if guest apmld is cleared:
 
   $ wifi_dm "APMLD.2.?"
-  WiFi.APMLD.2.APMLDConfig.EMLMREnabled=-1
-  WiFi.APMLD.2.APMLDConfig.EMLSREnabled=-1
-  WiFi.APMLD.2.APMLDConfig.NSTREnabled=-1
-  WiFi.APMLD.2.APMLDConfig.STREnabled=-1
+  WiFi.APMLD.2.APMLDConfig.EMLMREnabled=0
+  WiFi.APMLD.2.APMLDConfig.EMLSREnabled=1
+  WiFi.APMLD.2.APMLDConfig.NSTREnabled=1
+  WiFi.APMLD.2.APMLDConfig.STREnabled=1
   WiFi.APMLD.2.AffiliatedAPNumberOfEntries=0
   WiFi.APMLD.2.MLDID=1
   WiFi.APMLD.2.MLDMACAddress=""
@@ -458,10 +458,10 @@ Check if private apmld is cleared:
   $ sleep 10
 
   $ wifi_dm "APMLD.1.?"
-  WiFi.APMLD.1.APMLDConfig.EMLMREnabled=-1
-  WiFi.APMLD.1.APMLDConfig.EMLSREnabled=-1
-  WiFi.APMLD.1.APMLDConfig.NSTREnabled=-1
-  WiFi.APMLD.1.APMLDConfig.STREnabled=-1
+  WiFi.APMLD.1.APMLDConfig.EMLMREnabled=0
+  WiFi.APMLD.1.APMLDConfig.EMLSREnabled=1
+  WiFi.APMLD.1.APMLDConfig.NSTREnabled=1
+  WiFi.APMLD.1.APMLDConfig.STREnabled=1
   WiFi.APMLD.1.AffiliatedAPNumberOfEntries=0
   WiFi.APMLD.1.MLDID=0
   WiFi.APMLD.1.MLDMACAddress=""
