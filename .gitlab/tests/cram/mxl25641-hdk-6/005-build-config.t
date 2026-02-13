@@ -10,8 +10,8 @@ Assure expected build configuration (PCF-1413):
   CONFIG_TARGET_intel_x86=y
   CONFIG_TARGET_intel_x86_lgm=y
   CONFIG_TARGET_MULTI_PROFILE=y
-  CONFIG_TARGET_DEVICE_intel_x86_lgm_DEVICE_PRPL_OSP_v2=y
-  CONFIG_TARGET_DEVICE_PACKAGES_intel_x86_lgm_DEVICE_PRPL_OSP_v2=""
+  CONFIG_TARGET_DEVICE_intel_x86_lgm_DEVICE_PRPL_OSPv2_WGRTD159BE_B=y
+  CONFIG_TARGET_DEVICE_PACKAGES_intel_x86_lgm_DEVICE_PRPL_OSPv2_WGRTD159BE_B=""
   CONFIG_DEVEL=y
   CONFIG_TOOLCHAINOPTS=y
   CONFIG_BUSYBOX_CUSTOM=y
@@ -134,7 +134,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_KERNEL_GIT_CLONE_URI="https://github.com/maxlinear/linux.git"
   CONFIG_KERNEL_GIT_LOCAL_REPOSITORY=""
   CONFIG_KERNEL_GIT_MIRROR_HASH=""
-  CONFIG_KERNEL_GIT_REF="UPDK_9.2.4"
+  CONFIG_KERNEL_GIT_REF="UPDK_9.2.0"
   CONFIG_KERNEL_MEMCG_SWAP_ENABLED=y
   CONFIG_KERNEL_NET_CLS_CGROUP=y
   CONFIG_KERNEL_PERF_EVENTS=y
@@ -366,7 +366,6 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-pon-arp-ndp-reinsert=y
   CONFIG_PACKAGE_kmod-pon-mbox-drv=y
   CONFIG_PACKAGE_kmod-pon-mbox-drv-eth=y
-  CONFIG_PACKAGE_kmod-pon-mbox-drv-vuni=y
   CONFIG_PACKAGE_kmod-pon-mbox-drv_SKIP_TEP=y
   CONFIG_PACKAGE_kmod-pon-mcc-drv=y
   CONFIG_PACKAGE_kmod-pon-mcc-drv-filter=y
@@ -806,7 +805,6 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_tr181-xpon=y
   CONFIG_PACKAGE_uboot-envtools=y
   CONFIG_PACKAGE_uboot-octopus-urx641-4GB-ddr-overlay-fit-p34x-phy-emmc-prpl=y
-  CONFIG_PACKAGE_uboot-octopus-urx641-overlay-fit-p34x-phy-emmc-prpl=y
   CONFIG_PACKAGE_ucode-mod-ubus=m
   CONFIG_PACKAGE_ucode-mod-uci=m
   CONFIG_PACKAGE_umbim=y
