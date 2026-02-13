@@ -129,7 +129,7 @@ Enable all EPs:
   $ R "pgrep wpa_supplicant"
   \d+ (re)
 
-  $ wpa_conf_file=$(R "ps ax | grep wpa_supplicant" | sed -n 's/.*-c\([^ ]*\).*/\1/p' | sed '/^$/d')
+  $ wpa_conf_file=$(R "ps ax | grep '[w]pa_supplicant'" | sed -nE 's/.*-c[[:space:]]*([^[:space:]]+).*/\1/p' | sed '/^$/d')
   $ echo $wpa_conf_file
   /tmp/wlan\d_wpa_supplicant.conf (re)
 
