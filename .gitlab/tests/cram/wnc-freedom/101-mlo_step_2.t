@@ -223,7 +223,7 @@ Test deactivation of access point 1:
 
 Check if hostapd process is stopped:
 
-  $ R "pgrep -f 'hostapd -ddt'"
+  $ R "pgrep -f 'hostapd'"
   [1]
 
 Restore defautlt MLDUnit values:
