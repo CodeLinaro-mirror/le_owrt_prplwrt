@@ -5455,6 +5455,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.X_PRPLWARE-COM_WANManager.WAN.{i}.SFPType                                                     proto::wan-manager
   Device.X_PRPLWARE-COM_WANManager.WAN.{i}.SensingPriority                                             proto::wan-manager
   Device.X_PRPLWARE-COM_WANManager.WAN.{i}.Status                                                      proto::wan-manager
+  Device.X_PRPLWARE-COM_WANManager.WAN.{i}.Tags                                                        proto::wan-manager
   Device.X_PRPLWARE-COM_WANManager.WANMode                                                             proto::wan-manager
   Device.X_PRPLWARE-COM_WANManager.WANModeDisable()                                                    proto::wan-manager
   Device.X_PRPLWARE-COM_WANManager.WANModeDisable() input:Autosensing
@@ -10953,6 +10954,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.X_PRPLWARE-COM_WANManager.WAN.{i}.SFPType                                                     proto::wan-manager
   Device.X_PRPLWARE-COM_WANManager.WAN.{i}.SensingPriority                                             proto::wan-manager
   Device.X_PRPLWARE-COM_WANManager.WAN.{i}.Status                                                      proto::wan-manager
+  Device.X_PRPLWARE-COM_WANManager.WAN.{i}.Tags                                                        proto::wan-manager
   Device.X_PRPLWARE-COM_WANManager.WANMode                                                             proto::wan-manager
   Device.X_PRPLWARE-COM_WANManager.WANModeDisable()                                                    proto::wan-manager
   Device.X_PRPLWARE-COM_WANManager.WANModeDisable() input:Autosensing
