@@ -233,26 +233,12 @@ wait for cthulhu to terminate all containers and itself, before clear its data
   Device.SoftwareModules.ExecutionUnit.*.Status="Active" (glob)
   Device.SoftwareModules.ExecutionUnit.*.Status="Active" (glob)
   
-  $ R "ba-cli 'Device.SoftwareModules.LocalManagement.Action.?'"
-  * Device.SoftwareModules.LocalManagement.Action.? (glob)
-  Device.SoftwareModules.LocalManagement.Action.*. (glob)
-  Device.SoftwareModules.LocalManagement.Action.*.Action="Update" (glob)
-  Device.SoftwareModules.LocalManagement.Action.*.Alias="cpe-00000000-0000-5000-b000-000000000001" (glob)
-  Device.SoftwareModules.LocalManagement.Action.*.CurrentModuleVersion="3.16.1" (glob)
-  Device.SoftwareModules.LocalManagement.Action.*.ExecEnvName="generic" (glob)
-  Device.SoftwareModules.LocalManagement.Action.*.FaultMessage="" (glob)
-  Device.SoftwareModules.LocalManagement.Action.*.PreviousModuleVersion="3.16.0" (glob)
-  Device.SoftwareModules.LocalManagement.Action.*.Status="Success" (glob)
-  Device.SoftwareModules.LocalManagement.Action.*.UUID="00000000-0000-5000-b000-000000000001" (glob)
-  Device.SoftwareModules.LocalManagement.Action.*. (glob)
-  Device.SoftwareModules.LocalManagement.Action.*.Action="Uninstall" (glob)
-  Device.SoftwareModules.LocalManagement.Action.*.Alias="cpe-00000000-0000-5000-b000-000000000002" (glob)
-  Device.SoftwareModules.LocalManagement.Action.*.CurrentModuleVersion="<none>" (glob)
-  Device.SoftwareModules.LocalManagement.Action.*.ExecEnvName="<none>" (glob)
-  Device.SoftwareModules.LocalManagement.Action.*.FaultMessage="" (glob)
-  Device.SoftwareModules.LocalManagement.Action.*.PreviousModuleVersion="1.0.0" (glob)
-  Device.SoftwareModules.LocalManagement.Action.*.Status="Success" (glob)
-  Device.SoftwareModules.LocalManagement.Action.*.UUID="00000000-0000-5000-b000-000000000002" (glob)
+  $ R "ba-cli -l 'Device.SoftwareModules.LocalManagement.ActionNumberOfEntries?'"
+  
+  3
+  
+  $ R "ba-cli 'Device.SoftwareModules.LocalManagement.Action.[UUID == \"00000000-0000-5000-b000-000000000006\"].?'"
+  * Device.SoftwareModules.LocalManagement.Action.[UUID == "00000000-0000-5000-b000-000000000006"].? (glob)
   Device.SoftwareModules.LocalManagement.Action.*. (glob)
   Device.SoftwareModules.LocalManagement.Action.*.Action="Install" (glob)
   Device.SoftwareModules.LocalManagement.Action.*.Alias="cpe-00000000-0000-5000-b000-000000000006" (glob)
@@ -263,3 +249,30 @@ wait for cthulhu to terminate all containers and itself, before clear its data
   Device.SoftwareModules.LocalManagement.Action.*.Status="Success" (glob)
   Device.SoftwareModules.LocalManagement.Action.*.UUID="00000000-0000-5000-b000-000000000006" (glob)
   
+
+  $ R "ba-cli 'Device.SoftwareModules.LocalManagement.Action.[UUID == \"00000000-0000-5000-b000-000000000001\"].?'"
+  * Device.SoftwareModules.LocalManagement.Action.[UUID == "00000000-0000-5000-b000-000000000001"].? (glob)
+  Device.SoftwareModules.LocalManagement.Action.*. (glob)
+  Device.SoftwareModules.LocalManagement.Action.*.Action="Update" (glob)
+  Device.SoftwareModules.LocalManagement.Action.*.Alias="cpe-00000000-0000-5000-b000-000000000001" (glob)
+  Device.SoftwareModules.LocalManagement.Action.*.CurrentModuleVersion="3.16.1" (glob)
+  Device.SoftwareModules.LocalManagement.Action.*.ExecEnvName="generic" (glob)
+  Device.SoftwareModules.LocalManagement.Action.*.FaultMessage="" (glob)
+  Device.SoftwareModules.LocalManagement.Action.*.PreviousModuleVersion="3.16.0" (glob)
+  Device.SoftwareModules.LocalManagement.Action.*.Status="Success" (glob)
+  Device.SoftwareModules.LocalManagement.Action.*.UUID="00000000-0000-5000-b000-000000000001" (glob)
+  
+
+  $ R "ba-cli 'Device.SoftwareModules.LocalManagement.Action.[UUID == \"00000000-0000-5000-b000-000000000002\"].?'"
+  * Device.SoftwareModules.LocalManagement.Action.[UUID == "00000000-0000-5000-b000-000000000002"].? (glob)
+  Device.SoftwareModules.LocalManagement.Action.*. (glob)
+  Device.SoftwareModules.LocalManagement.Action.*.Action="Uninstall" (glob)
+  Device.SoftwareModules.LocalManagement.Action.*.Alias="cpe-00000000-0000-5000-b000-000000000002" (glob)
+  Device.SoftwareModules.LocalManagement.Action.*.CurrentModuleVersion="<none>" (glob)
+  Device.SoftwareModules.LocalManagement.Action.*.ExecEnvName="<none>" (glob)
+  Device.SoftwareModules.LocalManagement.Action.*.FaultMessage="" (glob)
+  Device.SoftwareModules.LocalManagement.Action.*.PreviousModuleVersion="1.0.0" (glob)
+  Device.SoftwareModules.LocalManagement.Action.*.Status="Success" (glob)
+  Device.SoftwareModules.LocalManagement.Action.*.UUID="00000000-0000-5000-b000-000000000002" (glob)
+  
+
