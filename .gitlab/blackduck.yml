@@ -18,15 +18,13 @@
     - curl -s --output detect.sh https://detect.blackduck.com/detect10.sh
     - sudo chmod +x detect.sh
     - |
-      for dir in $(ls -d build_dir/target-*/*); do
-        ./detect.sh \
-            --blackduck.url=https://prplfoundation.app.blackduck.com \
-            --blackduck.api.token=$BLACKDUCK_API_KEY \
-            --detect.project.name=prplos \
-            --detect.project.version.name=$CI_COMMIT_REF_NAME-$target_name \
-            --detect.source.path=$dir \
-            --detect.excluded.detector.types=PIP,NPM 2>&1 | tee logs/blackduck.log
-      done
+      ./detect.sh \
+        --blackduck.url=https://prplfoundation.app.blackduck.com \
+        --blackduck.api.token=$BLACKDUCK_API_KEY \
+        --detect.project.name=prplos \
+        --detect.project.version.name=$CI_COMMIT_REF_NAME-$target_name \
+        --detect.source.path=. \
+        --detect.excluded.detector.types=PIP,NPM 2>&1 | tee logs/blackduck.log
   after_script:
     - mkdir -p bin
     - tar -czf bin/blackduck-scan-output.tar.gz /home/builder/blackduck/runs/*/scan/BlackDuckScanOutput/* 2>/dev/null || true
