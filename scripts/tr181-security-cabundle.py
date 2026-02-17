@@ -1,20 +1,24 @@
 #!/usr/bin/env python3
 
-import os
 import sys
 import subprocess
+from pathlib import Path
+from typing import List
 
-ODL_FILE_PATH = "/etc/config/tr181-security/tr181-security_config.odl"
-ODL_DIRECTORY = "/etc/config/tr181-security/"
-CA_CERTIFICATES_TOP_DIR="/usr/share/ca-certificates/"
+ODL_FILE_PATH = Path("/etc/config/tr181-security/tr181-security_config.odl")
+ODL_DIRECTORY = Path("/etc/config/tr181-security/")
+CA_CERTIFICATES_TOP_DIR = Path("/usr/share/ca-certificates/")
 CA_BUNDLE_FILENAME = "ca-certificate.crt"
+MAX_LINKS = 10
+
 ODL_TEMPLATE = """%populate {{
     object Security.CABundle {{
-       {ca_bundles}
+{ca_bundles}
     }}
 }}
 """
-ODL_CA_BUNDLE_TEMPLATE = """\tinstance add (\"{name}\") {{
+
+ODL_CA_BUNDLE_TEMPLATE = """        instance add ("{name}") {{
             parameter Enable = true;
             parameter Name = "{name}";
             parameter CADirURI = "file://{dir_uri}";
@@ -22,81 +26,104 @@ ODL_CA_BUNDLE_TEMPLATE = """\tinstance add (\"{name}\") {{
         }}"""
 
 DEFAULT_CA_BUNDLE = ODL_CA_BUNDLE_TEMPLATE.format(
-        name="default",
-        dir_uri="/etc/ssl/certs",
-        file_uri="/etc/ssl/certs/ca-certificates.crt"
+    name="default",
+    dir_uri="/etc/ssl/certs",
+    file_uri="/etc/ssl/certs/ca-certificates.crt",
+)
+
+def get_certificate_hash(cert_path: Path) -> str:
+    result = subprocess.run(
+        ["openssl", "x509", "-subject_hash", "-noout", "-in", str(cert_path)],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
     )
 
-MAX_LINKS=10
-
-def create_ca_bundle_odl_entry(name):
-    dir_uri = CA_CERTIFICATES_TOP_DIR+name
-    file_uri = dir_uri+"/"+CA_BUNDLE_FILENAME
-    return ODL_CA_BUNDLE_TEMPLATE.format(name=name, dir_uri=dir_uri, file_uri=file_uri)
-
-def get_certificate_hash(path):
-    result = subprocess.run(
-            ['openssl', 'x509', '-subject_hash', '-noout', '-in', path],
-            stdout=subprocess.PIPE,
-            text=True
+    if result.returncode != 0:
+        raise RuntimeError(
+            f"OpenSSL failed for {cert_path}: {result.stderr.strip()}"
         )
-    return str(result.stdout.strip())
 
+    return result.stdout.strip()
+
+
+def create_hash_symlink(cert_path: Path, cert_hash: str) -> None:
+    directory = cert_path.parent
+    filename = cert_path.name
+
+    for i in range(MAX_LINKS):
+        link_name = f"{cert_hash}.{i}"
+        link_path = directory / link_name
+
+        if not link_path.exists():
+            link_path.symlink_to(filename)
+            return
+
+    raise RuntimeError(
+        f"Too many hash collisions for {cert_path} (max {MAX_LINKS})"
+    )
+
+
+def process_certificate_directory(directory: Path) -> None:
+    bundle_path = directory / CA_BUNDLE_FILENAME
+    with bundle_path.open("w") as bundle_file:
+        for cert_path in sorted(directory.glob("*.crt")):
+            if cert_path.name == CA_BUNDLE_FILENAME:
+                continue
+
+            # Append certificate to bundle
+            bundle_file.write(cert_path.read_text())
+
+            # Create subject hash symlink
+            cert_hash = get_certificate_hash(cert_path)
+            create_hash_symlink(cert_path, cert_hash)
+
+def generate_odl_entry(name: str) -> str:
+    dir_uri = CA_CERTIFICATES_TOP_DIR / name
+    file_uri = dir_uri / CA_BUNDLE_FILENAME
+
+    return ODL_CA_BUNDLE_TEMPLATE.format(
+        name=name,
+        dir_uri=dir_uri,
+        file_uri=file_uri,
+    )
+
+
+def generate_odl_file(rootfs: Path, subdirs: List[str]) -> None:
+    entries = [DEFAULT_CA_BUNDLE]
+    entries.extend(generate_odl_entry(name) for name in sorted(subdirs))
+
+    odl_content = ODL_TEMPLATE.format(
+        ca_bundles="\n".join(entries)
+    )
+
+    odl_path = rootfs / ODL_FILE_PATH.relative_to("/")
+    odl_path.parent.mkdir(parents=True, exist_ok=True)
+    odl_path.write_text(odl_content)
 
 def main():
-    if len(sys.argv) < 2:
-        print("ERROR: ROOTFS path not provided")
+    if len(sys.argv) != 2:
+        print(f"Usage: {sys.argv[0]} <rootfs-path>")
         sys.exit(1)
-    rootfs = sys.argv[1]
-    if rootfs[-1]=="/":
-        rootfs[-1]="\0"
+
+    rootfs = Path(sys.argv[1]).resolve()
+    ca_top_dir = rootfs / CA_CERTIFICATES_TOP_DIR.relative_to("/")
+
+    if not ca_top_dir.exists():
+        print(f"ERROR: CA directory not found: {ca_top_dir}")
+        sys.exit(1)
+
     subdirs = []
 
-    ca_certificates_full_path = rootfs+CA_CERTIFICATES_TOP_DIR
-    topdir_contents = os.listdir(ca_certificates_full_path)
-    for subdir in topdir_contents:
-        
-        subdir_path = ca_certificates_full_path + subdir
-        if not os.path.isdir(subdir_path):
+    for directory in sorted(ca_top_dir.iterdir()):
+        if not directory.is_dir():
             continue
-        
-        subdirs.append(subdir)
-        subdir_contents = os.listdir(subdir_path)
-        ca_bundle_file = open(subdir_path+"/"+CA_BUNDLE_FILENAME, "w")
-        for filename in subdir_contents:
-            ca_certificate_path = subdir_path+"/"+filename
-            if not os.path.isfile(ca_certificate_path) or filename==CA_BUNDLE_FILENAME or filename[-1]=="0":
-                continue
-            with open(ca_certificate_path, "r") as ca_certificate_file:
-                ca_bundle_file.write(ca_certificate_file.read())
-            ca_certificate_hash = get_certificate_hash(ca_certificate_path)
-            for i in range(0, MAX_LINKS):
-                link_name = ca_certificate_hash+"."+str(i)
-                link_path = subdir_path+"/"+link_name
-                if not os.path.lexists(link_path):
-                    os.symlink(filename, link_path)
-                    print(link_path + " -> " + filename)
-                    break
 
-    
+        subdirs.append(directory.name)
+        process_certificate_directory(directory)
 
-    ca_bundles = []
-    ca_bundles.append(ODL_CA_BUNDLE_TEMPLATE.format(
-        name="default",
-        dir_uri="/etc/ssl/certs",
-        file_uri="/etc/ssl/certs/ca-certificates.crt"
-    ))
-    for i in range(0, len(subdirs)):
-        ca_bundles.append(create_ca_bundle_odl_entry(subdirs[i]))
-    
-    odl_contents = ODL_TEMPLATE.format(
-        ca_bundles ='\n'.join(ca_bundles)
-    )
+    generate_odl_file(rootfs, subdirs)
 
-    odl_full_path = rootfs+ODL_FILE_PATH
-    os.makedirs(rootfs+ODL_DIRECTORY, exist_ok=True)
-    with open(odl_full_path, "w") as odl:
-        odl.write(odl_contents)
 
 if __name__ == "__main__":
     main()
