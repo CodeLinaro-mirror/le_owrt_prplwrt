@@ -348,8 +348,9 @@ get_interface_name() {
 # In : wlan interface
 # Out : link number
 get_link_info() {
+  local itf=$1
   R logger -t cram "get_link_info: interface ${1}"
-  R "iw dev ${1} info" | grep -e addr -e channe | sed 's/^[ \t]*//' | sort | uniq
+  R "iw dev ${itf} info" | grep -e addr -e channe -e link | sed 's/^[ \t]*//' | sed 's/:*$//' | sort | uniq
 }
 
 # print main link interface name from MAC address
