@@ -8,12 +8,31 @@
 wifi_dm() {
   local path="$1"
   local obj_name
+  local res
   # read object name
-  obj_name=$(printf '%s\n' "$path" | awk -F. '{print $NF}' | cut -d'=' -f1)
+  # get str before a single = (ignoring ==) and extracts the string following the final dot,
+  # or defaults to the last dot segment if no = is present.
+  obj_name=$(printf '%s\n' "$path" | sed -E 's/([^=])=([^=]).*/\1/; s/.*\.//')
+
   # remove any trailing '?' from next grep
   obj_name=${obj_name%%\?*}
   R logger -t cram "set_wifi_dm: command WiFi.$path object ${obj_name}"
-  R "ba-cli 'WiFi.${path}'" | grep "${obj_name}=" | sed '/^$/d' | grep -v '>' | sort
+  res=$(R "ba-cli 'WiFi.${path}'" | grep -v '>')
+  if ! echo "$res" | grep -q "${obj_name}="; then
+    if echo "$res" | grep -q "No data found"; then
+      R logger -t cram "set_wifi_dm: WiFi.${path} failed : No data found"
+      echo "No data found"
+      return 0
+    fi
+    R logger -t cram "set_wifi_dm: WiFi.${path} failed."
+    echo "set_wifi_dm: WiFi.${path} failed. Result:"
+    echo "$res"
+    return 1
+  else
+    echo "$res" | grep "${obj_name}=" | sed '/^$/d' | grep -v '>' | sort
+  fi
+
+  return 0
 }
 
 # set/get wifi datamodel based on band
@@ -79,6 +98,39 @@ enable_ap() {
 }
 
 # Disable AccessPoints
+# In : AccessPoint object index, statut (0/1) (Optional)
+# Out : AccessPoint.X.Enable=0,1 if success
+enable_ap_sync() {
+  local res
+  local ap=$1
+  local enable=$2
+  local timeout=${3:-15}
+
+  if [ $enable  -eq 0 ]; then
+    tgt_state='Status="Disabled"'
+  else
+    tgt_state='Status="Enabled"'
+  fi
+
+  if ! res=$(wifi_dm "AccessPoint.${ap}.Enable=$enable"); then
+    echo "$res"
+    echo "Could not enable AP $ap"
+    return 1
+  fi
+
+  while [ $timeout -gt 0 ]; do
+    wifi_dm "AccessPoint.${ap}.Status?0" | grep -q $tgt_state && break
+    timeout=$((timeout-1))
+    sleep 1
+  done
+
+  [ "$timeout" -gt 0 ] && echo "AccessPoint.${ap}.Enable=${enable}" || echo "AccessPoint.$ap enable=${enable} timed out"
+
+  # guard delay
+  sleep 1
+}
+
+# Disable AccessPoints
 # In : AccessPoint object index
 # Out : "disabled" if success, empty otherwise
 disable_ap() {
@@ -109,6 +161,54 @@ check_ap_ref_ssid() {
 get_ssid_ref() {
   msg=$(R "ba-cli -j -l WiFi.AccessPoint.${1}.SSIDReference+.Status?")
   echo "$msg" | sed '/^$/d'
+}
+
+# Print APs status
+get_ap_status() {
+  wifi_dm "AccessPoint.*.Status?0"
+}
+
+# Print APs status
+get_ap_ssid() {
+  ap_num=$(R "ba-cli -l \"WiFi.AccessPointNumberOfEntries?\"" | sed '/^$/d')
+  local i=1
+  while [ "$i" -le "$ap_num" ]; do
+    wifi_dm "AccessPoint.$i.SSIDReference+.SSID?" | sed "s/Device.WiFi.SSID.[0-9]*/AccessPoint.$i/g"
+    i=$((i + 1))
+  done
+}
+
+# list wpacltrl socket file of a specific AP
+# In : AccessPoint object index
+# Out : local ls output
+ls_ap_hapd_socket () {
+  local ap=$1
+  local mld_unit
+  local main_itf
+  local link_id
+  local wpa_file
+
+  # read main link interface from pwhm dm
+  mld_unit=$(R "ba-cli -l \"WiFi.AccessPoint.${ap}.SSIDReference+.MLDUnit?\"" | sed '/^$/d')
+  main_itf=$(R "ba-cli -l \"WiFi.SSID.[MLDRole=='Primary' && MLDUnit==${mld_unit}].Name?\"" | sed '/^$/d')
+
+  # read link id from SSID object
+  link_id=$(R "ba-cli -l \"WiFi.AccessPoint.${ap}.SSIDReference+.MLDLinkID?\"" | sed '/^$/d')
+
+  # ls socket file
+  wpa_file="/var/run/hostapd/${main_itf}_link${link_id}"
+#  /var/run/hostapd/wlan[0-9.]+_link[0-9] (re)
+  R "[ -e ${wpa_file} ] && ls ${wpa_file} || echo \"not found\""
+}
+
+
+# list all wpacltrl socket file of a specific AP
+# Out : local ls output
+ls_hapd_sockets () {
+  # ls socket file
+  wpa_file="/var/run/hostapd/wlan*_link*"
+#  /var/run/hostapd/wlan[0-9.]+_link[0-9] (re)
+  R "ls /var/run/hostapd/ | grep wlan" | sort
 }
 
 # Print SSIDs status
