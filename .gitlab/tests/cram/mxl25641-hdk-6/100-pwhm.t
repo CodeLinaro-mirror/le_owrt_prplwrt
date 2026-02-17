@@ -27,6 +27,22 @@ Set channel to a non DFS one:
 
   $ sleep 5
 
+Provisory: unset MLDUnit on all interfaces:
+
+  $ wifi_dm "SSID.*.MLDUnit=-1"
+  WiFi.SSID.\d+.MLDUnit=-1 (re)
+  WiFi.SSID.\d+.MLDUnit=-1 (re)
+  WiFi.SSID.\d+.MLDUnit=-1 (re)
+  WiFi.SSID.\d+.MLDUnit=-1 (re)
+  WiFi.SSID.\d+.MLDUnit=-1 (re)
+  WiFi.SSID.\d+.MLDUnit=-1 (re)
+  WiFi.SSID.\d+.MLDUnit=-1 (re)
+  WiFi.SSID.\d+.MLDUnit=-1 (re)
+  WiFi.SSID.\d+.MLDUnit=-1 (re)
+  WiFi.SSID.\d+.MLDUnit=-1 (re)
+  WiFi.SSID.\d+.MLDUnit=-1 (re)
+  WiFi.SSID.\d+.MLDUnit=-1 (re)
+
 Check default SSID status:
 
   $ get_ssid_status
