@@ -9,49 +9,47 @@ Wait for Device.WiFi. datamodel availability:
 
   $ R "amx_wait_for "Device.WiFi." "
 
-  $ sleep 10
-
 Stop prplMesh:
 
-  $ R "/etc/init.d/prplmesh stop 2>&1 > /dev/null"
+  $ R "/etc/init.d/prplmesh stop > /dev/null 2>&1"
 
 Set AutoChannelEnable=0 on all WiFi.Radio. interfaces:
 
-  $ R "ba-cli -j -l WiFi.Radio.*.AutoChannelEnable=0 | sed '/^$/d'"
-  [{"WiFi.Radio.1.":{"AutoChannelEnable":0},"WiFi.Radio.2.":{"AutoChannelEnable":0},"WiFi.Radio.3.":{"AutoChannelEnable":0}}]
+  $ wifi_dm "Radio.*.AutoChannelEnable=0"
+  WiFi.Radio.1.AutoChannelEnable=0
+  WiFi.Radio.2.AutoChannelEnable=0
+  WiFi.Radio.3.AutoChannelEnable=0
 
 Set channel to a non DFS one:
 
-  $ R "ba-cli -j -l WiFi.Radio.2.Channel=36 | sed '/^$/d'"
-  [{"WiFi.Radio.2.":{"Channel":36}}]
-
-  $ sleep 5
+  $ wifi_dm "Radio.2.Channel=36"
+  WiFi.Radio.2.Channel=36 (re)
 
 Check default SSID status:
 
-  $ get_ssid_status
-  Down
-  Down
-  Down
-  Down
-  Down
-  Down
-  Down
-  Down
-  Down
+  $ get_ap_status
+  WiFi.AccessPoint.1.Status="Disabled"
+  WiFi.AccessPoint.2.Status="Disabled"
+  WiFi.AccessPoint.3.Status="Disabled"
+  WiFi.AccessPoint.4.Status="Disabled"
+  WiFi.AccessPoint.5.Status="Disabled"
+  WiFi.AccessPoint.6.Status="Disabled"
+  WiFi.AccessPoint.7.Status="Disabled"
+  WiFi.AccessPoint.8.Status="Disabled"
+  WiFi.AccessPoint.9.Status="Disabled"
 
 Check default SSID configuration of access points:
 
-  $ R "ba-cli -j -l WiFi.SSID.?0 | jsonfilter -e @[0]'[@.Alias != \"ep2g0\" && @.Alias != \"ep5g0\" && @.Alias != \"ep6g0\"].SSID'" | LC_ALL=C sort
-  backhaul_(AC:91:9B|58:E4:03):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
-  backhaul_(AC:91:9B|58:E4:03):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
-  backhaul_(AC:91:9B|58:E4:03):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
-  prplOS
-  prplOS
-  prplOS
-  prplOS-guest
-  prplOS-guest
-  prplOS-guest
+  $ get_ap_ssid
+  AccessPoint.1.SSID="prplOS"
+  AccessPoint.2.SSID="prplOS-guest"
+  AccessPoint.3.SSID="prplOS"
+  AccessPoint.4.SSID="prplOS-guest"
+  AccessPoint.5.SSID="prplOS"
+  AccessPoint.6.SSID="prplOS-guest"
+  AccessPoint.7.SSID="backhaul_(AC:91:9B|58:E4:03):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}" (re)
+  AccessPoint.8.SSID="backhaul_(AC:91:9B|58:E4:03):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}" (re)
+  AccessPoint.9.SSID="backhaul_(AC:91:9B|58:E4:03):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}" (re)
 
 Check that no hostapd instance is running:
 
@@ -62,24 +60,28 @@ Test activation of access point 1:
 
   $ R logger -t cram "Test AccessPoint 1 activation "$(get_ssid_ref 1)""
 
-  $ enable_ap 1
-  WiFi.AccessPoint.1 enabled
+  $ enable_ap_sync 1 1
+  AccessPoint.\d+.Enable=1 (re)
 
-  $ check_ap_ref_ssid 1 Up
-  WiFi.AccessPoint.1 SSID Reference is Up
+  $ wifi_dm "AccessPoint.*.Status?0"
+  WiFi.AccessPoint.1.Status="Enabled"
+  WiFi.AccessPoint.2.Status="Disabled"
+  WiFi.AccessPoint.3.Status="Disabled"
+  WiFi.AccessPoint.4.Status="Disabled"
+  WiFi.AccessPoint.5.Status="Disabled"
+  WiFi.AccessPoint.6.Status="Disabled"
+  WiFi.AccessPoint.7.Status="Disabled"
+  WiFi.AccessPoint.8.Status="Disabled"
+  WiFi.AccessPoint.9.Status="Disabled"
 
-  $ sleep 10
+Check wpacltrl socket file:
 
-  $ get_ssid_status
-  Down
-  Down
-  Down
-  Down
-  Down
-  Down
-  Down
-  Down
-  Up
+  $ ls_ap_hapd_socket 1
+  /var/run/hostapd/wlan[0-9.]+_link[0-9].* (re)
+
+  $ ls_hapd_sockets
+  wlan2.1
+  wlan2.1_link0
 
 Save hostap pid:
 
@@ -90,185 +92,267 @@ Test activation of access point 2:
 
   $ R logger -t cram "Test AccessPoint 2 activation "$(get_ssid_ref 2)""
 
-  $ enable_ap 2
-  WiFi.AccessPoint.2 enabled
+  $ enable_ap_sync 2 1
+  AccessPoint.2.Enable=1
 
-  $ check_ap_ref_ssid 2 Up
-  WiFi.AccessPoint.2 SSID Reference is Up
+  $ wifi_dm "AccessPoint.*.Status?0"
+  WiFi.AccessPoint.1.Status="Enabled"
+  WiFi.AccessPoint.2.Status="Enabled"
+  WiFi.AccessPoint.3.Status="Disabled"
+  WiFi.AccessPoint.4.Status="Disabled"
+  WiFi.AccessPoint.5.Status="Disabled"
+  WiFi.AccessPoint.6.Status="Disabled"
+  WiFi.AccessPoint.7.Status="Disabled"
+  WiFi.AccessPoint.8.Status="Disabled"
+  WiFi.AccessPoint.9.Status="Disabled"
 
-  $ sleep 10
+Check wpacltrl socket file:
 
-  $ get_ssid_status
-  Down
-  Down
-  Down
-  Down
-  Down
-  Down
-  Down
-  Up
-  Up
+  $ ls_ap_hapd_socket 2
+  /var/run/hostapd/wlan[0-9.]+_link[0-9] (re)
+
+  $ ls_hapd_sockets
+  wlan2.1
+  wlan2.1_link0
+  wlan2.2
+  wlan2.2_link0
 
 Test activation of access point 3:
 
   $ R logger -t cram "Test AccessPoint 3 activation "$(get_ssid_ref 3)""
 
-  $ enable_ap 3
-  WiFi.AccessPoint.3 enabled
+  $ enable_ap_sync 3 1
+  AccessPoint.3.Enable=1
 
-  $ check_ap_ref_ssid 3 Up
-  WiFi.AccessPoint.3 SSID Reference is Up
+  $ wifi_dm "AccessPoint.*.Status?0"
+  WiFi.AccessPoint.1.Status="Enabled"
+  WiFi.AccessPoint.2.Status="Enabled"
+  WiFi.AccessPoint.3.Status="Enabled"
+  WiFi.AccessPoint.4.Status="Disabled"
+  WiFi.AccessPoint.5.Status="Disabled"
+  WiFi.AccessPoint.6.Status="Disabled"
+  WiFi.AccessPoint.7.Status="Disabled"
+  WiFi.AccessPoint.8.Status="Disabled"
+  WiFi.AccessPoint.9.Status="Disabled"
 
-  $ sleep 10
+Check wpacltrl socket file:
 
-  $ get_ssid_status
-  Down
-  Down
-  Down
-  Down
-  Down
-  Down
-  Up
-  Up
-  Up
+  $ ls_ap_hapd_socket 3
+  /var/run/hostapd/wlan[0-9.]+_link[0-9] (re)
+
+  $ ls_hapd_sockets
+  wlan2.1
+  wlan2.1_link0
+  wlan2.1_link1
+  wlan2.2
+  wlan2.2_link0
 
 Test activation of access point 4:
 
   $ R logger -t cram "Test AccessPoint 4 activation "$(get_ssid_ref 4)""
 
-  $ enable_ap 4
-  WiFi.AccessPoint.4 enabled
+  $ enable_ap_sync 4 1
+  AccessPoint.4.Enable=1
 
-  $ check_ap_ref_ssid 4 Up
-  WiFi.AccessPoint.4 SSID Reference is Up
+  $ wifi_dm "AccessPoint.*.Status?0"
+  WiFi.AccessPoint.1.Status="Enabled"
+  WiFi.AccessPoint.2.Status="Enabled"
+  WiFi.AccessPoint.3.Status="Enabled"
+  WiFi.AccessPoint.4.Status="Enabled"
+  WiFi.AccessPoint.5.Status="Disabled"
+  WiFi.AccessPoint.6.Status="Disabled"
+  WiFi.AccessPoint.7.Status="Disabled"
+  WiFi.AccessPoint.8.Status="Disabled"
+  WiFi.AccessPoint.9.Status="Disabled"
 
-  $ sleep 10
+Check wpacltrl socket file:
 
-  $ get_ssid_status
-  Down
-  Down
-  Down
-  Down
-  Down
-  Up
-  Up
-  Up
-  Up
+  $ ls_ap_hapd_socket 4
+  /var/run/hostapd/wlan[0-9.]+_link[0-9] (re)
+
+  $ ls_hapd_sockets
+  wlan2.1
+  wlan2.1_link0
+  wlan2.1_link1
+  wlan2.2
+  wlan2.2_link0
+  wlan2.2_link1
 
 Test activation of access point 5:
 
   $ R logger -t cram "Test AccessPoint 5 activation "$(get_ssid_ref 5)""
 
-  $ enable_ap 5
-  WiFi.AccessPoint.5 enabled
+  $ enable_ap_sync 5 1
+  AccessPoint.5.Enable=1
 
-  $ check_ap_ref_ssid 5 Up
-  WiFi.AccessPoint.5 SSID Reference is Up
+  $ wifi_dm "AccessPoint.*.Status?0"
+  WiFi.AccessPoint.1.Status="Enabled"
+  WiFi.AccessPoint.2.Status="Enabled"
+  WiFi.AccessPoint.3.Status="Enabled"
+  WiFi.AccessPoint.4.Status="Enabled"
+  WiFi.AccessPoint.5.Status="Enabled"
+  WiFi.AccessPoint.6.Status="Disabled"
+  WiFi.AccessPoint.7.Status="Disabled"
+  WiFi.AccessPoint.8.Status="Disabled"
+  WiFi.AccessPoint.9.Status="Disabled"
 
-  $ sleep 10
+Check wpacltrl socket file:
 
-  $ get_ssid_status
-  Down
-  Down
-  Down
-  Down
-  Up
-  Up
-  Up
-  Up
-  Up
+  $ ls_ap_hapd_socket 5
+  /var/run/hostapd/wlan[0-9.]+_link[0-9] (re)
+
+  $ ls_hapd_sockets
+  wlan2.1
+  wlan2.1_link0
+  wlan2.1_link1
+  wlan2.1_link2
+  wlan2.2
+  wlan2.2_link0
+  wlan2.2_link1
 
 Test activation of access point 6:
 
   $ R logger -t cram "Test AccessPoint 6 activation "$(get_ssid_ref 6)""
 
-  $ enable_ap 6
-  WiFi.AccessPoint.6 enabled
+  $ enable_ap_sync 6 1
+  AccessPoint.6.Enable=1
 
-  $ check_ap_ref_ssid 6 Up
-  WiFi.AccessPoint.6 SSID Reference is Up
+  $ wifi_dm "AccessPoint.*.Status?0"
+  WiFi.AccessPoint.1.Status="Enabled"
+  WiFi.AccessPoint.2.Status="Enabled"
+  WiFi.AccessPoint.3.Status="Enabled"
+  WiFi.AccessPoint.4.Status="Enabled"
+  WiFi.AccessPoint.5.Status="Enabled"
+  WiFi.AccessPoint.6.Status="Enabled"
+  WiFi.AccessPoint.7.Status="Disabled"
+  WiFi.AccessPoint.8.Status="Disabled"
+  WiFi.AccessPoint.9.Status="Disabled"
 
-  $ sleep 10
+Check wpacltrl socket file:
 
-  $ get_ssid_status
-  Down
-  Down
-  Down
-  Up
-  Up
-  Up
-  Up
-  Up
-  Up
+  $ ls_ap_hapd_socket 6
+  /var/run/hostapd/wlan[0-9.]+_link[0-9] (re)
+
+  $ ls_hapd_sockets
+  wlan2.1
+  wlan2.1_link0
+  wlan2.1_link1
+  wlan2.1_link2
+  wlan2.2
+  wlan2.2_link0
+  wlan2.2_link1
+  wlan2.2_link2
 
 Test activation of access point 7:
 
   $ R logger -t cram "Test AccessPoint 7 activation "$(get_ssid_ref 7)""
 
-  $ enable_ap 7
-  WiFi.AccessPoint.7 enabled
+  $ enable_ap_sync 7 1
+  AccessPoint.7.Enable=1
 
-  $ check_ap_ref_ssid 7 Up
-  WiFi.AccessPoint.7 SSID Reference is Up
+  $ wifi_dm "AccessPoint.*.Status?0"
+  WiFi.AccessPoint.1.Status="Enabled"
+  WiFi.AccessPoint.2.Status="Enabled"
+  WiFi.AccessPoint.3.Status="Enabled"
+  WiFi.AccessPoint.4.Status="Enabled"
+  WiFi.AccessPoint.5.Status="Enabled"
+  WiFi.AccessPoint.6.Status="Enabled"
+  WiFi.AccessPoint.7.Status="Enabled"
+  WiFi.AccessPoint.8.Status="Disabled"
+  WiFi.AccessPoint.9.Status="Disabled"
 
-  $ sleep 10
+Check wpacltrl socket file:
 
-  $ get_ssid_status
-  Down
-  Down
-  Up
-  Up
-  Up
-  Up
-  Up
-  Up
-  Up
+  $ ls_ap_hapd_socket 7
+  /var/run/hostapd/wlan[0-9.]+_link[0-9] (re)
+
+  $ ls_hapd_sockets
+  wlan2.1
+  wlan2.1_link0
+  wlan2.1_link1
+  wlan2.1_link2
+  wlan2.2
+  wlan2.2_link0
+  wlan2.2_link1
+  wlan2.2_link2
+  wlan2.3
+  wlan2.3_link0
+
 
 Test activation of access point 8:
 
   $ R logger -t cram "Test AccessPoint 8 activation "$(get_ssid_ref 8)""
 
-  $ enable_ap 8
-  WiFi.AccessPoint.8 enabled
+  $ enable_ap_sync 8 1
+  AccessPoint.8.Enable=1
 
-  $ check_ap_ref_ssid 8 Up
-  WiFi.AccessPoint.8 SSID Reference is Up
+  $ wifi_dm "AccessPoint.*.Status?0"
+  WiFi.AccessPoint.1.Status="Enabled"
+  WiFi.AccessPoint.2.Status="Enabled"
+  WiFi.AccessPoint.3.Status="Enabled"
+  WiFi.AccessPoint.4.Status="Enabled"
+  WiFi.AccessPoint.5.Status="Enabled"
+  WiFi.AccessPoint.6.Status="Enabled"
+  WiFi.AccessPoint.7.Status="Enabled"
+  WiFi.AccessPoint.8.Status="Enabled"
+  WiFi.AccessPoint.9.Status="Disabled"
 
-  $ sleep 10
+Check wpacltrl socket file:
 
-  $ get_ssid_status
-  Down
-  Up
-  Up
-  Up
-  Up
-  Up
-  Up
-  Up
-  Up
+  $ ls_ap_hapd_socket 8
+  /var/run/hostapd/wlan[0-9.]+_link[0-9] (re)
+
+  $ ls_hapd_sockets
+  wlan2.1
+  wlan2.1_link0
+  wlan2.1_link1
+  wlan2.1_link2
+  wlan2.2
+  wlan2.2_link0
+  wlan2.2_link1
+  wlan2.2_link2
+  wlan2.3
+  wlan2.3_link0
+  wlan2.3_link1
 
 Test activation of access point 9:
 
   $ R logger -t cram "Test AccessPoint 9 activation "$(get_ssid_ref 9)""
 
-  $ enable_ap 9
-  WiFi.AccessPoint.9 enabled
+  $ enable_ap_sync 9 1
+  AccessPoint.9.Enable=1
 
-  $ check_ap_ref_ssid 9 Up
-  WiFi.AccessPoint.9 SSID Reference is Up
+  $ wifi_dm "AccessPoint.*.Status?0"
+  WiFi.AccessPoint.1.Status="Enabled"
+  WiFi.AccessPoint.2.Status="Enabled"
+  WiFi.AccessPoint.3.Status="Enabled"
+  WiFi.AccessPoint.4.Status="Enabled"
+  WiFi.AccessPoint.5.Status="Enabled"
+  WiFi.AccessPoint.6.Status="Enabled"
+  WiFi.AccessPoint.7.Status="Enabled"
+  WiFi.AccessPoint.8.Status="Enabled"
+  WiFi.AccessPoint.9.Status="Enabled"
 
-  $ sleep 10
+Check wpacltrl socket file:
 
-  $ get_ssid_status
-  Up
-  Up
-  Up
-  Up
-  Up
-  Up
-  Up
-  Up
-  Up
+  $ ls_ap_hapd_socket 9
+  /var/run/hostapd/wlan[0-9.]+_link[0-9] (re)
+
+  $ ls_hapd_sockets
+  wlan2.1
+  wlan2.1_link0
+  wlan2.1_link1
+  wlan2.1_link2
+  wlan2.2
+  wlan2.2_link0
+  wlan2.2_link1
+  wlan2.2_link2
+  wlan2.3
+  wlan2.3_link0
+  wlan2.3_link1
+  wlan2.3_link2
+
+  $ sleep 5
 
 Check that hostapd is operating as expected:
 
@@ -329,187 +413,250 @@ Check that the tree interfaces are present in the main link interface:
 
 Test deactivation of access point 9:
 
-  $ R logger -t cram "Test AccessPoint 9 deactivation "$(get_ssid_ref 9)""
+  $ enable_ap_sync 9 0
+  AccessPoint.9.Enable=0
 
-  $ disable_ap 9
-  WiFi.AccessPoint.9 disabled
+  $ wifi_dm "AccessPoint.*.Status?0"
+  WiFi.AccessPoint.1.Status="Enabled"
+  WiFi.AccessPoint.2.Status="Enabled"
+  WiFi.AccessPoint.3.Status="Enabled"
+  WiFi.AccessPoint.4.Status="Enabled"
+  WiFi.AccessPoint.5.Status="Enabled"
+  WiFi.AccessPoint.6.Status="Enabled"
+  WiFi.AccessPoint.7.Status="Enabled"
+  WiFi.AccessPoint.8.Status="Enabled"
+  WiFi.AccessPoint.9.Status="Disabled"
 
-  $ check_ap_ref_ssid 9 Down
-  WiFi.AccessPoint.9 SSID Reference is Down
+Check wpacltrl socket file:
 
-  $ sleep 10
+  $ ls_ap_hapd_socket 9
+  not found
 
-  $ get_ssid_status
-  Down
-  Up
-  Up
-  Up
-  Up
-  Up
-  Up
-  Up
-  Up
+  $ ls_hapd_sockets
+  wlan2.1
+  wlan2.1_link0
+  wlan2.1_link1
+  wlan2.1_link2
+  wlan2.2
+  wlan2.2_link0
+  wlan2.2_link1
+  wlan2.2_link2
+  wlan2.3
+  wlan2.3_link0
+  wlan2.3_link1
 
 Test deactivation of access point 8:
 
   $ R logger -t cram "Test AccessPoint 8 deactivation "$(get_ssid_ref 8)""
 
-  $ disable_ap 8
-  WiFi.AccessPoint.8 disabled
+  $ enable_ap_sync 8 0
+  AccessPoint.8.Enable=0
 
-  $ check_ap_ref_ssid 8 Down
-  WiFi.AccessPoint.8 SSID Reference is Down
+  $ wifi_dm "AccessPoint.*.Status?0"
+  WiFi.AccessPoint.1.Status="Enabled"
+  WiFi.AccessPoint.2.Status="Enabled"
+  WiFi.AccessPoint.3.Status="Enabled"
+  WiFi.AccessPoint.4.Status="Enabled"
+  WiFi.AccessPoint.5.Status="Enabled"
+  WiFi.AccessPoint.6.Status="Enabled"
+  WiFi.AccessPoint.7.Status="Enabled"
+  WiFi.AccessPoint.8.Status="Disabled"
+  WiFi.AccessPoint.9.Status="Disabled"
 
-  $ sleep 10
+Check wpacltrl socket file:
 
-  $ get_ssid_status
-  Down
-  Down
-  Up
-  Up
-  Up
-  Up
-  Up
-  Up
-  Up
+  $ ls_ap_hapd_socket 8
+  not found
+
+  $ ls_hapd_sockets
+  wlan2.1
+  wlan2.1_link0
+  wlan2.1_link1
+  wlan2.1_link2
+  wlan2.2
+  wlan2.2_link0
+  wlan2.2_link1
+  wlan2.2_link2
+  wlan2.3
+  wlan2.3_link0
 
 Test deactivation of access point 7:
 
   $ R logger -t cram "Test AccessPoint 7 deactivation "$(get_ssid_ref 7)""
 
-  $ disable_ap 7
-  WiFi.AccessPoint.7 disabled
+  $ enable_ap_sync 7 0
+  AccessPoint.7.Enable=0
 
-  $ check_ap_ref_ssid 7 Down
-  WiFi.AccessPoint.7 SSID Reference is Down
+  $ wifi_dm "AccessPoint.*.Status?0"
+  WiFi.AccessPoint.1.Status="Enabled"
+  WiFi.AccessPoint.2.Status="Enabled"
+  WiFi.AccessPoint.3.Status="Enabled"
+  WiFi.AccessPoint.4.Status="Enabled"
+  WiFi.AccessPoint.5.Status="Enabled"
+  WiFi.AccessPoint.6.Status="Enabled"
+  WiFi.AccessPoint.7.Status="Disabled"
+  WiFi.AccessPoint.8.Status="Disabled"
+  WiFi.AccessPoint.9.Status="Disabled"
 
-  $ sleep 10
+Check wpacltrl socket file:
 
-  $ get_ssid_status
-  Down
-  Down
-  Down
-  Up
-  Up
-  Up
-  Up
-  Up
-  Up
+  $ ls_ap_hapd_socket 7
+  not found
+
+  $ ls_hapd_sockets
+  wlan2.1
+  wlan2.1_link0
+  wlan2.1_link1
+  wlan2.1_link2
+  wlan2.2
+  wlan2.2_link0
+  wlan2.2_link1
+  wlan2.2_link2
 
 Test deactivation of access point 6:
 
-  $ R logger -t cram "Test AccessPoint 6 deactivation "$(get_ssid_ref 6)""
+  $ enable_ap_sync 6 0
+  AccessPoint.6.Enable=0
 
-  $ disable_ap 6
-  WiFi.AccessPoint.6 disabled
+  $ wifi_dm "AccessPoint.*.Status?0"
+  WiFi.AccessPoint.1.Status="Enabled"
+  WiFi.AccessPoint.2.Status="Enabled"
+  WiFi.AccessPoint.3.Status="Enabled"
+  WiFi.AccessPoint.4.Status="Enabled"
+  WiFi.AccessPoint.5.Status="Enabled"
+  WiFi.AccessPoint.6.Status="Disabled"
+  WiFi.AccessPoint.7.Status="Disabled"
+  WiFi.AccessPoint.8.Status="Disabled"
+  WiFi.AccessPoint.9.Status="Disabled"
 
-  $ check_ap_ref_ssid 6 Down
-  WiFi.AccessPoint.6 SSID Reference is Down
+Check wpacltrl socket file:
 
-  $ sleep 10
+  $ ls_ap_hapd_socket 6
+  not found
 
-  $ get_ssid_status
-  Down
-  Down
-  Down
-  Down
-  Up
-  Up
-  Up
-  Up
-  Up
+  $ ls_hapd_sockets
+  wlan2.1
+  wlan2.1_link0
+  wlan2.1_link1
+  wlan2.1_link2
+  wlan2.2
+  wlan2.2_link0
+  wlan2.2_link1
 
 Test deactivation of access point 5:
 
   $ R logger -t cram "Test AccessPoint 5 deactivation "$(get_ssid_ref 5)""
 
-  $ disable_ap 5
-  WiFi.AccessPoint.5 disabled
+  $ enable_ap_sync 5 0
+  AccessPoint.5.Enable=0
 
-  $ check_ap_ref_ssid 5 Down
-  WiFi.AccessPoint.5 SSID Reference is Down
+  $ wifi_dm "AccessPoint.*.Status?0"
+  WiFi.AccessPoint.1.Status="Enabled"
+  WiFi.AccessPoint.2.Status="Enabled"
+  WiFi.AccessPoint.3.Status="Enabled"
+  WiFi.AccessPoint.4.Status="Enabled"
+  WiFi.AccessPoint.5.Status="Disabled"
+  WiFi.AccessPoint.6.Status="Disabled"
+  WiFi.AccessPoint.7.Status="Disabled"
+  WiFi.AccessPoint.8.Status="Disabled"
+  WiFi.AccessPoint.9.Status="Disabled"
 
-  $ sleep 10
+Check wpacltrl socket file:
 
-  $ get_ssid_status
-  Down
-  Down
-  Down
-  Down
-  Down
-  Up
-  Up
-  Up
-  Up
+  $ ls_ap_hapd_socket 5
+  not found
+
+  $ ls_hapd_sockets
+  wlan2.1
+  wlan2.1_link0
+  wlan2.1_link1
+  wlan2.2
+  wlan2.2_link0
+  wlan2.2_link1
 
 Test deactivation of access point 4:
 
   $ R logger -t cram "Test AccessPoint 4 deactivation "$(get_ssid_ref 4)""
 
-  $ disable_ap 4
-  WiFi.AccessPoint.4 disabled
+  $ enable_ap_sync 4 0
+  AccessPoint.4.Enable=0
 
-  $ check_ap_ref_ssid 4 Down
-  WiFi.AccessPoint.4 SSID Reference is Down
+  $ wifi_dm "AccessPoint.*.Status?0"
+  WiFi.AccessPoint.1.Status="Enabled"
+  WiFi.AccessPoint.2.Status="Enabled"
+  WiFi.AccessPoint.3.Status="Enabled"
+  WiFi.AccessPoint.4.Status="Disabled"
+  WiFi.AccessPoint.5.Status="Disabled"
+  WiFi.AccessPoint.6.Status="Disabled"
+  WiFi.AccessPoint.7.Status="Disabled"
+  WiFi.AccessPoint.8.Status="Disabled"
+  WiFi.AccessPoint.9.Status="Disabled"
 
-  $ sleep 10
+Check wpacltrl socket file:
 
-  $ get_ssid_status
-  Down
-  Down
-  Down
-  Down
-  Down
-  Down
-  Up
-  Up
-  Up
+  $ ls_ap_hapd_socket 4
+  not found
+
+  $ ls_hapd_sockets
+  wlan2.1
+  wlan2.1_link0
+  wlan2.1_link1
+  wlan2.2
+  wlan2.2_link0
 
 Test deactivation of access point 3:
 
   $ R logger -t cram "Test AccessPoint 3 deactivation "$(get_ssid_ref 3)""
 
-  $ disable_ap 3
-  WiFi.AccessPoint.3 disabled
+  $ enable_ap_sync 3 0
+  AccessPoint.3.Enable=0
 
-  $ check_ap_ref_ssid 3 Down
-  WiFi.AccessPoint.3 SSID Reference is Down
+  $ wifi_dm "AccessPoint.*.Status?0"
+  WiFi.AccessPoint.1.Status="Enabled"
+  WiFi.AccessPoint.2.Status="Enabled"
+  WiFi.AccessPoint.3.Status="Disabled"
+  WiFi.AccessPoint.4.Status="Disabled"
+  WiFi.AccessPoint.5.Status="Disabled"
+  WiFi.AccessPoint.6.Status="Disabled"
+  WiFi.AccessPoint.7.Status="Disabled"
+  WiFi.AccessPoint.8.Status="Disabled"
+  WiFi.AccessPoint.9.Status="Disabled"
 
-  $ sleep 10
+Check wpacltrl socket file:
 
-  $ get_ssid_status
-  Down
-  Down
-  Down
-  Down
-  Down
-  Down
-  Down
-  Up
-  Up
+  $ ls_ap_hapd_socket 3
+  not found
+
+  $ ls_hapd_sockets
+  wlan2.1
+  wlan2.1_link0
+  wlan2.2
+  wlan2.2_link0
 
 Test deactivation of access point 2:
 
-  $ R logger -t cram "Test AccessPoint 2 deactivation "$(get_ssid_ref 2)""
+  $ enable_ap_sync 2 0
+  AccessPoint.2.Enable=0
 
-  $ disable_ap 2
-  WiFi.AccessPoint.2 disabled
+  $ wifi_dm "AccessPoint.*.Status?0"
+  WiFi.AccessPoint.1.Status="Enabled"
+  WiFi.AccessPoint.2.Status="Disabled"
+  WiFi.AccessPoint.3.Status="Disabled"
+  WiFi.AccessPoint.4.Status="Disabled"
+  WiFi.AccessPoint.5.Status="Disabled"
+  WiFi.AccessPoint.6.Status="Disabled"
+  WiFi.AccessPoint.7.Status="Disabled"
+  WiFi.AccessPoint.8.Status="Disabled"
+  WiFi.AccessPoint.9.Status="Disabled"
 
-  $ check_ap_ref_ssid 2 Down
-  WiFi.AccessPoint.2 SSID Reference is Down
+Check wpacltrl socket file:
 
-  $ sleep 10
+  $ ls_ap_hapd_socket 2
+  not found
 
-  $ get_ssid_status
-  Down
-  Down
-  Down
-  Down
-  Down
-  Down
-  Down
-  Down
-  Up
+  $ ls_hapd_sockets
+  wlan2.1
+  wlan2.1_link0
 
 Before deactivating last AP (ie stopping hostpad), check if hostap pid has changed or not:
 
@@ -520,24 +667,27 @@ Test deactivation of access point 1:
 
   $ R logger -t cram "Test AccessPoint 1 deactivation "$(get_ssid_ref 1)""
 
-  $ disable_ap 1
-  WiFi.AccessPoint.1 disabled
+  $ enable_ap_sync 1 0
+  AccessPoint.1.Enable=0
 
-  $ check_ap_ref_ssid 1 Down
-  WiFi.AccessPoint.1 SSID Reference is Down
+  $ wifi_dm "AccessPoint.*.Status?0"
+  WiFi.AccessPoint.1.Status="Disabled"
+  WiFi.AccessPoint.2.Status="Disabled"
+  WiFi.AccessPoint.3.Status="Disabled"
+  WiFi.AccessPoint.4.Status="Disabled"
+  WiFi.AccessPoint.5.Status="Disabled"
+  WiFi.AccessPoint.6.Status="Disabled"
+  WiFi.AccessPoint.7.Status="Disabled"
+  WiFi.AccessPoint.8.Status="Disabled"
+  WiFi.AccessPoint.9.Status="Disabled"
 
-  $ sleep 5
+Check wpacltrl socket file:
 
-  $ get_ssid_status
-  Down
-  Down
-  Down
-  Down
-  Down
-  Down
-  Down
-  Down
-  Down
+  $ ls_ap_hapd_socket 1
+  not found
+
+  $ ls_hapd_sockets
+  ls: /var/run/hostapd/: No such file or directory
 
 Check if hostapd process is stopped:
 
@@ -552,7 +702,7 @@ Resume prplMesh:
 
 Wait 20s before leaving the test:
 
-  $ sleep 20
+  $ sleep 5
 
   $ R logger -t cram "Test finished!"
 
