@@ -86,6 +86,11 @@ Check AccessPoints status:
   WiFi.AccessPoint.8.Status="Enabled"
   WiFi.AccessPoint.9.Status="Enabled"
 
+Save hostap pid:
+
+  $ hostap_pid=$(R pgrep -f 'hostapd')
+  $ R logger -t cram "hostap PID : $hostap_pid"
+
 Read private and guest MLDUnit:
 
   $ private_mldunit=$(get_private_mldunit)
@@ -101,6 +106,9 @@ Check private APMLD number of links:
   channel 1 .* (re)
   channel 36 .* (re)
   channel 37 .* (re)
+  link 0
+  link 1
+  link 2
 
 Check APMLD 2 number (guest vaps) of links:
 
@@ -111,6 +119,9 @@ Check APMLD 2 number (guest vaps) of links:
   channel 1 .* (re)
   channel 36 .* (re)
   channel 37 .* (re)
+  link 0
+  link 1
+  link 2
 
 Read all link IDs (3 links per MLD):
 (LinkID values do not matter, uniqueness will be checked implicitly later)
@@ -176,6 +187,26 @@ Cross check Affilated MACs addresses (guest):
   link \d+ addr ([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2} (re)
   link \d+ addr ([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2} (re)
 
+Check wpacltrl socket file: default status
+
+  $ ls_hapd_sockets
+  wlan2.1
+  wlan2.1_link0
+  wlan2.1_link1
+  wlan2.1_link2
+  wlan2.2
+  wlan2.2_link0
+  wlan2.2_link1
+  wlan2.2_link2
+  wlan2.3
+  wlan2.3_link0
+  wlan2.3_link1
+  wlan2.3_link2
+
+#########################################
+#  Unset MLDUnit of one priv SSID       #
+#########################################
+
 Remove AP1 (private) from its APMLD:
 
   $ R logger -t cram "Remove AP1 from its APMLD"
@@ -191,6 +222,8 @@ Check private APMLD number of links:
   addr ([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2} (re)
   channel 36 .* (re)
   channel 37 .* (re)
+  link 0
+  link 1
 
 Read AffiliatedAP MAC addresses:
 
@@ -203,6 +236,28 @@ Check link id of private MLD:
   $ wifi_dm "APMLD.[ MLDID == ${private_mldunit} ].AffiliatedAP.*.LinkID?"
   WiFi.APMLD.1.AffiliatedAP.1.LinkID=0
   WiFi.APMLD.1.AffiliatedAP.2.LinkID=1
+
+Check wpacltrl socket file: update of main link interface
+AP1 (wlan2.1) was the primary link, private MLD should have now another main
+link interface with 2 links and AP1 interface should appear with no link (ie MLDUnit=-1)
+
+  $ ls_hapd_sockets
+  wlan1.1
+  wlan1.1_link0
+  wlan1.1_link1
+  wlan2.1
+  wlan2.2
+  wlan2.2_link0
+  wlan2.2_link1
+  wlan2.2_link2
+  wlan2.3
+  wlan2.3_link0
+  wlan2.3_link1
+  wlan2.3_link2
+
+#########################################
+# Restore MLDUnit                       #
+#########################################
 
 Move back AP1 to its previous APMLD:
 
@@ -221,6 +276,31 @@ Check private APMLD number of links:
   channel 1 .* (re)
   channel 36 .* (re)
   channel 37 .* (re)
+  link 0
+  link 1
+  link 2
+
+Check wpacltrl socket file: AP1 (wlan2.1) turns back to previous MLD,
+main link interface (wlan1.1) shouldn't change. private MLD should
+have again 3 links
+
+  $ ls_hapd_sockets
+  wlan1.1
+  wlan1.1_link0
+  wlan1.1_link1
+  wlan1.1_link2
+  wlan2.2
+  wlan2.2_link0
+  wlan2.2_link1
+  wlan2.2_link2
+  wlan2.3
+  wlan2.3_link0
+  wlan2.3_link1
+  wlan2.3_link2
+
+#########################################
+# Set a distinct MLDUnit                #
+#########################################
 
 Move AP1 to a new APMLD:
 
@@ -237,12 +317,15 @@ Check private APMLD number of links:
   addr ([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2} (re)
   channel 36 .* (re)
   channel 37 .* (re)
+  link 0
+  link 1
 
 Check the new APMLD 3 number of links:
 
   $ iw_affliated_link_info_from_mldid ${test_mldunit}
   addr ([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2} (re)
   channel 1 .* (re)
+  link 0
 
 Read AffiliatedAP MAC addresses:
 
@@ -253,7 +336,29 @@ Read AffiliatedAP MAC addresses:
   $ iw_affilated_mac_list_from_mldid ${test_mldunit}
   link \d+ addr ([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2} (re)
 
-Move back AP1 to its  APMLD
+Check wpacltrl socket file: AP1 interface (wlan2.1) should appear as
+main link interface with one link
+
+  $ ls_hapd_sockets
+  wlan1.1
+  wlan1.1_link0
+  wlan1.1_link1
+  wlan2.1
+  wlan2.1_link0
+  wlan2.2
+  wlan2.2_link0
+  wlan2.2_link1
+  wlan2.2_link2
+  wlan2.3
+  wlan2.3_link0
+  wlan2.3_link1
+  wlan2.3_link2
+
+#########################################
+# Restore MLDUnit                       #
+#########################################
+
+Move back AP1 to its APMLD:
 
   $ R logger -t cram "Move back AP1 to its previous APMLD"
   $ wifi_dm "AccessPoint.1.SSIDReference+.MLDUnit=${private_mldunit}"
@@ -270,11 +375,18 @@ Check private APMLD number of links:
   channel 1 .* (re)
   channel 36 .* (re)
   channel 37 .* (re)
+  link 0
+  link 1
+  link 2
 
 Check if new APMLD was cleared:
 
   $ get_apmld_mac_from_dm ${test_mldunit}
   not_found
+
+#########################################
+# Test Guest MLD deactivation           #
+#########################################
 
 Disable guest vaps:
 
@@ -302,7 +414,17 @@ Check if guest apmld is cleared:
   WiFi.APMLD.2.MLDID=1
   WiFi.APMLD.2.MLDMACAddress=""
 
-Disable all AP:
+
+#########################################
+# Terminate test                       #
+#########################################
+
+Before deactivating all vaps, check if hostap pid has changed or not:
+
+  $ if [ "$(R pgrep -f 'hostapd')" = "$hostap_pid" ]; then echo "true"; else echo "hostap restarted during the test !"; fi
+  true
+
+Disable all vaps:
 
   $ R logger -t cram "Disable all vaps"
   $ wifi_dm "AccessPoint.*.Enable=0"
