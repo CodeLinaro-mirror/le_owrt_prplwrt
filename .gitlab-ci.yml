@@ -1,7 +1,7 @@
 variables:
   CI_DESIGNATED_BRANCH: prpl/nightly
   CI_DESIGNATED_BRANCH_SLUG: prpl-nightly
-  PFD_PIPELINE_ID: "2333321579"
+  PFD_PIPELINE_ID: "2353872696"
   PFD_BINARY_URL: "https://gitlab.com/ynezz/prplos-ci-build-artifacts/-/jobs/13116912273/artifacts/raw/pfd-linux-amd64"
 
 include:
