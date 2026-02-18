@@ -13,4 +13,4 @@
     TFTP_IMAGE_FILENAME_PATTERN: /.*prplos-ipq95xx-generic-prpl_freedom-initramfs-uImage.itb/
     CDROUTER_CONFIG_LAN_IFACE_ALIAS: cpe-lan1
   tags:
-    - dut-wnc-freedom
+    - dut-wnc-freedom-fast
