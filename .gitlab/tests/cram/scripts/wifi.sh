@@ -45,6 +45,32 @@ wifi_dm_radio_band() {
   wifi_dm "Radio.${rad_filter}.${obj}"
 }
 
+# getEHTOperations helper with normalized output
+# In : band (2.4, 5, 6)
+# Out : sorted key=value lines from getEHTOperations()
+get_eht_ops() {
+  local band="$1"
+  local freq_band
+
+  if [ "$band" = "2.4" ] || [ "$band" = "2" ] || [ "$band" = "2.4GHz" ]; then
+    freq_band="2.4GHz"
+  elif [ "$band" = "5" ] || [ "$band" = "5GHz" ]; then
+    freq_band="5GHz"
+  elif [ "$band" = "6" ] || [ "$band" = "6GHz" ]; then
+    freq_band="6GHz"
+  else
+    R logger -t cram "get_eht_ops: unknown band: $band"
+    echo "get_eht_ops: unknown band: $band"
+    return 1
+  fi
+
+  R "ba-cli -l \"WiFi.Radio.[OperatingFrequencyBand=='${freq_band}'].getEHTOperations()\"" |
+    awk '/^\[/ {f=1; next} /^\]/ {f=0} f' |
+    tr -d ' {}[],' |
+    sed '/^$/d' |
+    sort
+}
+
 # Enable AccessPoints
 # In : AccessPoint object index
 # Out : "enabled" if success, empty otherwise
