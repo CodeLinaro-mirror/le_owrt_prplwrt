@@ -92,7 +92,7 @@ Check EhtPhyCapabilities, EhtPhyCapabilitiesStr, CurrentEhtOperatingIE and getEH
   $ wifi_dm_radio_band 2 "CurrentEhtOperatingIE?"
   WiFi.Radio.\d+.CurrentEhtOperatingIE="AAFEREREAQMAAAA=" (re)
 
-  $ R "ba-cli -l \"WiFi.Radio.[OperatingFrequencyBand=='2.4GHz'].getEHTOperations()\"" | awk '/^\[/ {f=1; next} /^\]/ {f=0} f'  | tr -d ' {}[],'  | sed '/^$/d' | sort
+  $ get_eht_ops 2.4
   BasicEHT-MCSAndNssSet=1145324612
   CCFS0=3
   CCFS1=0
@@ -119,7 +119,7 @@ Downgrade to AX operating mode:
   $ wifi_dm_radio_band 2 "CurrentEhtOperatingIE?"
   WiFi.Radio.\d+.CurrentEhtOperatingIE="AAAAAAAAAAAAAAA=" (re)
 
-  $ R "ba-cli -l \"WiFi.Radio.[OperatingFrequencyBand=='2.4GHz'].getEHTOperations()\"" | awk '/^\[/ {f=1; next} /^\]/ {f=0} f'  | tr -d ' {}[],'  | sed '/^$/d' | sort
+  $ get_eht_ops 2.4
   BasicEHT-MCSAndNssSet=0
   CCFS0=0
   CCFS1=0
@@ -152,7 +152,7 @@ Check EhtPhyCapabilities, EhtPhyCapabilitiesStr, CurrentEhtOperatingIE and getEH
   $ wifi_dm_radio_band 5 "CurrentEhtOperatingIE?"
   WiFi.Radio.\d+.CurrentEhtOperatingIE="AAFEREREAioAAAA=" (re)
 
-  $ R "ba-cli -l \"WiFi.Radio.[OperatingFrequencyBand=='5GHz'].getEHTOperations()\"" | awk '/^\[/ {f=1; next} /^\]/ {f=0} f'  | tr -d ' {}[],'  | sed '/^$/d' | sort
+  $ get_eht_ops 5
   BasicEHT-MCSAndNssSet=1145324612
   CCFS0=42
   CCFS1=0
@@ -170,7 +170,7 @@ Disable channels 40,48:
 
   $ sleep 5
 
-  $ R "ba-cli -l \"WiFi.Radio.[OperatingFrequencyBand=='5GHz'].getEHTOperations()\"" | awk '/^\[/ {f=1; next} /^\]/ {f=0} f'  | tr -d ' {}[],'  | sed '/^$/d' | sort
+  $ get_eht_ops 5
   BasicEHT-MCSAndNssSet=1145324612
   CCFS0=42
   CCFS1=0
@@ -188,7 +188,7 @@ Disable channels 40,44,48:
 
   $ sleep 5
 
-  $ R "ba-cli -l \"WiFi.Radio.[OperatingFrequencyBand=='5GHz'].getEHTOperations()\"" | awk '/^\[/ {f=1; next} /^\]/ {f=0} f'  | tr -d ' {}[],'  | sed '/^$/d' | sort
+  $ get_eht_ops 5
   BasicEHT-MCSAndNssSet=1145324612
   CCFS0=42
   CCFS1=0
@@ -220,7 +220,7 @@ Downgrade to AX operating mode:
   $ wifi_dm_radio_band 5 "CurrentEhtOperatingIE?"
   WiFi.Radio.\d+.CurrentEhtOperatingIE="AAAAAAAAAAAAAAA=" (re)
 
-  $ R "ba-cli -l \"WiFi.Radio.[OperatingFrequencyBand=='5GHz'].getEHTOperations()\"" | awk '/^\[/ {f=1; next} /^\]/ {f=0} f'  | tr -d ' {}[],'  | sed '/^$/d' | sort
+  $ get_eht_ops 5
   BasicEHT-MCSAndNssSet=0
   CCFS0=0
   CCFS1=0
@@ -258,7 +258,7 @@ Check EhtPhyCapabilities, EhtPhyCapabilitiesStr, CurrentEhtOperatingIE and getEH
   $ wifi_dm_radio_band 6 "CurrentEhtOperatingIE?"
   WiFi.Radio.\d+.CurrentEhtOperatingIE="AAFEREREAycvAAA=" (re)
 
-  $ R "ba-cli -l \"WiFi.Radio.[OperatingFrequencyBand=='6GHz'].getEHTOperations()\"" | awk '/^\[/ {f=1; next} /^\]/ {f=0} f'  | tr -d ' {}[],'  | sed '/^$/d' | sort
+  $ get_eht_ops 6
   BasicEHT-MCSAndNssSet=1145324612
   CCFS0=39
   CCFS1=47
@@ -276,7 +276,7 @@ Disable channels 49,53:
 
   $ sleep 5
 
-  $ R "ba-cli -l \"WiFi.Radio.[OperatingFrequencyBand=='6GHz'].getEHTOperations()\"" | awk '/^\[/ {f=1; next} /^\]/ {f=0} f'  | tr -d ' {}[],'  | sed '/^$/d' | sort
+  $ get_eht_ops 6
   BasicEHT-MCSAndNssSet=1145324612
   CCFS0=39
   CCFS1=47
@@ -294,7 +294,7 @@ Disable channels 53,57,61:
 
   $ sleep 5
 
-  $ R "ba-cli -l \"WiFi.Radio.[OperatingFrequencyBand=='6GHz'].getEHTOperations()\"" | awk '/^\[/ {f=1; next} /^\]/ {f=0} f'  | tr -d ' {}[],'  | sed '/^$/d' | sort
+  $ get_eht_ops 6
   BasicEHT-MCSAndNssSet=1145324612
   CCFS0=39
   CCFS1=47
@@ -326,7 +326,7 @@ Downgrade to AX operating mode:
   $ wifi_dm_radio_band 6 "CurrentEhtOperatingIE?"
   WiFi.Radio.\d+.CurrentEhtOperatingIE="AAAAAAAAAAAAAAA=" (re)
 
-  $ R "ba-cli -l \"WiFi.Radio.[OperatingFrequencyBand=='6GHz'].getEHTOperations()\"" | awk '/^\[/ {f=1; next} /^\]/ {f=0} f'  | tr -d ' {}[],'  | sed '/^$/d' | sort
+  $ get_eht_ops 6
   BasicEHT-MCSAndNssSet=0
   CCFS0=0
   CCFS1=0
