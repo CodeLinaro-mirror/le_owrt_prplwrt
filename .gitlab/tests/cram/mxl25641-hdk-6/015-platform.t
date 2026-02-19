@@ -54,3 +54,8 @@ Check that ethernet-manager configuration contains expected CPE aliases based on
   cpe-lan2
   cpe-lan3
   cpe-sfp
+
+Check altname for ethernet wan interface:
+
+  $ R "ip link show dev eth1" | grep -o  'altname [^ ]\+' | awk '{print $2}'
+  sfp0
