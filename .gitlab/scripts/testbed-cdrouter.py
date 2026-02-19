@@ -7,6 +7,7 @@ import os
 import sys
 import time
 import logging
+import yaml
 import humanize
 
 from dataclasses import dataclass
@@ -257,7 +258,9 @@ class TestbedCDRouter:
             if timeout and (time.time() - start_time) >= timeout:
                 elapsed = time.time() - start_time
                 logging.error(
-                    "Test execution timeout exceeded after {}.".format(humanize.naturaldelta(elapsed))
+                    "Test execution timeout exceeded after {}.".format(
+                        humanize.naturaldelta(elapsed)
+                    )
                 )
                 self.package_stop()
                 return False
@@ -513,6 +516,271 @@ class TestbedCDRouter:
         self.cdr.configs.create(config)
         logging.info("Imported config '{}' from '{}'".format(name, self.args.filename))
 
+    def resolve_manifest(
+        self, manifest_path, visited=None, root_manifest_path=None, dedup_tests=None
+    ):
+        manifest_path = os.path.realpath(manifest_path)
+        packages_dir = os.path.realpath(self.packages_path)
+        groups_dir = os.path.realpath(os.path.join(packages_dir, "groups"))
+        allowed_keys = {
+            "name",
+            "description",
+            "includes",
+            "tests",
+            "options",
+            "dedup_tests",
+        }
+
+        if not manifest_path.startswith(packages_dir + os.sep):
+            logging.error(
+                "Manifest path '{}' is outside packages directory '{}'".format(
+                    manifest_path, packages_dir
+                )
+            )
+            exit(1)
+
+        if visited is None:
+            visited = []
+
+        if root_manifest_path is None:
+            root_manifest_path = manifest_path
+
+        if manifest_path in visited:
+            cycle_path = " -> ".join(visited + [manifest_path])
+            logging.error("Include cycle detected: {}".format(cycle_path))
+            exit(1)
+
+        if not os.path.isfile(manifest_path):
+            logging.error("Package manifest not found: {}".format(manifest_path))
+            exit(1)
+
+        with open(manifest_path, "r") as f:
+            manifest = yaml.safe_load(f)
+
+        if not isinstance(manifest, dict):
+            logging.error("Invalid manifest format in '{}'".format(manifest_path))
+            exit(1)
+
+        forbidden = {"config", "device", "config_id", "device_id"}
+        found = forbidden & set(manifest.keys())
+        if found:
+            logging.error(
+                "Forbidden keys in '{}': {}".format(
+                    manifest_path, ", ".join(sorted(found))
+                )
+            )
+            exit(1)
+
+        unknown = set(manifest.keys()) - allowed_keys
+        if unknown:
+            logging.error(
+                "Unknown manifest keys in '{}': {}".format(
+                    manifest_path, ", ".join(sorted(unknown))
+                )
+            )
+            exit(1)
+
+        is_group_manifest = manifest_path == groups_dir or manifest_path.startswith(
+            groups_dir + os.sep
+        )
+        if is_group_manifest:
+            group_forbidden = {"name", "description", "options"}
+            group_found = group_forbidden & set(manifest.keys())
+            if group_found:
+                logging.error(
+                    "Group manifest '{}' must not define: {}".format(
+                        manifest_path, ", ".join(sorted(group_found))
+                    )
+                )
+                exit(1)
+
+        if "name" in manifest and not isinstance(manifest["name"], str):
+            logging.error(
+                "Manifest 'name' must be a string in '{}'".format(manifest_path)
+            )
+            exit(1)
+
+        if "description" in manifest and not isinstance(manifest["description"], str):
+            logging.error(
+                "Manifest 'description' must be a string in '{}'".format(manifest_path)
+            )
+            exit(1)
+
+        if "dedup_tests" in manifest and not isinstance(manifest["dedup_tests"], bool):
+            logging.error(
+                "Manifest 'dedup_tests' must be a boolean in '{}'".format(
+                    manifest_path
+                )
+            )
+            exit(1)
+
+        includes = manifest.get("includes", [])
+        if not isinstance(includes, list) or not all(
+            isinstance(entry, str) for entry in includes
+        ):
+            logging.error(
+                "Manifest 'includes' must be a list of strings in '{}'".format(
+                    manifest_path
+                )
+            )
+            exit(1)
+
+        tests = manifest.get("tests")
+        if not isinstance(tests, list) or not all(
+            isinstance(entry, str) for entry in tests
+        ):
+            logging.error(
+                "Manifest 'tests' must be a list of strings in '{}'".format(
+                    manifest_path
+                )
+            )
+            exit(1)
+
+        options = manifest.get("options", {})
+        if options is None:
+            options = {}
+        if not isinstance(options, dict):
+            logging.error(
+                "Manifest 'options' must be a map in '{}'".format(manifest_path)
+            )
+            exit(1)
+
+        if manifest_path == root_manifest_path:
+            expected_name = os.path.splitext(os.path.basename(manifest_path))[0]
+            name = manifest.get("name")
+            if not name:
+                logging.error(
+                    "Root manifest '{}' must define non-empty 'name'".format(
+                        manifest_path
+                    )
+                )
+                exit(1)
+            dedup_tests = manifest.get("dedup_tests", False)
+            if name != expected_name:
+                logging.error(
+                    "Manifest name '{}' does not match filename '{}'".format(
+                        name, expected_name
+                    )
+                )
+                exit(1)
+        else:
+            if "dedup_tests" in manifest:
+                logging.error(
+                    "Manifest '{}' must not define 'dedup_tests' "
+                    "(root manifest only)".format(manifest_path)
+                )
+                exit(1)
+            if dedup_tests is None:
+                dedup_tests = False
+
+        # Process includes depth-first
+        all_tests = []
+        all_options = {}
+        manifest_dir = os.path.dirname(manifest_path)
+
+        for inc in includes:
+            if os.path.isabs(inc):
+                logging.error(
+                    "Include path '{}' in '{}' must be relative".format(
+                        inc, manifest_path
+                    )
+                )
+                exit(1)
+
+            inc_path = os.path.realpath(os.path.join(manifest_dir, inc))
+            resolved = self.resolve_manifest(
+                inc_path,
+                visited=visited + [manifest_path],
+                root_manifest_path=root_manifest_path,
+                dedup_tests=dedup_tests,
+            )
+            all_tests.extend(resolved.get("tests", []))
+            all_options.update(resolved.get("options", {}))
+
+        # Append current manifest's tests
+        all_tests.extend(tests)
+
+        if dedup_tests:
+            # Dedup: keep first occurrence
+            seen = set()
+            resolved_tests = []
+            for t in all_tests:
+                if t not in seen:
+                    seen.add(t)
+                    resolved_tests.append(t)
+        else:
+            resolved_tests = all_tests
+
+        # Root options win on conflicts
+        all_options.update(options)
+
+        return {
+            "name": manifest.get("name", ""),
+            "description": manifest.get("description", ""),
+            "tests": resolved_tests,
+            "options": all_options,
+        }
+
+    def build_package_options(self, options):
+        from cdrouter.packages import Options as PackageOptions
+
+        package_options = PackageOptions()
+        for key, value in options.items():
+            if not hasattr(package_options, key):
+                logging.error("Unknown package option '{}'".format(key))
+                exit(1)
+            setattr(package_options, key, value)
+
+        return package_options
+
+    def package_apply(self):
+        self.connect()
+
+        manifest_path = os.path.join(
+            self.packages_path, self.args.package_name + ".yaml"
+        )
+        resolved = self.resolve_manifest(manifest_path)
+
+        name = resolved["name"]
+        tests = resolved["tests"]
+        description = resolved.get("description", "")
+        options = resolved.get("options", {})
+
+        if not name:
+            logging.error(
+                "Resolved manifest name is empty for '{}'".format(manifest_path)
+            )
+            exit(1)
+
+        if not tests:
+            logging.error("Resolved manifest has empty test list for '{}'".format(name))
+            exit(1)
+
+        package_options = self.build_package_options(options)
+
+        existing = None
+        try:
+            existing = self.cdr.packages.get_by_name(name)
+        except CDRouterError as e:
+            if "not found" not in str(e).lower():
+                raise
+
+        if existing:
+            p = self.cdr.packages.get(existing.id)
+            p.testlist = tests
+            p.description = description or ""
+            p.options = package_options
+            self.cdr.packages.edit(p)
+            logging.info("Updated package '{}' with {} tests".format(name, len(tests)))
+            return
+
+        from cdrouter.packages import Package
+
+        p = Package(name=name, description=description or "", testlist=tests)
+        p.options = package_options
+        p = self.cdr.packages.create(p)
+        logging.info("Created package '{}' with {} tests".format(name, len(tests)))
+
 
 def main():
     logging.basicConfig(
@@ -574,6 +842,14 @@ def main():
     subparser.add_argument("filename", help="package filename")
     subparser.add_argument("-n", "--name", help="package name, (default: filename)")
     subparser.set_defaults(func=TestbedCDRouter.package_import)
+
+    subparser = subparsers.add_parser(
+        "package_apply", help="apply package from YAML manifest"
+    )
+    subparser.add_argument(
+        "package_name", help="package name (resolves to packages/<name>.yaml)"
+    )
+    subparser.set_defaults(func=TestbedCDRouter.package_apply)
 
     subparser = subparsers.add_parser("config_export", help="export configuration")
     subparser.add_argument("name", help="configuration name")
