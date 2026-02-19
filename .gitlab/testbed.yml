@@ -99,9 +99,13 @@
       TEST_CUTOFF_TIMEOUT=$((CI_JOB_TIMEOUT - DUT_SLEEP_AFTER_BOOT - TEST_SETUP_TEARDOWN_DURATION))
       echo "Job timeout: $CI_JOB_TIMEOUT seconds, test cutoff timeout: $TEST_CUTOFF_TIMEOUT seconds"
 
+    - echo "--- RAW DESCRIPTION START ---"
+    - printf "%s\n" "$CI_MERGE_REQUEST_DESCRIPTION"
+    - echo "--- RAW DESCRIPTION END ---"
+
     - |
-      export CRAM_TEST_SUITE_CUSTOM=$(echo "$CI_MERGE_REQUEST_DESCRIPTION" | sed -n '/CUSTOM_CRAM_LIST:/,/^$/p' | tail -n +2 | xargs)
-    
+      export CRAM_TEST_SUITE_CUSTOM=$(echo "$CI_MERGE_REQUEST_DESCRIPTION" | grep "xCUSTOM_CRAM_RUNx:" | sed 's/xCUSTOM_CRAM_RUNx:[[:space:]]*//g' | xargs)
+
     # If CRAM_TEST_SUITE_CUSTOM is not empty, override the main SUITE variable
     - |
       if [ -n "$CRAM_TEST_SUITE_CUSTOM" ]; then
