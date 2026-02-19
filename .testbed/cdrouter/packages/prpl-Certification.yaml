@@ -1,0 +1,6 @@
+name: prpl-Certification
+description: prpl Certification test suite
+tests:
+- MODULE_prpl-hl-api.tcl
+- MODULE_prpl-hl-api-cwmp.tcl
+- MODULE_prplos.tcl
