@@ -1,0 +1,33 @@
+name: CDRouter-UPnP-IPv46-Failing
+description: CDRouter test cases from both UPnP modules which are currently failing
+tests:
+- cdrouter_upnp_203
+- cdrouter_upnp_204
+- cdrouter_upnp_220
+- cdrouter_upnp_igd2_203
+- cdrouter_upnp_igd2_204
+- cdrouter_upnp_igd2_220
+- ipv6_upnp_35
+- ipv6_upnp_36
+- ipv6_upnp_40
+- ipv6_upnp_41
+- ipv6_upnp_45
+- ipv6_upnp_50
+- ipv6_upnp_100
+- ipv6_upnp_203
+- ipv6_upnp_204
+- ipv6_upnp_220
+- ipv6_upnp_igd2_20
+- ipv6_upnp_igd2_25
+- ipv6_upnp_igd2_35
+- ipv6_upnp_igd2_36
+- ipv6_upnp_igd2_40
+- ipv6_upnp_igd2_41
+- ipv6_upnp_igd2_45
+- ipv6_upnp_igd2_50
+- ipv6_upnp_igd2_100
+- ipv6_upnp_igd2_200
+- ipv6_upnp_igd2_203
+- ipv6_upnp_igd2_204
+- ipv6_upnp_igd2_220
+- ipv6_upnp_igd2_307
