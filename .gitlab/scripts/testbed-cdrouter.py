@@ -782,6 +782,33 @@ class TestbedCDRouter:
         p = self.cdr.packages.create(p)
         logging.info("Created package '{}' with {} tests".format(name, len(tests)))
 
+    def package_validate(self):
+        manifest_path = os.path.join(
+            self.packages_path, self.args.package_name + ".yaml"
+        )
+        resolved = self.resolve_manifest(manifest_path)
+
+        name = resolved["name"]
+        tests = resolved["tests"]
+        options = resolved.get("options", {})
+
+        if not name:
+            logging.error(
+                "Resolved manifest name is empty for '{}'".format(manifest_path)
+            )
+            exit(1)
+
+        if not tests:
+            logging.error("Resolved manifest has empty test list for '{}'".format(name))
+            exit(1)
+
+        self.build_package_options(options)
+        logging.info(
+            "Validated package manifest '{}' as '{}' with {} tests".format(
+                manifest_path, name, len(tests)
+            )
+        )
+
 
 def main():
     logging.basicConfig(
@@ -851,6 +878,14 @@ def main():
         "package_name", help="package name (resolves to packages/<name>.yaml)"
     )
     subparser.set_defaults(func=TestbedCDRouter.package_apply)
+
+    subparser = subparsers.add_parser(
+        "package_validate", help="validate package YAML manifest"
+    )
+    subparser.add_argument(
+        "package_name", help="package name (resolves to packages/<name>.yaml)"
+    )
+    subparser.set_defaults(func=TestbedCDRouter.package_validate)
 
     subparser = subparsers.add_parser("config_export", help="export configuration")
     subparser.add_argument("name", help="configuration name")
