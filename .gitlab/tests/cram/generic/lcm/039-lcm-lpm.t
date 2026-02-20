@@ -146,16 +146,17 @@ wait for cthulhu to terminate all containers and itself, before clear its data
   ]
   
 ### terminate LCM and remove all boot-persistent data that is not upgrade-persistent. ###
+### Stopping Cthulhu by sending a signal to the main process, as the init script kills the process (forcefully) after a timeout. The stopping of the containers is done in parallel, thus depending on the number of containers to stop and the configured graceful shutdown.
 
   $ R "ls -l /cfg/pcm/cthulhu*"
   -rw-r--r--    1 root * /cfg/pcm/cthulhu_Cthulhu.json (glob)
-  $ R "/etc/init.d/cthulhu stop"
+  $ R "kill \$(cat /var/run/cthulhu.pid)"
   $ R "/etc/init.d/rlyeh stop"
   $ R "/etc/init.d/timingila stop"
 
 wait for cthulhu to terminate all containers and itself, before clear its data
 
-  $ R "while [ -n \"$(pidof cthulhu)\" ]; do sleep 1; done"
+  $ R "while [ -n \"\$(pidof cthulhu)\" ]; do sleep 1; done"
   $ R "rm -rf /etc/config/cthulhu/*"
   $ R "rm -rf /etc/config/lxc/*"
   $ R "rm -rf /etc/config/rlyeh/*"
