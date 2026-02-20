@@ -111,7 +111,7 @@ class TestbedDevice:
             'ubus call WANManager setWANMode \'{ "WANMode": "Ethernet_DHCP" }\''
         )
 
-    def _init_lan_vlan(self):
+    def _bridge_lan_port(self):
         bridge_lan_ports = {
             "mxl,osp-tb341-v2": "Bridging.Bridge.1.Port.4",
             "mxl,osp-tb341": "Bridging.Bridge.1.Port.3",
@@ -120,10 +120,13 @@ class TestbedDevice:
             "cznic,turris-omnia": "Bridging.Bridge.2.Port.5",
             "EASY350 ANYWAN (GRX350) Axepoint Asurada model": "Bridging.Bridge.1.Port.5",
         }
-        bridge_vlan_port = bridge_lan_ports.get(
+        return bridge_lan_ports.get(
             self.board_name,
             bridge_lan_ports.get(self.model, "Bridging.Bridge.1.Port.2"),
         )
+
+    def _init_lan_vlan(self):
+        bridge_vlan_port = self._bridge_lan_port()
 
         self.shell.run('ubus-cli Bridging.Bridge.1.Standard="802.1Q-2005"')
         self.shell.run(
@@ -168,6 +171,73 @@ class TestbedDevice:
         self.shell.run("ip address show vlan201")
         self.shell.run("brctl show")
         self.shell.run("ip route show")
+
+    def restore_vlan_management(self):
+        self.init_shell()
+
+        system_info = self.shell.ubus_call("system board")
+        if not system_info:
+            logging.error("Unable to determine running DUT board!")
+            return
+
+        self.model = system_info["model"]
+        self.board_name = system_info["board_name"]
+        bridge_vlan_port = self._bridge_lan_port()
+        logging.info(
+            f"Restoring VLAN management connectivity for `{self.board_name}` "
+            f"board, model `{self.model}`."
+        )
+
+        logging.info("Dumping VLAN datamodel state before restore ...")
+        self.shell.run("ba-cli 'Bridging.Bridge.1.VLAN.?'")
+        self.shell.run("ba-cli 'Bridging.Bridge.1.VLANPort.?'")
+        self.shell.run("ba-cli 'Ethernet.VLANTermination.?'")
+        self.shell.run(f"ba-cli '{bridge_vlan_port}.?'")
+        self.shell.run("ba-cli 'WANManager.WAN.2.Intf.?'")
+        self.shell.run("ip address show")
+        self.shell.run("brctl show")
+        self.shell.run("ip route show")
+
+        logging.info("Resetting WAN VLAN IDs and reapplying Ethernet_DHCP mode ...")
+        self.shell.run("ba-cli WANManager.WAN.2.Intf.1.VlanID=0")
+        self.shell.run("ba-cli WANManager.WAN.2.Intf.2.VlanID=0")
+        self.shell.run(
+            'ubus call WANManager setWANMode \'{ "WANMode": "Ethernet_DHCP" }\''
+        )
+
+        logging.info("Deleting VLAN and VLANPort objects ...")
+        self.shell.run("ba-cli 'Bridging.Bridge.1.VLANPort.1.-'")
+        self.shell.run("ba-cli 'Bridging.Bridge.1.VLAN.1.-'")
+
+        logging.info("Restoring bridge standard to 802.1Q-2011 ...")
+        self.shell.run('ba-cli Bridging.Bridge.1.Standard="802.1Q-2011"')
+
+        logging.info("Restoring LAN bridge port %s to VLANUnawarePort ...", bridge_vlan_port)
+        self.shell.run(f'ba-cli {bridge_vlan_port}.AcceptableFrameTypes="AdmitAll"')
+        self.shell.run(f'ba-cli {bridge_vlan_port}.PVID="1"')
+        self.shell.run(f'ba-cli {bridge_vlan_port}.Type="VLANUnawarePort"')
+
+        logging.info("Toggling %s Enable to force bridge re-evaluation ...", bridge_vlan_port)
+        self.shell.run(f"ba-cli {bridge_vlan_port}.Enable=0")
+        self.shell.run(f"ba-cli {bridge_vlan_port}.Enable=1")
+
+        logging.info("Dumping VLAN datamodel state after restore ...")
+        self.shell.run("ba-cli 'Bridging.Bridge.1.VLAN.?'")
+        self.shell.run("ba-cli 'Bridging.Bridge.1.VLANPort.?'")
+        self.shell.run("ba-cli 'Ethernet.VLANTermination.?'")
+        self.shell.run(f"ba-cli '{bridge_vlan_port}.?'")
+        self.shell.run("ba-cli 'WANManager.WAN.2.Intf.?'")
+        self.shell.run("ip address show")
+        self.shell.run("brctl show")
+        self.shell.run("ip route show")
+
+        logging.info("Verifying management connectivity with ping ...")
+        try:
+            self.shell_driver.wait_for(
+                "ping -c1 192.168.1.2 || true", ", 0% packet loss", 20.0
+            )
+        except ExecutionError:
+            logging.warning("VLAN restore: ping to 192.168.1.2 timed out")
 
     def console_dump_system_state(self):
         self.init_shell()
@@ -306,6 +376,12 @@ def main():
         "init_vlans", help="initialize VLAN configuration"
     )
     subparser.set_defaults(func=TestbedDevice.init_vlans)
+
+    subparser = subparsers.add_parser(
+        "restore_vlan_management",
+        help="restore management connectivity after VLAN testing",
+    )
+    subparser.set_defaults(func=TestbedDevice.restore_vlan_management)
 
     subparser = subparsers.add_parser(
         "console_dump_system_state", help="dump system state using serial console"
