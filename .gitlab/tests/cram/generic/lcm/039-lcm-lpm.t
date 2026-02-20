@@ -276,4 +276,21 @@ wait for cthulhu to terminate all containers and itself, before clear its data
   Device.SoftwareModules.LocalManagement.Action.*.Status="Success" (glob)
   Device.SoftwareModules.LocalManagement.Action.*.UUID="00000000-0000-5000-b000-000000000002" (glob)
   
+## clean up all containers ##
+
+  $ R "ba-cli 'SoftwareModules.DeploymentUnit.*.Uninstall()'"
+  * SoftwareModules.DeploymentUnit.*.Uninstall() (glob)
+  SoftwareModules.DeploymentUnit.*.Uninstall() returned (glob)
+  [
+      ""
+  ]
+  SoftwareModules.DeploymentUnit.*.Uninstall() returned (glob)
+  [
+      ""
+  ]
+  SoftwareModules.DeploymentUnit.*.Uninstall() returned (glob)
+  [
+      ""
+  ]
+  
 
