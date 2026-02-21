@@ -222,7 +222,7 @@ def handle_exception_dump_console(args):
     console_log_files = glob.glob(console_log_pattern)
     if console_log_files:
         console_log_file = max(console_log_files, key=os.path.getctime)
-        with open(console_log_file, "r") as f:
+        with open(console_log_file, "r", errors="replace") as f:
             logging.error(f.read())
     else:
         logging.error("Console log file not found or not available")
