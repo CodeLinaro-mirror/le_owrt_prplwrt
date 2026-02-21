@@ -1,7 +1,7 @@
 .cdrouter:
   stage: cdrouter
   timeout: 40 minutes
-  image: "$CI_REGISTRY_IMAGE/$CI_DESIGNATED_BRANCH_SLUG/testbed:latest"
+  image: "registry.gitlab.com/ynezz/prplos-playground/prpl-nightly/testbed:claude-testbed-debian12-upgrade"
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
       when: never
@@ -202,9 +202,9 @@
         ssh root@$TARGET_LAN_IP "cat /var/log/messages" > syslog-$LABGRID_TARGET.txt
         ssh root@$TARGET_LAN_IP opkg list > opkg_list-$LABGRID_TARGET.txt
         script --quiet --command "ssh -t root@$TARGET_LAN_IP /bin/getDebugInformation --all"
-        scp -r root@${TARGET_LAN_IP}:/tmp/debug-*_all.tar.gz . > /dev/null
-        scp -r root@${TARGET_LAN_IP}:/etc etc > /dev/null
-        scp -r root@${TARGET_LAN_IP}:/tmp/beerocks/logs prplmesh_beerocks_logs > /dev/null
+        scp -O -r root@${TARGET_LAN_IP}:/tmp/debug-*_all.tar.gz . > /dev/null
+        scp -O -r root@${TARGET_LAN_IP}:/etc etc > /dev/null
+        scp -O -r root@${TARGET_LAN_IP}:/tmp/beerocks/logs prplmesh_beerocks_logs > /dev/null
       } || true
 
     - .gitlab/scripts/testbed-device.py --target $LABGRID_TARGET power off
