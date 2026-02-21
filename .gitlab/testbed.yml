@@ -62,13 +62,6 @@
     - sudo apt-get update && sudo apt-get install --yes --no-install-recommends minidlna avahi-daemon avahi-utils dbus
 
     - mkdir -p ~/.ssh; chmod 700 ~/.ssh
-    - >
-      if echo "$CI_RUNNER_DESCRIPTION" | grep -q testbed-01; then
-        eval $(ssh-agent -s)
-        echo "$TESTBED_SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
-        ssh-keyscan $TESTBED_UART_RELAY_HOST > ~/.ssh/known_hosts 2> /dev/null
-        chmod 644 ~/.ssh/known_hosts
-      fi
 
     - |
       echo "Using firmware image $TFTP_IMAGE_PATH/$TFTP_IMAGE_FILENAME"
@@ -169,13 +162,6 @@
       }
 
     - mkdir -p ~/.ssh; chmod 700 ~/.ssh
-    - >
-      if echo "$CI_RUNNER_DESCRIPTION" | grep -q testbed-01; then
-        eval $(ssh-agent -s)
-        echo "$TESTBED_SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
-        ssh-keyscan $TESTBED_UART_RELAY_HOST > ~/.ssh/known_hosts 2> /dev/null
-        chmod 644 ~/.ssh/known_hosts
-      fi
 
     - >
       if echo "$CI_RUNNER_DESCRIPTION" | grep -q testbed-02; then
@@ -231,5 +217,3 @@
 
 .testbed true.cz:
   extends: .testbed
-  variables:
-    TESTBED_UART_RELAY_HOST: uart-relay.testbed.vpn.true.cz
