@@ -34,13 +34,6 @@
     - sleep 10
 
     - mkdir -p ~/.ssh; chmod 700 ~/.ssh
-    - >
-      if echo "$CI_RUNNER_DESCRIPTION" | grep -q testbed-01; then
-        eval $(ssh-agent -s)
-        echo "$TESTBED_SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
-        ssh-keyscan $TESTBED_UART_RELAY_HOST > ~/.ssh/known_hosts 2> /dev/null
-        chmod 644 ~/.ssh/known_hosts
-      fi
 
     - |
       if [ -n "$PFD_PIPELINE_ID" ]; then
@@ -174,13 +167,6 @@
       .gitlab/scripts/cdrouter-pretty-failures.awk cdrouter-results/*.txt
 
     - mkdir -p ~/.ssh; chmod 700 ~/.ssh
-    - >
-      if echo "$CI_RUNNER_DESCRIPTION" | grep -q testbed-01; then
-        eval $(ssh-agent -s)
-        echo "$TESTBED_SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
-        ssh-keyscan $TESTBED_UART_RELAY_HOST > ~/.ssh/known_hosts 2> /dev/null
-        chmod 644 ~/.ssh/known_hosts
-      fi
 
     - >
       if echo "$CI_RUNNER_DESCRIPTION" | grep -q testbed-02; then
