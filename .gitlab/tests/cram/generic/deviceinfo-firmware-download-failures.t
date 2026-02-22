@@ -5,8 +5,6 @@ Create R alias and find the host IP:
 
 Start a plain (8189) and an authenticated (8190) HTTP server:
 
-  $ export PATH="$PATH:$HOME/.local/bin"
-  $ pip install servefile >/dev/null 2>&1 || true
   $ mkdir -p /tmp/cram-download-fail
   $ echo dummy-firmware > /tmp/cram-download-fail/fw.swu
   $ servefile -l /tmp/cram-download-fail -p 8189 >/dev/null 2>&1 &
