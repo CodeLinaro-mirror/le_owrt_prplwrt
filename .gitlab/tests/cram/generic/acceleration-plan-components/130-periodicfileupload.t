@@ -8,11 +8,6 @@ Copy CABundle ODL extension to CPE:
 
   $ C -r $TESTDIR/130-periodicfileupload/* root@${TARGET_LAN_IP}:/ 2>/dev/null
 
-Install servefile from pip as a workaround until PPW-1258 is fixed:
-
-  $ export PATH=$PATH:/home/testbed/.local/bin
-  $ pip install servefile >/dev/null 2>&1
-
 Start Servefile to act as HTTP server:
 
   $ servefile -u /tmp/130-periodicfileuploads/ -p 8181 >/dev/null 2>&1 &
