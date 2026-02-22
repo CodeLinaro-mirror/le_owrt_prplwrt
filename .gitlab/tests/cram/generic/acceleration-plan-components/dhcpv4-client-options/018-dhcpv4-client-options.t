@@ -2,10 +2,6 @@ Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
-Install scapy with pip:
-
-  $ pip install scapy >/dev/null 2>&1
-
 Verify python can import scapy:
 
   $ python3 -c "import scapy.all" >/dev/null 2>&1

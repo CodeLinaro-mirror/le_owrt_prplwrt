@@ -26,11 +26,7 @@ The output is extracted from the final `DHCPACK` only.
 - `scapy`
 - root privileges (raw packet send/receive)
 
-Install dependency:
-
-```bash
-pip install scapy
-```
+The `python3-scapy` dependency is preinstalled in the testbed image.
 
 ## Usage
 

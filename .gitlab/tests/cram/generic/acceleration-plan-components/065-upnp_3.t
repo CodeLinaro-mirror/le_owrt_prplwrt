@@ -1,10 +1,5 @@
 Allowed values for NewRemoteHost parameter of AddPortMapping and AddAnyPortMapping action (UPNPIGD_0039)
 
-Install upnp-client (Installing via Dockerfile does not work):
-
-  $ pip install async-upnp-client >/dev/null 2>&1
-  $ export PATH="$PATH:$HOME/.local/bin"
-
 Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
