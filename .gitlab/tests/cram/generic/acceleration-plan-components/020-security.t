@@ -12,7 +12,7 @@ Backup the state of the system:
 Copy over testing certificates:
 
   $ R "mkdir -p /etc/config/autocert"
-  $ scp ${CI_PROJECT_DIR}/.gitlab/certs/tr181-security/autocert/* "root@${TARGET_LAN_IP}:/etc/config/autocert/"
+  $ scp -O ${CI_PROJECT_DIR}/.gitlab/certs/tr181-security/autocert/* "root@${TARGET_LAN_IP}:/etc/config/autocert/"
 
 Restart tr181-security service:
 

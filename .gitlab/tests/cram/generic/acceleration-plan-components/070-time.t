@@ -115,8 +115,8 @@ Check that Status has expected Synchronized state:
 
 Check that CPE can provide NTP to LAN clients:
 
-  $ ntpdate -q 192.168.1.1 2>&1 | grep adjust
-  .* adjust time server .* (re)
+  $ ntpdate -q 192.168.1.1 2>&1 | grep offset
+  .* offset .* (re)
 
 Disable NTP server for LAN clients:
 
@@ -127,7 +127,7 @@ Disable NTP server for LAN clients:
 
 Check that CPE can't provide NTP to LAN clients:
 
-  $ ntpdate -q 192.168.1.1 2>&1 | grep adjust
+  $ ntpdate -q 192.168.1.1 2>&1 | grep offset
   [1]
 
 Enable NTP server for LAN clients:
@@ -139,8 +139,8 @@ Enable NTP server for LAN clients:
 
 Check that CPE provides again NTP to the LAN clients:
 
-  $ ntpdate -q 192.168.1.1 2>&1 | grep adjust
-  .* adjust time server .* (re)
+  $ ntpdate -q 192.168.1.1 2>&1 | grep offset
+  .* offset .* (re)
 
 Check default timezone:
 
