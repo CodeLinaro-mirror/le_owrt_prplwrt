@@ -6,8 +6,6 @@ Create R alias and find the host IP:
 
 Start a plain HTTP server (8189) over an empty directory (404 for any path):
 
-  $ export PATH="$PATH:$HOME/.local/bin"
-  $ pip install servefile >/dev/null 2>&1 || true
   $ mkdir -p /tmp/cram-sysupgrade-404
   $ servefile -l /tmp/cram-sysupgrade-404 -p 8189 >/dev/null 2>&1 &
   $ open_pid="$!"
