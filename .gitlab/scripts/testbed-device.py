@@ -242,7 +242,17 @@ class TestbedDevice:
     def console_dump_system_state(self):
         self.init_shell()
         self.shell.ubus_call("system board")
-        self.shell.run("getDebugInformation -a -o /dev/console", timeout=360)
+
+        # run getDebugInformation to file, then dump to console
+        self.shell.run("getDebugInformation -a", timeout=180)
+        self.shell.run(
+            "cd /tmp"
+            " && tar xzf debug-*_all.tar.gz debug-*.txt 2>/dev/null"
+            " && cat debug-*.txt > /dev/console"
+            " || echo '### debug-information: no archive found ###'"
+            " > /dev/console",
+            timeout=30,
+        )
 
     def console_recover_ssh_access(self):
         self.init_shell()
