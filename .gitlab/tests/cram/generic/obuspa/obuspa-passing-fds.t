@@ -102,6 +102,10 @@ Check if client model is present
   Device.LCMFDClientApp.writeToFileRequestedBySyncRPC()
   Device.LCMFDClientApp.writeToFileRequestedBySyncRPC()
 
+Add operation complete subscription
+
+  $ R "obuspa -c add \"Device.LocalAgent.Subscription.(ReferenceList='Device.LCMFDClientApp.writeToFileRequestedBySyncRPC(),Device.LCMFDClientApp.writeToFileRequestedByAsyncRPC()',NotifType='OperationComplete',Enable='true')\"" > /dev/null
+
 Write file by call to unpriviledged container via sync RPC
 
   $ R "obuspa -c operate \"Device.LCMFDClientApp.writeToFileRequestedBySyncRPC(Path='/tmp/sync_write_example_file',Content='Example string written using unpriviledged container with sync RPC')\"" > /dev/null
