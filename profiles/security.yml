@@ -1,5 +1,14 @@
 ---
 description: Add compiler security features
+
+additional_packages:
+  - feed: feed_prplos
+    packages:
+      - apparmor-prpl
+      - apparmor-utils-prpl
+      - apparmor-profiles-prpl
+      - libapparmor-prpl
+
 diffconfig: |
           CONFIG_DEVEL=y
           CONFIG_JSON_CHECKSEC_MITIGATIONS_REPORT=y
@@ -10,3 +19,12 @@ diffconfig: |
           CONFIG_PKG_CC_STACKPROTECTOR_STRONG=y
           CONFIG_PKG_FORTIFY_SOURCE_2=y
           CONFIG_TOOLCHAINOPTS=y
+          CONFIG_KERNEL_SECURITY=y
+          CONFIG_KERNEL_SECURITYFS=y
+          CONFIG_KERNEL_SECURITY_NETWORK=y
+          CONFIG_KERNEL_SECURITY_PATH=y
+          CONFIG_KERNEL_SECURITY_APPARMOR=y
+          CONFIG_KERNEL_SECURITY_APPARMOR_HASH=y
+          CONFIG_KERNEL_SECURITY_APPARMOR_HASH_DEFAULT=y
+          CONFIG_KERNEL_DEFAULT_SECURITY_APPARMOR=y
+          CONFIG_KERNEL_LSM="lockdown,yama,loadpin,safesetid,integrity,apparmor"
