@@ -9,3 +9,9 @@ Ensure ProcessMonitor.Test.i.FailAction does not have REBOOT action:
 
   $ R "ba-cli -l ProcessMonitor.Test.*.FailAction\? | "\
   > "grep -vE '(RESTART|NONE)' | sed '/^$/d'"
+
+  $ R "/usr/sbin/aa-status"
+  apparmor module is loaded.
+
+  $ R "cat /sys/module/apparmor/parameters/enabled"
+  Y
