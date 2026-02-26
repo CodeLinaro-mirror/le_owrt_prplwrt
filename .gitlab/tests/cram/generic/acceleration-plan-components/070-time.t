@@ -196,3 +196,48 @@ Set back default timezone:
   
   $ (R "date +%Z")
   GMT
+
+Force IPVersion to use ipv4
+
+  $ R "ba-cli protected " | sed -r 's/\x1B\[[0-9;]*[A-Za-z]//g' | grep -o 'protected'   | head -n 1
+  protected
+
+  $ R "ba-cli -l Time.Client.1.Servers=\"2.europe.pool.ntp.org\"" | awk NF
+  2.europe.pool.ntp.org
+
+  $ R "ba-cli -l Time.Client.1.IPVersion=4" | awk NF; sleep 10
+  4
+
+Check that Status has expected Synchronized state:
+
+  $ R "ba-cli -l Time.Client.1.Status?" | awk NF
+  Synchronized
+
+Restore the IPVersion to -1
+
+  $ R "ba-cli -l Time.Client.1.IPVersion=-1" | awk NF ; sleep 10
+  -1
+
+  $ R "ba-cli -l Time.Client.1.Status?" | awk NF
+  Synchronized
+
+Force IPVersion to use ipv6
+
+  $ R "ba-cli -l Time.Client.1.IPVersion=6" | awk NF ; sleep 10
+  6
+
+Check that Status has expected Unsynchronized state
+
+  $ R "ba-cli -l Time.Client.1.Status?" | awk NF
+  Unsynchronized
+
+Resetting device configurations to default values
+
+  $ R "ba-cli -l Time.Client.1.Servers=\'0.europe.pool.ntp.org, 1.europe.pool.ntp.org\'" | awk NF
+  0.europe.pool.ntp.org, 1.europe.pool.ntp.org
+
+  $ R "ba-cli -l Time.Client.1.IPVersion=-1" | awk NF ; sleep 10
+  -1
+
+  $ R "ba-cli -l Time.Client.1.Status?" | awk NF
+  Synchronized
