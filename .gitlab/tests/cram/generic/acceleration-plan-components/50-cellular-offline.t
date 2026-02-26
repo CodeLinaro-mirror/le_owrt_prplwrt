@@ -2,9 +2,9 @@ Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
-If test is running on a Mozart, Turris, OSPv1 or Haze, lets skip the test as there is no USB storage device attached:
+If test is running on a Mozart, Turris, Haze or Freedom, lets skip the test as there is no cellular modem available:
 
-  $ if echo "$CI_JOB_NAME" | grep -q -E "(Mozart|Turris|Haze|HDK-3)"; then exit 80; fi
+  $ if echo "$CI_JOB_NAME" | grep -q -E "(Mozart|Turris|Haze|Freedom)"; then exit 80; fi
 
 Make sure Cellular is registered in the Datamodel:
 
