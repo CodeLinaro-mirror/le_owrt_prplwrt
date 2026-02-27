@@ -44,24 +44,24 @@ wait for cthulhu to terminate all containers and itself, before clear its data
   /usr/rlyeh_save
   /usr/rlyeh_save/blobs
   /usr/rlyeh_save/blobs/sha256
-  /usr/rlyeh_save/blobs/sha256/3dae0518e749f9d581ecf3cda7ea260e4a87c1413599b7248a60554e9ae3a3ac
-  /usr/rlyeh_save/blobs/sha256/40d6aa7e0cc7bf477eb2963fb057649e76d698ca80e8bd932fe6ac205a19c5f8
-  /usr/rlyeh_save/blobs/sha256/73ab068ac4acca454294ecb8ec50f2331953a546a60ff241b0dc5f2f42de0d25
-  /usr/rlyeh_save/blobs/sha256/74346feadcbed0c80ccfb8c88063b7629b0cc0ef7f5eed36ab8f33c466d8a95e
-  /usr/rlyeh_save/blobs/sha256/8282ae194fdb8233c361bceb846f5bf7c65e19d1ffae178af604e548a8bffeff
-  /usr/rlyeh_save/blobs/sha256/d16ea174931d66d44d3129998cc3fcabc781f646ce513a3cc74762d450a54d9e
+  /usr/rlyeh_save/blobs/sha256/* (glob)
+  /usr/rlyeh_save/blobs/sha256/* (glob)
+  /usr/rlyeh_save/blobs/sha256/* (glob)
+  /usr/rlyeh_save/blobs/sha256/* (glob)
+  /usr/rlyeh_save/blobs/sha256/* (glob)
+  /usr/rlyeh_save/blobs/sha256/* (glob)
   /usr/rlyeh_save/images
   /usr/rlyeh_save/images/prpl-foundation
   /usr/rlyeh_save/images/prpl-foundation/prplos
   /usr/rlyeh_save/images/prpl-foundation/prplos/prplos
   /usr/rlyeh_save/images/prpl-foundation/prplos/prplos/lcm_tests
-  /usr/rlyeh_save/images/prpl-foundation/prplos/prplos/lcm_tests/arm32v7_3_16_alpine_copy
-  /usr/rlyeh_save/images/prpl-foundation/prplos/prplos/lcm_tests/arm32v7_3_16_alpine_copy/index.json
-  /usr/rlyeh_save/images/prpl-foundation/prplos/prplos/lcm_tests/arm32v7_3_16_alpine_copy/oci-layout
+  /usr/rlyeh_save/images/prpl-foundation/prplos/prplos/lcm_tests/*_3_16_alpine_copy (glob)
+  /usr/rlyeh_save/images/prpl-foundation/prplos/prplos/lcm_tests/*_3_16_alpine_copy/index.json (glob)
+  /usr/rlyeh_save/images/prpl-foundation/prplos/prplos/lcm_tests/*_3_16_alpine_copy/oci-layout (glob)
   /usr/rlyeh_save/images/prpl-foundation/prplos/prplos/prplos
-  /usr/rlyeh_save/images/prpl-foundation/prplos/prplos/prplos/lcm-test-ipq807x-generic
-  /usr/rlyeh_save/images/prpl-foundation/prplos/prplos/prplos/lcm-test-ipq807x-generic/index.json
-  /usr/rlyeh_save/images/prpl-foundation/prplos/prplos/prplos/lcm-test-ipq807x-generic/oci-layout
+  /usr/rlyeh_save/images/prpl-foundation/prplos/prplos/prplos/lcm-test-* (glob)
+  /usr/rlyeh_save/images/prpl-foundation/prplos/prplos/prplos/lcm-test-*/index.json (glob)
+  /usr/rlyeh_save/images/prpl-foundation/prplos/prplos/prplos/lcm-test-*/oci-layout (glob)
   $ R "find /lcm/"
   /lcm/
 

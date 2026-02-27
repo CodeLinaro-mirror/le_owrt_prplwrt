@@ -80,7 +80,7 @@ get_arch_name() {
 		;;
 	"lgm" | \
 		"qemu-standard-pc-"*)
-		echo x86-64
+		echo amd64
 		;;
 	"turris-omnia")
 		echo cortexa9
