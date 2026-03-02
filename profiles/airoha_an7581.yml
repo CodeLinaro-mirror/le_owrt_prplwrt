@@ -1,0 +1,20 @@
+---
+profiles:
+  - nokia_valyrian
+target: airoha
+subtarget: an7581
+external_target: True
+description: Build image for Airoha / Nokia Valyrian board
+feeds:
+  - name: feed_airoha
+    uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-airoha
+    revision: 595680f2d9b04ae49df13354f77106f19c2c081f
+  - name: feed_wifi_mediatek_mt76
+    uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-wifi-mediatek-mt76
+    revision: 36e628293e41cb41742bcc8ebba5716051f80c4e
+
+packages:
+  - airoha
+
+diffconfig: |
+  CONFIG_TARGET_INITRAMFS_COMPRESSION_LZMA=y

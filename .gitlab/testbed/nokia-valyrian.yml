@@ -1,0 +1,16 @@
+.nokia-valyrian testbed:
+  extends: .testbed true.cz
+  variables:
+    DUT_ARCH: aarch64
+    DUT_TARGET: airoha
+    DUT_SUBTARGET: an7581
+    DUT_BOARD: nokia-valyrian
+    DUT_CPU_TYPE: cortex-a53
+    DUT_WAN_INTERFACE: eth2
+    LABGRID_TARGET: nokia-valyrian-initramfs
+    TFTP_IMAGE_FILENAME: prplos-airoha-an7581-nokia_valyrian-initramfs-kernel.bin
+    TFTP_IMAGE_FILENAME_PATTERN: /.*prplos-airoha-an7581-nokia_valyrian-initramfs-kernel.bin/
+    DUT_ARCH_PACKAGES_PATH: $PACKAGE_DIR/${DUT_ARCH}_${DUT_CPU_TYPE}
+    CDROUTER_CONFIG_LAN_IFACE_ALIAS: LAN3
+  tags:
+    - dut-nokia-valyrian

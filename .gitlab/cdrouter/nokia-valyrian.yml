@@ -1,0 +1,184 @@
+.nokia-valyrian: &nokia_valyrian
+  needs: ["build test airoha_an7581 prpl security"]
+  extends:
+    - .nokia-valyrian testbed
+    - .cdrouter
+
+CDRouter-Top-100+mDNS Valyrian initramfs:
+  <<: *nokia_valyrian
+  variables:
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
+      .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
+      .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
+
+CDRouter-Top-100+mDNS Valyrian VLAN WAN/LAN initramfs:
+  <<: *nokia_valyrian
+  variables:
+    CDROUTER_TEST_CONFIG: vlan
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
+      .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
+      .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
+      .gitlab/scripts/dut-init/cdrouter-dut-enable-vlans.sh
+
+CDRouter-Top-100+mDNS Valyrian PPPoE WAN initramfs:
+  <<: *nokia_valyrian
+  variables:
+    CDROUTER_TEST_CONFIG: ppp
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
+      .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
+      .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
+      .gitlab/scripts/dut-init/cdrouter-dut-enable-pppoe.sh
+
+CDRouter-Wireless Valyrian initramfs:
+  <<: *nokia_valyrian
+  stage: smoke tests
+  timeout: 15 minutes
+  variables:
+    CDROUTER_TEST_CONFIG: wireless
+    CDROUTER_CONFIG_USP_CONTROLLER_MTP: websocket
+    CDROUTER_DUT_INIT_USP_MTP_SCRIPT: .gitlab/scripts/dut-init/cdrouter-dut-configure-usp-ws.sh
+    CDROUTER_CONFIG_WIFI_BEACON_PHY: 'ax b be g n'
+    CDROUTER_CONFIG_WIFI_BEACON_RSN_CIPHER: 'CCMP-128 GCMP-256'
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
+      .gitlab/scripts/dut-init/cdrouter-dut-configure-wireless.sh
+      .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
+
+
+.nokia-valyrian-ipv6: &nokia_valyrian_ipv6
+  <<: *nokia_valyrian
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == $CI_DESIGNATED_BRANCH'
+    - when: manual
+
+CDRouter-UPnP-IPv46 Valyrian initramfs:
+  <<: *nokia_valyrian_ipv6
+  timeout: 60 minutes
+  variables:
+    CDROUTER_TEST_CONFIG: generic-ipv6-upnp
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
+      .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
+
+CDRouter-UPnP-IPv46-Failing Valyrian initramfs:
+  <<: *nokia_valyrian_ipv6
+  timeout: 120 minutes
+  allow_failure: true
+  variables:
+    CDROUTER_TEST_CONFIG: generic-ipv6-upnp
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
+      .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
+
+CDRouter-IPv6-Top-100+mDNS Valyrian initramfs:
+  <<: *nokia_valyrian_ipv6
+  variables:
+    CDROUTER_TEST_CONFIG: generic-ipv6
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
+      .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
+
+prpl-Certification Valyrian initramfs:
+  <<: *nokia_valyrian_ipv6
+  timeout: 120 minutes
+  allow_failure: true
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: never
+    - when: manual
+  variables:
+    CDROUTER_TEST_CONFIG: generic-ipv6
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
+      .gitlab/scripts/dut-init/cdrouter-dut-configure-cwmpd.sh
+      .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
+
+CDRouter-IPv6-Top-100+mDNS Valyrian VLAN WAN/LAN initramfs:
+  <<: *nokia_valyrian_ipv6
+  variables:
+    CDROUTER_TEST_CONFIG: vlan-ipv6
+    CDROUTER_CONFIG_USP_CONTROLLER_MTP: stomp
+    CDROUTER_DUT_INIT_USP_MTP_SCRIPT: ''
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
+      .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
+      .gitlab/scripts/dut-init/cdrouter-dut-enable-vlans.sh
+
+.CDRouter-IPv6-Top-100+mDNS Valyrian PPPoE WAN initramfs:
+  <<: *nokia_valyrian_ipv6
+  variables:
+    CDROUTER_TEST_CONFIG: ppp-ipv6
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
+      .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
+      .gitlab/scripts/dut-init/cdrouter-dut-enable-pppoe.sh
+
+CDRouter-TR-069 Valyrian eMMC:
+  <<: *nokia_valyrian
+  variables:
+    LABGRID_TARGET: nokia-valyrian-emmc
+    TFTP_IMAGE_FILENAME: prplos-airoha-an7581-nokia_valyrian-squashfs-sysupgrade.bin
+    TFTP_IMAGE_FILENAME_PATTERN: /.*prplos-airoha-an7581-nokia_valyrian-squashfs-sysupgrade.bin/
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
+      .gitlab/scripts/dut-init/cdrouter-tr181-mockups.sh
+      .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
+
+CDRouter-USP-prpl Valyrian initramfs:
+  <<: *nokia_valyrian
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: never
+    - when: manual
+  variables:
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
+      .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
+      .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
+
+prplWare-Smoke-Test-Suite Valyrian initramfs:
+  <<: *nokia_valyrian_ipv6
+  stage: smoke tests
+  variables:
+    CDROUTER_TEST_CONFIG: smoke-test
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
+      .gitlab/scripts/dut-init/cdrouter-tr181-mockups.sh
+      .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
+      .gitlab/scripts/dut-init/cdrouter-dut-configure-prplmesh-controller.sh
+      .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
+
+.nokia_valyrian-certification-variables: &nokia_valyrian_certification_variables
+  CDROUTER_TEST_CONFIG: prplos-certification
+  DUT_INIT_SCRIPTS: |
+    .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
+    .gitlab/scripts/dut-init/cdrouter-dut-configure-cwmpd.sh
+    .gitlab/scripts/dut-init/cdrouter-dut-configure-prplos-certification.sh
+    .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
+
+.nokia-valyrian-certification: &nokia_valyrian_certification
+  <<: *nokia_valyrian_ipv6
+  stage: certification tests
+  timeout: 1h 45m
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: never
+    - when: manual
+  variables:
+    <<: *nokia_valyrian_certification_variables
+
+prplOS-Network-Test-Plan-Mandatory-v1.2.0 Valyrian initramfs:
+  <<: *nokia_valyrian_certification
+
+prplOS-Network-Test-Plan-Candidate-v1.2.0 Valyrian initramfs:
+  <<: *nokia_valyrian_certification
+  timeout: 52 minutes
+  variables:
+    <<: *nokia_valyrian_certification_variables
+    CDROUTER_CONFIG_USP_CONTROLLER_MTP: websocket
+    CDROUTER_DUT_INIT_USP_MTP_SCRIPT: .gitlab/scripts/dut-init/cdrouter-dut-configure-usp-ws.sh
