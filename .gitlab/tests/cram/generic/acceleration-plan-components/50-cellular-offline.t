@@ -2,9 +2,9 @@ Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
-If test is running on a Mozart, Turris or Haze, lets skip the test as there is no cellular modem available:
+If test is running on a Valyrian, Valyrian, Mozart, Turris or Haze, lets skip the test as there is no cellular modem available:
 
-  $ if echo "$CI_JOB_NAME" | grep -q -E "(Mozart|Turris|Haze)"; then exit 80; fi
+  $ if echo "$CI_JOB_NAME" | grep -q -E "(Valyrian|Mozart|Turris|Haze|Valyrian)"; then exit 80; fi
 
 Skip on Freedom until PCF-2663 is resolved (5G modem not enumerated on PCIe):
 

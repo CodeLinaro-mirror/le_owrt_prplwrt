@@ -3,8 +3,8 @@ Skip on Freedom until PCF-2663 is resolved (5G modem not enumerated on PCIe):
   $ [ "$DUT_BOARD" = "wnc-freedom" ] && exit 80
   [1]
 
-If test is running on a Mozart, Turris, OSPv1 or Haze, lets skip the test as there is no Cellular support:
-  $ if echo "$CI_JOB_NAME" | grep -q -E "(Mozart|Turris|Haze|HDK-3)"; then exit 80; fi
+If test is running on a Valyrian, Mozart, Turris, OSPv1 or Haze, lets skip the test as there is no Cellular support:
+  $ if echo "$CI_JOB_NAME" | grep -q -E "(Valyrian|Mozart|Turris|Haze|HDK-3)"; then exit 80; fi
 
 Create R alias:
 
