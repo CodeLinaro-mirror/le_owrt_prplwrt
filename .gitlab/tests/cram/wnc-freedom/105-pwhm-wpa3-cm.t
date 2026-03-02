@@ -27,15 +27,15 @@ Stop prplmesh:
 
 Provisory: update Security.ModesAvailable as required by PPM-3660
 
-  $ R "ba-cli  \"WiFi.AccessPoint.[RadioReference == 'Device.WiFi.Radio.1'].Security.ModesAvailable='None,WPA2-Personal,WPA3-Personal,WPA2-WPA3-Personal,WPA3-Personal-Compatibility,OWE'\"" | grep 'ModesAvailable=' | sed '/^$/d' | grep -v '>'
-  WiFi.AccessPoint.\d+.Security.ModesAvailable="None,WPA2-Personal,WPA3-Personal,WPA2-WPA3-Personal,WPA3-Personal-Compatibility,OWE" (re)
-  WiFi.AccessPoint.\d+.Security.ModesAvailable="None,WPA2-Personal,WPA3-Personal,WPA2-WPA3-Personal,WPA3-Personal-Compatibility,OWE" (re)
-  WiFi.AccessPoint.\d+.Security.ModesAvailable="None,WPA2-Personal,WPA3-Personal,WPA2-WPA3-Personal,WPA3-Personal-Compatibility,OWE" (re)
+  $ R "ba-cli  \"WiFi.AccessPoint.[RadioReference == 'Device.WiFi.Radio.1'].Security.ModesAvailable='None,WPA2-Personal,WPA3-Personal,WPA3-Personal-Transition,WPA3-Personal-Compatibility,OWE'\"" | grep 'ModesAvailable=' | sed '/^$/d' | grep -v '>'
+  WiFi.AccessPoint.\d+.Security.ModesAvailable="None,WPA2-Personal,WPA3-Personal,WPA3-Personal-Transition,WPA3-Personal-Compatibility,OWE" (re)
+  WiFi.AccessPoint.\d+.Security.ModesAvailable="None,WPA2-Personal,WPA3-Personal,WPA3-Personal-Transition,WPA3-Personal-Compatibility,OWE" (re)
+  WiFi.AccessPoint.\d+.Security.ModesAvailable="None,WPA2-Personal,WPA3-Personal,WPA3-Personal-Transition,WPA3-Personal-Compatibility,OWE" (re)
 
-  $ R "ba-cli  \"WiFi.AccessPoint.[RadioReference == 'Device.WiFi.Radio.2'].Security.ModesAvailable='None,WPA2-Personal,WPA3-Personal,WPA2-WPA3-Personal,WPA3-Personal-Compatibility,OWE'\"" | grep 'ModesAvailable=' | sed '/^$/d' | grep -v '>'
-  WiFi.AccessPoint.\d+.Security.ModesAvailable="None,WPA2-Personal,WPA3-Personal,WPA2-WPA3-Personal,WPA3-Personal-Compatibility,OWE" (re)
-  WiFi.AccessPoint.\d+.Security.ModesAvailable="None,WPA2-Personal,WPA3-Personal,WPA2-WPA3-Personal,WPA3-Personal-Compatibility,OWE" (re)
-  WiFi.AccessPoint.\d+.Security.ModesAvailable="None,WPA2-Personal,WPA3-Personal,WPA2-WPA3-Personal,WPA3-Personal-Compatibility,OWE" (re)
+  $ R "ba-cli  \"WiFi.AccessPoint.[RadioReference == 'Device.WiFi.Radio.2'].Security.ModesAvailable='None,WPA2-Personal,WPA3-Personal,WPA3-Personal-Transition,WPA3-Personal-Compatibility,OWE'\"" | grep 'ModesAvailable=' | sed '/^$/d' | grep -v '>'
+  WiFi.AccessPoint.\d+.Security.ModesAvailable="None,WPA2-Personal,WPA3-Personal,WPA3-Personal-Transition,WPA3-Personal-Compatibility,OWE" (re)
+  WiFi.AccessPoint.\d+.Security.ModesAvailable="None,WPA2-Personal,WPA3-Personal,WPA3-Personal-Transition,WPA3-Personal-Compatibility,OWE" (re)
+  WiFi.AccessPoint.\d+.Security.ModesAvailable="None,WPA2-Personal,WPA3-Personal,WPA3-Personal-Transition,WPA3-Personal-Compatibility,OWE" (re)
 
   $ R "ba-cli  \"WiFi.AccessPoint.[RadioReference == 'Device.WiFi.Radio.3'].Security.ModesAvailable='WPA3-Personal,WPA3-Personal-Compatibility,OWE'\"" | grep 'ModesAvailable=' | sed '/^$/d' | grep -v '>'
   WiFi.AccessPoint.\d+.Security.ModesAvailable="WPA3-Personal,WPA3-Personal-Compatibility,OWE" (re)
@@ -171,18 +171,18 @@ Check RSNO2 parameter was added to 6GHz hostapd conf file
 
 Next, restore security modes in two steps: WPA3 Transition to 2.4GHz/5GHz, and WPA3 Personal to 6GHz
 
-  $ R "ba-cli -j -l WiFi.AccessPoint.1.Security.ModeEnabled='WPA2-WPA3-Personal' | jsonfilter -e @[0]'[@].ModeEnabled'"
-  WPA2-WPA3-Personal
+  $ R "ba-cli -j -l WiFi.AccessPoint.1.Security.ModeEnabled='WPA3-Personal-Transition' | jsonfilter -e @[0]'[@].ModeEnabled'"
+  WPA3-Personal-Transition
 
-  $ R "ba-cli -j -l WiFi.AccessPoint.3.Security.ModeEnabled='WPA2-WPA3-Personal' | jsonfilter -e @[0]'[@].ModeEnabled'"
-  WPA2-WPA3-Personal
+  $ R "ba-cli -j -l WiFi.AccessPoint.3.Security.ModeEnabled='WPA3-Personal-Transition' | jsonfilter -e @[0]'[@].ModeEnabled'"
+  WPA3-Personal-Transition
 
   $ R "ba-cli -j -l WiFi.AccessPoint.5.Security.ModeEnabled='WPA3-Personal' | jsonfilter -e @[0]'[@].ModeEnabled'"
   WPA3-Personal
 
   $ sleep 10
 
-Here the expected configuration is: One VAP Enabled on 2.4 / 5 GHz / 6GHz bands // Security.ModeEnabled=WPA2-WPA3-Personal or WPA3-Personal
+Here the expected configuration is: One VAP Enabled on 2.4 / 5 GHz / 6GHz bands // Security.ModeEnabled=WPA3-Personal-Transition or WPA3-Personal
 
 Check 5GHz is broadcasting WPA2-WPA3 Transition // at least WPA-PSK SAE // ignore 11BE/ AKM24
 

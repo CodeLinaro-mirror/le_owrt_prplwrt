@@ -82,8 +82,8 @@ Create profile for EP 1:
   $ wifi_dm "EndPoint.1.Profile.${ep1_alias}.SSID=\"TEST_MLO\""
   WiFi.EndPoint.1.Profile.\d+.SSID="TEST_MLO" (re)
 
-  $ wifi_dm "EndPoint.1.Profile.${ep1_alias}.Security.ModeEnabled=\"WPA2-WPA3-Personal\""
-  WiFi.EndPoint.1.Profile.\d+.Security.ModeEnabled="WPA2-WPA3-Personal" (re)
+  $ wifi_dm "EndPoint.1.Profile.${ep1_alias}.Security.ModeEnabled=\"WPA3-Personal-Transition\""
+  WiFi.EndPoint.1.Profile.\d+.Security.ModeEnabled="WPA3-Personal-Transition" (re)
 
   $ wifi_dm "EndPoint.1.Profile.${ep1_alias}.Security.KeyPassPhrase=\"password\""
   WiFi.EndPoint.1.Profile.\d+.Security.KeyPassPhrase="password" (re)
@@ -103,8 +103,8 @@ Create profile for EP 2:
   $ wifi_dm "EndPoint.2.Profile.${ep2_alias}.SSID=\"TEST_MLO\""
   WiFi.EndPoint.2.Profile.\d+.SSID="TEST_MLO" (re)
 
-  $ wifi_dm "EndPoint.2.Profile.${ep2_alias}.Security.ModeEnabled=\"WPA2-WPA3-Personal\""
-  WiFi.EndPoint.2.Profile.\d+.Security.ModeEnabled="WPA2-WPA3-Personal" (re)
+  $ wifi_dm "EndPoint.2.Profile.${ep2_alias}.Security.ModeEnabled=\"WPA3-Personal-Transition\""
+  WiFi.EndPoint.2.Profile.\d+.Security.ModeEnabled="WPA3-Personal-Transition" (re)
 
   $ wifi_dm "EndPoint.2.Profile.${ep2_alias}.Security.KeyPassPhrase=\"password\""
   WiFi.EndPoint.2.Profile.\d+.Security.KeyPassPhrase="password" (re)
@@ -124,8 +124,8 @@ Create profile for EP 3:
   $ wifi_dm "EndPoint.3.Profile.${ep3_alias}.SSID=\"TEST_MLO\""
   WiFi.EndPoint.3.Profile.\d+.SSID="TEST_MLO" (re)
 
-  $ wifi_dm "EndPoint.3.Profile.${ep3_alias}.Security.ModeEnabled=\"WPA2-WPA3-Personal\""
-  WiFi.EndPoint.3.Profile.\d+.Security.ModeEnabled="WPA2-WPA3-Personal" (re)
+  $ wifi_dm "EndPoint.3.Profile.${ep3_alias}.Security.ModeEnabled=\"WPA3-Personal-Transition\""
+  WiFi.EndPoint.3.Profile.\d+.Security.ModeEnabled="WPA3-Personal-Transition" (re)
 
   $ wifi_dm "EndPoint.3.Profile.${ep3_alias}.Security.KeyPassPhrase=\"password\""
   WiFi.EndPoint.3.Profile.\d+.Security.KeyPassPhrase="password" (re)
