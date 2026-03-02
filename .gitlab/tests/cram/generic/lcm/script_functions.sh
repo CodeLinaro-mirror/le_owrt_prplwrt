@@ -33,7 +33,8 @@ get_container_name() {
 	case "${board_name}" in
 	"haze" | \
 		"freedom" | \
-		"mozart")
+		"mozart" | \
+		"valyrian")
 		echo lcm-test-ipq807x-generic
 		;;
 	"lgm" | \
@@ -57,7 +58,8 @@ get_container_by_name() {
             board_name=$(cut -d',' -f2 </tmp/sysinfo/board_name)
             case "${board_name}" in
             "haze" | \
-                    "freedom")
+                    "freedom" | \
+		    "valyrian")
                     hw_ctr_name="alpine3.16-arm32v7"
                    ;;
             "lgm" | \
@@ -82,7 +84,8 @@ get_arch_name() {
 	board_name=$(cut -d',' -f2 </tmp/sysinfo/board_name)
 	case "${board_name}" in
 	"haze" | \
-		"freedom")
+		"freedom" | \
+		"valyrian")
 		echo arm32v7
 		;;
 	"lgm" | \
@@ -104,7 +107,8 @@ get_true_arch_name() {
 	board_name=$(cut -d',' -f2 </tmp/sysinfo/board_name)
 	case "${board_name}" in
 	"haze" | \
-		"freedom")
+		"freedom" | \
+		"valyrian")
 		echo arm64v8
 		;;
 	"lgm" | \
@@ -126,7 +130,8 @@ get_board_arch() {
 	case "${board_name}" in
 	"haze" | \
 		"freedom" | \
-		"mozart")
+		"mozart" | \
+		"valyrian")
 		echo cortexa53
 		;;
 	"lgm" | \
