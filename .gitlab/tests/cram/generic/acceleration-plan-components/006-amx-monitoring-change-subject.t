@@ -222,4 +222,4 @@ Revert ProcessMonitor.Test.i TestInterval:
   $ R "${S} && set_test_interval \"$Tr181QosTestInterval\" \"$Tr181QosId\""
   $ R "${S} && set_test_interval \"$Dhcpv4ManagerTestInterval\" \"$Dhcpv4ManagerId\""
 
-  $ R logger -t cram "Amx-processmonitoring reset cram test finished"
+  $ R logger -t cram "Amx-processmonitoring change subject reset cram test finished"

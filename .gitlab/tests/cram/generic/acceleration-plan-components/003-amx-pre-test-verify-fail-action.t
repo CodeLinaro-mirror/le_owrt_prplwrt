@@ -10,9 +10,11 @@ Ensure ProcessMonitor.Test.i.FailAction does not have REBOOT action:
   > "grep -vE '(RESTART|NONE)' | sed '/^$/d'"
 
 Verify any process monitoring failures observed before starting with tests:
+Exclude prplmesh, wifi-sensing and pwhm checks till FEAT-27 is merged:
+Exclude wifi-scheduler PPW-1679:
 
   $ R "grep \"amx-processmonitor: process - \[!\]Test.*failed too often,"\
   > " executing action\" /var/log/messages* /var/log/messagess.? 2>/dev/null" \
-  > "|| true"
+  > "| grep -vE '(prplmesh|wifi-sensing|wifi-scheduler|wld)' || true"
 
   $ R logger -t cram "Pre-checks for amx-processmonitoring tests completed"
