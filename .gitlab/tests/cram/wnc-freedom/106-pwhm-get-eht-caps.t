@@ -18,9 +18,6 @@ Set AutoChannelEnable=0 on all WiFi.Radio. interfaces:
 
 Configure radio:
 
-  $ wifi_dm_radio_band 2 "OperatingChannelBandwidth=\"40MHz\""
-  WiFi.Radio.\d+.OperatingChannelBandwidth="40MHz" (re)
-
   $ wifi_dm_radio_band 5 "OperatingChannelBandwidth=\"80MHz\""
   WiFi.Radio.\d+.OperatingChannelBandwidth="80MHz" (re)
 

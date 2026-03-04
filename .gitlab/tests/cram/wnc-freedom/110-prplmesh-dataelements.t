@@ -3,34 +3,36 @@ Create R alias:
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
   $ . "${TESTDIR}/../scripts/wifi.sh"
 
+  $ R logger -t cram "Starting prplMesh dataelements test ..."
+
 Set AutoChannelEnable=0 on all WiFi.Radio. interfaces:
 
-  $ R "ba-cli -j -l WiFi.Radio.*.AutoChannelEnable=0 | sed '/^$/d'"
-  [{"WiFi.Radio.1.":{"AutoChannelEnable":0},"WiFi.Radio.2.":{"AutoChannelEnable":0},"WiFi.Radio.3.":{"AutoChannelEnable":0}}]
+  $ wifi_dm "Radio.*.AutoChannelEnable=0"
+  WiFi.Radio.1.AutoChannelEnable=0
+  WiFi.Radio.2.AutoChannelEnable=0
+  WiFi.Radio.3.AutoChannelEnable=0
 
 Set channel to a non DFS one:
 
-  $ R "ba-cli -j -l WiFi.Radio.2.Channel=36 | sed '/^$/d'"
-  [{"WiFi.Radio.2.":{"Channel":36}}]
+  $ wifi_dm "Radio.[OperatingFrequencyBand==\"5GHz\"].Channel=36"
+  WiFi.Radio.\d+.Channel=36 (re)
 
   $ sleep 5
 
 Configure controller, requires PPM-3022 to work:
 
   $ R logger -t cram "Stop prplmesh"
-
-  $ R "( /etc/init.d/prplmesh stop ; sleep 2 )  2>&1 > /dev/null"
-
-
+  $ R "( /etc/init.d/prplmesh stop ; sleep 2 ) > /dev/null 2>&1 "
   $ R "sed -i 's/use_dataelements_vap_configs=0/use_dataelements_vap_configs=1/g' /opt/prplmesh/config/beerocks_controller.conf"
+
+  $ R "cat /opt/prplmesh/config/beerocks_controller.conf | grep dataelements"
 
 Restart prplmesh:
 
   $ R logger -t cram "Restart prplmesh"
-
   $ R "( /etc/init.d/prplmesh gateway_mode ; sleep 2 ) > /tmp/prplmesh-gw-mode.log 2>&1 ; logger -t prplmesh-gateway-mode < /tmp/prplmesh-gw-mode.log"
+  $ R "amx_wait_for X_PRPLWARE-COM_WiFiController.Network.Device.1"
 
-  $ R "ubus -t 60 wait_for X_PRPLWARE-COM_WiFiController.Network.Device.1"
 
 First call of AccessPointCommit, controller should push empty config to agents:
 
@@ -89,8 +91,8 @@ Since no persistent storage of NbAPI Network subsection, always index:1 after co
   {}
   {"amxd-error-code":0}
 
-  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.Security _set '{\"parameters\":{\"ModeEnabled\":\"WPA2-Personal\",\"KeyPassphrase\":\"password\"}}'"
-  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.Security.":{"KeyPassphrase":"password","ModeEnabled":"WPA2-Personal"}}
+  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.Security _set '{\"parameters\":{\"ModeEnabled\":\"WPA3-Personal\",\"KeyPassphrase\":\"password\"}}'"
+  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.Security.":{"KeyPassphrase":"password","ModeEnabled":"WPA3-Personal"}}
   {}
   {"amxd-error-code":0}
 
@@ -121,8 +123,8 @@ Create second instance of Network.AccessPoint for guest VAPs:
   {}
   {"amxd-error-code":0}
 
-  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.Security _set '{\"parameters\":{\"ModeEnabled\":\"WPA2-Personal\",\"KeyPassphrase\":\"passwordGUEST\"}}'"
-  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.Security.":{"KeyPassphrase":"passwordGUEST","ModeEnabled":"WPA2-Personal"}}
+  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.Security _set '{\"parameters\":{\"ModeEnabled\":\"WPA3-Personal\",\"KeyPassphrase\":\"passwordGUEST\"}}'"
+  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.Security.":{"KeyPassphrase":"passwordGUEST","ModeEnabled":"WPA3-Personal"}}
   {}
   {"amxd-error-code":0}
 
