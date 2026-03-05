@@ -11,7 +11,7 @@ feeds:
 
   - name: feed_prplos
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplos.git
-    revision: main@f85d8cd2d370c47131bf616b6cc419c7d7197bf4
+    revision: main@6be5ec32134cbaa5aa6140e39357860d7da0cb22
 
 additional_packages:
   - feed: packages
@@ -102,6 +102,8 @@ packages:
   - tr181-temperature
   - tr181-usermanagement
   - wifi-sensing
+  - mod-scheduler-amxp
+  - tr181-schedules
 
 diffconfig: |
           CONFIG_DEVEL=y
