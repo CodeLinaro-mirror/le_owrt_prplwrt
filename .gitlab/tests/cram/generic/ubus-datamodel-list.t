@@ -435,6 +435,7 @@ Check that ubus has expected datamodels available:
   X_PRPLWARE-COM_Controller.AgentDisconnectedEvent.AgentDisconnected.Radio.BSS.STA
   X_PRPLWARE-COM_Controller.Configuration
   X_PRPLWARE-COM_Controller.Configuration.QoS
+  X_PRPLWARE-COM_Controller.Configuration.TrafficSeparation
   X_PRPLWARE-COM_Controller.SteerEvent
   X_PRPLWARE-COM_ProcessManager
   X_PRPLWARE-COM_ProcessManager.PWHM
