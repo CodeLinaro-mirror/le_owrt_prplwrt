@@ -71,7 +71,6 @@ packages:
   - tr181-dslite
   - tr181-dynamicdns
   - tr181-gnimanager
-  - tr181-homeplug
   - tr181-httpaccess
   - tr181-ipdiagnostics
   - tr181-powerstatus
