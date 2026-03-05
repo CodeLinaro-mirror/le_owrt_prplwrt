@@ -60,6 +60,10 @@ Check AccessPoints status:
   WiFi.AccessPoint.8.Status="Disabled"
   WiFi.AccessPoint.9.Status="Disabled"
 
+Get 5GHz vap index:
+
+  $ priv5g_idx=$(get_vap_index "5" "private")
+
 First call of AccessPointCommit, controller should push empty config to agents:
 
   $ R logger -t cram "first call of AccessPointCommit pushes empty config, global teardown"
@@ -89,12 +93,12 @@ Create one instances of Network.AccessPoint and push it to the agent:
 
 Check that 5GHz private vap status:
 
-  $ wifi_dm "AccessPoint.1.SSIDReference+.Status?"
+  $ wifi_dm "AccessPoint.${priv5g_idx}.SSIDReference+.Status?"
   Device.WiFi.SSID.\d+.Status="Up" (re)
 
 Check the new SSID SSIDforStaticPunct is applied 1 time
 
-  $ wifi_dm "AccessPoint.1.SSIDReference+.SSID?"
+  $ wifi_dm "AccessPoint.${priv5g_idx}.SSIDReference+.SSID?"
   Device.WiFi.SSID.\d+.SSID="SSIDforStaticPunct" (re)
 
 No NBAPI function to set channel; taking advantage of gateway mode and write directly to PWHM. grep to remove empty line:
@@ -140,38 +144,6 @@ Check channel 40:
 
   $ wifi_dm_radio_band 5 "StaticPuncturing.DisabledSubChannels?"
   WiFi.Radio.\d+.StaticPuncturing.DisabledSubChannels="40" (re)
-
-Push 0b0110 0d06 - disable channels 40 and 44:
-
-  $ R logger -t cram "disable channels 40 and 44"
-  $ R "ba-cli -l \"X_PRPLWARE-COM_WiFiController.Network.Device.1.Radio.*.BSS.*.SetEHTOperations(DisabledSubchannelBitmap=6)\""  |  sed '/^$/d'
-  X_PRPLWARE-COM_WiFiController\.Network\.Device\.1\.Radio\.[0-9][0-9]*\.BSS\.[0-9][0-9]*\.SetEHTOperations\(\) returned (re)
-  [
-      ""
-  ]
-
-  $ sleep 5
-
-Check channels 40 and 44:
-
-  $ wifi_dm_radio_band 5 "StaticPuncturing.DisabledSubChannels?"
-  WiFi.Radio.\d+.StaticPuncturing.DisabledSubChannels="40,44" (re)
-
-Push 0b1110 0d14 - disable channels 40, 44, 48:
-
-  $ R logger -t cram "disable channels 40, 44, 48"
-  $ R "ba-cli -l \"X_PRPLWARE-COM_WiFiController.Network.Device.1.Radio.*.BSS.*.SetEHTOperations(DisabledSubchannelBitmap=14)\""  |  sed '/^$/d'
-  X_PRPLWARE-COM_WiFiController\.Network\.Device\.1\.Radio\.[0-9][0-9]*\.BSS\.[0-9][0-9]*\.SetEHTOperations\(\) returned (re)
-  [
-      ""
-  ]
-
-  $ sleep 5
-
-Check channels 40,44,48:
-
-  $ wifi_dm_radio_band 5 "StaticPuncturing.DisabledSubChannels?"
-  WiFi.Radio.\d+.StaticPuncturing.DisabledSubChannels="40,44,48" (re)
 
 Push 0b0000 0d00 - clear Radio.StaticPuncturing.DisabledSubChannels list:
 

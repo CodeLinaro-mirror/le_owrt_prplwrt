@@ -96,7 +96,50 @@ get_eht_ops() {
 enable_ap() {
   R "ba-cli -j -l WiFi.AccessPoint.${1}.Enable=1 | grep -q Enable && echo 'WiFi.AccessPoint.${1} enabled'"
 }
+# Print AccessPoint index of private/guest band
+# In : band (2.4, 5, 6)
+#      type ("private" or "guest")
+# Out : the index of the vap
+get_vap_index () {
+  local radio_ref
+  local band="$1"
+  local vap_type="$2"
 
+  if [ "$band" = "2.4" ] || [ "$band" = "2" ] || [ "$band" = "2.4GHz" ]; then
+    freq_band="2.4GHz"
+  elif [ "$band" = "5" ] || [ "$band" = "5GHz" ]; then
+    freq_band="5GHz"
+  elif [ "$band" = "6" ] || [ "$band" = "6GHz" ]; then
+    freq_band="6GHz"
+  else
+    R logger -t cram "get_vap_index: unknown band: $band"
+    echo "get_vap_index: unknown band: $band"
+    return 1
+  fi
+
+  R logger -t cram "get_vap_index: freq_band $freq_band"
+
+  radio_ref="Device.$(wifi_dm "Radio.[OperatingFrequencyBand == \"$freq_band\"].Name?" | cut -d'=' -f1 | sed "s/\.Name//")"
+
+  if [ "$vap_type" = "private" ]; then
+    # assume that the first occurence is the private AP 
+    vap_index=$(wifi_dm "AccessPoint.[ RadioReference==\"$radio_ref\" ].Alias?0" \
+      | head -n 1 \
+      | awk -F'.' '{print $3}')
+  elif [ "$vap_type" = "guest" ]; then
+    # assume that the second occurence is the private AP 
+    vap_index=$(wifi_dm "AccessPoint.[ RadioReference==\"$radio_ref\" ].Alias?0" \
+      | head -n 2 | tail -n 1 \
+      | awk -F'.' '{print $3}')
+  else
+    R logger -t cram "get_vap_index: unknown type: $vap_type"
+    echo "get_vap_index: unknown type: $vap_type"
+    return 1
+  fi
+
+  R logger -t cram "get_vap_index: vap_index $vap_index"
+  echo "$vap_index"
+}
 # Disable AccessPoints
 # In : AccessPoint object index, statut (0/1) (Optional)
 # Out : AccessPoint.X.Enable=0,1 if success
@@ -342,6 +385,13 @@ get_apmld_mac_from_dm() {
 # Out : interface name
 get_interface_name() {
   R "ba-cli -l -j 'WiFi.SSID.[MACAddress==\"${1}\"].Name?' | jsonfilter -e @[0]'[*].Name' || echo 'Could not find SSID'"
+}
+
+# Print intefrace name from a AP index
+# In : AP index
+# Out : interface name
+get_ap_main_wlan() {
+  R "ba-cli -l -j WiFi.AccessPoint.${1}.Alias? | jsonfilter -e @[0]'[*].Alias'" | cut -d'.' -f1
 }
 
 # Print link number of an interface
