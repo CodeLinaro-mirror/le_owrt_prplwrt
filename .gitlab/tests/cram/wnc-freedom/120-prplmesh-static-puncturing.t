@@ -83,7 +83,7 @@ Create one instances of Network.AccessPoint and push it to the agent:
 
   $ R logger -t cram "create instances of Network.AccessPoint and push them to the agent"
 
-  $ R "ba-cli \"X_PRPLWARE-COM_WiFiController.Network.AccessPoint+(Band5GH=1,Band5GL=1,MultiApMode=\"Fronthaul+Backhaul\",SSID=\"SSIDforStaticPunct\",Security.ModeEnabled=\"WPA3-Personal\",Security.KeyPassphrase=\"password\",Enable=1)\"" | tail -n +2 | sed '/^$/d'
+  $ R "ba-cli \"X_PRPLWARE-COM_WiFiController.Network.AccessPoint+(Band5GH=1,Band5GL=1,MultiApMode=\"Fronthaul+Backhaul\",X_PRPLWARE_VapType=\"home\",SSID=\"SSIDforStaticPunct\",Security.ModeEnabled=\"WPA3-Personal\",Security.KeyPassphrase=\"password\",Enable=1)\"" | tail -n +2 | sed '/^$/d'
   X_PRPLWARE-COM_WiFiController.Network.AccessPoint.* (re)
 
   $ R "ba-cli \"X_PRPLWARE-COM_WiFiController.Network.AccessPointCommit()\"" | tail -n +2 |  sed '/^$/d'
