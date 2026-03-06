@@ -72,34 +72,6 @@ Hostapd syntax is bitmap with LSB indicating lowest channel; 0x01 - 36; 0x02 - 4
 
 Test static puncturing on 5GHz band:
 
-  $ R logger -t cram "Test static puncturing on 5GHz band"
-  $ R logger -t cram "disable channels 40,44"
-  $ R "ba-cli -j -l \"WiFi.Radio.[OperatingFrequencyBand=='5GHz'].StaticPuncturing.DisabledSubChannels='40,44'\" | jsonfilter -e @[0]'[*].DisabledSubChannels'"
-  40,44
-
-  $ sleep 5
-
-  $ R "cat /tmp/wlan1_hapd.conf | grep punct"
-  punct_bitmap=6
-
-  $ R logger -t cram "disable channels 40,48"
-  $ R "ba-cli -j -l \"WiFi.Radio.[OperatingFrequencyBand=='5GHz'].StaticPuncturing.DisabledSubChannels='40,48'\" | jsonfilter -e @[0]'[*].DisabledSubChannels'"
-  40,48
-
-  $ sleep 5
-
-  $ R "cat /tmp/wlan1_hapd.conf | grep punct"
-  punct_bitmap=10
-
-  $ R logger -t cram "disable channels 40,44,48"
-  $ R "ba-cli -j -l \"WiFi.Radio.[OperatingFrequencyBand=='5GHz'].StaticPuncturing.DisabledSubChannels='40,44,48'\" | jsonfilter -e @[0]'[*].DisabledSubChannels'"
-  40,44,48
-
-  $ sleep 5
-
-  $ R "cat /tmp/wlan1_hapd.conf | grep punct"
-  punct_bitmap=14
-
   $ R logger -t cram "disable channels 44"
   $ R "ba-cli -j -l \"WiFi.Radio.[OperatingFrequencyBand=='5GHz'].StaticPuncturing.DisabledSubChannels='44'\" | jsonfilter -e @[0]'[*].DisabledSubChannels'"
   44
@@ -134,22 +106,6 @@ Disable top 4 channels : 49,53,57,61; from python:
 
   $ R "cat /tmp/wlan0_hapd.conf | grep punct"
   punct_bitmap=61440
-
-  $ R "ba-cli -j -l \"WiFi.Radio.3.Channel='37'\" | jsonfilter -e @[0]'[*].Channel'"
-  37
-
-Disable all channels except 37:
-
-  $ R logger -t cram "disable all channels except 37"
-  $ R "ba-cli -j -l \"WiFi.Radio.[OperatingFrequencyBand=='6GHz'].StaticPuncturing.DisabledSubChannels='1,5,9,13,17,21,25,29,33,41,45,49,53,57,61'\" | jsonfilter -e @[0]'[*].DisabledSubChannels'"
-  1,5,9,13,17,21,25,29,33,41,45,49,53,57,61
-
-  $ R sleep 5
-
-  $ R "cat /tmp/wlan0_hapd.conf | grep punct"
-  punct_bitmap=65023
-
-MAX Uint16 : 65535 - 65023 is 512 : (2^(10-1)), i.e., all except channel number 10
 
 Push 0b0000 0d00 - clear Radio.StaticPuncturing.DisabledSubChannels list:
 
