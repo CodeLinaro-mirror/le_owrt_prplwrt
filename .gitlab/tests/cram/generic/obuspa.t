@@ -1634,7 +1634,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.IP.Diagnostics.UploadDiagnostics.TotalBytesSent                                               proto::tr181-ipdiagnostics
   Device.IP.Diagnostics.UploadDiagnostics.TotalBytesSentUnderFullLoading                               proto::tr181-ipdiagnostics
   Device.IP.Diagnostics.UploadDiagnostics.UploadDiagnosticsMaxConnections                              proto::tr181-ipdiagnostics
-  Device.IP.Diagnostics.UploadDiagnostics.UploadDiagnosticsMaxIncrementalsResult                       proto::tr181-ipdiagnostics
+  Device.IP.Diagnostics.UploadDiagnostics.UploadDiagnosticsMaxIncrementalResult                        proto::tr181-ipdiagnostics
   Device.IP.Diagnostics.UploadDiagnostics.UploadTransports                                             proto::tr181-ipdiagnostics
   Device.IP.Diagnostics.UploadDiagnostics.UploadURL                                                    proto::tr181-ipdiagnostics
   Device.IP.Diagnostics.UploadDiagnosticsMaxConnections                                                proto::tr181-ipdiagnostics
@@ -6669,7 +6669,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.IP.Diagnostics.UploadDiagnostics.TotalBytesSent                                               proto::tr181-ipdiagnostics
   Device.IP.Diagnostics.UploadDiagnostics.TotalBytesSentUnderFullLoading                               proto::tr181-ipdiagnostics
   Device.IP.Diagnostics.UploadDiagnostics.UploadDiagnosticsMaxConnections                              proto::tr181-ipdiagnostics
-  Device.IP.Diagnostics.UploadDiagnostics.UploadDiagnosticsMaxIncrementalsResult                       proto::tr181-ipdiagnostics
+  Device.IP.Diagnostics.UploadDiagnostics.UploadDiagnosticsMaxIncrementalResult                        proto::tr181-ipdiagnostics
   Device.IP.Diagnostics.UploadDiagnostics.UploadTransports                                             proto::tr181-ipdiagnostics
   Device.IP.Diagnostics.UploadDiagnostics.UploadURL                                                    proto::tr181-ipdiagnostics
   Device.IP.Diagnostics.UploadDiagnosticsMaxConnections                                                proto::tr181-ipdiagnostics
