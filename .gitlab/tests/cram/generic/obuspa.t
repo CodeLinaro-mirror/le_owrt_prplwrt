@@ -3358,6 +3358,10 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.USB.USBHosts.Host.{i}.USBVersion                                                              proto::tr181-usb
   Device.USB.USBHosts.HostNumberOfEntries                                                              proto::tr181-usb
   Device.USPServices.
+  Device.USPServices.Trust.{i}.
+  Device.USPServices.Trust.{i}.EndpointID
+  Device.USPServices.Trust.{i}.TargetPaths
+  Device.USPServices.TrustNumberOfEntries
   Device.USPServices.USPService.{i}.
   Device.USPServices.USPService.{i}.DataModelPaths
   Device.USPServices.USPService.{i}.EndpointID
@@ -3365,10 +3369,17 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.USPServices.USPService.{i}.Protocol
   Device.USPServices.USPServiceNumberOfEntries
   Device.UnixDomainSockets.
+  Device.UnixDomainSockets.Authentication.{i}.
+  Device.UnixDomainSockets.Authentication.{i}.Enable
+  Device.UnixDomainSockets.Authentication.{i}.EndpointID
+  Device.UnixDomainSockets.Authentication.{i}.Password
+  Device.UnixDomainSockets.AuthenticationNumberOfEntries
   Device.UnixDomainSockets.UnixDomainSocket.{i}.
   Device.UnixDomainSockets.UnixDomainSocket.{i}.Alias
+  Device.UnixDomainSockets.UnixDomainSocket.{i}.AuthRequired
   Device.UnixDomainSockets.UnixDomainSocket.{i}.Mode
   Device.UnixDomainSockets.UnixDomainSocket.{i}.Path
+  Device.UnixDomainSockets.UnixDomainSocket.{i}.RegistrationRestricted
   Device.UnixDomainSockets.UnixDomainSocketNumberOfEntries
   Device.UserInterface.                                                                                proto::tr181-httpaccess
   Device.UserInterface.AvailableLanguages                                                              proto::tr181-httpaccess
@@ -8853,6 +8864,10 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.USB.USBHosts.Host.{i}.USBVersion                                                              proto::tr181-usb
   Device.USB.USBHosts.HostNumberOfEntries                                                              proto::tr181-usb
   Device.USPServices.
+  Device.USPServices.Trust.{i}.
+  Device.USPServices.Trust.{i}.EndpointID
+  Device.USPServices.Trust.{i}.TargetPaths
+  Device.USPServices.TrustNumberOfEntries
   Device.USPServices.USPService.{i}.
   Device.USPServices.USPService.{i}.DataModelPaths
   Device.USPServices.USPService.{i}.EndpointID
@@ -8860,10 +8875,17 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.USPServices.USPService.{i}.Protocol
   Device.USPServices.USPServiceNumberOfEntries
   Device.UnixDomainSockets.
+  Device.UnixDomainSockets.Authentication.{i}.
+  Device.UnixDomainSockets.Authentication.{i}.Enable
+  Device.UnixDomainSockets.Authentication.{i}.EndpointID
+  Device.UnixDomainSockets.Authentication.{i}.Password
+  Device.UnixDomainSockets.AuthenticationNumberOfEntries
   Device.UnixDomainSockets.UnixDomainSocket.{i}.
   Device.UnixDomainSockets.UnixDomainSocket.{i}.Alias
+  Device.UnixDomainSockets.UnixDomainSocket.{i}.AuthRequired
   Device.UnixDomainSockets.UnixDomainSocket.{i}.Mode
   Device.UnixDomainSockets.UnixDomainSocket.{i}.Path
+  Device.UnixDomainSockets.UnixDomainSocket.{i}.RegistrationRestricted
   Device.UnixDomainSockets.UnixDomainSocketNumberOfEntries
   Device.UserInterface.                                                                                proto::tr181-httpaccess
   Device.UserInterface.AvailableLanguages                                                              proto::tr181-httpaccess
