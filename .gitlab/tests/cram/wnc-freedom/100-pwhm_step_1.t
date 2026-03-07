@@ -7,7 +7,9 @@ Create R alias:
 
 Wait for Device.WiFi. datamodel availability:
 
-  $ R "amx_wait_for Device.WiFi."
+  $ R "amx_wait_for Device.WiFi.*.Radio"
+
+  $ sleep 15
 
 Stop prplMesh:
 
