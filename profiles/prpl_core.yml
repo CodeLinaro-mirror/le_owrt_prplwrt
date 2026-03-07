@@ -7,7 +7,7 @@ feeds:
 
   - name: feed_prplmesh
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplmesh.git
-    revision: main@96b4a24bf93a81cfd22df5e528a7eec419796a4a
+    revision: ynezz/ath13.1cs+feat27-add-dm-mapper-process-manager@07efbf6a08b7c9c1562a38f416fc73d51a9e32a8
 
   - name: feed_prplos
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplos.git
