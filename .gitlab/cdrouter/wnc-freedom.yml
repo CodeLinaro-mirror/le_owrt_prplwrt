@@ -1,5 +1,5 @@
 .wnc-freedom: &wnc_freedom
-  needs: ["build test qca_ipq95xx prpl cellular security thread"]
+  needs: []
   extends:
     - .wnc-freedom testbed
     - .cdrouter
@@ -106,10 +106,12 @@ CDRouter-IPv6-Top-100+mDNS Freedom VLAN WAN/LAN initramfs:
 
 CDRouter-TR-069 Freedom eMMC:
   <<: *wnc_freedom
+  needs: ["build test qca_ipq95xx prpl cellular security thread"]
   variables:
     LABGRID_TARGET: wnc-freedom-emmc
     TFTP_IMAGE_FILENAME: prplos-ipq95xx-generic-prpl_freedom-squashfs-sysupgrade.bin
     TFTP_IMAGE_FILENAME_PATTERN: /.*prplos-ipq95xx-generic-prpl_freedom-squashfs-sysupgrade.bin/
+    PFD_PIPELINE_ID: ""
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
       .gitlab/scripts/dut-init/cdrouter-tr181-mockups.sh

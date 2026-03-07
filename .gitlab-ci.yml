@@ -96,7 +96,9 @@ run test MXL25641-HDK-6 with system on eMMC:
   extends: .mxl25641-hdk-6 testbed
 
 run test Freedom initramfs:
-  needs: ["build test qca_ipq95xx prpl cellular security thread"]
+  needs: []
+  rules:
+    - when: manual
   extends: .wnc-freedom testbed
 
 run test Mozart initramfs:
