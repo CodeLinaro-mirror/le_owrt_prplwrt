@@ -242,6 +242,10 @@ Silently Disable all VAPs:
 
   $ R "usp-cli Device.WiFi.AccessPoint.*.Enable=0 > /dev/null"
 
+Wait VAP disabled completely:
+
+  $ sleep 15
+
 Restore default controller config:
 
   $ R logger -t cram "Restart prplmesh"

@@ -160,6 +160,10 @@ Disable all AccessPoints (implicitly - the ones that was enabled for this test):
 
   $ R "ba-cli \"Device.WiFi.AccessPoint.*.Enable=0\" > /dev/null"
 
+Wait VAP disabled completely:
+
+  $ sleep 15
+
 Restart prplMesh:
 
   $ R "ba-cli X_PRPLWARE-COM_ProcessManager.PrplMesh.ManagementMode=Multi-AP-Controller-and-Agent"  > /dev/null
