@@ -62,6 +62,7 @@ Configure controller for NBAPI configuration:
   $ R "ba-cli X_PRPLWARE-COM_ProcessManager.PrplMesh.ManagementMode=Multi-AP-Controller-and-Agent"  > /dev/null
   $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=1" | tr -d '\n'
   1 (no-eol)
+  $ sleep 15
 
   $ R "ubus -t 60 wait_for X_PRPLWARE-COM_WiFiController.Network.Device.1"
 
