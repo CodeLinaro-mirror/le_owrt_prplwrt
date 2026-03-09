@@ -36,14 +36,17 @@ Check default configuration:
   WiFi.Radio.1.Capabilities.WiFi7STARole.EMLSRSupport=1
   WiFi.Radio.1.Capabilities.WiFi7STARole.NSTRSupport=0
   WiFi.Radio.1.Capabilities.WiFi7STARole.STRSupport=0
+  WiFi.Radio.1.Capabilities.WiFi7STARole.TIDLinkMapNegotiation=0
   WiFi.Radio.2.Capabilities.WiFi7STARole.EMLMRSupport=0
   WiFi.Radio.2.Capabilities.WiFi7STARole.EMLSRSupport=1
   WiFi.Radio.2.Capabilities.WiFi7STARole.NSTRSupport=0
   WiFi.Radio.2.Capabilities.WiFi7STARole.STRSupport=0
+  WiFi.Radio.2.Capabilities.WiFi7STARole.TIDLinkMapNegotiation=0
   WiFi.Radio.3.Capabilities.WiFi7STARole.EMLMRSupport=0
   WiFi.Radio.3.Capabilities.WiFi7STARole.EMLSRSupport=1
   WiFi.Radio.3.Capabilities.WiFi7STARole.NSTRSupport=0
   WiFi.Radio.3.Capabilities.WiFi7STARole.STRSupport=0
+  WiFi.Radio.3.Capabilities.WiFi7STARole.TIDLinkMapNegotiation=0
 
 Configure an EP MLD with same MLD unit:
 
