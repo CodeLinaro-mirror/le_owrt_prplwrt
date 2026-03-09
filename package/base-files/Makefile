@@ -28,6 +28,7 @@ PKG_CONFIG_DEPENDS += \
 	CONFIG_EMMC_SUPPORT \
 	CONFIG_CLEAN_IPKG \
 	CONFIG_PER_FEED_REPO \
+	CONFIG_SECURESTORE_LABEL \
 	$(foreach feed,$(FEEDS_AVAILABLE),CONFIG_FEED_$(feed))
 
 include $(INCLUDE_DIR)/package.mk
@@ -197,6 +198,9 @@ define Package/base-files/install
 		$(1)/sbin/hotplug-call \
 		$(1)/etc/preinit \
 		$(1)/etc/profile
+
+	$(SED) "s#SECURESTORE_LABEL=\"securestore\"#SECURESTORE_LABEL=\"$(CONFIG_SECURESTORE_LABEL)\"#g" \
+		$(1)/etc/init.d/securestore
 
 	mkdir -p \
 		$(1)/CONTROL \
