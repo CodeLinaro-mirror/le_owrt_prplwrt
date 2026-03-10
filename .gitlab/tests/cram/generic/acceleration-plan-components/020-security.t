@@ -1,6 +1,7 @@
 Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
+  $ alias C="${CRAM_REMOTE_COPY:-}"
 
 Backup the state of the system:
 
@@ -12,7 +13,8 @@ Backup the state of the system:
 Copy over testing certificates:
 
   $ R "mkdir -p /etc/config/autocert"
-  $ scp ${CI_PROJECT_DIR}/.gitlab/certs/tr181-security/autocert/* "root@${TARGET_LAN_IP}:/etc/config/autocert/"
+  $ C ${CI_PROJECT_DIR}/.gitlab/certs/tr181-security/autocert/* "root@${TARGET_LAN_IP}:/etc/config/autocert/"
+  Warning: Permanently added '*' (*) to the list of known hosts* (glob)
 
 Restart tr181-security service:
 
@@ -82,16 +84,16 @@ Check that the first certificate is not present anymore:
 
 Check that CABundle are presents:
 
-  $ R "echo '%populate{object Security{object CABundle{instance add(){parameter Enable=1; parameter Name=cram; parameter CAFileURI=\"/tmp/server-cert.crt\";}}}}' > /etc/amx/tr181-security/extensions/01_cram_periodic_transfer.odl" ; sleep 1
+  $ R "echo '%populate{object Security{object CABundle{instance add(){parameter Enable=1; parameter Name=cram; parameter CAFileURI=\"/tmp/server-cert.crt\";}}}}' > /etc/amx/tr181-security/defaults.d/01_cram_periodic_transfer.odl" ; sleep 1
   $ R '/etc/init.d/tr181-security restart'
   $ R 'ba-cli Security.CABundleNumberOfEntries?' | grep -v '>'
-  Security.CABundleNumberOfEntries=1
+  Security.CABundleNumberOfEntries=2
   
 
 Check CABundle RPC:
 
-  $ R "ba-cli 'Security.CABundle.1.CAFile()'" | grep -v '>'
-  Security.CABundle.1.CAFile() returned
+  $ R "ba-cli 'Security.CABundle.2.CAFile()'" | grep -v '>'
+  Security.CABundle.2.CAFile() returned
   [
       "",
       {
@@ -99,8 +101,8 @@ Check CABundle RPC:
       }
   ]
   
-  $ R "ba-cli 'Security.CABundle.1.CADir()'" | grep -v '>'
-  Security.CABundle.1.CADir() returned
+  $ R "ba-cli 'Security.CABundle.2.CADir()'" | grep -v '>'
+  Security.CABundle.2.CADir() returned
   [
       "",
       {
@@ -108,9 +110,9 @@ Check CABundle RPC:
       }
   ]
   
-  $ R "ba-cli 'Security.CABundle.1.CADirURI=/tmp'" >/dev/null
-  $ R "ba-cli 'Security.CABundle.1.CADir()'" | grep -v '>'
-  Security.CABundle.1.CADir() returned
+  $ R "ba-cli 'Security.CABundle.2.CADirURI=/tmp'" >/dev/null
+  $ R "ba-cli 'Security.CABundle.2.CADir()'" | grep -v '>'
+  Security.CABundle.2.CADir() returned
   [
       "",
       {
@@ -121,7 +123,7 @@ Check CABundle RPC:
 
 Restore the state of the system:
 
-  $ R 'rm -rf /etc/amx/tr181-security/extensions/01_cram_periodic_transfer.odl'
+  $ R 'rm -rf /etc/amx/tr181-security/defaults.d/01_cram_periodic_transfer.odl'
   $ R '/etc/init.d/tr181-security restart'
   $ R "rm -rf /etc/config/autocert"
   $ R "mv /etc/config/autocert.bak /etc/config/autocert"
