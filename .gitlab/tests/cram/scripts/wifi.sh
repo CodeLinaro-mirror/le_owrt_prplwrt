@@ -2,6 +2,11 @@
 # Common WiFi helpers:
 #
 
+# Remote CLI helper for stdin-consuming tools such as ba-cli and usp-cli.
+RN() {
+  ${CRAM_REMOTE_COMMAND:-} "$@" </dev/null
+}
+
 # set/get wifi datamodel
 # In : path under 'WiFi.'
 # Out : print ba-cli output
@@ -17,7 +22,7 @@ wifi_dm() {
   # remove any trailing '?' from next grep
   obj_name=${obj_name%%\?*}
   R logger -t cram "set_wifi_dm: command WiFi.$path object ${obj_name}"
-  res=$(R "ba-cli 'WiFi.${path}'" | grep -v '>')
+  res=$(RN "ba-cli 'WiFi.${path}'" | grep -v '>')
   if ! echo "$res" | grep -q "${obj_name}="; then
     if echo "$res" | grep -q "No data found"; then
       R logger -t cram "set_wifi_dm: WiFi.${path} failed : No data found"
@@ -83,7 +88,7 @@ get_eht_ops() {
     return 1
   fi
 
-  R "ba-cli -l \"WiFi.Radio.[OperatingFrequencyBand=='${freq_band}'].getEHTOperations()\"" |
+  RN "ba-cli -l \"WiFi.Radio.[OperatingFrequencyBand=='${freq_band}'].getEHTOperations()\"" |
     awk '/^\[/ {f=1; next} /^\]/ {f=0} f' |
     tr -d ' {}[],' |
     sed '/^$/d' |
@@ -94,7 +99,7 @@ get_eht_ops() {
 # In : AccessPoint object index
 # Out : "enabled" if success, empty otherwise
 enable_ap() {
-  R "ba-cli -j -l WiFi.AccessPoint.${1}.Enable=1 | grep -q Enable && echo 'WiFi.AccessPoint.${1} enabled'"
+  RN "ba-cli -j -l WiFi.AccessPoint.${1}.Enable=1 | grep -q Enable && echo 'WiFi.AccessPoint.${1} enabled'"
 }
 
 # Disable AccessPoints
@@ -134,7 +139,7 @@ enable_ap_sync() {
 # In : AccessPoint object index
 # Out : "disabled" if success, empty otherwise
 disable_ap() {
-  R "ba-cli -j -l WiFi.AccessPoint.${1}.Enable=0 | grep -q Enable && echo 'WiFi.AccessPoint.${1} disabled'"
+  RN "ba-cli -j -l WiFi.AccessPoint.${1}.Enable=0 | grep -q Enable && echo 'WiFi.AccessPoint.${1} disabled'"
 }
 
 # Wait until SSID status is Up/Down
@@ -142,7 +147,7 @@ disable_ap() {
 # In : Expected status Up/Down
 # Out: "SSID Reference is {Up/Down}"
 check_ap_ref_ssid() {
-  R "
+  RN "
     i=10
     while [ \$i -gt 1 ]; do
       ba-cli -j -l WiFi.AccessPoint.${1}.SSIDReference+.Status? |
@@ -159,7 +164,7 @@ check_ap_ref_ssid() {
 # In : AccessPoint object index
 # Out : Enable / Disable / Dormant ...
 get_ssid_ref() {
-  msg=$(R "ba-cli -j -l WiFi.AccessPoint.${1}.SSIDReference+.Status?")
+  msg=$(RN "ba-cli -j -l WiFi.AccessPoint.${1}.SSIDReference+.Status?")
   echo "$msg" | sed '/^$/d'
 }
 
@@ -170,7 +175,7 @@ get_ap_status() {
 
 # Print APs status
 get_ap_ssid() {
-  ap_num=$(R "ba-cli -l \"WiFi.AccessPointNumberOfEntries?\"" | sed '/^$/d')
+  ap_num=$(RN "ba-cli -l \"WiFi.AccessPointNumberOfEntries?\"" | sed '/^$/d')
   local i=1
   while [ "$i" -le "$ap_num" ]; do
     wifi_dm "AccessPoint.$i.SSIDReference+.SSID?" | sed "s/Device.WiFi.SSID.[0-9]*/AccessPoint.$i/g"
@@ -189,11 +194,11 @@ ls_ap_hapd_socket () {
   local wpa_file
 
   # read main link interface from pwhm dm
-  mld_unit=$(R "ba-cli -l \"WiFi.AccessPoint.${ap}.SSIDReference+.MLDUnit?\"" | sed '/^$/d')
-  main_itf=$(R "ba-cli -l \"WiFi.SSID.[MLDRole=='Primary' && MLDUnit==${mld_unit}].Name?\"" | sed '/^$/d')
+  mld_unit=$(RN "ba-cli -l \"WiFi.AccessPoint.${ap}.SSIDReference+.MLDUnit?\"" | sed '/^$/d')
+  main_itf=$(RN "ba-cli -l \"WiFi.SSID.[MLDRole=='Primary' && MLDUnit==${mld_unit}].Name?\"" | sed '/^$/d')
 
   # read link id from SSID object
-  link_id=$(R "ba-cli -l \"WiFi.AccessPoint.${ap}.SSIDReference+.MLDLinkID?\"" | sed '/^$/d')
+  link_id=$(RN "ba-cli -l \"WiFi.AccessPoint.${ap}.SSIDReference+.MLDLinkID?\"" | sed '/^$/d')
 
   # ls socket file
   wpa_file="/var/run/hostapd/${main_itf}_link${link_id}"
@@ -213,29 +218,29 @@ ls_hapd_sockets () {
 
 # Print SSIDs status
 get_ssid_status() {
-  R "ba-cli -j -l WiFi.SSID.?0 | jsonfilter -e @[0]'[@.Alias != \"ep2g0\" && @.Alias != \"ep5g0\" && @.Alias != \"ep6g0\"].Status'" | LC_ALL=C sort
+  RN "ba-cli -j -l WiFi.SSID.?0 | jsonfilter -e @[0]'[@.Alias != \"ep2g0\" && @.Alias != \"ep5g0\" && @.Alias != \"ep6g0\"].Status'" | LC_ALL=C sort
 }
 
 # Print SSIDs values
 get_ssid_ssid() {
-  R "ba-cli -j -l WiFi.SSID.?0 | jsonfilter -e @[0]'[@.Alias != \"ep2g0\" && @.Alias != \"ep5g0\" && @.Alias != \"ep6g0\"].SSID'" | LC_ALL=C sort
+  RN "ba-cli -j -l WiFi.SSID.?0 | jsonfilter -e @[0]'[@.Alias != \"ep2g0\" && @.Alias != \"ep5g0\" && @.Alias != \"ep6g0\"].SSID'" | LC_ALL=C sort
 }
 
 # Set MLDUnit
 # In : AccessPoint object index, MLDUnit
 # Out : MLDUnit value set
 set_mlduint() {
-  R "ba-cli -l WiFi.AccessPoint.$1.SSIDReference+.MLDUnit=$2"  | sed '/^$/d'
+  RN "ba-cli -l WiFi.AccessPoint.$1.SSIDReference+.MLDUnit=$2"  | sed '/^$/d'
 }
 
 # Set Radio [Arg1] OperatingStandardsFormat = [Arg2]; Standard : list of all standards; Legacy : only highest enabled 802.11 standard
 set_radio_operating_standard_format(){
-  R "ba-cli -l -j \"WiFi.Radio.[OperatingFrequencyBand=='$1'].OperatingStandardsFormat='$2'\" | jsonfilter -e @[0]'[*].OperatingStandardsFormat'"
+  RN "ba-cli -l -j \"WiFi.Radio.[OperatingFrequencyBand=='$1'].OperatingStandardsFormat='$2'\" | jsonfilter -e @[0]'[*].OperatingStandardsFormat'"
 }
 
 # Set Radio [Arg1] OperatingStandards = [Arg2];
 set_radio_operating_standards(){
-  R "ba-cli -l -j \"WiFi.Radio.[OperatingFrequencyBand=='$1'].OperatingStandards='$2'\" | jsonfilter -e @[0]'[*].OperatingStandards'"
+  RN "ba-cli -l -j \"WiFi.Radio.[OperatingFrequencyBand=='$1'].OperatingStandards='$2'\" | jsonfilter -e @[0]'[*].OperatingStandards'"
 }
 
 # read hostapd option from configuration file
@@ -249,7 +254,7 @@ get_hapd_config() {
 
   # As when in MLO all relevant interface options are set to main link itf name, use the BSSID instead while parsing parameters
   # this ensure the detection of the right section
-  target_bssid=$(R "ba-cli -l \"WiFi.SSID.[Name=='$itf'].BSSID?\"" | sed '/^$/d' | awk '{print toupper($0)}')
+  target_bssid=$(RN "ba-cli -l \"WiFi.SSID.[Name=='$itf'].BSSID?\"" | sed '/^$/d' | awk '{print toupper($0)}')
 
   R logger -t cram "get_hapd_config: get '$target_param' of '$target_iface' with bssid '$target_bssid' from '$target_conf_path'"
 
@@ -308,14 +313,14 @@ get_hapd_config() {
 # In : N/A
 # Out : MLDUNit
 get_private_mldunit() {
-   R 'ba-cli -j -l "WiFi.SSID.[SSID==\"prplOS\"].MLDUnit?" | jsonfilter -e @[0]'[*].MLDUnit''  | head -n 1
+   RN 'ba-cli -j -l "WiFi.SSID.[SSID==\"prplOS\"].MLDUnit?" | jsonfilter -e @[0]'[*].MLDUnit''  | head -n 1
 }
 
 # Print MLDUnit of private MLD based on default SSID (prplOS-guest)
 # In : N/A
 # Out : MLDUnit
 get_guest_mldunit() {
-   R 'ba-cli -j -l "WiFi.SSID.[SSID==\"prplOS-guest\"].MLDUnit?" | jsonfilter -e @[0]'[*].MLDUnit''  | head -n 1
+   RN 'ba-cli -j -l "WiFi.SSID.[SSID==\"prplOS-guest\"].MLDUnit?" | jsonfilter -e @[0]'[*].MLDUnit''  | head -n 1
 }
 
 # validate mac address
@@ -327,7 +332,7 @@ is_valid_mac() {
 # In : MLDID (MLDUnit)
 # Out : APMLD MACAddress. If an APMLD matches the MLDID with empty MACAddress return an error message
 get_apmld_mac_from_dm() {
-  mac=$(R "ba-cli -l -j 'WiFi.APMLD.[MLDID == ${1}].MLDMACAddress?' | jsonfilter -e @[0]'[*].MLDMACAddress' | strings")
+  mac=$(RN "ba-cli -l -j 'WiFi.APMLD.[MLDID == ${1}].MLDMACAddress?' | jsonfilter -e @[0]'[*].MLDMACAddress' | strings")
   if ! is_valid_mac "$mac"; then
     echo "not_found"
     R logger -t cram "get_apmld_mac_from_dm: MLDMACAddress $mac of MLD ${1} not found"
@@ -341,7 +346,7 @@ get_apmld_mac_from_dm() {
 # In : wlan MAC address
 # Out : interface name
 get_interface_name() {
-  R "ba-cli -l -j 'WiFi.SSID.[MACAddress==\"${1}\"].Name?' | jsonfilter -e @[0]'[*].Name' || echo 'Could not find SSID'"
+  RN "ba-cli -l -j 'WiFi.SSID.[MACAddress==\"${1}\"].Name?' | jsonfilter -e @[0]'[*].Name' || echo 'Could not find SSID'"
 }
 
 # Print link number of an interface
@@ -361,7 +366,7 @@ get_main_link_itf () {
   local ifaces
   local mac=$1
 
-  ifaces=$(R ba-cli -l "WiFi.SSID.*.Name?0 | strings")
+  ifaces=$(RN ba-cli -l "WiFi.SSID.*.Name?0 | strings")
 
   for iface in $ifaces; do
     info=$(R iw dev "$iface" info 2>/dev/null)
@@ -428,11 +433,11 @@ dm_affilated_mac_list_from_mldid() {
   local bssid
   local link_id
 
-  aff_ap_nb=$(R "ba-cli -l 'WiFi.APMLD.[ MLDID == ${mld_id} ].AffiliatedAPNumberOfEntries?'" | sed '/^$/d')
+  aff_ap_nb=$(RN "ba-cli -l 'WiFi.APMLD.[ MLDID == ${mld_id} ].AffiliatedAPNumberOfEntries?'" | sed '/^$/d')
 
   while [ "$idx" -le "$aff_ap_nb" ]; do
-    bssid=$(R "ba-cli -j -l 'WiFi.APMLD.[ MLDID == ${mld_id} ].AffiliatedAP.${idx}.BSSID?' | jsonfilter -e @[0]'[*].BSSID'")
-    link_id=$(R "ba-cli -j -l 'WiFi.APMLD.[ MLDID == ${mld_id} ].AffiliatedAP.${idx}.LinkID?' | jsonfilter -e @[0]'[*].LinkID'")
+    bssid=$(RN "ba-cli -j -l 'WiFi.APMLD.[ MLDID == ${mld_id} ].AffiliatedAP.${idx}.BSSID?' | jsonfilter -e @[0]'[*].BSSID'")
+    link_id=$(RN "ba-cli -j -l 'WiFi.APMLD.[ MLDID == ${mld_id} ].AffiliatedAP.${idx}.LinkID?' | jsonfilter -e @[0]'[*].LinkID'")
     output="link ${link_id} addr ${bssid}\n${output}"
     idx=$((idx + 1))
   done
