@@ -5,6 +5,11 @@ Create R alias:
 
   $ R "logger -t cram 'Starting PWHM test (step 2) ...'"
 
+Save hostap pid:
+
+  $ hostap_pid=$(R pgrep -f 'hostapd')
+  $ R logger -t cram "hostap PID : $hostap_pid"
+
 Check that hostapd is operating as expected:
 
   $ R logger -t cram "Check that hostapd is operating"
