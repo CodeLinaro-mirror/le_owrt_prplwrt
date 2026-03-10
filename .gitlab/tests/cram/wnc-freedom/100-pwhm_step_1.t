@@ -356,3 +356,8 @@ Check wpacltrl socket file:
   wlan2.3_link2
 
   $ sleep 5
+
+Check if hostap pid has changed or not:
+
+  $ if [ "$(R pgrep -f 'hostapd')" = "$hostap_pid" ]; then echo "true"; else echo "hostap restarted during the test !"; fi
+  true
