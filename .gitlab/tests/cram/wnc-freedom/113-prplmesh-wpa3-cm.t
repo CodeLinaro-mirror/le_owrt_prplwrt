@@ -35,7 +35,7 @@ Check default SecMode:
 Check if private/guest VAPs contain WPA3-Personal-Compatibility in the Security.ModesAvailable list:
 (use the  regex AccessPoint\.[1-6]\+\.Security to filter out backhaul vaps )
 
-  $ wifi_dm "AccessPoint.*.Security.X_PRPLWARE-COM_ModesAvailable?" | sed -n 's/^\(WiFi\.AccessPoint\.[1-6]\+\.Security\.X_PRPLWARE-COM_ModesAvailable\).*WPA3-Personal-Compatibility.*/\1 has WPA3-Personal-Compatibility mode/p'
+  $ wifi_dm "AccessPoint.*.Security.X_PRPLWARE-COM_ModesAvailable?" | sed -n 's/^\(Device.WiFi\.AccessPoint\.[1-6]\+\.Security\.X_PRPLWARE-COM_ModesAvailable\).*WPA3-Personal-Compatibility.*/\1 has WPA3-Personal-Compatibility mode/p'
   Device.WiFi.AccessPoint.1.Security.X_PRPLWARE-COM_ModesAvailable has WPA3-Personal-Compatibility mode
   Device.WiFi.AccessPoint.2.Security.X_PRPLWARE-COM_ModesAvailable has WPA3-Personal-Compatibility mode
   Device.WiFi.AccessPoint.3.Security.X_PRPLWARE-COM_ModesAvailable has WPA3-Personal-Compatibility mode

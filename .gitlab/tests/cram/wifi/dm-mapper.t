@@ -53,6 +53,7 @@ Restart WiFiSensing mapper service and verify DM disappears/returns:
   root: pre-service hook wifi-sensing
 
   $ R "amx_wait_for Device.WiFi.X_PRPLWARE-COM_WiFiSensing."
+  $ sleep 10
 
 Write invalid value to Device.WiFi.AccessPoint.1.Enable and expect error:
 

@@ -51,8 +51,8 @@ Register some data Change event from UBUS:
   $ R "cat /tmp/ubus_events"
   Event dm:object-changed
   {
-      eobject = "WiFi.AccessPoint.[DEFAULT_RADIO0_BAND0].",
-      object = "WiFi.AccessPoint.DEFAULT_RADIO0_BAND0.",
+      eobject = "WiFi.AccessPoint.[DEFAULT_RADIO0].",
+      object = "WiFi.AccessPoint.DEFAULT_RADIO0.",
       parameters = {
           Enable = {
               from = 0,
