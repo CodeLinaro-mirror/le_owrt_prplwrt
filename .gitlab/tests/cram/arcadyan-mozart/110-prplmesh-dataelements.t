@@ -8,6 +8,11 @@ Set AutoChannelEnable=0 on all WiFi.Radio. interfaces:
   $ R "ba-cli -j -l WiFi.Radio.*.AutoChannelEnable=0 | sed '/^$/d'"
   [{"WiFi.Radio.1.":{"AutoChannelEnable":0},"WiFi.Radio.2.":{"AutoChannelEnable":0},"WiFi.Radio.3.":{"AutoChannelEnable":0}}]
 
+Reset 2.4GHz bandwidth to the default 20MHz (PCF-2420):
+
+  $ wifi_dm_radio_band 2 "OperatingChannelBandwidth=\"20MHz\""
+  WiFi.Radio.\d+.OperatingChannelBandwidth="20MHz" (re)
+
 Set channel to a non DFS one:
 
   $ R "ba-cli -j -l WiFi.Radio.2.Channel=36 | sed '/^$/d'"
@@ -194,7 +199,7 @@ Check that prplmesh is operational:
   $ R "/opt/prplmesh/bin/prplmesh_cli -c status -o pretty" | sed 's/\t/        /g'
   Mode: Agent+Controller
   Controller:
-          bridge MAC: [0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
+          bridge MAC: (1C:F4:3F|20:37:F0):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
           [1-9]+ agent\(s\) connected (re)
   Agent:
           MAC address: [0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
