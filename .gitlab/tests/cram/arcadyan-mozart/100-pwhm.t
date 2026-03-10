@@ -11,7 +11,10 @@ Wait for Device.WiFi. datamodel availability:
 
 Stop prplMesh:
 
-  $ R "/etc/init.d/prplmesh stop > /dev/null 2>&1"
+  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=0" | tr -d '\n'
+  0 (no-eol)
+
+  $ sleep 2
 
 Set AutoChannelEnable=0 on all WiFi.Radio. interfaces:
 
@@ -74,6 +77,15 @@ Test activation of access point 1:
   WiFi.AccessPoint.8.Status="Disabled"
   WiFi.AccessPoint.9.Status="Disabled"
 
+Check wpacltrl socket file:
+
+  $ ls_ap_hapd_socket 1
+  /var/run/hostapd/wlan[0-9.]+_link[0-9].* (re)
+
+  $ ls_hapd_sockets
+  wlan2.1
+  wlan2.1_link0
+
 Save hostap pid:
 
   $ hostap_pid=$(R pgrep -f 'hostapd')
@@ -97,6 +109,17 @@ Test activation of access point 2:
   WiFi.AccessPoint.8.Status="Disabled"
   WiFi.AccessPoint.9.Status="Disabled"
 
+Check wpacltrl socket file:
+
+  $ ls_ap_hapd_socket 2
+  /var/run/hostapd/wlan[0-9.]+_link[0-9] (re)
+
+  $ ls_hapd_sockets
+  wlan2.1
+  wlan2.1_link0
+  wlan2.2
+  wlan2.2_link0
+
 Test activation of access point 3:
 
   $ R logger -t cram "Test AccessPoint 3 activation "$(get_ssid_ref 3)""
@@ -114,6 +137,18 @@ Test activation of access point 3:
   WiFi.AccessPoint.7.Status="Disabled"
   WiFi.AccessPoint.8.Status="Disabled"
   WiFi.AccessPoint.9.Status="Disabled"
+
+Check wpacltrl socket file:
+
+  $ ls_ap_hapd_socket 3
+  /var/run/hostapd/wlan[0-9.]+_link[0-9] (re)
+
+  $ ls_hapd_sockets
+  wlan2.1
+  wlan2.1_link0
+  wlan2.1_link1
+  wlan2.2
+  wlan2.2_link0
 
 Test activation of access point 4:
 
@@ -133,6 +168,19 @@ Test activation of access point 4:
   WiFi.AccessPoint.8.Status="Disabled"
   WiFi.AccessPoint.9.Status="Disabled"
 
+Check wpacltrl socket file:
+
+  $ ls_ap_hapd_socket 4
+  /var/run/hostapd/wlan[0-9.]+_link[0-9] (re)
+
+  $ ls_hapd_sockets
+  wlan2.1
+  wlan2.1_link0
+  wlan2.1_link1
+  wlan2.2
+  wlan2.2_link0
+  wlan2.2_link1
+
 Test activation of access point 5:
 
   $ R logger -t cram "Test AccessPoint 5 activation "$(get_ssid_ref 5)""
@@ -150,6 +198,20 @@ Test activation of access point 5:
   WiFi.AccessPoint.7.Status="Disabled"
   WiFi.AccessPoint.8.Status="Disabled"
   WiFi.AccessPoint.9.Status="Disabled"
+
+Check wpacltrl socket file:
+
+  $ ls_ap_hapd_socket 5
+  /var/run/hostapd/wlan[0-9.]+_link[0-9] (re)
+
+  $ ls_hapd_sockets
+  wlan2.1
+  wlan2.1_link0
+  wlan2.1_link1
+  wlan2.1_link2
+  wlan2.2
+  wlan2.2_link0
+  wlan2.2_link1
 
 Test activation of access point 6:
 
@@ -169,6 +231,21 @@ Test activation of access point 6:
   WiFi.AccessPoint.8.Status="Disabled"
   WiFi.AccessPoint.9.Status="Disabled"
 
+Check wpacltrl socket file:
+
+  $ ls_ap_hapd_socket 6
+  /var/run/hostapd/wlan[0-9.]+_link[0-9] (re)
+
+  $ ls_hapd_sockets
+  wlan2.1
+  wlan2.1_link0
+  wlan2.1_link1
+  wlan2.1_link2
+  wlan2.2
+  wlan2.2_link0
+  wlan2.2_link1
+  wlan2.2_link2
+
 Test activation of access point 7:
 
   $ R logger -t cram "Test AccessPoint 7 activation "$(get_ssid_ref 7)""
@@ -186,6 +263,24 @@ Test activation of access point 7:
   WiFi.AccessPoint.7.Status="Enabled"
   WiFi.AccessPoint.8.Status="Disabled"
   WiFi.AccessPoint.9.Status="Disabled"
+
+Check wpacltrl socket file:
+
+  $ ls_ap_hapd_socket 7
+  /var/run/hostapd/wlan[0-9.]+_link[0-9] (re)
+
+  $ ls_hapd_sockets
+  wlan2.1
+  wlan2.1_link0
+  wlan2.1_link1
+  wlan2.1_link2
+  wlan2.2
+  wlan2.2_link0
+  wlan2.2_link1
+  wlan2.2_link2
+  wlan2.3
+  wlan2.3_link0
+
 
 Test activation of access point 8:
 
@@ -205,6 +300,24 @@ Test activation of access point 8:
   WiFi.AccessPoint.8.Status="Enabled"
   WiFi.AccessPoint.9.Status="Disabled"
 
+Check wpacltrl socket file:
+
+  $ ls_ap_hapd_socket 8
+  /var/run/hostapd/wlan[0-9.]+_link[0-9] (re)
+
+  $ ls_hapd_sockets
+  wlan2.1
+  wlan2.1_link0
+  wlan2.1_link1
+  wlan2.1_link2
+  wlan2.2
+  wlan2.2_link0
+  wlan2.2_link1
+  wlan2.2_link2
+  wlan2.3
+  wlan2.3_link0
+  wlan2.3_link1
+
 Test activation of access point 9:
 
   $ R logger -t cram "Test AccessPoint 9 activation "$(get_ssid_ref 9)""
@@ -223,6 +336,27 @@ Test activation of access point 9:
   WiFi.AccessPoint.8.Status="Enabled"
   WiFi.AccessPoint.9.Status="Enabled"
 
+Check wpacltrl socket file:
+
+  $ ls_ap_hapd_socket 9
+  /var/run/hostapd/wlan[0-9.]+_link[0-9] (re)
+
+  $ ls_hapd_sockets
+  wlan2.1
+  wlan2.1_link0
+  wlan2.1_link1
+  wlan2.1_link2
+  wlan2.2
+  wlan2.2_link0
+  wlan2.2_link1
+  wlan2.2_link2
+  wlan2.3
+  wlan2.3_link0
+  wlan2.3_link1
+  wlan2.3_link2
+
+  $ sleep 5
+
 Check that hostapd is operating as expected:
 
   $ R logger -t cram "Check that hostapd is operating"
@@ -235,12 +369,6 @@ Check that hostapd is operating as expected:
   hostapd
 
   $ R "ubus list | grep hostapd. | sort"
-  hostapd.wlan0.1
-  hostapd.wlan0.2
-  hostapd.wlan0.3
-  hostapd.wlan1.1
-  hostapd.wlan1.2
-  hostapd.wlan1.3
   hostapd.wlan2.1
   hostapd.wlan2.2
   hostapd.wlan2.3
@@ -261,14 +389,30 @@ Check iw interfaces and beaconing:
   Interface wlan2.2
   Interface wlan2.3
   ssid backhaul_(1C:F4:3F|20:37:F0):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
-  ssid backhaul_(1C:F4:3F|20:37:F0):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
-  ssid backhaul_(1C:F4:3F|20:37:F0):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
-  ssid prplOS
-  ssid prplOS
   ssid prplOS
   ssid prplOS-guest
-  ssid prplOS-guest
-  ssid prplOS-guest
+
+Check that the tree interfaces are present in the main link interface:
+
+  $ R "iw dev" | grep -e link -A 3 | grep -e link -e channel | sed 's/^[ \t]*//'
+  link 0:
+  channel.* (re)
+  link 1:
+  channel.* (re)
+  link 2:
+  channel.* (re)
+  link 0:
+  channel.* (re)
+  link 1:
+  channel.* (re)
+  link 2:
+  channel.* (re)
+  link 0:
+  channel.* (re)
+  link 1:
+  channel.* (re)
+  link 2:
+  channel.* (re)
 
 Test deactivation of access point 9:
 
@@ -285,6 +429,24 @@ Test deactivation of access point 9:
   WiFi.AccessPoint.7.Status="Enabled"
   WiFi.AccessPoint.8.Status="Enabled"
   WiFi.AccessPoint.9.Status="Disabled"
+
+Check wpacltrl socket file:
+
+  $ ls_ap_hapd_socket 9
+  not found
+
+  $ ls_hapd_sockets
+  wlan2.1
+  wlan2.1_link0
+  wlan2.1_link1
+  wlan2.1_link2
+  wlan2.2
+  wlan2.2_link0
+  wlan2.2_link1
+  wlan2.2_link2
+  wlan2.3
+  wlan2.3_link0
+  wlan2.3_link1
 
 Test deactivation of access point 8:
 
@@ -304,6 +466,23 @@ Test deactivation of access point 8:
   WiFi.AccessPoint.8.Status="Disabled"
   WiFi.AccessPoint.9.Status="Disabled"
 
+Check wpacltrl socket file:
+
+  $ ls_ap_hapd_socket 8
+  not found
+
+  $ ls_hapd_sockets
+  wlan2.1
+  wlan2.1_link0
+  wlan2.1_link1
+  wlan2.1_link2
+  wlan2.2
+  wlan2.2_link0
+  wlan2.2_link1
+  wlan2.2_link2
+  wlan2.3
+  wlan2.3_link0
+
 Test deactivation of access point 7:
 
   $ R logger -t cram "Test AccessPoint 7 deactivation "$(get_ssid_ref 7)""
@@ -321,6 +500,21 @@ Test deactivation of access point 7:
   WiFi.AccessPoint.7.Status="Disabled"
   WiFi.AccessPoint.8.Status="Disabled"
   WiFi.AccessPoint.9.Status="Disabled"
+
+Check wpacltrl socket file:
+
+  $ ls_ap_hapd_socket 7
+  not found
+
+  $ ls_hapd_sockets
+  wlan2.1
+  wlan2.1_link0
+  wlan2.1_link1
+  wlan2.1_link2
+  wlan2.2
+  wlan2.2_link0
+  wlan2.2_link1
+  wlan2.2_link2
 
 Test deactivation of access point 6:
 
@@ -340,6 +534,20 @@ Test deactivation of access point 6:
   WiFi.AccessPoint.8.Status="Disabled"
   WiFi.AccessPoint.9.Status="Disabled"
 
+Check wpacltrl socket file:
+
+  $ ls_ap_hapd_socket 6
+  not found
+
+  $ ls_hapd_sockets
+  wlan2.1
+  wlan2.1_link0
+  wlan2.1_link1
+  wlan2.1_link2
+  wlan2.2
+  wlan2.2_link0
+  wlan2.2_link1
+
 Test deactivation of access point 5:
 
   $ R logger -t cram "Test AccessPoint 5 deactivation "$(get_ssid_ref 5)""
@@ -357,6 +565,19 @@ Test deactivation of access point 5:
   WiFi.AccessPoint.7.Status="Disabled"
   WiFi.AccessPoint.8.Status="Disabled"
   WiFi.AccessPoint.9.Status="Disabled"
+
+Check wpacltrl socket file:
+
+  $ ls_ap_hapd_socket 5
+  not found
+
+  $ ls_hapd_sockets
+  wlan2.1
+  wlan2.1_link0
+  wlan2.1_link1
+  wlan2.2
+  wlan2.2_link0
+  wlan2.2_link1
 
 Test deactivation of access point 4:
 
@@ -376,6 +597,18 @@ Test deactivation of access point 4:
   WiFi.AccessPoint.8.Status="Disabled"
   WiFi.AccessPoint.9.Status="Disabled"
 
+Check wpacltrl socket file:
+
+  $ ls_ap_hapd_socket 4
+  not found
+
+  $ ls_hapd_sockets
+  wlan2.1
+  wlan2.1_link0
+  wlan2.1_link1
+  wlan2.2
+  wlan2.2_link0
+
 Test deactivation of access point 3:
 
   $ R logger -t cram "Test AccessPoint 3 deactivation "$(get_ssid_ref 3)""
@@ -394,6 +627,17 @@ Test deactivation of access point 3:
   WiFi.AccessPoint.8.Status="Disabled"
   WiFi.AccessPoint.9.Status="Disabled"
 
+Check wpacltrl socket file:
+
+  $ ls_ap_hapd_socket 3
+  not found
+
+  $ ls_hapd_sockets
+  wlan2.1
+  wlan2.1_link0
+  wlan2.2
+  wlan2.2_link0
+
 Test deactivation of access point 2:
 
   $ R logger -t cram "Test AccessPoint 2 deactivation "$(get_ssid_ref 2)""
@@ -411,6 +655,15 @@ Test deactivation of access point 2:
   WiFi.AccessPoint.7.Status="Disabled"
   WiFi.AccessPoint.8.Status="Disabled"
   WiFi.AccessPoint.9.Status="Disabled"
+
+Check wpacltrl socket file:
+
+  $ ls_ap_hapd_socket 2
+  not found
+
+  $ ls_hapd_sockets
+  wlan2.1
+  wlan2.1_link0
 
 Before deactivating last AP (ie stopping hostpad), check if hostap pid has changed or not:
 
@@ -435,6 +688,14 @@ Test deactivation of access point 1:
   WiFi.AccessPoint.8.Status="Disabled"
   WiFi.AccessPoint.9.Status="Disabled"
 
+Check wpacltrl socket file:
+
+  $ ls_ap_hapd_socket 1
+  not found
+
+  $ ls_hapd_sockets
+  ls: /var/run/hostapd/: No such file or directory
+
 Check if hostapd process is stopped:
 
   $ R "pgrep -f 'hostapd'"
@@ -442,7 +703,8 @@ Check if hostapd process is stopped:
 
 Resume prplMesh:
 
-  $ R "/etc/init.d/prplmesh start 2>&1 > /dev/null"
+  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=1" | tr -d '\n'
+  1 (no-eol)
 
   $ R logger -t cram "Stopping PWHM test .."
 
