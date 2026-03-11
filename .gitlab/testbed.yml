@@ -35,6 +35,17 @@
 
   before_script:
     - source .gitlab/scripts/helpers.sh
+    - section_start "cdrouter-cleanup" "CDRouter Cleanup" "collapsed"
+
+    - >
+      if echo "$CI_RUNNER_DESCRIPTION" | grep -q testbed-02; then
+        export CDROUTER_API_TOKEN="$CDROUTER_API_TOKEN_TESTBED_02"
+      fi
+
+    - .gitlab/scripts/testbed-cdrouter.py check_connectivity
+    - .gitlab/scripts/testbed-cdrouter.py package_stop
+
+    - section_end "cdrouter-cleanup"
     - section_start "testbed-setup" "Testbed Setup" "collapsed"
 
     - touch .run_failed
