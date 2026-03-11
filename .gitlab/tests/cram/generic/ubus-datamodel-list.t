@@ -546,6 +546,7 @@ Check that ubus has expected datamodels available:
   X_PRPLWARE-COM_WiFiMapped.WiFi
   X_PRPLWARE-COM_WiFiMapped.WiFi.DataElements
   X_PRPLWARE-COM_WiFiMapped.WiFi.DataElements.X_PRPLWARE-COM_Controller
+  X_PRPLWARE-COM_WiFiMapped.WiFi.X_PRPLWARE-COM_ProcessManager
   X_PRPLWARE-COM_WiFiMapped.WiFi.X_PRPLWARE-COM_WiFiSensing
   X_PRPLWARE-COM_WiFiSensing
   X_PRPLWARE-COM_WiFiSensing.Session
