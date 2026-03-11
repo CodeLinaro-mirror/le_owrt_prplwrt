@@ -7,7 +7,6 @@ upload:
 
   needs:
     - job: build test ipq807x prpl security
-    - job: build test mvebu prpl security
     - job: build test x86_64 prpl security
     - job: build test qca_ipq95xx prpl cellular security thread
     - job: build test mtk_filogic prpl security
@@ -18,17 +17,6 @@ upload:
 
   script:
     - prplware_version=$(echo "$CI_COMMIT_TAG" | sed 's/^prplware-v//')
-
-    # mvebu
-    - |
-      curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
-        --upload-file bin/targets/mvebu/cortexa9/prplos-mvebu-cortexa9-cznic_turris-omnia-initramfs-kernel.bin \
-        ${PACKAGE_REGISTRY_URL}/turris-omnia/${prplware_version}/prplos-mvebu-cortexa9-cznic_turris-omnia-initramfs-kernel.bin
-
-    - |
-      curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
-        --upload-file bin/targets/mvebu/cortexa9/prplos-mvebu-cortexa9-cznic_turris-omnia-squashfs-sysupgrade.img.gz \
-        ${PACKAGE_REGISTRY_URL}/turris-omnia/${prplware_version}/prplos-mvebu-cortexa9-cznic_turris-omnia-squashfs-sysupgrade.img.gz
 
     # x86
     - |
@@ -111,7 +99,7 @@ release:
     - echo "Creating prplWare release $prplware_version"
 
     - |
-      release-cli create --name "prplWare release $prplware_version" --tag-name $CI_COMMIT_TAG \
+      release-cli create --name "prplWare release $prplware_version" --tag-name "$CI_COMMIT_TAG" \
         --assets-link "{\"name\":\"MaxLinear/Gemtek OSPv2 A-Step single-image\",\"url\":\"${PACKAGE_REGISTRY_URL}/gemtek-ospv2/${prplware_version}/prplos-intel_x86-lgm-PRPL_OSP_v2-tb341_wav700_fullimage.fit\"}" \
         --assets-link "{\"name\":\"MaxLinear/Gemtek OSPv2 B-Step single-image\",\"url\":\"${PACKAGE_REGISTRY_URL}/gemtek-ospv2-b/${prplware_version}/prplos-intel_x86-lgm-PRPL_OSP_v2-wgrtd159be_b_wav700_fullimage.fit\"}" \
         --assets-link "{\"name\":\"MediaTek/Arcadyan Mozart bootstack\",\"url\":\"${PACKAGE_REGISTRY_URL}/arcadyan-mozart/${prplware_version}/prplos-mediatek-filogic-arcadyan_mozart-emmc-bootstack.tar.gz\"}" \
@@ -119,8 +107,6 @@ release:
         --assets-link "{\"name\":\"MediaTek/Arcadyan Mozart initramfs\",\"url\":\"${PACKAGE_REGISTRY_URL}/arcadyan-mozart/${prplware_version}/prplos-mediatek-filogic-arcadyan_mozart-initramfs.itb\"}" \
         --assets-link "{\"name\":\"prpl Haze sysupgrade\",\"url\":\"${PACKAGE_REGISTRY_URL}/prpl-haze/${prplware_version}/prplos-qualcommax-ipq807x-prpl_haze-squashfs-sysupgrade.bin\"}" \
         --assets-link "{\"name\":\"prpl Haze initramfs\",\"url\":\"${PACKAGE_REGISTRY_URL}/prpl-haze/${prplware_version}/prplos-qualcommax-ipq807x-prpl_haze-initramfs-uImage.itb\"}" \
-        --assets-link "{\"name\":\"Turris Omnia sysupgrade\",\"url\":\"${PACKAGE_REGISTRY_URL}/turris-omnia/${prplware_version}/prplos-mvebu-cortexa9-cznic_turris-omnia-initramfs-kernel.bin\"}" \
-        --assets-link "{\"name\":\"Turris Omnia initramfs\",\"url\":\"${PACKAGE_REGISTRY_URL}/turris-omnia/${prplware_version}/prplos-mvebu-cortexa9-cznic_turris-omnia-sysupgrade.img.gz\"}" \
         --assets-link "{\"name\":\"Qualcomm/WNC Freedom sysupgrade\",\"url\":\"${PACKAGE_REGISTRY_URL}/wnc-freedom/${prplware_version}/prplos-ipq95xx-generic-prpl_freedom-squashfs-sysupgrade.bin\"}" \
         --assets-link "{\"name\":\"Qualcomm/WNC Freedom initramfs\",\"url\":\"${PACKAGE_REGISTRY_URL}/wnc-freedom/${prplware_version}/prplos-ipq95xx-generic-prpl_freedom-initramfs-uImage.itb\"}" \
         --assets-link "{\"name\":\"x86/64 sysupgrade\",\"url\":\"${PACKAGE_REGISTRY_URL}/x86-64/${prplware_version}/prplos-x86-64-generic-squashfs-combined-efi.img\"}" \

@@ -1,26 +1,3 @@
-build Docker image ib-mvebu-cortexa9:
-  stage: docker SDK and IB
-  needs: ["build test mvebu prpl security"]
-  variables:
-    DOCKER_DOCKERFILE_PATH: .gitlab/docker/ib
-    DOCKER_BUILD_EXTRA_ARGS: --build-arg DESIGNATED_BRANCH_SLUG=$CI_DESIGNATED_BRANCH_SLUG
-  extends: .build Docker image
-  before_script:
-    - tar xf bin/targets/mvebu/cortexa9/prplos-imagebuilder-mvebu-cortexa9.Linux-x86_64.tar.xz --strip=1 -C .gitlab/docker/ib
-
-test Docker image ib-mvebu-cortexa9:
-  extends: .test Docker IB image
-  needs: ["build Docker image ib-mvebu-cortexa9"]
-  variables:
-    CI_IB_PROFILE: cznic_turris-omnia
-    CI_IB_PACKAGES: -firewall4 -logd -nftables -wpad-basic-mbedtls
-
-deploy Docker image ib-mvebu-cortexa9:
-  stage: docker SDK and IB deploy
-  extends: .deploy Docker image
-  needs: ["test Docker image ib-mvebu-cortexa9"]
-
-
 build Docker image ib-x86-64:
   stage: docker SDK and IB
   needs: ["build test x86_64 prpl security"]
