@@ -4,7 +4,7 @@ description: Packages and features for LCM
 feeds:
   - name: feed_lcm
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_lcm.git
-    revision: main@c94a6b01ac8440f9e167e47f1f5ed4ab7125622d
+    revision: prplware-v4.2.0@c94a6b01ac8440f9e167e47f1f5ed4ab7125622d
 
 packages:
   - cthulhu
@@ -94,4 +94,3 @@ diffconfig: |
           CONFIG_KERNEL_SECCOMP_FILTER=y
           CONFIG_KERNEL_USER_NS=y
           CONFIG_KERNEL_UTS_NS=y
-
