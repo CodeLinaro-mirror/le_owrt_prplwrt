@@ -1,6 +1,9 @@
 ---
 profiles:
   - arcadyan_mozart
+  - mediatek_mt7987a-rfb
+  - mediatek_mt7988a-rfb
+  - mediatek_mt7988d-rfb
 target: mediatek
 subtarget: filogic
 external_target: True
@@ -8,8 +11,8 @@ description: Build image for MediaTek / Arcadyan Mozart board
 feeds:
   - name: feed_mediatek
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-mediatek
-    tracking_branch: arcadyan-mozart-mp4.3
-    revision: 76be27e0293fb6b397cd91b035a5dfacf8303ab9
+    tracking_branch: arcadyan-mozart-24.10
+    revision: 89b581df01401e78a40172cec163eb00626528e6
   - name: feed_mfg
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_mfg.git
     tracking_branch: main
@@ -19,9 +22,20 @@ additional_packages:
   - feed: packages
     packages:
       - cryptsetup
+      - lvm2
+      - libaio
+      - kmod-dax
+      - kmod-dm
+      - libdevmapper
+      - libpopt
+      - libi2c
+      - i2c-tools
 
 packages:
   - mediatek
+  - kmod-mt7990-firmware
+  - kmod-mt7992-firmware
+  - kmod-mt7992-23-firmware
   - kmod-mt7996-firmware
   - kmod-mt7996-233-firmware
   - kmod-mt7996e
@@ -58,6 +72,8 @@ packages:
   - readmfg
   - afcd
   - atenl
+  - nftables-json
+  - libnftnl
 
 diffconfig: |
   CONFIG_TARGET_ROOTFS_PARTSIZE=256
@@ -107,3 +123,4 @@ diffconfig: |
   CONFIG_PACKAGE_kmod-i2c-algo-bit=y
   CONFIG_PACKAGE_kmod-i2c-core=y
   CONFIG_PACKAGE_kmod-i2c-gpio=y
+  CONFIG_PACKAGE_kmod-nf-flow-netlink=y
