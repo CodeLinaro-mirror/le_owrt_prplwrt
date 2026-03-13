@@ -1,0 +1,7 @@
+
+%populate {
+    object 'Timingila.CthulhuAdapters.SoftwareModulesTable.DU.ParamMapping' {
+        instance add(0, 'Vendor', 'DestinationParameter' = "Vendor", 'SourceParameterPath' = "UndefinedParameter");
+        instance add(0, 'Description', 'DestinationParameter' = "Description", 'SourceParameterPath' = "UndefinedParameter");
+    } 
+}
