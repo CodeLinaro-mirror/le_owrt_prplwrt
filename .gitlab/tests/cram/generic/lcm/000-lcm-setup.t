@@ -10,4 +10,8 @@ Restarting cthulhu would allow to workaround USP functionality after obuspa rest
 
   $ C ${TESTDIR}/zzz-ci-defaults.odl root@${TARGET_LAN_IP}:/etc/amx/cthulhu/extensions
   Warning: Permanently added '*' (*) to the list of known hosts* (glob)
-  $ R "/etc/init.d/cthulhu restart"; sleep 10
+  $ C ${TESTDIR}/zzz-ci-timingila-cthulhu-config.odl root@${TARGET_LAN_IP}:/etc/amx/timingila/extensions/
+  Warning: Permanently added '*' (*) to the list of known hosts* (glob)
+  $ R "/etc/init.d/cthulhu restart"
+  $ R "/etc/init.d/timingila restart"
+  $ sleep 10
