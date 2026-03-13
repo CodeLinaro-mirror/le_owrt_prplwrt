@@ -39,6 +39,8 @@ Install the container in privileged mode with extra LCM features and check its s
 
 Perform the backup process:
 
+  $ R "ba-cli 'PersistentConfiguration.Service.cthulhu_Cthulhu.ExportStatus=None'" > /dev/null
+  $ R "ba-cli 'PersistentConfiguration.Service.cthulhu_Cthulhu.ImportStatus=None'" > /dev/null
   $ R "ba-cli 'PersistentConfiguration.Backup()'" > /dev/null
   $ R "ls /cfg/pcm/cthulhu_Cthulhu.json"
   /cfg/pcm/cthulhu_Cthulhu.json
@@ -52,7 +54,6 @@ Save the data model before simulated firmware upgrade:
 Simulate firmware upgrade with manual configuration removal:
 
   $ R "${S} && fake_fw_upgrade"
-  $ sleep 30
 
 Save the data model after simulated firmware upgrade:
 
