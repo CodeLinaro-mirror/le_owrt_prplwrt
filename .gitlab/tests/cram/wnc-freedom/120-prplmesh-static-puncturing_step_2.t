@@ -3,12 +3,7 @@ Create R alias:
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
   $ . "${TESTDIR}/../scripts/wifi.sh"
 
-  $ R "logger -t cram 'Starting prplMesh static puncturing test (step 2) ...'"
-
-Check channels 40,44,48:
-
-  $ wifi_dm_radio_band 5 "StaticPuncturing.DisabledSubChannels?"
-  Device.WiFi.Radio.\d+.StaticPuncturing.DisabledSubChannels="40,44,48" (re)
+  $ R "logger -t cram 'Starting prplMesh static puncturing test 2/2 ...'"
 
 Push 0b0000 0d00 - clear Radio.StaticPuncturing.DisabledSubChannels list:
 
@@ -20,6 +15,11 @@ Push 0b0000 0d00 - clear Radio.StaticPuncturing.DisabledSubChannels list:
   ]
 
   $ sleep 5
+
+Check that static puncturing is disabled in hostpad config files:
+
+  $ R "grep punct_bitmap /tmp/wlan*_hapd.conf"
+  [1]
 
 Check channels puncturing deactivation:
 
