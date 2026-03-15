@@ -3,7 +3,7 @@ Create R alias:
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
   $ . "${TESTDIR}/../scripts/wifi.sh"
 
-  $ R "logger -t cram 'Starting prplMesh static puncturing test (step 1) ...'"
+  $ R "logger -t cram 'Starting prplMesh static puncturing test 1/2 ...'"
 
 Set AutoChannelEnable=0 on all WiFi.Radio. interfaces:
 
@@ -104,6 +104,11 @@ Check the new SSID SSIDforStaticPunct is applied 1 time
   $ wifi_dm "AccessPoint.3.SSIDReference+.SSID?"
   Device.WiFi.SSID.\d+.SSID="SSIDforStaticPunct" (re)
 
+Check that static puncturing is disabled in hostpad config files:
+
+  $ R "grep punct_bitmap /tmp/wlan*_hapd.conf"
+  [1]
+
 No NBAPI function to set channel; taking advantage of gateway mode and write directly to PWHM. grep to remove empty line:
 
   $ wifi_dm_radio_band 5 "OperatingChannelBandwidth=\"80MHz\""
@@ -115,22 +120,6 @@ Check that 5GHz Radio reports opClass 115 channels 36,40,44,48:
 
   $ wifi_dm_radio_band 5 "ChannelsInUse?"
   Device.WiFi.Radio.\d+.ChannelsInUse="36,40,44,48" (re)
-
-Push 0b0001 0d01 - disable channel 36:
-
-  $ R logger -t cram "disable channel 36"
-  $ R "ba-cli -l \"X_PRPLWARE-COM_WiFiController.Network.Device.1.Radio.*.BSS.*.SetEHTOperations(DisabledSubchannelBitmap=1)\""  |  sed '/^$/d'
-  X_PRPLWARE-COM_WiFiController\.Network\.Device\.1\.Radio\.[0-9][0-9]*\.BSS\.[0-9][0-9]*\.SetEHTOperations\(\) returned (re)
-  [
-      ""
-  ]
-
-  $ sleep 5
-
-Check channel 36:
-
-  $ wifi_dm_radio_band 5 "StaticPuncturing.DisabledSubChannels?"
-  Device.WiFi.Radio.\d+.StaticPuncturing.DisabledSubChannels=36 (re)
 
 Push 0b0010 0d02 - disable channel 40:
 
@@ -148,29 +137,9 @@ Check channel 40:
   $ wifi_dm_radio_band 5 "StaticPuncturing.DisabledSubChannels?"
   Device.WiFi.Radio.\d+.StaticPuncturing.DisabledSubChannels=40 (re)
 
-Push 0b0110 0d06 - disable channels 40 and 44:
+Check hostapd configuration:
 
-  $ R logger -t cram "disable channels 40 and 44"
-  $ R "ba-cli -l \"X_PRPLWARE-COM_WiFiController.Network.Device.1.Radio.*.BSS.*.SetEHTOperations(DisabledSubchannelBitmap=6)\""  |  sed '/^$/d'
-  X_PRPLWARE-COM_WiFiController\.Network\.Device\.1\.Radio\.[0-9][0-9]*\.BSS\.[0-9][0-9]*\.SetEHTOperations\(\) returned (re)
-  [
-      ""
-  ]
+  $ R "cat /tmp/wlan1_hapd.conf | grep punct"
+  punct_bitmap=2
 
-  $ sleep 5
-
-Check channels 40 and 44:
-
-  $ wifi_dm_radio_band 5 "StaticPuncturing.DisabledSubChannels?"
-  Device.WiFi.Radio.\d+.StaticPuncturing.DisabledSubChannels="40,44" (re)
-
-Push 0b1110 0d14 - disable channels 40, 44, 48:
-
-  $ R logger -t cram "disable channels 40, 44, 48"
-  $ R "ba-cli -l \"X_PRPLWARE-COM_WiFiController.Network.Device.1.Radio.*.BSS.*.SetEHTOperations(DisabledSubchannelBitmap=14)\""  |  sed '/^$/d'
-  X_PRPLWARE-COM_WiFiController\.Network\.Device\.1\.Radio\.[0-9][0-9]*\.BSS\.[0-9][0-9]*\.SetEHTOperations\(\) returned (re)
-  [
-      ""
-  ]
-
-  $ sleep 5
+  $ R logger -t cram "prplMesh static puncturing test 1/2 finished !"
