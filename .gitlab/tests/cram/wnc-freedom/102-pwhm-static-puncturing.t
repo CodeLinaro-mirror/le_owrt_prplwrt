@@ -82,6 +82,12 @@ Test static puncturing on 5GHz band:
   $ R "cat /tmp/wlan1_hapd.conf | grep punct"
   punct_bitmap=4
 
+Try to set invalid DisabledSubChannels:
+On 5GHz with 80MHz bandwith only one channel can be punctured (IEEE Std 802.11be - Part 11 - Table 36-30)
+
+  $ R "ba-cli \"Device.WiFi.Radio.[OperatingFrequencyBand=='5GHz'].StaticPuncturing.DisabledSubChannels='40,44'\"" | sed '/^$/d' | grep ERROR
+  .*ERROR.* (re)
+
 Test static puncturing on 6GHz band:
 
   $ R logger -t cram "Test static puncturing on 6GHz band"
@@ -110,6 +116,11 @@ Disable top 2 channels : 57,61; from python:
 
   $ R "ba-cli -j -l \"Device.WiFi.Radio.3.Channel='37'\" | jsonfilter -e @[0]'[*].Channel'"
   37
+
+Try to set invalid DisabledSubChannels:
+
+  $ R "ba-cli \"Device.WiFi.Radio.[OperatingFrequencyBand=='6GHz'].StaticPuncturing.DisabledSubChannels='1,5,9,13,17,21,25,29,33,41,45,49,53,57,61'\"" | sed '/^$/d' | grep ERROR
+  .*ERROR.* (re)
 
 Push 0b0000 0d00 - clear Radio.StaticPuncturing.DisabledSubChannels list:
 
