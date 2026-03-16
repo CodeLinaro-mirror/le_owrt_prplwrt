@@ -238,6 +238,11 @@ Check that controller received correct info about wifi subsystem:
   wlan2.0
   wlan2.1
 
+pwhm usp socket : check if there is at least one connected client (should be beerocks processes):
+
+  $ R "netstat -ap 2>/dev/null | grep 'CONNECTED.*pwhm_usp.sock'| wc -l"
+  [1-9]$ (re)
+
 To disable wireless, disable instances of Network.AccessPoint{i} and call AccessPointCommit():
 
   $ R logger -t cram "Stop wireless"
