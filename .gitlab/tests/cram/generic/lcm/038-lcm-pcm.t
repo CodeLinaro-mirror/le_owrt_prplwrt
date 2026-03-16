@@ -171,6 +171,9 @@ Cleanup test environment:
   $ R "${S} && set_ee_roles --userroles \"\" --roles \"\"" > /dev/null
   $ R "${S} && check_available_user_roles"
   
+Cleanup ApplicationData volumes due to PPW-1656:
+  $ R "${S} && cleanup_appdata"
+
   $ R "${S} && cleanup_hostobjects"
   $ R "rm -f /tmp/script_functions.sh" > /dev/null
   $ rm -f "${TESTDIR}/"{cthulhhu,timingila,rlyeh}_{before,after}.dm > /dev/null

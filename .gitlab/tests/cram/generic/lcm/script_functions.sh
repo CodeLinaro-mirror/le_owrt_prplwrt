@@ -1118,3 +1118,15 @@ add_containers_descriptors() {
           \"Privileged\": 1
         }" > /etc/amx/cthulhu/onboard/70a9bf70-9df9-5221-b51b-184c74d022e3.json
 }
+
+cleanup_appdata() {
+	service cthulhu stop
+	while [ -n "$(pidof cthulhu)" ]; do sleep 1; done; sleep 10
+	umount /lcm/cthulhu/data/mounts/generic/applicationdata/mounts/00000000-0000-5000-b000-000000000001/Volume1 > /dev/null
+	umount /lcm/cthulhu/data/mounts/generic/applicationdata/mounts/00000000-0000-5000-b000-000000000001/Volume2 > /dev/null
+	rm -rf /lcm/cthulhu/data/mounts/generic/applicationdata
+	umount /lcm/cthulhu/data/mounts/generic > /dev/null
+	rm -rf /etc/config/cthulhu/*
+	service cthulhu start
+}
+
