@@ -172,6 +172,6 @@ Cleanup test environment:
   $ R "${S} && check_available_user_roles"
   
   $ R "${S} && cleanup_hostobjects"
-  $ R "rm -f /tmp/script_functions.sh"
-  $ rm ${TESTDIR}/*_before.dm ${TESTDIR}/*_after.dm
-  $ rm ${TESTDIR}/runtime_params
+  $ R "rm -f /tmp/script_functions.sh" > /dev/null
+  $ rm -f "${TESTDIR}/"{cthulhhu,timingila,rlyeh}_{before,after}.dm > /dev/null
+  $ rm -f "${TESTDIR}/runtime_params" > /dev/null
