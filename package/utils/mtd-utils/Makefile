@@ -56,8 +56,7 @@ HOST_CONFIGURE_ARGS+= \
         --without-crypto \
         --without-xattr \
         --without-zstd \
-        --without-lzo  \
-        --with-selinux
+        --without-lzo
 
 HOST_MAKE_FLAGS += \
         PROGRAMS="ubinize mkfs.ubifs "
@@ -76,7 +75,7 @@ define Package/mtd-utils/Default
   SECTION:=utils
   CATEGORY:=Utilities
   URL:=http://www.linux-mtd.infradead.org/
-  DEPENDS:=@NAND_SUPPORT +libselinux
+  DEPENDS:=@NAND_SUPPORT
 endef
 
 define Package/ubi-utils
