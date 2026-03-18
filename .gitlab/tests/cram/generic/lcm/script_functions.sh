@@ -987,13 +987,18 @@ fake_fw_upgrade() {
     service rlyeh stop
     service timingila stop
 
+    service obuspa stop
+
     rm -rf /etc/config/cthulhu /etc/config/lxc/"${duid}"
+
+    service obuspa start
+    sleep 20
 
     service rlyeh start
     service cthulhu start
     service timingila start
 
-    sleep 20
+    sleep 10
     start_ctr --uuid "${uuid}" >> /dev/null
 }
 
@@ -1128,5 +1133,10 @@ cleanup_appdata() {
 	umount /lcm/cthulhu/data/mounts/generic > /dev/null
 	rm -rf /etc/config/cthulhu/*
 	service cthulhu start
+}
+
+debug_obuspa() {
+	obuspa -c get Device.LocalAgent.MTP.[Protocol=="UDS"].UDS.UnixDomainSocketRef
+	usp-cli -lj 'Device.LocalAgent.MTP.[Protocol=="UDS"].UDS.UnixDomainSocketRef?'
 }
 

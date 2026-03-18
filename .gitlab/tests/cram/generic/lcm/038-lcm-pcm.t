@@ -55,6 +55,10 @@ Simulate firmware upgrade with manual configuration removal:
 
   $ R "${S} && fake_fw_upgrade"
 
+Check obuspa:
+  $ R "${S} && debug_obuspa"
+
+
 Save the data model after simulated firmware upgrade:
 
   $ R "ba-cli 'Cthulhu.?'" > ${TESTDIR}/cthulhu_after.dm
