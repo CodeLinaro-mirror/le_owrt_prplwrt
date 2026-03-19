@@ -356,11 +356,23 @@ get_interface_name() {
 
 # Print link number of an interface
 # In : wlan interface
-# Out : link number
+# Out : sorted list of "addr xx:xx", "channel N ...", "link N" lines
 get_link_info() {
   local itf=$1
   R logger -t cram "get_link_info: interface ${1}"
-  R "iw dev ${itf} info" | grep -e addr -e channe -e link | sed 's/^[ \t]*//' | sed 's/:*$//' | sort | uniq
+  local raw
+  raw=$(R "iw dev ${itf} info")
+  if printf '%s\n' "$raw" | grep -qF '- link ID'; then
+    # New MLO format (newer iw): "- link ID  N link addr xx:xx:xx"
+    # Extract per-link addr and link number from "- link ID  N link addr xx:xx:xx" lines,
+    # plus channel lines from the MLD info block.
+    { printf '%s\n' "$raw" | sed -nE 's/^- link ID[[:space:]]+([0-9]+) link addr ([0-9a-fA-F:]+).*/addr \2\nlink \1/p'
+      printf '%s\n' "$raw" | grep -E 'channel [0-9]' | sed 's/^[[:space:]]*//'
+    } | sort | uniq
+  else
+    # Old format: separate "addr", "channel" and "link N:" lines
+    printf '%s\n' "$raw" | grep -e addr -e channe -e link | sed 's/^[[:space:]]*//' | sed 's/:*$//' | sort | uniq
+  fi
 }
 
 # print main link interface name from MAC address
@@ -410,7 +422,15 @@ iw_affliated_link_info_from_mldid() {
 iw_get_main_link_mac_list() {
   local iface=$1
   R logger -t cram "get_main_link_mac_list $iface"
-  R "iw dev $iface info"  | grep link -A3 | grep -e 'addr ' -e link | sed -nE 'N;s/.*link ([0-9]+):\n[[:space:]]*addr ([0-9a-fA-F:]+)/link \1 addr \2/p'  | LC_ALL=C sort
+  local raw
+  raw=$(R "iw dev $iface info")
+  if printf '%s\n' "$raw" | grep -qF '- link ID'; then
+    # New MLO format (newer iw): "- link ID  N link addr xx:xx:xx"
+    printf '%s\n' "$raw" | sed -nE 's/^- link ID[[:space:]]+([0-9]+) link addr ([0-9a-fA-F:]+).*/link \1 addr \2/p' | LC_ALL=C sort
+  else
+    # Old format: "link N:\n   addr xx:xx:xx" pairs
+    printf '%s\n' "$raw" | grep link -A3 | grep -e 'addr ' -e link | sed -nE 'N;s/.*link ([0-9]+):\n[[:space:]]*addr ([0-9a-fA-F:]+)/link \1 addr \2/p' | LC_ALL=C sort
+  fi
 }
 
 # print MAC addresses list of link interfaces from iw  output
