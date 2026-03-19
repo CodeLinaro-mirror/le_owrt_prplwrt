@@ -48,6 +48,8 @@ Check that hostapd is operating as expected:
   $ R "ps axw" | sed -nE 's/.*(hostapd .*)/\1/p' | head -1 | tr -s ' ' '\n' | LC_ALL=C sort
   -g
   -s
+  /tmp/wlan0_hapd.conf
+  /tmp/wlan1_hapd.conf
   /tmp/wlan2_hapd.conf
   /var/run/hostapd/global\.0x.* (re)
   hostapd
