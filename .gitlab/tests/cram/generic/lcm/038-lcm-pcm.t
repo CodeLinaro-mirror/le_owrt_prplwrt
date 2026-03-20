@@ -6,6 +6,7 @@ Setup the test configuration:
   $ S=". /tmp/script_functions.sh"
   $ C ${TESTDIR}/script_functions.sh root@${TARGET_LAN_IP}:/tmp/script_functions.sh 2>/dev/null
   $ R "${S} && setup_hostobjects"
+  $ mkdir /tmp/lcm-pcm
 
 Restart the LCM Agent so we start fresh with resetted indexes for ease of comparing the data models:
   $ R "service rlyeh stop"
@@ -47,9 +48,9 @@ Perform the backup process:
 
 Save the data model before simulated firmware upgrade:
 
-  $ R "ba-cli 'Cthulhu.?'" > ${TESTDIR}/cthulhu_before.dm
-  $ R "ba-cli 'SoftwareModules.?'" > ${TESTDIR}/timingila_before.dm
-  $ R "ba-cli 'Rlyeh.?'" > ${TESTDIR}/rlyeh_before.dm
+  $ R "ba-cli 'Cthulhu.?'" > /tmp/lcm-pcm/cthulhu_before.dm
+  $ R "ba-cli 'SoftwareModules.?'" > /tmp/lcm-pcm/timingila_before.dm
+  $ R "ba-cli 'Rlyeh.?'" > /tmp/lcm-pcm/rlyeh_before.dm
 
 Simulate firmware upgrade with manual configuration removal:
 
@@ -57,16 +58,16 @@ Simulate firmware upgrade with manual configuration removal:
 
 Save the data model after simulated firmware upgrade:
 
-  $ R "ba-cli 'Cthulhu.?'" > ${TESTDIR}/cthulhu_after.dm
-  $ R "ba-cli 'SoftwareModules.?'" > ${TESTDIR}/timingila_after.dm
-  $ R "ba-cli 'Rlyeh.?'" > ${TESTDIR}/rlyeh_after.dm
+  $ R "ba-cli 'Cthulhu.?'" > /tmp/lcm-pcm/cthulhu_after.dm
+  $ R "ba-cli 'SoftwareModules.?'" > /tmp/lcm-pcm/timingila_after.dm
+  $ R "ba-cli 'Rlyeh.?'" > /tmp/lcm-pcm/rlyeh_after.dm
 
 Compare the data models before and after the firmware upgrade:
 
-  $ diff ${TESTDIR}/rlyeh_before.dm ${TESTDIR}/rlyeh_after.dm
-  $ sed -i -e "s/\(Sandbox\.Instances\)\.2/\1\.1/g" ${TESTDIR}/cthulhu_after.dm
-  $ sed -i -e "s/\(Sandbox\.Instances\)\.3/\1\.2/g" ${TESTDIR}/cthulhu_after.dm
-  $ cat > ${TESTDIR}/runtime_params << EOF
+  $ diff /tmp/lcm-pcm/rlyeh_before.dm /tmp/lcm-pcm/rlyeh_after.dm
+  $ sed -i -e "s/\(Sandbox\.Instances\)\.2/\1\.1/g" /tmp/lcm-pcm/cthulhu_after.dm
+  $ sed -i -e "s/\(Sandbox\.Instances\)\.3/\1\.2/g" /tmp/lcm-pcm/cthulhu_after.dm
+  $ cat > /tmp/lcm-pcm/runtime_params << EOF
   > Cthulhu.Container.Instances.1.RootfsIsMounted
   > Cthulhu.Container.Instances.1.Pid
   > Cthulhu.Container.Instances.1.StartTime
@@ -92,10 +93,10 @@ Compare the data models before and after the firmware upgrade:
   > SoftwareModules.ExecutionUnit.1.MemoryInUse
   > SoftwareModules.ExecutionUnit.1.Uptime
   > EOF
-  $ cthulhu_diff_params=$(diff -n ${TESTDIR}/cthulhu_before.dm ${TESTDIR}/cthulhu_after.dm | grep -o '^Cthulhu[^=]\+')
-  $ for param in ${cthulhu_diff_params}; do grep -Fxq "${param}" ${TESTDIR}/runtime_params || echo "ERROR: runtime parameter mismatch - ${param}"; done
-  $ timingila_diff_params=$(diff -n ${TESTDIR}/timingila_before.dm ${TESTDIR}/timingila_after.dm | grep -o '^SoftwareModules[^=]\+')
-  $ for param in ${timingila_diff_params}; do grep -Fxq "${param}" ${TESTDIR}/runtime_params || echo "ERROR: runtime parameter mismatch - ${param}"; done
+  $ cthulhu_diff_params=$(diff -n /tmp/lcm-pcm/cthulhu_before.dm /tmp/lcm-pcm/cthulhu_after.dm | grep -o '^Cthulhu[^=]\+')
+  $ for param in ${cthulhu_diff_params}; do grep -Fxq "${param}" /tmp/lcm-pcm/runtime_params || echo "ERROR: runtime parameter mismatch - ${param}"; done
+  $ timingila_diff_params=$(diff -n /tmp/lcm-pcm/timingila_before.dm /tmp/lcm-pcm/timingila_after.dm | grep -o '^SoftwareModules[^=]\+')
+  $ for param in ${timingila_diff_params}; do grep -Fxq "${param}" /tmp/lcm-pcm/runtime_params || echo "ERROR: runtime parameter mismatch - ${param}"; done
 
 Check that ApplicationData volumes are available inside the container and use them:
 
@@ -142,6 +143,7 @@ Check that the container has the required capabilities:
 
 Check NetworkConfig correctly applied:
 
+  $ sleep 10
   $ CTR_IP=$(R "${S} && get_ctr_ip --uuid")
   $ R "rm -f /root/.ssh/known_hosts > /dev/null; ssh -y root@${CTR_IP} 'cat /etc/container-version ; ip route show default | grep default' 2> /dev/null"
   1
@@ -167,11 +169,5 @@ Uninstall the testing container and check datamodel cleaned:
 
 Cleanup test environment:
 
-  $ R "${S} && remove_user_role --rolename full_caps" > /dev/null
-  $ R "${S} && set_ee_roles --userroles \"\" --roles \"\"" > /dev/null
-  $ R "${S} && check_available_user_roles"
-  
-  $ R "${S} && cleanup_hostobjects"
-  $ R "rm -f /tmp/script_functions.sh"
-  $ rm ${TESTDIR}/*_before.dm ${TESTDIR}/*_after.dm
-  $ rm ${TESTDIR}/runtime_params
+  $ R "${S} && cleanup_pcm_test"
+  Done
