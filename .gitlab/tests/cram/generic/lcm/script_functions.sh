@@ -885,6 +885,12 @@ setup_hostobjects() {
 cleanup_hostobjects() {
 	rm -rf /tmp/testdir
 	rm -f /tmp/testfile
+
+	service obuspa stop
+	sed -i 's/procd_append_param command -v 3/#procd_append_param command -v 2/g' /etc/init.d/obuspa
+	service obuspa start
+	sleep 20
+
 }
 
 get_hostobjects() {
@@ -988,6 +994,7 @@ fake_fw_upgrade() {
     service timingila stop
 
     service obuspa stop
+    sed -i 's/# procd_append_param command -v 2/procd_append_param command -v 3/g' /etc/init.d/obuspa
 
     rm -rf /etc/config/cthulhu /etc/config/lxc/"${duid}"
 
