@@ -171,3 +171,6 @@ Cleanup test environment:
 
   $ R "${S} && cleanup_pcm_test"
   Done
+
+Cleanup ApplicationData volumes due to PPW-1656:
+  $ R "${S} && cleanup_appdata" > /dev/null 2>&1
