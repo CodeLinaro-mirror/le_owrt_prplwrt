@@ -25,6 +25,7 @@ PPW-1729, PPW-1731 and PPW-1786:
   /etc/amx/tr181-cpu/tr181-cpu_definition.odl
   /etc/amx/tr181-gre/tr181-gre_definition.odl
   /etc/amx/tr181-usb/tr181-usb_port.odl
+  /etc/amx/tr181-wireguard/tr181-wireguard_definition.odl
 
   $ R "grep -r %usersetting /etc/amx | grep -vE '(upc.odl|.*default.*)' "\
   > " | sed -E 's#:.*##' | sort | uniq"

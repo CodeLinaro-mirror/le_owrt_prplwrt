@@ -132,6 +132,7 @@ Check that ubus has expected datamodels available:
   Device.UserInterface
   Device.Users
   Device.WiFi
+  Device.WireGuard
   Device.XPON
   Device.X_PRPLWARE-COM_Buttons
   Device.X_PRPLWARE-COM_ConMon
@@ -439,6 +440,9 @@ Check that ubus has expected datamodels available:
   WiFiScheduler.Group.Schedule
   WiFiScheduler.Network
   WiFiScheduler.Network.Schedule
+  WireGuard
+  WireGuard.Peer
+  WireGuard.Tunnel
   XPON
   XPON.ONU
   X_PRPLWARE-COM_Agent
