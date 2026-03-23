@@ -9,14 +9,14 @@ Check the services are enabled by default:
 
 Check the processes are actually running:
 
-  $ R "pgrep -afc wifi-sensing"
-  1
+  $ R "pgrep -af /usr/bin/wifi-sensing"
+  \d+ /usr/bin/wifi-sensing (re)
 
-  $ R "pgrep -afc wld"
-  1
+  $ R "pgrep -af /usr/bin/wld"
+  \d+ /usr/bin/wld (re)
 
-  $ R "pgrep -afc beerocks_agent"
-  1
+  $ R "pgrep -af /opt/prplmesh/bin/beerocks_agent"
+  \d+ /opt/prplmesh/bin/beerocks_agent (re)
 
 Check that this is reflected in the DM:
 
@@ -34,7 +34,7 @@ Check that managing WiFi Sensing works:
   $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.Sensing.Enable=0" | tr -d '\n'
   0 (no-eol)
   $ sleep 10
-  $ R "pgrep -cf 'wifi-sensing'"
+  $ R "pgrep -cf '/usr/bin/wifi-sensing'"
   0
   [1]
   $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.Sensing.Status?" | tr -d '\n'
@@ -43,7 +43,7 @@ Check that managing WiFi Sensing works:
   1 (no-eol)
 
   $ R "amx_wait_for "X_PRPLWARE-COM_WiFiSensing." "
-  $ R "pgrep -cf 'wifi-sensing'"
+  $ R "pgrep -cf '/usr/bin/wifi-sensing'"
   1
   $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.Sensing.Status?" | tr -d '\n'
   Active (no-eol)
