@@ -34,7 +34,7 @@ Check that managing WiFi Sensing works:
   $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.Sensing.Enable=0" | tr -d '\n'
   0 (no-eol)
   $ sleep 10
-  $ R " pgrep -cf 'wifi-sensing'"
+  $ R " pgrep -cf '/usr/bin/wifi-sensing'"
   0
   [1]
   $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.Sensing.Status?" | tr -d '\n'
@@ -43,7 +43,7 @@ Check that managing WiFi Sensing works:
   1 (no-eol)
 
   $ R "amx_wait_for "X_PRPLWARE-COM_WiFiSensing." "
-  $ R "pgrep -cf 'wifi-sensing'"
+  $ R "pgrep -cf '/usr/bin/wifi-sensing'"
   1
   $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.Sensing.Status?" | tr -d '\n'
   Active (no-eol)
@@ -58,7 +58,7 @@ Check that managing pWHM and prplMesh works:
   $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Status?" | tr -d '\n'
   Idle (no-eol)
 
-  $ R "pgrep -cf beerocks_agent"
+  $ R "pgrep -cf /opt/prplmesh/bin/beerocks_agent"
   0
   [1]
 
@@ -70,7 +70,7 @@ Check that managing pWHM and prplMesh works:
   $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PWHM.Status?" | tr -d '\n'
   Idle (no-eol)
 
-  $ R "pgrep -cf 'wld'"
+  $ R "pgrep -cf '/usr/bin/wld'"
   0
   [1]
 
@@ -82,7 +82,7 @@ Check that managing pWHM and prplMesh works:
   $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PWHM.Status?" | tr -d '\n'
   Active (no-eol)
 
-  $ R "pgrep -cf 'wld'"
+  $ R "pgrep -cf '/usr/bin/wld'"
   1
 
   $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=1" | tr -d '\n'
@@ -94,7 +94,7 @@ Check that managing pWHM and prplMesh works:
   $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Status?" | tr -d '\n'
   Active (no-eol)
 
-  $ R "pgrep -cf beerocks_agent"
+  $ R "pgrep -cf /opt/prplmesh/bin/beerocks_agent"
   1
 
 # Blocked by PPM-3590. May be not needed because requere additional ~1 min delays
