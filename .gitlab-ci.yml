@@ -100,7 +100,5 @@ run test Freedom initramfs:
   extends: .wnc-freedom testbed
 
 run test Mozart initramfs:
-  needs:
-    - job: build test mtk_filogic prpl security
-      optional: true
+  needs: []
   extends: .arcadyan-mozart testbed

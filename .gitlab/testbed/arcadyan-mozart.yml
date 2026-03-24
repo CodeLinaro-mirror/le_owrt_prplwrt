@@ -12,5 +12,7 @@
     TFTP_IMAGE_FILENAME_PATTERN: /.*prplos-mediatek-filogic-arcadyan_mozart-initramfs.itb/
     DUT_ARCH_PACKAGES_PATH: $PACKAGE_DIR/${DUT_ARCH}_${DUT_CPU_TYPE}
     CDROUTER_CONFIG_LAN_IFACE_ALIAS: LAN0
+    PFD_PIPELINE_ID: "2407296679"
+    PFD_BINARY_URL: "https://gitlab.com/ynezz/prplos-ci-build-artifacts/-/jobs/13116912273/artifacts/raw/pfd-linux-amd64"
   tags:
-    - dut-arcadyan-mozart
+    - dut-arcadyan-mozart-fast

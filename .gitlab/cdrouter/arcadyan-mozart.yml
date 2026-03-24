@@ -1,5 +1,5 @@
 .arcadyan-mozart: &arcadyan_mozart
-  needs: ["build test mtk_filogic prpl security"]
+  needs: []
   extends:
     - .arcadyan-mozart testbed
     - .cdrouter
