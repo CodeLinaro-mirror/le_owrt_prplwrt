@@ -201,6 +201,8 @@
     when: always
     paths:
       - .gitlab/tests/cram/**/*.t.err
+      - .gitlab/tests/cram/**/*.actual
+      - .gitlab/tests/cram/**/*.diff
       - etc
       - prplmesh_beerocks_logs
       - debug-information-$LABGRID_TARGET.txt
