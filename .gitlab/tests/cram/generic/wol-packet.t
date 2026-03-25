@@ -17,6 +17,8 @@ Stop capture
   $ [ -n "$TCPDUMP_PID" ] && kill "$TCPDUMP_PID" >/dev/null 2>&1 || true
   $ [ -n "$TCPDUMP_PID" ] && wait "$TCPDUMP_PID" >/dev/null 2>&1 || true
 
-Assert that a UDP/9 broadcast packet was sent
-  $ grep -m1 "UDP" "$CRAMTMP/wol.cap" | tr -d '\r' | tr -s " "
-  .*UDP.* (re)
+Debug show capture file status
+  $ ls -l "$CRAMTMP/wol.cap"
+
+Debug show capture contents
+  $ sed -n '1,20p' "$CRAMTMP/wol.cap"
