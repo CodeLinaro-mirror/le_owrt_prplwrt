@@ -8,14 +8,14 @@ Create R alias:
 Set AutoChannelEnable=0 on all WiFi.Radio. interfaces:
 
   $ wifi_dm "Radio.*.AutoChannelEnable=0"
-  WiFi.Radio.1.AutoChannelEnable=0
-  WiFi.Radio.2.AutoChannelEnable=0
-  WiFi.Radio.3.AutoChannelEnable=0
+  Device.WiFi.Radio.1.AutoChannelEnable=0
+  Device.WiFi.Radio.2.AutoChannelEnable=0
+  Device.WiFi.Radio.3.AutoChannelEnable=0
 
 Set channel to a non DFS one:
 
   $ wifi_dm "Radio.[OperatingFrequencyBand==\"5GHz\"].Channel=36"
-  WiFi.Radio.\d+.Channel=36 (re)
+  Device.WiFi.Radio.\d+.Channel=36 (re)
 
   $ sleep 5
 
@@ -42,30 +42,30 @@ Disable all AP:
 
   $ R logger -t cram "Disable all vaps"
   $ wifi_dm "AccessPoint.*.Enable=0"
-  WiFi.AccessPoint.1.Enable=0
-  WiFi.AccessPoint.2.Enable=0
-  WiFi.AccessPoint.3.Enable=0
-  WiFi.AccessPoint.4.Enable=0
-  WiFi.AccessPoint.5.Enable=0
-  WiFi.AccessPoint.6.Enable=0
-  WiFi.AccessPoint.7.Enable=0
-  WiFi.AccessPoint.8.Enable=0
-  WiFi.AccessPoint.9.Enable=0
+  Device.WiFi.AccessPoint.1.Enable=0
+  Device.WiFi.AccessPoint.2.Enable=0
+  Device.WiFi.AccessPoint.3.Enable=0
+  Device.WiFi.AccessPoint.4.Enable=0
+  Device.WiFi.AccessPoint.5.Enable=0
+  Device.WiFi.AccessPoint.6.Enable=0
+  Device.WiFi.AccessPoint.7.Enable=0
+  Device.WiFi.AccessPoint.8.Enable=0
+  Device.WiFi.AccessPoint.9.Enable=0
 
   $ sleep 10
 
 Check AccessPoints status:
 
   $ wifi_dm "AccessPoint.*.Status?0"
-  WiFi.AccessPoint.1.Status="Disabled"
-  WiFi.AccessPoint.2.Status="Disabled"
-  WiFi.AccessPoint.3.Status="Disabled"
-  WiFi.AccessPoint.4.Status="Disabled"
-  WiFi.AccessPoint.5.Status="Disabled"
-  WiFi.AccessPoint.6.Status="Disabled"
-  WiFi.AccessPoint.7.Status="Disabled"
-  WiFi.AccessPoint.8.Status="Disabled"
-  WiFi.AccessPoint.9.Status="Disabled"
+  Device.WiFi.AccessPoint.1.Status="Disabled"
+  Device.WiFi.AccessPoint.2.Status="Disabled"
+  Device.WiFi.AccessPoint.3.Status="Disabled"
+  Device.WiFi.AccessPoint.4.Status="Disabled"
+  Device.WiFi.AccessPoint.5.Status="Disabled"
+  Device.WiFi.AccessPoint.6.Status="Disabled"
+  Device.WiFi.AccessPoint.7.Status="Disabled"
+  Device.WiFi.AccessPoint.8.Status="Disabled"
+  Device.WiFi.AccessPoint.9.Status="Disabled"
 
 First call of AccessPointCommit, controller should push empty config to agents:
 
@@ -107,14 +107,14 @@ Check the new SSID SSIDforStaticPunct is applied 1 time
 No NBAPI function to set channel; taking advantage of gateway mode and write directly to PWHM. grep to remove empty line:
 
   $ wifi_dm_radio_band 5 "OperatingChannelBandwidth=\"80MHz\""
-  WiFi.Radio.\d+.OperatingChannelBandwidth="80MHz" (re)
+  Device.WiFi.Radio.\d+.OperatingChannelBandwidth="80MHz" (re)
 
   $ sleep 5
 
 Check that 5GHz Radio reports opClass 115 channels 36,40,44,48:
 
   $ wifi_dm_radio_band 5 "ChannelsInUse?"
-  WiFi.Radio.\d+.ChannelsInUse="36,40,44,48" (re)
+  Device.WiFi.Radio.\d+.ChannelsInUse="36,40,44,48" (re)
 
 Push 0b0001 0d01 - disable channel 36:
 
@@ -130,7 +130,7 @@ Push 0b0001 0d01 - disable channel 36:
 Check channel 36:
 
   $ wifi_dm_radio_band 5 "StaticPuncturing.DisabledSubChannels?"
-  WiFi.Radio.\d+.StaticPuncturing.DisabledSubChannels="36" (re)
+  Device.WiFi.Radio.\d+.StaticPuncturing.DisabledSubChannels="36" (re)
 
 Push 0b0010 0d02 - disable channel 40:
 
@@ -146,7 +146,7 @@ Push 0b0010 0d02 - disable channel 40:
 Check channel 40:
 
   $ wifi_dm_radio_band 5 "StaticPuncturing.DisabledSubChannels?"
-  WiFi.Radio.\d+.StaticPuncturing.DisabledSubChannels="40" (re)
+  Device.WiFi.Radio.\d+.StaticPuncturing.DisabledSubChannels="40" (re)
 
 Push 0b0110 0d06 - disable channels 40 and 44:
 
@@ -162,7 +162,7 @@ Push 0b0110 0d06 - disable channels 40 and 44:
 Check channels 40 and 44:
 
   $ wifi_dm_radio_band 5 "StaticPuncturing.DisabledSubChannels?"
-  WiFi.Radio.\d+.StaticPuncturing.DisabledSubChannels="40,44" (re)
+  Device.WiFi.Radio.\d+.StaticPuncturing.DisabledSubChannels="40,44" (re)
 
 Push 0b1110 0d14 - disable channels 40, 44, 48:
 
@@ -178,7 +178,7 @@ Push 0b1110 0d14 - disable channels 40, 44, 48:
 Check channels 40,44,48:
 
   $ wifi_dm_radio_band 5 "StaticPuncturing.DisabledSubChannels?"
-  WiFi.Radio.\d+.StaticPuncturing.DisabledSubChannels="40,44,48" (re)
+  Device.WiFi.Radio.\d+.StaticPuncturing.DisabledSubChannels="40,44,48" (re)
 
 Push 0b0000 0d00 - clear Radio.StaticPuncturing.DisabledSubChannels list:
 
@@ -194,7 +194,7 @@ Push 0b0000 0d00 - clear Radio.StaticPuncturing.DisabledSubChannels list:
 Check channels puncturing deactivation:
 
   $ wifi_dm_radio_band 5 "StaticPuncturing.DisabledSubChannels?"
-  WiFi.Radio.\d+.StaticPuncturing.DisabledSubChannels="" (re)
+  Device.WiFi.Radio.\d+.StaticPuncturing.DisabledSubChannels="" (re)
 
 Restore defaults:
 
@@ -225,30 +225,30 @@ Disable all AP:
 
   $ R logger -t cram "Disable all vaps"
   $ wifi_dm "AccessPoint.*.Enable=0"
-  WiFi.AccessPoint.1.Enable=0
-  WiFi.AccessPoint.2.Enable=0
-  WiFi.AccessPoint.3.Enable=0
-  WiFi.AccessPoint.4.Enable=0
-  WiFi.AccessPoint.5.Enable=0
-  WiFi.AccessPoint.6.Enable=0
-  WiFi.AccessPoint.7.Enable=0
-  WiFi.AccessPoint.8.Enable=0
-  WiFi.AccessPoint.9.Enable=0
+  Device.WiFi.AccessPoint.1.Enable=0
+  Device.WiFi.AccessPoint.2.Enable=0
+  Device.WiFi.AccessPoint.3.Enable=0
+  Device.WiFi.AccessPoint.4.Enable=0
+  Device.WiFi.AccessPoint.5.Enable=0
+  Device.WiFi.AccessPoint.6.Enable=0
+  Device.WiFi.AccessPoint.7.Enable=0
+  Device.WiFi.AccessPoint.8.Enable=0
+  Device.WiFi.AccessPoint.9.Enable=0
 
   $ sleep 10
 
 Check AccessPoints status:
 
   $ wifi_dm "AccessPoint.*.Status?0"
-  WiFi.AccessPoint.1.Status="Disabled"
-  WiFi.AccessPoint.2.Status="Disabled"
-  WiFi.AccessPoint.3.Status="Disabled"
-  WiFi.AccessPoint.4.Status="Disabled"
-  WiFi.AccessPoint.5.Status="Disabled"
-  WiFi.AccessPoint.6.Status="Disabled"
-  WiFi.AccessPoint.7.Status="Disabled"
-  WiFi.AccessPoint.8.Status="Disabled"
-  WiFi.AccessPoint.9.Status="Disabled"
+  Device.WiFi.AccessPoint.1.Status="Disabled"
+  Device.WiFi.AccessPoint.2.Status="Disabled"
+  Device.WiFi.AccessPoint.3.Status="Disabled"
+  Device.WiFi.AccessPoint.4.Status="Disabled"
+  Device.WiFi.AccessPoint.5.Status="Disabled"
+  Device.WiFi.AccessPoint.6.Status="Disabled"
+  Device.WiFi.AccessPoint.7.Status="Disabled"
+  Device.WiFi.AccessPoint.8.Status="Disabled"
+  Device.WiFi.AccessPoint.9.Status="Disabled"
 
 Restart prplmesh:
 

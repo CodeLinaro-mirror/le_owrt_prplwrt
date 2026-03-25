@@ -11,7 +11,7 @@ Set AutoChannelEnable=0 on all WiFi.Radio. interfaces:
 Reset 2.4GHz bandwidth to the default 20MHz (PCF-2420):
 
   $ wifi_dm_radio_band 2 "OperatingChannelBandwidth=\"20MHz\""
-  WiFi.Radio.\d+.OperatingChannelBandwidth="20MHz" (re)
+  Device.WiFi.Radio.\d+.OperatingChannelBandwidth="20MHz" (re)
 
 Set channel to a non DFS one:
 
