@@ -69,6 +69,8 @@ packages:
   - resize2fs
   - recovery-std
   - updater-std
+  - crash-collect-hlos
+  - log-collector
 
 diffconfig: |
   CONFIG_TARGET_ROOTFS_UBIFS=y
