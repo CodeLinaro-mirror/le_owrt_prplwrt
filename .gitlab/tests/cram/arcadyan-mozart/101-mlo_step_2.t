@@ -15,10 +15,10 @@ Test deactivation of access point 9:
   $ R logger -t cram "Disable AP 9 "$(get_ssid_ref 9)""
 
   $ disable_ap 9
-  WiFi.AccessPoint.9 disabled
+  Device.WiFi.AccessPoint.9 disabled
 
   $ check_ap_ref_ssid 9 Down
-  WiFi.AccessPoint.9 SSID Reference is Down
+  Device.WiFi.AccessPoint.9 SSID Reference is Down
 
   $ sleep 10
 
@@ -38,10 +38,10 @@ Test deactivation of access point 8:
   $ R logger -t cram "Disable AP 8 "$(get_ssid_ref 8)""
 
   $ disable_ap 8
-  WiFi.AccessPoint.8 disabled
+  Device.WiFi.AccessPoint.8 disabled
 
   $ check_ap_ref_ssid 8 Down
-  WiFi.AccessPoint.8 SSID Reference is Down
+  Device.WiFi.AccessPoint.8 SSID Reference is Down
 
   $ sleep 10
 
@@ -61,10 +61,10 @@ Test deactivation of access point 7:
   $ R logger -t cram "Disable AP 7 "$(get_ssid_ref 7)""
 
   $ disable_ap 7
-  WiFi.AccessPoint.7 disabled
+  Device.WiFi.AccessPoint.7 disabled
 
   $ check_ap_ref_ssid 7 Down
-  WiFi.AccessPoint.7 SSID Reference is Down
+  Device.WiFi.AccessPoint.7 SSID Reference is Down
 
   $ sleep 10
 
@@ -83,10 +83,10 @@ Test deactivation of access point 6:
   $ R logger -t cram "Disable AP 6 "$(get_ssid_ref 6)""
 
   $ disable_ap 6
-  WiFi.AccessPoint.6 disabled
+  Device.WiFi.AccessPoint.6 disabled
 
   $ check_ap_ref_ssid 6 Down
-  WiFi.AccessPoint.6 SSID Reference is Down
+  Device.WiFi.AccessPoint.6 SSID Reference is Down
 
   $ sleep 10
 
@@ -106,10 +106,10 @@ Test deactivation of access point 5:
   $ R logger -t cram "Disable AP 5 "$(get_ssid_ref 5)""
 
   $ disable_ap 5
-  WiFi.AccessPoint.5 disabled
+  Device.WiFi.AccessPoint.5 disabled
 
   $ check_ap_ref_ssid 5 Down
-  WiFi.AccessPoint.5 SSID Reference is Down
+  Device.WiFi.AccessPoint.5 SSID Reference is Down
 
   $ sleep 10
 
@@ -129,10 +129,10 @@ Test deactivation of access point 4:
   $ R logger -t cram "Disable AP 4 "$(get_ssid_ref 4)""
 
   $ disable_ap 4
-  WiFi.AccessPoint.4 disabled
+  Device.WiFi.AccessPoint.4 disabled
 
   $ check_ap_ref_ssid 4 Down
-  WiFi.AccessPoint.4 SSID Reference is Down
+  Device.WiFi.AccessPoint.4 SSID Reference is Down
 
   $ sleep 10
 
@@ -152,10 +152,10 @@ Test deactivation of access point 3:
   $ R logger -t cram "Disable AP 3 "$(get_ssid_ref 3)""
 
   $ disable_ap 3
-  WiFi.AccessPoint.3 disabled
+  Device.WiFi.AccessPoint.3 disabled
 
   $ check_ap_ref_ssid 3 Down
-  WiFi.AccessPoint.3 SSID Reference is Down
+  Device.WiFi.AccessPoint.3 SSID Reference is Down
 
   $ sleep 10
 
@@ -175,10 +175,10 @@ Test deactivation of access point 2:
   $ R logger -t cram "Disable AP 2 "$(get_ssid_ref 2)""
 
   $ disable_ap 2
-  WiFi.AccessPoint.2 disabled
+  Device.WiFi.AccessPoint.2 disabled
 
   $ check_ap_ref_ssid 2 Down
-  WiFi.AccessPoint.2 SSID Reference is Down
+  Device.WiFi.AccessPoint.2 SSID Reference is Down
 
   $ sleep 10
 
@@ -203,10 +203,10 @@ Test deactivation of access point 1:
   $ R logger -t cram "Disable AP 1 "$(get_ssid_ref 1)""
 
   $ disable_ap 1
-  WiFi.AccessPoint.1 disabled
+  Device.WiFi.AccessPoint.1 disabled
 
   $ check_ap_ref_ssid 1 Down
-  WiFi.AccessPoint.1 SSID Reference is Down
+  Device.WiFi.AccessPoint.1 SSID Reference is Down
 
   $ sleep 5
 
