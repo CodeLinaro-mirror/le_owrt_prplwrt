@@ -136,6 +136,7 @@ CDRouter-USP-prpl mqtt Freedom initramfs:
   variables:
     CDROUTER_TEST_CONFIG: generic-usp-mqtt
     DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-configure-usp-mqtt.sh
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
       .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
 
@@ -149,6 +150,7 @@ CDRouter-USP-prpl websockets Freedom initramfs:
   variables:
     CDROUTER_TEST_CONFIG: generic-usp-ws
     DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-configure-usp-ws.sh
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
       .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
 
