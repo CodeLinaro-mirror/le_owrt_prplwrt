@@ -13,6 +13,7 @@ additional_packages:
       - pciids
       - pciutils
       - picocom
+      - strongswan-full
       - usbids
       - usbutils
 
@@ -74,6 +75,7 @@ packages:
   - tr181-homeplug
   - tr181-httpaccess
   - tr181-ipdiagnostics
+  - tr181-ipsec
   - tr181-powerstatus
   - tr181-logical
   - tr181-mcastd

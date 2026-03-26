@@ -62,6 +62,7 @@ packages:
   - netmodel-ethernet
   - netmodel-ip
   - netmodel-iprouter
+  - netmodel-ipsec
   - netmodel-logical
   - netmodel-netdev
   - netmodel-optical
