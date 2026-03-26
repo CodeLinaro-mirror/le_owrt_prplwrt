@@ -5,8 +5,8 @@ import subprocess
 from pathlib import Path
 from typing import List
 
-ODL_FILE_PATH = Path("/etc/config/tr181-security/tr181-security_config.odl")
-ODL_DIRECTORY = Path("/etc/config/tr181-security/")
+ODL_FILE_PATH = Path("/etc/amx/tr181-security/defaults.d/00_security-defaults.odl")
+ODL_DIRECTORY = Path("/etc/amx/tr181-security/")
 CA_CERTIFICATES_TOP_DIR = Path("/usr/share/ca-certificates/")
 CA_BUNDLE_FILENAME = "ca-certificate.crt"
 MAX_LINKS = 10
