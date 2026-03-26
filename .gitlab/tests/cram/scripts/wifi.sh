@@ -340,7 +340,8 @@ get_guest_mldunit() {
 
 # validate mac address
 is_valid_mac() {
-  printf '%s\n' "$1" | grep -Eq '^([0-9A-Fa-f]{2}[:\-]){5}[0-9A-Fa-f]{2}$'
+  printf '%s\n' "$1" | grep -Eq '^([0-9A-Fa-f]{2}[:\-]){5}[0-9A-Fa-f]{2}$' && \
+  [ "$1" != "00:00:00:00:00:00" ]
 }
 
 # Print APMLD MACAddress
@@ -375,8 +376,8 @@ get_link_info() {
   if printf '%s\n' "$raw" | grep -q 'link ID'; then
     # New MLO format (newer iw): "- link ID  N link addr xx:xx:xx"
     # Two separate sed passes (BRE, no \n in replacement) for BusyBox compatibility.
-    { printf '%s\n' "$raw" | sed -n 's/^- link ID[[:space:]]*[0-9]* link addr \([0-9a-fA-F:]*\).*/addr \1/p'
-      printf '%s\n' "$raw" | sed -n 's/^- link ID[[:space:]]*\([0-9]*\) link addr.*/link \1/p'
+    { printf '%s\n' "$raw" | sed -n 's/^[[:space:]]*- link ID[[:space:]]*[0-9]* link addr \([0-9a-fA-F:]*\).*/addr \1/p'
+      printf '%s\n' "$raw" | sed -n 's/^[[:space:]]*- link ID[[:space:]]*\([0-9]*\) link addr.*/link \1/p'
       printf '%s\n' "$raw" | grep 'channel [0-9]' | sed 's/^[[:space:]]*//'
     } | sort | uniq
   else
@@ -473,7 +474,7 @@ check_ifindexes () {
 iw_affliated_link_info_from_mldid() {
   # Detect main link interface
   mac_address=$(get_apmld_mac_from_dm "$1")
-  if [ -z "$mac_address" ]; then
+  if [ -z "$mac_address" ] || [ "$mac_address" = "not_found" ]; then
     R logger -t cram "iw_affliated_link_info_from_mldid: empty mac_address !"
   else
     R logger -t cram "iw_affliated_link_info_from_mldid: mac_address = $mac_address"
@@ -492,7 +493,7 @@ iw_get_main_link_mac_list() {
   raw=$(R "iw dev $iface info")
   if printf '%s\n' "$raw" | grep -q 'link ID'; then
     # New MLO format (newer iw): "- link ID  N link addr xx:xx:xx"
-    printf '%s\n' "$raw" | sed -n 's/^- link ID[[:space:]]*\([0-9]*\) link addr \([0-9a-fA-F:]*\).*/link \1 addr \2/p' | LC_ALL=C sort
+    printf '%s\n' "$raw" | sed -n 's/^[[:space:]]*- link ID[[:space:]]*\([0-9]*\) link addr \([0-9a-fA-F:]*\).*/link \1 addr \2/p' | LC_ALL=C sort
   else
     # Old format: "link N:\n   addr xx:xx:xx" pairs
     printf '%s\n' "$raw" | grep link -A3 | grep -e 'addr ' -e link | sed -nE 'N;s/.*link ([0-9]+):\n[[:space:]]*addr ([0-9a-fA-F:]+)/link \1 addr \2/p' | LC_ALL=C sort
@@ -505,7 +506,7 @@ iw_get_main_link_mac_list() {
 iw_affilated_mac_list_from_mldid() {
   # Detect main link interface
   mac_address=$(get_apmld_mac_from_dm "$1") && R logger -t cram "mac_address = $mac_address"
-  if [ -z "$mac_address" ]; then
+  if [ -z "$mac_address" ] || [ "$mac_address" = "not_found" ]; then
     R logger -t cram "iw_affliated_mac_from_mldid: empty mac_address !"
   else
     itf_name=$(get_main_link_itf "$mac_address")
