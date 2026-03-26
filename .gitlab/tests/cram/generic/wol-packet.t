@@ -1,9 +1,9 @@
 Verify that a Wake-on-LAN packet is transmitted (broadcast UDP/9)
 This test only verifies that the DUT sends a WoL packet; no receiver is required.
 
-  $ IFACE=br-lan
+  $ IFACE=$TESTBED_LAN_INTERFACE
   $ rm -f "$CRAMTMP/wol.cap"
-  $ tcpdump -p -i "$IFACE" -c 5 -nn -e udp port 9 >"$CRAMTMP/wol.cap" 2>&1 &
+  $ sudo tcpdump -p -i "$IFACE" -c 5 -nn -e udp port 9 >"$CRAMTMP/wol.cap" 2>&1 &
   $ TCPDUMP_PID=$!
   $ echo "tcpdump_pid=$TCPDUMP_PID"
   tcpdump_pid=[0-9]+ (re)
@@ -17,8 +17,6 @@ Stop capture
   $ [ -n "$TCPDUMP_PID" ] && kill "$TCPDUMP_PID" >/dev/null 2>&1 || true
   $ [ -n "$TCPDUMP_PID" ] && wait "$TCPDUMP_PID" >/dev/null 2>&1 || true
 
-Debug show capture file status
-  $ ls -l "$CRAMTMP/wol.cap"
-
-Debug show capture contents
-  $ sed -n '1,20p' "$CRAMTMP/wol.cap"
+Assert that a UDP packet was sent
+  $ grep -m1 "UDP" "$CRAMTMP/wol.cap"
+  .*UDP.* (re)
