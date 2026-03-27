@@ -59,26 +59,26 @@ Enable private vaps:
 
   $ R logger -t cram "Enable private vaps"
   $ enable_ap 1
-  WiFi.AccessPoint.1 enabled
+  Device.WiFi.AccessPoint.1 enabled
 
   $ enable_ap 3
-  WiFi.AccessPoint.3 enabled
+  Device.WiFi.AccessPoint.3 enabled
 
   $ enable_ap 5
-  WiFi.AccessPoint.5 enabled
+  Device.WiFi.AccessPoint.5 enabled
 
   $ sleep 10
 
 Check that 3 SSID instances are operating:
 
   $ check_ap_ref_ssid 1 Up
-  WiFi.AccessPoint.1 SSID Reference is Up
+  Device.WiFi.AccessPoint.1 SSID Reference is Up
 
   $ check_ap_ref_ssid 3 Up
-  WiFi.AccessPoint.3 SSID Reference is Up
+  Device.WiFi.AccessPoint.3 SSID Reference is Up
 
   $ check_ap_ref_ssid 5 Up
-  WiFi.AccessPoint.5 SSID Reference is Up
+  Device.WiFi.AccessPoint.5 SSID Reference is Up
 
 Check wpa_key_mgmt is configured for WPA3-Transition in 5GHz hostapd.conf and rsn override params are absent:
 
