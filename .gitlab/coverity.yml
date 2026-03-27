@@ -67,6 +67,7 @@ include:
         for option in $CI_BUILD_CONFIG $CI_BUILD_CONFIG_EXTRA; do
           echo "$option" | sed -E "s/^\+(.*)$/CONFIG_\1=y/;s/^\-(.*)$/CONFIG_\1=n/" >> .config
         done
+        echo "CONFIG_REGULATOR_CPR3=n" >> .config
         cat .config
         make defconfig | tee --append logs/build.log
 
