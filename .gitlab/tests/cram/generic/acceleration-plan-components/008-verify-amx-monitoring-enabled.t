@@ -2,7 +2,7 @@ Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
-  $ R logger -t "Starting with amx-processmonitoring enable test"
+  $ R logger -t cram "Starting with amx-processmonitoring enable test"
 
 This Helper method finds the Instance Id and return the ProcessMonitoringEnabled parameter, #Param1 - name of the process:
 
@@ -43,3 +43,5 @@ Verify all expected processes are enabled for monitoring by amx-processmonitor, 
 
   $ get_amx_process_monitoring cellular-manager
   cellular-manager=1
+
+  $ R logger -t cram "Amx-processmonitoring Process Enable tests finished"

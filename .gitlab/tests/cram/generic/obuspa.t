@@ -720,6 +720,8 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.DeviceInfo.Reboots.                                                                           proto::reboot-service
   Device.DeviceInfo.Reboots.BootCount                                                                  proto::reboot-service
   Device.DeviceInfo.Reboots.ColdBootCount                                                              proto::reboot-service
+  Device.DeviceInfo.Reboots.CurrentBootCycle                                                           proto::reboot-service
+  Device.DeviceInfo.Reboots.CurrentVersionBootCount                                                    proto::reboot-service
   Device.DeviceInfo.Reboots.MaxRebootEntries                                                           proto::reboot-service
   Device.DeviceInfo.Reboots.Reboot.{i}.                                                                proto::reboot-service
   Device.DeviceInfo.Reboots.Reboot.{i}.Alias                                                           proto::reboot-service
@@ -732,10 +734,6 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.DeviceInfo.Reboots.RemoveAllReboots()                                                         proto::reboot-service
   Device.DeviceInfo.Reboots.WarmBootCount                                                              proto::reboot-service
   Device.DeviceInfo.Reboots.WatchdogBootCount                                                          proto::reboot-service
-  Device.DeviceInfo.Reboots.X_PRPLWARE-COM_CurrentBootCycle                                            proto::reboot-service
-  Device.DeviceInfo.Reboots.X_PRPLWARE-COM_Reasons.{i}.                                                proto::reboot-service
-  Device.DeviceInfo.Reboots.X_PRPLWARE-COM_Reasons.{i}.Alias                                           proto::reboot-service
-  Device.DeviceInfo.Reboots.X_PRPLWARE-COM_Reasons.{i}.Format                                          proto::reboot-service
   Device.DeviceInfo.Reboots.reboot()                                                                   proto::reboot-service
   Device.DeviceInfo.Reboots.reboot() input:Cause
   Device.DeviceInfo.Reboots.reboot() input:Reason
@@ -6217,6 +6215,8 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.DeviceInfo.Reboots.                                                                           proto::reboot-service
   Device.DeviceInfo.Reboots.BootCount                                                                  proto::reboot-service
   Device.DeviceInfo.Reboots.ColdBootCount                                                              proto::reboot-service
+  Device.DeviceInfo.Reboots.CurrentBootCycle                                                           proto::reboot-service
+  Device.DeviceInfo.Reboots.CurrentVersionBootCount                                                    proto::reboot-service
   Device.DeviceInfo.Reboots.MaxRebootEntries                                                           proto::reboot-service
   Device.DeviceInfo.Reboots.Reboot.{i}.                                                                proto::reboot-service
   Device.DeviceInfo.Reboots.Reboot.{i}.Alias                                                           proto::reboot-service
@@ -6229,10 +6229,6 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.DeviceInfo.Reboots.RemoveAllReboots()                                                         proto::reboot-service
   Device.DeviceInfo.Reboots.WarmBootCount                                                              proto::reboot-service
   Device.DeviceInfo.Reboots.WatchdogBootCount                                                          proto::reboot-service
-  Device.DeviceInfo.Reboots.X_PRPLWARE-COM_CurrentBootCycle                                            proto::reboot-service
-  Device.DeviceInfo.Reboots.X_PRPLWARE-COM_Reasons.{i}.                                                proto::reboot-service
-  Device.DeviceInfo.Reboots.X_PRPLWARE-COM_Reasons.{i}.Alias                                           proto::reboot-service
-  Device.DeviceInfo.Reboots.X_PRPLWARE-COM_Reasons.{i}.Format                                          proto::reboot-service
   Device.DeviceInfo.Reboots.reboot()                                                                   proto::reboot-service
   Device.DeviceInfo.Reboots.reboot() input:Cause
   Device.DeviceInfo.Reboots.reboot() input:Reason

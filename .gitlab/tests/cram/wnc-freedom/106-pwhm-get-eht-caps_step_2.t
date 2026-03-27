@@ -10,22 +10,24 @@ Check EhtPhyCapabilities, EhtPhyCapabilitiesStr, CurrentEhtOperatingIE and getEH
   $ R logger -t cram "Check EHT Capabilities"
 
   $ wifi_dm_radio_band 6 "EhtPhyCapabilities?"
-  Device.WiFi.Radio.3.EhtPhyCapabilities="4v/b4Bh1AH4E"
+  Device.WiFi.Radio.\d+.EhtPhyCapabilities="4v/b4Bh1AH4E" (re)
 
   $ wifi_dm_radio_band 6 "EhtPhyCapabilitiesStr?"
-  Device.WiFi.Radio.3.EhtPhyCapabilitiesStr="320MHZ,SU_BEAMFORMER,SU_BEAMFORMEE,BEAMFORMEE_SS_80MHZ,BEAMFORMEE_SS_160MHZ,BEAMFORMEE_SS_320MHZ,NB_SOUNDING_80MHZ,NB_SOUNDING_160MHZ,NB_SOUNDING_320MHZ,TGD_SU_BEAMFORMING_FEEDBACK,TGD_MU_BEAMFORMING_PARTIAL_BW,TGD_CQI_FEEDBACK,MUPPDU_4XEHT_LTF,MAX_NC,NTGD_CQI_FEEDBACK,RX_1024_4096_QAM_242TONE_RU,COMMON_NOMINAL_PACKET_PADDING,MAX_SUPPORTED_EHT_LTFS,NON_OFDMA_ULMIMO_80MHZ,NON_OFDMA_ULMIMO_160MHZ,NON_OFDMA_ULMIMO_320MHZ,MU_BEAMFORMER_80MHZ,MU_BEAMFORMER_160MHZ,MU_BEAMFORMER_320MHZ,20MHZ_ONLY_LIMITED"
+  Device.WiFi.Radio.\d+.EhtPhyCapabilitiesStr="320MHZ,SU_BEAMFORMER,SU_BEAMFORMEE,BEAMFORMEE_SS_80MHZ,BEAMFORMEE_SS_160MHZ,BEAMFORMEE_SS_320MHZ,NB_SOUNDING_80MHZ,NB_SOUNDING_160MHZ,NB_SOUNDING_320MHZ,TGD_SU_BEAMFORMING_FEEDBACK,TGD_MU_BEAMFORMING_PARTIAL_BW,TGD_CQI_FEEDBACK,MUPPDU_4XEHT_LTF,MAX_NC,NTGD_CQI_FEEDBACK,RX_1024_4096_QAM_242TONE_RU,COMMON_NOMINAL_PACKET_PADDING,MAX_SUPPORTED_EHT_LTFS,NON_OFDMA_ULMIMO_80MHZ,NON_OFDMA_ULMIMO_160MHZ,NON_OFDMA_ULMIMO_320MHZ,MU_BEAMFORMER_80MHZ,MU_BEAMFORMER_160MHZ,MU_BEAMFORMER_320MHZ,20MHZ_ONLY_LIMITED" (re)
 
   $ wifi_dm_radio_band 6 "CurrentEhtOperatingIE?"
-  Device.WiFi.Radio.\d+.CurrentEhtOperatingIE="AAFEREREAycvAAA=" (re)
+  Device.WiFi.Radio.\d+.CurrentEhtOperatingIE="agFEREREAycv" (re)
 
   $ get_eht_ops 6
   BasicEHT-MCSAndNssSet=1145324612
   CCFS0=39
   CCFS1=47
   ControlChannelWidth=3
-  DisabledSubchannelBitmap=0
   DisabledSubchannelBitmapPresent=0
+  EHTDefaultPEDuration=0
   EHTOperationInformationPresent=1
+  GroupAddressedBUIndicationExponent=0
+  GroupAddressedBUIndicationLimit=0
 
 Disable channels 49,53:
 
@@ -43,30 +45,15 @@ Disable channels 49,53:
   ControlChannelWidth=3
   DisabledSubchannelBitmap=48
   DisabledSubchannelBitmapPresent=1
+  EHTDefaultPEDuration=0
   EHTOperationInformationPresent=1
-
-Disable channels 53,57,61:
-
-  $ R logger -t cram "Disable channels 53,57,61"
-
-  $ wifi_dm_radio_band 6 "StaticPuncturing.DisabledSubChannels=\"53,57,61\""
-  Device.WiFi.Radio.\d+.StaticPuncturing.DisabledSubChannels="53,57,61" (re)
-
-  $ sleep 5
-
-  $ get_eht_ops 6
-  BasicEHT-MCSAndNssSet=1145324612
-  CCFS0=39
-  CCFS1=47
-  ControlChannelWidth=3
-  DisabledSubchannelBitmap=224
-  DisabledSubchannelBitmapPresent=1
-  EHTOperationInformationPresent=1
+  GroupAddressedBUIndicationExponent=0
+  GroupAddressedBUIndicationLimit=0
 
 Expecting the EHT Operations IE:
 
   $ wifi_dm_radio_band 6 "CurrentEhtOperatingIE?"
-  Device.WiFi.Radio.\d+.CurrentEhtOperatingIE="AANEREREAycv4AA=" (re)
+  Device.WiFi.Radio.\d+.CurrentEhtOperatingIE="agNEREREAycvMAA=" (re)
 
 Downgrade to AX operating mode:
 
@@ -78,27 +65,23 @@ Downgrade to AX operating mode:
   $ R logger -t cram "Checks after downgrade to AX"
 
   $ wifi_dm_radio_band 6 "EhtPhyCapabilities?"
-  Device.WiFi.Radio.3.EhtPhyCapabilities="4v/b4Bh1AH4E"
+  Device.WiFi.Radio.\d+.EhtPhyCapabilities="4v/b4Bh1AH4E" (re)
 
   $ wifi_dm_radio_band 6 "EhtPhyCapabilitiesStr?"
-  Device.WiFi.Radio.3.EhtPhyCapabilitiesStr="320MHZ,SU_BEAMFORMER,SU_BEAMFORMEE,BEAMFORMEE_SS_80MHZ,BEAMFORMEE_SS_160MHZ,BEAMFORMEE_SS_320MHZ,NB_SOUNDING_80MHZ,NB_SOUNDING_160MHZ,NB_SOUNDING_320MHZ,TGD_SU_BEAMFORMING_FEEDBACK,TGD_MU_BEAMFORMING_PARTIAL_BW,TGD_CQI_FEEDBACK,MUPPDU_4XEHT_LTF,MAX_NC,NTGD_CQI_FEEDBACK,RX_1024_4096_QAM_242TONE_RU,COMMON_NOMINAL_PACKET_PADDING,MAX_SUPPORTED_EHT_LTFS,NON_OFDMA_ULMIMO_80MHZ,NON_OFDMA_ULMIMO_160MHZ,NON_OFDMA_ULMIMO_320MHZ,MU_BEAMFORMER_80MHZ,MU_BEAMFORMER_160MHZ,MU_BEAMFORMER_320MHZ,20MHZ_ONLY_LIMITED"
+  Device.WiFi.Radio.\d+.EhtPhyCapabilitiesStr="320MHZ,SU_BEAMFORMER,SU_BEAMFORMEE,BEAMFORMEE_SS_80MHZ,BEAMFORMEE_SS_160MHZ,BEAMFORMEE_SS_320MHZ,NB_SOUNDING_80MHZ,NB_SOUNDING_160MHZ,NB_SOUNDING_320MHZ,TGD_SU_BEAMFORMING_FEEDBACK,TGD_MU_BEAMFORMING_PARTIAL_BW,TGD_CQI_FEEDBACK,MUPPDU_4XEHT_LTF,MAX_NC,NTGD_CQI_FEEDBACK,RX_1024_4096_QAM_242TONE_RU,COMMON_NOMINAL_PACKET_PADDING,MAX_SUPPORTED_EHT_LTFS,NON_OFDMA_ULMIMO_80MHZ,NON_OFDMA_ULMIMO_160MHZ,NON_OFDMA_ULMIMO_320MHZ,MU_BEAMFORMER_80MHZ,MU_BEAMFORMER_160MHZ,MU_BEAMFORMER_320MHZ,20MHZ_ONLY_LIMITED" (re)
 
   $ wifi_dm_radio_band 6 "CurrentEhtOperatingIE?"
-  Device.WiFi.Radio.\d+.CurrentEhtOperatingIE="AAAAAAAAAAAAAAA=" (re)
+  Device.WiFi.Radio.\d+.CurrentEhtOperatingIE="" (re)
+
+Check that get_eht_ops output is empty:
 
   $ get_eht_ops 6
-  BasicEHT-MCSAndNssSet=0
-  CCFS0=0
-  CCFS1=0
-  ControlChannelWidth=0
-  DisabledSubchannelBitmap=0
-  DisabledSubchannelBitmapPresent=0
-  EHTOperationInformationPresent=0
 
-Check channels 40,44,48 are still configured in Radio.StaticPuncturing
+
+Check channels 49,53 are still configured in Radio.StaticPuncturing
 
   $ wifi_dm_radio_band 6 "StaticPuncturing.DisabledSubChannels?"
-  Device.WiFi.Radio.\d+.StaticPuncturing.DisabledSubChannels="53,57,61" (re)
+  Device.WiFi.Radio.\d+.StaticPuncturing.DisabledSubChannels="49,53" (re)
 
 #########################################
 #    Restore defaults                   #
