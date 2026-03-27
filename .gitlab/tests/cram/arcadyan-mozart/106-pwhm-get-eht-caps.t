@@ -39,10 +39,10 @@ Configure radio:
   $ wifi_dm_radio_band 6 "Channel=37"
   Device.WiFi.Radio.\d+.Channel=37 (re)
 
-  $ wifi_dm "Radio.*.OperatingStandardsFormat=\"Legacy\""
-  Device.WiFi.Radio.1.OperatingStandardsFormat="Legacy"
-  Device.WiFi.Radio.2.OperatingStandardsFormat="Legacy"
-  Device.WiFi.Radio.3.OperatingStandardsFormat="Legacy"
+  $ wifi_dm "Radio.*.OperatingStandardsFormat=\"Legacy\"" "WiFi." "ba-cli"
+  WiFi.Radio.1.OperatingStandardsFormat="Legacy"
+  WiFi.Radio.2.OperatingStandardsFormat="Legacy"
+  WiFi.Radio.3.OperatingStandardsFormat="Legacy"
 
   $ wifi_dm "Radio.*.OperatingStandards=\"be\""
   Device.WiFi.Radio.1.OperatingStandards="be"
@@ -102,7 +102,10 @@ Check EhtPhyCapabilities, EhtPhyCapabilitiesStr, CurrentEhtOperatingIE and getEH
   ControlChannelWidth=1
   DisabledSubchannelBitmap=0
   DisabledSubchannelBitmapPresent=0
+  EHTDefaultPEDuration=0
   EHTOperationInformationPresent=1
+  GroupAddressedBUIndicationExponent=0
+  GroupAddressedBUIndicationLimit=0
 
 Downgrade to AX operating mode:
 
@@ -129,7 +132,10 @@ Downgrade to AX operating mode:
   ControlChannelWidth=0
   DisabledSubchannelBitmap=0
   DisabledSubchannelBitmapPresent=0
+  EHTDefaultPEDuration=0
   EHTOperationInformationPresent=0
+  GroupAddressedBUIndicationExponent=0
+  GroupAddressedBUIndicationLimit=0
 
 #########################################
 #    test 5GHz getEHTOperations         #
@@ -162,7 +168,10 @@ Check EhtPhyCapabilities, EhtPhyCapabilitiesStr, CurrentEhtOperatingIE and getEH
   ControlChannelWidth=2
   DisabledSubchannelBitmap=0
   DisabledSubchannelBitmapPresent=0
+  EHTDefaultPEDuration=0
   EHTOperationInformationPresent=1
+  GroupAddressedBUIndicationExponent=0
+  GroupAddressedBUIndicationLimit=0
 
 Disable channels 40,48:
 
@@ -180,7 +189,10 @@ Disable channels 40,48:
   ControlChannelWidth=2
   DisabledSubchannelBitmap=10
   DisabledSubchannelBitmapPresent=1
+  EHTDefaultPEDuration=0
   EHTOperationInformationPresent=1
+  GroupAddressedBUIndicationExponent=0
+  GroupAddressedBUIndicationLimit=0
 
 Disable channels 40,44,48:
 
@@ -198,7 +210,10 @@ Disable channels 40,44,48:
   ControlChannelWidth=2
   DisabledSubchannelBitmap=14
   DisabledSubchannelBitmapPresent=1
+  EHTDefaultPEDuration=0
   EHTOperationInformationPresent=1
+  GroupAddressedBUIndicationExponent=0
+  GroupAddressedBUIndicationLimit=0
 
 Expecting the EHT Operations IE puncturing bitmap to be updated:
 
@@ -230,7 +245,10 @@ Downgrade to AX operating mode:
   ControlChannelWidth=0
   DisabledSubchannelBitmap=0
   DisabledSubchannelBitmapPresent=0
+  EHTDefaultPEDuration=0
   EHTOperationInformationPresent=0
+  GroupAddressedBUIndicationExponent=0
+  GroupAddressedBUIndicationLimit=0
 
 Check channels 40,44,48 are still configured in Radio.StaticPuncturing
 
@@ -268,7 +286,10 @@ Check EhtPhyCapabilities, EhtPhyCapabilitiesStr, CurrentEhtOperatingIE and getEH
   ControlChannelWidth=3
   DisabledSubchannelBitmap=0
   DisabledSubchannelBitmapPresent=0
+  EHTDefaultPEDuration=0
   EHTOperationInformationPresent=1
+  GroupAddressedBUIndicationExponent=0
+  GroupAddressedBUIndicationLimit=0
 
 Disable channels 49,53:
 
@@ -286,7 +307,10 @@ Disable channels 49,53:
   ControlChannelWidth=3
   DisabledSubchannelBitmap=48
   DisabledSubchannelBitmapPresent=1
+  EHTDefaultPEDuration=0
   EHTOperationInformationPresent=1
+  GroupAddressedBUIndicationExponent=0
+  GroupAddressedBUIndicationLimit=0
 
 Disable channels 53,57,61:
 
@@ -304,7 +328,10 @@ Disable channels 53,57,61:
   ControlChannelWidth=3
   DisabledSubchannelBitmap=224
   DisabledSubchannelBitmapPresent=1
+  EHTDefaultPEDuration=0
   EHTOperationInformationPresent=1
+  GroupAddressedBUIndicationExponent=0
+  GroupAddressedBUIndicationLimit=0
 
 Expecting the EHT Operations IE:
 
@@ -336,7 +363,10 @@ Downgrade to AX operating mode:
   ControlChannelWidth=0
   DisabledSubchannelBitmap=0
   DisabledSubchannelBitmapPresent=0
+  EHTDefaultPEDuration=0
   EHTOperationInformationPresent=0
+  GroupAddressedBUIndicationExponent=0
+  GroupAddressedBUIndicationLimit=0
 
 Check channels 40,44,48 are still configured in Radio.StaticPuncturing
 
@@ -351,10 +381,10 @@ Check channels 40,44,48 are still configured in Radio.StaticPuncturing
 
 Restore defaults:
 
-  $ wifi_dm "Radio.*.OperatingStandardsFormat=\"Standard\""
-  Device.WiFi.Radio.1.OperatingStandardsFormat="Standard"
-  Device.WiFi.Radio.2.OperatingStandardsFormat="Standard"
-  Device.WiFi.Radio.3.OperatingStandardsFormat="Standard"
+  $ wifi_dm "Radio.*.OperatingStandardsFormat=\"Standard\"" "WiFi." "ba-cli"
+  WiFi.Radio.1.OperatingStandardsFormat="Standard"
+  WiFi.Radio.2.OperatingStandardsFormat="Standard"
+  WiFi.Radio.3.OperatingStandardsFormat="Standard"
 
   $ wifi_dm "Radio.*.StaticPuncturing.DisabledSubChannels=\"\""
   Device.WiFi.Radio.1.StaticPuncturing.DisabledSubChannels=""
