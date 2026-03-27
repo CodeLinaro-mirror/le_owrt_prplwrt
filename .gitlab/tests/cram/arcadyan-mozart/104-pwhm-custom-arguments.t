@@ -23,21 +23,21 @@ Enabling few accesspoints to check hostapd:
   $ R logger -t cram "Test AccessPoint 1 activation"
 
   $ enable_ap 1
-  WiFi.AccessPoint.1 enabled
+  Device.WiFi.AccessPoint.1 enabled
 
   $ sleep 5
 
   $ R logger -t cram "Test AccessPoint 3 activation"
 
   $ enable_ap 3
-  WiFi.AccessPoint.3 enabled
+  Device.WiFi.AccessPoint.3 enabled
 
   $ sleep 5
 
   $ R logger -t cram "Test AccessPoint 5 activation"
 
   $ enable_ap 5
-  WiFi.AccessPoint.5 enabled
+  Device.WiFi.AccessPoint.5 enabled
 
   $ sleep 5
 
@@ -93,7 +93,7 @@ Test the custom arguments:
 
   $ R logger -t cram "Check that wpa_supplicant is operating with new custom argument"
 
-  $ R "ps axw" | sed -n '/[w]pa_supplicant/ { s/^.*\bwpa_supplicant[[:space:]]/wpa_supplicant /; p }' | head -3 | LC_ALL=C sort
+  $ R "ps axw" | grep '[w]pa_supplicant' | sed 's|.*wpa_supplicant |wpa_supplicant |' | head -3 | LC_ALL=C sort
   wpa_supplicant -ds -i wlan0 -Dnl80211 -c /tmp/wlan0_wpa_supplicant.conf
   wpa_supplicant -ds -i wlan1 -Dnl80211 -c /tmp/wlan1_wpa_supplicant.conf
   wpa_supplicant -ds -i wlan2 -Dnl80211 -c /tmp/wlan2_wpa_supplicant.conf
@@ -125,7 +125,7 @@ Setting the custom arguments back to default value:
   /var/run/hostapd/global\.0x.* (re)
   hostapd
 
-  $ R "ps axw" | sed -n '/[w]pa_supplicant/ { s/^.*\bwpa_supplicant[[:space:]]/wpa_supplicant /; p }' | head -3 | LC_ALL=C sort
+  $ R "ps axw" | grep '[w]pa_supplicant' | sed 's|.*wpa_supplicant |wpa_supplicant |' | head -3 | LC_ALL=C sort
   wpa_supplicant -s -i wlan0 -Dnl80211 -c /tmp/wlan0_wpa_supplicant.conf
   wpa_supplicant -s -i wlan1 -Dnl80211 -c /tmp/wlan1_wpa_supplicant.conf
   wpa_supplicant -s -i wlan2 -Dnl80211 -c /tmp/wlan2_wpa_supplicant.conf
@@ -143,7 +143,7 @@ Disabling the accesspoints back:
   $ R logger -t cram "Test AccessPoint 5 deactivation"
 
   $ disable_ap 5
-  WiFi.AccessPoint.5 disabled
+  Device.WiFi.AccessPoint.5 disabled
 
   $ sleep 5
 
@@ -152,7 +152,7 @@ Test deactivation of access point 3:
   $ R logger -t cram "Test AccessPoint 3 deactivation"
 
   $ disable_ap 3
-  WiFi.AccessPoint.3 disabled
+  Device.WiFi.AccessPoint.3 disabled
 
   $ sleep 5
 
@@ -161,7 +161,7 @@ Test deactivation of access point 1:
   $ R logger -t cram "Test AccessPoint 1 deactivation"
 
   $ disable_ap 1
-  WiFi.AccessPoint.1 disabled
+  Device.WiFi.AccessPoint.1 disabled
 
   $ sleep 5
 
