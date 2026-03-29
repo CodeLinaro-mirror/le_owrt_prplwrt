@@ -1,12 +1,6 @@
 Create R alias:
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
-Install avahi if not already present:
-
-  $ sudo sed -i 's|http://deb.debian.org/debian|http://archive.debian.org/debian|g' /etc/apt/sources.list 2>/dev/null
-  $ sudo sed -i 's|http://deb.debian.org/debian-security|http://archive.debian.org/debian-security|g' /etc/apt/sources.list 2>/dev/null
-  $ which avahi-daemon >/dev/null 2>&1 || (sudo apt-get update >/dev/null 2>&1 && sudo apt-get install -y avahi-daemon avahi-utils dbus >/dev/null 2>&1)
-
 Ensure avahi-daemon is running:
 
   $ sudo service dbus start 2>&1 | grep -v "unable to resolve host" | tee /dev/stderr | grep -q "Starting system message bus: dbus." && echo "dbus started OK" || echo "dbus may have failed to start"

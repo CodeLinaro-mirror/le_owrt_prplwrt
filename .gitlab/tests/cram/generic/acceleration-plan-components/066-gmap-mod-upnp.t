@@ -2,12 +2,6 @@ Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
-Install minidlna if not already present:
-
-  $ sudo sed -i 's|http://deb.debian.org/debian|http://archive.debian.org/debian|g' /etc/apt/sources.list 2>/dev/null
-  $ sudo sed -i 's|http://deb.debian.org/debian-security|http://archive.debian.org/debian-security|g' /etc/apt/sources.list 2>/dev/null
-  $ which minidlnad >/dev/null 2>&1 || (sudo apt-get update >/dev/null 2>&1 && sudo apt-get install -y minidlna >/dev/null 2>&1)
-
 Test 1: Service Advertisement (start minidlna):
 
 Create minidlna configuration:

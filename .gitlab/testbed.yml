@@ -56,6 +56,10 @@
     - sudo ip link set $TESTBED_WAN_INTERFACE up 2> /dev/null
     - sleep 10
 
+    - sudo sed -i 's|http://deb.debian.org/debian|http://archive.debian.org/debian|g' /etc/apt/sources.list 2>/dev/null
+    - sudo sed -i 's|http://deb.debian.org/debian-security|http://archive.debian.org/debian-security|g' /etc/apt/sources.list 2>/dev/null
+    - sudo apt-get update && sudo apt-get install --yes --no-install-recommends minidlna avahi-daemon avahi-utils dbus
+
     - mkdir -p ~/.ssh; chmod 700 ~/.ssh
     - >
       if echo "$CI_RUNNER_DESCRIPTION" | grep -q testbed-01; then
