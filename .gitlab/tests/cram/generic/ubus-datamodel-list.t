@@ -321,6 +321,8 @@ Check that ubus has expected datamodels available:
   Reboot.Reboot
   Reboot.X_PRPLWARE-COM_Reasons
   Rlyeh
+  Rlyeh.Authentication
+  Rlyeh.Authentication.Stats
   Rlyeh.Images
   RouterAdvertisement
   RouterAdvertisement.InterfaceSetting
@@ -358,6 +360,8 @@ Check that ubus has expected datamodels available:
   SessionManagement.Session.IPv6Address
   SessionManagement.Session.PCO
   SoftwareModules
+  SoftwareModules.Config
+  SoftwareModules.Config.Repository
   SoftwareModules.DeploymentUnit
   SoftwareModules.ExecEnv
   SoftwareModules.ExecutionUnit
@@ -385,6 +389,9 @@ Check that ubus has expected datamodels available:
   Timingila.CthulhuAdapters.CthulhuCommandMapping
   Timingila.CthulhuAdapters.SoftwareModulesFuncArgsOverload
   Timingila.CthulhuAdapters.SoftwareModulesTable
+  Timingila.RlyehPluginsConfig
+  Timingila.RlyehPluginsInfo
+  Timingila.RlyehPluginsInfo.LoadedPlugins
   TrustedElements
   TrustedElements.SIM
   TrustedElements.SIM.Profile
