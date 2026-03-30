@@ -1,0 +1,12 @@
+%populate{
+    object 'Security.CABundle' {
+        instance add(0, 'ca_bundle', Name = "ca_bundle", Enable=1) {
+             parameter CAFileURI = "file:///usr/share/ca-certificates/ca_bundle.crt";
+             parameter CACertificates = "Security.Certificate.[SerialNumber==\"5EC3B7A6437FA4E0\"].";
+        }
+        instance add(0, 'root_ca1', Name = "root_ca1", Enable=1) {
+            parameter CAFileURI = "file:///usr/share/ca-certificates/lcm_servers_root_ca1.crt";
+            parameter CACertificates = "Security.Certificate.[SerialNumber==\"5C467BFB94E62AC5A899BBFFC605E0938F262832\"].";
+        }
+    }
+}

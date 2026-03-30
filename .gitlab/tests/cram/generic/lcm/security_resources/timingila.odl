@@ -1,0 +1,148 @@
+%populate {
+        object 'SoftwareModules' {
+                object 'Config' {
+                        parameter 'CABundle' = "Device.Security.CABundle.[Name == \"ca_bundle\"]" {
+                                userflags  %upc;
+                        }
+                        parameter 'DUSignatureProtocols' = "HTTPS";
+                        parameter 'Certificate' = "" {
+                                userflags  %upc;
+                        }
+                        object 'Repository' {
+                                instance add(1, 'docker_repo', 'Name' = "docker_repo", 'Alias' = "docker_repo") {
+                                        parameter 'CABundle' = "Device.Security.CABundle.[Name == \"ca_bundle\"]" {
+                                                userflags  %upc_changed, %upc;
+                                        }
+                                        parameter 'Enable' = true {
+                                                userflags  %upc_changed, %upc;
+                                        }
+                                        parameter 'Name' = "docker_repo" {
+                                                userflags  %upc_changed, %upc;
+                                        }
+                                        parameter 'BaseURL' = "docker://registry.gitlab.com" {
+                                                userflags  %upc_changed, %upc;
+                                        }
+                                        parameter 'Alias' = "docker_repo";
+                                        parameter 'Certificate' = "" {
+                                                userflags  %upc_changed, %upc;
+                                        }
+                                        parameter 'Type' = "Repository" {
+                                                userflags  %upc_changed, %upc;
+                                        }
+                                }
+                                instance add(2, 'no_auth', 'Name' = "no_auth", 'Alias' = "no_auth") {
+                                        parameter 'CABundle' = "Device.Security.CABundle.[Name == \"root_ca1\"]" {
+                                                userflags  %upc_changed, %upc;
+                                        }
+                                        parameter 'Enable' = true {
+                                                userflags  %upc_changed, %upc;
+                                        }
+                                        parameter 'Name' = "no_auth" {
+                                                userflags  %upc_changed, %upc;
+                                        }
+                                        parameter 'BaseURL' = "https://signature.server1.local.com:5443" {
+                                                userflags  %upc_changed, %upc;
+                                        }
+                                        parameter 'Alias' = "no_auth";
+                                        parameter 'Certificate' = "" {
+                                                userflags  %upc_changed, %upc;
+                                        }
+                                        parameter 'Type' = "Signature" {
+                                                userflags  %upc_changed, %upc;
+                                        }
+                                }
+                                instance add(3, 'basic_auth', 'Name' = "basic_auth", 'Alias' = "basic_auth") {
+                                        parameter 'CABundle' = "Device.Security.CABundle.[Name == \"root_ca1\"]" {
+                                                userflags  %upc_changed, %upc;
+                                        }
+                                        parameter 'Enable' = true {
+                                                userflags  %upc_changed, %upc;
+                                        }
+                                        parameter 'Name' = "basic_auth" {
+                                                userflags  %upc_changed, %upc;
+                                        }
+                                        parameter 'BaseURL' = "https://signature.server1.local.com:6443" {
+                                                userflags  %upc_changed, %upc;
+                                        }
+                                        parameter 'Alias' = "basic_auth";
+                                        parameter 'Certificate' = "" {
+                                                userflags  %upc_changed, %upc;
+                                        }
+                                        parameter 'Type' = "Signature" {
+                                                userflags  %upc_changed, %upc;
+                                        }
+                                }
+                                instance add(4, 'token_auth', 'Name' = "token_auth", 'Alias' = "token_auth") {
+                                        parameter 'CABundle' = "Device.Security.CABundle.[Name == \"root_ca1\"]" {
+                                                userflags  %upc_changed, %upc;
+                                        }
+                                        parameter 'Enable' = true {
+                                                userflags  %upc_changed, %upc;
+                                        }
+                                        parameter 'Name' = "token_auth" {
+                                                userflags  %upc_changed, %upc;
+                                        }
+                                        parameter 'BaseURL' = "https://signature.server1.local.com:7443" {
+                                                userflags  %upc_changed, %upc;
+                                        }
+                                        parameter 'Alias' = "token_auth";
+                                        parameter 'Certificate' = "" {
+                                                userflags  %upc_changed, %upc;
+                                        }
+                                        parameter 'Type' = "Signature" {
+                                                userflags  %upc_changed, %upc;
+                                        }
+                                }
+                                instance add(5, 'mtls', 'Name' = "signature1_mtls", 'Alias' = "mtls") {
+                                        parameter 'CABundle' = "Device.Security.CABundle.[Name == \"root_ca1\"]" {
+                                                userflags  %upc_changed, %upc;
+                                        }
+                                        parameter 'Enable' = true {
+                                                userflags  %upc_changed, %upc;
+                                        }
+                                        parameter 'Name' = "mtls" {
+                                                userflags  %upc_changed, %upc;
+                                        }
+                                        parameter 'BaseURL' = "https://signature.server1.local.com:8443" {
+                                                userflags  %upc_changed, %upc;
+                                        }
+                                        parameter 'Alias' = "mtls";
+                                        parameter 'Certificate' = "Device.Security.Certificate.[SerialNumber==\"0123456789\"]." {
+                                                userflags  %upc_changed, %upc;
+                                        }
+                                        parameter 'Type' = "Signature" {
+                                                userflags  %upc_changed, %upc;
+                                        }
+                                }
+                                instance add(6, 'wrong_ca', 'Name' = "wrong_ca", 'Alias' = "wrong_ca") {
+                                        parameter 'CABundle' = "Device.Security.CABundle.[Name == \"root_ca1\"]" {
+                                                userflags  %upc_changed, %upc;
+                                        }
+                                        parameter 'Enable' = true {
+                                                userflags  %upc_changed, %upc;
+                                        }
+                                        parameter 'Name' = "wrong_ca" {
+                                                userflags  %upc_changed, %upc;
+                                        }
+                                        parameter 'BaseURL' = "https://signature.server1.local.com:9443" {
+                                                userflags  %upc_changed, %upc;
+                                        }
+                                        parameter 'Alias' = "wrong_ca";
+                                        parameter 'Certificate' = "" {
+                                                userflags  %upc_changed, %upc;
+                                        }
+                                        parameter 'Type' = "Signature" {
+                                                userflags  %upc_changed, %upc;
+                                        }
+                                }
+                        }
+                }
+                object 'ExecEnv' {
+                }
+                object 'DeploymentUnit' {
+                }
+                object 'ExecutionUnit' {
+                }
+        }
+}
+
