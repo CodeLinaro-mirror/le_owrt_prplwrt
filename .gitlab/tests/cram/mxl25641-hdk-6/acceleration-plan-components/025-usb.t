@@ -11,10 +11,10 @@ Assure USB. datamodel content with single SanDisk USB flash disk plugged in:
         "Power": "Unknown",
         "Receptacle": "Standard-A",
         "Standard": "2.0",
-        "Name": "usb-Port-1",
-        "Alias": "usb-Port-1",
+        "Name": "usb-1-1-port1",
+        "Alias": "cpe-Port-1",
         "Rate": "High",
-        "PowerCapability": "On,Off,LowPower",
+        "PowerCapability": "On,Off",
         "Type": "Host",
         "PowerStatus": "On"
       },
@@ -22,6 +22,17 @@ Assure USB. datamodel content with single SanDisk USB flash disk plugged in:
         "AllowAllDevices": 1,
         "AllowedDeviceNumberOfEntries": 0,
         "HostNumberOfEntries": 2
+      },
+      "USB.Port.3.": {
+        "Power": "Unknown",
+        "Receptacle": "Standard-A",
+        "Standard": "2.0",
+        "Name": "usb-1-1-port3",
+        "Alias": "cpe-Port-3",
+        "Rate": "High",
+        "PowerCapability": "On,Off",
+        "Type": "Host",
+        "PowerStatus": "On"
       },
       "USB.USBHosts.Host.1.": {
         "USBVersion": "2.(1|0)0", (re)
@@ -64,8 +75,19 @@ Assure USB. datamodel content with single SanDisk USB flash disk plugged in:
       },
       "USB.": {
         "InterfaceNumberOfEntries": 1,
-        "PortNumberOfEntries": 1
+        "PortNumberOfEntries": 4
       },
+      "USB.Port.2.": {
+        "Power": "Unknown",
+        "Receptacle": "Standard-A",
+        "Standard": "2.0",
+        "Name": "usb-1-1-port2",
+        "Alias": "cpe-Port-2",
+        "Rate": "High",
+        "PowerCapability": "On,Off",
+        "Type": "Host",
+        "PowerStatus": "On"
+       },
       "USB.USBHosts.Host.2.Device.[0-9]+.Configuration.1.Interface.1.": { (re)
         "InterfaceClass": "08",
         "InterfaceProtocol": "50",
@@ -103,6 +125,17 @@ Assure USB. datamodel content with single SanDisk USB flash disk plugged in:
         "Reset": 0,
         "Alias": "usb-Host-2",
         "Type": "xHCI"
+      },
+      "USB.Port.4.": {
+        "Power": "Unknown",
+        "Receptacle": "Standard-A",
+        "Standard": "2.0",
+        "Name": "usb-1-1-port4",
+        "Alias": "cpe-Port-4",
+        "Rate": "High",
+        "PowerCapability": "On,Off",
+        "Type": "Host",
+        "PowerStatus": "On"
       },
       "USB.USBHosts.Host.2.Device.[0-9]+.Configuration.1.": { (re)
         "ConfigurationNumber": 1,
