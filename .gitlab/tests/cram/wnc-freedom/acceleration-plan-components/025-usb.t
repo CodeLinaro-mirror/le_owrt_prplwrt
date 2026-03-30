@@ -4,109 +4,184 @@ Create R alias:
 
 Assure USB. datamodel content with single SanDisk USB flash disk plugged in:
 
-  $ R "ba-cli -lj USB.?" | jq .
-  [
-    {
-      "USB.Port.1.": {
-        "Power": "Unknown",
-        "Receptacle": "Standard-A",
-        "Standard": "2.0",
-        "Name": "usb-Port-1",
-        "Alias": "usb-Port-1",
-        "Rate": "High",
-        "PowerCapability": "On,Off,LowPower",
-        "Type": "Host",
-        "PowerStatus": "On"
-      },
-      "USB.USBHosts.": {
-        "AllowAllDevices": 1,
-        "AllowedDeviceNumberOfEntries": 0,
-        "HostNumberOfEntries": 2
-      },
-      "USB.USBHosts.Host.1.": {
-        "USBVersion": "2.10",
-        "DeviceNumberOfEntries": 0,
-        "PowerManagementEnable": 0,
-        "Enable": 1,
-        "Name": "usb-Host-1",
-        "Reset": 0,
-        "Alias": "usb-Host-1",
-        "Type": "xHCI"
-      },
-      "USB.Interface.1.": {
-        "Port": "",
-        "Upstream": 0,
-        "MaxBitRate": 0,
-        "Status": "Down",
-        "LowerLayers": "",
-        "MACAddress": "",
-        "LastChange": 0,
-        "Enable": 0,
-        "Name": "usb-Interface-1",
-        "Alias": "usb-Interface-1"
-      },
-      "USB.Interface.1.Stats.": {
-        "MulticastPacketsSent": 0,
-        "ErrorsSent": 0,
-        "BroadcastPacketsSent": 0,
-        "BytesSent": 0,
-        "PacketsSent": 0,
-        "BytesReceived": 0,
-        "DiscardPacketsReceived": 0,
-        "ErrorsReceived": 0,
-        "MulticastPacketsReceived": 0,
-        "UnknownProtoPacketsReceived": 0,
-        "UnicastPacketsSent": 0,
-        "UnicastPacketsReceived": 0,
-        "PacketsReceived": 0,
-        "DiscardPacketsSent": 0,
-        "BroadcastPacketsReceived": 0
-      },
-      "USB.": {
-        "InterfaceNumberOfEntries": 1,
-        "PortNumberOfEntries": 1
-      },
-      "USB.USBHosts.Host.2.Device.[0-9]+.Configuration.1.Interface.1.": { (re)
-        "InterfaceClass": "08",
-        "InterfaceProtocol": "50",
-        "InterfaceSubClass": "06",
-        "InterfaceNumber": 0
-      },
-      "USB.USBHosts.Host.2.Device.[0-9]+.": { (re)
-        "Port": 1,
-        "DeviceClass": "00",
-        "VendorID": 1921,
-        "ProductID": 21905,
-        "IsSelfPowered": 0,
-        "Rate": "Super",
-        "Parent": "",
-        "USBVersion": "3.20",
-        "IsSuspended": 0,
-        "USBPort": "Device.USB.Port.1.",
-        "ProductClass": "SanDisk 3.2Gen1",
-        "SerialNumber": "*", (glob)
-        "ConfigurationNumberOfEntries": 1,
-        "DeviceProtocol": "00",
-        "Manufacturer": "USB",
-        "DeviceSubClass": "00",
-        "DeviceVersion": 100,
-        "IsAllowed": 1,
-        "DeviceNumber": 2,
-        "MaxChildren": 0
-      },
-      "USB.USBHosts.Host.2.": {
-        "USBVersion": "3.20",
-        "DeviceNumberOfEntries": 1,
-        "PowerManagementEnable": 0,
-        "Enable": 1,
-        "Name": "usb-Host-2",
-        "Reset": 0,
-        "Alias": "usb-Host-2",
-        "Type": "xHCI"
-      },
-      "USB.USBHosts.Host.2.Device.[0-9]+.Configuration.1.": { (re)
-        "ConfigurationNumber": 1,
-        "InterfaceNumberOfEntries": 1
-      }
+  $ R "ba-cli -lj USB.?" | jq --sort-keys '.[0]'
+  {
+    "USB.": {
+      "InterfaceNumberOfEntries": 1,
+      "PortNumberOfEntries": 8
+    },
+    "USB.Interface.1.": {
+      "Alias": "usb-Interface-1",
+      "Enable": 0,
+      "LastChange": 0,
+      "LowerLayers": "",
+      "MACAddress": "",
+      "MaxBitRate": 0,
+      "Name": "usb-Interface-1",
+      "Port": "",
+      "Status": "Down",
+      "Upstream": 0
+    },
+    "USB.Interface.1.Stats.": {
+      "BroadcastPacketsReceived": 0,
+      "BroadcastPacketsSent": 0,
+      "BytesReceived": 0,
+      "BytesSent": 0,
+      "DiscardPacketsReceived": 0,
+      "DiscardPacketsSent": 0,
+      "ErrorsReceived": 0,
+      "ErrorsSent": 0,
+      "MulticastPacketsReceived": 0,
+      "MulticastPacketsSent": 0,
+      "PacketsReceived": 0,
+      "PacketsSent": 0,
+      "UnicastPacketsReceived": 0,
+      "UnicastPacketsSent": 0,
+      "UnknownProtoPacketsReceived": 0
+    },
+    "USB.Port.1.": {
+      "Alias": "cpe-Port-1",
+      "Name": "usb-2-1-port1",
+      "Power": "Unknown",
+      "PowerCapability": "On,Off",
+      "PowerStatus": "On",
+      "Rate": "Super",
+      "Receptacle": "Standard-A",
+      "Standard": "[0-9]+.[0-9]+", (re)
+      "Type": "Host"
+    },
+    "USB.Port.2.": {
+      "Alias": "cpe-Port-2",
+      "Name": "usb-2-1-port2",
+      "Power": "Unknown",
+      "PowerCapability": "On,Off",
+      "PowerStatus": "On",
+      "Rate": "Super",
+      "Receptacle": "Standard-A",
+      "Standard": "[0-9]+.[0-9]+", (re)
+      "Type": "Host"
+    },
+    "USB.Port.3.": {
+      "Alias": "cpe-Port-3",
+      "Name": "usb-2-1-port3",
+      "Power": "Unknown",
+      "PowerCapability": "On,Off",
+      "PowerStatus": "On",
+      "Rate": "Super",
+      "Receptacle": "Standard-A",
+      "Standard": "[0-9]+.[0-9]+", (re)
+      "Type": "Host"
+    },
+    "USB.Port.4.": {
+      "Alias": "cpe-Port-4",
+      "Name": "usb-2-1-port4",
+      "Power": "Unknown",
+      "PowerCapability": "On,Off",
+      "PowerStatus": "On",
+      "Rate": "Super",
+      "Receptacle": "Standard-A",
+      "Standard": "[0-9]+.[0-9]+", (re)
+      "Type": "Host"
+    },
+    "USB.Port.5.": {
+      "Alias": "cpe-Port-5",
+      "Name": "usb-1-1-port1",
+      "Power": "Unknown",
+      "PowerCapability": "On,Off",
+      "PowerStatus": "On",
+      "Rate": "High",
+      "Receptacle": "Standard-A",
+      "Standard": "[0-9]+.[0-9]+", (re)
+      "Type": "Host"
+    },
+    "USB.Port.6.": {
+      "Alias": "cpe-Port-6",
+      "Name": "usb-1-1-port2",
+      "Power": "Unknown",
+      "PowerCapability": "On,Off",
+      "PowerStatus": "On",
+      "Rate": "High",
+      "Receptacle": "Standard-A",
+      "Standard": "[0-9]+.[0-9]+", (re)
+      "Type": "Host"
+    },
+    "USB.Port.7.": {
+      "Alias": "cpe-Port-7",
+      "Name": "usb-1-1-port3",
+      "Power": "Unknown",
+      "PowerCapability": "On,Off",
+      "PowerStatus": "On",
+      "Rate": "High",
+      "Receptacle": "Standard-A",
+      "Standard": "[0-9]+.[0-9]+", (re)
+      "Type": "Host"
+    },
+    "USB.Port.8.": {
+      "Alias": "cpe-Port-8",
+      "Name": "usb-1-1-port4",
+      "Power": "Unknown",
+      "PowerCapability": "On,Off",
+      "PowerStatus": "On",
+      "Rate": "High",
+      "Receptacle": "Standard-A",
+      "Standard": "[0-9]+.[0-9]+", (re)
+      "Type": "Host"
+    },
+    "USB.USBHosts.": {
+      "AllowAllDevices": 1,
+      "AllowedDeviceNumberOfEntries": 0,
+      "HostNumberOfEntries": 2
+    },
+    "USB.USBHosts.Host.1.": {
+      "Alias": "usb-Host-1",
+      "DeviceNumberOfEntries": 0,
+      "Enable": 1,
+      "Name": "usb-Host-1",
+      "PowerManagementEnable": 0,
+      "Reset": 0,
+      "Type": "xHCI",
+      "USBVersion": "2.(1|0)0" (re)
+    },
+    "USB.USBHosts.Host.2.": {
+      "Alias": "usb-Host-2",
+      "DeviceNumberOfEntries": 1,
+      "Enable": 1,
+      "Name": "usb-Host-2",
+      "PowerManagementEnable": 0,
+      "Reset": 0,
+      "Type": "xHCI",
+      "USBVersion": "3.(2|0)0" (re)
+    },
+    "USB.USBHosts.Host.2.Device.[0-9]+.": { (re)
+      "ConfigurationNumberOfEntries": 1,
+      "DeviceClass": "00",
+      "DeviceNumber": 2,
+      "DeviceProtocol": "00",
+      "DeviceSubClass": "00",
+      "DeviceVersion": 100,
+      "IsAllowed": 1,
+      "IsSelfPowered": 0,
+      "IsSuspended": 0,
+      "Manufacturer": "USB",
+      "MaxChildren": 0,
+      "Parent": "",
+      "Port": 2,
+      "ProductClass": "SanDisk 3.2Gen1",
+      "ProductID": 21905,
+      "Rate": "Super",
+      "SerialNumber": "*", (glob)
+      "USBPort": "Device.USB.Port.[0-9]+.", (re)
+      "USBVersion": "3.(2|0)0", (re)
+      "VendorID": 1921
+    },
+    "USB.USBHosts.Host.2.Device.[0-9]+.Configuration.1.": { (re)
+      "ConfigurationNumber": 1,
+      "InterfaceNumberOfEntries": 1
+    },
+    "USB.USBHosts.Host.2.Device.[0-9]+.Configuration.1.Interface.1.": { (re)
+      "InterfaceClass": "08",
+      "InterfaceNumber": 0,
+      "InterfaceProtocol": "50",
+      "InterfaceSubClass": "06"
     }
-  ]
+  }

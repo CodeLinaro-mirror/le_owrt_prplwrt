@@ -35,7 +35,7 @@ Check ChangePowerMode function:
 Check invalid value for ChangePowerMode function:
 
   $ R "ba-cli 'USB.Port.1.ChangePowerMode(PowerState = "InvalidState")' | grep -v '>' | grep 'ERROR'"
-  ERROR: call (null) failed with status 1 - unknown error
+  ERROR: call (null) failed with status 10 - invalid value
 
 Check PowerStatus after ChangePowerMode:
 
