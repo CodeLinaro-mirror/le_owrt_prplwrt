@@ -32,6 +32,8 @@ Check that ubus has expected datamodels available:
   Cthulhu.Information
   Cthulhu.Information.LocalPolicyManager
   Cthulhu.Information.LocalPolicyManager.Action
+  Cthulhu.Information.Modules
+  Cthulhu.Information.Plugins
   Cthulhu.LocalManagement
   Cthulhu.LocalManagement.Action
   Cthulhu.Plugins
