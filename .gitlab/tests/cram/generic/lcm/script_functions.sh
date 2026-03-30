@@ -17,6 +17,8 @@ DEFAULT_USERNAME=""
 DEFAULT_PASSWORD=""
 DEFAULT_RETAINDATA="false"
 DEFAULT_ENVVAR='[{Key="ENVVAR_KEY1", Value="ENVVAR_VALUE1"}, {Key="ENVVAR_KEY2", Value="ENVVAR_VALUE2"}]'
+DEFAULT_SIGNATURE_PASSWORD="secret"
+DEFAULT_SIGNATURE_USERNAME="admin"
 
 CLI_JSON="ba-cli -l -j"
 CLI="ba-cli"
@@ -259,11 +261,13 @@ value_or_default() {
 install_update_ctr_with_params() {
 	params=$@
 	operation=$1
+	no_wait=$2
 	if [ "${operation}" != "install" ] && [ "${operation}" != "update" ]; then
 		echo "Unknown operation: $operation"
 		return
 	fi
 
+	shift
 	shift
 	str_params=""
 	uuid=""
@@ -289,14 +293,15 @@ install_update_ctr_with_params() {
 				str_params=$(concat_comma_string "${str_params}" "URL = \"${value}\"")
 			elif [ "${key}" = "name" ]; then
 				ctr_name=$(get_container_by_name ${value})
-                                ctr_version=$(get_container_version_by_name ${value})
+				ctr_version=$(get_container_version_by_name ${value})
 				str_params=$(concat_comma_string "${str_params}" "URL = \"${DEFAULT_URL}/${ctr_name}:${ctr_version}\"")
 			elif [ "${key}" = "url_arch" ]; then
 				ctr_arch=$(get_arch_name)
 				str_params=$(concat_comma_string "${str_params}" "URL = \"${DEFAULT_URL}/lcm_tests/${ctr_arch}_${value}\"")
 			elif [ "${key}" = "version" ]; then
 				ctr_name=$(get_container_name)
-				str_params=$(concat_comma_string "${str_params}" "URL = \"${DEFAULT_URL}/prplos/${ctr_name}:${value}\"")
+				ctr_version="${value}"
+				str_params=$(concat_comma_string "${str_params}" "URL = \"${DEFAULT_URL}/prplos/${ctr_name}:${ctr_version}\"")
 			elif [ "${key}" = "uuid" ]; then
 				value=$(value_or_default "${value_missing}" "${DEFAULT_UUID}" "${value}")
 				str_params=$(concat_comma_string "${str_params}" "UUID = ${value}")
@@ -348,6 +353,14 @@ install_update_ctr_with_params() {
 				str_params=$(concat_comma_string "${str_params}" "RequiredUserRoles = \"${value}\"")
 			elif [ "${key}" = "moduleversion" ]; then
 				str_params=$(concat_comma_string "${str_params}" "ModuleVersion = \"${value}\"")
+			elif [ "${key}" = "signature" ]; then
+				str_params=$(concat_comma_string "${str_params}" "Signature = \"${value}_${ctr_name}_${ctr_version}\"")
+			elif [ "${key}" = "signature_pwd" ]; then
+				value=$(value_or_default "${value_missing}" "${DEFAULT_SIGNATURE_PASSWORD}" "${value}")
+				str_params=$(concat_comma_string "${str_params}" "SignaturePassword = \"${value}\"")
+			elif [ "${key}" = "signature_user" ]; then
+				value=$(value_or_default "${value_missing}" "${DEFAULT_SIGNATURE_USERNAME}" "${value}")
+				str_params=$(concat_comma_string "${str_params}" "SignatureUsername = \"${value}\"")
 			elif [ "${key}" = "debugargs" ]; then
 				debugargs=$(value_or_default "${value_missing}" "1" "${value}")
 			else
@@ -372,7 +385,9 @@ install_update_ctr_with_params() {
 		wait_ctr_down
 	fi
 
-	wait_ctr_up $params
+	if [ "$no_wait" == "false" ]; then
+		wait_ctr_up $params
+	fi
 }
 
 uninstall_ctr() {
@@ -902,12 +917,16 @@ get_ctr_type() {
 
 }
 
+install_ctr_no_wait() {
+	install_update_ctr_with_params install true "$@"
+}
+
 install_ctr() {
-	install_update_ctr_with_params install "$@"
+	install_update_ctr_with_params install false "$@"
 }
 
 update_ctr() {
-	install_update_ctr_with_params update "$@"
+	install_update_ctr_with_params update false "$@"
 }
 
 ## Create the host object resources used for the default HostObject config
@@ -1188,3 +1207,48 @@ cleanup_appdata() {
 }
 
 
+##
+## install_basic_container() - Install a container with default parameters and wait for it to become active.
+##
+## Fixed defaults applied by this function:
+##   --version prplos-v1   : Container image version to install.
+##   --ee                  : Execution environment (defaults to DEFAULT_EE = "generic" if not overridden).
+##   --uuid                : Deployment unit UUID (defaults to DEFAULT_UUID if not overridden).
+##   --privileged true     : Container is started in privileged mode.
+##
+## Parameters:
+##   "$@"  : Optional extra arguments forwarded verbatim to install_ctr.
+##           Any supported install_ctr argument (--url, --network, --hostobject,
+##           --appdata, --envvar, --retaindata, --usprequired, etc.) can be supplied
+##           here to override the defaults above.
+##
+## Example:
+##   install_basic_container
+##   install_basic_container --envvar --network '{ShareParentNetwork = "true"}'
+##
+install_basic_container() {
+	install_ctr --version prplos-v1 --ee --uuid --privileged true "$@" > /dev/null
+}
+
+##
+## install_basic_container_no_wait() - Install a container with default parameters without waiting for it to become active.
+##
+## Fixed defaults applied by this function:
+##   --version prplos-v1   : Container image version to install.
+##   --ee                  : Execution environment (defaults to DEFAULT_EE = "generic" if not overridden).
+##   --uuid                : Deployment unit UUID (defaults to DEFAULT_UUID if not overridden).
+##   --privileged true     : Container is started in privileged mode.
+##
+## Parameters:
+##   "$@"  : Optional extra arguments forwarded verbatim to install_ctr_no_wait.
+##           Any supported install_ctr argument (--url, --network, --hostobject,
+##           --appdata, --envvar, --retaindata, --usprequired, etc.) can be supplied
+##           here to override the defaults above.
+##
+## Example:
+##   install_basic_container_no_wait
+##   install_basic_container_no_wait --envvar
+##
+install_basic_container_no_wait() {
+	install_ctr_no_wait --version prplos-v1 --ee --uuid --privileged true "$@"
+}
