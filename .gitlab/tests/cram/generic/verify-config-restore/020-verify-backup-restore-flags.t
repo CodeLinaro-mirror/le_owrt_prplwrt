@@ -24,5 +24,6 @@ PPW-1729, PPW-1731 and PPW-1786:
   /etc/amx/gmap-server/mibs/information.odl
   /etc/amx/gmap-server/mibs/location.odl
   /etc/amx/gmap-server/mibs/mac.odl
+  /etc/amx/tr181-schedules/tr181-schedules_definition.odl
 
   $ logger -t cram "Backup and restore flags verification test finished"
