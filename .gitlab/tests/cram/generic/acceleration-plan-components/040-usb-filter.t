@@ -31,11 +31,11 @@ Wait for DM to update:
 
 Assure SanDisk USB flash disk is plugged in and allowed:
 
-  $ R 'ba-cli -lj "ubus-protected;USB.USBHosts.Host.2.Device.[ProductClass==\"SanDisk 3.2Gen1\"].?" 2>&1 | grep -v "^>" | sed -n "4p"' | jq .
+  $ R 'ba-cli -lj "ubus-protected;USB.USBHosts.Host.*.Device.[ProductClass==\"SanDisk 3.2Gen1\"].?" 2>&1 | grep -v "^>" | sed -n "4p"' | jq .
   [
     {
       "USB.USBHosts.Host.2.Device.[0-9]+.": { (re)
-        "Port": 1,
+        "Port": [0-9]+, (re)
         "DeviceClass": "00",
         "VendorID": 1921,
         "ProductID": 21905,
@@ -46,7 +46,7 @@ Assure SanDisk USB flash disk is plugged in and allowed:
         "SysDevName": "/dev/(2-1(\.2)?|sda)", (re)
         "USBVersion": "3.20",
         "IsSuspended": 0,
-        "USBPort": "Device.USB.Port.1.",
+        "USBPort": "Device.USB.Port.[0-9]+.", (re)
         "ProductClass": "SanDisk 3.2Gen1",
         "SerialNumber": "*", (glob)
         "DeviceProtocol": "00",
