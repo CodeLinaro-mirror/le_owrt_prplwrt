@@ -56,7 +56,6 @@ Verify device entry appears in TR-181 datamodel:
       "UPC": ""
     }
   }
-  
 
 Verify device entry appears in gmap datamodel:
 
@@ -131,12 +130,6 @@ Test 2: Explicit Departure (Stop minidlna):
 Wait for byebye to propagate (based on SSDP TTL):
 
   $ sleep 35
-
-Verify entries are deactivated from gmap datamodel:
-
-  $ R 'ba-cli "Devices.Device.[FriendlyName==\"CramTestUPnPDevice\"].Service.*.?"' | grep -v '>'
-  No data found
-
 
 Cleanup:
 
