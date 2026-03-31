@@ -217,8 +217,12 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-pptp=y
   CONFIG_PACKAGE_kmod-qca-mdio=y
   CONFIG_PACKAGE_kmod-qca-nss-ecm-premium=y
+  CONFIG_PACKAGE_kmod-qca-nss-eip=y
+  CONFIG_PACKAGE_kmod-qca-nss-eip-ipsec=y
   CONFIG_PACKAGE_kmod-qca-nss-flowmgr=y
   CONFIG_PACKAGE_kmod-qca-nss-fls=y
+  CONFIG_PACKAGE_kmod-qca-nss-netfn-pkt-steer=y
+  CONFIG_PACKAGE_kmod-qca-nss-netfn-sk-offload=y
   CONFIG_PACKAGE_kmod-qca-nss-netfn-tcpst=y
   CONFIG_PACKAGE_kmod-qca-nss-nsm=y
   CONFIG_PACKAGE_kmod-qca-nss-ppe-ath-clients=y
