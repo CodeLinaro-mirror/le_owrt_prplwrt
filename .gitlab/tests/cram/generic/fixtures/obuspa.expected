@@ -224,9 +224,9 @@ Device.DHCPv4.Server.Pool.{i}.MinAddress                                        
 Device.DHCPv4.Server.Pool.{i}.Option.{i}.                                                            proto::dhcpv4-manager
 Device.DHCPv4.Server.Pool.{i}.Option.{i}.Alias                                                       proto::dhcpv4-manager
 Device.DHCPv4.Server.Pool.{i}.Option.{i}.Enable                                                      proto::dhcpv4-manager
+Device.DHCPv4.Server.Pool.{i}.Option.{i}.Force                                                       proto::dhcpv4-manager
 Device.DHCPv4.Server.Pool.{i}.Option.{i}.Tag                                                         proto::dhcpv4-manager
 Device.DHCPv4.Server.Pool.{i}.Option.{i}.Value                                                       proto::dhcpv4-manager
-Device.DHCPv4.Server.Pool.{i}.Option.{i}.X_PRPLWARE-COM_Force                                        proto::dhcpv4-manager
 Device.DHCPv4.Server.Pool.{i}.OptionNumberOfEntries                                                  proto::dhcpv4-manager
 Device.DHCPv4.Server.Pool.{i}.Order                                                                  proto::dhcpv4-manager
 Device.DHCPv4.Server.Pool.{i}.ReservedAddresses                                                      proto::dhcpv4-manager
