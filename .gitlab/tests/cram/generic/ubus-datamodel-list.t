@@ -117,6 +117,7 @@ Check that ubus has expected datamodels available:
   Device.SFPs
   Device.SSH
   Device.Security
+  Device.Services
   Device.SoftwareModules
   Device.Syslog
   Device.Time
@@ -338,6 +339,8 @@ Check that ubus has expected datamodels available:
   Security
   Security.CABundle
   Security.Certificate
+  Services
+  Services.VoiceService
   SoftwareModules
   SoftwareModules.DeploymentUnit
   SoftwareModules.ExecEnv
