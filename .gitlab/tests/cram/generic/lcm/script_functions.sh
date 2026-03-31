@@ -900,7 +900,7 @@ check_ee_status() {
 }
 
 check_cthulhu_config() {
-	cli_json_safe "Cthulhu.Config.?0" -e @[*].*.UseOverlayFS -e @[*].*.DefaultBackend -e @[*].*.ImageLocation| sort
+	${CLI_JSON} "Cthulhu.Config.?0" | jsonfilter -e @[*].*.EnableOverlayfs -e @[*].*.DefaultBackend -e @[*].*.ImageLocation | sort
 }
 
 get_ctr_ip() {
