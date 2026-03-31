@@ -8,8 +8,8 @@ description: Build image for MediaTek / Arcadyan Mozart board
 feeds:
   - name: feed_mediatek
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-mediatek
-    tracking_branch: arcadyan-mozart-mp4.2
-    revision: a951a13301dfe2f05a39abf131aa3538eaa27a03
+    tracking_branch: arcadyan-mozart-mp4.3
+    revision: 76be27e0293fb6b397cd91b035a5dfacf8303ab9
   - name: feed_mfg
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_mfg.git
     tracking_branch: main
@@ -74,6 +74,7 @@ diffconfig: |
   CONFIG_WPA_MSG_MIN_PRIORITY=0
   # CONFIG_PACKAGE_wpad-basic-mbedtls is not set
   # CONFIG_PACKAGE_wpad-openssl is not set
+  # CONFIG_PACKAGE_iwinfo is not set
   CONFIG_BUSYBOX_CONFIG_DEVMEM=y
   CONFIG_PACKAGE_kmod-mii=y
   CONFIG_PACKAGE_kmod-usb2=y
