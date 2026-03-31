@@ -19,8 +19,8 @@ CDRouter-Top-100+mDNS-OSP MXL25641-HDK-6 VLAN WAN/LAN eMMC:
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
       .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
-      .gitlab/scripts/dut-init/cdrouter-dut-enable-vlans.sh
       .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
+      .gitlab/scripts/dut-init/cdrouter-dut-enable-vlans.sh
 
 CDRouter-Top-100+mDNS-OSP MXL25641-HDK-6 PPPoE WAN eMMC:
   <<: *mxl25641_cdrouter
@@ -29,8 +29,8 @@ CDRouter-Top-100+mDNS-OSP MXL25641-HDK-6 PPPoE WAN eMMC:
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
       .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
-      .gitlab/scripts/dut-init/cdrouter-dut-enable-pppoe.sh
       .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
+      .gitlab/scripts/dut-init/cdrouter-dut-enable-pppoe.sh
 
 CDRouter-Wireless MXL25641-HDK-6 eMMC:
   <<: *mxl25641_cdrouter
@@ -101,8 +101,8 @@ CDRouter-IPv6-Top-100+mDNS MXL25641-HDK-6 VLAN WAN/LAN eMMC:
     CDROUTER_TEST_CONFIG: vlan-ipv6
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
-      .gitlab/scripts/dut-init/cdrouter-dut-enable-vlans.sh
       .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
+      .gitlab/scripts/dut-init/cdrouter-dut-enable-vlans.sh
 
 .CDRouter-IPv6-Top-100+mDNS MXL25641-HDK-6 PPPoE WAN eMMC:
   <<: *mxl25641_cdrouter_ipv6
@@ -110,8 +110,8 @@ CDRouter-IPv6-Top-100+mDNS MXL25641-HDK-6 VLAN WAN/LAN eMMC:
     CDROUTER_TEST_CONFIG: ppp-ipv6
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
-      .gitlab/scripts/dut-init/cdrouter-dut-enable-pppoe.sh
       .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
+      .gitlab/scripts/dut-init/cdrouter-dut-enable-pppoe.sh
 
 CDRouter-TR-069 MXL25641-HDK-6 eMMC:
   <<: *mxl25641_cdrouter
