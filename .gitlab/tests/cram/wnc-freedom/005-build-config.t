@@ -159,6 +159,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_iptables-zz-legacy=y
   CONFIG_PACKAGE_iputils-ping=y
   # CONFIG_PACKAGE_jansson is not set
+  CONFIG_PACKAGE_json-hal-library=y
   CONFIG_PACKAGE_kmod-asn1-decoder=y
   CONFIG_PACKAGE_kmod-ath11k=y
   CONFIG_PACKAGE_kmod-crypto-md5=y
@@ -549,6 +550,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_timingila-cthulhu=y
   CONFIG_PACKAGE_timingila-rlyeh=y
   CONFIG_PACKAGE_tr069-manager=y
+  CONFIG_PACKAGE_tr104-voip=y
   CONFIG_PACKAGE_tr181-bridging=y
   CONFIG_PACKAGE_tr181-bulkdata=y
   CONFIG_PACKAGE_tr181-button=y
@@ -676,6 +678,8 @@ Assure expected build configuration (PCF-1413):
   CONFIG_SAH_AMX_TR069_MANAGER=y
   CONFIG_SAH_AMX_TR069_MANAGER_ORDER=97
   CONFIG_SAH_AMX_TR069_MANAGER_USE_GSDM=y
+  CONFIG_SAH_AMX_TR104_VOIP=y
+  CONFIG_SAH_AMX_TR104_VOIP_ORDER=99
   CONFIG_SAH_AMX_TR181_BRIDGING=y
   CONFIG_SAH_AMX_TR181_BRIDGING_RUN_AS_GROUP="tr181_app"
   CONFIG_SAH_AMX_TR181_BRIDGING_RUN_AS_USER="tr181_app"
