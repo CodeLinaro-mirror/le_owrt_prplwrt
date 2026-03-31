@@ -78,20 +78,21 @@ Create profile for EP 1:
   $ echo $ep1_alias
   cpe-Profile.* (re)
 
-  $ wifi_dm "EndPoint.1.ProfileReference=WiFi.EndPoint.1.Profile.${ep1_alias}" "Device.WiFi." "ba-cli"
-  Device.WiFi.EndPoint.1.ProfileReference="WiFi.EndPoint.1.Profile.* (re)
+  $ wifi_dm "EndPoint.1.Profile.${ep1_alias}.SSID=\"TEST_MLO\"" "Device.WiFi." "ba-cli"
+  Device.WiFi.EndPoint.1.Profile.\d+.SSID="TEST_MLO" (re)
+
+  $ wifi_dm "EndPoint.1.Profile.${ep1_alias}.Security.ModeEnabled=\"WPA3-Personal-Transition\"" "Device.WiFi." "ba-cli"
+  Device.WiFi.EndPoint.1.Profile.\d+.Security.ModeEnabled="WPA3-Personal-Transition" (re)
+
+  $ wifi_dm "EndPoint.1.Profile.${ep1_alias}.Security.KeyPassphrase=\"password\"" "Device.WiFi." "ba-cli"
+  Device.WiFi.EndPoint.1.Profile.\d+.Security.KeyPassphrase="password" (re)
 
   $ wifi_dm "EndPoint.1.Profile.${ep1_alias}.Enable=1" "Device.WiFi." "ba-cli"
   Device.WiFi.EndPoint.1.Profile.\d+.Enable=1 (re)
 
-  $ wifi_dm "EndPoint.1.Profile.${ep1_alias}.SSID=\"TEST_MLO\"" "Device.WiFi." "ba-cli"
-  Device.WiFi.EndPoint.1.Profile.\d+.SSID="TEST_MLO" (re)
+  $ wifi_dm "EndPoint.1.ProfileReference=WiFi.EndPoint.1.Profile.${ep1_alias}" "Device.WiFi." "ba-cli"
+  Device.WiFi.EndPoint.1.ProfileReference="WiFi.EndPoint.1.Profile.* (re)
 
-  $ wifi_dm "EndPoint.1.Profile.${ep1_alias}.Security.ModeEnabled=\"WPA2-WPA3-Personal\"" "Device.WiFi." "ba-cli"
-  Device.WiFi.EndPoint.1.Profile.\d+.Security.ModeEnabled="WPA2-WPA3-Personal" (re)
-
-  $ wifi_dm "EndPoint.1.Profile.${ep1_alias}.Security.KeyPassphrase=\"password\"" "Device.WiFi." "ba-cli"
-  Device.WiFi.EndPoint.1.Profile.\d+.Security.KeyPassphrase="password" (re)
 
 Create profile for EP 2:
 
@@ -99,20 +100,20 @@ Create profile for EP 2:
   $ echo $ep2_alias
   cpe-Profile.* (re)
 
-  $ wifi_dm "EndPoint.2.ProfileReference=WiFi.EndPoint.2.Profile.${ep2_alias}" "Device.WiFi." "ba-cli"
-  Device.WiFi.EndPoint.2.Profile.* (re)
+  $ wifi_dm "EndPoint.2.Profile.${ep2_alias}.SSID=\"TEST_MLO\"" "Device.WiFi." "ba-cli"
+  Device.WiFi.EndPoint.2.Profile.\d+.SSID="TEST_MLO" (re)
+
+  $ wifi_dm "EndPoint.2.Profile.${ep2_alias}.Security.ModeEnabled=\"WPA3-Personal-Transition\"" "Device.WiFi." "ba-cli"
+  Device.WiFi.EndPoint.2.Profile.\d+.Security.ModeEnabled="WPA3-Personal-Transition" (re)
+
+  $ wifi_dm "EndPoint.2.Profile.${ep2_alias}.Security.KeyPassphrase=\"password\"" "Device.WiFi." "ba-cli"
+  Device.WiFi.EndPoint.2.Profile.\d+.Security.KeyPassphrase="password" (re)
 
   $ wifi_dm "EndPoint.2.Profile.${ep2_alias}.Enable=1" "Device.WiFi." "ba-cli"
   Device.WiFi.EndPoint.2.Profile.\d+.Enable=1 (re)
 
-  $ wifi_dm "EndPoint.2.Profile.${ep2_alias}.SSID=\"TEST_MLO\"" "Device.WiFi." "ba-cli"
-  Device.WiFi.EndPoint.2.Profile.\d+.SSID="TEST_MLO" (re)
-
-  $ wifi_dm "EndPoint.2.Profile.${ep2_alias}.Security.ModeEnabled=\"WPA2-WPA3-Personal\"" "Device.WiFi." "ba-cli"
-  Device.WiFi.EndPoint.2.Profile.\d+.Security.ModeEnabled="WPA2-WPA3-Personal" (re)
-
-  $ wifi_dm "EndPoint.2.Profile.${ep2_alias}.Security.KeyPassphrase=\"password\"" "Device.WiFi." "ba-cli"
-  Device.WiFi.EndPoint.2.Profile.\d+.Security.KeyPassphrase="password" (re)
+  $ wifi_dm "EndPoint.2.ProfileReference=WiFi.EndPoint.2.Profile.${ep2_alias}" "Device.WiFi." "ba-cli"
+  Device.WiFi.EndPoint.2.Profile.* (re)
 
 Create profile for EP 3:
 
@@ -120,20 +121,20 @@ Create profile for EP 3:
   $ echo $ep3_alias
   cpe-Profile.* (re)
 
-  $ wifi_dm "EndPoint.3.ProfileReference=WiFi.EndPoint.3.Profile.${ep3_alias}" "Device.WiFi." "ba-cli"
-  Device.WiFi.EndPoint.3.Profile.* (re)
+  $ wifi_dm "EndPoint.3.Profile.${ep3_alias}.SSID=\"TEST_MLO\"" "Device.WiFi." "ba-cli"
+  Device.WiFi.EndPoint.3.Profile.\d+.SSID="TEST_MLO" (re)
+
+  $ wifi_dm "EndPoint.3.Profile.${ep3_alias}.Security.ModeEnabled=\"WPA3-Personal-Transition\"" "Device.WiFi." "ba-cli"
+  Device.WiFi.EndPoint.3.Profile.\d+.Security.ModeEnabled="WPA3-Personal-Transition" (re)
+
+  $ wifi_dm "EndPoint.3.Profile.${ep3_alias}.Security.KeyPassphrase=\"password\"" "Device.WiFi." "ba-cli"
+  Device.WiFi.EndPoint.3.Profile.\d+.Security.KeyPassphrase="password" (re)
 
   $ wifi_dm "EndPoint.3.Profile.${ep3_alias}.Enable=1" "Device.WiFi." "ba-cli"
   Device.WiFi.EndPoint.3.Profile.\d+.Enable=1 (re)
 
-  $ wifi_dm "EndPoint.3.Profile.${ep3_alias}.SSID=\"TEST_MLO\"" "Device.WiFi." "ba-cli"
-  Device.WiFi.EndPoint.3.Profile.\d+.SSID="TEST_MLO" (re)
-
-  $ wifi_dm "EndPoint.3.Profile.${ep3_alias}.Security.ModeEnabled=\"WPA2-WPA3-Personal\"" "Device.WiFi." "ba-cli"
-  Device.WiFi.EndPoint.3.Profile.\d+.Security.ModeEnabled="WPA2-WPA3-Personal" (re)
-
-  $ wifi_dm "EndPoint.3.Profile.${ep3_alias}.Security.KeyPassphrase=\"password\"" "Device.WiFi." "ba-cli"
-  Device.WiFi.EndPoint.3.Profile.\d+.Security.KeyPassphrase="password" (re)
+  $ wifi_dm "EndPoint.3.ProfileReference=WiFi.EndPoint.3.Profile.${ep3_alias}" "Device.WiFi." "ba-cli"
+  Device.WiFi.EndPoint.3.Profile.* (re)
 
 Enable all EPs:
 

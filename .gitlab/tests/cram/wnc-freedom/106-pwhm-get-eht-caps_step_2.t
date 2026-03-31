@@ -110,6 +110,11 @@ Restore defaults:
   $ wifi_dm_radio_band 6 "OperatingStandards=\"ax,be\"" "WiFi." "ba-cli"
   WiFi.Radio.\d+.OperatingStandards="ax,be" (re)
 
+Restore 2.4GHz Operating Bandwidth to 20MHz (PCF-2420) (PCF-2455):
+
+  $ wifi_dm_radio_band 2 "OperatingChannelBandwidth=\"20MHz\""
+  Device.WiFi.Radio.\d+.OperatingChannelBandwidth="20MHz" (re)
+
 Disable vaps:
 
   $ wifi_dm "AccessPoint.1.Enable=0"

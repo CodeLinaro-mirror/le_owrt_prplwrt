@@ -24,10 +24,10 @@ Check default SecMode:
   $ R logger -t cram "Check default SecMode"
 
   $ wifi_dm "AccessPoint.1.Security.ModeEnabled?"
-  Device.WiFi.AccessPoint.1.Security.ModeEnabled="WPA2-WPA3-Personal"
+  Device.WiFi.AccessPoint.1.Security.ModeEnabled="WPA3-Personal-Transition"
 
   $ wifi_dm "AccessPoint.3.Security.ModeEnabled?"
-  Device.WiFi.AccessPoint.3.Security.ModeEnabled="WPA2-WPA3-Personal"
+  Device.WiFi.AccessPoint.3.Security.ModeEnabled="WPA3-Personal-Transition"
 
   $ wifi_dm "AccessPoint.5.Security.ModeEnabled?"
   Device.WiFi.AccessPoint.5.Security.ModeEnabled="WPA3-Personal"

@@ -32,6 +32,9 @@ Restore defaults:
   $ R "ba-cli -l \"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.SSID=\"prplOS\"\"" | sed '/^$/d'
   prplOS
 
+WPA3-Personal-Transition is an allowed value per the odl definition of AccessPoint.Security.ModeEnabled
+However, it is not allowed for 6GHz VAPS. pwhm will accept it but revert to 6GHz default value WPA3-Personal
+
   $ R "ba-cli -l \"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.Security.ModeEnabled=\"WPA3-Personal-Transition\"\"" | sed '/^$/d'
   WPA3-Personal-Transition
 
