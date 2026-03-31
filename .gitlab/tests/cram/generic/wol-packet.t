@@ -3,7 +3,7 @@ This test only verifies that the DUT sends a WoL packet; no receiver is required
 
   $ IFACE=$TESTBED_LAN_INTERFACE
   $ rm -f "$CRAMTMP/wol.cap"
-  $ sudo tcpdump -p -i "$IFACE" -c 5 -nn -e udp port 9 >"$CRAMTMP/wol.cap" 2>&1 &
+  $ sudo tcpdump -p -i "$IFACE" -c 1 -nn -e udp port 9 >"$CRAMTMP/wol.cap" 2>/dev/null &
   $ TCPDUMP_PID=$!
   $ echo "tcpdump_pid=$TCPDUMP_PID"
   tcpdump_pid=[0-9]+ (re)
