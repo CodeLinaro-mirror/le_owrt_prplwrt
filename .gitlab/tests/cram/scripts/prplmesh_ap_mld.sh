@@ -81,6 +81,7 @@ get_ruid_from_bssid() {
 # Out : sorted lines "mlarmac=... bssid=... linkid=... ruid=..." (lowercase MACs)
 get_wifi_apmld_normalized() {
   local dev="${1:-1}"
+  {
   R "ba-cli -l 'WiFi.APMLD.?'" 2>/dev/null | grep -E 'MLDMACAddress=|AffiliatedAP\.|BSSID=|LinkID=' | while read -r line; do
     if echo "$line" | grep -q 'MLDMACAddress='; then
       mldmac=$(echo "$line" | sed -E 's/.*=\"?([^\"]*)\"?/\1/' | tr '[:upper:]' '[:lower:]')
@@ -92,7 +93,12 @@ get_wifi_apmld_normalized() {
       linkid=$(echo "$line" | sed -E 's/.*LinkID=//')
       printf "mlarmac=%s bssid=%s linkid=%s ruid=%s\n" "$mldmac" "$bssid" "$linkid" "$ruid"
     fi
-  done | LC_ALL=C sort
+  done
+  # MLO mode info
+  R "ba-cli -l 'WiFi.APMLD.1.APMLDConfig.?'" 2>/dev/null | \
+    grep -E 'EMLMREnabled=|EMLSREnabled=|NSTREnabled=|STREnabled=' | \
+    sed -E 's/.*\.([A-Za-z]+)=([0-9]+)/\1=\2/'
+  } | LC_ALL=C sort
 }
 
 # Get normalized APMLD lines from Device.WiFi.DataElements.Network.Device.N.APMLD
@@ -100,6 +106,7 @@ get_wifi_apmld_normalized() {
 # Out : sorted lines "mlarmac=... bssid=... linkid=... ruid=..."
 get_dataelements_apmld_normalized() {
   local dev="${1:-1}"
+  {
   R "ba-cli -l 'Device.WiFi.DataElements.Network.Device.${dev}.APMLD.?'" 2>/dev/null | grep -E 'MLDMACAddress=|AffiliatedAP\.|BSSID=|LinkID=|RUID=' | while read -r line; do
     if echo "$line" | grep -q 'MLDMACAddress='; then
       mldmac=$(echo "$line" | sed -E 's/.*=\"?([^\"]*)\"?/\1/' | tr '[:upper:]' '[:lower:]')
@@ -111,7 +118,12 @@ get_dataelements_apmld_normalized() {
       linkid=$(echo "$line" | sed -E 's/.*LinkID=//')
       printf "mlarmac=%s bssid=%s linkid=%s ruid=%s\n" "$mldmac" "$bssid" "$linkid" "$ruid"
     fi
-  done | LC_ALL=C sort
+  done
+  # MLO mode info
+  R "ba-cli -l 'Device.WiFi.DataElements.Network.Device.${dev}.APMLD.1.APMLDConfig.?'" 2>/dev/null | \
+    grep -E 'EMLMREnabled=|EMLSREnabled=|NSTREnabled=|STREnabled=' | \
+    sed -E 's/.*\.([A-Za-z]+)=([0-9]+)/\1=\2/'
+  } | LC_ALL=C sort
 }
 
 # Restore default MLD/config after MLO test: WiFi MLDUnit for AP 1..9 (0,1,0,1,0,1,2,2,2),
