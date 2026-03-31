@@ -21,7 +21,7 @@ Ensure clean state (remove old option alias if present):
 
 Create pool option with Force=true:
 
-  $ R "ba-cli 'Device.DHCPv4.Server.Pool.lan.Option.+{Alias=\"cpe-force-opt\",Enable=1,Tag=${TAG},Value=\"${VALUE_HEX}\",Force=1}'" | grep -Ev '^>|^$'
+  $ R "ba-cli 'Device.DHCPv4.Server.Pool.lan.Option.+{Alias=\"cpe-force-opt\",Enable=1,Tag=${TAG},Value=\"${VALUE_HEX}\",X_PRPLWARE-COM_Force=1}'" | grep -Ev '^>|^$'
   Device.DHCPv4.Server.Pool.1.Option.[0-9]+. (re)
   Device.DHCPv4.Server.Pool.1.Option.[0-9]+.Alias="cpe-force-opt" (re)
 
@@ -32,9 +32,9 @@ Force=true, client does not request tag 42 -> tag must be present:
 
 Set Force=false:
 
-  $ R "ba-cli 'Device.DHCPv4.Server.Pool.lan.Option.cpe-force-opt.Force=0'" | grep -Ev '^>|^$'
+  $ R "ba-cli 'Device.DHCPv4.Server.Pool.lan.Option.cpe-force-opt.X_PRPLWARE-COM_Force=0'" | grep -Ev '^>|^$'
   Device.DHCPv4.Server.Pool.1.Option.[0-9]+. (re)
-  Device.DHCPv4.Server.Pool.1.Option.[0-9]+.Force=0 (re)
+  Device.DHCPv4.Server.Pool.1.Option.[0-9]+.X_PRPLWARE-COM_Force=0 (re)
 
 Force=false, client does not request tag 42 -> tag must be absent:
 
