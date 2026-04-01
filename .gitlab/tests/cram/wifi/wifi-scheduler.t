@@ -9,19 +9,17 @@ Wait for Device.WiFi. datamodel availability:
 
   $ R "amx_wait_for "Device.WiFi." "
 
-  $ sleep 10
-
 Set AutoChannelEnable=0 on all Device.WiFi.Radio. interfaces:
 
-  $ R "ba-cli -j -l WiFi.Radio.*.AutoChannelEnable=0 | sed '/^$/d'"
-  [{"WiFi.Radio.1.":{"AutoChannelEnable":0},"WiFi.Radio.2.":{"AutoChannelEnable":0},"WiFi.Radio.3.":{"AutoChannelEnable":0}}]
+  $ wifi_dm "Radio.*.AutoChannelEnable=0"
+  Device.WiFi.Radio.1.AutoChannelEnable=0
+  Device.WiFi.Radio.2.AutoChannelEnable=0
+  Device.WiFi.Radio.3.AutoChannelEnable=0
 
 Set channel to a non DFS one:
 
-  $ R "usp-cli -j -l Device.WiFi.Radio.2.Channel=36 | sed '/^$/d'"
-  [{"Device.WiFi.Radio.2.":{"Channel":36}}]
-
-  $ sleep 5
+  $ wifi_dm "Radio.2.Channel=36"
+  Device.WiFi.Radio.2.Channel=36 (re)
 
 Check default WiFiScheduler configuration:
 
@@ -33,16 +31,19 @@ Check default WiFiScheduler configuration:
   Device.X_PRPLWARE-COM_WiFiScheduler.GroupTargetConfig="X_PRPLWARE-COM_WiFiController.Network.X_PRPLWARE-COM_Group"
   Device.X_PRPLWARE-COM_WiFiScheduler.Network.
 
-Check default SSID status:
+Check default APs status:
 
-  $ R logger -t cram "Check default SSID status"
-  $ get_ssid_status
-  Down
-  Down
-  Down
-  Down
-  Down
-  Down
+  $ R logger -t cram "Check default APs status"
+  $ wifi_dm AccessPoint.*.Status?
+  Device.WiFi.AccessPoint.1.Status="Disabled"
+  Device.WiFi.AccessPoint.2.Status="Disabled"
+  Device.WiFi.AccessPoint.3.Status="Disabled"
+  Device.WiFi.AccessPoint.4.Status="Disabled"
+  Device.WiFi.AccessPoint.5.Status="Disabled"
+  Device.WiFi.AccessPoint.6.Status="Disabled"
+  Device.WiFi.AccessPoint.7.Status="Disabled"
+  Device.WiFi.AccessPoint.8.Status="Disabled"
+  Device.WiFi.AccessPoint.9.Status="Disabled"
 
 Configure controller:
 
@@ -61,57 +62,80 @@ Configure controller:
 
   $ R "ubus -t 60 wait_for X_PRPLWARE-COM_WiFiController.Network.Device.1"
 
-Create prplMesh acces point and enable it:
+First call of AccessPointCommit, controller should push empty config to agents:
 
   $ R logger -t cram "first call of AccessPointCommit pushes empty config, global teardown"
 
-  $ R "ba-cli -j -l 'X_PRPLWARE-COM_WiFiController.Network.AccessPointCommit()'" | sed '/^$/d'
-  X_PRPLWARE-COM_WiFiController.Network.AccessPointCommit() returned
-  [""]
+  $ R "usp-cli 'Device.WiFi.DataElements.Network.AccessPointCommit()'" | tail -n +2 |  sed '/^$/d'
+  Device.WiFi.DataElements.Network.AccessPointCommit() returned
+  [
+      {
+      }
+  ]
+
+  $ sleep 10
 
   $ R "ba-cli -j -l 'X_PRPLWARE-COM_WiFiController.Network.X_PRPLWARE-COM_Group+{Name=\"testGroup\",Enable=1}'" | sed '/^$/d'
   {"X_PRPLWARE-COM_WiFiController.Network.X_PRPLWARE-COM_Group.1.":{}}
 
-  $ R "ba-cli -j -l 'X_PRPLWARE-COM_WiFiController.Network.AccessPoint+{Band2_4G=1,Band5GH=1,Band5GL=1,Band6G=1,MultiApMode=\"Fronthaul+Backhaul\",SSID=\"prplOS\",X_PRPLWARE-COM_GroupName=\"testGroup\"}'" | sed '/^$/d'
-  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.":{}}
+Create one instances of Network.AccessPoint and push it to the agent:
+
+  $ R logger -t cram "create instances of Network.AccessPoint and push them to the agent"
+
+  $ R "usp-cli \"Device.WiFi.DataElements.Network.AccessPoint.+(MLDUnit=-1,Band2_4G=1,Band5GH=1,Band5GL=1,Band6G=1,MultiApMode='Fronthaul+Backhaul',X_PRPLWARE-COM_VapType='home',SSID='prplOS',Security.ModeEnabled='WPA3-Personal',Security.KeyPassphrase='password',X_PRPLWARE-COM_GroupName='testGroup')\"" | tail -n +2 | sed '/^$/d'
+  Device.WiFi.DataElements.Network.AccessPoint.* (re)
 
   $ R "ba-cli -j -l 'X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.Enable=1'" | sed '/^$/d'
   [{"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.":{"Enable":1}}]
 
-  $ R "ba-cli -j -l 'X_PRPLWARE-COM_WiFiController.Network.AccessPointCommit()'" | sed '/^$/d'
-  X_PRPLWARE-COM_WiFiController.Network.AccessPointCommit() returned
-  [""]
+  $ R "usp-cli 'Device.WiFi.DataElements.Network.AccessPointCommit()'" | tail -n +2 |  sed '/^$/d'
+  Device.WiFi.DataElements.Network.AccessPointCommit() returned
+  [
+      {
+      }
+  ]
 
   $ sleep 10
 
 Check access points status:
 
   $ R logger -t cram "Check that private acceess points are enabled"
-  $ get_ssid_status
-  Down
-  Down
-  Down
-  Up
-  Up
-  Up
+
+As AP indexes may vary from a platform to another, let's use regex and check enbaled/disabled AP spearately:
+
+  $ wifi_dm "AccessPoint.[ Enable == 1 ].Status?"
+  Device.WiFi.AccessPoint.\d+.Status="Enabled" (re)
+  Device.WiFi.AccessPoint.\d+.Status="Enabled" (re)
+  Device.WiFi.AccessPoint.\d+.Status="Enabled" (re)
+
+  $ wifi_dm "AccessPoint.[ Enable == 0 ].Status?"
+  Device.WiFi.AccessPoint.\d+.Status="Disabled" (re)
+  Device.WiFi.AccessPoint.\d+.Status="Disabled" (re)
+  Device.WiFi.AccessPoint.\d+.Status="Disabled" (re)
+  Device.WiFi.AccessPoint.\d+.Status="Disabled" (re)
+  Device.WiFi.AccessPoint.\d+.Status="Disabled" (re)
+  Device.WiFi.AccessPoint.\d+.Status="Disabled" (re)
 
 Disable access point:
 
   $ R "ba-cli -j -l 'X_PRPLWARE-COM_WiFiController.Network.Enable=0'" | sed '/^$/d'
   [{"X_PRPLWARE-COM_WiFiController.Network.":{"Enable":0}}]
 
-  $ sleep 10
+  $ sleep 15
 
 Check access points status:
 
-  $ R logger -t cram "Check that SSIDs are disabled"
-  $ get_ssid_status
-  Down
-  Down
-  Down
-  Down
-  Down
-  Down
+  $ R logger -t cram "Check that APs are disabled"
+  $ wifi_dm "AccessPoint.*.Status?"
+  Device.WiFi.AccessPoint.1.Status="Disabled"
+  Device.WiFi.AccessPoint.2.Status="Disabled"
+  Device.WiFi.AccessPoint.3.Status="Disabled"
+  Device.WiFi.AccessPoint.4.Status="Disabled"
+  Device.WiFi.AccessPoint.5.Status="Disabled"
+  Device.WiFi.AccessPoint.6.Status="Disabled"
+  Device.WiFi.AccessPoint.7.Status="Disabled"
+  Device.WiFi.AccessPoint.8.Status="Disabled"
+  Device.WiFi.AccessPoint.9.Status="Disabled"
 
 Schedule prplMesh network activation:
 
@@ -150,31 +174,56 @@ Check Wifi schedule is running:
 Wait few seconds before checking wifi activation:
 
   $ sleep 10
-  $ R logger -t cram "Check that private acceess points are enabled"
-  $ get_ssid_status
-  Down
-  Down
-  Down
-  Up
-  Up
-  Up
+
+  $ wifi_dm "AccessPoint.[ Enable == 1 ].Status?"
+  Device.WiFi.AccessPoint.\d+.Status="Enabled" (re)
+  Device.WiFi.AccessPoint.\d+.Status="Enabled" (re)
+  Device.WiFi.AccessPoint.\d+.Status="Enabled" (re)
+
+  $ wifi_dm "AccessPoint.[ Enable == 0 ].Status?"
+  Device.WiFi.AccessPoint.\d+.Status="Disabled" (re)
+  Device.WiFi.AccessPoint.\d+.Status="Disabled" (re)
+  Device.WiFi.AccessPoint.\d+.Status="Disabled" (re)
+  Device.WiFi.AccessPoint.\d+.Status="Disabled" (re)
+  Device.WiFi.AccessPoint.\d+.Status="Disabled" (re)
+  Device.WiFi.AccessPoint.\d+.Status="Disabled" (re)
 
 Wait 1 minute before checking wifi deactivation T1+1min
 
   $ R logger -t cram "Wait 1 minutes"
   $ sleep 60
   $ R logger -t cram "Check that private acceess points are disabled"
-  $ get_ssid_status
-  Down
-  Down
-  Down
-  Down
-  Down
-  Down
+  $ wifi_dm "AccessPoint.*.Status?"
+  Device.WiFi.AccessPoint.1.Status="Disabled"
+  Device.WiFi.AccessPoint.2.Status="Disabled"
+  Device.WiFi.AccessPoint.3.Status="Disabled"
+  Device.WiFi.AccessPoint.4.Status="Disabled"
+  Device.WiFi.AccessPoint.5.Status="Disabled"
+  Device.WiFi.AccessPoint.6.Status="Disabled"
+  Device.WiFi.AccessPoint.7.Status="Disabled"
+  Device.WiFi.AccessPoint.8.Status="Disabled"
+  Device.WiFi.AccessPoint.9.Status="Disabled"
+
+Restore Security.ModeEnabled for AccessPoints used in the test
+
+  $ R "ba-cli  \"WiFi.AccessPoint.[RadioReference == 'Device.WiFi.Radio.1'].Security.ModeEnabled='WPA3-Personal-Transition'\"" | grep 'ModeEnabled=' | sed '/^$/d' | grep -v '>'
+  WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal-Transition" (re)
+  WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal-Transition" (re)
+  WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal-Transition" (re)
+
+  $ R "ba-cli  \"WiFi.AccessPoint.[RadioReference == 'Device.WiFi.Radio.2'].Security.ModeEnabled='WPA3-Personal-Transition'\"" | grep 'ModeEnabled=' | sed '/^$/d' | grep -v '>'
+  WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal-Transition" (re)
+  WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal-Transition" (re)
+  WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal-Transition" (re)
+
+  $ R "ba-cli  \"WiFi.AccessPoint.[RadioReference == 'Device.WiFi.Radio.3'].Security.ModeEnabled='WPA3-Personal'\"" | grep 'ModeEnabled=' | sed '/^$/d' | grep -v '>'
+  WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal" (re)
+  WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal" (re)
+  WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal" (re)
 
 Reset wifi-scehdule:
 
-  $ R "( rm -rf /etc/config/wifi-scheduler/ ; /etc/init.d/wifi-scheduler restart )  2>&1 > /dev/null"
+  $ R "( rm -rf /etc/config/wifi-scheduler/ ; /etc/init.d/wifi-scheduler restart ) > /dev/null 2>&1"
 
   $ sleep 5
 
