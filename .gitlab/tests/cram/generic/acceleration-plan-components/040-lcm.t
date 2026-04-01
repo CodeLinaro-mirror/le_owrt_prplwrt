@@ -19,14 +19,13 @@ Check that random LXC binaries work:
 
 Check Cthulhu.Config datamodel:
 
-  $ R "ubus-cli -l -j Cthulhu.Config.?0 | jsonfilter -e @[*].*.PluginLocation -e @[*].*.ImageLocation -e @[*].*.UseOverlayFS -e @[*].*.GracefulShutdownTimeoutSeconds -e @[*].*.UseBundles -e @[*].*.StorageLocation -e @[*].*.DefaultBackend -e @[*].*.BundleLocation -e @[*].*.BlobLocation | sort"
+  $ R "ubus-cli -l -j Cthulhu.Config.?0 | jsonfilter -e @[*].*.PluginLocation -e @[*].*.ImageLocation -e @[*].*.EnableOverlayfs -e @[*].*.GracefulShutdownTimeoutSeconds -e @[*].*.StorageLocation -e @[*].*.DefaultBackend -e @[*].*.BundleLocation -e @[*].*.BlobLocation | sort"
   /lcm/celephais/bundles
   /lcm/cthulhu
   /lcm/rlyeh/blobs
   /lcm/rlyeh/images
   /usr/lib/amx/cthulhu/plugins
   /usr/lib/cthulhu-lxc/cthulhu-lxc.so
-  0
   1
   10
 
