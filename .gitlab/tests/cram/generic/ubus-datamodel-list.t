@@ -238,8 +238,6 @@ Check that ubus has expected datamodels available:
   IPDiagnostics.UploadDiagnostics.PerConnectionResult
   IPDiagnostics.X_PRPLWARE-COM_DownloadConfig
   IPDiagnostics.X_PRPLWARE-COM_DownloadResult
-  IPDiagnostics.X_PRPLWARE-COM_DownloadResult.Config
-  IPDiagnostics.X_PRPLWARE-COM_DownloadResult.Process
   IPDiagnostics.X_PRPLWARE-COM_UploadConfig
   IPDiagnostics.X_PRPLWARE-COM_UploadResult
   IPDiagnostics.X_PRPLWARE-COM_UploadResult.Config
