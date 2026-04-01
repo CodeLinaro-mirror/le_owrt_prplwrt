@@ -2,12 +2,14 @@ Create alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
-  $ logger -t cram "Starting with Backup and restore schemaVersion test"
+  $ logger -t cram "Starting with Backup and restore SchemaVersion test"
 
-Read PersistentConfiguration.Service.i.schemaVersion to ensure proper \
+Read PersistentConfiguration.Service.i.SchemaVersion to ensure proper \
 registration with version Id towards PCM:
 
-  $ R "ba-cli -l PersistentConfiguration.Service.*.schemaVersion? | "\
-  > " sed '/^$/d' | grep -v \"\d\+\"" || true
+  $ R "ba-cli PersistentConfiguration.Service.*.SchemaVersion? | "\
+  > " sed '/^$/d' | grep -c "\
+  > "PersistentConfiguration.Service.[0-9][0-9]*.SchemaVersion=[0-9][0-9]*"
+  [1-9]\d* (re)
 
-  $ logger -t cram "Backup and restore schemaVersion test finished"
+  $ logger -t cram "Backup and restore SchemaVersion test finished"
