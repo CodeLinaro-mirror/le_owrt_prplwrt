@@ -157,15 +157,12 @@ Assume that the profile created during the test has index 1. Because of the test
 
   $ R "ba-cli -l \"Device.WiFi.EndPoint.1.Profile.1-\"" | sed '/^$/d'
   Device.WiFi.EndPoint.1.Profile.\d+. (re)
-  Device.WiFi.EndPoint.1.Profile.\d+.Security. (re)
 
   $ R "ba-cli -l \"Device.WiFi.EndPoint.2.Profile.${ep2_alias}-\"" | sed '/^$/d'
   Device.WiFi.EndPoint.2.Profile.\d+. (re)
-  Device.WiFi.EndPoint.2.Profile.\d+.Security. (re)
 
   $ R "ba-cli -l \"Device.WiFi.EndPoint.3.Profile.${ep3_alias}-\"" | sed '/^$/d'
   Device.WiFi.EndPoint.3.Profile.\d+. (re)
-  Device.WiFi.EndPoint.3.Profile.\d+.Security. (re)
 
   $ wifi_dm "EndPoint.1.SSIDReference+.MLDUnit=-1"
   Device.WiFi.SSID.\d+.MLDUnit=-1 (re)

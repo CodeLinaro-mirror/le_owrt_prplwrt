@@ -72,8 +72,8 @@ configure_security() {
 	sleep 2
 	/etc/init.d/timingila start
 
-	${CLI_JSON} 'Device.Security.Certificate.[CAFileName=="lcm_cert_client.crt"].PrivateKeyURI="pkcs11:token=lcm_token;object=key;type=private;pin-value=12345"'
-	${CLI_JSON} 'Device.Security.Certificate.[CAFileName=="lcm_cert_client.crt"].CertificateURI="file:///etc/config/autocert/lcm_cert_client.crt"'
+	${CLI_JSON} 'protected; Device.Security.Certificate.[CAFileName=="lcm_cert_client.crt"].PrivateKeyURI="pkcs11:token=lcm_token;object=key;type=private;pin-value=12345"'
+	${CLI_JSON} 'protected; Device.Security.Certificate.[CAFileName=="lcm_cert_client.crt"].CertificateURI="file:///etc/config/autocert/lcm_cert_client.crt"'
 
 
 	# Set the defined server names in /etc/hosts

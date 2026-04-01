@@ -42,7 +42,7 @@ Create Backup of the current configuration:
 Delete or disable the created configuration entries:
 
   $ R "ba-cli -l -j DNS.X_PRPLWARE-COM_Host.$DnsId1.- | sed '/^$/d'"
-  \["DNS.X_PRPLWARE-COM_Host.\d+.","DNS.X_PRPLWARE-COM_Host.\d+.IPAddress."\] (re)
+  \["DNS.X_PRPLWARE-COM_Host.\d+."\] (re)
 
   $ R "ba-cli -l -j Routing.Router.1.IPv4Forwarding.$RouteId1.- | sed '/^$/d'"
   \["Routing.Router.1.IPv4Forwarding.\d+."\] (re)
@@ -140,7 +140,7 @@ Create Backup of the current configuration again:
 Delete or disable the configurations again:
 
   $ R "ba-cli -l -j DNS.X_PRPLWARE-COM_Host.$DnsId2.- | sed '/^$/d'"
-  \["DNS.X_PRPLWARE-COM_Host.\d+.","DNS.X_PRPLWARE-COM_Host.\d+.IPAddress."\] (re)
+  \["DNS.X_PRPLWARE-COM_Host.\d+."\] (re)
 
   $ R "ba-cli -l -j Routing.Router.1.IPv4Forwarding.$RouteId2.- | "\
   > "sed '/^$/d'"
@@ -276,7 +276,7 @@ Skip device-info manager until PPW-1787 and PPW-1715 is fixed:
 Delete or disable the configurations again:
 
   $ R "ba-cli -l -j DNS.X_PRPLWARE-COM_Host.$DnsId3.- | sed '/^$/d'"
-  \["DNS.X_PRPLWARE-COM_Host.\d+.","DNS.X_PRPLWARE-COM_Host.\d+.IPAddress."\] (re)
+  \["DNS.X_PRPLWARE-COM_Host.\d+."\] (re)
 
   $ R "ba-cli -l -j Routing.Router.1.IPv4Forwarding.$RouteId3.- | "\
   > "sed '/^$/d'"

@@ -111,13 +111,6 @@ Clean-up, Delete the IP interface and Generic Network Interface:
 
   $ R "ba-cli -l IP.Interface.$IPInstanceId.- | sed '/^$/d'"
   IP.Interface.\d+. (re)
-  IP.Interface.\d+.Stats. (re)
-  IP.Interface.\d+.X_PRPLWARE-COM_IPv4Config. (re)
-  IP.Interface.\d+.X_PRPLWARE-COM_IPv6Config. (re)
-  IP.Interface.\d+.IPv4Address. (re)
-  IP.Interface.\d+.IPv4Address.\d+. (re)
-  IP.Interface.\d+.IPv6Address. (re)
-  IP.Interface.\d+.IPv6Prefix. (re)
 
   $ R "ba-cli -l -j 'GenericNetworkInterface.Interface.$InstanceId._del()' |  sed '/^$/d' | tail -n 1"
   \[\["GenericNetworkInterface.Interface.\d+.","GenericNetworkInterface.Interface.\d+.Stats."\]\] (re)

@@ -39,11 +39,11 @@ Remove the added Source and Action
 
   $ R "ba-cli -l -j 'Device.Syslog.Action.[Alias == \"C-1-1\"].-'"
   
-  ["Device.Syslog.Action.*.","Device.Syslog.Action.*.LogFile.","Device.Syslog.Action.*.LogRemote."] (glob)
+  ["Device.Syslog.Action.*."] (glob)
 
   $ R "ba-cli -l -j 'Device.Syslog.Source.[Alias == \"C-1-1\"].-'"
   
-  ["Device.Syslog.Source.*.","Device.Syslog.Source.*.Network.","Device.Syslog.Source.*.UnixDomainSocket."] (glob)
+  ["Device.Syslog.Source.*."] (glob)
 
 C-1-2 test /lcm/volatile_log.sock
 #################################
@@ -70,11 +70,11 @@ Remove the add Source and Action
 
   $ R "ba-cli -l -j 'Device.Syslog.Action.[Alias == \"C-1-2\"].-'"
   
-  ["Device.Syslog.Action.*.","Device.Syslog.Action.*.LogFile.","Device.Syslog.Action.*.LogRemote."] (glob)
+  ["Device.Syslog.Action.*."] (glob)
 
   $ R "ba-cli -l -j 'Device.Syslog.Source.[Alias == \"C-1-2\"].-'"
   
-  ["Device.Syslog.Source.*.","Device.Syslog.Source.*.Network.","Device.Syslog.Source.*.UnixDomainSocket."] (glob)
+  ["Device.Syslog.Source.*."] (glob)
 
 
 C-2: Test Syslog Plugin Default Configuration
