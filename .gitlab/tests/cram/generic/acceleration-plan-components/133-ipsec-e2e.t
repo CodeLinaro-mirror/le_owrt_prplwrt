@@ -60,9 +60,9 @@ Import the certificates into the Security data model:
 
   $ R "/etc/init.d/tr181-security restart > /dev/null 2>&1"
   $ sleep 3
-  $ CPECERTIDX=$(R "ba-cli 'Security.Certificate.[CAFileName == \"tr181-ipsec.pem\"].SerialNumber?'" | sed -ne 's/^Security.Certificate.\([0-9]\+\)\..*/\1/p' | head -n 1)
-  $ PEERCERTIDX=$(R "ba-cli 'Security.Certificate.[CAFileName == \"ipsec-peer.pem\"].SerialNumber?'" | sed -ne 's/^Security.Certificate.\([0-9]\+\)\..*/\1/p' | head -n 1)
-  $ R "ba-cli 'Security.Certificate.$CPECERTIDX.PrivateKeyURI=\"file:///root/certs/tr181-ipsec.pem\"'" > /dev/null 2>&1
+  $ CPECERTIDX=$(R "ba-cli 'protected; Security.Certificate.[CAFileName == \"tr181-ipsec.pem\"].SerialNumber?'" | sed -ne 's/^Security.Certificate.\([0-9]\+\)\..*/\1/p' | head -n 1)
+  $ PEERCERTIDX=$(R "ba-cli 'protected; Security.Certificate.[CAFileName == \"ipsec-peer.pem\"].SerialNumber?'" | sed -ne 's/^Security.Certificate.\([0-9]\+\)\..*/\1/p' | head -n 1)
+  $ R "ba-cli 'protected; Security.Certificate.$CPECERTIDX.PrivateKeyURI=\"file:///root/certs/tr181-ipsec.pem\"'" > /dev/null 2>&1
   $ test -n "$CPECERTIDX" && test -n "$PEERCERTIDX" && echo certs-imported
   certs-imported
 

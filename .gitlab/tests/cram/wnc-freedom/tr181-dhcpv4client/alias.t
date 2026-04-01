@@ -40,8 +40,3 @@ Cleanup - remove only the instance created in this test:
 
   $ R ba-cli "Device.DHCPv4.Client.$(yes a | tr -d '\n' | head -c 64).-" | grep -Ev '^>|^$'
   Device.DHCPv4.Client.*. (re)
-  Device.DHCPv4.Client.*.SentOption. (re)
-  Device.DHCPv4.Client.*.SentOption.*. (re)
-  Device.DHCPv4.Client.*.ReqOption. (re)
-  Device.DHCPv4.Client.*.ReqOption.*. (re)
-  Device.DHCPv4.Client.*.Stats. (re)

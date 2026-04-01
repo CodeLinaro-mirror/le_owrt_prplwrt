@@ -17,4 +17,3 @@ Restore:
 
   $ R "ba-cli 'Device.Bridging.Bridge.lan.Port.[Name==\"eth100\"].-'" | grep -Ev '^(>|$)'
   Device\.Bridging\.Bridge\.1\.Port\.\d+\. (re)
-  Device\.Bridging\.Bridge\.1\.Port\.\d+\.Stats\. (re)

@@ -30,9 +30,6 @@ Cleanup - remove only the instance created in this test:
 
   $ R "ba-cli 'Device.DHCPv4.Client.WriteOnceTest.-' | grep -Ev '^>|^$'"
   Device.DHCPv4.Client.*. (re)
-  Device.DHCPv4.Client.*.SentOption. (re)
-  Device.DHCPv4.Client.*.ReqOption. (re)
-  Device.DHCPv4.Client.*.Stats. (re)
 
 
 Test write-once read-only functionality with DHCPv6.Client Alias parameter:
