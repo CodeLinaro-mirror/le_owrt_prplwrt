@@ -2553,8 +2553,6 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.QoS.Classification.{i}.DSCPCheck                                                              proto::tr181-qos
   Device.QoS.Classification.{i}.DSCPExclude                                                            proto::tr181-qos
   Device.QoS.Classification.{i}.DSCPMark                                                               proto::tr181-qos
-  Device.QoS.Classification.{i}.DestClientID                                                           proto::tr181-qos
-  Device.QoS.Classification.{i}.DestClientIDExclude                                                    proto::tr181-qos
   Device.QoS.Classification.{i}.DestIP                                                                 proto::tr181-qos
   Device.QoS.Classification.{i}.DestIPExclude                                                          proto::tr181-qos
   Device.QoS.Classification.{i}.DestMACAddress                                                         proto::tr181-qos
@@ -2573,7 +2571,6 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.QoS.Classification.{i}.EthernetPriorityCheck                                                  proto::tr181-qos
   Device.QoS.Classification.{i}.EthernetPriorityMark                                                   proto::tr181-qos
   Device.QoS.Classification.{i}.ForwardingPolicy                                                       proto::tr181-qos
-  Device.QoS.Classification.{i}.IPLengthExclude                                                        proto::tr181-qos
   Device.QoS.Classification.{i}.IPLengthMax                                                            proto::tr181-qos
   Device.QoS.Classification.{i}.IPLengthMin                                                            proto::tr181-qos
   Device.QoS.Classification.{i}.IPVersion                                                              proto::tr181-qos
@@ -2581,8 +2578,6 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.QoS.Classification.{i}.Order                                                                  proto::tr181-qos
   Device.QoS.Classification.{i}.Protocol                                                               proto::tr181-qos
   Device.QoS.Classification.{i}.ProtocolExclude                                                        proto::tr181-qos
-  Device.QoS.Classification.{i}.SourceClientID                                                         proto::tr181-qos
-  Device.QoS.Classification.{i}.SourceClientIDExclude                                                  proto::tr181-qos
   Device.QoS.Classification.{i}.SourceIP                                                               proto::tr181-qos
   Device.QoS.Classification.{i}.SourceIPExclude                                                        proto::tr181-qos
   Device.QoS.Classification.{i}.SourceMACAddress                                                       proto::tr181-qos
@@ -2598,8 +2593,6 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.QoS.Classification.{i}.SourceVendorClassIDMode                                                proto::tr181-qos
   Device.QoS.Classification.{i}.SourceVendorClassIDv6                                                  proto::tr181-qos
   Device.QoS.Classification.{i}.Status                                                                 proto::tr181-qos
-  Device.QoS.Classification.{i}.TCPACK                                                                 proto::tr181-qos
-  Device.QoS.Classification.{i}.TCPACKExclude                                                          proto::tr181-qos
   Device.QoS.Classification.{i}.TrafficClass                                                           proto::tr181-qos
   Device.QoS.Classification.{i}.X_PRPLWARE-COM_BridgeInputInterface                                    proto::tr181-qos
   Device.QoS.Classification.{i}.X_PRPLWARE-COM_BridgeOutputInterface                                   proto::tr181-qos
@@ -8029,8 +8022,6 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.QoS.Classification.{i}.DSCPCheck                                                              proto::tr181-qos
   Device.QoS.Classification.{i}.DSCPExclude                                                            proto::tr181-qos
   Device.QoS.Classification.{i}.DSCPMark                                                               proto::tr181-qos
-  Device.QoS.Classification.{i}.DestClientID                                                           proto::tr181-qos
-  Device.QoS.Classification.{i}.DestClientIDExclude                                                    proto::tr181-qos
   Device.QoS.Classification.{i}.DestIP                                                                 proto::tr181-qos
   Device.QoS.Classification.{i}.DestIPExclude                                                          proto::tr181-qos
   Device.QoS.Classification.{i}.DestMACAddress                                                         proto::tr181-qos
@@ -8049,7 +8040,6 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.QoS.Classification.{i}.EthernetPriorityCheck                                                  proto::tr181-qos
   Device.QoS.Classification.{i}.EthernetPriorityMark                                                   proto::tr181-qos
   Device.QoS.Classification.{i}.ForwardingPolicy                                                       proto::tr181-qos
-  Device.QoS.Classification.{i}.IPLengthExclude                                                        proto::tr181-qos
   Device.QoS.Classification.{i}.IPLengthMax                                                            proto::tr181-qos
   Device.QoS.Classification.{i}.IPLengthMin                                                            proto::tr181-qos
   Device.QoS.Classification.{i}.IPVersion                                                              proto::tr181-qos
@@ -8057,8 +8047,6 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.QoS.Classification.{i}.Order                                                                  proto::tr181-qos
   Device.QoS.Classification.{i}.Protocol                                                               proto::tr181-qos
   Device.QoS.Classification.{i}.ProtocolExclude                                                        proto::tr181-qos
-  Device.QoS.Classification.{i}.SourceClientID                                                         proto::tr181-qos
-  Device.QoS.Classification.{i}.SourceClientIDExclude                                                  proto::tr181-qos
   Device.QoS.Classification.{i}.SourceIP                                                               proto::tr181-qos
   Device.QoS.Classification.{i}.SourceIPExclude                                                        proto::tr181-qos
   Device.QoS.Classification.{i}.SourceMACAddress                                                       proto::tr181-qos
@@ -8074,8 +8062,6 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.QoS.Classification.{i}.SourceVendorClassIDMode                                                proto::tr181-qos
   Device.QoS.Classification.{i}.SourceVendorClassIDv6                                                  proto::tr181-qos
   Device.QoS.Classification.{i}.Status                                                                 proto::tr181-qos
-  Device.QoS.Classification.{i}.TCPACK                                                                 proto::tr181-qos
-  Device.QoS.Classification.{i}.TCPACKExclude                                                          proto::tr181-qos
   Device.QoS.Classification.{i}.TrafficClass                                                           proto::tr181-qos
   Device.QoS.Classification.{i}.X_PRPLWARE-COM_BridgeInputInterface                                    proto::tr181-qos
   Device.QoS.Classification.{i}.X_PRPLWARE-COM_BridgeOutputInterface                                   proto::tr181-qos
