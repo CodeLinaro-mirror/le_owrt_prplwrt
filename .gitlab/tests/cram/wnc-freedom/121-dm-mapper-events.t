@@ -14,6 +14,7 @@ Register some data Change event from USP:
   $ sleep 1
 
   $ R "lua /tmp/usp-event.lua 'Device.WiFi.AccessPoint.1.Enable!' 'dm:object-changed' \"contains('parameters.Enable')\"  broker > /tmp/usp_events &"
+  $ R "lua /tmp/usp-event.lua 'Device.WiFi.AccessPoint.1.Enable!' 'dm:object-changed' \"contains('parameters.Enable')\" > /tmp/pwhm_usp_events &"
 
   $ sleep 1
 
@@ -34,6 +35,19 @@ Register some data Change event from USP:
       path = "Device.WiFi.AccessPoint.1."
   }
 
+  $ R "cat /tmp/pwhm_usp_events"
+  Event dm:object-changed
+  {
+      object = "Device.WiFi.AccessPoint.1.",
+      parameters = {
+          Enable = {
+              from = "",
+              to = "true"
+          }
+      },
+      path = "Device.WiFi.AccessPoint.1."
+  }
+
   $ R "ba-cli WiFi.AccessPoint.1.Enable=0" > /dev/null 2>&1
 
   $ sleep 1
@@ -41,6 +55,7 @@ Register some data Change event from USP:
 Register some data Change event from UBUS:
 
   $ R "lua /tmp/ubus-event.lua 'WiFi.AccessPoint.1.Enable!' 'dm:object-changed' \"contains('parameters.Enable')\" > /tmp/ubus_events &"
+  $ R "lua /tmp/usp-event.lua 'Device.WiFi.AccessPoint.1.Enable!' 'dm:object-changed' \"contains('parameters.Enable')\" > /tmp/pwhm_usp_events &"
 
   $ sleep 1
 
@@ -60,6 +75,19 @@ Register some data Change event from UBUS:
           }
       },
       path = "WiFi.AccessPoint.1."
+  }
+
+  $ R "cat /tmp/pwhm_usp_events"
+  Event dm:object-changed
+  {
+      object = "Device.WiFi.AccessPoint.1.",
+      parameters = {
+          Enable = {
+              from = "",
+              to = "true"
+          }
+      },
+      path = "Device.WiFi.AccessPoint.1."
   }
 
   $ R "usp-cli WiFi.AccessPoint.1.Enable=0" > /dev/null 2>&1
