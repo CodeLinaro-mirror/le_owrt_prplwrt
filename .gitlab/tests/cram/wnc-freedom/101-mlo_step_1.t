@@ -317,17 +317,6 @@ Check that hostapd is operating as expected:
   /var/run/hostapd/global\.0x.* (re)
   hostapd
 
-  $ R "ubus list | grep hostapd. | sort"
-  hostapd.wlan0.1
-  hostapd.wlan0.2
-  hostapd.wlan0.3
-  hostapd.wlan1.1
-  hostapd.wlan1.2
-  hostapd.wlan1.3
-  hostapd.wlan2.1
-  hostapd.wlan2.2
-  hostapd.wlan2.3
-
 Check iw interfaces and beaconing:
 
   $ R "iw dev | grep -e Interface -e ssid | tr -d '\t' | sort"
