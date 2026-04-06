@@ -35,7 +35,7 @@ Dump Stats object:
   .R....V. <public>         uint32 Device.DHCPv4.Client.1.Stats.Release=0
   .R....V. <public>         uint32 Device.DHCPv4.Client.1.Stats.ForceRenew=0
   .R....V. <public>         uint32 Device.DHCPv4.Client.1.Stats.ACK=0
-  .R....V. <public>         uint32 Device.DHCPv4.Client.1.Stats.Discover=0
+  .R....V. <public>         uint32 Device.DHCPv4.Client.1.Stats.Discover=[01] (re)
 
 Enable Device.DHCPv4.Client.1.:
 
