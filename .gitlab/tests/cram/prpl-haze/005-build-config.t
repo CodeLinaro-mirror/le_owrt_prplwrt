@@ -133,6 +133,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_ipset=y
   CONFIG_PACKAGE_iptables-mod-conntrack-extra=y
   CONFIG_PACKAGE_iptables-mod-ipopt=y
+  CONFIG_PACKAGE_iptables-mod-ipsec=y
   CONFIG_PACKAGE_iptables-mod-nfqueue=y
   CONFIG_PACKAGE_iptables-zz-legacy=y
   CONFIG_PACKAGE_iputils-ping=y
@@ -156,6 +157,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-ipt-core=y
   CONFIG_PACKAGE_kmod-ipt-extra=y
   CONFIG_PACKAGE_kmod-ipt-ipopt=y
+  CONFIG_PACKAGE_kmod-ipt-ipsec=y
   CONFIG_PACKAGE_kmod-ipt-ipset=y
   CONFIG_PACKAGE_kmod-ipt-nat=y
   CONFIG_PACKAGE_kmod-ipt-nat6=y
@@ -284,6 +286,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_libuspprotobuf=y
   CONFIG_PACKAGE_libuv=y
   CONFIG_PACKAGE_libwebsockets4-full=y
+  CONFIG_PACKAGE_libwireguard=y
   CONFIG_PACKAGE_libxml2=y
   CONFIG_PACKAGE_libxtables=y
   CONFIG_PACKAGE_lighttpd=y
@@ -374,15 +377,19 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_netmodel-dslite=y
   CONFIG_PACKAGE_netmodel-ethernet=y
   CONFIG_PACKAGE_netmodel-gni=y
+  CONFIG_PACKAGE_netmodel-gre=y
   CONFIG_PACKAGE_netmodel-ip=y
   CONFIG_PACKAGE_netmodel-iprouter=y
+  CONFIG_PACKAGE_netmodel-ipsec=y
   CONFIG_PACKAGE_netmodel-logical=y
   CONFIG_PACKAGE_netmodel-netdev=y
   CONFIG_PACKAGE_netmodel-optical=y
   CONFIG_PACKAGE_netmodel-ppp=y
   CONFIG_PACKAGE_netmodel-radio=y
   CONFIG_PACKAGE_netmodel-ssid=y
+  CONFIG_PACKAGE_netmodel-tuntap=y
   CONFIG_PACKAGE_netmodel-vlan=y
+  CONFIG_PACKAGE_netmodel-wireguard=y
   CONFIG_PACKAGE_netmodel-xpon=y
   # CONFIG_PACKAGE_nftables-json is not set
   CONFIG_PACKAGE_obuspa=y
@@ -473,9 +480,11 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_tr181-firewall=y
   CONFIG_PACKAGE_tr181-flashmonitor=y
   CONFIG_PACKAGE_tr181-gnimanager=y
+  CONFIG_PACKAGE_tr181-gre=y
   CONFIG_PACKAGE_tr181-homeplug=y
   CONFIG_PACKAGE_tr181-httpaccess=y
   CONFIG_PACKAGE_tr181-ipdiagnostics=y
+  CONFIG_PACKAGE_tr181-ipsec=y
   CONFIG_PACKAGE_tr181-led=y
   CONFIG_PACKAGE_tr181-logical=y
   CONFIG_PACKAGE_tr181-mcastd=y
@@ -493,10 +502,12 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_tr181-sfp=y
   CONFIG_PACKAGE_tr181-syslog=y
   CONFIG_PACKAGE_tr181-temperature=y
+  CONFIG_PACKAGE_tr181-tuntap=y
   CONFIG_PACKAGE_tr181-upnp=y
   CONFIG_PACKAGE_tr181-upnpdiscovery=y
   CONFIG_PACKAGE_tr181-usb=y
   CONFIG_PACKAGE_tr181-usermanagement=y
+  CONFIG_PACKAGE_tr181-wireguard=y
   CONFIG_PACKAGE_tr181-xpon=y
   CONFIG_PACKAGE_umdns-prpl=y
   CONFIG_PACKAGE_unbound-daemon-prpl=y
@@ -632,12 +643,18 @@ Assure expected build configuration (PCF-1413):
   CONFIG_SAH_AMX_TR181_GNIMANAGER_ORDER=25
   CONFIG_SAH_AMX_TR181_GNIMANAGER_RUN_AS_GROUP="tr181_app"
   CONFIG_SAH_AMX_TR181_GNIMANAGER_RUN_AS_USER="tr181_app"
+  CONFIG_SAH_AMX_TR181_GRE=y
+  CONFIG_SAH_AMX_TR181_GRE_START_ORDER=81
+  CONFIG_SAH_AMX_TR181_GRE_STOP_ORDER=19
   CONFIG_SAH_AMX_TR181_HOMEPLUG=y
   CONFIG_SAH_AMX_TR181_HOMEPLUG_START_ORDER=31
   CONFIG_SAH_AMX_TR181_HOMEPLUG_STOP_ORDER=69
   CONFIG_SAH_AMX_TR181_HTTPACCESS=y
   CONFIG_SAH_AMX_TR181_HTTPACCESS_FIREWALL=y
   CONFIG_SAH_AMX_TR181_HTTPACCESS_ORDER=49
+  CONFIG_SAH_AMX_TR181_IPSEC=y
+  CONFIG_SAH_AMX_TR181_IPSEC_START_ORDER=84
+  CONFIG_SAH_AMX_TR181_IPSEC_STOP_ORDER=16
   CONFIG_SAH_AMX_TR181_IP=y
   CONFIG_SAH_AMX_TR181_IP_RUN_AS_GROUP="tr181_app"
   CONFIG_SAH_AMX_TR181_IP_RUN_AS_USER="tr181_app"
@@ -691,6 +708,9 @@ Assure expected build configuration (PCF-1413):
   CONFIG_SAH_AMX_TR181_TEMPERATURE_RUN_AS_USER="tr181_app"
   CONFIG_SAH_AMX_TR181_TIME=y
   CONFIG_SAH_AMX_TR181_TIME_ORDER=30
+  CONFIG_SAH_AMX_TR181_TUNTAP=y
+  CONFIG_SAH_AMX_TR181_TUNTAP_START_ORDER=82
+  CONFIG_SAH_AMX_TR181_TUNTAP_STOP_ORDER=18
   CONFIG_SAH_AMX_TR181_UPNP=y
   CONFIG_SAH_AMX_TR181_UPNPDISCOVERY=y
   CONFIG_SAH_AMX_TR181_UPNPDISCOVERY_RUN_AS_GROUP="tr181_app"
@@ -701,6 +721,9 @@ Assure expected build configuration (PCF-1413):
   CONFIG_SAH_AMX_TR181_UPNP_ORDER=80
   CONFIG_SAH_AMX_TR181_UPNP_RUN_AS_GROUP="tr181_app"
   CONFIG_SAH_AMX_TR181_UPNP_RUN_AS_USER="tr181_app"
+  CONFIG_SAH_AMX_TR181_WIREGUARD=y
+  CONFIG_SAH_AMX_TR181_WIREGUARD_START_ORDER=25
+  CONFIG_SAH_AMX_TR181_WIREGUARD_STOP_ORDER=75
   CONFIG_SAH_AMX_TR181_XPON=y
   CONFIG_SAH_AMX_TR181_XPON_MAX_ONUS=1
   CONFIG_SAH_AMX_TR181_XPON_ORDER=30
