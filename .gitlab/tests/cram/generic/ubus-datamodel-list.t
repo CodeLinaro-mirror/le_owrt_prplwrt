@@ -100,6 +100,7 @@ Check that ubus has expected datamodels available:
   Device.Hosts
   Device.IP
   Device.IP.Diagnostics
+  Device.IPsec
   Device.InterfaceStack
   Device.LEDs
   Device.Logical
@@ -233,6 +234,14 @@ Check that ubus has expected datamodels available:
   IPDiagnostics.X_PRPLWARE-COM_UploadResult.IncrementalResult
   IPDiagnostics.X_PRPLWARE-COM_UploadResult.PerConnectionResult
   IPDiagnostics.X_PRPLWARE-COM_UploadResult.Process
+  IPsec
+  IPsec.Filter
+  IPsec.IKEv2SA
+  IPsec.Interface
+  IPsec.Profile
+  IPsec.Secret
+  IPsec.Stats
+  IPsec.Tunnel
   KernelFaults
   KernelFaults.KernelFault
   LEDs
