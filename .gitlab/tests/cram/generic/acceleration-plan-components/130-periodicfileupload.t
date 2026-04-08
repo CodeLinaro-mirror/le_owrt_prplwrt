@@ -56,7 +56,7 @@ Check PeriodicFileTransfer transfer instance creation:
   Device.PeriodicFileTransfer.Transfer.(.+).TimeReference="1970-01-01T00:00:00Z" (re)
   Device.PeriodicFileTransfer.Transfer.(.+).Type="KernelFaults" (re)
   Device.PeriodicFileTransfer.Transfer.(.+).UploadInterval=3600 (re)
-  
+  Device.PeriodicFileTransfer.Transfer.3.X_PRPLWARE-COM_ForceTransfer=0
 
 Check PeriodicFileTransfer on demand file upload:
 
