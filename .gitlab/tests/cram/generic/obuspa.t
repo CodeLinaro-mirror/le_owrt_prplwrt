@@ -2548,6 +2548,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.PeriodicFileTransfer.Transfer.{i}.TimeReference                                               proto::tr181-periodicfileupload
   Device.PeriodicFileTransfer.Transfer.{i}.Type                                                        proto::tr181-periodicfileupload
   Device.PeriodicFileTransfer.Transfer.{i}.UploadInterval                                              proto::tr181-periodicfileupload
+  Device.PeriodicFileTransfer.Transfer.{i}.X_PRPLWARE-COM_ForceTransfer                                proto::tr181-periodicfileupload
   Device.PeriodicFileTransfer.TransferNumberOfEntries                                                  proto::tr181-periodicfileupload
   Device.PeriodicFileTransfer.TypesSupported                                                           proto::tr181-periodicfileupload
   Device.QoS.                                                                                          proto::tr181-qos
@@ -8061,6 +8062,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.PeriodicFileTransfer.Transfer.{i}.TimeReference                                               proto::tr181-periodicfileupload
   Device.PeriodicFileTransfer.Transfer.{i}.Type                                                        proto::tr181-periodicfileupload
   Device.PeriodicFileTransfer.Transfer.{i}.UploadInterval                                              proto::tr181-periodicfileupload
+  Device.PeriodicFileTransfer.Transfer.{i}.X_PRPLWARE-COM_ForceTransfer                                proto::tr181-periodicfileupload
   Device.PeriodicFileTransfer.TransferNumberOfEntries                                                  proto::tr181-periodicfileupload
   Device.PeriodicFileTransfer.TypesSupported                                                           proto::tr181-periodicfileupload
   Device.QoS.                                                                                          proto::tr181-qos
