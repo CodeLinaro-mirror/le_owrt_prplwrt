@@ -67,32 +67,7 @@ Compare the data models before and after the firmware upgrade:
   $ diff /tmp/lcm-pcm/rlyeh_before.dm /tmp/lcm-pcm/rlyeh_after.dm
   $ sed -i -e "s/\(Sandbox\.Instances\)\.2/\1\.1/g" /tmp/lcm-pcm/cthulhu_after.dm
   $ sed -i -e "s/\(Sandbox\.Instances\)\.3/\1\.2/g" /tmp/lcm-pcm/cthulhu_after.dm
-  $ cat > /tmp/lcm-pcm/runtime_params << EOF
-  > Cthulhu.Container.Instances.1.RootfsIsMounted
-  > Cthulhu.Container.Instances.1.Pid
-  > Cthulhu.Container.Instances.1.StartTime
-  > Cthulhu.Container.Instances.1.AutoRestart.RunningSince
-  > Cthulhu.Container.Instances.1.Interfaces.6.Addresses.1.Address
-  > Cthulhu.Container.Instances.1.PluginsPrivate.NetworkConfig.FirewallRules.1.Path
-  > Cthulhu.Container.Instances.1.PluginsPrivate.NetworkConfig.FirewallRules.2.Path
-  > Cthulhu.Container.Instances.1.Resources.Stats.DiskSpace.Free
-  > Cthulhu.Container.Instances.1.Resources.Stats.DiskSpace.Used
-  > Cthulhu.Container.Instances.1.Resources.Stats.Memory.Used
-  > Cthulhu.Sandbox.Instances.1.Pid
-  > Cthulhu.Sandbox.Instances.1.Stats.DiskSpace.Free
-  > Cthulhu.Sandbox.Instances.1.Stats.DiskSpace.Used
-  > Cthulhu.Sandbox.Instances.1.Stats.Memory.Used
-  > Cthulhu.Sandbox.Instances.2.Created
-  > Cthulhu.Sandbox.Instances.2.Pid
-  > Cthulhu.Sandbox.Instances.2.Stats.DiskSpace.Free
-  > Cthulhu.Sandbox.Instances.2.Stats.DiskSpace.Used
-  > Cthulhu.Sandbox.Instances.2.Stats.Memory.Used
-  > SoftwareModules.ExecEnv.1.AvailableDiskSpace
-  > SoftwareModules.ExecutionUnit.1.AvailableDiskSpace
-  > SoftwareModules.ExecutionUnit.1.DiskSpaceInUse
-  > SoftwareModules.ExecutionUnit.1.MemoryInUse
-  > SoftwareModules.ExecutionUnit.1.Uptime
-  > EOF
+  $ cp ${TESTDIR}/lcm-pcm_runtime_params /tmp/lcm-pcm/runtime_params
   $ cthulhu_diff_params=$(diff -n /tmp/lcm-pcm/cthulhu_before.dm /tmp/lcm-pcm/cthulhu_after.dm | grep -o '^Cthulhu[^=]\+')
   $ for param in ${cthulhu_diff_params}; do grep -Fxq "${param}" /tmp/lcm-pcm/runtime_params || echo "ERROR: runtime parameter mismatch - ${param}"; done
   $ timingila_diff_params=$(diff -n /tmp/lcm-pcm/timingila_before.dm /tmp/lcm-pcm/timingila_after.dm | grep -o '^SoftwareModules[^=]\+')
