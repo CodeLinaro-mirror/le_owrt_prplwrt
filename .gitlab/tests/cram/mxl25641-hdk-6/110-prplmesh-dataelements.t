@@ -217,6 +217,9 @@ Check that controller received correct info about wifi subsystem:
   wlan4.0
   wlan4.1
 
+Curious about the full output when it fails
+  $ R "/opt/prplmesh/bin/beerocks_cli -c bml_conn_map"
+
 To disable wireless, disable instances of Network.AccessPoint{i} and call AccessPointCommit():
 
   $ R logger -t cram "Stop wireless"
