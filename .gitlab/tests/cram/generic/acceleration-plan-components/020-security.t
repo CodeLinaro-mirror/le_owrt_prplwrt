@@ -1,6 +1,7 @@
 Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
+  $ alias C="${CRAM_REMOTE_COPY:-}"
 
 Backup the state of the system:
 
@@ -8,11 +9,14 @@ Backup the state of the system:
   $ R "mv /etc/config/autocert /etc/config/autocert.bak"
   $ R "mkdir -p /usr/share/ca-certificates"
   $ R "mv /usr/share/ca-certificates /usr/share/ca-certificates.bak"
+  $ R "mkdir -p /etc/ssl/certs"
+  $ R "mv /etc/ssl/certs /etc/ssl/certs.bak"
+  $ R "mv /etc/amx/tr181-security/defaults.d/00_security-defaults.odl /etc/amx/tr181-security/defaults.d/00_security-defaults.odl.bak"
 
 Copy over testing certificates:
 
   $ R "mkdir -p /etc/config/autocert"
-  $ scp ${CI_PROJECT_DIR}/.gitlab/certs/tr181-security/autocert/* "root@${TARGET_LAN_IP}:/etc/config/autocert/"
+  $ C ${CI_PROJECT_DIR}/.gitlab/certs/tr181-security/autocert/* "root@${TARGET_LAN_IP}:/etc/config/autocert/"
 
 Restart tr181-security service:
 
@@ -122,7 +126,10 @@ Check CABundle RPC:
 Restore the state of the system:
 
   $ R 'rm -rf /etc/amx/tr181-security/extensions/01_cram_periodic_transfer.odl'
+  $ R "mv /etc/amx/tr181-security/defaults.d/00_security-defaults.odl.bak /etc/amx/tr181-security/defaults.d/00_security-defaults.odl"
   $ R '/etc/init.d/tr181-security restart'
+  $ R "rm -rf /etc/ssl/certs"
+  $ R "mv /etc/ssl/certs.bak /etc/ssl/certs"
   $ R "rm -rf /etc/config/autocert"
   $ R "mv /etc/config/autocert.bak /etc/config/autocert"
   $ R "rm -rf /usr/share/ca-certificates"
