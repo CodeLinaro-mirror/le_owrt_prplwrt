@@ -11,7 +11,8 @@ Setup mqttbroker for pkcs11:
   > ba-cli MQTTBroker.Broker.secure.TlsEngine=true
   > ba-cli MQTTBroker.Broker.secure.TlsEngineId="pkcs11"
   > ba-cli MQTTBroker.Broker.secure.CertFile=""
-  > ba-cli MQTTBroker.Broker.secure.CAFile="/usr/share/ca-certificates/ca.crt"
+  > ba-cli MQTTBroker.Broker.secure.CAFile=""
+  > ba-cli MQTTBroker.Broker.secure.CABundle="Device.Security.CABundle.test."
   > ba-cli MQTTBroker.Broker.secure.Ciphers="DEFAULT"
   > ba-cli MQTTBroker.Broker.secure.RequireCertificate=true
   > ba-cli MQTTBroker.Broker.secure.KeyFile=""

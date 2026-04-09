@@ -9,9 +9,14 @@ Backup the state of the system:
   $ R "mv /etc/config/autocert /etc/config/autocert.bak"
   $ R "mkdir -p /usr/share/ca-certificates"
   $ R "mv /usr/share/ca-certificates /usr/share/ca-certificates.bak"
+  $ R "mkdir -p /etc/ssl/certs"
+  $ R "mv /etc/ssl/certs /etc/ssl/certs.bak"
+  $ R "mkdir -p /etc/amx/tr181-security/defaults.d"
+  $ R "mv /etc/amx/tr181-security/defaults.d /etc/amx/tr181-security/defaults.d.bak"
 
 Copy over testing certificates:
 
+  $ R "mkdir -p /etc/amx/tr181-security/defaults.d"
   $ R "mkdir -p /etc/config/autocert"
   $ C ${CI_PROJECT_DIR}/.gitlab/certs/tr181-security/autocert/* "root@${TARGET_LAN_IP}:/etc/config/autocert/"
   Warning: Permanently added '*' (*) to the list of known hosts* (glob)
@@ -40,6 +45,7 @@ Check that certificate can be disabled (PCF-1054):
   $ R "ba-cli --json 'Security.Certificate.[SignatureAlgorithm==\"ecdsa-with-SHA512\" && Enable==False].?' | sed -n '2p'" | jq --sort-keys .[0] | grep -v -E '(NotAfter|NotBefore|LastModif)'
   {
     "Security.Certificate.\d+.": { (re)
+      "Alias": "cpe-Certificate-\d+", (re)
       "Enable": 0,
       "Issuer": "/C=US/O=PrplFoundation/OU=prplOS/CN=prplOS.lan",
       "SerialNumber": "2022A6A3FDECA910242A18EFFB214776206F2ED8",
@@ -57,6 +63,7 @@ Check that certificate can be enabled (PCF-1054):
   $ R "ba-cli --json 'Security.Certificate.[SignatureAlgorithm==\"ecdsa-with-SHA512\" && Enable==True].?' | sed -n '2p'" | jq --sort-keys .[0] | grep -v -E '(NotAfter|NotBefore|LastModif)'
   {
     "Security.Certificate.\d+.": { (re)
+      "Alias": "cpe-Certificate-\d+", (re)
       "Enable": 1,
       "Issuer": "/C=US/O=PrplFoundation/OU=prplOS/CN=prplOS.lan",
       "SerialNumber": "2022A6A3FDECA910242A18EFFB214776206F2ED8",
@@ -87,13 +94,13 @@ Check that CABundle are presents:
   $ R "echo '%populate{object Security{object CABundle{instance add(){parameter Enable=1; parameter Name=cram; parameter CAFileURI=\"/tmp/server-cert.crt\";}}}}' > /etc/amx/tr181-security/defaults.d/01_cram_periodic_transfer.odl" ; sleep 1
   $ R '/etc/init.d/tr181-security restart'
   $ R 'ba-cli Security.CABundleNumberOfEntries?' | grep -v '>'
-  Security.CABundleNumberOfEntries=2
+  Security.CABundleNumberOfEntries=1
   
 
 Check CABundle RPC:
 
-  $ R "ba-cli 'Security.CABundle.2.CAFile()'" | grep -v '>'
-  Security.CABundle.2.CAFile() returned
+  $ R "ba-cli 'Security.CABundle.1.CAFile()'" | grep -v '>'
+  Security.CABundle.1.CAFile() returned
   [
       "",
       {
@@ -101,8 +108,8 @@ Check CABundle RPC:
       }
   ]
   
-  $ R "ba-cli 'Security.CABundle.2.CADir()'" | grep -v '>'
-  Security.CABundle.2.CADir() returned
+  $ R "ba-cli 'Security.CABundle.1.CADir()'" | grep -v '>'
+  Security.CABundle.1.CADir() returned
   [
       "",
       {
@@ -110,9 +117,9 @@ Check CABundle RPC:
       }
   ]
   
-  $ R "ba-cli 'Security.CABundle.2.CADirURI=/tmp'" >/dev/null
-  $ R "ba-cli 'Security.CABundle.2.CADir()'" | grep -v '>'
-  Security.CABundle.2.CADir() returned
+  $ R "ba-cli 'Security.CABundle.1.CADirURI=/tmp'" >/dev/null
+  $ R "ba-cli 'Security.CABundle.1.CADir()'" | grep -v '>'
+  Security.CABundle.1.CADir() returned
   [
       "",
       {
@@ -123,8 +130,11 @@ Check CABundle RPC:
 
 Restore the state of the system:
 
-  $ R 'rm -rf /etc/amx/tr181-security/defaults.d/01_cram_periodic_transfer.odl'
+  $ R 'rm -rf /etc/amx/tr181-security/defaults.d'
+  $ R "mv /etc/amx/tr181-security/defaults.d.bak /etc/amx/tr181-security/defaults.d"
   $ R '/etc/init.d/tr181-security restart'
+  $ R "rm -rf /etc/ssl/certs"
+  $ R "mv /etc/ssl/certs.bak /etc/ssl/certs"
   $ R "rm -rf /etc/config/autocert"
   $ R "mv /etc/config/autocert.bak /etc/config/autocert"
   $ R "rm -rf /usr/share/ca-certificates"
