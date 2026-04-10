@@ -1283,12 +1283,8 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.Hosts.Host.{i}.Layer1Interface                                                                proto::hosts-manager
   Device.Hosts.Host.{i}.Layer3Interface                                                                proto::hosts-manager
   Device.Hosts.Host.{i}.PhysAddress                                                                    proto::hosts-manager
-  Device.Hosts.Host.{i}.WANStats.                                                                      proto::hosts-manager
-  Device.Hosts.Host.{i}.WANStats.BytesReceived                                                         proto::hosts-manager
-  Device.Hosts.Host.{i}.WANStats.BytesSent                                                             proto::hosts-manager
-  Device.Hosts.Host.{i}.WANStats.PacketsReceived                                                       proto::hosts-manager
-  Device.Hosts.Host.{i}.WANStats.PacketsSent                                                           proto::hosts-manager
   Device.Hosts.Host.{i}.X_PRPLWARE-COM_Protected                                                       proto::hosts-manager
+  Device.Hosts.Host.{i}.X_PRPLWARE-COM_UUID                                                            proto::hosts-manager
   Device.Hosts.HostNumberOfEntries                                                                     proto::hosts-manager
   Device.Hosts.RemoveInactiveHosts()                                                                   proto::hosts-manager
   Device.Hosts.RemoveInactiveHosts() input:MinimumInactiveTime
@@ -6752,12 +6748,8 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.Hosts.Host.{i}.Layer1Interface                                                                proto::hosts-manager
   Device.Hosts.Host.{i}.Layer3Interface                                                                proto::hosts-manager
   Device.Hosts.Host.{i}.PhysAddress                                                                    proto::hosts-manager
-  Device.Hosts.Host.{i}.WANStats.                                                                      proto::hosts-manager
-  Device.Hosts.Host.{i}.WANStats.BytesReceived                                                         proto::hosts-manager
-  Device.Hosts.Host.{i}.WANStats.BytesSent                                                             proto::hosts-manager
-  Device.Hosts.Host.{i}.WANStats.PacketsReceived                                                       proto::hosts-manager
-  Device.Hosts.Host.{i}.WANStats.PacketsSent                                                           proto::hosts-manager
   Device.Hosts.Host.{i}.X_PRPLWARE-COM_Protected                                                       proto::hosts-manager
+  Device.Hosts.Host.{i}.X_PRPLWARE-COM_UUID                                                            proto::hosts-manager
   Device.Hosts.HostNumberOfEntries                                                                     proto::hosts-manager
   Device.Hosts.RemoveInactiveHosts()                                                                   proto::hosts-manager
   Device.Hosts.RemoveInactiveHosts() input:MinimumInactiveTime
