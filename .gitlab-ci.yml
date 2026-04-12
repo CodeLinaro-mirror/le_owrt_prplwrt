@@ -50,6 +50,9 @@ build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security
 build test mvebu prpl security:
   extends: .build test config
 
+build test armsr prpl security:
+  extends: .build test config
+
 build test x86_64 prpl security:
   extends: .build test config
 
