@@ -132,6 +132,7 @@ diffconfig: |
           # pwhm options
           CONFIG_USE_PRPLMESH_WHM=y
           CONFIG_SAH_WLD_INIT_SCRIPT="prplmesh_whm"
+          CONFIG_SAH_WLD_ENABLE_USP_SERVER_SOCKET=y
           CONFIG_PACKAGE_prplmesh-unit-tests=m
           # prplOS branding
           CONFIG_IMAGEOPT=y
