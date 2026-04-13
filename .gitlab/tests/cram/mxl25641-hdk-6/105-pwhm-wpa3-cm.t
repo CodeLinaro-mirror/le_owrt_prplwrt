@@ -140,28 +140,6 @@ Check RSN Override 2 parameters are absent in hostapd.conf (we disabled MLO and 
   $ get_hapd_config $itf rsn_override_key_mgmt_2
   Option 'rsn_override_key_mgmt_2' not found
 
-Restore MLDUnit to default values:
-
-  $ R logger -t cram "Restore default MLD configuration"
-
-  $ set_mlduint 1 0
-  0
-
-  $ set_mlduint 2 0
-  0
-
-  $ set_mlduint 3 0
-  0
-
-  $ set_mlduint 4 1
-  1
-
-  $ set_mlduint 5 1
-  1
-
-  $ set_mlduint 6 1
-  1
-
 Additionally, restore 11be to test absence of RSNOverride2 in 2.4/5 GHz:
 
   $ set_radio_operating_standard_format '2.4GHz' 'Standard'
