@@ -187,5 +187,9 @@ Remove testrole1 from Devices.User.Role
   
   ["Device.Users.Role.*."] (glob)
   
-
+Remove testrole2 from Devices.User.Role
+  $ R "${S} && remove_user_role --rolename testrole2"
+  
+  ["Device.Users.Role.*."] (glob)
+  
 
