@@ -28,6 +28,7 @@
     CRAM_TEST_SUITE: |
       .gitlab/tests/cram/generic/acceleration-plan-components
       .gitlab/tests/cram/$DUT_BOARD/acceleration-plan-components
+      .gitlab/tests/cram/generic/lcm
       .gitlab/tests/cram/generic
       .gitlab/tests/cram/$DUT_BOARD
     CRAM_TEST_SUITE_POST: |
