@@ -71,6 +71,7 @@ packages:
   - updater-std
   - crash-collect-hlos
   - log-collector
+  - fdt-utils
 
 diffconfig: |
   CONFIG_TARGET_ROOTFS_UBIFS=y
