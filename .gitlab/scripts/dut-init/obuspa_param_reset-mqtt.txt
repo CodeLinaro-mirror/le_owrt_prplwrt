@@ -1,0 +1,76 @@
+##########################################################################################################
+#
+# This file contains a factory reset database in text format
+#
+# If no USP database exists when OB-USP-AGENT starts, then OB-USP-AGENT will create a database containing
+# the parameters specified in a text file located by the '-r' option.
+# Example:
+#    obuspa -p -v 4 -r factory_reset_example.txt
+#
+# Each line of this file contains either a comment (denoted by '#' at the start of the line)
+# or a USP data model parameter and its factory reset value.
+# The parameter and value are separated by whitespace.
+# The value may optionally be enclosed in speech marks "" (this is the only way to specify an empty string)
+#
+##########################################################################################################
+
+Device.LocalAgent.EndpointID "proto::agent-id"
+Device.LocalAgent.X_VANTIVA-COM_PreConnectTimeout "600"
+
+
+###################################
+# Controller 1 for CDRouter tests #
+###################################
+
+Device.LocalAgent.Controller.1.EndpointID "proto::controller-id"
+Device.LocalAgent.Controller.1.Alias "cpe-1"
+Device.LocalAgent.Controller.1.Enable "true"
+Device.LocalAgent.Controller.1.AssignedRole "Device.LocalAgent.ControllerTrust.Role.1"
+Device.LocalAgent.Controller.1.PeriodicNotifInterval "86400"
+Device.LocalAgent.Controller.1.PeriodicNotifTime "0001-01-01T00:00:00Z"
+Device.LocalAgent.Controller.1.USPNotifRetryMinimumWaitInterval "5"
+Device.LocalAgent.Controller.1.USPNotifRetryIntervalMultiplier "2000"
+Device.LocalAgent.Controller.1.ControllerCode ""
+
+# Controller 1, MTP = MQTT
+Device.LocalAgent.Controller.1.MTP.1.Alias "cpe-1"
+Device.LocalAgent.Controller.1.MTP.1.Enable "true"
+Device.LocalAgent.Controller.1.MTP.1.Protocol "MQTT"
+Device.LocalAgent.Controller.1.MTP.1.MQTT.Reference "Device.MQTT.Client.1"
+Device.LocalAgent.Controller.1.MTP.1.MQTT.Topic "/controller-path"
+
+# LocalAgent, MQTT
+Device.LocalAgent.MTP.1.MQTT.ResponseTopicConfigured "/queue/agent-1"
+Device.LocalAgent.MTP.1.MQTT.Reference "Device.MQTT.Client.1"
+Device.LocalAgent.MTP.1.Alias "cpe-1"
+Device.LocalAgent.MTP.1.Enable "true"
+Device.LocalAgent.MTP.1.Protocol "MQTT"
+
+# MQTT
+Device.MQTT.Client.1.BrokerAddress "controller.cdroutertest.com"
+Device.MQTT.Client.1.ProtocolVersion "5.0"
+Device.MQTT.Client.1.BrokerPort "8883"
+Device.MQTT.Client.1.TransportProtocol "TLS"
+Device.MQTT.Client.1.Username "qacafe"
+Device.MQTT.Client.1.Password "qacafe123"
+Device.MQTT.Client.1.Alias "cpe-1"
+Device.MQTT.Client.1.Enable "true"
+Device.MQTT.Client.1.ClientID ""
+Device.MQTT.Client.1.KeepAliveTime "60"
+Device.MQTT.Client.1.ConnectRetryTime "5"
+Device.MQTT.Client.1.ConnectRetryIntervalMultiplier   "2000"
+Device.MQTT.Client.1.ConnectRetryMaxInterval "60"
+
+# For USP service
+Device.UnixDomainSockets.UnixDomainSocket.1.Alias "cpe-1"
+Device.UnixDomainSockets.UnixDomainSocket.1.Mode "Listen"
+Device.UnixDomainSockets.UnixDomainSocket.1.Path "/var/run/usp/broker_controller_path"
+Device.UnixDomainSockets.UnixDomainSocket.2.Alias "cpe-2"
+Device.UnixDomainSockets.UnixDomainSocket.2.Mode "Listen"
+Device.UnixDomainSockets.UnixDomainSocket.2.Path "/var/run/usp/broker_agent_path"
+
+# LocalAgent, UDS
+Device.LocalAgent.MTP.2.Alias  "cpe-2"
+Device.LocalAgent.MTP.2.Protocol  "UDS"
+Device.LocalAgent.MTP.2.UDS.UnixDomainSocketRef  "Device.UnixDomainSockets.UnixDomainSocket.2"
+Device.LocalAgent.MTP.2.Enable  "true"

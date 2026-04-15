@@ -11,7 +11,13 @@
     CDROUTER_CONFIG_WIFI_BEACON_RSN_CIPHER: 'CCMP-128'
     CDROUTER_CONFIG_WIFI_LAN_CHANNEL: 6
     CDROUTER_CONFIG_WIFI_LAN_SSID: 'prplOS'
+    CDROUTER_CONFIG_USP_CONTROLLER_MTP: mqtt
+    CDROUTER_CONFIG_USP_CONTROLLER_MTP_ENCRYPTION: 'yes'
+    CDROUTER_CONFIG_USP_CONTROLLER_DOMAIN: controller.cdroutertest.com
+    CDROUTER_CONFIG_USP_CONTROLLER_MTP_CERT_PATH: /usr/cdrouter-data/prplos-ci/usp-ssl-certs/server.crt
+    CDROUTER_CONFIG_USP_CONTROLLER_MTP_CA_CERT_PATH: /usr/cdrouter-data/prplos-ci/usp-ssl-certs/ca.crt
     CDROUTER_TEST_CONFIG: generic
+    CDROUTER_DUT_INIT_USP_MTP_SCRIPT: .gitlab/scripts/dut-init/cdrouter-dut-configure-usp-mqtt.sh
     DUT_SLEEP_AFTER_BOOT: 90
     TEST_SETUP_TEARDOWN_DURATION: 360
     CDROUTER_LAN_INTERFACE: eth1
@@ -78,6 +84,12 @@
 
     - section_end "dut-system-info"
     - section_start "dut-init" "DUT Initialization" "collapsed"
+
+    - >
+      if [ -n "${CDROUTER_DUT_INIT_USP_MTP_SCRIPT:-}" ]; then
+        echo "Running $CDROUTER_DUT_INIT_USP_MTP_SCRIPT";
+        "${CI_PROJECT_DIR}/$CDROUTER_DUT_INIT_USP_MTP_SCRIPT";
+      fi
 
     - >
       for dut_init_script in $DUT_INIT_SCRIPTS;
