@@ -2505,16 +2505,16 @@ SECTION "CDRouter USP Add-On" {
 
         # testvar uspControllerUseNonPayloadProtection no
         # testvar uspControllerUseSessionContext   no
-          testvar uspControllerMTP                 stomp
-        # testvar uspControllerMTPEncryption       no
+          testvar uspControllerMTP                 @CDROUTER_CONFIG_USP_CONTROLLER_MTP@
+          testvar uspControllerMTPEncryption       @CDROUTER_CONFIG_USP_CONTROLLER_MTP_ENCRYPTION@
         # testvar uspControllerUSPEncryption       no
-        # testvar uspControllerDomain              controller.cdroutertest.com
+          testvar uspControllerDomain              @CDROUTER_CONFIG_USP_CONTROLLER_DOMAIN@
 
         # testvar uspSegmentationEnable            no
         # testvar uspSegmentationSize              auto
 
-        # testvar uspControllerMTPCertPath         /usr/cdrouter/tests/wildcard.cdroutertest.com.pem
-        # testvar uspControllerMTPCaCertPath       /usr/cdrouter/tests/wildcard.cdroutertest.com-ca.pem
+          testvar uspControllerMTPCertPath         @CDROUTER_CONFIG_USP_CONTROLLER_MTP_CERT_PATH@
+          testvar uspControllerMTPCaCertPath       @CDROUTER_CONFIG_USP_CONTROLLER_MTP_CA_CERT_PATH@
 
         # testvar uspControllerUSPCaCertPath       /usr/cdrouter/tests/wildcard.cdroutertest.com-ca.pem
         # testvar uspControllerUSPCertPath         /usr/cdrouter/tests/wildcard.cdroutertest.com.pem
