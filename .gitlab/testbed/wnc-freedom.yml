@@ -15,4 +15,4 @@
     PFD_BINARY_URL: "https://gitlab.com/ynezz/prplos-ci-build-artifacts/-/jobs/13116912273/artifacts/raw/pfd-linux-amd64"
     CDROUTER_CONFIG_LAN_IFACE_ALIAS: cpe-lan1
   tags:
-    - dut-wnc-freedom
+    - dut-wnc-freedom-fast

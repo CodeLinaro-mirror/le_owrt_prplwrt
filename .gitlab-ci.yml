@@ -97,6 +97,8 @@ run test MXL25641-HDK-6 with system on eMMC:
 
 run test Freedom initramfs:
   needs: []
+  rules:
+    - when: manual
   extends: .wnc-freedom testbed
 
 run test Mozart initramfs:
