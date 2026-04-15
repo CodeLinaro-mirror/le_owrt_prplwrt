@@ -331,6 +331,7 @@ Device.DHCPv6.Client.{i}.X_PRPLWARE-COM_Config.LeaseRenewedWhen                 
 Device.DHCPv6.Client.{i}.X_PRPLWARE-COM_Config.T1Renewed                                             proto::tr181-dhcpv6client
 Device.DHCPv6.Client.{i}.X_PRPLWARE-COM_Config.T2Renewed                                             proto::tr181-dhcpv6client
 Device.DHCPv6.Client.{i}.X_PRPLWARE-COM_DHCPv6Status                                                 proto::tr181-dhcpv6client
+Device.DHCPv6.Client.{i}.X_PRPLWARE-COM_ForceSolicitPolicy                                           proto::tr181-dhcpv6client
 Device.DHCPv6.ClientNumberOfEntries                                                                  proto::tr181-dhcpv6client
 Device.DHCPv6.Server.                                                                                proto::dhcpv6s-manager
 Device.DHCPv6.Server.Enable                                                                          proto::dhcpv6s-manager
@@ -2549,6 +2550,7 @@ Device.PeriodicFileTransfer.Transfer.{i}.Status                                 
 Device.PeriodicFileTransfer.Transfer.{i}.TimeReference                                               proto::tr181-periodicfileupload
 Device.PeriodicFileTransfer.Transfer.{i}.Type                                                        proto::tr181-periodicfileupload
 Device.PeriodicFileTransfer.Transfer.{i}.UploadInterval                                              proto::tr181-periodicfileupload
+Device.PeriodicFileTransfer.Transfer.{i}.X_PRPLWARE-COM_ForceTransfer                                proto::tr181-periodicfileupload
 Device.PeriodicFileTransfer.TransferNumberOfEntries                                                  proto::tr181-periodicfileupload
 Device.PeriodicFileTransfer.TypesSupported                                                           proto::tr181-periodicfileupload
 Device.QoS.                                                                                          proto::tr181-qos
