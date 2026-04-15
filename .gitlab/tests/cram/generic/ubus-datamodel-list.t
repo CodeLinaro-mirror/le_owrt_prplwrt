@@ -99,6 +99,7 @@ Check that ubus has expected datamodels available:
   Device.Hardware.X_PRPLWARE-COM_FlashDevice
   Device.HomePlug
   Device.Hosts
+  Device.IEEE1905
   Device.IP
   Device.IP.Diagnostics
   Device.IPsec
@@ -205,6 +206,20 @@ Check that ubus has expected datamodels available:
   Hosts.AccessControl
   Hosts.Host
   Hosts.X_PRPLWARE-COM_HostConfig
+  IEEE1905
+  IEEE1905.Network
+  IEEE1905.Network.AL
+  IEEE1905.Network.AL.BridgingTuple
+  IEEE1905.Network.AL.IPv4Address
+  IEEE1905.Network.AL.IPv6Address
+  IEEE1905.Network.AL.Interface
+  IEEE1905.Network.AL.Interface.GenericPhy
+  IEEE1905.Network.AL.Interface.IEEE1905Neighbor
+  IEEE1905.Network.AL.Interface.L2Neighbor
+  IEEE1905.Network.AL.Interface.Link
+  IEEE1905.Network.AL.Interface.Link.GenericPhy
+  IEEE1905.Network.AL.Interface.Link.Metric
+  IEEE1905.Network.AL.Interface.NonIEEE1905Neighbor
   IP
   IP.ActivePort
   IP.Interface
