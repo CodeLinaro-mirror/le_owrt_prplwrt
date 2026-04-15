@@ -5050,6 +5050,7 @@ Device.WiFi.DataElements.X_PRPLWARE-COM_Controller.Configuration.DiagnosticsMeas
 Device.WiFi.DataElements.X_PRPLWARE-COM_Controller.Configuration.DiagnosticsMeasurementsRate         proto::prplmesh-dm-mapper
 Device.WiFi.DataElements.X_PRPLWARE-COM_Controller.Configuration.DynamicChannelSelectionTaskEnabled  proto::prplmesh-dm-mapper
 Device.WiFi.DataElements.X_PRPLWARE-COM_Controller.Configuration.HealthCheckTaskEnabled              proto::prplmesh-dm-mapper
+Device.WiFi.DataElements.X_PRPLWARE-COM_Controller.Configuration.HigherLayerRequestIntervalSec       proto::prplmesh-dm-mapper
 Device.WiFi.DataElements.X_PRPLWARE-COM_Controller.Configuration.IRERoamingEnabled                   proto::prplmesh-dm-mapper
 Device.WiFi.DataElements.X_PRPLWARE-COM_Controller.Configuration.LinkMetricsRequestIntervalSec       proto::prplmesh-dm-mapper
 Device.WiFi.DataElements.X_PRPLWARE-COM_Controller.Configuration.LoadBalancingTaskEnabled            proto::prplmesh-dm-mapper
