@@ -38,6 +38,8 @@ CDRouter-Wireless Mozart initramfs:
   timeout: 15 minutes
   variables:
     CDROUTER_TEST_CONFIG: wireless
+    CDROUTER_CONFIG_USP_CONTROLLER_MTP: websocket
+    CDROUTER_DUT_INIT_USP_MTP_SCRIPT: .gitlab/scripts/dut-init/cdrouter-dut-configure-usp-ws.sh
     CDROUTER_CONFIG_WIFI_BEACON_PHY: 'ax b be g n'
     CDROUTER_CONFIG_WIFI_BEACON_RSN_CIPHER: 'CCMP-128 GCMP-256'
     DUT_INIT_SCRIPTS: |
@@ -100,6 +102,8 @@ CDRouter-IPv6-Top-100+mDNS Mozart VLAN WAN/LAN initramfs:
   <<: *arcadyan_mozart_ipv6
   variables:
     CDROUTER_TEST_CONFIG: vlan-ipv6
+    CDROUTER_CONFIG_USP_CONTROLLER_MTP: stomp
+    CDROUTER_DUT_INIT_USP_MTP_SCRIPT: ''
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
       .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
@@ -149,6 +153,14 @@ prplWare-Smoke-Test-Suite Mozart initramfs:
       .gitlab/scripts/dut-init/cdrouter-dut-configure-prplmesh-controller.sh
       .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
 
+.arcadyan-mozart-certification-variables: &arcadyan_mozart_certification_variables
+  CDROUTER_TEST_CONFIG: prplos-certification
+  DUT_INIT_SCRIPTS: |
+    .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
+    .gitlab/scripts/dut-init/cdrouter-dut-configure-cwmpd.sh
+    .gitlab/scripts/dut-init/cdrouter-dut-configure-prplos-certification.sh
+    .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
+
 .arcadyan-mozart-certification: &arcadyan_mozart_certification
   <<: *arcadyan_mozart_ipv6
   stage: certification tests
@@ -158,12 +170,7 @@ prplWare-Smoke-Test-Suite Mozart initramfs:
       when: never
     - when: manual
   variables:
-    CDROUTER_TEST_CONFIG: prplos-certification
-    DUT_INIT_SCRIPTS: |
-      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
-      .gitlab/scripts/dut-init/cdrouter-dut-configure-cwmpd.sh
-      .gitlab/scripts/dut-init/cdrouter-dut-configure-prplos-certification.sh
-      .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
+    <<: *arcadyan_mozart_certification_variables
 
 prplOS-Network-Test-Plan-Mandatory-v1.2.0 Mozart initramfs:
   <<: *arcadyan_mozart_certification
@@ -171,3 +178,7 @@ prplOS-Network-Test-Plan-Mandatory-v1.2.0 Mozart initramfs:
 prplOS-Network-Test-Plan-Candidate-v1.2.0 Mozart initramfs:
   <<: *arcadyan_mozart_certification
   timeout: 52 minutes
+  variables:
+    <<: *arcadyan_mozart_certification_variables
+    CDROUTER_CONFIG_USP_CONTROLLER_MTP: websocket
+    CDROUTER_DUT_INIT_USP_MTP_SCRIPT: .gitlab/scripts/dut-init/cdrouter-dut-configure-usp-ws.sh
