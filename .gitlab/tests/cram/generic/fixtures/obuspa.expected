@@ -3689,6 +3689,7 @@ Device.WiFi.AccessPoint.{i}.Security.RadiusServerIPAddr                         
 Device.WiFi.AccessPoint.{i}.Security.RadiusServerPort                                                proto::prplmesh-dm-mapper
 Device.WiFi.AccessPoint.{i}.Security.RekeyingInterval                                                proto::prplmesh-dm-mapper
 Device.WiFi.AccessPoint.{i}.Security.SAEPassphrase                                                   proto::prplmesh-dm-mapper
+Device.WiFi.AccessPoint.{i}.Security.SPPAMSDU                                                        proto::prplmesh-dm-mapper
 Device.WiFi.AccessPoint.{i}.Security.WEPKey                                                          proto::prplmesh-dm-mapper
 Device.WiFi.AccessPoint.{i}.Security.X_PRPLWARE-COM_ModesAvailable                                   proto::prplmesh-dm-mapper
 Device.WiFi.AccessPoint.{i}.Status                                                                   proto::prplmesh-dm-mapper
