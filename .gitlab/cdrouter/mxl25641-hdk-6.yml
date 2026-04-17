@@ -172,6 +172,15 @@ prplWare-Smoke-Test-Suite MXL25641-HDK-6 eMMC:
 
 prplOS-Network-Test-Plan-Mandatory-v1.2.0 MXL25641-HDK-6 eMMC:
   <<: *mxl25641_certification
+  variables:
+    <<: *mxl25641_certification_variables
+    # PROVISORY workaround for PPW-1837: obuspa's MQTTv5 client does not detect
+    # a half-dead TCP socket after the WAN DHCP renewal in prplos.1.2.9, which
+    # then cascades into 65 follow-up USP GET/SET timeouts. Switch this job to
+    # WebSocket MTP (same as the Candidate sibling job below) until the system
+    # -level fix lands; revert this block then.
+    CDROUTER_CONFIG_USP_CONTROLLER_MTP: websocket
+    CDROUTER_DUT_INIT_USP_MTP_SCRIPT: .gitlab/scripts/dut-init/cdrouter-dut-configure-usp-ws.sh
 
 prplOS-Network-Test-Plan-Candidate-v1.2.0 MXL25641-HDK-6 eMMC:
   <<: *mxl25641_certification
