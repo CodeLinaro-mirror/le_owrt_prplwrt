@@ -11,7 +11,7 @@ feeds:
 
   - name: feed_prplos
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplos.git
-    revision: main@7138e5c93d9b51cca4a46c94b74d694a90280752
+    revision: dev_FEAT-375@c0b56e5b3dc8940c913840a2be2c0d12faac240f
 
 additional_packages:
   - feed: packages
@@ -60,6 +60,7 @@ packages:
   - netmodel-dhcpv4
   - netmodel-dhcpv6
   - netmodel-ethernet
+  - netmodel-gre
   - netmodel-ip
   - netmodel-iprouter
   - netmodel-logical
