@@ -332,6 +332,8 @@ Check that ubus has expected datamodels available:
   Routing.RouteInformation.InterfaceSetting
   Routing.Router
   SFPs
+  SFPs.AllowedSFPs
+  SFPs.AllowedSFPs.AllowedSFP
   SFPs.Mgmt
   SFPs.Mgmt.SFF8472
   SFPs.SFPCage
