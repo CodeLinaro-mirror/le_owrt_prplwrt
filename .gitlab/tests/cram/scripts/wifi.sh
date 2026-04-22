@@ -15,9 +15,16 @@ wifi_dm() {
   if [ -z "$tool" ]; then
     tool="usp-cli"
   fi
+  local protected="$4"
 
   local obj_name
   local res
+  local cli_pre_cmd=""
+
+  if [ "$protected" = "protected" ]; then
+    cli_pre_cmd="protected; "
+  fi
+
   # read object name
   # get str before a single = (ignoring ==) and extracts the string following the final dot,
   # or defaults to the last dot segment if no = is present.
@@ -26,7 +33,10 @@ wifi_dm() {
   # remove any trailing '?' from next grep
   obj_name=${obj_name%%\?*}
   R logger -t cram "set_wifi_dm: command ${base_path}${path} object ${obj_name}"
-  res=$(R "${tool} '${base_path}${path}'" | grep -v '>')
+
+  # run the command
+  res=$(R "${tool} '${cli_pre_cmd}${base_path}${path}'" | grep -v '>')
+
   if ! echo "$res" | grep -q "${obj_name}="; then
     if echo "$res" | grep -q "No data found"; then
       R logger -t cram "set_wifi_dm: ${base_path}${path} failed : No data found"
