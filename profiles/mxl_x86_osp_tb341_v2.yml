@@ -13,11 +13,11 @@ feeds:
   - name: intel_x86
     uri: https://github.com/maxlinear/feed_target_x86.git
     tracking_branch: updk_9.2.10
-    revision: e35e41c75c2ee6c343b40e7dcf6fc6fd8b62f14b
+    revision: 305a4541412e234c13f2c8a7f98168b73769a2c0
   - name: rootfs
     uri: https://github.com/maxlinear/rootfs.git
     tracking_branch: updk_9.2.10
-    revision: 37a61ebf1b1c2f61b23a36674859332d8225c4ef
+    revision: a2c9d2b1791ce18e74047d90a984b5d3393371ea
   - name: eip
     uri: https://github.com/maxlinear/feed_eip.git
     tracking_branch: updk_9.2.10
@@ -73,11 +73,11 @@ feeds:
   - name: utils
     uri: https://github.com/maxlinear/feed_mxl_utils.git
     tracking_branch:  updk_9.2.10
-    revision: d82b27f1ca167d8735964af7f2676933b615cbf4
+    revision: 26359557e8391c8af406c8162ba58810f29e858e
   - name: bootloader
     uri: https://github.com/maxlinear/feed_uboot.git
     tracking_branch:  updk_9.2.10
-    revision: a5087d67fe64a2bfbfae12233713dc8b4c3700aa
+    revision: 46d90b6f59161b4e6fb8f4e24d0265ab8ba30184
   - name: dpl
     uri: https://github.com/maxlinear/feed_dpl.git
     tracking_branch:  updk_9.2.10
@@ -93,7 +93,7 @@ feeds:
   - name: system_service
     uri: https://github.com/maxlinear/feed_system_service.git
     tracking_branch:  updk_9.2.10
-    revision: 32112c4fcbfe1a3f5254de90af8de881f1debb31
+    revision: c16980229c399a9af8990816cf78b9db75f3f689
 
 packages:
   - efr32-boot-config
@@ -200,7 +200,8 @@ diffconfig: |
   CONFIG_BUSYBOX_CONFIG_FEATURE_TFTP_GET=y
   CONFIG_BUSYBOX_CONFIG_FEATURE_TFTP_PUT=y
   CONFIG_BUSYBOX_CONFIG_TFTP=y
-  CONFIG_BUSYBOX_CONFIG_DEVMEM=y
-  CONFIG_KERNEL_DEVMEM=y
   CONFIG_LGM_EIP123_SUPPORT=y
   CONFIG_KERNEL_FTRACE=y
+  CONFIG_IMAGEGENERATOR_BOARD="tb341_wav700"
+  CONFIG_SAH_LIB_MFG_RO_PART_FILE="/dev/mmcblk0p13"
+  CONFIG_SECURESTORE_LABEL="config"
