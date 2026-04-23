@@ -1963,6 +1963,7 @@ Device.LocalAgent.ControllerTrust.Role.{i}.Permission.{i}.Param
 Device.LocalAgent.ControllerTrust.Role.{i}.Permission.{i}.Targets
 Device.LocalAgent.ControllerTrust.Role.{i}.PermissionNumberOfEntries
 Device.LocalAgent.ControllerTrust.RoleNumberOfEntries
+Device.LocalAgent.ControllerTrust.UntrustedRole
 Device.LocalAgent.EndpointID
 Device.LocalAgent.MTP.{i}.
 Device.LocalAgent.MTP.{i}.Alias
