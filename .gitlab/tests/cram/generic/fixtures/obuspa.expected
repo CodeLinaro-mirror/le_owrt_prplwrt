@@ -3017,6 +3017,7 @@ Device.Security.CABundle.{i}.Enable                                             
 Device.Security.CABundle.{i}.Name                                                                    proto::tr181-security
 Device.Security.CABundleNumberOfEntries                                                              proto::tr181-security
 Device.Security.Certificate.{i}.                                                                     proto::tr181-security
+Device.Security.Certificate.{i}.Alias                                                                proto::tr181-security
 Device.Security.Certificate.{i}.Enable                                                               proto::tr181-security
 Device.Security.Certificate.{i}.GetCertificateURI()                                                  proto::tr181-security
 Device.Security.Certificate.{i}.GetCertificateURI() output:CertificateURI
