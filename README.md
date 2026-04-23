@@ -106,3 +106,12 @@ For a list of supported devices see the [OpenWrt Hardware Database](https://open
 ## License
 
 OpenWrt is licensed under GPL-2.0
+
+
+## CI Availability
+
+Defining CI Availability as probability that a change to a README file
+will pass the CI jobs - build and cram testing;
+where Pbuild = probability build will succeed
+and Pcram = proability cram jobs will succeed
+and Availability = Pbuild x Pcram
