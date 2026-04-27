@@ -608,6 +608,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_wifi-sensing=y
   # CONFIG_PACKAGE_wififw_mount_script is not set
   CONFIG_PACKAGE_wireless-freedom=y
+  CONFIG_PACKAGE_wpa-qca-cli=y
   CONFIG_PACKAGE_wwan=y
   CONFIG_PACKAGE_xtables-legacy=y
   CONFIG_PACKAGE_yajl=y
