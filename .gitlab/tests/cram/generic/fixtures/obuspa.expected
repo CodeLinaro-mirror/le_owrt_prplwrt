@@ -2717,11 +2717,10 @@ Device.PacketInterception.CommunicationConfig.Socket.{i}.                       
 Device.PacketInterception.CommunicationConfig.Socket.{i}.Alias                                       proto::packet-interception
 Device.PacketInterception.CommunicationConfig.Socket.{i}.Connected                                   proto::packet-interception
 Device.PacketInterception.CommunicationConfig.Socket.{i}.Enable                                      proto::packet-interception
-Device.PacketInterception.CommunicationConfig.Socket.{i}.Parser                                      proto::packet-interception
+Device.PacketInterception.CommunicationConfig.Socket.{i}.Event                                       proto::packet-interception
 Device.PacketInterception.CommunicationConfig.Socket.{i}.Status                                      proto::packet-interception
 Device.PacketInterception.CommunicationConfig.Socket.{i}.URI                                         proto::packet-interception
 Device.PacketInterception.CommunicationConfig.SocketNumberOfEntries                                  proto::packet-interception
-Device.PacketInterception.CommunicationConfig.SupportedParsers                                       proto::packet-interception
 Device.PacketInterception.Condition.{i}.                                                             proto::packet-interception
 Device.PacketInterception.Condition.{i}.Alias                                                        proto::packet-interception
 Device.PacketInterception.Condition.{i}.ConnectionState                                              proto::packet-interception
