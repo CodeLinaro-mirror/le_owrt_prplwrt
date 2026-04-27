@@ -14,6 +14,7 @@ packages:
   - ipq95xx
   - wireless-regdb
   - hostapd-qca-utils
+  - wpa-qca-cli
   - ath12k-caldata
   - aq-fw-download
   - aq_phy
