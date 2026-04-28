@@ -5355,6 +5355,8 @@ Device.WiFi.Radio.{i}.X_PRPLWARE-COM_scan() input:SSID
 Device.WiFi.Radio.{i}.X_PRPLWARE-COM_scan() input:channels
 Device.WiFi.Radio.{i}.X_PRPLWARE-COM_scan() input:minRssi
 Device.WiFi.Radio.{i}.X_PRPLWARE-COM_scan() input:scanReason
+Device.WiFi.Radio.{i}.X_PRPLWARE-COM_getApplicableBandwidthPerChannel()                              proto::prplmesh-dm-mapper
+Device.WiFi.Radio.{i}.X_PRPLWARE-COM_getApplicableBandwidthPerChannel() input:channel
 Device.WiFi.Radio.{i}.getChanSurveyReport()                                                          proto::prplmesh-dm-mapper
 Device.WiFi.Radio.{i}.getEHTOperations()                                                             proto::prplmesh-dm-mapper
 Device.WiFi.RadioNumberOfEntries                                                                     proto::prplmesh-dm-mapper
