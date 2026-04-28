@@ -76,124 +76,27 @@ Create instances of Network.AccessPoint and push them to the agent:
 
   $ R logger -t cram "create instances of Network.AccessPoint and push them to the agent"
 
-  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint _add"
-  {"object":"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.","index":1,"name":"1","parameters":{},"path":"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1."}
-  {}
-  {"amxd-error-code":0}
+First 2 Instances : Priv and Guest for 2.4/5GHz
 
-Create first instance of Network.AccessPoint for priv 2.4/5 GHz VAPs:
-Since no persistent storage of NbAPI Network subsection, always index:1 after controller restart:
+  $ R "ba-cli \"X_PRPLWARE-COM_WiFiController.Network.AccessPoint+(MLDUnit=-1,Band2_4G=1,Band5GH=1,Band5GL=1,MultiApMode=\"Fronthaul+Backhaul\",X_PRPLWARE_VapType=\"home\",SSID=\"prplOSpriv110\",Security.ModeEnabled=\"WPA3-Personal\",Security.KeyPassphrase=\"passwordPriv\",Enable=1)\"" | tail -n +2 | sed '/^$/d'
+  X_PRPLWARE-COM_WiFiController.Network.AccessPoint.* (re)
 
-  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1 _set '{\"parameters\":{\"Band2_4G\":1,\"Band5GH\":1,\"Band5GL\":1,\"Band6G\":0}}'"
-  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.":{"Band5GH":true,"Band6G":false,"Band2_4G":true,"Band5GL":true}}
-  {}
-  {"amxd-error-code":0}
+  $ R "ba-cli \"X_PRPLWARE-COM_WiFiController.Network.AccessPoint+(MLDUnit=-1,Band2_4G=1,Band5GH=1,Band5GL=1,MultiApMode=\"Fronthaul\",X_PRPLWARE_VapType=\"guest\",SSID=\"prplOSguest110\",Security.ModeEnabled=\"WPA2-Personal\",Security.KeyPassphrase=\"passwordGuest\",Enable=1)\"" | tail -n +2 | sed '/^$/d'
+  X_PRPLWARE-COM_WiFiController.Network.AccessPoint.* (re)
 
-  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1 _set '{\"parameters\":{\"MultiApMode\":\"Fronthaul+Backhaul\",\"X_PRPLWARE_VapType\":\"home\"}}'"
-  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.":{"X_PRPLWARE_VapType":"home","MultiApMode":"Fronthaul+Backhaul"}}
-  {}
-  {"amxd-error-code":0}
+Last 2 Instances : Priv and Guest for 6GHz
 
-  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.Security _set '{\"parameters\":{\"ModeEnabled\":\"WPA2-Personal\",\"KeyPassphrase\":\"passwordPriv\"}}'"
-  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.Security.":{"KeyPassphrase":"passwordPriv","ModeEnabled":"WPA2-Personal"}}
-  {}
-  {"amxd-error-code":0}
+  $ R "ba-cli \"X_PRPLWARE-COM_WiFiController.Network.AccessPoint+(MLDUnit=-1,Band6G=1,MultiApMode=\"Fronthaul+Backhaul\",X_PRPLWARE_VapType=\"home\",SSID=\"prplOSpriv110\",Security.ModeEnabled=\"WPA3-Personal\",Security.KeyPassphrase=\"passwordPriv\",Enable=1)\"" | tail -n +2 | sed '/^$/d'
+  X_PRPLWARE-COM_WiFiController.Network.AccessPoint.* (re)
 
-  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1 _set '{\"parameters\":{\"SSID\":\"prplOSpriv110\"}}'"
-  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.":{"SSID":"prplOSpriv110"}}
-  {}
-  {"amxd-error-code":0}
+  $ R "ba-cli \"X_PRPLWARE-COM_WiFiController.Network.AccessPoint+(MLDUnit=-1,Band6G=1,MultiApMode=\"Fronthaul\",X_PRPLWARE_VapType=\"guest\",SSID=\"prplOSguest110\",Security.ModeEnabled=\"WPA3-Personal\",Security.KeyPassphrase=\"passwordGuest\",Enable=1)\"" | tail -n +2 | sed '/^$/d'
+  X_PRPLWARE-COM_WiFiController.Network.AccessPoint.* (re)
 
-Create second instance of Network.AccessPoint for guest 2.4/5 GHz VAPs:
-
-  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint _add"
-  {"object":"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.","index":2,"name":"2","parameters":{},"path":"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2."}
-  {}
-  {"amxd-error-code":0}
-  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2 _set '{\"parameters\":{\"Band2_4G\":1,\"Band5GH\":1,\"Band5GL\":1,\"Band6G\":0}}'"
-  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.":{"Band5GH":true,"Band6G":false,"Band2_4G":true,"Band5GL":true}}
-  {}
-  {"amxd-error-code":0}
-
-  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2 _set '{\"parameters\":{\"MultiApMode\":\"Fronthaul\",\"X_PRPLWARE_VapType\":\"guest\"}}'"
-  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.":{"X_PRPLWARE_VapType":"guest","MultiApMode":"Fronthaul"}}
-  {}
-  {"amxd-error-code":0}
-
-  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.Security _set '{\"parameters\":{\"ModeEnabled\":\"WPA2-Personal\",\"KeyPassphrase\":\"passwordGuest\"}}'"
-  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.Security.":{"KeyPassphrase":"passwordGuest","ModeEnabled":"WPA2-Personal"}}
-  {}
-  {"amxd-error-code":0}
-
-  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2 _set '{\"parameters\":{\"SSID\":\"prplOSguest110\"}}'"
-  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.":{"SSID":"prplOSguest110"}}
-  {}
-  {"amxd-error-code":0}
-
-Create third instance of Network.AccessPoint for private 6GHz VAP:
-
-  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint _add"
-  {"object":"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.3.","index":3,"name":"3","parameters":{},"path":"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.3."}
-  {}
-  {"amxd-error-code":0}
-  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.3 _set '{\"parameters\":{\"Band2_4G\":0,\"Band5GH\":0,\"Band5GL\":0,\"Band6G\":1}}'"
-  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.3.":{"Band5GH":false,"Band6G":true,"Band2_4G":false,"Band5GL":false}}
-  {}
-  {"amxd-error-code":0}
-
-  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.3 _set '{\"parameters\":{\"MultiApMode\":\"Fronthaul+Backhaul\",\"X_PRPLWARE_VapType\":\"home\"}}'"
-  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.3.":{"X_PRPLWARE_VapType":"home","MultiApMode":"Fronthaul+Backhaul"}}
-  {}
-  {"amxd-error-code":0}
-
-  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.3.Security _set '{\"parameters\":{\"ModeEnabled\":\"WPA3-Personal\",\"KeyPassphrase\":\"passwordPriv\"}}'"
-  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.3.Security.":{"KeyPassphrase":"passwordPriv","ModeEnabled":"WPA3-Personal"}}
-  {}
-  {"amxd-error-code":0}
-
-  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.3 _set '{\"parameters\":{\"SSID\":\"prplOSpriv110\"}}'"
-  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.3.":{"SSID":"prplOSpriv110"}}
-  {}
-  {"amxd-error-code":0}
-
-Create fourth instance of Network.AccessPoint for guest 6GHz VAP:
-
-  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint _add"
-  {"object":"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.4.","index":4,"name":"4","parameters":{},"path":"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.4."}
-  {}
-  {"amxd-error-code":0}
-  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.4 _set '{\"parameters\":{\"Band2_4G\":0,\"Band5GH\":0,\"Band5GL\":0,\"Band6G\":1}}'"
-  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.4.":{"Band5GH":false,"Band6G":true,"Band2_4G":false,"Band5GL":false}}
-  {}
-  {"amxd-error-code":0}
-
-  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.4 _set '{\"parameters\":{\"MultiApMode\":\"Fronthaul\",\"X_PRPLWARE_VapType\":\"guest\"}}'"
-  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.4.":{"X_PRPLWARE_VapType":"guest","MultiApMode":"Fronthaul"}}
-  {}
-  {"amxd-error-code":0}
-
-  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.4.Security _set '{\"parameters\":{\"ModeEnabled\":\"WPA3-Personal\",\"KeyPassphrase\":\"passwordGuest\"}}'"
-  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.4.Security.":{"KeyPassphrase":"passwordGuest","ModeEnabled":"WPA3-Personal"}}
-  {}
-  {"amxd-error-code":0}
-
-  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.4 _set '{\"parameters\":{\"SSID\":\"prplOSguest110\"}}'"
-  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.4.":{"SSID":"prplOSguest110"}}
-  {}
-  {"amxd-error-code":0}
-
-  $ R "ba-cli 'X_PRPLWARE-COM_WiFiController.Network.AccessPoint.*.Enable=1' | grep -v '>'  | grep '='"
-  X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.Enable=1
-  X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.Enable=1
-  X_PRPLWARE-COM_WiFiController.Network.AccessPoint.3.Enable=1
-  X_PRPLWARE-COM_WiFiController.Network.AccessPoint.4.Enable=1
-
-
-  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network AccessPointCommit"
-  {"retval":""}
-  {}
-  {"amxd-error-code":0}
-
+  $ R "ba-cli \"X_PRPLWARE-COM_WiFiController.Network.AccessPointCommit()\"" | tail -n +2 |  sed '/^$/d'
+  X_PRPLWARE-COM_WiFiController.Network.AccessPointCommit() returned
+  [
+      ""
+  ]
 
   $ sleep 15
 
@@ -280,63 +183,95 @@ Check Controller Known SSID List (Transported via AP Operational BSS TLV)
   prplOSpriv110
   prplOSpriv110
 
-Restore MultiApType, KeyPassPhrase, and, for 2.4/5GHz - ModeEnabled - to default values
+  $ R "ba-cli -a 'WiFi.AccessPoint.*.Security.ModeEnabled?' | grep -v '>' | grep '.'"
+  WiFi.AccessPoint.1.Security.ModeEnabled="WPA3-Personal"
+  WiFi.AccessPoint.2.Security.ModeEnabled="WPA2-Personal"
+  WiFi.AccessPoint.3.Security.ModeEnabled="WPA3-Personal"
+  WiFi.AccessPoint.4.Security.ModeEnabled="WPA2-Personal"
+  WiFi.AccessPoint.5.Security.ModeEnabled="WPA3-Personal"
+  WiFi.AccessPoint.6.Security.ModeEnabled="WPA3-Personal"
+  WiFi.AccessPoint.7.Security.ModeEnabled="WPA3-Personal-Transition"
+  WiFi.AccessPoint.8.Security.ModeEnabled="WPA3-Personal-Transition"
+  WiFi.AccessPoint.9.Security.ModeEnabled="WPA3-Personal"
 
-  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1 _set '{\"parameters\":{\"MultiApMode\":\"Fronthaul\"}}'"
-  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.":{"MultiApMode":"Fronthaul"}}
-  {}
-  {"amxd-error-code":0}
 
-  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.Security _set '{\"parameters\":{\"ModeEnabled\":\"WPA3-Personal-Transition\",\"KeyPassphrase\":\"password\"}}'"
-  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.Security.":{"KeyPassphrase":"password","ModeEnabled":"WPA3-Personal-Transition"}}
-  {}
-  {"amxd-error-code":0}
+Restore Default Configuration through NBAPI:
 
-  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.3 _set '{\"parameters\":{\"MultiApMode\":\"Fronthaul\"}}'"
-  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.3.":{"MultiApMode":"Fronthaul"}}
-  {}
-  {"amxd-error-code":0}
+2.4/5GHz priv: Security.ModeEnabled, MultiApType, Passphrase, SSID
 
-  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.3.Security _set '{\"parameters\":{\"KeyPassphrase\":\"password\"}}'"
-  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.3.Security.":{"KeyPassphrase":"password"}}
-  {}
-  {"amxd-error-code":0}
+  $ R "ba-cli -l X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.Security.ModeEnabled=\"WPA3-Personal-Transition\"" | sed '/^$/d'
+  WPA3-Personal-Transition
 
-Pipe to grep to remove empty lines
+  $ R "ba-cli -l X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.MultiApMode=\"Fronthaul\"" | sed '/^$/d'
+  Fronthaul
 
-  $ R "ba-cli -a -j -l 'X_PRPLWARE-COM_WiFiController.Network.AccessPointCommit()' | grep '.' "
+  $ R "ba-cli -l X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.Security.KeyPassphrase=\"password\"" | sed '/^$/d'
+  password
+
+  $ R "ba-cli -l X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.SSID=\"prplOS\"" | sed '/^$/d'
+  prplOS
+
+2.4/5GHz guest: Security.ModeEnabled, SSID
+
+  $ R "ba-cli -l X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.Security.ModeEnabled=\"WPA3-Personal-Transition\"" | sed '/^$/d'
+  WPA3-Personal-Transition
+
+  $ R "ba-cli -l X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.SSID=\"prplOS-guest\"" | sed '/^$/d'
+  prplOS-guest
+
+6GHz priv : MultiApType, Passphrase, SSID
+
+  $ R "ba-cli -l X_PRPLWARE-COM_WiFiController.Network.AccessPoint.3.MultiApMode=\"Fronthaul\"" | sed '/^$/d'
+  Fronthaul
+
+  $ R "ba-cli -l X_PRPLWARE-COM_WiFiController.Network.AccessPoint.3.Security.KeyPassphrase=\"password\"" | sed '/^$/d'
+  password
+
+  $ R "ba-cli -l X_PRPLWARE-COM_WiFiController.Network.AccessPoint.3.SSID=\"prplOS\"" | sed '/^$/d'
+  prplOS
+
+6GHz guest : SSID
+
+  $ R "ba-cli -l X_PRPLWARE-COM_WiFiController.Network.AccessPoint.4.SSID=\"prplOS-guest\"" | sed '/^$/d'
+  prplOS-guest
+
+  $ R "ba-cli \"X_PRPLWARE-COM_WiFiController.Network.AccessPointCommit()\"" | tail -n +2 | sed '/^$/d'
   X_PRPLWARE-COM_WiFiController.Network.AccessPointCommit() returned
-  [""]
+  [
+      ""
+  ]
+
+Empirical 10s value for sleep; pwhm datamodel takes 'some time' to propagate back to controller
+
+  $ sleep 20
+
+  $ R "ba-cli -l \"X_PRPLWARE-COM_WiFiController.Network.Device.1.Radio.*.BSS.*.SSID?\"" | sed '/^$/d' | sort
+  prplOS
+  prplOS
+  prplOS
+  prplOS-guest
+  prplOS-guest
+  prplOS-guest
 
 To disable wireless, disable instances of Network.AccessPoint{i} and call AccessPointCommit():
 
   $ R logger -t cram "Stop wireless"
 
-  $ R "ba-cli 'X_PRPLWARE-COM_WiFiController.Network.AccessPoint.*.Enable=0' | grep -v '>'  | grep '='"
-  X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.Enable=0
-  X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.Enable=0
-  X_PRPLWARE-COM_WiFiController.Network.AccessPoint.3.Enable=0
-  X_PRPLWARE-COM_WiFiController.Network.AccessPoint.4.Enable=0
+  $ R "ba-cli -l 'X_PRPLWARE-COM_WiFiController.Network.AccessPoint.*.Enable=0'" |  sed '/^$/d'
+  0
+  0
+  0
+  0
 
-Pipe to grep to remove empty lines
-
-  $ R "ba-cli -a -j -l 'X_PRPLWARE-COM_WiFiController.Network.AccessPointCommit()' | grep '.' "
+  $ R "ba-cli \"X_PRPLWARE-COM_WiFiController.Network.AccessPointCommit()\"" | tail -n +2 |  sed '/^$/d'
   X_PRPLWARE-COM_WiFiController.Network.AccessPointCommit() returned
-  [""]
+  [
+      ""
+  ]
 
-  $ sleep 20
+  $ sleep 10
 
-  $ R "ba-cli -a \"WiFi.SSID.[SSID=='prplOSpriv110'].SSID=prplOS\" | grep -v '>' | grep '='"
-  WiFi.SSID.1.SSID="prplOS"
-  WiFi.SSID.4.SSID="prplOS"
-  WiFi.SSID.7.SSID="prplOS"
-
-  $ R "ba-cli -a \"WiFi.SSID.[SSID=='prplOSguest110'].SSID='prplOS-guest'\" | grep -v '>' | grep '='"
-  WiFi.SSID.3.SSID="prplOS-guest"
-  WiFi.SSID.6.SSID="prplOS-guest"
-  WiFi.SSID.9.SSID="prplOS-guest"
-
-Check that wireless is disabled:
+Check that SSIDs are disabled in pwhm:
 
   $ get_ssid_status
   Down
@@ -359,7 +294,7 @@ Stop prplmesh
   $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=0" | tr -d '\n'
   0 (no-eol)
 
-Check that SSIDs did not change:
+Check that SSID names are back to defaults:
 
   $ get_ssid_ssid
   backhaul_(AC:91:9B|58:E4:03):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
@@ -372,22 +307,18 @@ Check that SSIDs did not change:
   prplOS-guest
   prplOS-guest
 
-Restore Security Mode to default values
+Check default security modes
 
-  $ R "ba-cli  \"WiFi.AccessPoint.[RadioReference == 'Device.WiFi.Radio.1'].Security.ModeEnabled='WPA2-WPA3-Personal'\"" | grep 'ModeEnabled=' | sed '/^$/d' | grep -v '>'
-  WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA2-WPA3-Personal" (re)
-  WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA2-WPA3-Personal" (re)
-  WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA2-WPA3-Personal" (re)
-
-  $ R "ba-cli  \"WiFi.AccessPoint.[RadioReference == 'Device.WiFi.Radio.2'].Security.ModeEnabled='WPA2-WPA3-Personal'\"" | grep 'ModeEnabled=' | sed '/^$/d' | grep -v '>'
-  WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA2-WPA3-Personal" (re)
-  WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA2-WPA3-Personal" (re)
-  WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA2-WPA3-Personal" (re)
-
-  $ R "ba-cli  \"WiFi.AccessPoint.[RadioReference == 'Device.WiFi.Radio.3'].Security.ModeEnabled='WPA3-Personal'\"" | grep 'ModeEnabled=' | sed '/^$/d' | grep -v '>'
-  WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal" (re)
-  WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal" (re)
-  WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal" (re)
+  $ R "ba-cli -a 'WiFi.AccessPoint.*.Security.ModeEnabled?' | grep -v '>' | grep '.'"
+  WiFi.AccessPoint.1.Security.ModeEnabled="WPA3-Personal-Transition"
+  WiFi.AccessPoint.2.Security.ModeEnabled="WPA3-Personal-Transition"
+  WiFi.AccessPoint.3.Security.ModeEnabled="WPA3-Personal-Transition"
+  WiFi.AccessPoint.4.Security.ModeEnabled="WPA3-Personal-Transition"
+  WiFi.AccessPoint.5.Security.ModeEnabled="WPA3-Personal"
+  WiFi.AccessPoint.6.Security.ModeEnabled="WPA3-Personal"
+  WiFi.AccessPoint.7.Security.ModeEnabled="WPA3-Personal-Transition"
+  WiFi.AccessPoint.8.Security.ModeEnabled="WPA3-Personal-Transition"
+  WiFi.AccessPoint.9.Security.ModeEnabled="WPA3-Personal"
 
 Restore Controller 'VAP Configuration Source'-configuration to default
 
