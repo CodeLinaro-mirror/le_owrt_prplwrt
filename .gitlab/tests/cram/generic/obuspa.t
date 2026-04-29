@@ -411,6 +411,8 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.DNS.Diagnostics.NSLookupDiagnostics() input:Interface
   Device.DNS.Diagnostics.NSLookupDiagnostics() input:NumberOfRepetitions
   Device.DNS.Diagnostics.NSLookupDiagnostics() input:Timeout
+  Device.DNS.Diagnostics.NSLookupDiagnostics() output:Status
+  Device.DNS.Diagnostics.NSLookupDiagnostics() output:SuccessCount
   Device.DNS.Diagnostics.NSLookupDiagnostics.                                                          proto::tr181-dns
   Device.DNS.Diagnostics.NSLookupDiagnostics.DNSServer                                                 proto::tr181-dns
   Device.DNS.Diagnostics.NSLookupDiagnostics.DiagnosticsState                                          proto::tr181-dns
@@ -5876,6 +5878,8 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.DNS.Diagnostics.NSLookupDiagnostics() input:Interface
   Device.DNS.Diagnostics.NSLookupDiagnostics() input:NumberOfRepetitions
   Device.DNS.Diagnostics.NSLookupDiagnostics() input:Timeout
+  Device.DNS.Diagnostics.NSLookupDiagnostics() output:Status
+  Device.DNS.Diagnostics.NSLookupDiagnostics() output:SuccessCount
   Device.DNS.Diagnostics.NSLookupDiagnostics.                                                          proto::tr181-dns
   Device.DNS.Diagnostics.NSLookupDiagnostics.DNSServer                                                 proto::tr181-dns
   Device.DNS.Diagnostics.NSLookupDiagnostics.DiagnosticsState                                          proto::tr181-dns
