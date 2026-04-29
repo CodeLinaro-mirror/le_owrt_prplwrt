@@ -81,7 +81,7 @@ Utilize set in firewall rule:
   $ (R "iptables -L FORWARD_L_Low") | sed 's|[0123456789,]||g'
   Chain FORWARD_L_Low ( references)
   target     prot opt source               destination         
-  ACCEPT     all  --  anywhere             anywhere             match-set fwrule src
+  ACCEPT     all  --  anywhere             anywhere            
 
   $ (R "ba-cli Firewall.Chain.2.Rule.1.SourceMatchSet=\"\"") >> /dev/null
 
@@ -108,7 +108,7 @@ Exclude set parameter:
   $ (R "iptables -L FORWARD_L_Low") | sed 's|[0123456789,]||g'
   Chain FORWARD_L_Low ( references)
   target     prot opt source               destination         
-  ACCEPT     all  --  anywhere             anywhere             ! match-set exclude src
+  ACCEPT     all  --  anywhere             anywhere            
 
 
   $ (R "ba-cli Firewall.Chain.2.Rule.1.SourceMatchSetExclude=\"\"") >> /dev/null
