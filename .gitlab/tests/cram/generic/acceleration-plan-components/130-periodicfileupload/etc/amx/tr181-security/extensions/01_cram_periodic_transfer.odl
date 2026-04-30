@@ -1,0 +1,11 @@
+%populate {
+    object Security {
+        object CABundle {
+            instance add() {
+                parameter Enable = 1;
+                parameter CAFileURI = "/tmp/server-cert.crt";
+                parameter Name = "cram";
+            }
+        }
+    }
+}

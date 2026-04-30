@@ -1,7 +1,12 @@
 Create R alias:
 
-  $ alias R="${CRAM_REMOTE_COMMAND:-}"
+  $ alias R="$(echo "${CRAM_REMOTE_COMMAND}" | sed 's/ ssh / ssh -n /')"
+  $ alias C="${CRAM_REMOTE_COPY:-}"
   $ export SERVER_IP="`ip route | grep "192.168.1.0/24" | grep -o "src [0-9.]*" | cut -d' ' -f2 | head -1`"
+
+Copy CABundle ODL extension to CPE:
+
+  $ C -r $TESTDIR/130-periodicfileupload/* root@${TARGET_LAN_IP}:/ 2>/dev/null
 
 Install servefile from pip as a workaround until PPW-1258 is fixed:
 
@@ -95,7 +100,7 @@ Check PeriodicFileTransfer periodic upload with configured intervals
   Device.PeriodicFileTransfer.Transfer.(.+). (re)
   Device.PeriodicFileTransfer.Transfer.(.+).UploadInterval=3 (re)
   $ R 'ba-cli "Device.PeriodicFileTransfer.Transfer.cram-Transfer-1.Enable=1"' > /dev/null; sleep 7
-  $ ls /tmp/130-periodicfileuploads/ |wc -l ; rm /tmp/130-periodicfileuploads/*
+  $ ls /tmp/130-periodicfileuploads/ | wc -l ; rm /tmp/130-periodicfileuploads/*
   2
 
 Stop Servefile:
@@ -133,23 +138,29 @@ Check PeriodicFileTransfer retry mechanism for failed uploads:
   $ servefile_pid="$!"
   $ sleep 6
 
-Check PeriodicFileTransfer over HTTPS:
+Prepare CABundle for the cram tests:
 
   $ R 'ba-cli "Device.PeriodicFileTransfer.Transfer.cram-Transfer-1.Enable=0"' > /dev/null
-  $ R 'ba-cli "Device.PeriodicFileTransfer.Profile.cram-Profile-1.HTTP.RetryEnable=0"' > /dev/null; sleep 1
-  $ R 'ba-cli "Device.PeriodicFileTransfer.Transfer.cram-Transfer-1.UploadInterval=86400"' > /dev/null; sleep 1
+  $ R 'ba-cli "Device.PeriodicFileTransfer.Profile.cram-Profile-1.HTTP.RetryEnable=0"' > /dev/null
+  $ R 'ba-cli "Device.PeriodicFileTransfer.Transfer.cram-Transfer-1.UploadInterval=86400"' > /dev/null
   $ R 'ba-cli "Device.PeriodicFileTransfer.Transfer.cram-Transfer-1.Enable=1"' > /dev/null
+  $ sleep 1
   $ kill -9 "$servefile_pid"
   $ servefile -u /tmp/130-periodicfileuploads/ -p 8181 --ssl >/dev/null 2>&1 &
   $ servefile_pid="$!"
-  $ sleep 2
-  $ R "openssl s_client -connect \"$SERVER_IP:8181\" -showcerts < /dev/null 2> /dev/null | openssl x509 -outform PEM > /tmp/server-cert.crt"; sleep 1
-  $ R "echo '%populate{object Security{object CABundle{instance add("cram"){parameter Enable=1; parameter Name=cram; parameter CAFileURI=\"/tmp/server-cert.crt\";}}}}' > /etc/amx/tr181-security/defaults.d/01_cram_periodic_transfer.odl" ; sleep 1
-  $ R '/etc/init.d/tr181-security restart'; sleep 1
-  $ R 'ba-cli "Device.PeriodicFileTransfer.Profile.cram-Profile-1.Protocol=HTTPS"' > /dev/null; sleep 1
-  $ R 'ba-cli "Device.PeriodicFileTransfer.Profile.cram-Profile-1.HTTP.CABundle=Device.Security.CABundle.cram"' > /dev/null; sleep 1
-  $ R "ba-cli 'Device.PeriodicFileTransfer.Profile.cram-Profile-1.HTTP.URL=\"https://$SERVER_IP:8181\"'" > /dev/null; sleep 1
-  $ R 'ba-cli "Device.PeriodicFileTransfer.Transfer.cram-Transfer-1.ForceTransfer()"' | grep -Ev '^(>|$)' ; sleep 1
+  $ sleep 4
+  $ R "openssl s_client -connect \"$SERVER_IP:8181\" -showcerts < /dev/null 2> /dev/null | openssl x509 -outform PEM > /tmp/server-cert.crt"
+  $ R '/etc/init.d/tr181-security restart'
+  $ sleep 1
+  $ export CABUNDLEPATH=`R "ba-cli 'protected;Device.Security.CABundle.[Name==\"cram\"].?'" | grep -v '>' | head -1 | sed 's/\.$//'`
+
+Check PeriodicFileTransfer over HTTPS:
+
+  $ R 'ba-cli "Device.PeriodicFileTransfer.Profile.cram-Profile-1.Protocol=HTTPS"' > /dev/null
+  $ R "ba-cli \"Device.PeriodicFileTransfer.Profile.cram-Profile-1.HTTP.CABundle=$CABUNDLEPATH\"" > /dev/null
+  $ R "ba-cli 'Device.PeriodicFileTransfer.Profile.cram-Profile-1.HTTP.URL=\"https://$SERVER_IP:8181\"'" > /dev/null
+  $ sleep 1
+  $ R 'ba-cli "Device.PeriodicFileTransfer.Transfer.cram-Transfer-1.ForceTransfer()"' | grep -v '>'
   Device.PeriodicFileTransfer.Transfer.cram-Transfer-1.ForceTransfer() returned
   [
       {
@@ -160,10 +171,11 @@ Check PeriodicFileTransfer over HTTPS:
 Check PeriodicFileTransfer error code reporting for various failure scenarios:
 
   $ kill -9 "$servefile_pid"
-  $ R 'ba-cli "Device.PeriodicFileTransfer.Profile.cram-Profile-1.Protocol=HTTP"' > /dev/null; sleep 1
-  $ R 'ba-cli "Device.PeriodicFileTransfer.Profile.cram-Profile-1.HTTP.CABundle="' > /dev/null; sleep 1
-  $ R "ba-cli 'Device.PeriodicFileTransfer.Profile.cram-Profile-1.HTTP.URL=\"http://$SERVER_IP:8181\"'" > /dev/null; sleep 1
-  $ R 'ba-cli "Device.PeriodicFileTransfer.Transfer.cram-Transfer-1.ForceTransfer()"' | grep -Ev '^(>|$)'
+  $ R 'ba-cli "Device.PeriodicFileTransfer.Profile.cram-Profile-1.Protocol=HTTP"' >/dev/null
+  $ R 'ba-cli "Device.PeriodicFileTransfer.Profile.cram-Profile-1.HTTP.CABundle=\"\""' >/dev/null
+  $ R "ba-cli 'Device.PeriodicFileTransfer.Profile.cram-Profile-1.HTTP.URL=\"http://$SERVER_IP:8181\"'" > /dev/null
+  $ sleep 1
+  $ R 'ba-cli "Device.PeriodicFileTransfer.Transfer.cram-Transfer-1.ForceTransfer()"' | grep -v '>'
   ERROR: call (null) failed with status 1 - unknown error
   Device.PeriodicFileTransfer.Transfer.cram-Transfer-1.ForceTransfer() returned
   [
@@ -171,10 +183,11 @@ Check PeriodicFileTransfer error code reporting for various failure scenarios:
           data = "Transfer ended with error code (9015)"
       }
   ]
+
   $ servefile -u /tmp/130-periodicfileuploads/ -p 8181 -a prpl:prpl >/dev/null 2>&1 &
   $ servefile_pid="$!"
-  $ sleep 1
-  $ R 'ba-cli "Device.PeriodicFileTransfer.Transfer.cram-Transfer-1.ForceTransfer()"' | grep -Ev '^(>|$)'; sleep 1
+  $ sleep 4
+  $ R 'ba-cli "Device.PeriodicFileTransfer.Transfer.cram-Transfer-1.ForceTransfer()"' | grep -v '>'
   ERROR: call (null) failed with status 1 - unknown error
   Device.PeriodicFileTransfer.Transfer.cram-Transfer-1.ForceTransfer() returned
   [
@@ -182,13 +195,14 @@ Check PeriodicFileTransfer error code reporting for various failure scenarios:
           data = "Transfer ended with error code (9012)"
       }
   ]
+
   $ kill -9 "$servefile_pid"
   $ servefile -u /tmp/130-periodicfileuploads/ -p 8181 --ssl >/dev/null 2>&1 &
   $ servefile_pid="$!"
-  $ sleep 1
-  $ R 'ba-cli "Device.PeriodicFileTransfer.Profile.cram-Profile-1.Protocol=HTTPS"' > /dev/null; sleep 1
-  $ R "ba-cli 'Device.PeriodicFileTransfer.Profile.cram-Profile-1.HTTP.URL=\"https://$SERVER_IP:8181\"'" > /dev/null; sleep 1
-  $ R 'ba-cli "Device.PeriodicFileTransfer.Transfer.cram-Transfer-1.ForceTransfer()"' | grep -Ev '^(>|$)'; sleep 1
+  $ R 'ba-cli "Device.PeriodicFileTransfer.Profile.cram-Profile-1.Protocol=HTTPS"' > /dev/null
+  $ R "ba-cli 'Device.PeriodicFileTransfer.Profile.cram-Profile-1.HTTP.URL=\"https://$SERVER_IP:8181\"'" > /dev/null
+  $ sleep 4
+  $ R 'ba-cli "Device.PeriodicFileTransfer.Transfer.cram-Transfer-1.ForceTransfer()"' | grep -v '>'
   ERROR: call (null) failed with status 1 - unknown error
   Device.PeriodicFileTransfer.Transfer.cram-Transfer-1.ForceTransfer() returned
   [
@@ -199,11 +213,11 @@ Check PeriodicFileTransfer error code reporting for various failure scenarios:
 
 Cleanup test instances:
 
-  $ R 'rm -rf /etc/amx/tr181-security/defaults.d/01_cram_periodic_transfer.odl'
+  $ R 'rm -rf /etc/amx/tr181-security/extensions/01_cram_periodic_transfer.odl'
   $ R '/etc/init.d/tr181-security restart'
   $ R 'rm /tmp/server-cert.crt'
   $ rm -rf /tmp/130-periodicfileuploads/*
-  $ R 'ba-cli "Device.PeriodicFileTransfer.Transfer.cram-Transfer-1.Enable=0"' > /dev/null; sleep 1
-  $ R 'ba-cli "Device.PeriodicFileTransfer.Transfer.cram-Transfer-1.-"' > /dev/null; sleep 1
-  $ R 'ba-cli "Device.PeriodicFileTransfer.Profile.cram-Profile-1.-"' > /dev/null; sleep 1
+  $ R 'ba-cli "Device.PeriodicFileTransfer.Transfer.cram-Transfer-1.Enable=0"' > /dev/null
+  $ R 'ba-cli "Device.PeriodicFileTransfer.Transfer.cram-Transfer-1.-"' > /dev/null
+  $ R 'ba-cli "Device.PeriodicFileTransfer.Profile.cram-Profile-1.-"' > /dev/null
   $ kill -9 "$servefile_pid"
