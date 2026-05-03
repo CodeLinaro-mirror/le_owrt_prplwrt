@@ -87,8 +87,8 @@ Since no persistent storage of NbAPI Network subsection, always index:1 after co
   {}
   {"amxd-error-code":0}
 
-  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1 _set '{\"parameters\":{\"MultiApMode\":\"Fronthaul+Backhaul\",\"X_PRPLWARE_VapType\":\"home\"}}'"
-  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.":{"X_PRPLWARE_VapType":"home","MultiApMode":"Fronthaul+Backhaul"}}
+  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1 _set '{\"parameters\":{\"MultiApMode\":\"Fronthaul+Backhaul\",\"X_PRPLWARE-COM_VapType\":\"home\"}}'"
+  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.":{"X_PRPLWARE-COM_VapType":"home","MultiApMode":"Fronthaul+Backhaul"}}
   {}
   {"amxd-error-code":0}
 
@@ -119,8 +119,8 @@ Create second instance of Network.AccessPoint for guest VAPs:
   {}
   {"amxd-error-code":0}
 
-  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2 _set '{\"parameters\":{\"MultiApMode\":\"Fronthaul\",\"X_PRPLWARE_VapType\":\"guest\"}}'"
-  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.":{"X_PRPLWARE_VapType":"guest","MultiApMode":"Fronthaul"}}
+  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2 _set '{\"parameters\":{\"MultiApMode\":\"Fronthaul\",\"X_PRPLWARE-COM_VapType\":\"guest\"}}'"
+  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.":{"X_PRPLWARE-COM_VapType":"guest","MultiApMode":"Fronthaul"}}
   {}
   {"amxd-error-code":0}
 

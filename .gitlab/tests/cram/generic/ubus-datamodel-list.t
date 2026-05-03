@@ -543,7 +543,7 @@ Check that ubus has expected datamodels available:
   X_PRPLWARE-COM_WiFiController.Network.Device.bSTAMLD
   X_PRPLWARE-COM_WiFiController.Network.Device.bSTAMLD.bSTAMLDConfig
   X_PRPLWARE-COM_WiFiController.Network.MultiAPSteeringSummaryStats
-  X_PRPLWARE-COM_WiFiController.Network.X-PRPL_ORG_Group
+  X_PRPLWARE-COM_WiFiController.Network.X_PRPLWARE-COM_Group
   X_PRPLWARE-COM_WiFiMapped
   X_PRPLWARE-COM_WiFiMapped.WiFi
   X_PRPLWARE-COM_WiFiMapped.WiFi.DataElements

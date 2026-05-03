@@ -3901,6 +3901,7 @@ Device.WiFi.DataElements.DisassociationEvent.DisassociationEventData.{i}.TimeSta
 Device.WiFi.DataElements.DisassociationEvent.DisassociationEventDataNumberOfEntries                  proto::prplmesh-dm-mapper
 Device.WiFi.DataElements.FailedConnectionEvent.                                                      proto::prplmesh-dm-mapper
 Device.WiFi.DataElements.FailedConnectionEvent.FailedConnectionEventData.{i}.                        proto::prplmesh-dm-mapper
+Device.WiFi.DataElements.FailedConnectionEvent.FailedConnectionEventData.{i}.BSSID                   proto::prplmesh-dm-mapper
 Device.WiFi.DataElements.FailedConnectionEvent.FailedConnectionEventData.{i}.MACAddress              proto::prplmesh-dm-mapper
 Device.WiFi.DataElements.FailedConnectionEvent.FailedConnectionEventData.{i}.ReasonCode              proto::prplmesh-dm-mapper
 Device.WiFi.DataElements.FailedConnectionEvent.FailedConnectionEventData.{i}.StatusCode              proto::prplmesh-dm-mapper
@@ -3921,8 +3922,8 @@ Device.WiFi.DataElements.Network.AccessPoint.{i}.Security.KeyPassphrase         
 Device.WiFi.DataElements.Network.AccessPoint.{i}.Security.ModeEnabled                                proto::prplmesh-dm-mapper
 Device.WiFi.DataElements.Network.AccessPoint.{i}.Security.PreSharedKey                               proto::prplmesh-dm-mapper
 Device.WiFi.DataElements.Network.AccessPoint.{i}.Security.SAEPassphrase                              proto::prplmesh-dm-mapper
-Device.WiFi.DataElements.Network.AccessPoint.{i}.X-PRPL_ORG_GroupName                                proto::prplmesh-dm-mapper
-Device.WiFi.DataElements.Network.AccessPoint.{i}.X_PRPLWARE_VapType                                  proto::prplmesh-dm-mapper
+Device.WiFi.DataElements.Network.AccessPoint.{i}.X_PRPLWARE-COM_GroupName                            proto::prplmesh-dm-mapper
+Device.WiFi.DataElements.Network.AccessPoint.{i}.X_PRPLWARE-COM_VapType                              proto::prplmesh-dm-mapper
 Device.WiFi.DataElements.Network.AccessPointCommit()                                                 proto::prplmesh-dm-mapper
 Device.WiFi.DataElements.Network.AccessPointNumberOfEntries                                          proto::prplmesh-dm-mapper
 Device.WiFi.DataElements.Network.ClientSteering()                                                    proto::prplmesh-dm-mapper
@@ -4277,6 +4278,7 @@ Device.WiFi.DataElements.Network.Device.{i}.Radio.{i}.BSS.{i}.TriggerVBSSMove() 
 Device.WiFi.DataElements.Network.Device.{i}.Radio.{i}.BSS.{i}.TriggerVBSSMove() input:ssid
 Device.WiFi.DataElements.Network.Device.{i}.Radio.{i}.BSS.{i}.UnicastBytesReceived                   proto::prplmesh-dm-mapper
 Device.WiFi.DataElements.Network.Device.{i}.Radio.{i}.BSS.{i}.UnicastBytesSent                       proto::prplmesh-dm-mapper
+Device.WiFi.DataElements.Network.Device.{i}.Radio.{i}.BSS.{i}.X_PRPLWARE-COM_VAPID                   proto::prplmesh-dm-mapper
 Device.WiFi.DataElements.Network.Device.{i}.Radio.{i}.BSSNumberOfEntries                             proto::prplmesh-dm-mapper
 Device.WiFi.DataElements.Network.Device.{i}.Radio.{i}.BackhaulSta.                                   proto::prplmesh-dm-mapper
 Device.WiFi.DataElements.Network.Device.{i}.Radio.{i}.BackhaulSta.MACAddress                         proto::prplmesh-dm-mapper
@@ -4555,6 +4557,7 @@ Device.WiFi.DataElements.Network.Device.{i}.Radio.{i}.X_PRPLWARE-COM_CACCompleti
 Device.WiFi.DataElements.Network.Device.{i}.Radio.{i}.X_PRPLWARE-COM_CACCompletion.Pairs.{i}.OperatingClassDetected proto::prplmesh-dm-mapper
 Device.WiFi.DataElements.Network.Device.{i}.Radio.{i}.X_PRPLWARE-COM_CACCompletion.PairsNumberOfEntries proto::prplmesh-dm-mapper
 Device.WiFi.DataElements.Network.Device.{i}.Radio.{i}.X_PRPLWARE-COM_CACCompletion.Status            proto::prplmesh-dm-mapper
+Device.WiFi.DataElements.Network.Device.{i}.Radio.{i}.X_PRPLWARE-COM_Name                            proto::prplmesh-dm-mapper
 Device.WiFi.DataElements.Network.Device.{i}.RadioNumberOfEntries                                     proto::prplmesh-dm-mapper
 Device.WiFi.DataElements.Network.Device.{i}.ReportUnsuccessfulAssociations                           proto::prplmesh-dm-mapper
 Device.WiFi.DataElements.Network.Device.{i}.SPRule.{i}.                                              proto::prplmesh-dm-mapper
@@ -4598,9 +4601,9 @@ Device.WiFi.DataElements.Network.MultiAPSteeringSummaryStats.NoCandidateAPFailur
 Device.WiFi.DataElements.Network.SetServicePrioritization()                                          proto::prplmesh-dm-mapper
 Device.WiFi.DataElements.Network.TimeStamp                                                           proto::prplmesh-dm-mapper
 Device.WiFi.DataElements.Network.UpdateUnassociatedStationsStats()                                   proto::prplmesh-dm-mapper
-Device.WiFi.DataElements.Network.X-PRPL_ORG_Group.{i}.                                               proto::prplmesh-dm-mapper
-Device.WiFi.DataElements.Network.X-PRPL_ORG_Group.{i}.Enable                                         proto::prplmesh-dm-mapper
-Device.WiFi.DataElements.Network.X-PRPL_ORG_Group.{i}.Name                                           proto::prplmesh-dm-mapper
+Device.WiFi.DataElements.Network.X_PRPLWARE-COM_Group.{i}.                                           proto::prplmesh-dm-mapper
+Device.WiFi.DataElements.Network.X_PRPLWARE-COM_Group.{i}.Enable                                     proto::prplmesh-dm-mapper
+Device.WiFi.DataElements.Network.X_PRPLWARE-COM_Group.{i}.Name                                       proto::prplmesh-dm-mapper
 Device.WiFi.DataElements.X_PRPLWARE-COM_Controller.                                                  proto::prplmesh-dm-mapper
 Device.WiFi.DataElements.X_PRPLWARE-COM_Controller.AgentConnectedEvent.{i}.                          proto::prplmesh-dm-mapper
 Device.WiFi.DataElements.X_PRPLWARE-COM_Controller.AgentConnectedEvent.{i}.AgentConnected.{i}.       proto::prplmesh-dm-mapper
@@ -4657,9 +4660,11 @@ Device.WiFi.DataElements.X_PRPLWARE-COM_Controller.Configuration.AssocSTALinkMet
 Device.WiFi.DataElements.X_PRPLWARE-COM_Controller.Configuration.AssocSTATrafficStatsInclusionPolicy proto::prplmesh-dm-mapper
 Device.WiFi.DataElements.X_PRPLWARE-COM_Controller.Configuration.AssocWiFi6STAStatusReportInclusionPolicy proto::prplmesh-dm-mapper
 Device.WiFi.DataElements.X_PRPLWARE-COM_Controller.Configuration.BackhaulOptimizationEnabled         proto::prplmesh-dm-mapper
+Device.WiFi.DataElements.X_PRPLWARE-COM_Controller.Configuration.BandSteeringEnabled                 proto::prplmesh-dm-mapper
 Device.WiFi.DataElements.X_PRPLWARE-COM_Controller.Configuration.BeaconMeasurementsTimeout           proto::prplmesh-dm-mapper
 Device.WiFi.DataElements.X_PRPLWARE-COM_Controller.Configuration.ChannelSelectionTaskEnabled         proto::prplmesh-dm-mapper
 Device.WiFi.DataElements.X_PRPLWARE-COM_Controller.Configuration.Client11kRoamingEnabled             proto::prplmesh-dm-mapper
+Device.WiFi.DataElements.X_PRPLWARE-COM_Controller.Configuration.ClientRoamingEnabled                proto::prplmesh-dm-mapper
 Device.WiFi.DataElements.X_PRPLWARE-COM_Controller.Configuration.ClientsPersistentDatabaseMaxSize    proto::prplmesh-dm-mapper
 Device.WiFi.DataElements.X_PRPLWARE-COM_Controller.Configuration.DCSChannelPool_24GHz                proto::prplmesh-dm-mapper
 Device.WiFi.DataElements.X_PRPLWARE-COM_Controller.Configuration.DCSChannelPool_5GHz                 proto::prplmesh-dm-mapper
