@@ -45,7 +45,6 @@ packages:
   - mcastd-core
   - mcastd-noforward
   - mcastd-routing
-  - miniupnpd-prpl
   - mod-autosensing
   - mod-busstats
   - mod-httpaccess-lighttpd
