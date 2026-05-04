@@ -98,7 +98,7 @@ Create one instances of Network.AccessPoint with WPA3-Personal enabled and push 
 
   $ R logger -t cram "Create instances of Network.AccessPoint and push them to the agent"
 
-  $ R "ba-cli \"X_PRPLWARE-COM_WiFiController.Network.AccessPoint+(Band2_4G=1,Band5GH=1,Band5GL=1,Band6G=1,MultiApMode=\"Fronthaul+Backhaul\",X_PRPLWARE-COM_VapType=\"home\",SSID=\"SSID_WPA3CM\",Security.ModeEnabled=\"WPA3-Personal\",Security.KeyPassphrase=\"password\",Enable=1)\"" | tail -n +2 | sed '/^$/d'
+  $ R 'ba-cli "X_PRPLWARE-COM_WiFiController.Network.AccessPoint+(Band2_4G=1,Band5GH=1,Band5GL=1,Band6G=1,MultiApMode=\"Fronthaul+Backhaul\",X_PRPLWARE-COM_VapType=\"home\",SSID=\"SSID_WPA3CM\",Security.ModeEnabled=\"WPA3-Personal\",Security.KeyPassphrase=\"password\",Enable=1)"' | tail -n +2 | sed '/^$/d'
   X_PRPLWARE-COM_WiFiController.Network.AccessPoint.* (re)
 
   $ R "ba-cli \"X_PRPLWARE-COM_WiFiController.Network.AccessPointCommit()\"" | tail -n +2 |  sed '/^$/d'

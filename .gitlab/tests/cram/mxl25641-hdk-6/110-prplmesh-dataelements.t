@@ -91,7 +91,7 @@ Since no persistent storage of NbAPI Network subsection, always index:1 after co
   {"amxd-error-code":0}
 
   $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1 _set '{\"parameters\":{\"MultiApMode\":\"Fronthaul+Backhaul\",\"X_PRPLWARE-COM_VapType\":\"home\"}}'"
-  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.":{"X_PRPLWARE-COM_VapType":"home","MultiApMode":"Fronthaul+Backhaul"}}
+  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.":{"MultiApMode":"Fronthaul+Backhaul","X_PRPLWARE-COM_VapType":"home"}}
   {}
   {"amxd-error-code":0}
 
@@ -123,7 +123,7 @@ Create second instance of Network.AccessPoint for guest VAPs:
   {"amxd-error-code":0}
 
   $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2 _set '{\"parameters\":{\"MultiApMode\":\"Fronthaul\",\"X_PRPLWARE-COM_VapType\":\"guest\"}}'"
-  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.":{"X_PRPLWARE-COM_VapType":"guest","MultiApMode":"Fronthaul"}}
+  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.":{"MultiApMode":"Fronthaul","X_PRPLWARE-COM_VapType":"guest"}}
   {}
   {"amxd-error-code":0}
 
@@ -215,7 +215,7 @@ Check that controller received correct info about wifi subsystem:
   bml_nw_map_query: return value is: BML_RET_OK, Success status
   wlan0
   wlan0.0
-  wlan0.1
+  wlan0.2
   wlan2
   wlan2.0
   wlan2.1
