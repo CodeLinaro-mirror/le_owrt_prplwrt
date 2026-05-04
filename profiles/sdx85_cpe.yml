@@ -9,7 +9,6 @@ additional_packages:
   - feed: packages
     packages:
       - aria2
-      - pbr
       - libroxml
       - openvpn-mbedtls
       - openssh-sftp-client
