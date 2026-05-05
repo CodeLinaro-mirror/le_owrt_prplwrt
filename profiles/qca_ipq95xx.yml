@@ -62,3 +62,4 @@ diffconfig: |
   CONFIG_PACKAGE_libnl-ppe=y
   CONFIG_PACKAGE_kmod-qseecom=m
   CONFIG_BUSYBOX_CONFIG_DEVMEM=y
+  CONFIG_KERNEL_DYNAMIC_DEBUG=y
