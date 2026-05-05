@@ -61,6 +61,14 @@ CDRouter-UPnP-IPv46 MXL25641-HDK-6 eMMC:
   timeout: 60 minutes
   variables:
     CDROUTER_TEST_CONFIG: generic-ipv6-upnp
+    # PROVISORY workaround for PPW-1897: after switching CDRouter USP testing
+    # to MQTTv5 (MR #2579), this job spends ~30s between every IGD2/IPv6 test
+    # waiting for the EUT to reconnect to the test controller, accumulating
+    # ~18.5 min of dead time and tripping the 52-min CDRouter cutoff. Same
+    # underlying half-dead MQTTv5 socket as PPW-1837. Switch this job to
+    # WebSocket MTP until the system-level fix lands; revert this block then.
+    CDROUTER_CONFIG_USP_CONTROLLER_MTP: websocket
+    CDROUTER_DUT_INIT_USP_MTP_SCRIPT: .gitlab/scripts/dut-init/cdrouter-dut-configure-usp-ws.sh
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
 
@@ -70,6 +78,10 @@ CDRouter-UPnP-IPv46-Failing MXL25641-HDK-6 eMMC:
   allow_failure: true
   variables:
     CDROUTER_TEST_CONFIG: generic-ipv6-upnp
+    # PROVISORY workaround for PPW-1897: see CDRouter-UPnP-IPv46 sibling job
+    # above. Switch USP MTP from MQTTv5 to WebSocket; revert with the sibling.
+    CDROUTER_CONFIG_USP_CONTROLLER_MTP: websocket
+    CDROUTER_DUT_INIT_USP_MTP_SCRIPT: .gitlab/scripts/dut-init/cdrouter-dut-configure-usp-ws.sh
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
       .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
