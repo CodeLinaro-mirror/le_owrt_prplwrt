@@ -168,7 +168,7 @@ reuse container from C-3
 
 Check the VendorLogFile of the ExecutionUnit
 
-  $ R "${S} && get_container_parameter --uuid --param VendorLogList"
+  $ R "${S} && wait_container_parameter --uuid --param VendorLogList --pattern Device.DeviceInfo.VendorLogFile."
   Device.DeviceInfo.VendorLogFile.* (glob)
 
 Check the VendorLogFile object
@@ -262,7 +262,7 @@ reuse container from C-6
 
 Check the VendorLogFile of the ExecutionUnit
 
-  $ R "${S} && get_container_parameter --uuid --param VendorLogList"
+  $ R "${S} && wait_container_parameter --uuid --param VendorLogList --pattern Device.DeviceInfo.VendorLogFile."
   Device.DeviceInfo.VendorLogFile.* (glob)
 
 Check the VendorLogFile object

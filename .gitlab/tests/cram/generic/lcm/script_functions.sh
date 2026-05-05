@@ -573,6 +573,91 @@ get_container_parameter() {
 	fi
 }
 
+# Waits until a SoftwareModules.ExecutionUnit parameter of a container contains the expected pattern.
+# Usage:
+#   wait_container_parameter --uuid <uuid> --param <parameter> --pattern <pattern> [--waittime <seconds>] [--interval <seconds>]
+# Parameters:
+#  - uuid: UUID of the containers to get paramter from (optional, the default would be used if ommited)
+#  - param: parameter to request ('Device.SoftwareModules.ExecutionUint.[].<param>')
+#  - pattern: pattern that parameter must match to check that it has been set (string match is used, not regex)
+#  - waittime: max time in seconds to wait for parameters to be set (optional, 10s is the default)
+#  - interval: interval in seconds to poll paramter (optional, 1s is the default)
+wait_container_parameter() {
+	uuid=""
+	param=""
+	pattern=""
+	waittime=10
+	interval=1
+
+	while [ $# -gt 0 ]; do
+		key="$1"
+		value=""
+		value_missing=false
+		case $key in
+		--*) # If argument starts with "--"
+			key="${key#--}"
+			shift
+			if [ $# -gt 0 ] && case "$1" in --*) false ;; *) true ;; esac then
+				value="$1"
+				shift
+			elif [ $# -eq 0 ] || case "$1" in --*) true ;; *) false ;; esac then
+				value_missing=true
+			fi
+
+			if [ "${key}" = "uuid" ]; then
+				uuid=$(value_or_default "${value_missing}" "${DEFAULT_UUID}" "${value}")
+			elif [ "${key}" = "param" ]; then
+				param=$(value_or_default "${value_missing}" "" "${value}")
+			elif [ "${key}" = "pattern" ]; then
+				pattern=$(value_or_default "${value_missing}" "" "${value}")
+			elif [ "${key}" = "waittime" ]; then
+				waittime=$(value_or_default "${value_missing}" "10" "${value}")
+			elif [ "${key}" = "interval" ]; then
+				interval=$(value_or_default "${value_missing}" "1" "${value}")
+			else
+				echo "Unknown argument: $key=${value}"
+			fi
+			;;
+		*)
+			echo "Unknown argument: $1"
+			shift
+			;;
+		esac
+	done
+
+	if [ -z "${uuid}" ]; then
+		echo "Missing UUID parameter: Cannot wait for info"
+		return 1
+	elif [ -z "${param}" ]; then
+		echo "Missing parameter: Cannot wait for info"
+		return 1
+	elif [ -z "${pattern}" ]; then
+		echo "Missing pattern parameter: Cannot wait for info"
+		return 1
+	elif [ "${waittime}" -le 0 ]; then
+		echo "Invalid waittime parameter: Cannot wait for info"
+		return 1
+	elif [ "${interval}" -le 0 ]; then
+		echo "Invalid interval parameter: Cannot wait for info"
+		return 1
+	fi
+
+	i=0
+	while [ "${i}" -lt "${waittime}" ]; do
+		value=$(get_container_parameter --uuid "${uuid}" --param "${param}" 2>/dev/null || true)
+
+		if echo "${value}" | grep -qF "${pattern}"; then
+			echo "${value}"
+			return 0
+		fi
+		sleep "${interval}"
+		i=$((i + interval))
+	done
+
+	get_container_parameter --uuid "${uuid}" --param "${param}"
+	return 1
+}
+
 set_ee_roles() {
 	roles=""
 	userroles=""
@@ -1035,7 +1120,7 @@ get_vendorlogfile_name() {
 	if [ -z "${uuid}" ]; then
 		echo "Missing UUID parameter"
 	else
-		VendorLogFileRef=$(get_container_parameter --uuid ${uuid} --param VendorLogList)
+		VendorLogFileRef=$(wait_container_parameter --uuid "${uuid}" --param VendorLogList --pattern "Device.DeviceInfo.VendorLogFile.")
 		${CLI_JSON} "${VendorLogFileRef}.?" | jsonfilter -e @[*].*.Name
 	fi
 }
@@ -1073,7 +1158,7 @@ get_vendorlogfile_content() {
 	if [ -z "${uuid}" ]; then
 		echo "Missing UUID parameter"
 	else
-		VendorLogFileRef=$(get_container_parameter --uuid ${uuid} --param VendorLogList)
+		VendorLogFileRef=$(wait_container_parameter --uuid "${uuid}" --param VendorLogList --pattern "Device.DeviceInfo.VendorLogFile.")
 		file=$(${CLI_JSON} "${VendorLogFileRef}.Name?" | jsonfilter -e @[*].*.Name)
 		echo ${file}
 		file_wo_prefix="${file:7}"
