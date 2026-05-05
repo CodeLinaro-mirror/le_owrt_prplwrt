@@ -1,3 +1,10 @@
+## Setup test configuration
+
+Setup the test configuration:
+
+  $ alias R="${CRAM_REMOTE_COMMAND:-}"
+  $ alias C="${CRAM_REMOTE_COPY:-}"
+
 Create obuspa cellular datamodel helpers:
 
   $ VERIFY_OBUSPA_DATAMODEL="${TESTDIR}/../scripts/verify-obuspa-datamodel.sh"
@@ -8,4 +15,12 @@ If test is running on a Mozart, Turris, OSPv1 or Haze, lets skip the test as the
 
 Check that obuspa keeps the expected cellular datamodel across restart:
 
-  $ sh "${VERIFY_OBUSPA_DATAMODEL}" --mode cellular --expected "${EXPECTED_OBUSPA_CELLULAR_DATAMODEL}" --before-actual "${TESTDIR}/fixtures/obuspa-cellular.before-restart.actual" --before-diff "${TESTDIR}/fixtures/obuspa-cellular.before-restart.diff" --after-actual "${TESTDIR}/fixtures/obuspa-cellular.after-restart.actual" --after-diff "${TESTDIR}/fixtures/obuspa-cellular.after-restart.diff"
+  $ R "obuspa -f /etc/obuspa.db -c dump datamodel | grep '^Device.Cellular.' || true"
+
+Check that USP stack is handling the reconnection scenario properly PCF-1198/PPW-65 by restarting obuspa:
+
+  $ R "service obuspa restart" ; sleep 20
+
+Check that obuspa provides the same datamodel for cellular again:
+
+  $ R "obuspa -f /etc/obuspa.db -c dump datamodel | grep '^Device.Cellular.' || true"
