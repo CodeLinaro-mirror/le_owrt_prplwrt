@@ -117,9 +117,11 @@ Check that ubus has expected datamodels available:
   Device.SFPs
   Device.SSH
   Device.Security
+  Device.SessionManagement
   Device.SoftwareModules
   Device.Syslog
   Device.Time
+  Device.TrustedElements
   Device.UPnP
   Device.UPnP.Description
   Device.UPnP.Discovery
@@ -340,6 +342,18 @@ Check that ubus has expected datamodels available:
   Security
   Security.CABundle
   Security.Certificate
+  SessionManagement
+  SessionManagement.PDN
+  SessionManagement.PDP
+  SessionManagement.PDU
+  SessionManagement.PDU.NetworkSlice
+  SessionManagement.PDU.QoSFlow
+  SessionManagement.PDU.QoSRule
+  SessionManagement.PDU.QoSRule.Filter
+  SessionManagement.Session
+  SessionManagement.Session.IPv4Address
+  SessionManagement.Session.IPv6Address
+  SessionManagement.Session.PCO
   SoftwareModules
   SoftwareModules.DeploymentUnit
   SoftwareModules.ExecEnv
@@ -368,6 +382,9 @@ Check that ubus has expected datamodels available:
   Timingila.CthulhuAdapters.CthulhuCommandMapping
   Timingila.CthulhuAdapters.SoftwareModulesFuncArgsOverload
   Timingila.CthulhuAdapters.SoftwareModulesTable
+  TrustedElements
+  TrustedElements.SIM
+  TrustedElements.SIM.Profile
   UPnP
   UPnP.Device
   UPnP.Device.Capabilities
