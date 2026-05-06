@@ -39,3 +39,27 @@ Check that the created firewall rule and routing policy are deleted in the LL AP
   $ R "ip rule | grep 500"
   [1]
 
+Check that changing X_PRPLWARE-COM_OutputInterface updates the mangle table rule without restarting tr181-qos:
+  $ R "ba-cli 'QoS.Classification.lansubnet1.Enable = true'" > /dev/null
+
+Check initial rule has no output interface filter:
+  $ R "iptables -t mangle -nvL FORWARD_class | awk '/MARK/ {print \$6,\$7}'"
+  * *
+
+Set X_PRPLWARE-COM_OutputInterface to Logical.Interface.1 (resolves to wan):
+  $ R "ubus-cli 'QoS.Classification.lansubnet1.X_PRPLWARE-COM_OutputInterface=Logical.Interface.1.'" > /dev/null
+
+Check the rule now filters on output interface wan without tr181-qos restart:
+  $ R "iptables -t mangle -nvL FORWARD_class | awk '/MARK/ {print \$6,\$7}'"
+  * wan
+
+Change X_PRPLWARE-COM_OutputInterface to Logical.Interface.2 (resolves to br-lan):
+  $ R "ubus-cli 'QoS.Classification.lansubnet1.X_PRPLWARE-COM_OutputInterface=Logical.Interface.2.'" > /dev/null
+
+Check the rule reflects the new output interface (br-lan) without tr181-qos restart:
+  $ R "iptables -t mangle -nvL FORWARD_class | awk '/MARK/ {print \$6,\$7}'"
+  * br-lan
+
+Restore original configuration:
+  $ R "ba-cli 'QoS.Classification.lansubnet1.X_PRPLWARE-COM_OutputInterface = \"\"'" > /dev/null
+  $ R "ba-cli 'QoS.Classification.lansubnet1.Enable = false'" > /dev/null
