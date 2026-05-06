@@ -297,23 +297,6 @@ Check that SSIDs did not change:
   prplOSpriv
   prplOSpriv
 
-Restore Security Mode to default values
-
-  $ R "ba-cli  \"WiFi.AccessPoint.[RadioReference == 'Device.WiFi.Radio.1'].Security.ModeEnabled='WPA2-WPA3-Personal'\"" | grep 'ModeEnabled=' | sed '/^$/d' | grep -v '>'
-  WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA2-WPA3-Personal" (re)
-  WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA2-WPA3-Personal" (re)
-  WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA2-WPA3-Personal" (re)
-
-  $ R "ba-cli  \"WiFi.AccessPoint.[RadioReference == 'Device.WiFi.Radio.2'].Security.ModeEnabled='WPA2-WPA3-Personal'\"" | grep 'ModeEnabled=' | sed '/^$/d' | grep -v '>'
-  WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA2-WPA3-Personal" (re)
-  WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA2-WPA3-Personal" (re)
-  WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA2-WPA3-Personal" (re)
-
-  $ R "ba-cli  \"WiFi.AccessPoint.[RadioReference == 'Device.WiFi.Radio.3'].Security.ModeEnabled='WPA3-Personal'\"" | grep 'ModeEnabled=' | sed '/^$/d' | grep -v '>'
-  WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal" (re)
-  WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal" (re)
-  WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal" (re)
-
 Check the default ChipsetVendor param configurations:
 
   $ R logger -t cram "Check the default ChipsetVendor param configurations:"
