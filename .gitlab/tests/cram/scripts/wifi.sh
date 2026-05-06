@@ -488,3 +488,29 @@ dm_radio_regulatory_domain_set() {
   local country="${1:?Usage: dm_radio_regulatory_domain_set <country_code>}"
   R "ba-cli -j -l Device.WiFi.Radio.*.RegulatoryDomain=${country} | jsonfilter -e @[0]'[*].RegulatoryDomain'" | sed '/^$/d'
 }
+
+# Check ProcessManager for prplMesh Status
+
+dm_check_prplmesh_status() {
+
+# remove lines that repeat input path and remove empty lines "grep ="
+  R "ba-cli 'X_PRPLWARE-COM_ProcessManager.PrplMesh.?' | grep ="
+}
+
+# Check prplMesh Agent Fronthaul Status
+
+dm_check_agent_fronthaul_status() {
+  R "ba-cli -a X_PRPLWARE-COM_Agent.Info.Fronthaul.*.CurrentState? | grep '=' && ba-cli -a X_PRPLWARE-COM_Agent.Info.Fronthaul.*.BestState? | grep '='"
+}
+
+# Check prplMesh Agent Main process status
+
+dm_check_agent_main_process_status() {
+  R "ba-cli -a X_PRPLWARE-COM_Agent.Info.CurrentState? | grep '=' && ba-cli -a X_PRPLWARE-COM_Agent.Info.BestState? | grep '='"
+}
+
+# Check prplMesh Controller datamodel knownledge of number of BSSes currently enabled
+
+dm_check_controller_number_of_bsses_per_radio() {
+  R "ba-cli X_PRPLWARE-COM_WiFiController.Network.Device.1.Radio.*.BSSNumberOfEntries? | grep '='"
+}
