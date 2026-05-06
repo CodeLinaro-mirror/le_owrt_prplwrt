@@ -95,8 +95,8 @@ Create profile for EP 1. As UseNeighborProfile is enbaled by default, no need to
   $ wifi_dm "EndPoint.1.Profile.${ep1_alias}.SSID=\"TEST_MLO\"" "Device.WiFi." "ba-cli"
   Device.WiFi.EndPoint.1.Profile.\d+.SSID="TEST_MLO" (re)
 
-  $ wifi_dm "EndPoint.1.Profile.${ep1_alias}.Security.ModeEnabled=\"WPA2-WPA3-Personal\"" "Device.WiFi." "ba-cli"
-  Device.WiFi.EndPoint.1.Profile.\d+.Security.ModeEnabled="WPA2-WPA3-Personal" (re)
+  $ wifi_dm "EndPoint.1.Profile.${ep1_alias}.Security.ModeEnabled=\"WPA3-Personal-Transition\"" "Device.WiFi." "ba-cli"
+  Device.WiFi.EndPoint.1.Profile.\d+.Security.ModeEnabled="WPA3-Personal-Transition" (re)
 
   $ wifi_dm "EndPoint.1.Profile.${ep1_alias}.Security.KeyPassphrase=\"password\"" "Device.WiFi." "ba-cli"
   Device.WiFi.EndPoint.1.Profile.\d+.Security.KeyPassphrase="password" (re)
