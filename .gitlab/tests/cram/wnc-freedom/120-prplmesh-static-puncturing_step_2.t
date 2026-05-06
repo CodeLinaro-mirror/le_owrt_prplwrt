@@ -87,6 +87,6 @@ Restart prplmesh:
   $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=1" | tr -d '\n'
   1 (no-eol)
 
-  $ R "amx_wait_for X_PRPLWARE-COM_WiFiController.Network.Device.1"
+  $ R "amx_poll_object usp Device.WiFi.DataElements.Network.Device.1. 20"
 
   $ R logger -t cram "Test finished!"
