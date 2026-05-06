@@ -28,6 +28,13 @@ Stop prplmesh:
 
   $ sleep 2
 
+Provisory: update Security.ModesAvailable as required by PPM-3660; waiting for PCF-2259 to add WPA3-CM to 6GHz VAPs
+
+  $ R "ba-cli  \"WiFi.AccessPoint.[RadioReference == 'Device.WiFi.Radio.3'].Security.ModesAvailable='WPA3-Personal,WPA3-Personal-Compatibility,OWE'\"" | grep 'ModesAvailable=' | sed '/^$/d' | grep -v '>'
+  WiFi.AccessPoint.\d+.Security.ModesAvailable="WPA3-Personal,WPA3-Personal-Compatibility,OWE" (re)
+  WiFi.AccessPoint.\d+.Security.ModesAvailable="WPA3-Personal,WPA3-Personal-Compatibility,OWE" (re)
+  WiFi.AccessPoint.\d+.Security.ModesAvailable="WPA3-Personal,WPA3-Personal-Compatibility,OWE" (re)
+
 Silently disable MLO:
 
   $ R logger -t cram "Disable MLO"
