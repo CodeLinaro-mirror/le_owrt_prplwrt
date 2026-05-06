@@ -30,23 +30,6 @@ Stop prplmesh:
 
   $ sleep 2
 
-Provisory: update Security.ModesAvailable as required by PPM-3660
-
-  $ R "ba-cli  \"WiFi.AccessPoint.[RadioReference == 'Device.WiFi.Radio.1'].Security.ModesAvailable='None,WPA2-Personal,WPA3-Personal,WPA2-WPA3-Personal,WPA3-Personal-Compatibility,OWE'\"" | grep 'ModesAvailable=' | sed '/^$/d' | grep -v '>'
-  WiFi.AccessPoint.\d+.Security.ModesAvailable="None,WPA2-Personal,WPA3-Personal,WPA2-WPA3-Personal,WPA3-Personal-Compatibility,OWE" (re)
-  WiFi.AccessPoint.\d+.Security.ModesAvailable="None,WPA2-Personal,WPA3-Personal,WPA2-WPA3-Personal,WPA3-Personal-Compatibility,OWE" (re)
-  WiFi.AccessPoint.\d+.Security.ModesAvailable="None,WPA2-Personal,WPA3-Personal,WPA2-WPA3-Personal,WPA3-Personal-Compatibility,OWE" (re)
-
-  $ R "ba-cli  \"WiFi.AccessPoint.[RadioReference == 'Device.WiFi.Radio.2'].Security.ModesAvailable='None,WPA2-Personal,WPA3-Personal,WPA2-WPA3-Personal,WPA3-Personal-Compatibility,OWE'\"" | grep 'ModesAvailable=' | sed '/^$/d' | grep -v '>'
-  WiFi.AccessPoint.\d+.Security.ModesAvailable="None,WPA2-Personal,WPA3-Personal,WPA2-WPA3-Personal,WPA3-Personal-Compatibility,OWE" (re)
-  WiFi.AccessPoint.\d+.Security.ModesAvailable="None,WPA2-Personal,WPA3-Personal,WPA2-WPA3-Personal,WPA3-Personal-Compatibility,OWE" (re)
-  WiFi.AccessPoint.\d+.Security.ModesAvailable="None,WPA2-Personal,WPA3-Personal,WPA2-WPA3-Personal,WPA3-Personal-Compatibility,OWE" (re)
-
-  $ R "ba-cli  \"WiFi.AccessPoint.[RadioReference == 'Device.WiFi.Radio.3'].Security.ModesAvailable='WPA3-Personal,WPA3-Personal-Compatibility,OWE'\"" | grep 'ModesAvailable=' | sed '/^$/d' | grep -v '>'
-  WiFi.AccessPoint.\d+.Security.ModesAvailable="WPA3-Personal,WPA3-Personal-Compatibility,OWE" (re)
-  WiFi.AccessPoint.\d+.Security.ModesAvailable="WPA3-Personal,WPA3-Personal-Compatibility,OWE" (re)
-  WiFi.AccessPoint.\d+.Security.ModesAvailable="WPA3-Personal,WPA3-Personal-Compatibility,OWE" (re)
-
 Silently disable MLO:
 
   $ R logger -t cram "Disable MLO"
