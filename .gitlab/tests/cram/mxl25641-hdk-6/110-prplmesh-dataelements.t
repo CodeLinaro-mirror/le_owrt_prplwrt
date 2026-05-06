@@ -168,14 +168,8 @@ Check that prplmesh processes are running:
 
   $ R logger -t cram "Check that prplmesh processes are running"
 
-  $ R "ps axw" | sed -nE 's/.*(\/opt\/prplmesh\/bin.*)/\1/p' | LC_ALL=C sort
-  /opt/prplmesh/bin/beerocks_agent
-  /opt/prplmesh/bin/beerocks_controller
-  /opt/prplmesh/bin/beerocks_fronthaul -i wlan0
-  /opt/prplmesh/bin/beerocks_fronthaul -i wlan2
-  /opt/prplmesh/bin/beerocks_fronthaul -i wlan4
-  /opt/prplmesh/bin/beerocks_vendor_message
-  /opt/prplmesh/bin/ieee1905_transport
+  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Status?" | tr -d '\n'
+  Active (no-eol)
 
 Check that prplmesh is operational:
 
