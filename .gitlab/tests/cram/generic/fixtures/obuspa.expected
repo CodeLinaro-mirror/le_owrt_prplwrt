@@ -5137,6 +5137,8 @@ Device.WiFi.X_PRPLWARE-COM_ProcessManager.PWHM.Enable                           
 Device.WiFi.X_PRPLWARE-COM_ProcessManager.PWHM.FaultCode                                             proto::prplmesh-dm-mapper
 Device.WiFi.X_PRPLWARE-COM_ProcessManager.PWHM.Status                                                proto::prplmesh-dm-mapper
 Device.WiFi.X_PRPLWARE-COM_ProcessManager.PrplMesh.                                                  proto::prplmesh-dm-mapper
+Device.WiFi.X_PRPLWARE-COM_ProcessManager.PrplMesh.ColocatedAgentConfigLevel                         proto::prplmesh-dm-mapper
+Device.WiFi.X_PRPLWARE-COM_ProcessManager.PrplMesh.ControllerConfigSource                            proto::prplmesh-dm-mapper
 Device.WiFi.X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable                                            proto::prplmesh-dm-mapper
 Device.WiFi.X_PRPLWARE-COM_ProcessManager.PrplMesh.FaultCode                                         proto::prplmesh-dm-mapper
 Device.WiFi.X_PRPLWARE-COM_ProcessManager.PrplMesh.ManagementMode                                    proto::prplmesh-dm-mapper

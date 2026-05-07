@@ -126,6 +126,7 @@ Check that managing pWHM and prplMesh works:
   X_PRPLWARE-COM_ProcessManager.PWHM.Status="Active"
   X_PRPLWARE-COM_ProcessManager.PrplMesh.
   X_PRPLWARE-COM_ProcessManager.PrplMesh.CertificationMode=0
+  X_PRPLWARE-COM_ProcessManager.PrplMesh.ControllerConfigSource="Device.WiFi"
   X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=1
   X_PRPLWARE-COM_ProcessManager.PrplMesh.FaultCode="NoFault"
   X_PRPLWARE-COM_ProcessManager.PrplMesh.ManagementMode="Multi-AP-Controller-and-Agent"

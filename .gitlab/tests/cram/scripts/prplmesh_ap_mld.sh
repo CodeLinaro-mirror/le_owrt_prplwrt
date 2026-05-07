@@ -3,7 +3,7 @@
 #
 [ -z "${TESTDIR}" ] || . "${TESTDIR}/../scripts/wifi.sh"
 
-# Stop prplmesh, enable DataElements VAP config, set MLDUnit=-1 for all SSIDs,
+# Stop prplmesh, set ControllerConfigSource="WiFiTemplates", set MLDUnit=-1 for all SSIDs,
 # start gateway mode, wait for Network.Device.1, sleep.
 # Optional: set check_process=1 to verify beerocks processes (output to stdout).
 # Out: echoes "MLO_ENABLED" on success; use for Cram expected output if needed.
@@ -11,8 +11,8 @@ prplmesh_enable_mlo() {
   set -e
   R logger -t cram "Stop prplmesh"
   R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=0" | tr -d '\n'
-  R logger -t cram "Enabling DataElements VAP config..."
-  R "sed -i 's/use_dataelements_vap_configs=0/use_dataelements_vap_configs=1/g' /opt/prplmesh/config/beerocks_controller.conf"
+  R logger -t cram "Setting ControllerConfigSource='WiFiTemplates'..."
+  R ba-cli 'X_PRPLWARE-COM_ProcessManager.PrplMesh.ControllerConfigSource="WiFiTemplates"' > /dev/null
   R logger -t cram "Disabling MLO for all SSIDs and restart prplmesh"
   R "ba-cli -j -l WiFi.SSID.*.MLDUnit=-1 | jsonfilter -e @[0]'[*].MLDUnit'" > /dev/null
   R "ba-cli X_PRPLWARE-COM_ProcessManager.PrplMesh.ManagementMode=Multi-AP-Controller-and-Agent"  > /dev/null
@@ -116,6 +116,7 @@ get_dataelements_apmld_normalized() {
 
 # Restore default MLD/config after MLO test: WiFi MLDUnit for AP 1..9 (0,1,0,1,0,1,2,2,2),
 # use_dataelements_vap_configs=0, Network.AccessPoint.1 SSID=prplOS, KeyPassphrase=password,
+# ControllerConfigSource="Device.WiFi", Network.AccessPoint.1 SSID=prplOS, KeyPassphrase=password,
 # commit, prplmesh restart.
 # Out: echoes "MLO_DEFAULTS_RESTORED" when done.
 prplmesh_revert_mlo_to_defaults() {
@@ -129,7 +130,7 @@ prplmesh_revert_mlo_to_defaults() {
   R "ba-cli -j -l WiFi.AccessPoint.7.SSIDReference+.MLDUnit=2" | sed '/^$/d'
   R "ba-cli -j -l WiFi.AccessPoint.8.SSIDReference+.MLDUnit=2" | sed '/^$/d'
   R "ba-cli -j -l WiFi.AccessPoint.9.SSIDReference+.MLDUnit=2" | sed '/^$/d'
-  R "sed -i 's/^use_dataelements_vap_configs=.*/use_dataelements_vap_configs=0/' /opt/prplmesh/config/beerocks_controller.conf"
+  R ba-cli 'X_PRPLWARE-COM_ProcessManager.PrplMesh.ControllerConfigSource="Device.WiFi"' > /dev/null
   sleep 10
   R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=0" | tr -d '\n'
 

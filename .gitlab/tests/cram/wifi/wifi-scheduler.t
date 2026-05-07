@@ -54,7 +54,7 @@ Configure controller:
   0 (no-eol)
 
   $ sleep 2
-  $ R "sed -i 's/use_dataelements_vap_configs=0/use_dataelements_vap_configs=1/g' /opt/prplmesh/config/beerocks_controller.conf"
+  $ R ba-cli 'X_PRPLWARE-COM_ProcessManager.PrplMesh.ControllerConfigSource="WiFiTemplates"' > /dev/null
   $ R "ba-cli X_PRPLWARE-COM_ProcessManager.PrplMesh.ManagementMode=Multi-AP-Controller-and-Agent"  > /dev/null
   $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=1" | tr -d '\n'
   1 (no-eol)

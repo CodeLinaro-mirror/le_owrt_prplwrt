@@ -49,7 +49,7 @@ Restore defaults:
   0 (no-eol)
 
   $ sleep 2
-  $ R "sed -i 's/use_dataelements_vap_configs=1/use_dataelements_vap_configs=0/g' /opt/prplmesh/config/beerocks_controller.conf"
+  $ R ba-cli 'X_PRPLWARE-COM_ProcessManager.PrplMesh.ControllerConfigSource="Device.WiFi"' > /dev/null
 
 Disable all AP:
 

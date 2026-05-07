@@ -50,7 +50,7 @@ Configure controller for NBAPI configuration:
   0 (no-eol)
 
   $ sleep 2
-  $ R "sed -i 's/use_dataelements_vap_configs=0/use_dataelements_vap_configs=1/g' /opt/prplmesh/config/beerocks_controller.conf"
+  $ R ba-cli 'X_PRPLWARE-COM_ProcessManager.PrplMesh.ControllerConfigSource="WiFiTemplates"' > /dev/null
   $ R logger -t cram "Restart prplmesh"
   $ R "ba-cli X_PRPLWARE-COM_ProcessManager.PrplMesh.ManagementMode=Multi-AP-Controller-and-Agent"  > /dev/null
   $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=1" | tr -d '\n'
@@ -233,7 +233,7 @@ Restore security modes in two steps: WPA3 Transition to 2.4GHz/5GHz and then WPA
   0 (no-eol)
 
   $ sleep 2
-  $ R "sed -i 's/use_dataelements_vap_configs=1/use_dataelements_vap_configs=0/g' /opt/prplmesh/config/beerocks_controller.conf"
+  $ R ba-cli 'X_PRPLWARE-COM_ProcessManager.PrplMesh.ControllerConfigSource="Device.WiFi"' > /dev/null
 
 Disable private vaps:
 
