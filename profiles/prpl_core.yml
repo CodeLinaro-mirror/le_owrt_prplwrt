@@ -32,8 +32,6 @@ packages:
   - ip6tables-zz-legacy
   - iptables-mod-ipopt
   - iptables-zz-legacy
-  - keyctl
-  - keyutils
   - kmod-crypto-user
   - kmod-keys-encrypted
   - libdhcpoptions
@@ -82,7 +80,6 @@ packages:
   - prplmesh
   - prplmesh-dm-mapper
   - prplmesh-process-manager
-  - readmfg
   - reboot-service
   - routing-manager
   - ssh-server
@@ -107,7 +104,6 @@ packages:
   - tr181-temperature
   - tr181-usermanagement
   - wifi-sensing
-  - kmod-sysregister
 
 diffconfig: |
           CONFIG_DEVEL=y
