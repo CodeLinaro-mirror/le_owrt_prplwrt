@@ -150,15 +150,6 @@ menuconfig INITOPT
 			stderr is suppressed during preinit (which is the default).
 
 
-config SECURESTORE_LABEL
-	string
-	prompt "Securestore partition label"
-	default "securestore"
-	help
-		This is the partition label used to identify the securestore
-		partition. The securestore init script will search for a
-		partition with this label to mount at /cfg.
-
 
 menuconfig VERSIONOPT
 	bool "Version configuration options" if IMAGEOPT
