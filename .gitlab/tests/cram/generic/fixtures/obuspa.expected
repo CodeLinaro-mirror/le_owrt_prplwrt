@@ -4719,6 +4719,7 @@ Device.WiFi.EndPoint.{i}.                                                       
 Device.WiFi.EndPoint.{i}.Alias                                                                       proto::prplmesh-dm-mapper
 Device.WiFi.EndPoint.{i}.AssocStats.                                                                 proto::prplmesh-dm-mapper
 Device.WiFi.EndPoint.{i}.Enable                                                                      proto::prplmesh-dm-mapper
+Device.WiFi.EndPoint.{i}.PeerAffiliatedMacAddress                                                    proto::prplmesh-dm-mapper
 Device.WiFi.EndPoint.{i}.PeerMultiAPProfile                                                          proto::prplmesh-dm-mapper
 Device.WiFi.EndPoint.{i}.Profile.{i}.                                                                proto::prplmesh-dm-mapper
 Device.WiFi.EndPoint.{i}.Profile.{i}.Alias                                                           proto::prplmesh-dm-mapper
@@ -4985,6 +4986,7 @@ Device.WiFi.SSID.{i}.LastChange                                                 
 Device.WiFi.SSID.{i}.LowerLayers                                                                     proto::prplmesh-dm-mapper
 Device.WiFi.SSID.{i}.MACAddress                                                                      proto::prplmesh-dm-mapper
 Device.WiFi.SSID.{i}.MLDLinkID                                                                       proto::prplmesh-dm-mapper
+Device.WiFi.SSID.{i}.MLDLinkLocalMACAddress                                                          proto::prplmesh-dm-mapper
 Device.WiFi.SSID.{i}.MLDRole                                                                         proto::prplmesh-dm-mapper
 Device.WiFi.SSID.{i}.MLDStatus                                                                       proto::prplmesh-dm-mapper
 Device.WiFi.SSID.{i}.MLDUnit                                                                         proto::prplmesh-dm-mapper
