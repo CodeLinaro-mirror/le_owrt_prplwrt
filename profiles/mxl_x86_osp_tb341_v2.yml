@@ -9,6 +9,7 @@ description: Build images for the Maxlinear x86 devices - OSP TB341 v2
              git.maxlinear.com.
              For reference boards, source code access and reporting issues,
              please check https://gitlab.com/prpl-foundation/prplos/prplos/-/wikis/MaxLinear-Open-Service-Platform
+
 feeds:
   - name: intel_x86
     uri: https://gitlab.com/prpl-foundation/mirrors/maxlinear/feed_target_x86.git
@@ -174,18 +175,6 @@ packages:
   - sse_fapi_lgm-sse_test_app
   - kmod-mcast-helper
   - mod-wanmgr-system-ospv2
-  - swupdate
-  - libubootenv
-  - libblkid
-  - libuuid
-  - libext2fs
-  - libfdisk
-  - imagegenerator
-  - initramfs-generator
-  - blkid
-  - libfdt
-  - fdt-utils
-  - kmod-dm
   - losetup
 
 diffconfig: |
@@ -213,33 +202,5 @@ diffconfig: |
   CONFIG_LGM_EIP123_SUPPORT=y
   CONFIG_KERNEL_FTRACE=y
   CONFIG_IMAGEGENERATOR_BOARD="tb341_wav700"
-  CONFIG_OPENSOURCE_SWUPDATE_EXT_FILESYSTEM=y
-  CONFIG_OPENSOURCE_SWUPDATE_DISKPART_HANDLER=y
-  CONFIG_OPENSOURCE_SWUPDATE_DISKFORMAT_HANDLER=y
-  CONFIG_SAH_LIB_MFG_RO_PART_FILE="/dev/mmc0p13"
-  CONFIG_BUSYBOX_CONFIG_BLKID=y
-  CONFIG_BUSYBOX_CONFIG_BLOCKDEV=y
-  CONFIG_PACKAGE_libblkid=y
-  CONFIG_BUSYBOX_CONFIG_MODPROBE=y
-  CONFIG_EXTERNAL_CPIO=""
-  CONFIG_TARGET_SECURE_INITRAMFS=y
-  CONFIG_TARGET_SECURE_INITRAMFS_COMPRESSION_GZIP=y
-  CONFIG_INITRAMFS_GENERATOR_DEBUG=y
-  CONFIG_INITRAMFS_GENERATOR_FLASH_TYPE_EMMC=y
-  CONFIG_INITRAMFS_GENERATOR_ROOTFS_SIG_PRELOAD=y
-  CONFIG_INITRAMFS_GENERATOR_ROOTFS_SIG_PRELOAD_MANDATORY=y
-  CONFIG_KERNEL_DEVTMPFS=y
-  # CONFIG_TARGET_ROOTFS_INITRAMFS is not set
-  CONFIG_BUSYBOX_CONFIG_LOSETUP=y
-  CONFIG_BUSYBOX_CONFIG_STAT=y
-  CONFIG_BUSYBOX_CONFIG_FEATURE_STAT_FORMAT=y
-  CONFIG_BUSYBOX_CONFIG_FEATURE_STAT_FILESYSTEM=y
   CONFIG_SAH_LIB_MFG_RO_PART_FILE="/dev/mmcblk0p13"
-  CONFIG_IMAGEGENERATOR=y
-  CONFIG_SAH_LIB_MFG_GLOBAL_SIGNATURE=y
-  CONFIG_SAH_LIB_MFG_GLOBAL_SIGNATURE_PUBLIC_PEM_FILE="/security/smd_pub.pem"
-  CONFIG_SAH_LIB_MFG_SECURE_MFG_KERNEL_KEYRING_SUPPORT=y
-  CONFIG_SAH_LIB_MFG_SECURE_MFG_KERNEL_KEYRING_KEY_NAME="mfg:Kuk"
-  CONFIG_SAH_LIB_MFG_SECURE_MFG_KERNEL_KEYRING_IV_FILE="/rom/security/initramfs/Kuk-aes-iv.hex"
-  CONFIG_SYSREGISTER_RESET_BOOTCOUNT=y
   CONFIG_SECURESTORE_LABEL="config"
