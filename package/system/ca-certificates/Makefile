@@ -49,6 +49,8 @@ endef
 
 define Package/ca-certificates/install
 	$(INSTALL_DIR) $(1)/etc/ssl/certs
+	$(INSTALL_DIR) $(1)/etc/amx/tr181-security/defaults.d
+
 	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/share/ca-certificates/*/*.crt $(1)/etc/ssl/certs/
 
 	for CERTFILE in `ls -1 $(1)/etc/ssl/certs`; do \
@@ -59,6 +61,7 @@ define Package/ca-certificates/install
 		done ; \
 		$(LN) "$$$$CERTFILE" "$(1)/etc/ssl/certs/$$$$HASH.$$$$SUFFIX" ; \
 	done
+	$(CP) ./files/00_default_ca-certificates.odl $(1)/etc/amx/tr181-security/defaults.d/
 endef
 
 define Package/ca-bundle/install
