@@ -5,6 +5,7 @@ If test is running on a Valyrian, skip the test due to PCF-2669:
   $ if echo "$CI_JOB_NAME" | grep -q -E "Valyrian"; then exit 80; fi
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
+  $ R logger -t cram Starting $TESTFILE
   $ alias C="${CRAM_REMOTE_COPY:-}"
   $ S=". /tmp/script_functions.sh"
   $ C ${TESTDIR}/script_functions.sh root@${TARGET_LAN_IP}:/tmp/script_functions.sh 2>/dev/null
@@ -157,5 +158,5 @@ If test is running on a Valyrian, skip the test due to PCF-2669:
   [1]
 
   $ R "${S} && set_ee_roles --roles \"\"" > /dev/null
-
+  $ R logger -t cram Ended $TESTFILE
 

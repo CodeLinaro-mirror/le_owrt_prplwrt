@@ -2,6 +2,7 @@
 Set-up the test configuration:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
+  $ R logger -t cram Starting $TESTFILE
   $ alias C="${CRAM_REMOTE_COPY:-}"
   $ S=". /tmp/script_functions.sh"
   $ C ${TESTDIR}/script_functions.sh root@${TARGET_LAN_IP}:/tmp/script_functions.sh 2>/dev/null
@@ -74,7 +75,7 @@ Check NetworkConfig correctly applied:
   $ sleep 10
   $ R "${S} && get_ctr_ip --uuid"
   192.168.*.* (glob)
-#  $ sleep 30 
+#  $ sleep 30
 #  $ R "rm -f /root/.ssh/known_hosts > /dev/null; ssh -y root@${CTR_IP} 'cat /etc/container-version ; ip route show default | grep default' 2> /dev/null"
 #  1
 #  default via 192.168.3.1 dev lcm0 
@@ -118,3 +119,4 @@ Remove full_caps from Devices.User.Role
 Cleanup test environment:
 
   $ R "rm -f /tmp/script_functions.sh"
+  $ R logger -t cram Ended $TESTFILE

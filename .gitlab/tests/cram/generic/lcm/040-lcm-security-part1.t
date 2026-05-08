@@ -2,9 +2,9 @@
 Setup the test configuration:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
+  $ R logger -t cram Starting $TESTFILE
   $ alias C="${CRAM_REMOTE_COPY:-}"
   $ S=". /tmp/script_functions.sh && . /tmp/security_functions.sh"
-  $ R logger -t cram "Starting LCM security test"
   $ TEST_RESOURCES="${TESTDIR}/security_resources"
   $ python3 -u ${TEST_RESOURCES}/https_signature_server.py > signature-server-$LABGRID_TARGET.log 2>&1 &
   $ SIGNATURE_SERVER_PID=$!
@@ -88,7 +88,7 @@ Test that a custom User-Agent header value is sent in HTTP requests to the signa
 Test container installation with Basic authentication using a wrong password - expect authentication failure:
 
   $ R "${S} && listen_dustatechange"
-  $ R "${S} && install_basic_container_no_wait --signature_user --signature_pwd wrongpass --signature https://signature.server1.local.com:6443/signature" > /dev/null
+  $ R "${S} && install_basic_container_no_wait --signature_user --signature_pwd wrongpass --signature https://signature.server1.local.com:6443/signature" > /dev/null 2>&1
   $ R "${S} && filtered_event"
   FaultCode = 7036
   FaultString = "Signature check for [*] failed [Authentication failed: * URL [*]]" (glob)
@@ -109,7 +109,7 @@ Test container installation with Basic authentication using a correct password -
 Test container installation with Token/Bearer authentication using a wrong password - expect authentication failure:
 
   $ R "${S} && listen_dustatechange"
-  $ R "${S} && install_basic_container_no_wait --signature_user --signature_pwd wrongpass --signature https://signature.server1.local.com:7443/signature" > /dev/null
+  $ R "${S} && install_basic_container_no_wait --signature_user --signature_pwd wrongpass --signature https://signature.server1.local.com:7443/signature" > /dev/null 2>&1
   $ R "${S} && filtered_event"
   FaultCode = 7036
   FaultString = "Signature check for [*] failed [Authentication failed: * URL [*]]" (glob)
@@ -133,4 +133,4 @@ Clear all configuration and environment:
 
   $ R "${S} && cleanup_security"
   $ kill $SIGNATURE_SERVER_PID 2>/dev/null || true
-  $ R logger -t cram "LCM security test finished"
+  $ R logger -t cram Ended $TESTFILE

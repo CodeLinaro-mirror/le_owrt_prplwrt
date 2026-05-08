@@ -2,6 +2,7 @@
 Set-up the test configuration:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
+  $ R logger -t cram Starting $TESTFILE
   $ alias C="${CRAM_REMOTE_COPY:-}"
   $ S=". /tmp/script_functions.sh"
   $ C ${TESTDIR}/script_functions.sh root@${TARGET_LAN_IP}:/tmp/script_functions.sh 2>/dev/null
@@ -268,3 +269,4 @@ wait for cthulhu to terminate all containers and itself, before clear its data
   [
       ""
   ]
+  $ R logger -t cram Ended $TESTFILE
