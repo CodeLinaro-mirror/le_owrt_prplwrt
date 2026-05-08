@@ -5,6 +5,7 @@ If test is running on a Valyrian, skip the test due to PCF-2669:
   $ if echo "$CI_JOB_NAME" | grep -q -E "Valyrian"; then exit 80; fi
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
+  $ R logger -t cram Starting $TESTFILE
   $ alias C="${CRAM_REMOTE_COPY:-}"
   $ T="/tmp/lcm-pcm"
   $ S=". /tmp/script_functions.sh"
@@ -124,3 +125,8 @@ Cleanup test environment:
 
   $ R "${S} && cleanup_pcm_test"
   Done
+
+Cleanup ApplicationData volumes due to PPW-1656:
+  $ R "${S} && cleanup_appdata" > /dev/null 2>&1
+
+  $ R logger -t cram Ended $TESTFILE
