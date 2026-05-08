@@ -23,8 +23,28 @@ DEFAULT_SIGNATURE_USERNAME="admin"
 DEFAULT_PRIVILEGED="false"
 DEFAULT_ENABLEHOSTCAPABILITIES="false"
 
-CLI_JSON="ba-cli -l -j"
-CLI="ba-cli"
+CLI_JSON="cli_cmd -l -j"
+CLI="cli_cmd"
+
+## Wrapper around ba-cli that returns error if second output line starts with 'ERROR:'
+## Uses a temp file to preserve ba-cli output exactly (including trailing newlines).
+## On success: prints to stdout. On error (second line starts with ERROR:): prints to stderr.
+cli_cmd() {
+	_cli_tmpfile=$(mktemp /tmp/cli_cmd_XXXXXX)
+	ba-cli "$@" >"${_cli_tmpfile}" 2>&1
+	_cli_rc=$?
+	_cli_second=$(sed -n '2p' "${_cli_tmpfile}")
+	case "${_cli_second}" in
+		ERROR:*)
+			cat "${_cli_tmpfile}" >&2
+			rm -f "${_cli_tmpfile}"
+			return 1 ;;
+		*)
+			cat "${_cli_tmpfile}"
+			rm -f "${_cli_tmpfile}"
+			return ${_cli_rc} ;;
+	esac
+}
 
 MAX_WAIT_CTR_UP=60
 
@@ -219,14 +239,14 @@ wait_ctr_up() {
 	elif [ -z "${uuid}" ]; then
 		echo "Missing UUID parameter: Cannot wait for container up"
 	else
-		duid=$(${CLI_JSON} "SoftwareModules.DeploymentUnit.[ UUID == \"${uuid}\" ].DUID?" | jsonfilter -e @[*].*.DUID)
+		duid=$(cli_json_safe "SoftwareModules.DeploymentUnit.[ UUID == \"${uuid}\" ].DUID?" -e @[*].*.DUID 2>/dev/null)
 		if [ -z "${duid}" ]; then
 			echo "Container with UUID=${uuid} is not found"
 			return
 		fi
 		i=0
 		while [ $i -le ${MAX_WAIT_CTR_UP} ]; do
-			status=$(${CLI_JSON} "SoftwareModules.ExecutionUnit.[ EUID == \"${duid}\" ].Status?" | jsonfilter -e @[*].*.Status)
+			status=$(cli_json_safe "SoftwareModules.ExecutionUnit.[ EUID == \"${duid}\" ].Status?" -e @[*].*.Status)
 			if [ "${status}" != "Active" ]; then
 				i=$((i + 2))
 				sleep 2
@@ -241,7 +261,7 @@ wait_ctr_up() {
 ## waits for a container to go down or timeout
 wait_ctr_down() {
 	# Read max shutdown delay
-	shutdowndelay=$(${CLI_JSON} Cthulhu.Config.GracefulShutdownTimeoutSeconds? | jsonfilter -e @[*].*.GracefulShutdownTimeoutSeconds)
+	shutdowndelay=$(cli_json_safe "Cthulhu.Config.GracefulShutdownTimeoutSeconds?" -e @[*].*.GracefulShutdownTimeoutSeconds)
 	if [ -z "$shutdowndelay" ]; then
 		shutdowndelay=10
 	fi
@@ -263,6 +283,36 @@ value_or_default() {
 		echo "${_assign_default}"
 	else
 		echo "${_assign_value}"
+	fi
+}
+
+
+## Start background subscription to DUStateChange! for a given UUID.
+## Usage: start_du_state_change_sub <uuid> <lua_script_path>
+## Stores PID in _DU_SUB_PID
+start_du_state_change_sub() {
+	_du_sub_uuid="$1"
+	_du_sub_script="/tmp/du_state_change.lua"
+	if [ -f "${_du_sub_script}" ]; then
+		rm -f /tmp/du_state_change_out.txt
+		lua "${_du_sub_script}" "${_du_sub_uuid}" > /tmp/du_state_change_out.txt 2>&1 &
+		_DU_SUB_PID=$!
+	else
+		_DU_SUB_PID=""
+	fi
+}
+
+## Wait for background DUStateChange! subscription to finish and print any fault output.
+## Call after the CLI operation completes.
+wait_du_state_change_sub() {
+	_du_sub_timeout="${1:-1}"
+	if [ -n "${_DU_SUB_PID}" ]; then
+		timeout "${_du_sub_timeout}" tail --pid="${_DU_SUB_PID}" -f /dev/null 2>/dev/null; kill "${_DU_SUB_PID}" 2>/dev/null; wait "${_DU_SUB_PID}" 2>/dev/null
+		if [ -s /tmp/du_state_change_out.txt ]; then
+			cat /tmp/du_state_change_out.txt >&2
+		fi
+		rm -f /tmp/du_state_change_out.txt
+		_DU_SUB_PID=""
 	fi
 }
 
@@ -394,9 +444,13 @@ install_update_ctr_with_params() {
 	done
 
 	if [ "${operation}" = "install" ]; then
+		start_du_state_change_sub "${uuid}"
 		${CLI_JSON} "SoftwareModules.InstallDU($str_params)"
+		wait_du_state_change_sub
 	elif [ "${operation}" = "update" ]; then
+		start_du_state_change_sub "${uuid}"
 		${CLI_JSON} "SoftwareModules.DeploymentUnit.[ UUID == \"${uuid}\" ].Update($str_params)"
+		wait_du_state_change_sub
 		wait_ctr_down
 	fi
 
@@ -440,7 +494,9 @@ uninstall_ctr() {
 	if [ -z "${uuid}" ]; then
 		echo "Missing UUID paramter: Uninstall not possible"
 	else
-		${CLI} "SoftwareModules.DeploymentUnit.[ UUID == \"${uuid}\" ].Uninstall(RetainData = ${retaindata})"
+		start_du_state_change_sub "${uuid}"
+		${CLI_JSON} "SoftwareModules.DeploymentUnit.[ UUID == \"${uuid}\" ].Uninstall(RetainData = ${retaindata})"
+		wait_du_state_change_sub
 	fi
 
 }
@@ -481,8 +537,7 @@ uninstall_ctr_and_check() {
 	if [ -z "${uuid}" ]; then
 		echo "Missing UUID parameter. Cannot uninstall ctr"
 	else
-		duid=$(${CLI_JSON} "SoftwareModules.DeploymentUnit.[ UUID == \"${uuid}\" ].DUID?" | jsonfilter -e @[*].*.DUID)
-
+		duid=$(cli_json_safe "SoftwareModules.DeploymentUnit.[ UUID == \"${uuid}\" ].DUID?" -e @[*].*.DUID)
 		# uninstall the container and then check that both the DU and EU instances are gone
 		# shellcheck disable=SC2086
 		uninstall_ctr ${save_params} >>/dev/null
@@ -539,8 +594,8 @@ ctr_set_requested_state() {
 	elif [ -z "${requestedstate}" ]; then
 		echo "Missing requestedstate parameter. Cannot set requested state"
 	else
-		duid=$(${CLI_JSON} "SoftwareModules.DeploymentUnit.[ UUID == \"${uuid}\" ].DUID?" | jsonfilter -e @[*].*.DUID)
-		status=$(${CLI_JSON} "SoftwareModules.ExecutionUnit.[ EUID == \"${duid}\" ].Status?" | jsonfilter -e @[*].*.Status)
+		duid=$(cli_json_safe "SoftwareModules.DeploymentUnit.[ UUID == \"${uuid}\" ].DUID?" -e @[*].*.DUID)
+		status=$(cli_json_safe "SoftwareModules.ExecutionUnit.[ EUID == \"${duid}\" ].Status?" -e @[*].*.Status)
 		## If requested state is already set, then do nothing
 		if [ "${status}" != "${requestedstate}" ]; then
 			${CLI_JSON} "SoftwareModules.ExecutionUnit.[ EUID == \"${duid}\" ].SetRequestedState(RequestedState = \"${requestedstate}\")"
@@ -592,9 +647,9 @@ get_container_info() {
 	if [ -z "${uuid}" ]; then
 		echo "Missing UUID parameter: Cannot get info"
 	else
-		duid=$(${CLI_JSON} "SoftwareModules.DeploymentUnit.[ UUID == \"${uuid}\" ].DUID?" | jsonfilter -e @[*].*.DUID)
-		${CLI_JSON} "SoftwareModules.ExecutionUnit.[ EUID == \"${duid}\" ].?0" | jsonfilter -e @[*].*.Status -e @[*].*.Version | sort
-		${CLI_JSON} "SoftwareModules.DeploymentUnit.[ UUID == \"${uuid}\"].Name?0" | jsonfilter -e @[*].*.Name
+		duid=$(cli_json_safe "SoftwareModules.DeploymentUnit.[ UUID == \"${uuid}\" ].DUID?" -e @[*].*.DUID)
+		cli_json_safe "SoftwareModules.ExecutionUnit.[ EUID == \"${duid}\" ].?0" -e @[*].*.Status -e @[*].*.Version | sort
+		cli_json_safe "SoftwareModules.DeploymentUnit.[ UUID == \"${uuid}\"].Name?0" -e @[*].*.Name
 	fi
 }
 
@@ -636,8 +691,8 @@ get_container_parameter() {
 	elif [ -z "${param}" ]; then
 		echo "Missing parameter: Cannot get info"
 	else
-		duid=$(${CLI_JSON} "SoftwareModules.DeploymentUnit.[ UUID == \"${uuid}\" ].DUID?" | jsonfilter -e @[*].*.DUID)
-		${CLI_JSON} "SoftwareModules.ExecutionUnit.[ EUID == \"${duid}\" ].?0" | jsonfilter -e @[*].*.${param} | sort
+		duid=$(cli_json_safe "SoftwareModules.DeploymentUnit.[ UUID == \"${uuid}\" ].DUID?" -e @[*].*.DUID)
+		cli_json_safe "SoftwareModules.ExecutionUnit.[ EUID == \"${duid}\" ].?0" -e @[*].*.${param} | sort
 	fi
 }
 
@@ -718,7 +773,7 @@ check_available_roles() {
 	if [ -z "$ee" ]; then
 		echo "Missing EE parameter."
 	else
-		${CLI_JSON} "SoftwareModules.ExecEnv.[ Name == \"${ee}\" ].AvailableRoles?" | jsonfilter -e @[*].*.AvailableRoles
+		cli_json_safe "SoftwareModules.ExecEnv.[ Name == \"${ee}\" ].AvailableRoles?" -e @[*].*.AvailableRoles
 	fi
 }
 
@@ -758,7 +813,7 @@ check_available_user_roles() {
 	if [ -z "$ee" ]; then
 		echo "Missing EE parameter."
 	else
-		${CLI_JSON} "SoftwareModules.ExecEnv.[ Name == \"${ee}\" ].AvailableUserRoles?" | jsonfilter -e @[*].*.AvailableUserRoles
+		cli_json_safe "SoftwareModules.ExecEnv.[ Name == \"${ee}\" ].AvailableUserRoles?" -e @[*].*.AvailableUserRoles
 	fi
 }
 
@@ -799,7 +854,7 @@ execute_in_container() {
 	if [ -z "${uuid}" ]; then
 		echo "Missing UUID parameter."
 	else
-		duid=$(${CLI_JSON} "SoftwareModules.DeploymentUnit.[ UUID == \"${uuid}\" ].DUID?" | jsonfilter -e @[*].*.DUID)
+		duid=$(cli_json_safe "SoftwareModules.DeploymentUnit.[ UUID == \"${uuid}\" ].DUID?" -e @[*].*.DUID)
 		lxc-attach "${duid}" -- sh -c "${cmd}"
 	fi
 
@@ -839,12 +894,12 @@ check_ee_status() {
 	if [ -z "${ee}" ]; then
 		echo "Missing EE parameter."
 	else
-		${CLI_JSON} "SoftwareModules.ExecEnv.[ Name == \"${ee}\" ].?0" | jsonfilter -e @[*].*.Status -e @[*].*.Enable | sort
+		cli_json_safe "SoftwareModules.ExecEnv.[ Name == \"${ee}\" ].?0" -e @[*].*.Status -e @[*].*.Enable | sort
 	fi
 }
 
 check_cthulhu_config() {
-	${CLI_JSON} "Cthulhu.Config.?0" | jsonfilter -e @[*].*.UseOverlayFS -e @[*].*.DefaultBackend -e @[*].*.ImageLocation | sort
+	cli_json_safe "Cthulhu.Config.?0" -e @[*].*.UseOverlayFS -e @[*].*.DefaultBackend -e @[*].*.ImageLocation| sort
 }
 
 get_ctr_ip() {
@@ -880,7 +935,7 @@ get_ctr_ip() {
 	if [ -z "${uuid}" ]; then
 		echo "Missing UUID parameter: Cannot retrieve IP"
 	else
-		${CLI_JSON} "Cthulhu.Container.Instances.[ LinkedUUID == \"${uuid}\" ].Interfaces.[Name == \"lcm0\"].Addresses.1.?" | jsonfilter -e @[*].*.Address
+		cli_json_safe "Cthulhu.Container.Instances.[ LinkedUUID == \"${uuid}\" ].Interfaces.[Name == \"lcm0\"].Addresses.1.?" -e @[*].*.Address
 	fi
 }
 
@@ -917,10 +972,9 @@ get_ctr_type() {
 	if [ -z "${uuid}" ]; then
 		echo "Missing UUID parameter: Cannot retrieve IP"
 	else
-		duid=$(${CLI_JSON} "SoftwareModules.DeploymentUnit.[ UUID == \"${uuid}\" ].DUID?" | jsonfilter -e @[*].*.DUID)
-		uid=$(${CLI_JSON} "SoftwareModules.ExecutionUnit.[ EUID == \"${duid}\" ].?0" | jsonfilter -e @[*].*.AllocatedHostUID)
-		gid=$(${CLI_JSON} "SoftwareModules.ExecutionUnit.[ EUID == \"${duid}\" ].?0" | jsonfilter -e @[*].*.AllocatedHostGID)
-
+		duid=$(cli_json_safe "SoftwareModules.DeploymentUnit.[ UUID == \"${uuid}\" ].DUID?" -e @[*].*.DUID)
+		uid=$(cli_json_safe "SoftwareModules.ExecutionUnit.[ EUID == \"${duid}\" ].?0" -e @[*].*.AllocatedHostUID)
+		gid=$(cli_json_safe "SoftwareModules.ExecutionUnit.[ EUID == \"${duid}\" ].?0" -e @[*].*.AllocatedHostGID)
 		if [ "${uid}" -ne 0 ] && [ "${gid}" -ne 0 ]; then
 			echo "Unprivileged container"
 		elif [ "${uid}" -eq 0 ] && [ "${gid}" -eq 0 ]; then
@@ -1049,9 +1103,8 @@ remove_user_role() {
 ## It simulates a firmware upgrade by stopping and starting the LCM Agent, as
 ## well as manually removing critical configurations.
 fake_fw_upgrade() {
-    duid=$(${CLI_JSON} "SoftwareModules.DeploymentUnit.[ UUID == \"${DEFAULT_UUID}\" ].DUID?" | jsonfilter -e @[*].*.DUID)
-    uuid=$(${CLI_JSON} "SoftwareModules.DeploymentUnit.[ UUID == \"${DEFAULT_UUID}\" ].UUID?" | jsonfilter -e @[*].*.UUID)
-
+    duid=$(cli_json_safe "SoftwareModules.DeploymentUnit.[ UUID == \"${DEFAULT_UUID}\" ].DUID?" -e @[*].*.DUID)
+    uuid=$(cli_json_safe "SoftwareModules.DeploymentUnit.[ UUID == \"${DEFAULT_UUID}\" ].UUID?" -e @[*].*.UUID)
     ## Stop the active container to allow stopping cthulhu without any problem
     stop_ctr --uuid "${uuid}" >> /dev/null
 
@@ -1104,7 +1157,7 @@ get_vendorlogfile_name() {
 		echo "Missing UUID parameter"
 	else
 		VendorLogFileRef=$(get_container_parameter --uuid ${uuid} --param VendorLogList)
-		${CLI_JSON} "${VendorLogFileRef}.?" | jsonfilter -e @[*].*.Name
+		cli_json_safe "${VendorLogFileRef}.?" -e @[*].*.Name
 	fi
 }
 
@@ -1142,7 +1195,7 @@ get_vendorlogfile_content() {
 		echo "Missing UUID parameter"
 	else
 		VendorLogFileRef=$(get_container_parameter --uuid ${uuid} --param VendorLogList)
-		file=$(${CLI_JSON} "${VendorLogFileRef}.Name?" | jsonfilter -e @[*].*.Name)
+		file=$(cli_json_safe "${VendorLogFileRef}.Name?" -e @[*].*.Name)
 		echo ${file}
 		file_wo_prefix="${file:7}"
 		cat ${file_wo_prefix} | grep "test-C"
@@ -1215,7 +1268,6 @@ cleanup_appdata() {
 	sleep 2
 	service timingila restart > /dev/null
 }
-
 
 ##
 ## install_basic_container() - Install a container with default parameters and wait for it to become active.
@@ -1294,3 +1346,56 @@ cleanup_lpm_test(){
     /etc/init.d/timingila start
 }
 
+## Wrapper around CLI_JSON that prints descriptive errors on failure.
+## Usage: cli_json_safe "ba-cli command" -e @[*].*.Field [-e ...]
+## Captures raw output, runs jsonfilter, and on failure prints the command + raw response to stderr.
+cli_json_safe() {
+    _cli_cmd="$1"
+    shift
+    _raw=$(ba-cli -l -j "${_cli_cmd}" 2>&1)
+    _cli_rc=$?
+    _filtered=$(echo "${_raw}" | jsonfilter "$@" 2>&1)
+    _jrc=$?
+    if [ ${_jrc} -ne 0 ]; then
+        echo "json error: ${_cli_cmd} -- $* -- ${_raw}" >&2
+        return 1
+    fi
+    echo "${_filtered}"
+    return ${_cli_rc}
+}
+
+## Write du_state_change.lua to /tmp/ when this script is sourced
+cat > /tmp/du_state_change.lua << 'LUAEOF'
+#!/usr/bin/lua
+
+local req_uuid = arg[1]
+local lamx = require 'lamx'
+
+lamx.backend.load("/usr/bin/mods/amxb/mod-amxb-ubus.so")
+lamx.bus.open("ubus:/var/run/ubus/ubus.sock")
+
+local el = lamx.eventloop.new()
+
+local print_event = function(event, data)
+    if event == "DUStateChange!" then
+        local d = data and data.data
+        if d and (req_uuid == "" or req_uuid == nil or d.UUID == req_uuid) then
+            local fault_code = d.Fault and d.Fault.FaultCode or 0
+            local fault_str  = d.Fault and d.Fault.FaultString or ""
+            local op         = d.OperationPerformed or "Unknown"
+            local state      = d.CurrentState or "Unknown"
+            if fault_code ~= 0 then
+                print("DUStateChange! ERROR: operation=" .. op
+                    .. " state=" .. state
+                    .. " FaultCode=" .. tostring(fault_code)
+                    .. " FaultString=" .. fault_str)
+            end
+            el:stop()
+        end
+    end
+end
+
+local sub = lamx.bus.subscribe("SoftwareModules.", print_event)
+
+el:start()
+LUAEOF

@@ -2,6 +2,7 @@
 Setup the test configuration:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
+  $ R logger -t cram Starting $TESTFILE
   $ alias C="${CRAM_REMOTE_COPY:-}"
   $ S=". /tmp/script_functions.sh"
   $ C ${TESTDIR}/script_functions.sh root@${TARGET_LAN_IP}:/tmp/script_functions.sh 2>/dev/null
@@ -68,3 +69,5 @@ Uninstall the provider service:
 
   $ R "${S} && uninstall_ctr_and_check --uuid"
   [1]
+  $ R logger -t cram Ended $TESTFILE
+

@@ -2,6 +2,7 @@
 Setup the test configuration:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
+  $ R logger -t cram Starting $TESTFILE
   $ alias C="${CRAM_REMOTE_COPY:-}"
 
 Setup the test env by overriding some default parameters values and restarting Cthulhu to
@@ -16,3 +17,4 @@ Restarting cthulhu would allow to workaround USP functionality after obuspa rest
   $ sleep 2
   $ R "/etc/init.d/timingila restart"
   $ sleep 10
+  $ R logger -t cram Ended $TESTFILE
