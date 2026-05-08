@@ -103,6 +103,8 @@ Check that ubus has expected datamodels available:
   Device.InterfaceStack
   Device.LEDs
   Device.Logical
+  Device.Logical.TAP
+  Device.Logical.TUN
   Device.MQTT
   Device.MQTT.Broker
   Device.ManagementServer
@@ -368,6 +370,10 @@ Check that ubus has expected datamodels available:
   Syslog.Source
   Syslog.Template
   System
+  TAP
+  TAP.Interface
+  TUN
+  TUN.Interface
   TemperatureStatus
   TemperatureStatus.TemperatureSensor
   Time
