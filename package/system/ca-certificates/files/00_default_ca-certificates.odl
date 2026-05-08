@@ -1,0 +1,10 @@
+%populate {
+    object Security.CABundle {
+        instance add ("default") {
+            parameter Enable = true;
+            parameter Name = "default";
+            parameter CADirURI = "file:///etc/ssl/certs";
+            parameter CAFileURI = "file:///etc/ssl/certs/ca-certificates.crt";
+        }
+    }
+}
