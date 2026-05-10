@@ -22,6 +22,8 @@
     DUT_SSH_CONNECT_ATTEMPTS: 3
     DUT_TR181_WAN_INTERFACE: Device.Ethernet.Link.2.
     DUT_TR181_LAN_INTERFACE: Device.Ethernet.Link.3.
+    DUT_OBUSPA_VERBOSE_LEVEL: ''
+    DUT_OBUSPA_PROTOCOL_TRACE: ''
     TEST_SETUP_TEARDOWN_DURATION: 360
     CRAM_REMOTE_COMMAND: ssh root@$TARGET_LAN_IP
     CRAM_REMOTE_COPY: scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
@@ -96,6 +98,11 @@
     - time ssh -o BatchMode=yes -o StrictHostKeyChecking=no -o ConnectionAttempts=$DUT_SSH_CONNECT_ATTEMPTS -o ConnectTimeout=$DUT_SSH_CONNECT_TIMEOUT root@$TARGET_LAN_IP 'exit 0'
 
     - ssh-keyscan $TARGET_LAN_IP >> ~/.ssh/known_hosts 2> /dev/null
+    - >
+      if [ -n "${DUT_OBUSPA_VERBOSE_LEVEL:-}" ] ||
+         [ -n "${DUT_OBUSPA_PROTOCOL_TRACE:-}" ]; then
+        .gitlab/scripts/dut-init/dut-configure-obuspa-logging.sh;
+      fi
     - ssh root@$TARGET_LAN_IP 'logger -t CI -p local0.info "System accessible over SSH, $(uptime -p)"' || true
     - ssh root@$TARGET_LAN_IP "cat /var/log/messages" > syslog-$LABGRID_TARGET.txt 2> /dev/null || true
     - ssh root@$TARGET_LAN_IP "ubus call system board" | tee system-$LABGRID_TARGET.json
