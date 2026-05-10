@@ -143,6 +143,13 @@ CDRouter-USP-prpl Turris initramfs:
       .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
       .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
 
+CDRouter-USP-Services Turris initramfs:
+  <<: *turris_cdrouter
+  extends:
+    - .turris-omnia testbed
+    - .cdrouter
+    - .cdrouter-usp-services
+
 prplWare-Smoke-Test-Suite Turris initramfs:
   <<: *turris_cdrouter_ipv6
   stage: smoke tests

@@ -142,6 +142,13 @@ CDRouter-USP-prpl Freedom initramfs:
       .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
       .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
 
+CDRouter-USP-Services Freedom initramfs:
+  <<: *wnc_freedom
+  extends:
+    - .wnc-freedom testbed
+    - .cdrouter
+    - .cdrouter-usp-services
+
 prplWare-Smoke-Test-Suite Freedom initramfs:
   <<: *wnc_freedom_ipv6
   stage: smoke tests

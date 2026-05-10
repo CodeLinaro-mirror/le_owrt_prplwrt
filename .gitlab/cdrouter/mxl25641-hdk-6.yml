@@ -150,6 +150,13 @@ CDRouter-USP-prpl MXL25641-HDK-6 eMMC:
       .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
       .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
 
+CDRouter-USP-Services MXL25641-HDK-6 eMMC:
+  <<: *mxl25641_cdrouter
+  extends:
+    - .mxl25641-hdk-6 testbed
+    - .cdrouter
+    - .cdrouter-usp-services
+
 prplWare-Smoke-Test-Suite MXL25641-HDK-6 eMMC:
   <<: *mxl25641_cdrouter_ipv6
   timeout: 45 minutes

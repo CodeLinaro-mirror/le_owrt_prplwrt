@@ -141,6 +141,13 @@ CDRouter-USP-prpl Mozart initramfs:
       .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
       .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
 
+CDRouter-USP-Services Mozart initramfs:
+  <<: *arcadyan_mozart
+  extends:
+    - .arcadyan-mozart testbed
+    - .cdrouter
+    - .cdrouter-usp-services
+
 prplWare-Smoke-Test-Suite Mozart initramfs:
   <<: *arcadyan_mozart_ipv6
   stage: smoke tests

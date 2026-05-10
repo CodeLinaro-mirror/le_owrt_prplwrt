@@ -142,6 +142,13 @@ CDRouter-USP-prpl Haze initramfs:
       .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
       .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
 
+CDRouter-USP-Services Haze initramfs:
+  <<: *prpl_haze
+  extends:
+    - .prpl-haze testbed
+    - .cdrouter
+    - .cdrouter-usp-services
+
 prplWare-Smoke-Test-Suite Haze initramfs:
   <<: *prpl_haze_ipv6
   stage: smoke tests
