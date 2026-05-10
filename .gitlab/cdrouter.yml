@@ -18,6 +18,8 @@
     CDROUTER_CONFIG_USP_CONTROLLER_MTP_CA_CERT_PATH: /usr/cdrouter-data/prplos-ci/usp-ssl-certs/ca.crt
     CDROUTER_TEST_CONFIG: generic
     CDROUTER_DUT_INIT_USP_MTP_SCRIPT: .gitlab/scripts/dut-init/cdrouter-dut-configure-usp-mqtt.sh
+    DUT_OBUSPA_VERBOSE_LEVEL: ''
+    DUT_OBUSPA_PROTOCOL_TRACE: ''
     DUT_SLEEP_AFTER_BOOT: 90
     TEST_SETUP_TEARDOWN_DURATION: 360
     CDROUTER_LAN_INTERFACE: eth1
@@ -78,6 +80,11 @@
     - time ssh -o BatchMode=yes -o StrictHostKeyChecking=no -o ConnectionAttempts=$DUT_SSH_CONNECT_ATTEMPTS -o ConnectTimeout=$DUT_SSH_CONNECT_TIMEOUT root@$TARGET_LAN_IP 'exit 0'
 
     - ssh-keyscan $TARGET_LAN_IP >> ~/.ssh/known_hosts 2> /dev/null
+    - >
+      if [ -n "${DUT_OBUSPA_VERBOSE_LEVEL:-}" ] ||
+         [ -n "${DUT_OBUSPA_PROTOCOL_TRACE:-}" ]; then
+        .gitlab/scripts/dut-init/dut-configure-obuspa-logging.sh;
+      fi
     - ssh root@$TARGET_LAN_IP 'logger -t CI -p local0.info "System accessible over SSH, $(uptime -p)"' || true
     - ssh root@$TARGET_LAN_IP "cat /var/log/messages" > syslog-$LABGRID_TARGET.txt 2> /dev/null || true
     - ssh root@$TARGET_LAN_IP "ubus call system board" | tee system-$LABGRID_TARGET.json
