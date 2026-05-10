@@ -2530,6 +2530,15 @@ SECTION "CDRouter USP Add-On" {
 
     }
 
+    SECTION "USP Services Configuration" {
+
+          testvar uspServicesTestAppEndpointID       @CDROUTER_CONFIG_USP_SERVICES_TEST_APP_ENDPOINT_ID@
+          testvar uspServicesBrokerControllerPath    @CDROUTER_CONFIG_USP_SERVICES_BROKER_CONTROLLER_PATH@
+          testvar uspServicesBrokerAgentPath         @CDROUTER_CONFIG_USP_SERVICES_BROKER_AGENT_PATH@
+          testvar uspServicesUntrustedRole           @CDROUTER_CONFIG_USP_SERVICES_UNTRUSTED_ROLE@
+
+    }
+
     SECTION "Basic Agent Configuration" {
 
         # testvar uspAgentID                       proto::agent-id

@@ -1,0 +1,18 @@
+name: CDRouter-USP-Services
+description: CDRouter USP Services Registration ACL and UDS authentication tests
+tests:
+- usp_services_1
+- usp_services_2
+- usp_services_3
+- usp_services_4
+- usp_services_5
+- usp_services_6
+- usp_services_7
+- usp_services_8
+- usp_services_9
+- usp_services_10
+- usp_services_11
+- usp_services_12
+- usp_services_13
+- usp_services_14
+- usp_services_15
