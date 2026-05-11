@@ -399,6 +399,62 @@ get_main_link_itf () {
   fi
 }
 
+# print ifindex of a specific AP
+# In : AP index
+# Out : ifindex
+get_ifindex () {
+  local ap_index=$1
+  ifname=$(wifi_dm "AccessPoint.${ap_index}.SSIDReference+.Name?" | cut -d'"' -f2)
+  R logger -t cram "get_ifindex: AccessPoint ${1} / interface $ifname"
+  R "iw dev ${ifname} info" | grep ifindex | sed 's/^[ \t]*//' | cut -d ' ' -f2
+}
+
+# Print sorted list of hostapd sockets inodes and pathes
+# In : no input
+# Out : list of hostapd sockets inodes and paths
+read_hostapd_inodes(){
+  ilist=$(R "ls -li /var/run/hostapd/wlan* 2>/dev/null" | awk '{print $1, $NF}' | sort)
+  echo "$ilist"
+}
+
+# print lines difference (diff command equivalent)
+# In : old string, new string
+# Out : lines differences with A:/R: prefix (Added/Removed)
+compare_list() {
+  awk -v l1="$1" -v l2="$2" '
+    function trim(s) { gsub(/^[ \t\r]+|[ \t\r]+$/, "", s); return s }
+    BEGIN {
+      n1 = split(l1, a, "\n")
+      n2 = split(l2, b, "\n")
+
+      for (i=1; i<=n1; i++) if ((a[i]=trim(a[i])) != "") s1[a[i]]
+      for (i=1; i<=n2; i++) if ((b[i]=trim(b[i])) != "") s2[b[i]]
+
+      for (i=1; i<=n1; i++) if (a[i] != "" && !(a[i] in s2)) print "R: " a[i]
+      for (i=1; i<=n2; i++) if (b[i] != "" && !(b[i] in s1)) print "A: " b[i]
+    }'
+}
+
+# compare ifindex of specific AP
+# In : AP index, old ifindex list
+# Out : OK / error message
+check_ifindexes () {
+  while [ "$#" -ge 2 ]; do
+    ap_index=$1
+    tgt_ifindex=$2
+
+    current_ifindex=$(get_ifindex "${ap_index}")
+
+    if [ "${current_ifindex}" = "${tgt_ifindex}" ]; then
+      echo "OK"
+    else
+      echo "AP${ap_index}: NOK (got ${current_ifindex}, expected ${tgt_ifindex})"
+    fi
+
+    shift 2
+  done
+}
+
 # print link number from iw output
 # In : APMLD index (ie MLDID)
 # Out : link number from iw output
