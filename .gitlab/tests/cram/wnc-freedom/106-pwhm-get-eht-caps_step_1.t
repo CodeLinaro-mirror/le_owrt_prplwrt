@@ -21,8 +21,8 @@ Set AutoChannelEnable=0 on all WiFi.Radio. interfaces:
 
 Configure radio:
 
-  $ wifi_dm_radio_band 2 "OperatingChannelBandwidth=\"40MHz\""
-  Device.WiFi.Radio.\d+.OperatingChannelBandwidth="40MHz" (re)
+  $ wifi_dm_radio_band 2 "OperatingChannelBandwidth=\"20MHz\""
+  Device.WiFi.Radio.\d+.OperatingChannelBandwidth="20MHz" (re)
 
   $ wifi_dm_radio_band 5 "OperatingChannelBandwidth=\"80MHz\""
   Device.WiFi.Radio.\d+.OperatingChannelBandwidth="80MHz" (re)
@@ -71,6 +71,11 @@ Enable private vaps radios:
   $ wifi_dm "AccessPoint.5.Status?0"
   Device.WiFi.AccessPoint.5.Status="Enabled"
 
+  $ wifi_dm_radio_band 2 "OperatingChannelBandwidth=\"40MHz\""
+  Device.WiFi.Radio.\d+.OperatingChannelBandwidth="40MHz" (re)
+
+  $ sleep 5
+
 #########################################
 #    test 2.4GHz getEHTOperations       #
 #########################################
@@ -107,6 +112,9 @@ Check EhtPhyCapabilities, EhtPhyCapabilitiesStr, CurrentEhtOperatingIE and getEH
   GroupAddressedBUIndicationLimit=0
 
 Downgrade to AX operating mode:
+
+  $ wifi_dm_radio_band 2 "OperatingChannelBandwidth=\"20MHz\""
+  Device.WiFi.Radio.\d+.OperatingChannelBandwidth="20MHz" (re)
 
   $ wifi_dm_radio_band 2 "OperatingStandards=\"ax\""
   Device.WiFi.Radio.\d+.OperatingStandards="ax" (re)
