@@ -59,7 +59,9 @@ Check that no hostapd instance is running:
   $ R "pgrep -f 'hostapd'"
   [1]
 
-Test activation of access point 1:
+#####################################
+# Test activation of access point 1 #
+#####################################
 
   $ R logger -t cram "Test AccessPoint 1 activation "$(get_ssid_ref 1)""
 
@@ -91,7 +93,24 @@ Save hostap pid:
   $ hostap_pid=$(R pgrep -f 'hostapd')
   $ R logger -t cram "hostap PID : $hostap_pid"
 
-Test activation of access point 2:
+Save all the current ifindexes and verify inodes (FEAT-389):
+
+  $ ilist_old=
+  $ ilist_new=$(read_hostapd_inodes)
+  $ ifindexes=$(R "iw dev" | grep ifindex -B 1 | sed 's/^[[:space:]]*//')
+
+
+This is a new MLD so two new sockets should be created:
+
+  $ compare_list "$ilist_old" "$ilist_new"
+  A: .* /var/run/hostapd/wlan2.1 (re)
+  A: .* /var/run/hostapd/wlan2.1_link0 (re)
+
+  $ ilist_old=$ilist_new
+
+#####################################
+# Test activation of access point 2 #
+#####################################
 
   $ R logger -t cram "Test AccessPoint 2 activation "$(get_ssid_ref 2)""
 
@@ -120,7 +139,21 @@ Check wpacltrl socket file:
   wlan2.2
   wlan2.2_link0
 
-Test activation of access point 3:
+Check and save inodes (FEAT-389):
+
+  $ ilist_new=$(read_hostapd_inodes)
+
+This is a new MLD so two new sockets should be created:
+
+  $ compare_list "$ilist_old" "$ilist_new"
+  A: .* /var/run/hostapd/wlan2.2 (re)
+  A: .* /var/run/hostapd/wlan2.2_link0 (re)
+
+  $ ilist_old=$ilist_new
+
+#####################################
+# Test activation of access point 3 #
+#####################################
 
   $ R logger -t cram "Test AccessPoint 3 activation "$(get_ssid_ref 3)""
 
@@ -150,7 +183,20 @@ Check wpacltrl socket file:
   wlan2.2
   wlan2.2_link0
 
-Test activation of access point 4:
+Check and save inodes (FEAT-389):
+
+  $ ilist_new=$(read_hostapd_inodes)
+
+This is a new link so one new socket should be created:
+
+  $ compare_list "$ilist_old" "$ilist_new"
+  A: .* /var/run/hostapd/wlan2.1_link1 (re)
+
+  $ ilist_old=$ilist_new
+
+#####################################
+# Test activation of access point 4 #
+#####################################
 
   $ R logger -t cram "Test AccessPoint 4 activation "$(get_ssid_ref 4)""
 
@@ -181,7 +227,20 @@ Check wpacltrl socket file:
   wlan2.2_link0
   wlan2.2_link1
 
-Test activation of access point 5:
+Check and save inodes (FEAT-389):
+
+  $ ilist_new=$(read_hostapd_inodes)
+
+This is a new link so one new socket should be created:
+
+  $ compare_list "$ilist_old" "$ilist_new"
+  A: .* /var/run/hostapd/wlan2.2_link1 (re)
+
+  $ ilist_old=$ilist_new
+
+#####################################
+# Test activation of access point 5 #
+#####################################
 
   $ R logger -t cram "Test AccessPoint 5 activation "$(get_ssid_ref 5)""
 
@@ -213,7 +272,20 @@ Check wpacltrl socket file:
   wlan2.2_link0
   wlan2.2_link1
 
-Test activation of access point 6:
+Check and save inodes (FEAT-389):
+
+  $ ilist_new=$(read_hostapd_inodes)
+
+This is a new link so one new socket should be created:
+
+  $ compare_list "$ilist_old" "$ilist_new"
+  A: .* /var/run/hostapd/wlan2.1_link2 (re)
+
+  $ ilist_old=$ilist_new
+
+#####################################
+# Test activation of access point 6 #
+#####################################
 
   $ R logger -t cram "Test AccessPoint 6 activation "$(get_ssid_ref 6)""
 
@@ -246,7 +318,20 @@ Check wpacltrl socket file:
   wlan2.2_link1
   wlan2.2_link2
 
-Test activation of access point 7:
+Check and save inodes (FEAT-389):
+
+  $ ilist_new=$(read_hostapd_inodes)
+
+This is a new link so one new socket should be created:
+
+  $ compare_list "$ilist_old" "$ilist_new"
+  A: .* /var/run/hostapd/wlan2.2_link2 (re)
+
+  $ ilist_old=$ilist_new
+
+#####################################
+# Test activation of access point 7 #
+#####################################
 
   $ R logger -t cram "Test AccessPoint 7 activation "$(get_ssid_ref 7)""
 
@@ -281,8 +366,21 @@ Check wpacltrl socket file:
   wlan2.3
   wlan2.3_link0
 
+Check and save inodes (FEAT-389):
 
-Test activation of access point 8:
+  $ ilist_new=$(read_hostapd_inodes)
+
+This is a new MLD so two new sockets should be created:
+
+  $ compare_list "$ilist_old" "$ilist_new"
+  A: .* /var/run/hostapd/wlan2.3 (re)
+  A: .* /var/run/hostapd/wlan2.3_link0 (re)
+
+  $ ilist_old=$ilist_new
+
+#####################################
+# Test activation of access point 8 #
+#####################################
 
   $ R logger -t cram "Test AccessPoint 8 activation "$(get_ssid_ref 8)""
 
@@ -318,7 +416,20 @@ Check wpacltrl socket file:
   wlan2.3_link0
   wlan2.3_link1
 
-Test activation of access point 9:
+Check and save inodes (FEAT-389):
+
+  $ ilist_new=$(read_hostapd_inodes)
+
+This is a new link so one new socket should be created:
+
+  $ compare_list "$ilist_old" "$ilist_new"
+  A: .* /var/run/hostapd/wlan2.3_link1 (re)
+
+  $ ilist_old=$ilist_new
+
+#####################################
+# Test activation of access point 9 #
+#####################################
 
   $ R logger -t cram "Test AccessPoint 9 activation "$(get_ssid_ref 9)""
 
@@ -355,9 +466,26 @@ Check wpacltrl socket file:
   wlan2.3_link1
   wlan2.3_link2
 
+Check and save inodes (FEAT-389):
+
+  $ ilist_new=$(read_hostapd_inodes)
+
+This is a new link so one new socket should be created:
+
+  $ compare_list "$ilist_old" "$ilist_new"
+  A: .* /var/run/hostapd/wlan2.3_link2 (re)
+
+  $ ilist_old=$ilist_new
+
+Check is any ifindex changed. grep only removed (ie changed) ifindexes (FEAT-389):
+
+  $ ifidx_cur=$(R "iw dev" | grep ifindex -B 1 | sed 's/^[[:space:]]*//')
+  $ compare_list "$ifindexes" "$ifidx_cur" | grep 'R:' || true
+
   $ sleep 5
 
 Check if hostap pid has changed or not:
 
   $ if [ "$(R pgrep -f 'hostapd')" = "$hostap_pid" ]; then echo "true"; else echo "hostap restarted during the test !"; fi
   true
+

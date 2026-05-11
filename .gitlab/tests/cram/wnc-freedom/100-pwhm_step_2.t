@@ -5,10 +5,15 @@ Create R alias:
 
   $ R "logger -t cram 'Starting PWHM test (step 2) ...'"
 
-Save hostap pid:
+Save hostap pid, it's needed as part of script split (PCF-2222):
 
   $ hostap_pid=$(R pgrep -f 'hostapd')
   $ R logger -t cram "hostap PID : $hostap_pid"
+
+Save inodes (FEAT-389), it's needed as part of script split (PCF-2222)
+
+  $ ilist_old=$(read_hostapd_inodes)
+  $ ifindexes=$(R "iw dev" | grep ifindex -B 1 | sed 's/^[[:space:]]*//')
 
 Check that hostapd is operating as expected:
 
@@ -62,7 +67,9 @@ Check that the tree interfaces are present in the main link interface:
   link 2:
   channel.* (re)
 
-Test deactivation of access point 9:
+#######################################
+# Test deactivation of access point 9 #
+#######################################
 
   $ enable_ap_sync 9 0
   AccessPoint.9.Enable=0
@@ -96,7 +103,20 @@ Check wpacltrl socket file:
   wlan2.3_link0
   wlan2.3_link1
 
-Test deactivation of access point 8:
+Check and save inodes (FEAT-389):
+
+  $ ilist_new=$(read_hostapd_inodes)
+
+One link was removed, so there should be one less socket:
+
+  $ compare_list "$ilist_old" "$ilist_new"
+  R: .* /var/run/hostapd/wlan2.3_link2 (re)
+
+  $ ilist_old=$ilist_new
+
+#######################################
+# Test deactivation of access point 8 #
+#######################################
 
   $ R logger -t cram "Test AccessPoint 8 deactivation "$(get_ssid_ref 8)""
 
@@ -131,7 +151,20 @@ Check wpacltrl socket file:
   wlan2.3
   wlan2.3_link0
 
-Test deactivation of access point 7:
+Check and save inodes (FEAT-389):
+
+  $ ilist_new=$(read_hostapd_inodes)
+
+One link was removed, so there should be one less socket:
+
+  $ compare_list "$ilist_old" "$ilist_new"
+  R: .* /var/run/hostapd/wlan2.3_link1 (re)
+
+  $ ilist_old=$ilist_new
+
+#######################################
+# Test deactivation of access point 7 #
+#######################################
 
   $ R logger -t cram "Test AccessPoint 7 deactivation "$(get_ssid_ref 7)""
 
@@ -164,7 +197,21 @@ Check wpacltrl socket file:
   wlan2.2_link1
   wlan2.2_link2
 
-Test deactivation of access point 6:
+Check and save inodes (FEAT-389):
+
+  $ ilist_new=$(read_hostapd_inodes)
+
+The MLD was disabled, so there should be two less socket:
+
+  $ compare_list "$ilist_old" "$ilist_new"
+  R: .* /var/run/hostapd/wlan2.3 (re)
+  R: .* /var/run/hostapd/wlan2.3_link0 (re)
+
+  $ ilist_old=$ilist_new
+
+#######################################
+# Test deactivation of access point 6 #
+#######################################
 
   $ enable_ap_sync 6 0
   AccessPoint.6.Enable=0
@@ -194,7 +241,20 @@ Check wpacltrl socket file:
   wlan2.2_link0
   wlan2.2_link1
 
-Test deactivation of access point 5:
+Check and save inodes (FEAT-389):
+
+  $ ilist_new=$(read_hostapd_inodes)
+
+One link was removed, so there should be one less socket:
+
+  $ compare_list "$ilist_old" "$ilist_new"
+  R: .* /var/run/hostapd/wlan2.2_link2 (re)
+
+  $ ilist_old=$ilist_new
+
+#######################################
+# Test deactivation of access point 5 #
+#######################################
 
   $ R logger -t cram "Test AccessPoint 5 deactivation "$(get_ssid_ref 5)""
 
@@ -225,7 +285,20 @@ Check wpacltrl socket file:
   wlan2.2_link0
   wlan2.2_link1
 
-Test deactivation of access point 4:
+Check and save inodes (FEAT-389):
+
+  $ ilist_new=$(read_hostapd_inodes)
+
+One link was removed, so there should be one less socket:
+
+  $ compare_list "$ilist_old" "$ilist_new"
+  R: .* /var/run/hostapd/wlan2.1_link2 (re)
+
+  $ ilist_old=$ilist_new
+
+#######################################
+# Test deactivation of access point 4 #
+#######################################
 
   $ R logger -t cram "Test AccessPoint 4 deactivation "$(get_ssid_ref 4)""
 
@@ -255,7 +328,20 @@ Check wpacltrl socket file:
   wlan2.2
   wlan2.2_link0
 
-Test deactivation of access point 3:
+Check and save inodes (FEAT-389):
+
+  $ ilist_new=$(read_hostapd_inodes)
+
+One link was removed, so there should be one less socket:
+
+  $ compare_list "$ilist_old" "$ilist_new"
+  R: .* /var/run/hostapd/wlan2.2_link1 (re)
+
+  $ ilist_old=$ilist_new
+
+#######################################
+# Test deactivation of access point 3 #
+#######################################
 
   $ R logger -t cram "Test AccessPoint 3 deactivation "$(get_ssid_ref 3)""
 
@@ -284,7 +370,20 @@ Check wpacltrl socket file:
   wlan2.2
   wlan2.2_link0
 
-Test deactivation of access point 2:
+Check and save inodes (FEAT-389):
+
+  $ ilist_new=$(read_hostapd_inodes)
+
+One link was removed, so there should be one less socket:
+
+  $ compare_list "$ilist_old" "$ilist_new"
+  R: .* /var/run/hostapd/wlan2.1_link1 (re)
+
+  $ ilist_old=$ilist_new
+
+#######################################
+# Test deactivation of access point 2 #
+#######################################
 
   $ enable_ap_sync 2 0
   AccessPoint.2.Enable=0
@@ -309,12 +408,26 @@ Check wpacltrl socket file:
   wlan2.1
   wlan2.1_link0
 
+Check and save inodes (FEAT-389):
+
+  $ ilist_new=$(read_hostapd_inodes)
+
+The MLD was disabled, so there should be two less socket:
+
+  $ compare_list "$ilist_old" "$ilist_new"
+  R: .* /var/run/hostapd/wlan2.2 (re)
+  R: .* /var/run/hostapd/wlan2.2_link0 (re)
+
+  $ ilist_old=$ilist_new
+
 Before deactivating last AP (ie stopping hostpad), check if hostap pid has changed or not:
 
   $ if [ "$(R pgrep -f 'hostapd')" = "$hostap_pid" ]; then echo "true"; else echo "hostap restarted during the test !"; fi
   true
 
-Test deactivation of access point 1:
+#######################################
+# Test deactivation of access point 1 #
+#######################################
 
   $ R logger -t cram "Test AccessPoint 1 deactivation "$(get_ssid_ref 1)""
 
@@ -340,6 +453,21 @@ Check wpacltrl socket file:
   $ ls_hapd_sockets
   ls: /var/run/hostapd/: No such file or directory
 
+Check inodes (FEAT-389):
+
+  $ ilist_new=$(read_hostapd_inodes)
+
+The MLD was disabled, so there should be two less socket so all sockets are now closed:
+
+  $ compare_list "$ilist_old" "$ilist_new"
+  R: .* /var/run/hostapd/wlan2.1 (re)
+  R: .* /var/run/hostapd/wlan2.1_link0 (re)
+
+Check is any ifindex changed (FEAT-389):
+
+  $ ifidx_cur=$(R "iw dev" | grep ifindex -B 1 | sed 's/^[[:space:]]*//')
+  $ compare_list "$ifindexes" "$ifidx_cur"
+
 Check if hostapd process is stopped:
 
   $ R "pgrep -f 'hostapd'"
@@ -347,8 +475,8 @@ Check if hostapd process is stopped:
 
 Resume prplMesh:
 
-  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=1" | tr -d '\n'
-  1 (no-eol)
+$ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=1" | tr -d '\n'
+1 (no-eol)
 
   $ R logger -t cram "Stopping PWHM test .."
 
