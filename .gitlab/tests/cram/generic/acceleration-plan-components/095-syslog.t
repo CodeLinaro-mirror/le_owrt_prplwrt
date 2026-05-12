@@ -5,13 +5,14 @@ Create R alias:
 Create global date pattern to be used in various mathcing tests:
 
   $ datepattern="[0-9]{4} [A-Z][a-z]{2} [ 0-9][0-9] [0-9]{2}:[0-9]{2}:[0-9]{2}"
+  $ messageslogcat='for logfile in /var/log/messages /var/log/messages.[0-9]*; do [ -e "$logfile" ] || continue; case "$logfile" in *.gz) zcat "$logfile";; *) cat "$logfile";; esac; done'
 
 Check logs appears in /var/log/messages with expected format:
 
-  $ logmarker="CRAM syslog test default logs"
+  $ logmarker="CRAM syslog test default logs $(date +%s)-$$"
   $ R logger -t cram $logmarker
   $ sleep 1
-  $ logmatch=$(R "tail -100 /var/log/messages | grep -E '^$datepattern \w+ cram: $logmarker'")
+  $ logmatch=$(R "$messageslogcat | grep -E '^$datepattern \w+ cram: $logmarker'")
   $ test -n "$logmatch" && echo "Log marker found"
   Log marker found
 
@@ -33,7 +34,7 @@ Following section will test network sources and remote logging:
 
 Setup all through TR181:
 
-  $ logmarker="CRAM remote log test"
+  $ logmarker="CRAM remote log test $(date +%s)-$$"
   $ srcref=$(R "ba-cli 'Syslog.Source.+{Alias=\"cramRemoteSrc\",Network.Interface=\"Device.IP.Interface.3.\", Network.Port=\"12345\", Network.Enable=1}'| grep -E '^Syslog\.Source\.[0-9]+\.$'  ")
   $ srcref=${srcref%.}
   $ R "ba-cli 'Syslog.Action.+{Alias=\"cramRemoteDst\",SourceRef=\"$srcref\",TemplateRef=\"Syslog.Template.1\",LogFile.Enable=1,LogFile.FilePath=\"file:///var/log/messages_cram\",LogRemote.Address=\"127.0.0.1\",LogRemote.Enable=1,LogRemote.Port=514,LogRemote.Protocol=\"UDP\"}'" >/dev/null
@@ -56,7 +57,7 @@ Check log marker is in local log file (remote source --> local action):
 
 Check log marker is in global message file (local action remote log --> default localhost remote source):
 
-  $ logmatch=$(R "tail -100 /var/log/messages | grep -E '^$datepattern ([0-9]{1,3}\.){3}[0-9]{1,3} $logmarker'")
+  $ logmatch=$(R "$messageslogcat | grep -E '^$datepattern ([0-9]{1,3}\.){3}[0-9]{1,3} $logmarker'")
   $ test -n "$logmatch" && echo "Log marker found"
   Log marker found
 
