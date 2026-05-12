@@ -787,6 +787,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_strongswan-mod-xauth-generic=y
   CONFIG_PACKAGE_strongswan-mod-xcbc=y
   CONFIG_PACKAGE_strongswan-swanctl=y
+  CONFIG_PACKAGE_sudo=y
   CONFIG_PACKAGE_swpal_6x-uci-prpl=y
   CONFIG_PACKAGE_syslog-ng=y
   CONFIG_PACKAGE_tc-tiny=y

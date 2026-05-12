@@ -1,0 +1,349 @@
+---
+- cmd: procd
+  id: root:root
+  caps: full
+  child:
+  - cmd: "-ash"
+    id: root:root
+    caps: full
+    optional: true
+    ignore_child: true
+  - cmd: acl-manager
+    id: tr181_app:acl
+    caps: chown,dac_override,dac_read_search
+  - cmd: amx-faultmonitor
+    id: tr181_app:tr181_app
+    caps: dac_override
+  - cmd: amx-fcgi
+    id: lighttpd:acl
+    caps: none
+  - cmd: amx-processmonitor
+    id: root:root
+    caps: full
+  - cmd: "amxrt:wifi-scheduler"
+    id: root:root
+    caps: full
+  - cmd: askfirst
+    id: root:root
+    caps: full
+    optional: true
+  - cmd: beerocks_agent
+    id: root:root
+    caps: full
+  - cmd: beerocks_controller
+    id: root:root
+    caps: full
+  - cmd: beerocks_fronthaul
+    id: root:root
+    caps: full
+  - cmd: beerocks_vendor_message
+    id: root:root
+    caps: full
+  - cmd: cellular-manager
+    id: root:root
+    caps: full
+    optional: true
+  - cmd: crond
+    id: root:root
+    caps: full
+  - cmd: cthulhu
+    id: root:root
+    caps: full
+    child:
+    - cmd: cthulhu
+      id: root:root
+      caps: full
+  - cmd: cwmp_plugin
+    id: tr181_app:tr181_app
+    caps: dac_override
+    child:
+    - cmd: cwmpd
+      id: tr181_app:tr181_app
+      caps: dac_override
+  - cmd: deviceinfo-manager
+    id: tr181_app:tr181_app
+    caps: chown,dac_override,dac_read_search,sys_admin,sys_ptrace
+  - cmd: deviceinfo-system
+    id: tr181_app:tr181_app
+    caps: dac_override,sys_admin
+  - cmd: dhcpv4-manager
+    id: tr181_app:tr181_app
+    caps: dac_override,kill,net_admin,net_bind_service,net_raw,setfcap
+    child:
+    - cmd: dnsmasq
+      id: tr181_app:tr181_app
+      caps: dac_override,kill,net_admin,net_bind_service,net_raw,setfcap
+  - cmd: dhcpv6s-manager
+    id: tr181_app:tr181_app
+    caps: dac_override
+  - cmd: ethernet-manager
+    id: tr181_app:tr181_app
+    caps: dac_override,net_admin,sys_rawio
+  - cmd: gmap-client
+    id: tr181_app:tr181_app
+    caps: net_raw
+  - cmd: gmap-server
+    id: tr181_app:tr181_app
+    caps: none
+  - cmd: hosts-manager
+    id: tr181_app:tr181_app
+    caps: dac_override
+  - cmd: ieee1905_transport
+    id: root:root
+    caps: full
+  - cmd: ip-manager
+    id: tr181_app:tr181_app
+    caps: dac_override,net_admin,net_raw
+  - cmd: "lua:amx_monitor_dm"
+    id: root:root
+    caps: full
+  - cmd: multisettings
+    id: tr181_app:tr181_app
+    caps: chown,dac_override,dac_read_search
+  - cmd: netdev-plugin
+    id: tr181_app:tr181_app
+    caps: net_admin
+  - cmd: netmodel
+    id: tr181_app:tr181_app
+    caps: dac_override
+  - cmd: netmodel-clients
+    id: tr181_app:tr181_app
+    caps: dac_override,net_admin,net_raw
+  - cmd: obuspa
+    id: root:root
+    caps: full
+  - cmd: odhcpd
+    id: root:root
+    caps: full
+  - cmd: oopsmonitor
+    id: tr181_app:tr181_app
+    caps: dac_override,dac_read_search,fowner
+  - cmd: packet-interception
+    id: tr181_app:tr181_app
+    caps: dac_override,net_admin,net_raw
+  - cmd: pcm-manager
+    id: tr181_app:tr181_app
+    caps: chown,dac_override
+  - cmd: prplmesh-dm-mapper
+    id: root:root
+    caps: full
+  - cmd: prplmesh-process-manager
+    id: root:root
+    caps: full
+  - cmd: reboot-service
+    id: tr181_app:tr181_app
+    caps: dac_override
+  - cmd: rlyeh
+    id: root:root
+    caps: none
+  - cmd: routing-manager
+    id: tr181_app:tr181_app
+    caps: dac_override,net_admin,net_raw
+  - cmd: rpcd
+    id: root:root
+    caps: full
+  - cmd: ssh_server
+    id: tr181_app:tr181_app
+    caps: chown,dac_override,dac_read_search,sys_ptrace
+    child:
+    - cmd: sudo
+      id: tr181_app/root:root
+      caps: full
+      child:
+      - cmd: dropbear
+        id: root:root
+        caps: full
+        ignore_child: true
+  - cmd: time-manager
+    id: chrony:chrony
+    caps: chown,dac_override,dac_read_search,kill,net_bind_service,sys_time
+    child:
+    - cmd: chronyd
+      id: chrony:chrony
+      caps: chown,dac_override,dac_read_search,kill,net_bind_service,sys_time
+  - cmd: timingila
+    id: root:root
+    caps: none
+  - cmd: tr181-bridging
+    id: tr181_app:tr181_app
+    caps: dac_override,net_admin
+  - cmd: tr181-bulkdata
+    id: tr181_app:tr181_app
+    caps: chown,dac_override,dac_read_search
+  - cmd: tr181-button
+    id: tr181_app:tr181_app
+    caps: chown,dac_override,dac_read_search
+  - cmd: tr181-captiveportal
+    id: tr181_app:tr181_app
+    caps: chown,dac_override,dac_read_search,net_admin,net_raw
+  - cmd: tr181-conmon
+    id: tr181_app:tr181_app
+    caps: net_bind_service,net_raw
+  - cmd: tr181-conntrack-query
+    id: tr181_app:tr181_app
+    caps: chown,dac_override,dac_read_search,net_admin
+  - cmd: tr181-cpu
+    id: tr181_app:tr181_app
+    caps: chown,dac_override,dac_read_search
+  - cmd: tr181-device
+    id: tr181_app:tr181_app
+    caps: chown,dac_override,dac_read_search,sys_boot
+  - cmd: tr181-dhcpv4client
+    id: tr181_app:tr181_app
+    caps: dac_override,kill,net_bind_service,net_raw
+  - cmd: tr181-dhcpv6client
+    id: tr181_app:tr181_app
+    caps: dac_override,kill,net_bind_service,net_raw,setfcap
+    child:
+    - cmd: odhcp6c
+      id: tr181_app:tr181_app
+      caps: dac_override,kill,net_bind_service,net_raw,setfcap
+      optional: true
+  - cmd: tr181-dns
+    id: tr181_app:tr181_app
+    caps: dac_override,fowner,kill,net_bind_service,net_raw,setfcap
+    child:
+    - cmd: unbound
+      id: tr181_app:tr181_app
+      caps: dac_override,fowner,kill,net_bind_service,net_raw,setfcap
+      child:
+      - cmd: unbound
+        id: tr181_app:tr181_app
+        caps: dac_override,fowner,kill,net_bind_service,net_raw,setfcap
+        optional: true
+  - cmd: tr181-dnssd
+    id: tr181_app:tr181_app
+    caps: dac_override,kill,setfcap
+    child:
+    - cmd: umdns
+      id: tr181_app:tr181_app
+      caps: dac_override,kill,setfcap
+  - cmd: tr181-dslite
+    id: tr181_app:tr181_app
+    caps: dac_override,net_admin
+  - cmd: tr181-dynamicdns
+    id: tr181_app:tr181_app
+    caps: chown,dac_override,dac_read_search
+  - cmd: tr181-firewall
+    id: tr181_app:tr181_app
+    caps: dac_override,net_admin,net_raw,setfcap,sys_module
+  - cmd: tr181-flashmonitor
+    id: tr181_app:tr181_app
+    caps: chown,dac_override,dac_read_search
+  - cmd: tr181-gnimanager
+    id: tr181_app:tr181_app
+    caps: none
+  - cmd: tr181-homeplug
+    id: tr181_app:tr181_app
+    caps: dac_override,net_raw
+  - cmd: tr181-httpaccess
+    id: tr181_app:tr181_app
+    caps: chown,dac_override,kill,net_bind_service
+    child:
+    - cmd: lighttpd
+      id: tr181_app:tr181_app
+      caps: chown,dac_override,kill,net_bind_service
+  - cmd: tr181-ipdiagnostics
+    id: tr181_app:tr181_app
+    caps: dac_override,kill,net_raw,setgid,setuid
+  - cmd: tr181-led
+    id: tr181_app:tr181_app
+    caps: dac_override
+  - cmd: tr181-logical
+    id: tr181_app:tr181_app
+    caps: dac_override
+  - cmd: tr181-mcastd
+    id: tr181_app:tr181_app
+    caps: dac_override,net_admin,net_raw,setfcap
+  - cmd: tr181-mqtt
+    id: tr181_app:tr181_app
+    caps: dac_override
+  - cmd: tr181-mqttbroker
+    id: tr181_app:tr181_app
+    caps: dac_override,kill,setfcap
+    child:
+    - cmd: mosquitto
+      id: tr181_app:tr181_app
+      caps: dac_override,kill,setfcap
+  - cmd: tr181-neighbordiscovery
+    id: tr181_app:tr181_app
+    caps: dac_override,net_admin,net_raw
+  - cmd: tr181-pcp
+    id: tr181_app:tr181_app
+    caps: dac_override
+  - cmd: tr181-periodicfileupload
+    id: tr181_app:tr181_app
+    caps: none
+  - cmd: tr181-powerstatus
+    id: tr181_app:tr181_app
+    caps: dac_override
+  - cmd: tr181-ppp
+    id: tr181_app:tr181_app
+    caps: dac_override,net_admin,net_raw,sys_module,sys_rawio
+  - cmd: tr181-qos
+    id: tr181_app:tr181_app
+    caps: dac_override,net_admin,net_raw
+  - cmd: tr181-routeradvertisement
+    id: tr181_app:tr181_app
+    caps: dac_override,kill,net_raw,setfcap
+    child:
+    - cmd: radvd
+      id: tr181_app:tr181_app
+      caps: dac_override,kill,net_raw,setfcap
+      child:
+      - cmd: radvd
+        id: tr181_app:tr181_app
+        caps: dac_override,kill,net_raw,setfcap
+  - cmd: tr181-schedules
+    id: tr181_app:tr181_app
+    caps: dac_override
+  - cmd: tr181-security
+    id: tr181_app:tr181_app
+    caps: dac_override,dac_read_search
+  - cmd: tr181-sfp
+    id: tr181_app:tr181_app
+    caps: dac_override
+  - cmd: tr181-syslog
+    id: tr181_app:syslog
+    caps: chown,dac_override,dac_read_search,fowner,net_bind_service,net_broadcast,net_raw,syslog
+    child:
+    - cmd: syslog-ng
+      id: tr181_app:syslog
+      caps: chown,dac_override,dac_read_search,fowner,net_bind_service,net_broadcast,net_raw,syslog
+  - cmd: tr181-temperature
+    id: tr181_app:tr181_app
+    caps: none
+  - cmd: tr181-upnp
+    id: tr181_app:tr181_app
+    caps: dac_override,kill,net_admin,net_raw,setfcap
+    child:
+    - cmd: miniupnpd
+      id: tr181_app:tr181_app
+      caps: dac_override,kill,net_admin,net_raw,setfcap
+  - cmd: tr181-upnpdiscovery
+    id: tr181_app:tr181_app
+    caps: none
+  - cmd: tr181-usb
+    id: tr181_app:tr181_app
+    caps: dac_override
+  - cmd: tr181-usermanagement
+    id: tr181_app:tr181_app
+    caps: chown,dac_override,dac_read_search
+  - cmd: tr181-xpon
+    id: tr181_app:tr181_app
+    caps: dac_override,net_admin,sys_module
+  - cmd: ubusd
+    id: ubus:ubus
+    caps: none
+  - cmd: urngd
+    id: root:root
+    caps: full
+  - cmd: wan-manager
+    id: tr181_app:tr181_app
+    caps: dac_override
+  - cmd: wifi-sensing
+    id: root:root
+    caps: full
+  - cmd: wld
+    id: root:root
+    caps: full

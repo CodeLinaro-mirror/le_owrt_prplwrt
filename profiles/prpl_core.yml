@@ -18,6 +18,7 @@ additional_packages:
     packages:
       - libnl-core
       - libnl-route
+      - sudo
       - syslog-ng
       - strongswan-default
       - strongswan-mod-addrblock

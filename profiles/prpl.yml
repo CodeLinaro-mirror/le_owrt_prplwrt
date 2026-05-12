@@ -9,6 +9,8 @@ include:
 additional_packages:
   - feed: packages
     packages:
+      - libcap-bin
+      - libcap-ng-bin
       - opensc
       - pciids
       - pciutils

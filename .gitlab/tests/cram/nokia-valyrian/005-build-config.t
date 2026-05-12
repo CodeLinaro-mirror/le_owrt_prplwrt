@@ -468,6 +468,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_shadow-vipw=y
   CONFIG_PACKAGE_softhsm2=y
   CONFIG_PACKAGE_ssh-server=y
+  CONFIG_PACKAGE_sudo=y
   CONFIG_PACKAGE_syslog-ng=y
   CONFIG_PACKAGE_tc-tiny=y
   CONFIG_PACKAGE_terminfo=y
