@@ -32,13 +32,6 @@ Check default SecMode:
   $ wifi_dm "AccessPoint.3.Security.ModeEnabled?"
   Device.WiFi.AccessPoint.3.Security.ModeEnabled="WPA3-Personal"
 
-Provisory: On OSPv2 add WPA3-Personal compatibility to the available security modes for 6GHz VAPs:
-
-  $ tmp=$(R "ba-cli -l \"WiFi.AccessPoint.3.Security.ModesAvailable?\"" | sed '/^$/d')
-  $ R "ba-cli -l \"WiFi.AccessPoint.3.Security.ModesAvailable=\'$tmp,WPA3-Personal-Compatibility\'\"" > /dev/null
-  $ tmp=$(R "ba-cli -l \"WiFi.AccessPoint.6.Security.ModesAvailable?\"" | sed '/^$/d')
-  $ R "ba-cli \"WiFi.AccessPoint.6.Security.ModesAvailable=\'$tmp,WPA3-Personal-Compatibility\'\"" > /dev/null
-
 Check if private/guest VAPs contain WPA3-Personal-Compatibility in the Security.ModesAvailable list:
 
   $ wifi_dm "AccessPoint.*.Security.ModesAvailable?" "WiFi." "ba-cli" | sed -n 's/^\(WiFi\.AccessPoint\.[1-6]\+\.Security\.ModesAvailable\).*WPA3-Personal-Compatibility.*/\1 has WPA3-Personal-Compatibility mode/p'
