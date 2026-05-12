@@ -22,6 +22,3 @@ Check datamodel parameters that should be set when no SIM is detected:
   Device.Cellular.Interface.1.
 
   $ R "ubus-cli -al Cellular.Interface.1.LowerLayers? | awk NF"
-
-  $ R "echo protected\; Cellular.Interface.1.InternalName? | xargs ba-cli -al | grep -v '> ' | awk NF"
-  .*\/org\/freedesktop\/ModemManager[0-9]\/Modem\/[0-9]+ (re)
