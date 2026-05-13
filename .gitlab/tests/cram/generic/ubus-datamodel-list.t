@@ -71,6 +71,8 @@ Check that ubus has expected datamodels available:
   DNSSD.Service
   DSLite
   DSLite.InterfaceSetting
+  DataCollect
+  DataCollect.AhDSource
   Device
   Device.Bridging
   Device.BulkData
@@ -131,6 +133,7 @@ Check that ubus has expected datamodels available:
   Device.X_PRPLWARE-COM_Buttons
   Device.X_PRPLWARE-COM_ConMon
   Device.X_PRPLWARE-COM_ConnectionTrackingQuery
+  Device.X_PRPLWARE-COM_DataCollect
   Device.X_PRPLWARE-COM_GenericNetworkInterface
   Device.X_PRPLWARE-COM_MCASTD
   Device.X_PRPLWARE-COM_MultiSettings
