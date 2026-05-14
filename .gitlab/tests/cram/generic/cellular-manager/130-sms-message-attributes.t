@@ -1,3 +1,7 @@
+Skip on testbed-02 until PCF-2585 is resolved:
+
+  $ if echo "$CI_RUNNER_DESCRIPTION" | grep -q testbed-02; then exit 80; fi
+
 Create R Alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
