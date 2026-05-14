@@ -1,3 +1,7 @@
+Skip on testbed-02 until PCF-2585 is resolved:
+
+  $ if echo "$CI_RUNNER_DESCRIPTION" | grep -q testbed-02; then exit 80; fi
+
 Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
@@ -22,3 +26,6 @@ Check datamodel parameters that should be set when no SIM is detected:
   Device.Cellular.Interface.1.
 
   $ R "ubus-cli -al Cellular.Interface.1.LowerLayers? | awk NF"
+
+  $ R "echo protected\; Cellular.Interface.1.InternalName? | xargs ba-cli -al | grep -v '> ' | awk NF"
+  .*\/org\/freedesktop\/ModemManager[0-9]\/Modem\/[0-9]+ (re)
