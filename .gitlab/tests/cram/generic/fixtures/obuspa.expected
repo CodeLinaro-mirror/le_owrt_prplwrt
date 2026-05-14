@@ -5206,6 +5206,7 @@ Device.WiFi.Radio.{i}.ScanResults.SurroundingChannels.{i}.Accesspoint.{i}.      
 Device.WiFi.Radio.{i}.ScanResults.SurroundingChannels.{i}.Accesspoint.{i}.SSID.{i}.                  proto::prplmesh-dm-mapper
 Device.WiFi.Radio.{i}.ScanStats.                                                                     proto::prplmesh-dm-mapper
 Device.WiFi.Radio.{i}.ScanStats.ScanReason.{i}.                                                      proto::prplmesh-dm-mapper
+Device.WiFi.Radio.{i}.SetRadioPowerDown()                                                            proto::prplmesh-dm-mapper
 Device.WiFi.Radio.{i}.StaticPuncturing.                                                              proto::prplmesh-dm-mapper
 Device.WiFi.Radio.{i}.StaticPuncturing.DisabledSubChannels                                           proto::prplmesh-dm-mapper
 Device.WiFi.Radio.{i}.Stats.                                                                         proto::prplmesh-dm-mapper
