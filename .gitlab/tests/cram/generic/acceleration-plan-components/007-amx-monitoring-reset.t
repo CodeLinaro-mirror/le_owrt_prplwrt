@@ -42,6 +42,35 @@ Get the initial MaxFailNum for all the process:
   $ Tr181PcpMaxFail=$(R "ba-cli -l ProcessMonitor.Test.$Tr181PcpId.MaxFailNum? | sed '/^$/d'")
   $ Dhcpv4ManagerMaxFail=$(R "ba-cli -l ProcessMonitor.Test.$Dhcpv4ManagerId.MaxFailNum? | sed '/^$/d'")
 
+# MaxFailNum bumped from prod default of 2 to 5, above the worst-case
+# NumFailed (1-3) from a single kill + 10s TestInterval phase alignment
+# Lower value would flake and higher would mask bugs
+
+Set MaxFailNum=5 to avoid flaky tests and do not mask possible bugs:
+
+  $ R "ba-cli -l  ProcessMonitor.Test.$Tr181McastId.MaxFailNum=5 | sed '/^$/d'"
+  5
+
+  $ R "ba-cli -l ProcessMonitor.Test.$Tr181PcpId.MaxFailNum=5 | sed '/^$/d'"
+  5
+
+  $ R "ba-cli -l ProcessMonitor.Test.$Dhcpv4ManagerId.MaxFailNum=5 | sed '/^$/d'"
+  5
+
+Get initial ProcessMonitor.Test.i.TestInterval:
+
+  $ Tr181McastTestInterval=$(R "${S} && get_test_interval $Tr181McastId")
+  $ Tr181PcpTestInterval=$(R "${S} && get_test_interval $Tr181PcpId")
+  $ Dhcpv4ManagerTestInterval=$(R "${S} && get_test_interval $Dhcpv4ManagerId")
+
+Update Monitoring interval to shorter duration for all process, because when\
+monitoring of a process is performed and expected process is still performing\
+some pre-handling tasks before becoming fully functional. This similar issue\
+may be seen in other processes also:
+
+  $ R "${S} && set_test_interval \"10\" \"$Tr181McastId\" \"$Tr181PcpId\" \"$Dhcpv4ManagerId\""
+
+
 Get the Process ID and verify all expected process are running:
 
   $ for process_name in "tr181-mcastd" "tr181-pcp" "dhcpv4-manager"; do
@@ -120,5 +149,22 @@ Restart the process service to clear the respawns from above tests:
   $ R "service tr181-mcastd restart  > /dev/null 2>&1"
   $ R "service tr181-pcp restart  > /dev/null 2>&1"
   $ R "service dhcpv4-manager restart  > /dev/null 2>&1"
+
+Revert MaxFail parameter for the process to initial value:
+
+  $ R "ba-cli -l  ProcessMonitor.Test.$Tr181McastId.MaxFailNum=$Tr181McastMaxFail | sed '/^$/d'"
+  \d+ (re)
+
+  $ R "ba-cli -l ProcessMonitor.Test.$Tr181PcpId.MaxFailNum=$Tr181PcpMaxFail | sed '/^$/d'"
+  \d+ (re)
+
+  $ R "ba-cli -l ProcessMonitor.Test.$Dhcpv4ManagerId.MaxFailNum=$Dhcpv4ManagerMaxFail | sed '/^$/d'"
+  \d+ (re)
+
+Revert ProcessMonitor.Test.i TestInterval:
+
+  $ R "${S} && set_test_interval \"$Tr181McastTestInterval\" \"$Tr181McastId\""
+  $ R "${S} && set_test_interval \"$Tr181PcpTestInterval\" \"$Tr181PcpId\""
+  $ R "${S} && set_test_interval \"$Dhcpv4ManagerTestInterval\" \"$Dhcpv4ManagerId\""
 
   $ R logger -t cram "Amx-processmonitoring reset method cram test finished"

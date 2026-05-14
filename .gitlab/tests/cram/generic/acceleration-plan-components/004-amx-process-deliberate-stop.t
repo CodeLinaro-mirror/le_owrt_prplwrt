@@ -34,6 +34,20 @@ Initialize the ProcessMonitor.Test.i Id for required processes:
   $ Tr181QosId=$(R "ba-cli  ProcessMonitor.Test.*.Name? | grep tr181-qos | sed -n 's/.*Test\.\([0-9]\+\)\..*/\1/p'")
   $ Dhcpv4ManagerId=$(R "ba-cli  ProcessMonitor.Test.*.Name? | grep dhcpv4-manager | sed -n 's/.*Test\.\([0-9]\+\)\..*/\1/p'")
 
+Make TestIntervalMultiplier defaults to 1 on cram test to avoid higher recover time with simulated failures
+
+  $ R "ba-cli -l  ProcessMonitor.Test.$Tr181McastId.TestIntervalMultiplier=1 | sed '/^$/d'"
+  1
+
+  $ R "ba-cli -l ProcessMonitor.Test.$Tr181PcpId.TestIntervalMultiplier=1 | sed '/^$/d'"
+  1
+
+  $ R "ba-cli -l ProcessMonitor.Test.$Tr181QosId.TestIntervalMultiplier=1 | sed '/^$/d'"
+  1
+
+  $ R "ba-cli -l ProcessMonitor.Test.$Dhcpv4ManagerId.TestIntervalMultiplier=1 | sed '/^$/d'"
+  1
+
 Get the initial MaxFailNum for all the processes:
 
   $ Tr181McastMaxFail=$(R "ba-cli -l ProcessMonitor.Test.$Tr181McastId.MaxFailNum? | sed '/^$/d'")
