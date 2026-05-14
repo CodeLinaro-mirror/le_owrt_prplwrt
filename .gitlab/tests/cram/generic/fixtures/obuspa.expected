@@ -5330,6 +5330,11 @@ Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.deleteNonAssociatedDevice()   
 Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.deleteNonAssociatedDevice() input:macaddress
 Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.getMonitorDeviceStats()                            proto::prplmesh-dm-mapper
 Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.getNaStationStats()                                proto::prplmesh-dm-mapper
+Device.WiFi.Radio.{i}.X_PRPLWARE-COM_RadioPowerSave.                                                 proto::prplmesh-dm-mapper
+Device.WiFi.Radio.{i}.X_PRPLWARE-COM_RadioPowerSave.Enable                                           proto::prplmesh-dm-mapper
+Device.WiFi.Radio.{i}.X_PRPLWARE-COM_RadioPowerSave.SteerBandPrio                                    proto::prplmesh-dm-mapper
+Device.WiFi.Radio.{i}.X_PRPLWARE-COM_RadioPowerSave.SteerPeriod                                      proto::prplmesh-dm-mapper
+Device.WiFi.Radio.{i}.X_PRPLWARE-COM_RadioPowerSave.SteerRetries                                     proto::prplmesh-dm-mapper
 Device.WiFi.Radio.{i}.X_PRPLWARE-COM_ScanComplete!                                                   proto::prplmesh-dm-mapper
 Device.WiFi.Radio.{i}.X_PRPLWARE-COM_Sensing.                                                        proto::prplmesh-dm-mapper
 Device.WiFi.Radio.{i}.X_PRPLWARE-COM_Sensing.CSIClient.{i}.                                          proto::prplmesh-dm-mapper
@@ -5349,6 +5354,7 @@ Device.WiFi.Radio.{i}.X_PRPLWARE-COM_Sensing.addClient() input:Receiver
 Device.WiFi.Radio.{i}.X_PRPLWARE-COM_Sensing.csiStats()                                              proto::prplmesh-dm-mapper
 Device.WiFi.Radio.{i}.X_PRPLWARE-COM_Sensing.delClient()                                             proto::prplmesh-dm-mapper
 Device.WiFi.Radio.{i}.X_PRPLWARE-COM_Sensing.delClient() input:MACAddress
+Device.WiFi.Radio.{i}.X_PRPLWARE-COM_SetRadioPowerDown()                                             proto::prplmesh-dm-mapper
 Device.WiFi.Radio.{i}.X_PRPLWARE-COM_SupportedSensingDataTypes                                       proto::prplmesh-dm-mapper
 Device.WiFi.Radio.{i}.X_PRPLWARE-COM_SupportedSensingExchangeTypes                                   proto::prplmesh-dm-mapper
 Device.WiFi.Radio.{i}.X_PRPLWARE-COM_getApplicableBandwidthPerChannel()                              proto::prplmesh-dm-mapper
