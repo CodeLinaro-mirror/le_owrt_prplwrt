@@ -74,3 +74,13 @@ Check that we've Reset gpio key available:
 
   $ R "hexdump -s2 -n2 -e '1/1 \"0x%02x \"' /sys/firmware/devicetree/base/soc@0/gpio_keys/button@2/linux,code"
   0x01 0x98  (no-eol)
+
+Check that pstore filesystem is mounted (CONFIG_PSTORE_RAM):
+
+  $ R "grep -c ' /sys/fs/pstore pstore ' /proc/mounts"
+  1
+
+Check that ramoops backend is registered and capturing console:
+
+  $ R "ls /sys/fs/pstore/ | grep '^console-ramoops'"
+  console-ramoops-0
