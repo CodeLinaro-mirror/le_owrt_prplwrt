@@ -4818,6 +4818,7 @@ Device.WiFi.Radio.{i}.FullScan() input:HomeTime
 Device.WiFi.Radio.{i}.FullScan() input:SSID
 Device.WiFi.Radio.{i}.GuardInterval                                                                  proto::prplmesh-dm-mapper
 Device.WiFi.Radio.{i}.IEEE80211ax.                                                                   proto::prplmesh-dm-mapper
+Device.WiFi.Radio.{i}.IEEE80211be.                                                                   proto::prplmesh-dm-mapper
 Device.WiFi.Radio.{i}.IEEE80211hEnabled                                                              proto::prplmesh-dm-mapper
 Device.WiFi.Radio.{i}.IEEE80211hSupported                                                            proto::prplmesh-dm-mapper
 Device.WiFi.Radio.{i}.LastChange                                                                     proto::prplmesh-dm-mapper
