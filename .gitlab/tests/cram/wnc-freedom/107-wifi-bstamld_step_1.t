@@ -279,4 +279,41 @@ Check bSTAMLD (shouldn't change):
   Device.WiFi.bSTAMLD.1.bSTAMLDConfig.STREnabled=0
   Device.WiFi.bSTAMLD.1.bSTAMLDConfig.UseNeighborProfile=1
 
+#################################
+# Set a new MLDUnit for all EPs #
+#################################
+
+  $ R logger -t cram "Set new MLDUnit on all EPs"
+
+  $ wifi_dm "EndPoint.1.SSIDReference+.MLDUnit=22"
+  Device.WiFi.SSID.\d+.MLDUnit=22 (re)
+
+  $ wifi_dm "EndPoint.2.SSIDReference+.MLDUnit=22"
+  Device.WiFi.SSID.\d+.MLDUnit=22 (re)
+
+  $ wifi_dm "EndPoint.3.SSIDReference+.MLDUnit=22"
+  Device.WiFi.SSID.\d+.MLDUnit=22 (re)
+
+Check bSTAMLD DM:
+
+  $ wifi_dm "bSTAMLD.?" "Device.WiFi." "ba-cli" protected
+  Device.WiFi.bSTAMLD.1.AffiliatedbSTAList=""
+  Device.WiFi.bSTAMLD.1.BSSID=""
+  Device.WiFi.bSTAMLD.1.MLDID=11
+  Device.WiFi.bSTAMLD.1.MLDMACAddress=""
+  Device.WiFi.bSTAMLD.1.bSTAMLDConfig.EMLMREnabled=0
+  Device.WiFi.bSTAMLD.1.bSTAMLDConfig.EMLSREnabled=1
+  Device.WiFi.bSTAMLD.1.bSTAMLDConfig.NSTREnabled=0
+  Device.WiFi.bSTAMLD.1.bSTAMLDConfig.STREnabled=0
+  Device.WiFi.bSTAMLD.1.bSTAMLDConfig.UseNeighborProfile=1
+  Device.WiFi.bSTAMLD.2.AffiliatedbSTAList=""
+  Device.WiFi.bSTAMLD.2.BSSID=""
+  Device.WiFi.bSTAMLD.2.MLDID=22
+  Device.WiFi.bSTAMLD.2.MLDMACAddress=""
+  Device.WiFi.bSTAMLD.2.bSTAMLDConfig.EMLMREnabled=0
+  Device.WiFi.bSTAMLD.2.bSTAMLDConfig.EMLSREnabled=1
+  Device.WiFi.bSTAMLD.2.bSTAMLDConfig.NSTREnabled=0
+  Device.WiFi.bSTAMLD.2.bSTAMLDConfig.STREnabled=0
+  Device.WiFi.bSTAMLD.2.bSTAMLDConfig.UseNeighborProfile=1
+
   $ R logger -t cram "bSTAMLD test 1/2 finished!"

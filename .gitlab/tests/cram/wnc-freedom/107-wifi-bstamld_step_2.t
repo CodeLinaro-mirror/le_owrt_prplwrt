@@ -156,7 +156,31 @@ Assume that the profile created during the test has index 1. Because of the test
   $ wifi_dm "bSTAMLD.1.bSTAMLDConfig.UseNeighborProfile=1" "Device.WiFi." "ba-cli" protected
   Device.WiFi.bSTAMLD.1.bSTAMLDConfig.UseNeighborProfile=1
 
+  $ sleep 2
+
+Check bSTAMLD DM after unsetting MLDUnit:
+
+  $ wifi_dm "bSTAMLD.?" "Device.WiFi." "ba-cli" protected
+  Device.WiFi.bSTAMLD.1.AffiliatedbSTAList=""
+  Device.WiFi.bSTAMLD.1.BSSID=""
+  Device.WiFi.bSTAMLD.1.MLDID=11
+  Device.WiFi.bSTAMLD.1.MLDMACAddress=""
+  Device.WiFi.bSTAMLD.1.bSTAMLDConfig.EMLMREnabled=0
+  Device.WiFi.bSTAMLD.1.bSTAMLDConfig.EMLSREnabled=1
+  Device.WiFi.bSTAMLD.1.bSTAMLDConfig.NSTREnabled=0
+  Device.WiFi.bSTAMLD.1.bSTAMLDConfig.STREnabled=0
+  Device.WiFi.bSTAMLD.1.bSTAMLDConfig.UseNeighborProfile=1
+  Device.WiFi.bSTAMLD.2.AffiliatedbSTAList=""
+  Device.WiFi.bSTAMLD.2.BSSID=""
+  Device.WiFi.bSTAMLD.2.MLDID=22
+  Device.WiFi.bSTAMLD.2.MLDMACAddress=""
+  Device.WiFi.bSTAMLD.2.bSTAMLDConfig.EMLMREnabled=0
+  Device.WiFi.bSTAMLD.2.bSTAMLDConfig.EMLSREnabled=1
+  Device.WiFi.bSTAMLD.2.bSTAMLDConfig.NSTREnabled=0
+  Device.WiFi.bSTAMLD.2.bSTAMLDConfig.STREnabled=0
+  Device.WiFi.bSTAMLD.2.bSTAMLDConfig.UseNeighborProfile=1
+
   $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=1" | tr -d '\n'
   1 (no-eol)
 
-  $ R logger -t cram "bSTAMLD test 1/2 finished!"
+  $ R logger -t cram "bSTAMLD test 2/2 finished!"
