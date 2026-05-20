@@ -9,7 +9,6 @@ additional_packages:
   - feed: packages
     packages:
       - aria2
-      - pbr
       - libroxml
       - openvpn-mbedtls
       - openssh-sftp-client
@@ -69,6 +68,9 @@ packages:
   - resize2fs
   - recovery-std
   - updater-std
+  - crash-collect-hlos
+  - log-collector
+  - fdt-utils
 
 diffconfig: |
   CONFIG_TARGET_ROOTFS_UBIFS=y
@@ -164,3 +166,4 @@ diffconfig: |
   CONFIG_PACKAGE_libdbus=m
   CONFIG_PACKAGE_dbus=m
   CONFIG_PACKAGE_ATH_DEBUG=y
+  CONFIG_SAH_AMX_TR181_CELLULAR_ORDER=25
