@@ -85,7 +85,17 @@ Test that a custom User-Agent header value is sent in HTTP requests to the signa
   [1]
 
 
-Test container installation with Basic authentication on the signature server:
+Test container installation with Basic authentication using a wrong password - expect authentication failure:
+
+  $ R "${S} && listen_dustatechange"
+  $ R "${S} && install_basic_container_no_wait --signature_user --signature_pwd wrongpass --signature https://signature.server1.local.com:6443/signature" > /dev/null
+  $ R "${S} && filtered_event"
+  FaultCode = 7036
+  FaultString = "Signature check for [*] failed [Authentication failed: * URL [*]]" (glob)
+  CurrentState = "Failed"
+  OperationPerformed = "Install"
+
+Test container installation with Basic authentication using a correct password - expect success:
 
   $ R "${S} && install_basic_container --signature_user --signature_pwd --signature https://signature.server1.local.com:6443/signature" > /dev/null
   $ R "${S} && get_container_info --uuid"
