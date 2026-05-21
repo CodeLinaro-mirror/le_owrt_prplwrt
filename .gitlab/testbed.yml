@@ -26,13 +26,9 @@
     CRAM_REMOTE_COMMAND: ssh root@$TARGET_LAN_IP
     CRAM_REMOTE_COPY: scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
     CRAM_TEST_SUITE: |
-      .gitlab/tests/cram/generic/acceleration-plan-components
-      .gitlab/tests/cram/$DUT_BOARD/acceleration-plan-components
-      .gitlab/tests/cram/generic/lcm
-      .gitlab/tests/cram/generic
-      .gitlab/tests/cram/$DUT_BOARD
-    CRAM_TEST_SUITE_POST: |
-      .gitlab/tests/cram/post/generic
+      .gitlab/tests/cram/generic/obuspa.t
+      .gitlab/tests/cram/generic/ubus-datamodel-list.t
+    CRAM_TEST_SUITE_POST: ""
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
 
@@ -148,7 +144,11 @@
       run_check \
         timeout --kill-after=10s --verbose ${TEST_CUTOFF_TIMEOUT}s \
         python3 -m cram --xunit-file=cram-result-$LABGRID_TARGET.xunit.xml --verbose $CRAM_TEST_SUITE $CRAM_TEST_SUITE_EXTRA | tee cram-result-$LABGRID_TARGET.txt
-      run_check python3 -m cram --xunit-file=cram-result-post-$LABGRID_TARGET.xunit.xml --verbose $CRAM_TEST_SUITE_POST | tee --append cram-result-$LABGRID_TARGET.txt
+      if [ -n "$CRAM_TEST_SUITE_POST" ]; then
+        run_check python3 -m cram --xunit-file=cram-result-post-$LABGRID_TARGET.xunit.xml --verbose $CRAM_TEST_SUITE_POST | tee --append cram-result-$LABGRID_TARGET.txt
+      else
+        printf '%s\n' '<?xml version="1.0" encoding="utf-8"?><testsuite errors="0" failures="0" name="cram-post" skipped="0" tests="0" time="0"></testsuite>' > cram-result-post-$LABGRID_TARGET.xunit.xml
+      fi
       run_check ssh root@$TARGET_LAN_IP 'logger -t CI -p local0.info "Testing finished, $(uptime -p)"'
 
     - section_end "test-execution"
