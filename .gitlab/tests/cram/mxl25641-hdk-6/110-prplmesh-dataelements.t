@@ -179,7 +179,7 @@ Check that prplmesh is operational:
   Mode: Agent+Controller
   Controller:
           bridge MAC: (4C:BA:7D|A8:C2:46|AC:9A:96):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
-          1 agent(s) connected
+          [1-9]+ agent\(s\) connected (re)
   Agent:
           MAC address: [0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
           management mode: Multi-AP-Controller-and-Agent
@@ -198,6 +198,13 @@ Check that prplmesh is operational:
                   interface: wlan4
                   current state: OPERATIONAL
                   best state: OPERATIONAL
+
+Assert agent count matches testbed topology (testbed-01: 1, testbed-02: 2 with HomePlug-backhauled TL-WPA7817, see PCF-2504):
+
+  $ ACT=$(R "/opt/prplmesh/bin/prplmesh_cli -c status -o pretty" \
+  >     | awk '/agent\(s\) connected/ {print $1}')
+  $ if echo "$CI_RUNNER_DESCRIPTION" | grep -q testbed-02; then EXP=2; else EXP=1; fi
+  $ test "$ACT" = "$EXP" || echo "agent count mismatch: actual=$ACT expected=$EXP"
 
 Check that controller received correct info about wifi subsystem:
 
