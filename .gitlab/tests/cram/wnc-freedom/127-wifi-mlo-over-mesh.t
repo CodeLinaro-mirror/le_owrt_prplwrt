@@ -130,15 +130,15 @@ Second MLO group (Guest):
 Restore defautlt MLDUnit and config values:
 
   $ prplmesh_revert_mlo_to_defaults
-  [{"Device.WiFi.SSID.1.":{"MLDUnit":-1}}]
+  [{"Device.WiFi.SSID.1.":{"MLDUnit":0}}]
   [{"Device.WiFi.SSID.3.":{"MLDUnit":1}}]
-  [{"Device.WiFi.SSID.4.":{"MLDUnit":-1}}]
+  [{"Device.WiFi.SSID.4.":{"MLDUnit":0}}]
   [{"Device.WiFi.SSID.6.":{"MLDUnit":1}}]
-  [{"Device.WiFi.SSID.7.":{"MLDUnit":-1}}]
+  [{"Device.WiFi.SSID.7.":{"MLDUnit":0}}]
   [{"Device.WiFi.SSID.9.":{"MLDUnit":1}}]
-  [{"Device.WiFi.SSID.16.":{"MLDUnit":0}}]
-  [{"Device.WiFi.SSID.17.":{"MLDUnit":1}}]
-  [{"Device.WiFi.SSID.18.":{"MLDUnit":0}}]
+  [{"Device.WiFi.SSID.16.":{"MLDUnit":2}}]
+  [{"Device.WiFi.SSID.17.":{"MLDUnit":2}}]
+  [{"Device.WiFi.SSID.18.":{"MLDUnit":2}}]
   01/opt/prplmesh/bin/beerocks_agent
   /opt/prplmesh/bin/beerocks_controller
   /opt/prplmesh/bin/beerocks_fronthaul -i wlan0
