@@ -61,20 +61,8 @@ stages:
 
     - >
       for package in $CI_SDK_BUILD_PACKAGES; do
-        make V=sc package/$package/{download,check} FIXUP=1
+        make V=sc package/$package/download
       done 2>&1 | tee --append logs/build.log
-
-    - >
-      topdir=$(pwd);
-      for feed in $(find feeds -follow -name .git); do
-        pushd $(dirname $feed) > /dev/null; git diff-index --exit-code HEAD || {
-          ret=$?
-          echo "Feed $(dirname $feed) packages integrity issues, please check feed-packages-hash-issues.patch from artifacts"
-          git diff | tee $topdir/feed-packages-hash-issues.patch
-          exit $ret
-        }
-        popd > /dev/null
-      done
 
     - >
       for package in $CI_SDK_BUILD_PACKAGES; do

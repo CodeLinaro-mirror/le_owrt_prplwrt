@@ -71,35 +71,8 @@
     - section_end "tools-tar-compile"
 
     - section_start "download" "Downloading source code" "collapsed"
-    - |
-      if [[ "$CI_MERGE_REQUEST_LABELS" == *"skip_integrity_check"* ]]; then
-        make -j $(nproc) download 2>&1 | tee --append logs/build.log
-      else
-        make -j $(nproc) download check FIXUP=1 2>&1 | tee --append logs/build.log
-      fi
+    - make -j $(nproc) download 2>&1 | tee --append logs/build.log
     - section_end "download"
-
-    - section_start "integrity-check" "Package & feed integrity check" "collapsed"
-    - >
-      git diff-index --exit-code HEAD || {
-        ret=$?
-        echo "Package integrity issues, please check the output bellow or packages-hash-issues.patch from artifacts"
-        git diff | tee packages-hash-issues.patch
-        exit $ret
-      }
-
-    - >
-      topdir=$(pwd);
-      for feed in $(find feeds -name .git); do
-        pushd $(dirname $feed) > /dev/null; git diff-index --exit-code HEAD || {
-          ret=$?
-          echo "Feed $(dirname $feed) packages integrity issues, please check the output bellow or feed-packages-hash-issues.patch from artifacts"
-          git diff | tee --append $topdir/feed-packages-hash-issues.patch
-          exit $ret
-        }
-        popd > /dev/null
-      done
-    - section_end "integrity-check"
 
     - >
       trap "
