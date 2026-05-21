@@ -114,21 +114,21 @@ get_dataelements_apmld_normalized() {
   done | LC_ALL=C sort
 }
 
-# Restore default MLD/config after MLO test: WiFi MLDUnit for AP 1..9 (0,1,0,1,0,1,0,1,0),
+# Restore default MLD/config after MLO test: WiFi MLDUnit for AP 1..9 (0,1,0,1,0,1,2,2,2),
 # use_dataelements_vap_configs=0, Network.AccessPoint.1 SSID=prplOS, KeyPassphrase=password,
 # commit, prplmesh restart.
 # Out: echoes "MLO_DEFAULTS_RESTORED" when done.
 prplmesh_revert_mlo_to_defaults() {
   R logger -t cram "Restore default MLD configuration"
-  R "ba-cli -j -l WiFi.AccessPoint.1.SSIDReference+.MLDUnit=-1" | sed '/^$/d'
+  R "ba-cli -j -l WiFi.AccessPoint.1.SSIDReference+.MLDUnit=0" | sed '/^$/d'
   R "ba-cli -j -l WiFi.AccessPoint.2.SSIDReference+.MLDUnit=1" | sed '/^$/d'
-  R "ba-cli -j -l WiFi.AccessPoint.3.SSIDReference+.MLDUnit=-1" | sed '/^$/d'
+  R "ba-cli -j -l WiFi.AccessPoint.3.SSIDReference+.MLDUnit=0" | sed '/^$/d'
   R "ba-cli -j -l WiFi.AccessPoint.4.SSIDReference+.MLDUnit=1" | sed '/^$/d'
-  R "ba-cli -j -l WiFi.AccessPoint.5.SSIDReference+.MLDUnit=-1" | sed '/^$/d'
+  R "ba-cli -j -l WiFi.AccessPoint.5.SSIDReference+.MLDUnit=0" | sed '/^$/d'
   R "ba-cli -j -l WiFi.AccessPoint.6.SSIDReference+.MLDUnit=1" | sed '/^$/d'
-  R "ba-cli -j -l WiFi.AccessPoint.7.SSIDReference+.MLDUnit=0" | sed '/^$/d'
-  R "ba-cli -j -l WiFi.AccessPoint.8.SSIDReference+.MLDUnit=1" | sed '/^$/d'
-  R "ba-cli -j -l WiFi.AccessPoint.9.SSIDReference+.MLDUnit=0" | sed '/^$/d'
+  R "ba-cli -j -l WiFi.AccessPoint.7.SSIDReference+.MLDUnit=2" | sed '/^$/d'
+  R "ba-cli -j -l WiFi.AccessPoint.8.SSIDReference+.MLDUnit=2" | sed '/^$/d'
+  R "ba-cli -j -l WiFi.AccessPoint.9.SSIDReference+.MLDUnit=2" | sed '/^$/d'
   R "sed -i 's/^use_dataelements_vap_configs=.*/use_dataelements_vap_configs=0/' /opt/prplmesh/config/beerocks_controller.conf"
   sleep 10
   R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=0" | tr -d '\n'
