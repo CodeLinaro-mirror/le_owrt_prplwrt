@@ -66,8 +66,8 @@ Verify all Schedules.Schedule.*.Status parameters are set to Disabled
   $ R "ba-cli Device.Schedules.Enable=1"  > /dev/null 2>&1
   $ R "ba-cli Device.Schedules.Schedule.*.Enable=0"  > /dev/null 2>&1
   $ R "ba-cli Device.Schedules.Schedule.*.Status?" | tail -n +2 | sed -E 's/\.Schedule\.[0-9]+\./.Schedule.X./' | head -n -1
-  Device.Schedules.Schedule.X.Status="Disabled"
-  Device.Schedules.Schedule.X.Status="Disabled"
+  Device.Schedules.Schedule.X.Status="X_PRPLWARE-COM_Disabled"
+  Device.Schedules.Schedule.X.Status="X_PRPLWARE-COM_Disabled"
 
 Test InverseMode functionality:
 
