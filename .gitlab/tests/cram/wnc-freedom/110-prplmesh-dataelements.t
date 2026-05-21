@@ -212,7 +212,7 @@ Check that prplmesh is operational:
 Assert agent count matches testbed topology (testbed-01: 1, testbed-02: 2 with HomePlug-backhauled TL-WPA7817, see PCF-2504):
 
   $ ACT=$(R "/opt/prplmesh/bin/prplmesh_cli -c status -o pretty" \
-  >     | sed -nE 's/.* ([0-9]+) agent\(s\) connected.*/\1/p')
+  >     | awk '/agent\(s\) connected/ {print $1}')
   $ if echo "$CI_RUNNER_DESCRIPTION" | grep -q testbed-02; then EXP=2; else EXP=1; fi
   $ test "$ACT" = "$EXP" || echo "agent count mismatch: actual=$ACT expected=$EXP"
 
