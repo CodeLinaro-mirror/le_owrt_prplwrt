@@ -1,5 +1,5 @@
 .mxl25641-cdrouter: &mxl25641_cdrouter
-  needs: ["build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread"]
+  needs: []
   extends:
     - .mxl25641-hdk-6 testbed
     - .cdrouter

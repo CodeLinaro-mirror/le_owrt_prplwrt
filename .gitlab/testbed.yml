@@ -64,6 +64,20 @@
     - mkdir -p ~/.ssh; chmod 700 ~/.ssh
 
     - |
+      if [ -n "$IMAGE_URL" ]; then
+        echo "Downloading firmware directly from $IMAGE_URL..."
+        mkdir -p "$TFTP_IMAGE_PATH"
+        curl -fsSL --header "JOB-TOKEN: $CI_JOB_TOKEN" -o "$TFTP_IMAGE_PATH/$TFTP_IMAGE_FILENAME" "$IMAGE_URL"
+      elif [ -n "$PFD_PIPELINE_ID" ]; then
+        echo "Downloading pfd firmware downloader..."
+        curl -fsSL -o ./pfd "$PFD_BINARY_URL"
+        chmod +x ./pfd
+        echo "Downloading firmware for ${PFD_DEVICE:-$DUT_BOARD} from pipeline $PFD_PIPELINE_ID..."
+        mkdir -p "$TFTP_IMAGE_PATH"
+        ./pfd get "${PFD_DEVICE:-$DUT_BOARD}" --pipeline "$PFD_PIPELINE_ID" --type "${PFD_FIRMWARE_TYPE:-initramfs}" -o "$TFTP_IMAGE_PATH/"
+      fi
+
+    - |
       echo "Using firmware image $TFTP_IMAGE_PATH/$TFTP_IMAGE_FILENAME"
       cp "$TFTP_IMAGE_PATH/$TFTP_IMAGE_FILENAME" "$TESTBED_TFTP_PATH"
 

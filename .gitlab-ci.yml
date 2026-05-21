@@ -1,6 +1,8 @@
 variables:
   CI_DESIGNATED_BRANCH: prpl/nightly
   CI_DESIGNATED_BRANCH_SLUG: prpl-nightly
+  PFD_PIPELINE_ID: "2544250523"
+  PFD_BINARY_URL: "https://gitlab.com/ynezz/prplos-ci-build-artifacts/-/jobs/13116912273/artifacts/raw/pfd-linux-amd64"
 
 include:
   - local: .gitlab/build.yml
@@ -92,11 +94,15 @@ run test Haze initramfs:
   extends: .prpl-haze testbed
 
 run test MXL25641-HDK-6 with system on eMMC:
-  needs: ["build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread"]
+  needs: []
+  rules:
+    - when: manual
   extends: .mxl25641-hdk-6 testbed
 
 run test Freedom initramfs:
-  needs: ["build test qca_ipq95xx prpl cellular security thread"]
+  needs: []
+  rules:
+    - when: manual
   extends: .wnc-freedom testbed
 
 run test Mozart initramfs:

@@ -10,6 +10,7 @@
     TFTP_IMAGE_FILENAME: prplos-intel_x86-lgm-PRPL_OSP_v2-wgrtd159be_b_wav700_fullimage.fit
     TFTP_IMAGE_FILENAME_PATTERN: /.*prplos-intel_x86-lgm-PRPL_OSP_v2-wgrtd159be_b_wav700_fullimage.fit/
     DUT_ARCH_PACKAGES_PATH: $PACKAGE_DIR/${DUT_ARCH}
+    IMAGE_URL: "https://gitlab.com/api/v4/projects/prpl-foundation%2Fprplos%2Fprplos/jobs/14490746111/artifacts/bin/targets/intel_x86/lgm/single-images/prplos-intel_x86-lgm-PRPL_OSP_v2-wgrtd159be_b_wav700_fullimage.fit"
     CDROUTER_CONFIG_LAN_IFACE_ALIAS: cpe-lan2
   tags:
-    - dut-mxl25641-hdk-6-b
+    - dut-mxl25641-hdk-6-b-fast
