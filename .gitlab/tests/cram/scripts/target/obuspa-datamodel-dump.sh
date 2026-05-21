@@ -8,6 +8,7 @@ case "${1:-generic}" in
             -e 'Device.WiFi.EndPoint.{i}.Vendor.' \
             -e 'Device.WiFi.Radio.{i}.Vendor.' \
             -e 'Device.WiFi.Radio.{i}.NaStaMonitor.' \
+            -e 'Device.WiFi.Vendor.MLO.' \
             -e 'Device.WiFi.Vendor.ReconfManager.'
         ;;
     cellular)
