@@ -5076,7 +5076,6 @@ Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmPacketsSent.AC_VI                  
 Device.WiFi.SSID.{i}.Stats.X_PRPLWARE-COM_WmmPacketsSent.AC_VO                                       proto::prplmesh-dm-mapper
 Device.WiFi.SSID.{i}.Status                                                                          proto::prplmesh-dm-mapper
 Device.WiFi.SSIDNumberOfEntries                                                                      proto::prplmesh-dm-mapper
-Device.WiFi.Vendor.                                                                                  proto::prplmesh-dm-mapper
 Device.WiFi.X_PRPLWARE-COM_ProcessManager.                                                           proto::prplmesh-dm-mapper
 Device.WiFi.X_PRPLWARE-COM_ProcessManager.PWHM.                                                      proto::prplmesh-dm-mapper
 Device.WiFi.X_PRPLWARE-COM_ProcessManager.PWHM.Enable                                                proto::prplmesh-dm-mapper
