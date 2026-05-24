@@ -13,6 +13,7 @@ packages:
   - losetup
   - readmfg
   - swupdate
+  - uboot-tools
 
 diffconfig: |
   CONFIG_EXTERNAL_CPIO=""
