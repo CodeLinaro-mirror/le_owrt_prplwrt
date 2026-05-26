@@ -55,7 +55,7 @@ Restart prplmesh:
   $ R "ba-cli X_PRPLWARE-COM_ProcessManager.PrplMesh.ManagementMode=Multi-AP-Controller-and-Agent"  > /dev/null
   $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=1" | tr -d '\n'
   1 (no-eol)
-  
+
   $ R "ubus -t 60 wait_for X_PRPLWARE-COM_WiFiController.Network.Device.1"
 
 Start wireless:
@@ -182,14 +182,8 @@ Check that wireless is operating:
 Check that prplmesh processes are running:
 
   $ R logger -t cram "Check that prplmesh processes are running"
-  $ R "ps axw" | sed -nE 's/.*(\/opt\/prplmesh\/bin.*)/\1/p' | LC_ALL=C sort
-  /opt/prplmesh/bin/beerocks_agent
-  /opt/prplmesh/bin/beerocks_controller
-  /opt/prplmesh/bin/beerocks_fronthaul -i wlan0
-  /opt/prplmesh/bin/beerocks_fronthaul -i wlan1
-  /opt/prplmesh/bin/beerocks_fronthaul -i wlan2
-  /opt/prplmesh/bin/beerocks_vendor_message
-  /opt/prplmesh/bin/ieee1905_transport
+  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Status?" | tr -d '\n'
+  Active (no-eol)
 
 Check that prplmesh is operational:
 
