@@ -4,7 +4,7 @@ Create R alias:
 
 Check that ubus has expected datamodels available:
 
-  $ R "ubus list | grep '[[:upper:]]' | grep -v -e '\.[[:digit:]]' -e '^Cellular' -e 'Device.Cellular' -e 'WiFi.Vendor.Daemon' -e 'WiFi.Vendor.ModuleMode' -e '^WiFi.Vendor.MLO' -e '^Bridging.Bridge.[SV]' -e 'WiFi.Vendor.ReconfManager'"
+  $ R "ubus list | grep '[[:upper:]]' | grep -v -e '\.[[:digit:]]' -e '^Cellular' -e 'Device.Cellular' -e 'Device.SessionManagement' -e 'Device.TrustedElements' -e '^SessionManagement' -e '^TrustedElements' -e 'WiFi.Vendor.Daemon' -e 'WiFi.Vendor.ModuleMode' -e '^WiFi.Vendor.MLO' -e '^Bridging.Bridge.[SV]' -e 'WiFi.Vendor.ReconfManager'"
   ACLManager
   ACLManager.Role
   Bridging
@@ -119,11 +119,9 @@ Check that ubus has expected datamodels available:
   Device.SSH
   Device.Schedules
   Device.Security
-  Device.SessionManagement
   Device.SoftwareModules
   Device.Syslog
   Device.Time
-  Device.TrustedElements
   Device.UPnP
   Device.UPnP.Description
   Device.UPnP.Discovery
@@ -350,18 +348,6 @@ Check that ubus has expected datamodels available:
   Security
   Security.CABundle
   Security.Certificate
-  SessionManagement
-  SessionManagement.PDN
-  SessionManagement.PDP
-  SessionManagement.PDU
-  SessionManagement.PDU.NetworkSlice
-  SessionManagement.PDU.QoSFlow
-  SessionManagement.PDU.QoSRule
-  SessionManagement.PDU.QoSRule.Filter
-  SessionManagement.Session
-  SessionManagement.Session.IPv4Address
-  SessionManagement.Session.IPv6Address
-  SessionManagement.Session.PCO
   SoftwareModules
   SoftwareModules.Config
   SoftwareModules.Config.Repository
@@ -395,9 +381,6 @@ Check that ubus has expected datamodels available:
   Timingila.RlyehPluginsConfig
   Timingila.RlyehPluginsInfo
   Timingila.RlyehPluginsInfo.LoadedPlugins
-  TrustedElements
-  TrustedElements.SIM
-  TrustedElements.SIM.Profile
   UPnP
   UPnP.Device
   UPnP.Device.Capabilities
