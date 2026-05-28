@@ -6,13 +6,8 @@ WiFi.Radio.*.Capabilities same as DataElements Device.1.Radio.*.Capabilities
 Check Controller, Agent,FrontHaul process are Running:
 
   $ prplmesh_enable_mlo
-  01/opt/prplmesh/bin/beerocks_agent
-  /opt/prplmesh/bin/beerocks_controller
-  /opt/prplmesh/bin/beerocks_fronthaul -i wlan0
-  /opt/prplmesh/bin/beerocks_fronthaul -i wlan1
-  /opt/prplmesh/bin/beerocks_fronthaul -i wlan2
-  /opt/prplmesh/bin/beerocks_vendor_message
-  /opt/prplmesh/bin/ieee1905_transport
+  01
+  Active
   MLO_ENABLED
 
 #########################################
@@ -123,13 +118,8 @@ Compare: same => OK, else MISMATCH and show both:
   [{"Device.WiFi.SSID.16.":{"MLDUnit":2}}]
   [{"Device.WiFi.SSID.17.":{"MLDUnit":2}}]
   [{"Device.WiFi.SSID.18.":{"MLDUnit":2}}]
-  01/opt/prplmesh/bin/beerocks_agent
-  /opt/prplmesh/bin/beerocks_controller
-  /opt/prplmesh/bin/beerocks_fronthaul -i wlan0
-  /opt/prplmesh/bin/beerocks_fronthaul -i wlan1
-  /opt/prplmesh/bin/beerocks_fronthaul -i wlan2
-  /opt/prplmesh/bin/beerocks_vendor_message
-  /opt/prplmesh/bin/ieee1905_transport
+  01
+  Active
   MLO_DEFAULTS_RESTORED
 
 Final log:
