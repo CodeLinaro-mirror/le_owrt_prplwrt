@@ -12,7 +12,9 @@ DEFAULT_EXEC_ENV="generic"
 DEFAULT_INSTALL_TIMEOUT="180"
 
 duid=""
+du_url=""
 eu_status=""
+test_app_duid=""
 
 handle_error() {
 	local exit_code=$1
@@ -204,6 +206,18 @@ expand_url_tokens() {
 	esac
 }
 
+generate_test_app_duid() {
+	local uuid="$1"
+	local exec_env="$2"
+
+	python3 - "$uuid" "$exec_env" <<'PY'
+import sys
+import uuid
+
+print(uuid.uuid5(uuid.UUID(sys.argv[1]), sys.argv[2]))
+PY
+}
+
 seconds_remaining() {
 	local now
 
@@ -257,7 +271,7 @@ authenticated_agent_socket_ready() {
 deployment_unit_present() {
 	duid="$(
 		ba_cli_json_filter \
-			"SoftwareModules.DeploymentUnit.[ UUID == \"$test_app_uuid\" ].DUID?" \
+			"SoftwareModules.DeploymentUnit.[ DUID == \"$test_app_duid\" ].DUID?" \
 			'@[*].*.DUID' 2>/dev/null |
 			tr -d '\r' |
 			sed -n '1p' ||
@@ -265,6 +279,31 @@ deployment_unit_present() {
 	)"
 
 	[ -n "$duid" ]
+}
+
+deployment_unit_url_matches() {
+	du_url="$(
+		ba_cli_json_filter \
+			"SoftwareModules.DeploymentUnit.[ DUID == \"$test_app_duid\" ].URL?" \
+			'@[*].*.URL' 2>/dev/null |
+			tr -d '\r' |
+			sed -n '1p' ||
+			true
+	)"
+
+	[ "$du_url" = "$test_app_url" ]
+}
+
+deployment_unit_ready_for_reuse() {
+	if ! deployment_unit_present; then
+		return 1
+	fi
+
+	if ! deployment_unit_url_matches; then
+		fail "USP Services DeploymentUnit $duid uses URL '$du_url', expected '$test_app_url'"
+	fi
+
+	return 0
 }
 
 execution_unit_active() {
@@ -327,14 +366,23 @@ main() {
 		fail "Unable to expand %BOARD_ARCH% in CDROUTER_USP_SERVICES_TEST_APP_URL"
 	validate_no_double_quote CDROUTER_USP_SERVICES_TEST_APP_URL "$test_app_url"
 
+	test_app_duid="$(generate_test_app_duid "$test_app_uuid" "$exec_env")"
+	log_info "USP Services test app DUID is $test_app_duid"
+
 	deadline=$(($(date +%s) + install_timeout))
 
 	wait_for_condition "authenticated controller UDS socket" authenticated_controller_socket_ready
 	wait_for_condition "authenticated agent UDS socket" authenticated_agent_socket_ready
 	restart_cthulhu_after_obuspa_reset
 	configure_exec_env_roles
-	install_test_app
+	if deployment_unit_ready_for_reuse; then
+		log_info "USP Services test application is already installed"
+	else
+		install_test_app
+	fi
 	wait_for_condition "USP Services DeploymentUnit" deployment_unit_present
+	deployment_unit_url_matches ||
+		fail "USP Services DeploymentUnit $duid uses URL '$du_url', expected '$test_app_url'"
 	wait_for_condition "USP Services ExecutionUnit" execution_unit_active
 	wait_for_condition "Device.TestUDS data model" test_uds_model_present
 
