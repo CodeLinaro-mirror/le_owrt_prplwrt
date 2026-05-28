@@ -5,6 +5,17 @@ Create R alias:
 
   $ R "logger -t cram 'Starting EHT Operations test (step 2) ...'"
 
+#########################################
+#    test 6GHz getEHTOperations         #
+#########################################
+
+  $ R logger -t cram "Test getEHTOperations on 6GHz"
+
+Check ChannelsInUse:
+
+  $ wifi_dm_radio_band 6 "ChannelsInUse?"
+  Device.WiFi.Radio.\d+.ChannelsInUse="33,37,41,45,49,53,57,61" (re)
+
 Check EhtPhyCapabilities, EhtPhyCapabilitiesStr, CurrentEhtOperatingIE and getEHTOperations():
 
   $ R logger -t cram "Check EHT Capabilities"
@@ -82,6 +93,28 @@ Check channels 49,53 are still configured in Radio.StaticPuncturing
 
   $ wifi_dm_radio_band 6 "StaticPuncturing.DisabledSubChannels?"
   Device.WiFi.Radio.\d+.StaticPuncturing.DisabledSubChannels="49,53" (re)
+
+Check that all radios and private vaps are still up:
+
+  $ sleep 5
+
+  $ wifi_dm_radio_band 2 "Status?"
+  Device.WiFi.Radio.\d+.Status="Up" (re)
+
+  $ wifi_dm_radio_band 5 "Status?"
+  Device.WiFi.Radio.\d+.Status="Up" (re)
+
+  $ wifi_dm_radio_band 6 "Status?"
+  Device.WiFi.Radio.\d+.Status="Up" (re)
+
+  $ wifi_dm "AccessPoint.1.Status?0"
+  Device.WiFi.AccessPoint.1.Status="Enabled"
+
+  $ wifi_dm "AccessPoint.3.Status?0"
+  Device.WiFi.AccessPoint.3.Status="Enabled"
+
+  $ wifi_dm "AccessPoint.5.Status?0"
+  Device.WiFi.AccessPoint.5.Status="Enabled"
 
 #########################################
 #    Restore defaults                   #
