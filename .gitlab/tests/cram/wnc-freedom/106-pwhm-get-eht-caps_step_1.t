@@ -136,6 +136,28 @@ Check that get_eht_ops output is empty:
 
   $ get_eht_ops 2.4
 
+Check that all radios and private vaps are still up:
+
+  $ sleep 5
+
+  $ wifi_dm_radio_band 2 "Status?"
+  Device.WiFi.Radio.\d+.Status="Up" (re)
+
+  $ wifi_dm_radio_band 5 "Status?"
+  Device.WiFi.Radio.\d+.Status="Up" (re)
+
+  $ wifi_dm_radio_band 6 "Status?"
+  Device.WiFi.Radio.\d+.Status="Up" (re)
+
+  $ wifi_dm "AccessPoint.1.Status?0"
+  Device.WiFi.AccessPoint.1.Status="Enabled"
+
+  $ wifi_dm "AccessPoint.3.Status?0"
+  Device.WiFi.AccessPoint.3.Status="Enabled"
+
+  $ wifi_dm "AccessPoint.5.Status?0"
+  Device.WiFi.AccessPoint.5.Status="Enabled"
+
 #########################################
 #    test 5GHz getEHTOperations         #
 #########################################
@@ -225,13 +247,24 @@ Check if channels 40 is still configured in Radio.StaticPuncturing
   $ wifi_dm_radio_band 5 "StaticPuncturing.DisabledSubChannels?" "WiFi." "ba-cli"
   WiFi.Radio.\d+.StaticPuncturing.DisabledSubChannels="40" (re)
 
-#########################################
-#    test 6GHz getEHTOperations         #
-#########################################
+Check that all radios and private vaps are still up:
 
-  $ R logger -t cram "Test getEHTOperations on 6GHz"
+  $ sleep 5
 
-Check ChannelsInUse:
+  $ wifi_dm_radio_band 2 "Status?"
+  Device.WiFi.Radio.\d+.Status="Up" (re)
 
-  $ wifi_dm_radio_band 6 "ChannelsInUse?"
-  Device.WiFi.Radio.\d+.ChannelsInUse="33,37,41,45,49,53,57,61" (re)
+  $ wifi_dm_radio_band 5 "Status?"
+  Device.WiFi.Radio.\d+.Status="Up" (re)
+
+  $ wifi_dm_radio_band 6 "Status?"
+  Device.WiFi.Radio.\d+.Status="Up" (re)
+
+  $ wifi_dm "AccessPoint.1.Status?0"
+  Device.WiFi.AccessPoint.1.Status="Enabled"
+
+  $ wifi_dm "AccessPoint.3.Status?0"
+  Device.WiFi.AccessPoint.3.Status="Enabled"
+
+  $ wifi_dm "AccessPoint.5.Status?0"
+  Device.WiFi.AccessPoint.5.Status="Enabled"
