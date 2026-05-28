@@ -1,12 +1,8 @@
-Skip on testbed-02 until PCF-2585 is resolved:
-
-  $ if echo "$CI_RUNNER_DESCRIPTION" | grep -q testbed-02; then exit 80; fi
-
 Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
-  $ R logger -t cram "Starting with CellularManager setup 004-set-trusted-elements.t"
+  $ R logger -t cram "Starting with CellularManager setup 018-cellular-trusted-elements.t"
 
 Read the IMSI value using mmcli:
 
@@ -29,4 +25,4 @@ Wait for SIM registration and modem setup:
 
   $ sleep 30
 
-  $ R logger -t cram "Completed with CellularManager setup 004-set-trusted-elements.t"
+  $ R logger -t cram "Completed with CellularManager setup 018-cellular-trusted-elements.t"
