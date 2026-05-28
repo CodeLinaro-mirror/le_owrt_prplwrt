@@ -22,7 +22,7 @@
     CDROUTER_CONFIG_USP_SERVICES_UNTRUSTED_ROLE: auto
     CDROUTER_TEST_CONFIG: generic
     CDROUTER_DUT_INIT_USP_MTP_SCRIPT: .gitlab/scripts/dut-init/cdrouter-dut-configure-usp-mqtt.sh
-    CDROUTER_DUT_INIT_USP_SERVICES_PREPULL_SCRIPT: ''
+    CDROUTER_DUT_INIT_USP_SERVICES_INSTALL_SCRIPT: ''
     DUT_OBUSPA_VERBOSE_LEVEL: ''
     DUT_OBUSPA_PROTOCOL_TRACE: ''
     DUT_SLEEP_AFTER_BOOT: 90
@@ -78,25 +78,13 @@
     - section_start "dut-bringup" "DUT Bringup" "collapsed"
 
     - .gitlab/scripts/testbed-device.py --target $LABGRID_TARGET boot_into shell
-    - >
-      if [ -z "${CDROUTER_DUT_INIT_USP_SERVICES_PREPULL_SCRIPT:-}" ]; then
-        sudo ip link set $TESTBED_WAN_INTERFACE down 2> /dev/null;
-      fi
+    - sudo ip link set $TESTBED_WAN_INTERFACE down 2> /dev/null
 
     - >
       .gitlab/scripts/testbed-device.py
       --target $LABGRID_TARGET check_network
       --network lan
       --remote-host $TARGET_LAN_TEST_HOST
-
-    - >
-      if [ -n "${CDROUTER_DUT_INIT_USP_SERVICES_PREPULL_SCRIPT:-}" ]; then
-        section_start "usp-services-prepull" "USP Services Image Pre-pull" "collapsed";
-        echo "Running $CDROUTER_DUT_INIT_USP_SERVICES_PREPULL_SCRIPT";
-        "${CI_PROJECT_DIR}/$CDROUTER_DUT_INIT_USP_SERVICES_PREPULL_SCRIPT";
-        sudo ip link set $TESTBED_WAN_INTERFACE down 2> /dev/null;
-        section_end "usp-services-prepull";
-      fi
 
     - sleep $DUT_SLEEP_AFTER_BOOT
 
@@ -123,6 +111,14 @@
       if [ -n "${CDROUTER_DUT_INIT_USP_MTP_SCRIPT:-}" ]; then
         echo "Running $CDROUTER_DUT_INIT_USP_MTP_SCRIPT";
         "${CI_PROJECT_DIR}/$CDROUTER_DUT_INIT_USP_MTP_SCRIPT";
+      fi
+
+    - >
+      if [ -n "${CDROUTER_DUT_INIT_USP_SERVICES_INSTALL_SCRIPT:-}" ]; then
+        section_start "usp-services-install" "USP Services App Install" "collapsed";
+        echo "Running $CDROUTER_DUT_INIT_USP_SERVICES_INSTALL_SCRIPT";
+        "${CI_PROJECT_DIR}/$CDROUTER_DUT_INIT_USP_SERVICES_INSTALL_SCRIPT";
+        section_end "usp-services-install";
       fi
 
     - >
@@ -264,9 +260,8 @@
 .cdrouter-usp-services:
   variables:
     CDROUTER_TEST_CONFIG: generic
-    CDROUTER_DUT_INIT_USP_SERVICES_PREPULL_SCRIPT: .gitlab/scripts/dut-init/cdrouter-dut-prepull-usp-services-test-app.sh
+    CDROUTER_DUT_INIT_USP_SERVICES_INSTALL_SCRIPT: .gitlab/scripts/dut-init/cdrouter-dut-install-usp-services-test-app.sh
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
       .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
-      .gitlab/scripts/dut-init/cdrouter-dut-install-usp-services-test-app.sh
       .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh

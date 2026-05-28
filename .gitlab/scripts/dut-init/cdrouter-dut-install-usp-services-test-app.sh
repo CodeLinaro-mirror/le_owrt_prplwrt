@@ -9,12 +9,16 @@ DEFAULT_TEST_APP_UUID="e6626035-71c6-594d-bcfb-a4ecca69514e"
 DEFAULT_TEST_APP_ENDPOINT_ID="proto::test-uds"
 DEFAULT_REQUIRED_ROLES="Full Access"
 DEFAULT_EXEC_ENV="generic"
-DEFAULT_INSTALL_TIMEOUT="180"
+DEFAULT_INSTALL_TIMEOUT="300"
+DEFAULT_WAN_SETTLE_DELAY="5"
 
 duid=""
 du_url=""
+du_status=""
 eu_status=""
+registry_host=""
 test_app_duid=""
+test_app_version=""
 
 handle_error() {
 	local exit_code=$1
@@ -72,15 +76,16 @@ validate_uuid() {
 	esac
 }
 
-validate_timeout() {
-	local value="$1"
+validate_positive_integer() {
+	local name="$1"
+	local value="$2"
 
 	case "$value" in
 	"" | *[!0-9]*)
-		fail "CDROUTER_USP_SERVICES_INSTALL_TIMEOUT must be a positive integer"
+		fail "$name must be a positive integer"
 		;;
 	0)
-		fail "CDROUTER_USP_SERVICES_INSTALL_TIMEOUT must be greater than zero"
+		fail "$name must be greater than zero"
 		;;
 	esac
 }
@@ -138,6 +143,13 @@ dump_usp_services_state() {
 	fi
 
 	log_info "Dumping USP Services installer state"
+	if [ -n "${TESTBED_WAN_INTERFACE:-}" ]; then
+		sudo ip addr show "$TESTBED_WAN_INTERFACE" || true
+	fi
+	ssh_dut_shell "ip addr; ip route; cat /etc/resolv.conf" || true
+	if [ -n "$registry_host" ]; then
+		ssh_dut_cmd nslookup "$registry_host" || true
+	fi
 	ba_cli_json "SoftwareModules.?" || true
 	ba_cli_json "SoftwareModules.ExecEnv.?" || true
 	ba_cli_json "SoftwareModules.DeploymentUnit.?" || true
@@ -206,6 +218,41 @@ expand_url_tokens() {
 	esac
 }
 
+docker_registry_host_from_url() {
+	local url="$1"
+	local registry
+
+	case "$url" in
+	docker://*/*)
+		registry="${url#docker://}"
+		registry="${registry%%/*}"
+		echo "${registry%%:*}"
+		;;
+	*)
+		return 1
+		;;
+	esac
+}
+
+docker_image_version_from_url() {
+	local url="$1"
+	local reference
+	local last_component
+
+	reference="${url#docker://}"
+	reference="${reference#*/}"
+	last_component="${reference##*/}"
+
+	case "$last_component" in
+	*:*)
+		echo "${last_component##*:}"
+		;;
+	*)
+		echo "latest"
+		;;
+	esac
+}
+
 generate_test_app_duid() {
 	local uuid="$1"
 	local exec_env="$2"
@@ -246,6 +293,27 @@ wait_for_condition() {
 		log_info "Waiting for $description (${remaining}s remaining)"
 		sleep 5
 	done
+}
+
+bring_testbed_wan_up() {
+	log_info "Bringing testbed WAN interface $TESTBED_WAN_INTERFACE up for USP Services install"
+	sudo ip link set "$TESTBED_WAN_INTERFACE" up 2>/dev/null
+	sleep "$wan_settle_delay"
+}
+
+bring_testbed_wan_down() {
+	if [ -n "${TESTBED_WAN_INTERFACE:-}" ]; then
+		log_info "Bringing testbed WAN interface $TESTBED_WAN_INTERFACE down after USP Services install"
+		sudo ip link set "$TESTBED_WAN_INTERFACE" down 2>/dev/null || true
+	fi
+}
+
+dut_has_default_route() {
+	ssh_dut_shell "ip route get 1.1.1.1 >/dev/null 2>&1"
+}
+
+dut_can_resolve_registry() {
+	ssh_dut_cmd nslookup "$registry_host" >/dev/null 2>&1
 }
 
 authenticated_controller_socket_ready() {
@@ -294,6 +362,33 @@ deployment_unit_url_matches() {
 	[ "$du_url" = "$test_app_url" ]
 }
 
+deployment_unit_status() {
+	du_status="$(
+		ba_cli_json_filter \
+			"SoftwareModules.DeploymentUnit.[ DUID == \"$test_app_duid\" ].Status?" \
+			'@[*].*.Status' 2>/dev/null |
+			tr -d '\r' |
+			sed -n '1p' ||
+			true
+	)"
+
+	[ -n "$du_status" ]
+}
+
+deployment_unit_absent() {
+	if deployment_unit_present; then
+		return 1
+	fi
+
+	return 0
+}
+
+remove_stale_deployment_unit() {
+	log_info "Removing stale USP Services DeploymentUnit $duid with status '${du_status:-unknown}'"
+	ba_cli_json "Rlyeh.remove(DUID = \"$test_app_duid\", Version = \"$test_app_version\")" || true
+	wait_for_condition "stale USP Services DeploymentUnit cleanup" deployment_unit_absent
+}
+
 deployment_unit_ready_for_reuse() {
 	if ! deployment_unit_present; then
 		return 1
@@ -303,7 +398,22 @@ deployment_unit_ready_for_reuse() {
 		fail "USP Services DeploymentUnit $duid uses URL '$du_url', expected '$test_app_url'"
 	fi
 
-	return 0
+	if ! deployment_unit_status; then
+		fail "Unable to read USP Services DeploymentUnit $duid status"
+	fi
+
+	if [ "$du_status" != "Installed" ]; then
+		remove_stale_deployment_unit
+		return 1
+	fi
+
+	if execution_unit_active; then
+		return 0
+	fi
+
+	log_info "USP Services DeploymentUnit $duid is installed but ExecutionUnit status is '${eu_status:-missing}'"
+	remove_stale_deployment_unit
+	return 1
 }
 
 execution_unit_active() {
@@ -347,6 +457,7 @@ install_test_app() {
 
 main() {
 	require_env TARGET_LAN_IP
+	require_env TESTBED_WAN_INTERFACE
 	require_env CDROUTER_USP_SERVICES_TEST_APP_URL
 
 	test_app_uuid="${CDROUTER_USP_SERVICES_TEST_APP_UUID:-$DEFAULT_TEST_APP_UUID}"
@@ -354,9 +465,11 @@ main() {
 	required_roles="${CDROUTER_USP_SERVICES_REQUIRED_ROLES:-$DEFAULT_REQUIRED_ROLES}"
 	exec_env="${CDROUTER_USP_SERVICES_EXEC_ENV:-$DEFAULT_EXEC_ENV}"
 	install_timeout="${CDROUTER_USP_SERVICES_INSTALL_TIMEOUT:-$DEFAULT_INSTALL_TIMEOUT}"
+	wan_settle_delay="${CDROUTER_USP_SERVICES_INSTALL_WAN_SETTLE_DELAY:-$DEFAULT_WAN_SETTLE_DELAY}"
 
 	validate_uuid CDROUTER_USP_SERVICES_TEST_APP_UUID "$test_app_uuid"
-	validate_timeout "$install_timeout"
+	validate_positive_integer CDROUTER_USP_SERVICES_INSTALL_TIMEOUT "$install_timeout"
+	validate_positive_integer CDROUTER_USP_SERVICES_INSTALL_WAN_SETTLE_DELAY "$wan_settle_delay"
 	validate_no_double_quote CDROUTER_USP_SERVICES_TEST_APP_URL "$CDROUTER_USP_SERVICES_TEST_APP_URL"
 	validate_no_double_quote CDROUTER_USP_SERVICES_TEST_APP_ENDPOINT_ID "$test_app_endpoint_id"
 	validate_no_double_quote CDROUTER_USP_SERVICES_REQUIRED_ROLES "$required_roles"
@@ -366,8 +479,12 @@ main() {
 		fail "Unable to expand %BOARD_ARCH% in CDROUTER_USP_SERVICES_TEST_APP_URL"
 	validate_no_double_quote CDROUTER_USP_SERVICES_TEST_APP_URL "$test_app_url"
 
+	registry_host="$(docker_registry_host_from_url "$test_app_url")" ||
+		fail "CDROUTER_USP_SERVICES_TEST_APP_URL must be a docker:// registry URL"
+	test_app_version="$(docker_image_version_from_url "$test_app_url")"
 	test_app_duid="$(generate_test_app_duid "$test_app_uuid" "$exec_env")"
 	log_info "USP Services test app DUID is $test_app_duid"
+	log_info "USP Services test app image version is $test_app_version"
 
 	deadline=$(($(date +%s) + install_timeout))
 
@@ -375,6 +492,10 @@ main() {
 	wait_for_condition "authenticated agent UDS socket" authenticated_agent_socket_ready
 	restart_cthulhu_after_obuspa_reset
 	configure_exec_env_roles
+	trap bring_testbed_wan_down EXIT
+	bring_testbed_wan_up
+	wait_for_condition "DUT default route" dut_has_default_route
+	wait_for_condition "DUT DNS resolution for $registry_host" dut_can_resolve_registry
 	if deployment_unit_ready_for_reuse; then
 		log_info "USP Services test application is already installed"
 	else
