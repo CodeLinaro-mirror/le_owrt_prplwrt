@@ -3,7 +3,7 @@
 case "${1:-generic}" in
     generic)
         obuspa -f /etc/obuspa.db -c dump datamodel | grep '^Device.' | grep -v \
-            -e 'Device.Cellular.' \
+            -e 'proto::cellular-manager' \
             -e 'Device.WiFi.AccessPoint.{i}.Vendor.' \
             -e 'Device.WiFi.EndPoint.{i}.Vendor.' \
             -e 'Device.WiFi.Radio.{i}.Vendor.' \
@@ -12,7 +12,9 @@ case "${1:-generic}" in
             -e 'Device.WiFi.Vendor.ReconfManager.'
         ;;
     cellular)
-        obuspa -f /etc/obuspa.db -c dump datamodel | grep '^Device.Cellular.' || true
+        obuspa -f /etc/obuspa.db -c dump datamodel | \
+            grep '^Device.' | sort | \
+            grep -e 'proto::cellular-manager' || true
         ;;
     *)
         echo "Usage: $0 [generic|cellular]" >&2
