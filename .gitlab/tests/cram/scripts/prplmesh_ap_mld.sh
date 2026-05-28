@@ -20,7 +20,7 @@ prplmesh_enable_mlo() {
   R "amx_wait_for X_PRPLWARE-COM_WiFiController.Network.Device.1"
   sleep 15
   R logger -t cram "Checking beerocks process."
-  R "ps axw" | sed -nE 's/.*(\/opt\/prplmesh\/bin.*)/\1/p' | LC_ALL=C sort
+  R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Status?"
   set +e
   echo "MLO_ENABLED"
 }
@@ -138,7 +138,7 @@ prplmesh_revert_mlo_to_defaults() {
   R "ba-cli X_PRPLWARE-COM_ProcessManager.PrplMesh.ManagementMode=Multi-AP-Controller-and-Agent"  > /dev/null
   R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=1" | tr -d '\n'
   sleep 10
-  R "ps axw" | sed -nE 's/.*(\/opt\/prplmesh\/bin.*)/\1/p' | LC_ALL=C sort
+  R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Status?"
   echo "MLO_DEFAULTS_RESTORED"
 }
 
