@@ -156,6 +156,8 @@ CDRouter-USP-Services MXL25641-HDK-6 eMMC:
     - .mxl25641-hdk-6 testbed
     - .cdrouter
     - .cdrouter-usp-services
+  variables:
+    CDROUTER_USP_SERVICES_TEST_APP_URL: docker://registry.gitlab.com/prpl-foundation/prplos/prplos/amd64/rholme-test-uds-x86:latest
 
 prplWare-Smoke-Test-Suite MXL25641-HDK-6 eMMC:
   <<: *mxl25641_cdrouter_ipv6
