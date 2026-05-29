@@ -2,6 +2,9 @@ Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
+If test is running on a Valyrian or Mozart, lets skip the test due to PCF-2617:
+  $ if echo "$CI_JOB_NAME" | grep -q -E "(Valyrian|Mozart)"; then exit 80; fi
+
 Check USB.Port datamodel has PowerManagement parameters:
 
   $ R "ba-cli 'USB.Port.*.PowerStatus?' | sort | grep '=' | head -n1" 
