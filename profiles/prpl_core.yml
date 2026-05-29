@@ -52,6 +52,7 @@ packages:
   - mod-qos-tc
   - mod-sahtrace
   - mod-vlan-ioctl
+  - mstpd  
   - multisettings
   - netdev-plugin
   - netmodel
