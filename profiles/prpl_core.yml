@@ -66,6 +66,7 @@ packages:
   - mod-routing-bird2
   - mod-sahtrace
   - mod-vlan-ioctl
+  - mstpd  
   - multisettings
   - netdev-plugin
   - netmodel
