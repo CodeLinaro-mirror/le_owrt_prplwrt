@@ -42,7 +42,7 @@ Disable time synchronization and restart tr181-bulkdata to test BulkData module 
 
 Enable BulkData and check object status:
 
-  $ R "ba-cli 'Device.BulkData.Enable=1' | grep -v '>' | grep 'Enable'"
+  $ R "ba-cli 'Device.BulkData.Enable=1' | grep -Ev '^(>|$)' | grep 'Enable'"
   Device.BulkData.Enable=1
 
   $ R "ba-cli 'Device.BulkData.Status?' | grep '='"
@@ -50,7 +50,7 @@ Enable BulkData and check object status:
 
 Create MQTT client:
 
-  $ R "ba-cli 'Device.MQTT.Client.+{Alias=\"local_broker\", BrokerAddress=\"127.0.0.1\", Enable=\"true\"}' | grep -v '>' | grep 'local_broker'"
+  $ R "ba-cli 'Device.MQTT.Client.+{Alias=\"local_broker\", BrokerAddress=\"127.0.0.1\", Enable=\"true\"}' | grep -Ev '^(>|$)' | grep 'local_broker'"
   Device.MQTT.Client.[0-9]+.Alias="local_broker" (re)
 
   $ sleep 1 # Wait for MQTT client to connect and subscribe
@@ -64,20 +64,20 @@ Check MQTT client connection status:
 
 Create MQTT profile:
 
-  $ R "ba-cli 'Device.BulkData.Profile.+{Alias=\"mqtt_profile\", EncodingType=\"JSON\", Protocol=\"MQTT\", Enable=\"false\", ReportingInterval = 5}' | grep -v '>' | grep 'mqtt_profile'"
+  $ R "ba-cli 'Device.BulkData.Profile.+{Alias=\"mqtt_profile\", EncodingType=\"JSON\", Protocol=\"MQTT\", Enable=\"false\", ReportingInterval = 5}' | grep -Ev '^(>|$)' | grep 'mqtt_profile'"
   Device.BulkData.Profile.[0-9]+.Alias="mqtt_profile" (re)
 
 Set the MQTT parameters:
 
-  $ R "ba-cli 'Device.BulkData.Profile.mqtt_profile.MQTT.PublishTopic=\"bulkdata/mqtt_profile\"' | grep -v '>' | grep 'PublishTopic'"
+  $ R "ba-cli 'Device.BulkData.Profile.mqtt_profile.MQTT.PublishTopic=\"bulkdata/mqtt_profile\"' | grep -Ev '^(>|$)' | grep 'PublishTopic'"
   Device.BulkData.Profile.[0-9]+.MQTT.PublishTopic="bulkdata/mqtt_profile" (re)
 
-  $ R "ba-cli 'Device.BulkData.Profile.mqtt_profile.MQTT.Reference=\"Device.MQTT.Client.local_broker.\"' | grep -v '>' | grep 'Reference'"
+  $ R "ba-cli 'Device.BulkData.Profile.mqtt_profile.MQTT.Reference=\"Device.MQTT.Client.local_broker.\"' | grep -Ev '^(>|$)' | grep 'Reference'"
   Device.BulkData.Profile.[0-9]+.MQTT.Reference="Device.MQTT.Client.local_broker." (re)
 
 Add new parameters to collect:
 
-  $ R "ba-cli 'Device.BulkData.Profile.mqtt_profile.Parameter.+{Name=\"SN\", Reference=\"DeviceInfo.SerialNumber\"}' | grep -v '>' | grep 'Parameter'"
+  $ R "ba-cli 'Device.BulkData.Profile.mqtt_profile.Parameter.+{Name=\"SN\", Reference=\"DeviceInfo.SerialNumber\"}' | grep -Ev '^(>|$)' | grep 'Parameter'"
   Device.BulkData.Profile.[0-9]+.Parameter.[0-9]+. (re)
 
 Start mosquitto_sub in the background to listen for published messages:
@@ -89,7 +89,7 @@ Start mosquitto_sub in the background to listen for published messages:
 
 Enable the mqtt profile:
 
-  $ R "ba-cli 'Device.BulkData.Profile.mqtt_profile.Enable=\"true\"' | grep -v '>' | grep '='"
+  $ R "ba-cli 'Device.BulkData.Profile.mqtt_profile.Enable=\"true\"' | grep -Ev '^(>|$)' | grep '='"
   Device.BulkData.Profile.[0-9]+.Enable=1 (re)
 
 Wait for 6 seconds:

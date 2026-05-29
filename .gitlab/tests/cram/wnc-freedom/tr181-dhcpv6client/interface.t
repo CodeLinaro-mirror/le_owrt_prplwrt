@@ -5,6 +5,5 @@ Create R alias:
 
 Set unexistent interface:
 
-  $ R "ba-cli Device.DHCPv6.Client.1.Interface=Device.IP.Interface.99" | grep -v '^>'
+  $ R "ba-cli Device.DHCPv6.Client.1.Interface=Device.IP.Interface.99" | grep -Ev '^(>|$)'
   ERROR: set Device.DHCPv6.Client.1.Interface failed (21 - invalid path)
-  

@@ -20,13 +20,11 @@ Add the source
   $ R "ba-cli -l -j 'Device.Syslog.Source.+{Alias = \"C-1-1\", UnixDomainSocket.Enable = 1, UnixDomainSocket.Path = \"file:///tmp/volatile.sock\"}'"
   
   {"Device.Syslog.Source.*.":{"Alias":"C-1-1"}} (glob)
-  
 Add the action
 
   $ R "ba-cli -l -j 'Device.Syslog.Action.+{Alias = \"C-1-1\", SourceRef = \"Device.Syslog.Source.[ Alias == \\\"C-1-1\\\" ]\", LogFile.Enable = 1, LogFile.FilePath = \"file:///tmp/volatile.log\"}'"
   
   {"Device.Syslog.Action.*.":{"Alias":"C-1-1"}} (glob)
-  
 Sleep so the socket can be created
 
   $ R "sleep 1"
@@ -41,12 +39,10 @@ Remove the added Source and Action
   $ R "ba-cli -l -j 'Device.Syslog.Action.[Alias == \"C-1-1\"].-'"
   
   ["Device.Syslog.Action.*.","Device.Syslog.Action.*.LogFile.","Device.Syslog.Action.*.LogRemote."] (glob)
-  
 
   $ R "ba-cli -l -j 'Device.Syslog.Source.[Alias == \"C-1-1\"].-'"
   
   ["Device.Syslog.Source.*.","Device.Syslog.Source.*.Network.","Device.Syslog.Source.*.UnixDomainSocket."] (glob)
-  
 
 C-1-2 test /lcm/volatile_log.sock
 #################################
@@ -55,13 +51,11 @@ Add the source
   $ R "ba-cli -l -j 'Device.Syslog.Source.+{Alias = \"C-1-2\", UnixDomainSocket.Enable = 1, UnixDomainSocket.Path = \"file:///lcm/volatile.sock\"}'"
   
   {"Device.Syslog.Source.*.":{"Alias":"C-1-2"}} (glob)
-  
 Add the action
 
   $ R "ba-cli -l -j 'Device.Syslog.Action.+{Alias = \"C-1-2\", SourceRef = \"Device.Syslog.Source.[ Alias == \\\"C-1-2\\\" ]\", LogFile.Enable = 1, LogFile.FilePath = \"file:///lcm/volatile.log\"}'"
   
   {"Device.Syslog.Action.*.":{"Alias":"C-1-2"}} (glob)
-  
 Sleep so the socket can be created
 
   $ R "sleep 1"
@@ -76,12 +70,10 @@ Remove the add Source and Action
   $ R "ba-cli -l -j 'Device.Syslog.Action.[Alias == \"C-1-2\"].-'"
   
   ["Device.Syslog.Action.*.","Device.Syslog.Action.*.LogFile.","Device.Syslog.Action.*.LogRemote."] (glob)
-  
 
   $ R "ba-cli -l -j 'Device.Syslog.Source.[Alias == \"C-1-2\"].-'"
   
   ["Device.Syslog.Source.*.","Device.Syslog.Source.*.Network.","Device.Syslog.Source.*.UnixDomainSocket."] (glob)
-  
 
 
 C-2: Test Syslog Plugin Default Configuration
@@ -106,7 +98,6 @@ Create the container
   
   SoftwareModules.InstallDU() returned
   ["",{"err_code":0,"err_msg":""}]
-  
 Check the syslog source
 
   $ R "ba-cli -l -j \"Device.Syslog.Source.[ Alias == \\\"cpe-917362a3-86e8-5332-bcfd-a4223f0e65e6\\\"].UnixDomainSocket.?\" | jsonfilter -e @[*].*.Enable -e @[*].*.Path"
@@ -202,7 +193,6 @@ Create the container
   
   SoftwareModules.InstallDU() returned
   ["",{"err_code":0,"err_msg":""}]
-  
 Check the syslog source
 
   $ R "ba-cli -l -j \"Device.Syslog.Source.[ Alias == \\\"cpe-917362a3-86e8-5332-bcfd-a4223f0e65e6\\\"].UnixDomainSocket.?\" | jsonfilter -e @[*].*.Enable -e @[*].*.Path"

@@ -41,7 +41,7 @@ Disable time synchronization and restart tr181-bulkdata to test BulkData module 
 
 Enable BulkData and check object status:
 
-  $ R "ba-cli 'BulkData.Enable=1' | grep -v '>' | grep 'Enable'"
+  $ R "ba-cli 'BulkData.Enable=1' | grep -Ev '^(>|$)' | grep 'Enable'"
   BulkData.Enable=1
 
   $ R "ba-cli 'BulkData.Status?' | grep '='"
@@ -50,37 +50,37 @@ Enable BulkData and check object status:
 1-HTTP Profile to send JSON report
 Check adding an object with HTTP profile to send JSON report:
 
-  $ R "ba-cli 'BulkData.Profile.+{Alias="http-json", EncodingType="JSON", Name="http-json", Protocol="HTTP", Enable="false", ReportingInterval = 30}' | grep -v '>' | grep 'http-json'"
+  $ R "ba-cli 'BulkData.Profile.+{Alias="http-json", EncodingType="JSON", Name="http-json", Protocol="HTTP", Enable="false", ReportingInterval = 30}' | grep -Ev '^(>|$)' | grep 'http-json'"
   BulkData.Profile.[0-9]+.Alias="http-json" (re)
 
 Check to update HTTP object:
 
-  $ R "ba-cli 'BulkData.Profile.http-json.HTTP.URL="https://postman-echo.com/post/"' | grep -v '>' | grep '='"
+  $ R "ba-cli 'BulkData.Profile.http-json.HTTP.URL="https://postman-echo.com/post/"' | grep -Ev '^(>|$)' | grep '='"
   BulkData.Profile.[0-9]+.HTTP.URL="https://postman-echo.com/post/" (re)
 
-  $ R "ba-cli 'BulkData.Profile.http-json.HTTP.Method="POST"' | grep -v '>' | grep '='"
+  $ R "ba-cli 'BulkData.Profile.http-json.HTTP.Method="POST"' | grep -Ev '^(>|$)' | grep '='"
   BulkData.Profile.[0-9]+.HTTP.Method="POST" (re)
 
-  $ R "ba-cli 'BulkData.Profile.http-json.HTTP.UseDateHeader=1' | grep -v '>' | grep '='"
+  $ R "ba-cli 'BulkData.Profile.http-json.HTTP.UseDateHeader=1' | grep -Ev '^(>|$)' | grep '='"
   BulkData.Profile.[0-9]+.HTTP.UseDateHeader=1 (re)
 
 Check to update JSON object:
 
-  $ R "ba-cli 'BulkData.Profile.http-json.JSONEncoding.ReportFormat="ObjectHierarchy"' | grep -v '>' | grep '='"
+  $ R "ba-cli 'BulkData.Profile.http-json.JSONEncoding.ReportFormat="ObjectHierarchy"' | grep -Ev '^(>|$)' | grep '='"
   BulkData.Profile.[0-9]+.JSONEncoding.ReportFormat="ObjectHierarchy" (re)
 
-  $ R "ba-cli 'BulkData.Profile.http-json.JSONEncoding.ReportTimestamp="Unix-Epoch"' | grep -v '>' | grep '='"
+  $ R "ba-cli 'BulkData.Profile.http-json.JSONEncoding.ReportTimestamp="Unix-Epoch"' | grep -Ev '^(>|$)' | grep '='"
   BulkData.Profile.[0-9]+.JSONEncoding.ReportTimestamp="Unix-Epoch" (re)
 
 Check adding a parameter to be sent in the report:
 
-  $ R "ba-cli 'BulkData.Profile.http-json.Parameter.+{Name="Contacts", Reference="Phonebook.Contact."}' | grep -v '>' | grep '.'"
+  $ R "ba-cli 'BulkData.Profile.http-json.Parameter.+{Name="Contacts", Reference="Phonebook.Contact."}' | grep -Ev '^(>|$)' | grep '.'"
   BulkData.Profile.[0-9]+.Parameter.[0-9]+. (re)
 
 Check after enabling the configured profile:
 
   $ sleep 5 # wait for object creation
-  $ R "ba-cli 'BulkData.Profile.http-json.Enable="true"' | grep -v '>' | grep '='"
+  $ R "ba-cli 'BulkData.Profile.http-json.Enable="true"' | grep -Ev '^(>|$)' | grep '='"
   BulkData.Profile.[0-9]+.Enable=1 (re)
 
 Check traces:
@@ -93,44 +93,44 @@ Check adding an object with HTTP profile to send CSV report:
 
   $ R "ba-cli 'BulkData.Profile.*.-'" > /dev/null
 
-  $ R "ba-cli 'BulkData.Profile.+{Alias="http-csv", EncodingType="CSV", Name="http-csv", Protocol="HTTP", Enable="false", ReportingInterval = 30}' | grep -v '>' | grep 'http-csv'"
+  $ R "ba-cli 'BulkData.Profile.+{Alias="http-csv", EncodingType="CSV", Name="http-csv", Protocol="HTTP", Enable="false", ReportingInterval = 30}' | grep -Ev '^(>|$)' | grep 'http-csv'"
   BulkData.Profile.[0-9]+.Alias="http-csv" (re)
 
 Check to update HTTP object:
 
-  $ R "ba-cli 'BulkData.Profile.http-csv.HTTP.URL="https://postman-echo.com/post/"' | grep -v '>' | grep '='"
+  $ R "ba-cli 'BulkData.Profile.http-csv.HTTP.URL="https://postman-echo.com/post/"' | grep -Ev '^(>|$)' | grep '='"
   BulkData.Profile.[0-9]+.HTTP.URL="https://postman-echo.com/post/" (re)
 
-  $ R "ba-cli 'BulkData.Profile.http-csv.HTTP.Method="POST"' | grep -v '>' | grep '='"
+  $ R "ba-cli 'BulkData.Profile.http-csv.HTTP.Method="POST"' | grep -Ev '^(>|$)' | grep '='"
   BulkData.Profile.[0-9]+.HTTP.Method="POST" (re)
 
-  $ R "ba-cli 'BulkData.Profile.http-csv.HTTP.UseDateHeader=1' | grep -v '>' | grep '='"
+  $ R "ba-cli 'BulkData.Profile.http-csv.HTTP.UseDateHeader=1' | grep -Ev '^(>|$)' | grep '='"
   BulkData.Profile.[0-9]+.HTTP.UseDateHeader=1 (re)
 
-  $ R "ba-cli 'BulkData.Profile.http-csv.CSVEncoding.EscapeCharacter="\&quot"' | grep -v '>' | grep '='"
+  $ R "ba-cli 'BulkData.Profile.http-csv.CSVEncoding.EscapeCharacter="\&quot"' | grep -Ev '^(>|$)' | grep '='"
   BulkData.Profile.[0-9]+.CSVEncoding.EscapeCharacter="&quot" (re)
 
-  $ R "ba-cli 'BulkData.Profile.http-csv.CSVEncoding.FieldSeparator=\"\,\"' | grep -v '>' | grep '='"
+  $ R "ba-cli 'BulkData.Profile.http-csv.CSVEncoding.FieldSeparator=\"\,\"' | grep -Ev '^(>|$)' | grep '='"
   BulkData.Profile.[0-9]+.CSVEncoding.FieldSeparator="," (re)
 
-  $ R "ba-cli 'BulkData.Profile.http-csv.CSVEncoding.ReportFormat="ParameterPerRow"' | grep -v '>' | grep '='"
+  $ R "ba-cli 'BulkData.Profile.http-csv.CSVEncoding.ReportFormat="ParameterPerRow"' | grep -Ev '^(>|$)' | grep '='"
   BulkData.Profile.[0-9]+.CSVEncoding.ReportFormat="ParameterPerRow" (re)
 
-  $ R "ba-cli 'BulkData.Profile.http-csv.CSVEncoding.RowSeparator=\"&#13;&#10;\"' | grep -v '>' | grep '='"
+  $ R "ba-cli 'BulkData.Profile.http-csv.CSVEncoding.RowSeparator=\"&#13;&#10;\"' | grep -Ev '^(>|$)' | grep '='"
   BulkData.Profile.[0-9]+.CSVEncoding.RowSeparator="&#13;&#10;" (re)
 
-  $ R "ba-cli 'BulkData.Profile.http-csv.CSVEncoding.RowTimestamp="Unix-Epoch"' | grep -v '>' | grep '='"
+  $ R "ba-cli 'BulkData.Profile.http-csv.CSVEncoding.RowTimestamp="Unix-Epoch"' | grep -Ev '^(>|$)' | grep '='"
   BulkData.Profile.[0-9]+.CSVEncoding.RowTimestamp="Unix-Epoch" (re)
 
 Check adding a parameter to be sent in the report:
 
-  $ R "ba-cli 'BulkData.Profile.http-csv.Parameter.+{Name="Contacts", Reference="Phonebook.Contact."}' | grep -v '>' | grep '.'"
+  $ R "ba-cli 'BulkData.Profile.http-csv.Parameter.+{Name="Contacts", Reference="Phonebook.Contact."}' | grep -Ev '^(>|$)' | grep '.'"
   BulkData.Profile.[0-9]+.Parameter.[0-9]+. (re)
 
 Check after enabling the configured profile:
 
   $ sleep 5 # wait for object creation
-  $ R "ba-cli 'BulkData.Profile.http-csv.Enable="true"' | grep -v '>' | grep '='"
+  $ R "ba-cli 'BulkData.Profile.http-csv.Enable="true"' | grep -Ev '^(>|$)' | grep '='"
   BulkData.Profile.[0-9]+.Enable=1 (re)
 
 Check traces:
@@ -143,26 +143,26 @@ Check adding an object with MQTT profile:
 
   $ R "ba-cli 'BulkData.Profile.*.-'" > /dev/null
 
-  $ R "ba-cli 'BulkData.Profile.+{Alias="mqtt-json", EncodingType="JSON", Name="mqtt-json", Protocol="USPEventNotif", Enable="false", ReportingInterval = 10}' | grep -v '>' | grep 'mqtt-json'"
+  $ R "ba-cli 'BulkData.Profile.+{Alias="mqtt-json", EncodingType="JSON", Name="mqtt-json", Protocol="USPEventNotif", Enable="false", ReportingInterval = 10}' | grep -Ev '^(>|$)' | grep 'mqtt-json'"
   BulkData.Profile.[0-9]+.Alias="mqtt-json" (re)
 
 Check to update JSON object:
 
-  $ R "ba-cli 'BulkData.Profile.mqtt-json.JSONEncoding.ReportFormat="ObjectHierarchy"' | grep -v '>' | grep '='"
+  $ R "ba-cli 'BulkData.Profile.mqtt-json.JSONEncoding.ReportFormat="ObjectHierarchy"' | grep -Ev '^(>|$)' | grep '='"
   BulkData.Profile.[0-9]+.JSONEncoding.ReportFormat="ObjectHierarchy" (re)
 
-  $ R "ba-cli 'BulkData.Profile.mqtt-json.JSONEncoding.ReportTimestamp="Unix-Epoch"' | grep -v '>' | grep '='"
+  $ R "ba-cli 'BulkData.Profile.mqtt-json.JSONEncoding.ReportTimestamp="Unix-Epoch"' | grep -Ev '^(>|$)' | grep '='"
   BulkData.Profile.[0-9]+.JSONEncoding.ReportTimestamp="Unix-Epoch" (re)
 
 Check adding a parameter to be sent in the report:
 
-  $ R "ba-cli 'BulkData.Profile.mqtt-json.Parameter.+{Name="Contacts", Reference="Phonebook.Contact."}' | grep -v '>' | grep '.'"
+  $ R "ba-cli 'BulkData.Profile.mqtt-json.Parameter.+{Name="Contacts", Reference="Phonebook.Contact."}' | grep -Ev '^(>|$)' | grep '.'"
   BulkData.Profile.[0-9]+.Parameter.[0-9]+. (re)
 
 Check after enabling the configured profile:
 
   $ sleep 5 # wait for object creation
-  $ R "ba-cli 'BulkData.Profile.mqtt-json.Enable="true"' | grep -v '>' | grep '='"
+  $ R "ba-cli 'BulkData.Profile.mqtt-json.Enable="true"' | grep -Ev '^(>|$)' | grep '='"
   BulkData.Profile.[0-9]+.Enable=1 (re)
 
 Check traces:

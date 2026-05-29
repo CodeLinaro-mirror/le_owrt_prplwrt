@@ -13,12 +13,10 @@ Create user roles with capabilities
   $ R "${S} && add_user_role --rolename testrole1 --capabilities \"CAP_NET_RAW,CAP_MKNOD\""
   
   {"Device.Users.Role.*.":{"Alias":"testrole1","RoleName":"testrole1"}} (glob)
-  
 
   $ R "${S} && add_user_role --rolename testrole2 --capabilities \"CAP_KILL\""
   
   {"Device.Users.Role.*.":{"Alias":"testrole2","RoleName":"testrole2"}} (glob)
-  
 
 Add two user roles to the ExecutionEnvironment
 
@@ -26,7 +24,6 @@ Add two user roles to the ExecutionEnvironment
   
   SoftwareModules.ExecEnv.1.ModifyAvailableRoles() returned
   ["",{"err_code":0,"err_msg":""}]
-  
 
 Two roles will be added
   $ R "${S} && check_available_user_roles"
@@ -39,7 +36,6 @@ Add three user roles to the ExecutionEnvironment, this should fail since one rol
   ERROR: call (null) failed with status 1 - unknown error
   SoftwareModules.ExecEnv.1.ModifyAvailableRoles() returned
   ["",{"err_code":7004,"err_msg":"User role [norole] does not exist in Device.Users.Role."}]
-  
 
 Two roles should still be present
   $ R "${S} && check_available_user_roles"
@@ -51,7 +47,6 @@ Install a privileged container without required user
   
   SoftwareModules.InstallDU() returned
   ["",{"err_code":0,"err_msg":""}]
-  
 
 Check that the container has no capabilities
   $ R "${S} && execute_in_container --uuid --cmd 'grep CapEff /proc/1/status'"
@@ -68,7 +63,6 @@ Install an unprivileged container without required user
   
   SoftwareModules.InstallDU() returned
   ["",{"err_code":0,"err_msg":""}]
-  
 
 Check that the container has no capabilities
   $ R "${S} && execute_in_container --uuid --cmd 'grep CapEff /proc/1/status'"
@@ -86,7 +80,6 @@ Install a container with user role that is not available. this should fail
   ERROR: call (null) failed with status 1 - unknown error
   SoftwareModules.InstallDU() returned
   ["",{"err_code":7037,"err_msg":"Sandbox [generic] does not have the required role [norole]"}]
-  
 
 Install a container with user role that is available. this should succeed
 
@@ -94,7 +87,6 @@ Install a container with user role that is available. this should succeed
   
   SoftwareModules.InstallDU() returned
   ["",{"err_code":0,"err_msg":""}]
-  
 
 Check that the container has the required capabilities
 
@@ -112,7 +104,6 @@ Update the container to also require testrole2
   
   SoftwareModules.DeploymentUnit.*.Update() returned (glob)
   ["",{"err_code":0,"err_msg":""}]
-  
 
 Check that the container has the required capabilities
 
@@ -130,14 +121,12 @@ Try removing active testrole2 from Devices.User.Role
   $ R "${S} && remove_user_role --rolename testrole2"
   
   ERROR: del Device.Users.Role.[Alias=="testrole2"]. failed * (glob)
-  
 
 Update the container to use no user roles
   $ R "${S} && update_ctr --version prplos-v1 --ee --uuid --privileged true --userroles"
   
   SoftwareModules.DeploymentUnit.*.Update() returned (glob)
   ["",{"err_code":0,"err_msg":""}]
-  
 
   $ R "${S} && get_container_parameter --uuid --param RequiredUserRoles"
   
@@ -151,7 +140,6 @@ Update the container to also require testrole2
   
   SoftwareModules.DeploymentUnit.*.Update() returned (glob)
   ["",{"err_code":0,"err_msg":""}]
-  
 
   $ R "${S} && get_container_parameter --uuid --param RequiredUserRoles"
   Device.Users.Role.[RoleName=="testrole1"]
@@ -161,7 +149,6 @@ Update the container without required users parameter
   
   SoftwareModules.DeploymentUnit.*.Update() returned (glob)
   ["",{"err_code":0,"err_msg":""}]
-  
 
 Previously configured user role should still be present
   $ R "${S} && get_container_parameter --uuid --param RequiredUserRoles"
@@ -177,7 +164,6 @@ Remove the role again from the ExecutionEnvironment
   
   SoftwareModules.ExecEnv.1.ModifyAvailableRoles() returned
   ["",{"err_code":0,"err_msg":""}]
-  
 
 No user roles should be present
   $ R "${S} && check_available_user_roles"
@@ -186,10 +172,8 @@ Remove testrole1 from Devices.User.Role
   $ R "${S} && remove_user_role --rolename testrole1"
   
   ["Device.Users.Role.*."] (glob)
-  
+
 Remove testrole2 from Devices.User.Role
   $ R "${S} && remove_user_role --rolename testrole2"
   
   ["Device.Users.Role.*."] (glob)
-  
-

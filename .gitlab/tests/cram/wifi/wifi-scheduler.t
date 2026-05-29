@@ -144,7 +144,7 @@ Schedule a network activation at T1 with 1 minute duration:
 
 Check Wifi schedule is running:
 
-  $ R "ba-cli  'Device.X_PRPLWARE-COM_WiFiScheduler.Network.Schedule.1.Running?'"  | sed '/^$/d' | tail -n +2
+  $ R "ba-cli  'Device.X_PRPLWARE-COM_WiFiScheduler.Network.Schedule.1.Running?'"  | grep -Ev '^(>|$)'
   Device.X_PRPLWARE-COM_WiFiScheduler.Network.Schedule.1.Running=1
 
 Wait few seconds before checking wifi activation:

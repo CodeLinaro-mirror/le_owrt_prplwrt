@@ -17,10 +17,9 @@ upnp-client definitions:
 
 Allow Reserved WAN IP Addresses:
 
-  $ R "ba-cli 'Device.UPnP.X_PRPLWARE-COM_IGDConfig.AllowReservedAddr=1'" | grep -v '^>'
+  $ R "ba-cli 'Device.UPnP.X_PRPLWARE-COM_IGDConfig.AllowReservedAddr=1'" | grep -Ev '^(>|$)'
   Device.UPnP.X_PRPLWARE-COM_IGDConfig.
   Device.UPnP.X_PRPLWARE-COM_IGDConfig.AllowReservedAddr=1
-  
   $ sleep 3
 
 Verify UPnP IGD is present in the network:
@@ -41,19 +40,17 @@ Ged Description URL:
 
 Check there are no NAT PortMapping rules:
 
-  $ R "ba-cli 'Device.NAT.PortMapping.?'" | grep -v '^>'
+  $ R "ba-cli 'Device.NAT.PortMapping.?'" | grep -Ev '^(>|$)'
   No data found
-  
 
 Create 1 NAT PortMapping rule with non-UPnP origin:
 
-  $ R "ba-cli 'Device.NAT.PortMapping.+{Alias=testrule1,Enable=1,Interface=Device.IP.Interface.2,Origin=Controller,RemoteHost=1.1.1.1,ExternalPort=12345,InternalPort=12345,InternalClient=192.168.1.123}'" | grep -v '^>' | sed -E 's/\.PortMapping\.[0-9]+\./.PortMapping.X./'
+  $ R "ba-cli 'Device.NAT.PortMapping.+{Alias=testrule1,Enable=1,Interface=Device.IP.Interface.2,Origin=Controller,RemoteHost=1.1.1.1,ExternalPort=12345,InternalPort=12345,InternalClient=192.168.1.123}'" | grep -Ev '^(>|$)' | sed -E 's/\.PortMapping\.[0-9]+\./.PortMapping.X./'
   Device.NAT.PortMapping.X.
   Device.NAT.PortMapping.X.Alias="testrule1"
   Device.NAT.PortMapping.X.ExternalPort=12345
   Device.NAT.PortMapping.X.Protocol="TCP"
   Device.NAT.PortMapping.X.RemoteHost="1.1.1.1"
-  
 
 Retrieve NAT PortMapping with index 0:
 
@@ -98,9 +95,8 @@ Rtrieve NAT PortMapping with index 0:
 
 Clean up:
 
-  $ R "ba-cli 'Device.NAT.PortMapping.testrule1.-'" | grep -v '^>' |  sed -E 's/\.PortMapping\.[0-9]+\./.PortMapping.X./'
+  $ R "ba-cli 'Device.NAT.PortMapping.testrule1.-'" | grep -Ev '^(>|$)' |  sed -E 's/\.PortMapping\.[0-9]+\./.PortMapping.X./'
   Device.NAT.PortMapping.X.
-  
 
   $ upnp-client call-action $DESC_URL WANIPConn1/DeletePortMapping NewRemoteHost=2.2.2.2 NewExternalPort=23456 NewProtocol=TCP >/dev/null
 

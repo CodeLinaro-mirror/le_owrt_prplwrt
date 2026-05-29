@@ -12,12 +12,10 @@ Set-up the test configuration:
   
   SoftwareModules.InstallDU() returned
   ["",{"err_code":0,"err_msg":""}]
-  
   $ R "${S} && install_ctr --version prplos-v2 --ee --uuid \"00000000-0000-5000-b000-000000000006\" --privileged true"
   
   SoftwareModules.InstallDU() returned
   ["",{"err_code":0,"err_msg":""}]
-  
   $ R "rm -rf /usr/rlyeh_save"
   $ R "cp -R /lcm/rlyeh /usr/rlyeh_save"
   $ R "ba-cli 'SoftwareModules.DeploymentUnit.*.Uninstall()'"
@@ -30,7 +28,6 @@ Set-up the test configuration:
   [
       ""
   ]
-  
   $ R "/etc/init.d/cthulhu stop"
   $ R "/etc/init.d/rlyeh stop"
   $ R "/etc/init.d/timingila stop"
@@ -75,19 +72,15 @@ wait for cthulhu to terminate all containers and itself, before clear its data
   $ R "ba-cli -l 'Device.SoftwareModules.DeploymentUnitNumberOfEntries?'"
   
   0
-  
   $ R "ba-cli -l 'Device.SoftwareModules.ExecEnvNumberOfEntries?'"
   
   1
-  
   $ R "ba-cli -l 'Device.SoftwareModules.ExecutionUnitNumberOfEntries?'"
   
   0
-  
   $ R "ba-cli 'Device.SoftwareModules.ExecEnv.1.Status?'"
   ? Device.SoftwareModules.ExecEnv.1.Status? (glob)
   Device.SoftwareModules.ExecEnv.1.Status="Up"
-  
   $ R "lxc-ls -f"
 
 ### INSTALL current containers ###
@@ -96,17 +89,14 @@ wait for cthulhu to terminate all containers and itself, before clear its data
   
   SoftwareModules.InstallDU() returned
   ["",{"err_code":0,"err_msg":""}]
-  
   $ R "${S} && install_ctr --url_arch 3_14_alpine --ee --uuid \"00000000-0000-5000-b000-000000000002\" --privileged true --moduleversion 1.0.0 --envvar '[{Key = \"EnvVar1\", Value = \"VarValue1\"}, {Key = \"EnvVar2\" , Value = \"VarValue2\"}]' "
   
   SoftwareModules.InstallDU() returned
   ["",{"err_code":0,"err_msg":""}]
-  
   $ R "${S} && install_ctr --url_arch 3_16_alpine_libcap_shadow --ee --uuid \"00000000-0000-5000-b000-000000000004\" --privileged true --moduleversion 0.1.0"
   
   SoftwareModules.InstallDU() returned
   ["",{"err_code":0,"err_msg":""}]
-  
   $ R "sleep 3"
   $ R "lxc-ls -f"
   NAME                                 STATE   AUTOSTART GROUPS IPV4 IPV6 UNPRIVILEGED 
@@ -118,13 +108,11 @@ wait for cthulhu to terminate all containers and itself, before clear its data
   Device.SoftwareModules.DeploymentUnit.*.Status="Installed" (glob)
   Device.SoftwareModules.DeploymentUnit.*.Status="Installed" (glob)
   Device.SoftwareModules.DeploymentUnit.*.Status="Installed" (glob)
-  
   $ R "ba-cli 'Device.SoftwareModules.ExecutionUnit.*.Status?'"
   * Device.SoftwareModules.ExecutionUnit.*.Status? (glob)
   Device.SoftwareModules.ExecutionUnit.*.Status="Active" (glob)
   Device.SoftwareModules.ExecutionUnit.*.Status="Active" (glob)
   Device.SoftwareModules.ExecutionUnit.*.Status="Active" (glob)
-  
 
 ### perform backup ###
 
@@ -132,19 +120,16 @@ wait for cthulhu to terminate all containers and itself, before clear its data
   * Device.X_PRPLWARE-COM_PersistentConfiguration.Service.cthulhu_Cthulhu.ImportStatus="None" (glob)
   Device.X_PRPLWARE-COM_PersistentConfiguration.Service.*. (glob)
   Device.X_PRPLWARE-COM_PersistentConfiguration.Service.*.ImportStatus="None" (glob)
-  
   $ R "ba-cli 'Device.X_PRPLWARE-COM_PersistentConfiguration.Service.cthulhu_Cthulhu.ExportStatus=\"None\"'"
   * Device.X_PRPLWARE-COM_PersistentConfiguration.Service.cthulhu_Cthulhu.ExportStatus="None" (glob)
   Device.X_PRPLWARE-COM_PersistentConfiguration.Service.*. (glob)
   Device.X_PRPLWARE-COM_PersistentConfiguration.Service.*.ExportStatus="None" (glob)
-  
   $ R "ba-cli 'Device.X_PRPLWARE-COM_PersistentConfiguration.Backup()'"
   * Device.X_PRPLWARE-COM_PersistentConfiguration.Backup() (glob)
   Device.X_PRPLWARE-COM_PersistentConfiguration.Backup() returned
   [
       ""
   ]
-  
 ### terminate LCM and remove all boot-persistent data that is not upgrade-persistent. ###
 ### Stopping Cthulhu by sending a signal to the main process, as the init script kills the process (forcefully) after a timeout. The stopping of the containers is done in parallel, thus depending on the number of containers to stop and the configured graceful shutdown.
 
@@ -215,29 +200,23 @@ wait for cthulhu to terminate all containers and itself, before clear its data
   $ R "ba-cli 'Device.SoftwareModules.DeploymentUnit.[UUID == \"00000000-0000-5000-b000-000000000001\"].ModuleVersion?'"
   ? Device.SoftwareModules.DeploymentUnit.[UUID == "00000000-0000-5000-b000-000000000001"].ModuleVersion? (glob)
   Device.SoftwareModules.DeploymentUnit.*.ModuleVersion="3.16.1" (glob)
-  
   $ R "ba-cli 'Device.SoftwareModules.DeploymentUnit.[UUID == \"00000000-0000-5000-b000-000000000002\"].?'"
   ? Device.SoftwareModules.DeploymentUnit.[UUID == "00000000-0000-5000-b000-000000000002"].? (glob)
   No data found
-  
   $ R "ba-cli 'Device.SoftwareModules.DeploymentUnit.[UUID == \"00000000-0000-5000-b000-000000000004\"].Status?'"
   ? Device.SoftwareModules.DeploymentUnit.[UUID == "00000000-0000-5000-b000-000000000004"].Status? (glob)
   Device.SoftwareModules.DeploymentUnit.*.Status="Installed" (glob)
-  
   $ R "ba-cli 'Device.SoftwareModules.DeploymentUnit.[UUID == \"00000000-0000-5000-b000-000000000006\"].Status?'"
   ? Device.SoftwareModules.DeploymentUnit.[UUID == "00000000-0000-5000-b000-000000000006"].Status? (glob)
   Device.SoftwareModules.DeploymentUnit.*.Status="Installed" (glob)
-  
   $ R "ba-cli 'Device.SoftwareModules.ExecutionUnit.*.Status?'"
   ? Device.SoftwareModules.ExecutionUnit.*.Status? (glob)
   Device.SoftwareModules.ExecutionUnit.*.Status="Active" (glob)
   Device.SoftwareModules.ExecutionUnit.*.Status="Active" (glob)
   Device.SoftwareModules.ExecutionUnit.*.Status="Active" (glob)
-  
   $ R "ba-cli -l 'Device.SoftwareModules.LocalManagement.ActionNumberOfEntries?'"
   
   3
-  
   $ R "ba-cli 'Device.SoftwareModules.LocalManagement.Action.[UUID == \"00000000-0000-5000-b000-000000000006\"].?'"
   * Device.SoftwareModules.LocalManagement.Action.[UUID == "00000000-0000-5000-b000-000000000006"].? (glob)
   Device.SoftwareModules.LocalManagement.Action.*. (glob)
@@ -249,7 +228,6 @@ wait for cthulhu to terminate all containers and itself, before clear its data
   Device.SoftwareModules.LocalManagement.Action.*.PreviousModuleVersion="<none>" (glob)
   Device.SoftwareModules.LocalManagement.Action.*.Status="Success" (glob)
   Device.SoftwareModules.LocalManagement.Action.*.UUID="00000000-0000-5000-b000-000000000006" (glob)
-  
 
   $ R "ba-cli 'Device.SoftwareModules.LocalManagement.Action.[UUID == \"00000000-0000-5000-b000-000000000001\"].?'"
   * Device.SoftwareModules.LocalManagement.Action.[UUID == "00000000-0000-5000-b000-000000000001"].? (glob)
@@ -262,7 +240,6 @@ wait for cthulhu to terminate all containers and itself, before clear its data
   Device.SoftwareModules.LocalManagement.Action.*.PreviousModuleVersion="3.16.0" (glob)
   Device.SoftwareModules.LocalManagement.Action.*.Status="Success" (glob)
   Device.SoftwareModules.LocalManagement.Action.*.UUID="00000000-0000-5000-b000-000000000001" (glob)
-  
 
   $ R "ba-cli 'Device.SoftwareModules.LocalManagement.Action.[UUID == \"00000000-0000-5000-b000-000000000002\"].?'"
   * Device.SoftwareModules.LocalManagement.Action.[UUID == "00000000-0000-5000-b000-000000000002"].? (glob)
@@ -275,7 +252,6 @@ wait for cthulhu to terminate all containers and itself, before clear its data
   Device.SoftwareModules.LocalManagement.Action.*.PreviousModuleVersion="1.0.0" (glob)
   Device.SoftwareModules.LocalManagement.Action.*.Status="Success" (glob)
   Device.SoftwareModules.LocalManagement.Action.*.UUID="00000000-0000-5000-b000-000000000002" (glob)
-  
 ## clean up all containers ##
 
   $ R "ba-cli 'SoftwareModules.DeploymentUnit.*.Uninstall()'"
@@ -292,5 +268,3 @@ wait for cthulhu to terminate all containers and itself, before clear its data
   [
       ""
   ]
-  
-

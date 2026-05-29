@@ -48,7 +48,7 @@ Check AccessControl initial state:
 
 Find the LAN test device in Hosts datamodel:
 
-  $ R "ba-cli Device.Hosts.HostNumberOfEntries?" | tail -n +2 | head -n -1
+  $ R "ba-cli Device.Hosts.HostNumberOfEntries?" | grep -Ev '^(>|$)'
   Device.Hosts.HostNumberOfEntries=\d+ (re)
 
 Get our LAN IP address from the LAN interface:
@@ -57,12 +57,12 @@ Get our LAN IP address from the LAN interface:
 
 Get MAC address of this LAN test device from Hosts datamodel:
 
-  $ HOST_MAC=$(R "ba-cli 'Device.Hosts.Host.[IPAddress==\"${MY_IP}\"].PhysAddress?' | grep -v '^>' | grep -v '^root' | grep -v '^$' | head -1 | cut -d'=' -f2 | tr -d '\"'" 2>/dev/null)
+  $ HOST_MAC=$(R "ba-cli 'Device.Hosts.Host.[IPAddress==\"${MY_IP}\"].PhysAddress?' | grep -Ev '^(>|$)' | grep -v '^root' | grep -v '^$' | head -1 | cut -d'=' -f2 | tr -d '\"'" 2>/dev/null)
 
 Set PhysAddress for the AccessControl using the discovered MAC:
 
   $ R "ba-cli ${AC_PATH}.PhysAddress='${HOST_MAC}'" > /dev/null 2>&1
-  $ R "ba-cli ${AC_PATH}.PhysAddress?" | tail -n +2 | head -n -1
+  $ R "ba-cli ${AC_PATH}.PhysAddress?" | grep -Ev '^(>|$)'
   Device.Hosts.AccessControl.*.PhysAddress="([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}" (re)
 
 Verify baseline connectivity before access control:
@@ -86,7 +86,7 @@ Link the schedule to AccessControl via ScheduleRef:
 
 Verify ScheduleRef is set:
 
-  $ R "ba-cli ${AC_PATH}.ScheduleRef?" | tail -n +2 | head -n -1
+  $ R "ba-cli ${AC_PATH}.ScheduleRef?" | grep -Ev '^(>|$)'
   Device.Hosts.AccessControl.*.ScheduleRef="Device.Schedules.Schedule.*" (glob)
 
 Enable the AccessControl:
@@ -113,12 +113,12 @@ Verify AccessControl is enabled with schedule:
 
 Check Schedule status:
 
-  $ R "ba-cli ${SCHED_PATH}.Status?" | tail -n +2 | head -n -1
+  $ R "ba-cli ${SCHED_PATH}.Status?" | grep -Ev '^(>|$)'
   Device.Schedules.Schedule.*.Status="Active" (glob)
 
 Check Schedule TimeLeft:
 
-  $ TIMELEFT=$(R "ba-cli ${SCHED_PATH}.TimeLeft?" | tail -n +2 | head -n -1 | cut -d= -f2)
+  $ TIMELEFT=$(R "ba-cli ${SCHED_PATH}.TimeLeft?" | grep -Ev '^(>|$)' | cut -d= -f2)
   $ [ ${TIMELEFT} -ge 0 ]
 
 Test connectivity with AccessControl and Schedule enabled:
@@ -129,10 +129,10 @@ Test connectivity with AccessControl and Schedule enabled:
 
 Test InverseMode effect on schedule and access:
 
-  $ INITIAL_STATUS=$(R "ba-cli ${SCHED_PATH}.Status?" | tail -n +2 | head -n -1 | cut -d= -f2 | tr -d '"')
+  $ INITIAL_STATUS=$(R "ba-cli ${SCHED_PATH}.Status?" | grep -Ev '^(>|$)' | cut -d= -f2 | tr -d '"')
   $ R "ba-cli ${SCHED_PATH}.InverseMode=1" > /dev/null 2>&1
   $ sleep 5
-  $ INVERSE_STATUS=$(R "ba-cli ${SCHED_PATH}.Status?" | tail -n +2 | head -n -1 | cut -d= -f2 | tr -d '"')
+  $ INVERSE_STATUS=$(R "ba-cli ${SCHED_PATH}.Status?" | grep -Ev '^(>|$)' | cut -d= -f2 | tr -d '"')
   $ [ "${INITIAL_STATUS}" != "${INVERSE_STATUS}" ]
 
 Test ping after InverseMode enabled (should be blocked):
@@ -153,7 +153,7 @@ Reset InverseMode and verify connectivity restored:
 Change AccessPolicy to Deny and test:
 
   $ R "ba-cli ${AC_PATH}.AccessPolicy=Deny" > /dev/null 2>&1
-  $ R "ba-cli ${AC_PATH}.AccessPolicy?" | tail -n +2 | head -n -1
+  $ R "ba-cli ${AC_PATH}.AccessPolicy?" | grep -Ev '^(>|$)'
   Device.Hosts.AccessControl.*.AccessPolicy="Deny" (glob)
   $ sleep 5
 
@@ -173,12 +173,12 @@ Delete the schedule and verify cleanup:
 
 Verify ScheduleRef is cleared in AccessControl:
 
-  $ R "ba-cli ${AC_PATH}.ScheduleRef?" | tail -n +2 | head -n -1
+  $ R "ba-cli ${AC_PATH}.ScheduleRef?" | grep -Ev '^(>|$)'
   Device.Hosts.AccessControl.*.ScheduleRef="" (glob)
 
 Verify ScheduleNumberOfEntries is back to 0:
 
-  $ R "ba-cli Device.Schedules.ScheduleNumberOfEntries?" | tail -n +2 | head -n -1
+  $ R "ba-cli Device.Schedules.ScheduleNumberOfEntries?" | grep -Ev '^(>|$)'
   Device.Schedules.ScheduleNumberOfEntries=0
 
 Cleanup - Delete the AccessControl entry:
@@ -187,7 +187,7 @@ Cleanup - Delete the AccessControl entry:
 
 Verify AccessControlNumberOfEntries is decremented:
 
-  $ R "ba-cli Device.Hosts.AccessControlNumberOfEntries?" | tail -n +2 | head -n -1
+  $ R "ba-cli Device.Hosts.AccessControlNumberOfEntries?" | grep -Ev '^(>|$)'
   Device.Hosts.AccessControlNumberOfEntries=0
 
 Test if connectivity is back:
@@ -195,4 +195,3 @@ Test if connectivity is back:
   $ R "iptables -L FORWARD_Hosts_Block -n | grep -ic ${HOST_MAC}"
   0
   [1]
-

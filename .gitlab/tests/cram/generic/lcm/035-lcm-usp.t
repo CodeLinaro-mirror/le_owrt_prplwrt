@@ -65,7 +65,6 @@ Remove the role foo from the EE and check it cannot be used to install a contain
   ERROR: call (null) failed with status 1 - unknown error
   SoftwareModules.InstallDU() returned
   ["",{"err_code":7032,"err_msg":"Role not found in 'Device.LocalAgent.ControllerTrust.Role.' or in the 'AvailableRoles': 'foo'"}]
-  
   Container with UUID=00000000-0000-5000-b000-000000000001 is not found
 
 

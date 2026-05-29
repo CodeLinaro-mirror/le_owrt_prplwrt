@@ -17,11 +17,12 @@ Check logs appears in /var/log/messages with expected format:
 
 Check that filtering and command are working as expected (testing dhcp):
 
-  $ dhcplogfile=$(R "ba-cli 'Syslog.Action.[Alias==\"dhcp\"].LogFile.FilePath?'" | grep -v '^>' | head -n -2  | sed -E 's|.*"file://(.*)"|\1|')
+  $ dhcplogfile=$(R "ba-cli 'Syslog.Action.[Alias==\"dhcp\"].LogFile.FilePath?'" | grep -Ev '^(>|$)' | sed -E 's|.*"file://(.*)"|\1|')
   $ R "test -s $dhcplogfile && echo 'log file is non empty'"
   log file is non empty
 
-  $ dhcppattern=$(R "ba-cli 'Syslog.Filter.[Alias==\"dhcp\"].PatternMatch?'" | grep -v '^>' | head -n -2 | sed -E 's|.*="\^?(.+?)"|\1|')
+  $ dhcppattern=$(R "ba-cli 'Syslog.Filter.[Alias==\"dhcp\"].PatternMatch?'" | sed -nE 's|.*PatternMatch="?\^?([^"]*)"?$|\1|p' | sed -E 's|\\([()])|\1|g')
+  $ test -n "$dhcppattern"
   $ R "grep -v -E '^$datepattern [^ ]+ $dhcppattern' $dhcplogfile" || echo "Only expect filtered log found"
   Only expect filtered log found
 

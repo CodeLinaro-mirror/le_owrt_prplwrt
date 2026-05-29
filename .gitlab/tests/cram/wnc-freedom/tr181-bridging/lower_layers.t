@@ -19,9 +19,8 @@ Check lan bridge ports:
 Replace a port with WAN interface:
 
   $ R ba-cli 'Device.Bridging.Bridge.lan.Port.12.LowerLayers=Device.Ethernet.Interface.1' >/dev/null
-  $ R ba-cli 'Device.Bridging.Bridge.lan.Port.12.Name?' | grep -v '^>'
+  $ R ba-cli 'Device.Bridging.Bridge.lan.Port.12.Name?' | grep -Ev '^(>|$)'
   Device.Bridging.Bridge.1.Port.12.Name="wan"
-  
 
 Check lan bridge ports:
 
@@ -41,7 +40,6 @@ Check lan bridge ports:
 
 Restore:
 
-  $ R ba-cli 'Device.Bridging.Bridge.lan.Port.12.LowerLayers=Device.Ethernet.Interface.5' | grep -v '^>'
+  $ R ba-cli 'Device.Bridging.Bridge.lan.Port.12.LowerLayers=Device.Ethernet.Interface.5' | grep -Ev '^(>|$)'
   Device.Bridging.Bridge.1.Port.12.
   Device.Bridging.Bridge.1.Port.12.LowerLayers="Device.Ethernet.Interface.5"
-  
