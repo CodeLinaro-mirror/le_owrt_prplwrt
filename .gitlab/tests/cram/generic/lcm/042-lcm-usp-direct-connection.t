@@ -11,6 +11,8 @@ Set-up the test configuration:
   $ DUID_FDSERVER="917362a3-86e8-5332-bcfd-a4223f0e65e6"
   $ DUID_FDCLIENT="e61c304b-b5e4-5fdb-9836-60001e90a127"
 
+  $ TEST_FILENAME="\tmp\testfile"
+
 ## Set-up ExecEnv configuration
 
   $ R "${S} && set_ee_roles --roles \"Full Access\"" > /dev/null
@@ -23,7 +25,6 @@ Set-up the test configuration:
   Active
   latest
   prpl-foundation/prplos/prplos/lcm_tests/*_image-sampleapp-* (glob)
-
   $ R "${S} && install_ctr --url_arch image-sampleapp-usp-direct-connection-client --ee --uuid ${UUID_FDCLIENT} --usprequired --privileged true" > /dev/null
   $ R "${S} && get_container_info --uuid ${UUID_FDCLIENT}"
   Active
@@ -98,6 +99,57 @@ Set-up the test configuration:
       "FdServer"
   ]
   
+
+## test FdClient.WriteToFile
+## add subscription
+  $ R "usp-cli \"Device.LocalAgent.Subscription.+{ReferenceList='Device.FdClient.WriteToFile()', NotifType='OperationComplete', Enable='true'}\"" > /dev/null
+
+  $ R "usp-cli \"Device.FdClient.WriteToFile(Filename=\"${TEST_FILENAME}\", Data = \"Data for file\")\""
+  ? Device.FdClient.WriteToFile(Filename=tmptestfile, Data = Data for file) (glob)
+  Device.FdClient.WriteToFile() returned
+  {
+      executed_command = "Device.FdClient.WriteToFile()",
+      req_obj_path = "Device.LocalAgent.Request.*" (glob)
+  }
+  
+
+## check content of file in server
+  $ R "${S} && execute_in_container --uuid ${UUID_FDSERVER} --cmd 'cat ${TEST_FILENAME}'"
+  Dataforfile (no-eol)
+
+## remove subscription
+  $ R "usp-cli \"Device.LocalAgent.Subscription.[ReferenceList == \"Device.FdClient.WriteToFile\(\)\"].-\"" > /dev/null
+
+
+## test FdClient.ReadFromFile
+## add subscription
+  $ R "usp-cli \"Device.LocalAgent.Subscription.+{ReferenceList='Device.FdClient.ReadFromFile()', NotifType='OperationComplete', Enable='true'}\"" > /dev/null
+
+  $ R "usp-cli \"Device.FdClient.ReadFromFile(Filename=\"${TEST_FILENAME}\")\""
+  ? Device.FdClient.ReadFromFile(Filename=tmptestfile) (glob)
+  Device.FdClient.ReadFromFile() returned
+  {
+      executed_command = "Device.FdClient.ReadFromFile()",
+      req_obj_path = "Device.LocalAgent.Request.*" (glob)
+  }
+  
+## remove subscription
+  $ R "usp-cli \"Device.LocalAgent.Subscription.[ReferenceList == \"Device.FdClient.ReadFromFile\(\)\"].-\"" > /dev/null
+
+## test FdClient.TestUspConnection
+## add subscription
+  $ R "usp-cli \"Device.LocalAgent.Subscription.+{Alias=\"uspdc\", ID=\"uspdc\", ReferenceList='Device.FdClient.TestUspConnection()', NotifType='OperationComplete', Enable='true'}\"" > /dev/null
+
+  $ R "usp-cli \"Device.FdClient.TestUspConnection()\""
+  ? Device.FdClient.TestUspConnection() (glob)
+  Device.FdClient.TestUspConnection() returned
+  {
+      executed_command = "Device.FdClient.TestUspConnection()",
+      req_obj_path = "Device.LocalAgent.Request.*" (glob)
+  }
+  
+## remove subscription
+  $ R "usp-cli \"Device.LocalAgent.Subscription.[ReferenceList == \"Device.FdClient.TestUspConnection\(\)\"].-\"" > /dev/null
 
 ## clean up all containers ##
 
