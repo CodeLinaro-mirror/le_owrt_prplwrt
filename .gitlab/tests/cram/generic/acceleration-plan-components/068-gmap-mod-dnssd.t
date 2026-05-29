@@ -12,9 +12,8 @@ Ensure avahi-daemon is running:
 
 Ensure DNS.SD service is enabled on HGW:
 
-  $ R "ba-cli 'DNSSD.Enable?'" | grep -v '>'
+  $ R "ba-cli 'DNSSD.Enable?'" | grep -Ev '^(>|$)'
   DNSSD.Enable=1
-  
 
 Test 1: Service Advertisement (mDNS announcement):
 
@@ -74,13 +73,12 @@ Wait for removal to propagate:
 
 Verify entry is removed from TR-181:
 
-  $ R 'ba-cli "Device.DNS.SD.Service.[InstanceName==\"CramTestService1\"].?"' 2>&1 | grep -v '>'
+  $ R 'ba-cli "Device.DNS.SD.Service.[InstanceName==\"CramTestService1\"].?"' 2>&1 | grep -Ev '^(>|$)'
   No data found
-  
 
 Verify entry is removed from gmap datamodel:
 
-  $ R 'ba-cli "Devices.Device.*.mDNSService.[Name==\"CramTestService1\"].?"' | grep -v '>' | grep 'CramTestService1' || echo "Not found"
+  $ R 'ba-cli "Devices.Device.*.mDNSService.[Name==\"CramTestService1\"].?"' | grep -Ev '^(>|$)' | grep 'CramTestService1' || echo "Not found"
   Not found
 
 Cleanup:

@@ -21,7 +21,7 @@ Check that there are no signs of crashes:
 
 Ensure that ProcessFaults does not contain any crashes:
 
-  $ R "ba-cli ProcessFaults.ProcessFault.? | grep -v '^>' | head -n -1 | sort"
+  $ R "ba-cli ProcessFaults.ProcessFault.? | grep -Ev '^(>|$)' | sort"
   No data found
 
 Ensure that there are no core dumps in the system:

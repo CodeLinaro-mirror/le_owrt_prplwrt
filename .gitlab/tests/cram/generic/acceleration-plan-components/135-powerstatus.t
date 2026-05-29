@@ -18,12 +18,12 @@ Add a dummy PowerSensor instance and restart the tr181-powerstatus service:
 
 Check the current number of PowerSensor instances:
 
-  $ R "ba-cli 'PowerStatus.PowerSensorNumberOfEntries?' | grep -v '>' | grep '='"
+  $ R "ba-cli 'PowerStatus.PowerSensorNumberOfEntries?' | grep -Ev '^(>|$)' | grep '='"
   PowerStatus.PowerSensorNumberOfEntries=[0-9]+ (re)
 
 Check the dummy PowerSensor instance:
 
-  $ R "ba-cli 'PowerStatus.PowerSensor.[Alias==\"dummy-sensor\"].?' | grep -v '>' | grep '=' | sort"
+  $ R "ba-cli 'PowerStatus.PowerSensor.[Alias==\"dummy-sensor\"].?' | grep -Ev '^(>|$)' | grep '=' | sort"
   PowerStatus.PowerSensor.[0-9]+.Alias="dummy-sensor" (re)
   PowerStatus.PowerSensor.[0-9]+.Current=0 (re)
   PowerStatus.PowerSensor.[0-9]+.Enable=0 (re)
@@ -35,7 +35,7 @@ Check the dummy PowerSensor instance:
 
 Disable the dummy PowerSensor instance:
 
-  $ R "ba-cli 'PowerStatus.PowerSensor.[Alias==\"dummy-sensor\"].Enable=0' | grep -v '>' | grep '='"
+  $ R "ba-cli 'PowerStatus.PowerSensor.[Alias==\"dummy-sensor\"].Enable=0' | grep -Ev '^(>|$)' | grep '='"
   PowerStatus.PowerSensor.[0-9]+.Enable=0 (re)
 
 Check the status of dummy PowerSensor instance:
@@ -45,7 +45,7 @@ Check the status of dummy PowerSensor instance:
 
 Enable the dummy PowerSensor instance:
 
-  $ R "ba-cli 'PowerStatus.PowerSensor.[Alias==\"dummy-sensor\"].Enable=1' | grep -v '>' | grep '='"
+  $ R "ba-cli 'PowerStatus.PowerSensor.[Alias==\"dummy-sensor\"].Enable=1' | grep -Ev '^(>|$)' | grep '='"
   PowerStatus.PowerSensor.[0-9]+.Enable=1 (re)
 
 Check the status of dummy PowerSensor instance:
@@ -61,13 +61,13 @@ Create a mock power file and verify the sensor becomes enabled:
 
 Configure protected parameters and enable the sensor:
 
-  $ R "ba-cli 'PowerStatus.PowerSensor.[Alias==\"dummy-sensor\"].PowerPath=\"/tmp/mock_power\"' | grep -v '>' | grep '='"
+  $ R "ba-cli 'PowerStatus.PowerSensor.[Alias==\"dummy-sensor\"].PowerPath=\"/tmp/mock_power\"' | grep -Ev '^(>|$)' | grep '='"
   PowerStatus.PowerSensor.[0-9]+.PowerPath="/tmp/mock_power" (re)
 
-  $ R "ba-cli 'PowerStatus.PowerSensor.[Alias==\"dummy-sensor\"].PollingInterval=1' | grep -v '>' | grep '='"
+  $ R "ba-cli 'PowerStatus.PowerSensor.[Alias==\"dummy-sensor\"].PollingInterval=1' | grep -Ev '^(>|$)' | grep '='"
   PowerStatus.PowerSensor.[0-9]+.PollingInterval=1 (re)
 
-  $ R "ba-cli 'PowerStatus.PowerSensor.[Alias==\"dummy-sensor\"].Enable=1' | grep -v '>' | grep '='"
+  $ R "ba-cli 'PowerStatus.PowerSensor.[Alias==\"dummy-sensor\"].Enable=1' | grep -Ev '^(>|$)' | grep '='"
   PowerStatus.PowerSensor.[0-9]+.Enable=1 (re)
 
 Check the status of dummy PowerSensor instance:

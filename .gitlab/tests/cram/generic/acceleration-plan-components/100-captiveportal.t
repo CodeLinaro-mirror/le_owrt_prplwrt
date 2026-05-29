@@ -5,7 +5,7 @@ Create R alias:
 Enable Captive Portal (not activated by default):
 
   $ R "ba-cli 'CaptivePortal.Enable=1'" >/dev/null
-  $ R "ba-cli 'CaptivePortal.Status?' | sed -n '2p'"
+  $ R "ba-cli 'CaptivePortal.Status?' | grep -Ev '^(>|$)'"
   CaptivePortal.Status="Enabled"
   $ sleep 1
 
@@ -26,7 +26,7 @@ Wait for status change:
 
 Check openNDS http interface has been opened on br-lan:
 
-  $ R "ba-cli 'UserInterface.HTTPAccess.[Alias==\"captive\"].Interface?' | sed -n '2p'"
+  $ R "ba-cli 'UserInterface.HTTPAccess.[Alias==\"captive\"].Interface?' | grep -Ev '^(>|$)'"
   UserInterface.HTTPAccess.3.Interface="Device.IP.Interface.3"
 
 Send a curl http request to detectportal.firefox.com and check we have a 307 temporary redirect:
@@ -36,9 +36,9 @@ Send a curl http request to detectportal.firefox.com and check we have a 307 tem
 
 Reenable WAN:
 
-  $ R "ba-cli -lj 'Device.IP.Interface.[Alias==\"wan\"].Enable=1' | sed -n '2p'"
+  $ R "ba-cli -lj 'Device.IP.Interface.[Alias==\"wan\"].Enable=1' | grep -Ev '^(>|$)'"
   [{"Device.IP.Interface.2.":{"Enable":1}}]
-  $ R "ba-cli 'CaptivePortal.Status?' | sed -n '2p'"
+  $ R "ba-cli 'CaptivePortal.Status?' | grep -Ev '^(>|$)'"
   CaptivePortal.Status="Enabled"
 
 Cleanup:

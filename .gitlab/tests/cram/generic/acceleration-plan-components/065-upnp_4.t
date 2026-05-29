@@ -17,10 +17,9 @@ upnp-client definitions:
 
 Allow Reserved WAN IP Addresses:
 
-  $ R "ba-cli 'Device.UPnP.X_PRPLWARE-COM_IGDConfig.AllowReservedAddr=1'" | grep -v '^>'
+  $ R "ba-cli 'Device.UPnP.X_PRPLWARE-COM_IGDConfig.AllowReservedAddr=1'" | grep -Ev '^(>|$)'
   Device.UPnP.X_PRPLWARE-COM_IGDConfig.
   Device.UPnP.X_PRPLWARE-COM_IGDConfig.AllowReservedAddr=1
-  
   $ sleep 3
 
 Verify UPnP IGD is present in the network:

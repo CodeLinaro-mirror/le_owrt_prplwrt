@@ -79,18 +79,17 @@ Verify CPUs — Data Model of Freedom Board:
 
 Enable the Dynamic Voltage and Frequency Scaling (DVFS) feature:
 
-  $ R 'ba-cli CPUs.CPU.1.DVFS.Enable=1'| sed -n '3p'
+  $ R 'ba-cli CPUs.CPU.1.DVFS.Enable=1' | grep -Ev '^(>|$)' | grep 'CPUs.CPU.1.DVFS.Enable='
   CPUs.CPU.1.DVFS.Enable=1
 
 Change governor to performance:
 
-  $ R 'ba-cli CPUs.CPU.1.DVFS.ScalingGovernor="performance"'| sed -n '3p'
+  $ R 'ba-cli CPUs.CPU.1.DVFS.ScalingGovernor="performance"' | grep -Ev '^(>|$)' | grep 'CPUs.CPU.1.DVFS.ScalingGovernor='
   CPUs.CPU.1.DVFS.ScalingGovernor="performance"
 
 Check that the governor was changed to performance in datamodel:
 
-  $ R "ba-cli CPUs.CPU.*.DVFS.ScalingGovernor?" | tail -n+2 | LC_ALL=C sort
-  
+  $ R "ba-cli CPUs.CPU.*.DVFS.ScalingGovernor?" | grep -Ev '^(>|$)' | LC_ALL=C sort
   CPUs.CPU.1.DVFS.ScalingGovernor="performance"
   CPUs.CPU.2.DVFS.ScalingGovernor="performance"
   CPUs.CPU.3.DVFS.ScalingGovernor="performance"
@@ -106,13 +105,12 @@ Check that the governor was changed in sysfs:
 
 Change governor back to powersave:
 
-  $ R 'ba-cli CPUs.CPU.1.DVFS.ScalingGovernor="powersave"'| sed -n '3p'
+  $ R 'ba-cli CPUs.CPU.1.DVFS.ScalingGovernor="powersave"' | grep -Ev '^(>|$)' | grep 'CPUs.CPU.1.DVFS.ScalingGovernor='
   CPUs.CPU.1.DVFS.ScalingGovernor="powersave"
 
 Check that the governor was changed back to powersave in datamodel:
 
-  $ R "ba-cli CPUs.CPU.*.DVFS.ScalingGovernor?" | tail -n+2 | LC_ALL=C sort
-  
+  $ R "ba-cli CPUs.CPU.*.DVFS.ScalingGovernor?" | grep -Ev '^(>|$)' | LC_ALL=C sort
   CPUs.CPU.1.DVFS.ScalingGovernor="powersave"
   CPUs.CPU.2.DVFS.ScalingGovernor="powersave"
   CPUs.CPU.3.DVFS.ScalingGovernor="powersave"
@@ -128,13 +126,12 @@ Check that the governor was changed back to powersave in sysfs:
 
 Check that its not possible to use unavailable conservative governor:
 
-  $ R 'ba-cli CPUs.CPU.1.DVFS.ScalingGovernor="Test"'| sed -n '2p'
+  $ R 'ba-cli CPUs.CPU.1.DVFS.ScalingGovernor="Test"' | grep -Ev '^(>|$)' | grep 'ERROR:'
   ERROR: set CPUs.CPU.1.DVFS.ScalingGovernor failed (10 - invalid value)
 
 Check that the governor is still set to powersave in datamodel:
 
-  $ R "ba-cli CPUs.CPU.*.DVFS.ScalingGovernor?" | tail -n+2 | LC_ALL=C sort
-  
+  $ R "ba-cli CPUs.CPU.*.DVFS.ScalingGovernor?" | grep -Ev '^(>|$)' | LC_ALL=C sort
   CPUs.CPU.1.DVFS.ScalingGovernor="powersave"
   CPUs.CPU.2.DVFS.ScalingGovernor="powersave"
   CPUs.CPU.3.DVFS.ScalingGovernor="powersave"
@@ -150,13 +147,12 @@ Check that the governor was is still set to powersave in sysfs:
 
 Set the governor back to performance to avoid affecting other tests:
 
-  $ R 'ba-cli CPUs.CPU.1.DVFS.ScalingGovernor="performance"'| sed -n '3p'
+  $ R 'ba-cli CPUs.CPU.1.DVFS.ScalingGovernor="performance"' | grep -Ev '^(>|$)' | grep 'CPUs.CPU.1.DVFS.ScalingGovernor='
   CPUs.CPU.1.DVFS.ScalingGovernor="performance"
 
 Check that the governor was changed to performance in datamodel:
 
-  $ R "ba-cli CPUs.CPU.*.DVFS.ScalingGovernor?" | tail -n+2 | LC_ALL=C sort
-  
+  $ R "ba-cli CPUs.CPU.*.DVFS.ScalingGovernor?" | grep -Ev '^(>|$)' | LC_ALL=C sort
   CPUs.CPU.1.DVFS.ScalingGovernor="performance"
   CPUs.CPU.2.DVFS.ScalingGovernor="performance"
   CPUs.CPU.3.DVFS.ScalingGovernor="performance"

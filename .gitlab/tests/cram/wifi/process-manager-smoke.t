@@ -50,9 +50,8 @@ Check that managing WiFi Sensing works:
 
 Check Sensing datamodel again:
 
-  $ R "ba-cli X_PRPLWARE-COM_ProcessManager.Sensing.? | grep -v '>'"
+  $ R "ba-cli X_PRPLWARE-COM_ProcessManager.Sensing.? | grep -Ev '^(>|$)'"
   X_PRPLWARE-COM_ProcessManager.Sensing.
   X_PRPLWARE-COM_ProcessManager.Sensing.Enable=1
   X_PRPLWARE-COM_ProcessManager.Sensing.FaultCode="NoFault"
   X_PRPLWARE-COM_ProcessManager.Sensing.Status="Active"
-  

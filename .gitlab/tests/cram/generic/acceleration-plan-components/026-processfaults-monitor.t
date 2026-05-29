@@ -52,7 +52,7 @@ Check if core dump has been created:
 
 Cleanup only if entry is from this test:
 
-  $ number_of_entries="$( R "ba-cli -l 'ProcessFaults.ProcessFaultNumberOfEntries?' | sed -n '2p'")"
+  $ number_of_entries="$( R "ba-cli -l 'ProcessFaults.ProcessFaultNumberOfEntries?' | grep -Ev '^(>|$)'")"
   $ if [ "$number_of_entries" -eq 1 ]; then R "ba-cli 'ProcessFaults.RemoveAllProcessFaults()' >/dev/null"; fi
 
 Check if dump files have really been removed:
@@ -61,7 +61,7 @@ Check if dump files have really been removed:
 
 Ensure that ProcessFaults does not contain any crashes, expected LastUpgradeCount to be 1 because of the simulated crash
 
-  $ R "ba-cli ProcessFaults.? | grep -v '^>' | head -n -1 | sort"
+  $ R "ba-cli ProcessFaults.? | grep -Ev '^(>|$)' | sort"
   ProcessFaults.
   ProcessFaults.LastUpgradeCount=1
   ProcessFaults.MaxProcessFaultEntries=5

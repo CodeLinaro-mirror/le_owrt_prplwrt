@@ -5,12 +5,12 @@ Create R alias:
 
 Check initial DHCPv6Client configuration:
 
-  $ R "ba-cli 'DHCPv6Client.Client.1.Enable?' | grep -v '>' | grep 'Enable'"
+  $ R "ba-cli 'DHCPv6Client.Client.1.Enable?' | grep -Ev '^(>|$)' | grep 'Enable'"
   DHCPv6Client.Client.1.Enable=1
 
 Check current ForceSolicitPolicy value:
 
-  $ R "ba-cli 'DHCPv6Client.Client.1.X_PRPLWARE-COM_ForceSolicitPolicy?' | grep -v '>' | grep 'ForceSolicitPolicy'"
+  $ R "ba-cli 'DHCPv6Client.Client.1.X_PRPLWARE-COM_ForceSolicitPolicy?' | grep -Ev '^(>|$)' | grep 'ForceSolicitPolicy'"
   DHCPv6Client.Client.1.X_PRPLWARE-COM_ForceSolicitPolicy=0
 
 Start tcpdump in background to capture DHCPv6 packets on testbed WAN interface:
@@ -31,7 +31,7 @@ Enable ForceSolicitPolicy to trigger DHCPv6 Solicit message ( a restart of the c
 
 Verify the parameter was set correctly:
 
-  $ R "ba-cli 'DHCPv6Client.Client.1.X_PRPLWARE-COM_ForceSolicitPolicy?' | grep -v '>' | grep 'ForceSolicitPolicy'"
+  $ R "ba-cli 'DHCPv6Client.Client.1.X_PRPLWARE-COM_ForceSolicitPolicy?' | grep -Ev '^(>|$)' | grep 'ForceSolicitPolicy'"
   DHCPv6Client.Client.1.X_PRPLWARE-COM_ForceSolicitPolicy=1
 
 Wait for DHCPv6 Solicit message to be sent and captured:
@@ -53,5 +53,5 @@ Reset ForceSolicitPolicy to original value:
 
 Verify reset:
 
-  $ R "ba-cli 'DHCPv6Client.Client.1.X_PRPLWARE-COM_ForceSolicitPolicy?' | grep -v '>' | grep 'ForceSolicitPolicy'"
+  $ R "ba-cli 'DHCPv6Client.Client.1.X_PRPLWARE-COM_ForceSolicitPolicy?' | grep -Ev '^(>|$)' | grep 'ForceSolicitPolicy'"
   DHCPv6Client.Client.1.X_PRPLWARE-COM_ForceSolicitPolicy=0

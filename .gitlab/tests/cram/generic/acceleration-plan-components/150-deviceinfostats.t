@@ -4,7 +4,7 @@ Create R alias:
 
 Check GetBusStats() function:
 
-  $ R "ba-cli 'DeviceInfo.GetBusStats()' | grep -v '>'"
+  $ R "ba-cli 'DeviceInfo.GetBusStats()' | grep -Ev '^(>|$)'"
   DeviceInfo.GetBusStats() returned
   [
       {
@@ -102,7 +102,6 @@ Check GetBusStats() function:
           }
       }
   ]
-  
 
 Check stats after doing an action:
 
