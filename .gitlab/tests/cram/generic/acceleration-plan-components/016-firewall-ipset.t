@@ -76,7 +76,6 @@ Utilize set in firewall rule:
   $ (R "ba-cli Firewall.Chain.2.Rule.1.Status?") | sed 's|[>,]||g'
    Firewall.Chain.2.Rule.1.Status?
   Firewall.Chain.2.Rule.1.Status="Enabled"
-  
 
   $ (R "iptables -L FORWARD_L_Low") | sed 's|[0123456789,]||g'
   Chain FORWARD_L_Low ( references)
@@ -93,7 +92,6 @@ Not enabled set in firewall rule:
   $ (R "ba-cli Firewall.Chain.2.Rule.1.Status?") | sed 's|[>,]||g'
    Firewall.Chain.2.Rule.1.Status?
   Firewall.Chain.2.Rule.1.Status="Error_Misconfigured"
-  
 
   $ (R "ba-cli Firewall.Chain.2.Rule.1.SourceMatchSet=\"\"") >> /dev/null
 
@@ -104,7 +102,6 @@ Exclude set parameter:
   $ (R "ba-cli Firewall.Chain.2.Rule.1.Status?") | sed 's|[>,]||g'
    Firewall.Chain.2.Rule.1.Status?
   Firewall.Chain.2.Rule.1.Status="Enabled"
-  
   $ (R "iptables -L FORWARD_L_Low") | sed 's|[0123456789,]||g'
   Chain FORWARD_L_Low ( references)
   target     prot opt source               destination         

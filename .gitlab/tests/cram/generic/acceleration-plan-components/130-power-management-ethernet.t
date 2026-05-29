@@ -23,23 +23,22 @@ Check read-only parameters:
 
 Check ChangePowerMode function:
 
-  $ alias=$(R "ba-cli 'Ethernet.Interface.1.PowerCapability?' | grep -v '>' | grep 'PowerCapability'| sed -E 's/.*PowerCapability=\"([^\"]+)\"/\1/'")
+  $ alias=$(R "ba-cli 'Ethernet.Interface.1.PowerCapability?' | grep -Ev '^(>|$)' | grep 'PowerCapability'| sed -E 's/.*PowerCapability=\"([^\"]+)\"/\1/'")
   $ first=${alias%%,*}
-  $ R "ba-cli 'Ethernet.Interface.1.ChangePowerMode(PowerState = \"$first\")' | grep -v '>'"
+  $ R "ba-cli 'Ethernet.Interface.1.ChangePowerMode(PowerState = \"$first\")' | grep -Ev '^(>|$)'"
   Ethernet.Interface.1.ChangePowerMode() returned
   [
       ""
   ]
-  
 
 Check invalid value for ChangePowerMode function:
 
-  $ R "ba-cli 'Ethernet.Interface.1.ChangePowerMode(PowerState = "InvalidState")' | grep -v '>' | grep 'ERROR'"
+  $ R "ba-cli 'Ethernet.Interface.1.ChangePowerMode(PowerState = "InvalidState")' | grep -Ev '^(>|$)' | grep 'ERROR'"
   ERROR: call (null) failed with status 1 - unknown error
 
 Check PowerStatus after ChangePowerMode:
 
-  $ status=$(R "ba-cli 'Ethernet.Interface.1.PowerStatus?' | grep -v '>' | sed -E 's/.*PowerStatus=\"([^\"]+)\".*/\1/'")
+  $ status=$(R "ba-cli 'Ethernet.Interface.1.PowerStatus?' | grep -Ev '^(>|$)' | sed -E 's/.*PowerStatus=\"([^\"]+)\".*/\1/'")
 
   $ if [ "$status" = "$first" ]; then 
   >   echo "PowerStatus has been updated successfully"

@@ -35,10 +35,10 @@ Sleep for a moment to ensure subscriber is ready before publishing messages:
 
 Add MQTT client and subscription:
 
-  $ R "ba-cli 'MQTT.Client.+{Alias=\"local_broker\", BrokerAddress=\"127.0.0.1\", Enable=\"true\"}' | grep -v '>' | grep 'local_broker'"
+  $ R "ba-cli 'MQTT.Client.+{Alias=\"local_broker\", BrokerAddress=\"127.0.0.1\", Enable=\"true\"}' | grep -Ev '^(>|$)' | grep 'local_broker'"
   MQTT.Client.[0-9]+.Alias="local_broker" (re)
 
-  $ R "ba-cli 'MQTT.Client.local_broker.Subscription.+{Topic=\"SAH_CRAM_tests\", Enable=\"true\"}' | grep -v '>' | grep 'Topic'"
+  $ R "ba-cli 'MQTT.Client.local_broker.Subscription.+{Topic=\"SAH_CRAM_tests\", Enable=\"true\"}' | grep -Ev '^(>|$)' | grep 'Topic'"
   MQTT.Client.[0-9]+.Subscription.1.Topic="SAH_CRAM_tests" (re)
 
   $ sleep 2 # Wait for MQTT client to connect and subscribe

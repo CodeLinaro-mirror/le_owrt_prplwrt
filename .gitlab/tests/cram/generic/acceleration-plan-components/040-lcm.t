@@ -67,7 +67,6 @@ Check that Rlyeh has no container images:
   $ R "ba-cli -l -j 'Rlyeh.Images.?'"
   
   [{}]
-  
 
 Check that registry.gitlab.com is accessible:
 
@@ -79,7 +78,6 @@ Check that Rlyeh can download testing container:
   
   Rlyeh.pull() returned
   [""]
-  
 
   $ R 'i=1; while [ $i -lt 10 ] && [ "$(ba-cli -lj "Rlyeh.Images.[DUID == \"0f032bd7-54bd-5b81-b14e-9441d730092f\"].DUID?" | jsonfilter -e @[*].*.DUID)" != "0f032bd7-54bd-5b81-b14e-9441d730092f" ]; do i=$((i+1)); sleep 1; done'
 
@@ -96,7 +94,6 @@ Remove testing container:
   
   Rlyeh.remove() returned
   [""]
-  
 
   $ R "ba-cli -l -j 'Rlyeh.Images.[DUID == \"0f032bd7-54bd-5b81-b14e-9441d730092f\"].?' | jsonfilter -e @[*].*.MarkForRemoval"
   1
@@ -105,14 +102,12 @@ Remove testing container:
   
   Rlyeh.gc() returned
   [""]
-  
 
 Check that Rlyeh has no container images:
 
   $ R "ba-cli -l -j 'Rlyeh.Images.?'"
   
   [{}]
-  
 
 Check that testing image is gone from the filesystem as well:
 

@@ -39,7 +39,7 @@ Check that certs are in place as expected:
 
 Check that certificate can be disabled (PCF-1054):
 
-  $ R "ba-cli 'Security.Certificate.[SignatureAlgorithm==\"ecdsa-with-SHA512\"].Enable=0' | sed -n '3p'"
+  $ R "ba-cli 'Security.Certificate.[SignatureAlgorithm==\"ecdsa-with-SHA512\"].Enable=0' | grep -Ev '^(>|$)' | grep 'Enable=0'"
   Security.Certificate.\d+.Enable=0 (re)
 
   $ R "ba-cli --json 'Security.Certificate.[SignatureAlgorithm==\"ecdsa-with-SHA512\" && Enable==False].?' | sed -n '2p'" | jq --sort-keys .[0] | grep -v -E '(NotAfter|NotBefore|LastModif)'
@@ -57,7 +57,7 @@ Check that certificate can be disabled (PCF-1054):
 
 Check that certificate can be enabled (PCF-1054):
 
-  $ R "ba-cli 'Security.Certificate.[SignatureAlgorithm==\"ecdsa-with-SHA512\"].Enable=1' | sed -n '3p'"
+  $ R "ba-cli 'Security.Certificate.[SignatureAlgorithm==\"ecdsa-with-SHA512\"].Enable=1' | grep -Ev '^(>|$)' | grep 'Enable=1'"
   Security.Certificate.\d+.Enable=1 (re)
 
   $ R "ba-cli --json 'Security.Certificate.[SignatureAlgorithm==\"ecdsa-with-SHA512\" && Enable==True].?' | sed -n '2p'" | jq --sort-keys .[0] | grep -v -E '(NotAfter|NotBefore|LastModif)'
@@ -93,13 +93,12 @@ Check that CABundle are presents:
 
   $ R "echo '%populate{object Security{object CABundle{instance add(){parameter Enable=1; parameter Name=cram; parameter CAFileURI=\"/tmp/server-cert.crt\";}}}}' > /etc/amx/tr181-security/defaults.d/01_cram_periodic_transfer.odl" ; sleep 1
   $ R '/etc/init.d/tr181-security restart'
-  $ R 'ba-cli Security.CABundleNumberOfEntries?' | grep -v '>'
+  $ R 'ba-cli Security.CABundleNumberOfEntries?' | grep -Ev '^(>|$)'
   Security.CABundleNumberOfEntries=1
-  
 
 Check CABundle RPC:
 
-  $ R "ba-cli 'Security.CABundle.1.CAFile()'" | grep -v '>'
+  $ R "ba-cli 'Security.CABundle.1.CAFile()'" | grep -Ev '^(>|$)'
   Security.CABundle.1.CAFile() returned
   [
       "",
@@ -107,8 +106,7 @@ Check CABundle RPC:
           CAFile = "/tmp/server-cert.crt"
       }
   ]
-  
-  $ R "ba-cli 'Security.CABundle.1.CADir()'" | grep -v '>'
+  $ R "ba-cli 'Security.CABundle.1.CADir()'" | grep -Ev '^(>|$)'
   Security.CABundle.1.CADir() returned
   [
       "",
@@ -116,9 +114,8 @@ Check CABundle RPC:
           CADir = ""
       }
   ]
-  
   $ R "ba-cli 'Security.CABundle.1.CADirURI=/tmp'" >/dev/null
-  $ R "ba-cli 'Security.CABundle.1.CADir()'" | grep -v '>'
+  $ R "ba-cli 'Security.CABundle.1.CADir()'" | grep -Ev '^(>|$)'
   Security.CABundle.1.CADir() returned
   [
       "",
@@ -126,7 +123,6 @@ Check CABundle RPC:
           CADir = "/tmp"
       }
   ]
-  
 
 Restore the state of the system:
 

@@ -53,7 +53,7 @@ Check sessions number:
 Check AddExchange API: 
 Note: To fully test this API an associated station is required but let's test with a dummy MAC so we check that the API is reacting
 
-  $ R "ba-cli -j -l   'X_PRPLWARE-COM_WiFiSensing.Session.$SessionID.AddExchange(Transmitter = "AA:AA:AA:AA:AA:AA")'" | sed '/^$/d' | tail -n +2
+  $ R "ba-cli -j -l   'X_PRPLWARE-COM_WiFiSensing.Session.$SessionID.AddExchange(Transmitter = "AA:AA:AA:AA:AA:AA")'" | grep -Ev '^(>|$)' | sed -n '2p'
   [{"ExchangeID":0,"ErrorCode":"NOT_PRESENT"}]
 
 Delete session using SessionID:

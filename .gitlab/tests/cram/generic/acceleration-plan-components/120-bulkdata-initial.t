@@ -32,7 +32,7 @@ Check BulkData root datamodel:
 
 Enable BulkData and check object status:
 
-  $ R "ba-cli 'BulkData.Enable=1' | grep -v '>' | grep 'Enable'"
+  $ R "ba-cli 'BulkData.Enable=1' | grep -Ev '^(>|$)' | grep 'Enable'"
   BulkData.Enable=1
 
   $ R "ba-cli 'BulkData.Status?' | grep '='"
@@ -40,19 +40,19 @@ Enable BulkData and check object status:
 
 Check added new Profile:
 
-  $ alias=$(R "ba-cli 'BulkData.Profile.+{Protocol=USPEventNotif, Enable=true}' | grep -v '>' | grep 'Alias'| sed -E 's/.*Alias=\"([^\"]+)\"/\1/'")
+  $ alias=$(R "ba-cli 'BulkData.Profile.+{Protocol=USPEventNotif, Enable=true}' | grep -Ev '^(>|$)' | grep 'Alias'| sed -E 's/.*Alias=\"([^\"]+)\"/\1/'")
   $ echo "$alias"
   cpe-Profile-[0-9]+ (re)
 
 Check adding ReportingInterval value:
 
-  $ R "ba-cli 'BulkData.Profile.$alias.ReportingInterval=15' | sort | grep 'BulkData' | grep -v '>'"
+  $ R "ba-cli 'BulkData.Profile.$alias.ReportingInterval=15' | sort | grep 'BulkData' | grep -Ev '^(>|$)'"
   BulkData.Profile.[0-9]+. (re)
   BulkData.Profile.[0-9]+.ReportingInterval=15 (re)
 
 Check adding Reference information:
 
-  $ R "ba-cli "BulkData.Profile.$alias.Parameter.+{Reference="Device.DeviceInfo.SerialNumber"}" | sort | grep 'BulkData' | grep -v '>'"
+  $ R "ba-cli "BulkData.Profile.$alias.Parameter.+{Reference="Device.DeviceInfo.SerialNumber"}" | sort | grep 'BulkData' | grep -Ev '^(>|$)'"
   BulkData.Profile.[0-9]+.Parameter.[0-9]+. (re)
 
 Check push notification:

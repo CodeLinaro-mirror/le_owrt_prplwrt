@@ -118,7 +118,7 @@ Check that managing pWHM and prplMesh works:
 # Waiting for agent to complete statup
   $ R "amx_wait_for "X_PRPLWARE-COM_Agent.Info." "
 
-  $ R "ba-cli X_PRPLWARE-COM_ProcessManager.? | grep -v '>'"
+  $ R "ba-cli X_PRPLWARE-COM_ProcessManager.? | grep -Ev '^(>|$)'"
   X_PRPLWARE-COM_ProcessManager.
   X_PRPLWARE-COM_ProcessManager.PWHM.
   X_PRPLWARE-COM_ProcessManager.PWHM.Enable=1
@@ -134,7 +134,6 @@ Check that managing pWHM and prplMesh works:
   X_PRPLWARE-COM_ProcessManager.Sensing.Enable=1
   X_PRPLWARE-COM_ProcessManager.Sensing.FaultCode="NoFault"
   X_PRPLWARE-COM_ProcessManager.Sensing.Status="Active"
-  
 # NOTE:
 # This test restarts PWHM and prplMesh services.
 # As a result, the system requires ~30 seconds to fully recover and stabilize.

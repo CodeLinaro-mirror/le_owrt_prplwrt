@@ -258,17 +258,17 @@ To disable wireless, disable instances of Network.AccessPoint{i} and call Access
 
 Restore Security.ModeEnabled for AccessPoints used in the test
 
-  $ R "ba-cli  \"WiFi.AccessPoint.[RadioReference == 'Device.WiFi.Radio.1'].Security.ModeEnabled='WPA3-Personal-Transition'\"" | grep 'ModeEnabled=' | sed '/^$/d' | grep -v '>'
+  $ R "ba-cli  \"WiFi.AccessPoint.[RadioReference == 'Device.WiFi.Radio.1'].Security.ModeEnabled='WPA3-Personal-Transition'\"" | grep 'ModeEnabled=' | sed '/^$/d' | grep -Ev '^(>|$)'
   WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal-Transition" (re)
   WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal-Transition" (re)
   WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal-Transition" (re)
 
-  $ R "ba-cli  \"WiFi.AccessPoint.[RadioReference == 'Device.WiFi.Radio.2'].Security.ModeEnabled='WPA3-Personal-Transition'\"" | grep 'ModeEnabled=' | sed '/^$/d' | grep -v '>'
+  $ R "ba-cli  \"WiFi.AccessPoint.[RadioReference == 'Device.WiFi.Radio.2'].Security.ModeEnabled='WPA3-Personal-Transition'\"" | grep 'ModeEnabled=' | sed '/^$/d' | grep -Ev '^(>|$)'
   WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal-Transition" (re)
   WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal-Transition" (re)
   WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal-Transition" (re)
 
-  $ R "ba-cli  \"WiFi.AccessPoint.[RadioReference == 'Device.WiFi.Radio.3'].Security.ModeEnabled='WPA3-Personal'\"" | grep 'ModeEnabled=' | sed '/^$/d' | grep -v '>'
+  $ R "ba-cli  \"WiFi.AccessPoint.[RadioReference == 'Device.WiFi.Radio.3'].Security.ModeEnabled='WPA3-Personal'\"" | grep 'ModeEnabled=' | sed '/^$/d' | grep -Ev '^(>|$)'
   WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal" (re)
   WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal" (re)
   WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal" (re)
@@ -301,17 +301,17 @@ Check that SSIDs did not change:
 
 Restore Security Mode to default values
 
-  $ R "ba-cli  \"WiFi.AccessPoint.[RadioReference == 'Device.WiFi.Radio.1'].Security.ModeEnabled='WPA3-Personal-Transition'\"" | grep 'ModeEnabled=' | sed '/^$/d' | grep -v '>'
+  $ R "ba-cli  \"WiFi.AccessPoint.[RadioReference == 'Device.WiFi.Radio.1'].Security.ModeEnabled='WPA3-Personal-Transition'\"" | grep 'ModeEnabled=' | sed '/^$/d' | grep -Ev '^(>|$)'
   WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal-Transition" (re)
   WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal-Transition" (re)
   WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal-Transition" (re)
 
-  $ R "ba-cli  \"WiFi.AccessPoint.[RadioReference == 'Device.WiFi.Radio.2'].Security.ModeEnabled='WPA3-Personal-Transition'\"" | grep 'ModeEnabled=' | sed '/^$/d' | grep -v '>'
+  $ R "ba-cli  \"WiFi.AccessPoint.[RadioReference == 'Device.WiFi.Radio.2'].Security.ModeEnabled='WPA3-Personal-Transition'\"" | grep 'ModeEnabled=' | sed '/^$/d' | grep -Ev '^(>|$)'
   WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal-Transition" (re)
   WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal-Transition" (re)
   WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal-Transition" (re)
 
-  $ R "ba-cli  \"WiFi.AccessPoint.[RadioReference == 'Device.WiFi.Radio.3'].Security.ModeEnabled='WPA3-Personal'\"" | grep 'ModeEnabled=' | sed '/^$/d' | grep -v '>'
+  $ R "ba-cli  \"WiFi.AccessPoint.[RadioReference == 'Device.WiFi.Radio.3'].Security.ModeEnabled='WPA3-Personal'\"" | grep 'ModeEnabled=' | sed '/^$/d' | grep -Ev '^(>|$)'
   WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal" (re)
   WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal" (re)
   WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal" (re)

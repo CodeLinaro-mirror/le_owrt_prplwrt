@@ -13,4 +13,3 @@ Check Kernelfaults root datamodel:
   KernelFaults.MinFreeSpace=[0-9]* (re)
   KernelFaults.PreviousBootCount=[0-9]* (re)
   KernelFaults.StoragePath="/data/oops"
-  

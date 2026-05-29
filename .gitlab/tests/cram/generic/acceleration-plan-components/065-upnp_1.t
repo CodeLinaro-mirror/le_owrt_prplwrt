@@ -17,10 +17,9 @@ upnp-client definitions:
 
 Allow Reserved WAN IP Addresses:
 
-  $ R "ba-cli 'Device.UPnP.X_PRPLWARE-COM_IGDConfig.AllowReservedAddr=1'" | grep -v '^>'
+  $ R "ba-cli 'Device.UPnP.X_PRPLWARE-COM_IGDConfig.AllowReservedAddr=1'" | grep -Ev '^(>|$)'
   Device.UPnP.X_PRPLWARE-COM_IGDConfig.
   Device.UPnP.X_PRPLWARE-COM_IGDConfig.AllowReservedAddr=1
-  
   $ sleep 3
 
 Verify UPnP IGD is present in the network:
@@ -41,49 +40,43 @@ Ged Description URL:
 
 Check there are no NAT PortMapping rules:
 
-  $ R "ba-cli 'Device.NAT.PortMapping.?'" | grep -v '^>'
+  $ R "ba-cli 'Device.NAT.PortMapping.?'" | grep -Ev '^(>|$)'
   No data found
-  
 
 Create NAT PortMapping rules:
 
-  $ R "ba-cli 'Device.NAT.PortMapping.+{Alias=testrule1,Enable=1,Interface=Device.IP.Interface.2,Origin=UPnP,RemoteHost=1.1.1.1,ExternalPort=12345,InternalPort=12345,InternalClient=192.168.1.123}'" | grep -v '^>' | sed -E 's/\.PortMapping\.[0-9]+\./.PortMapping.X./'
+  $ R "ba-cli 'Device.NAT.PortMapping.+{Alias=testrule1,Enable=1,Interface=Device.IP.Interface.2,Origin=UPnP,RemoteHost=1.1.1.1,ExternalPort=12345,InternalPort=12345,InternalClient=192.168.1.123}'" | grep -Ev '^(>|$)' | sed -E 's/\.PortMapping\.[0-9]+\./.PortMapping.X./'
   Device.NAT.PortMapping.X.
   Device.NAT.PortMapping.X.Alias="testrule1"
   Device.NAT.PortMapping.X.ExternalPort=12345
   Device.NAT.PortMapping.X.Protocol="TCP"
   Device.NAT.PortMapping.X.RemoteHost="1.1.1.1"
-  
 
-  $ R "ba-cli 'Device.NAT.PortMapping.+{Alias=testrule2,Enable=1,Interface=Device.IP.Interface.2,Origin=UPnP,RemoteHost=1.1.1.1,ExternalPort=23456,InternalPort=23456,InternalClient=192.168.1.123}'" | grep -v '^>' | sed -E 's/\.PortMapping\.[0-9]+\./.PortMapping.X./'
+  $ R "ba-cli 'Device.NAT.PortMapping.+{Alias=testrule2,Enable=1,Interface=Device.IP.Interface.2,Origin=UPnP,RemoteHost=1.1.1.1,ExternalPort=23456,InternalPort=23456,InternalClient=192.168.1.123}'" | grep -Ev '^(>|$)' | sed -E 's/\.PortMapping\.[0-9]+\./.PortMapping.X./'
   Device.NAT.PortMapping.X.
   Device.NAT.PortMapping.X.Alias="testrule2"
   Device.NAT.PortMapping.X.ExternalPort=23456
   Device.NAT.PortMapping.X.Protocol="TCP"
   Device.NAT.PortMapping.X.RemoteHost="1.1.1.1"
-  
 
-  $ R "ba-cli 'Device.NAT.PortMapping.+{Alias=testrule3,Enable=1,Interface=Device.IP.Interface.2,Origin=UPnP,RemoteHost=1.1.1.1,ExternalPort=34567,InternalPort=34567,InternalClient=192.168.1.123}'" | grep -v '^>' | sed -E 's/\.PortMapping\.[0-9]+\./.PortMapping.X./'
+  $ R "ba-cli 'Device.NAT.PortMapping.+{Alias=testrule3,Enable=1,Interface=Device.IP.Interface.2,Origin=UPnP,RemoteHost=1.1.1.1,ExternalPort=34567,InternalPort=34567,InternalClient=192.168.1.123}'" | grep -Ev '^(>|$)' | sed -E 's/\.PortMapping\.[0-9]+\./.PortMapping.X./'
   Device.NAT.PortMapping.X.
   Device.NAT.PortMapping.X.Alias="testrule3"
   Device.NAT.PortMapping.X.ExternalPort=34567
   Device.NAT.PortMapping.X.Protocol="TCP"
   Device.NAT.PortMapping.X.RemoteHost="1.1.1.1"
-  
 
-  $ R "ba-cli 'Device.NAT.PortMapping.+{Alias=testrule4,Enable=1,Interface=Device.IP.Interface.2,Origin=Controller,RemoteHost=1.1.1.1,ExternalPort=45678,InternalPort=45678,InternalClient=192.168.1.123}'" | grep -v '^>' | sed -E 's/\.PortMapping\.[0-9]+\./.PortMapping.X./'
+  $ R "ba-cli 'Device.NAT.PortMapping.+{Alias=testrule4,Enable=1,Interface=Device.IP.Interface.2,Origin=Controller,RemoteHost=1.1.1.1,ExternalPort=45678,InternalPort=45678,InternalClient=192.168.1.123}'" | grep -Ev '^(>|$)' | sed -E 's/\.PortMapping\.[0-9]+\./.PortMapping.X./'
   Device.NAT.PortMapping.X.
   Device.NAT.PortMapping.X.Alias="testrule4"
   Device.NAT.PortMapping.X.ExternalPort=45678
   Device.NAT.PortMapping.X.Protocol="TCP"
   Device.NAT.PortMapping.X.RemoteHost="1.1.1.1"
-  
 
 Delete the second NAT PortMapping rules:
 
-  $ R "ba-cli 'Device.NAT.PortMapping.testrule2.-'" | grep -v '^>' |  sed -E 's/\.PortMapping\.[0-9]+\./.PortMapping.X./'
+  $ R "ba-cli 'Device.NAT.PortMapping.testrule2.-'" | grep -Ev '^(>|$)' |  sed -E 's/\.PortMapping\.[0-9]+\./.PortMapping.X./'
   Device.NAT.PortMapping.X.
-  
 
 Rtrieve NAT PortMapping with index 0:
 
@@ -137,14 +130,11 @@ Retrieve NAT PortMapping with index 3:
 
 Clean up:
 
-  $ R "ba-cli 'Device.NAT.PortMapping.testrule1.-'" | grep -v '^>' |  sed -E 's/\.PortMapping\.[0-9]+\./.PortMapping.X./'
+  $ R "ba-cli 'Device.NAT.PortMapping.testrule1.-'" | grep -Ev '^(>|$)' |  sed -E 's/\.PortMapping\.[0-9]+\./.PortMapping.X./'
   Device.NAT.PortMapping.X.
-  
 
-  $ R "ba-cli 'Device.NAT.PortMapping.testrule3.-'" | grep -v '^>' |  sed -E 's/\.PortMapping\.[0-9]+\./.PortMapping.X./'
+  $ R "ba-cli 'Device.NAT.PortMapping.testrule3.-'" | grep -Ev '^(>|$)' |  sed -E 's/\.PortMapping\.[0-9]+\./.PortMapping.X./'
   Device.NAT.PortMapping.X.
-  
 
-  $ R "ba-cli 'Device.NAT.PortMapping.testrule4.-'" | grep -v '^>' |  sed -E 's/\.PortMapping\.[0-9]+\./.PortMapping.X./'
+  $ R "ba-cli 'Device.NAT.PortMapping.testrule4.-'" | grep -Ev '^(>|$)' |  sed -E 's/\.PortMapping\.[0-9]+\./.PortMapping.X./'
   Device.NAT.PortMapping.X.
-  

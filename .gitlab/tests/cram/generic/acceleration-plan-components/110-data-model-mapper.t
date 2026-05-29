@@ -136,9 +136,8 @@ Check command tree is available:
 
 Check that no deployment units exist:
 
-  $ R "ba-cli 'SoftwareModules.DeploymentUnit.?'" | tail -n +2
+  $ R "ba-cli 'SoftwareModules.DeploymentUnit.?'" | grep -Ev '^(>|$)'
   No data found
-  
 
 Check that registry.gitlab.com is accessible:
 
@@ -155,7 +154,7 @@ Set Input for InstallDU command:
   > AllocatedMemory=\"-1\", \\
   > Privileged=\"1\", \\
   > ModuleVersion=\"v1\" \\
-  > }" | tail -n +2
+  > }" | grep -Ev '^(>|$)'
   X_PRPLWARE-COM_SoftwareModules.InstallDUCmd.Input.
   X_PRPLWARE-COM_SoftwareModules.InstallDUCmd.Input.AllocatedCPUPercent=100
   X_PRPLWARE-COM_SoftwareModules.InstallDUCmd.Input.AllocatedDiskSpace=-1
@@ -165,18 +164,16 @@ Set Input for InstallDU command:
   X_PRPLWARE-COM_SoftwareModules.InstallDUCmd.Input.Privileged=1
   X_PRPLWARE-COM_SoftwareModules.InstallDUCmd.Input.URL="docker://registry.gitlab.com/prpl-foundation/prplos/prplos/prplos/*:prplos-v1" (glob)
   X_PRPLWARE-COM_SoftwareModules.InstallDUCmd.Input.UUID="00000000-0000-5000-b000-000000000001"
-  
 
 Run InstallDU command and wait:
 
-  $ R "ba-cli X_PRPLWARE-COM_SoftwareModules.InstallDUCmd.State='Requested'" | tail -n +2; sleep 30
+  $ R "ba-cli X_PRPLWARE-COM_SoftwareModules.InstallDUCmd.State='Requested'" | grep -Ev '^(>|$)'; sleep 30
   X_PRPLWARE-COM_SoftwareModules.InstallDUCmd.
   X_PRPLWARE-COM_SoftwareModules.InstallDUCmd.State="Requested"
-  
 
 Check new DeploymentUnit:
 
-  $ R "ba-cli 'SoftwareModules.DeploymentUnit.[ UUID == \"00000000-0000-5000-b000-000000000001\" ].?'" | tail -n +2
+  $ R "ba-cli 'SoftwareModules.DeploymentUnit.[ UUID == \"00000000-0000-5000-b000-000000000001\" ].?'" | grep -Ev '^(>|$)'
   SoftwareModules.DeploymentUnit.*. (glob)
   SoftwareModules.DeploymentUnit.*.Alias="*" (glob)
   SoftwareModules.DeploymentUnit.*.DUID="*" (glob)
@@ -195,29 +192,25 @@ Check new DeploymentUnit:
   SoftwareModules.DeploymentUnit.*.VendorConfigList="" (glob)
   SoftwareModules.DeploymentUnit.*.VendorLogList="" (glob)
   SoftwareModules.DeploymentUnit.*.Version="prplos-v1" (glob)
-  
 
 Get index of the new DeploymentUnit:
 
-  $ du_index=$(R "ba-cli 'SoftwareModules.DeploymentUnit.*.UUID?'" | tail -n +2 | awk -F'.' '{print $3}')
+  $ du_index=$(R "ba-cli 'SoftwareModules.DeploymentUnit.*.UUID?'" | grep -Ev '^(>|$)' | awk -F'.' '{print $3}')
 
 Remove new DeploymentUnit and wait:
 
-  $ R "ba-cli X_PRPLWARE-COM_SoftwareModules.DeploymentUnitUninstallCmd.CmdPath='Device.SoftwareModules.DeploymentUnit.${du_index}'" | tail -n +2
+  $ R "ba-cli X_PRPLWARE-COM_SoftwareModules.DeploymentUnitUninstallCmd.CmdPath='Device.SoftwareModules.DeploymentUnit.${du_index}'" | grep -Ev '^(>|$)'
   X_PRPLWARE-COM_SoftwareModules.DeploymentUnitUninstallCmd.
   X_PRPLWARE-COM_SoftwareModules.DeploymentUnitUninstallCmd.CmdPath="Device.SoftwareModules.DeploymentUnit.*" (glob)
-  
 
-  $ R "ba-cli X_PRPLWARE-COM_SoftwareModules.DeploymentUnitUninstallCmd.State='Requested'" | tail -n +2; sleep 10
+  $ R "ba-cli X_PRPLWARE-COM_SoftwareModules.DeploymentUnitUninstallCmd.State='Requested'" | grep -Ev '^(>|$)'; sleep 10
   X_PRPLWARE-COM_SoftwareModules.DeploymentUnitUninstallCmd.
   X_PRPLWARE-COM_SoftwareModules.DeploymentUnitUninstallCmd.State="Requested"
-  
 
 Check that new DeploymentUnit is deleted:
 
-  $ R "ba-cli 'SoftwareModules.DeploymentUnit.?'" | tail -n +2
+  $ R "ba-cli 'SoftwareModules.DeploymentUnit.?'" | grep -Ev '^(>|$)'
   No data found
-  
 
 Set Input for InstallDU command with error (AllocatedCPUPercent should <= 100):
 
@@ -230,7 +223,7 @@ Set Input for InstallDU command with error (AllocatedCPUPercent should <= 100):
   > AllocatedMemory=\"-1\", \\
   > Privileged=\"1\", \\
   > ModuleVersion=\"v1\" \\
-  > }" | tail -n +2
+  > }" | grep -Ev '^(>|$)'
   X_PRPLWARE-COM_SoftwareModules.InstallDUCmd.Input.
   X_PRPLWARE-COM_SoftwareModules.InstallDUCmd.Input.AllocatedCPUPercent=500
   X_PRPLWARE-COM_SoftwareModules.InstallDUCmd.Input.AllocatedDiskSpace=-1
@@ -240,35 +233,28 @@ Set Input for InstallDU command with error (AllocatedCPUPercent should <= 100):
   X_PRPLWARE-COM_SoftwareModules.InstallDUCmd.Input.Privileged=1
   X_PRPLWARE-COM_SoftwareModules.InstallDUCmd.Input.URL="docker://registry.gitlab.com/prpl-foundation/prplos/prplos/prplos/*:prplos-v1" (glob)
   X_PRPLWARE-COM_SoftwareModules.InstallDUCmd.Input.UUID="00000000-0000-5000-b000-000000000001"
-  
 
 Run InstallDU command and wait:
 
-  $ R "ba-cli X_PRPLWARE-COM_SoftwareModules.InstallDUCmd.State='Requested'" | tail -n +2; sleep 30
+  $ R "ba-cli X_PRPLWARE-COM_SoftwareModules.InstallDUCmd.State='Requested'" | grep -Ev '^(>|$)'; sleep 30
   X_PRPLWARE-COM_SoftwareModules.InstallDUCmd.
   X_PRPLWARE-COM_SoftwareModules.InstallDUCmd.State="Requested"
-  
 
 Check error:
 
-  $ R "ba-cli 'X_PRPLWARE-COM_SoftwareModules.InstallDUCmd.State?'" | tail -n +2
+  $ R "ba-cli 'X_PRPLWARE-COM_SoftwareModules.InstallDUCmd.State?'" | grep -Ev '^(>|$)'
   X_PRPLWARE-COM_SoftwareModules.InstallDUCmd.State="Error"
-  
-  $ R "ba-cli 'X_PRPLWARE-COM_SoftwareModules.InstallDUCmd.ErrorCode?'" | tail -n +2
+  $ R "ba-cli 'X_PRPLWARE-COM_SoftwareModules.InstallDUCmd.ErrorCode?'" | grep -Ev '^(>|$)'
   X_PRPLWARE-COM_SoftwareModules.InstallDUCmd.ErrorCode="7004"
-  
-  $ R "ba-cli 'X_PRPLWARE-COM_SoftwareModules.InstallDUCmd.ErrorMessage?'" | tail -n +2
+  $ R "ba-cli 'X_PRPLWARE-COM_SoftwareModules.InstallDUCmd.ErrorMessage?'" | grep -Ev '^(>|$)'
   X_PRPLWARE-COM_SoftwareModules.InstallDUCmd.ErrorMessage="CPU should be between 0 and 100 [not 500]"
-  
-  $ R "ba-cli 'SoftwareModules.DeploymentUnit.?'" | tail -n +2
+  $ R "ba-cli 'SoftwareModules.DeploymentUnit.?'" | grep -Ev '^(>|$)'
   No data found
-  
 
 Check that only generic ExecEnv is present:
 
-  $ R "ba-cli 'SoftwareModules.ExecEnv.*.Name?'" | tail -n +2
+  $ R "ba-cli 'SoftwareModules.ExecEnv.*.Name?'" | grep -Ev '^(>|$)'
   SoftwareModules.ExecEnv.1.Name="generic"
-  
 
 Set Input for AddExecEnv command:
 
@@ -281,7 +267,7 @@ Set Input for AddExecEnv command:
   > AllocatedMemory='-1', \\
   > AllocatedDiskSpace='-1', \\
   > AllocatedCPUPercent='100' \\
-  > }" | tail -n +2
+  > }" | grep -Ev '^(>|$)'
   X_PRPLWARE-COM_SoftwareModules.AddExecEnvCmd.Input.
   X_PRPLWARE-COM_SoftwareModules.AddExecEnvCmd.Input.AllocatedCPUPercent=100
   X_PRPLWARE-COM_SoftwareModules.AddExecEnvCmd.Input.AllocatedDiskSpace=-1
@@ -291,43 +277,37 @@ Set Input for AddExecEnv command:
   X_PRPLWARE-COM_SoftwareModules.AddExecEnvCmd.Input.ParentExecEnv="SoftwareModules.ExecEnv.1"
   X_PRPLWARE-COM_SoftwareModules.AddExecEnvCmd.Input.Vendor="test_vendor"
   X_PRPLWARE-COM_SoftwareModules.AddExecEnvCmd.Input.Version="1"
-  
 
 Run AddExecEnv command:
 
-  $ R "ba-cli X_PRPLWARE-COM_SoftwareModules.AddExecEnvCmd.State='Requested'" | tail -n +2
+  $ R "ba-cli X_PRPLWARE-COM_SoftwareModules.AddExecEnvCmd.State='Requested'" | grep -Ev '^(>|$)'
   X_PRPLWARE-COM_SoftwareModules.AddExecEnvCmd.
   X_PRPLWARE-COM_SoftwareModules.AddExecEnvCmd.State="Requested"
-  
 
 Check that new ExecEnv is present:
 
-  $ R "ba-cli 'SoftwareModules.ExecEnv.*.Name?'" | tail -n +2
+  $ R "ba-cli 'SoftwareModules.ExecEnv.*.Name?'" | grep -Ev '^(>|$)'
   SoftwareModules.ExecEnv.1.Name="generic"
   SoftwareModules.ExecEnv.*.Name="TestEnv01" (glob)
-  
 
 Get index of the new ExecEnv:
 
-  $ exec_env_index=$(R "ba-cli 'SoftwareModules.ExecEnv.*.Name?'" | tail -n +2 | grep -v 'ExecEnv\.1\.' | awk -F'.' '{print $3}')
+  $ exec_env_index=$(R "ba-cli 'SoftwareModules.ExecEnv.*.Name?'" | grep -Ev '^(>|$)' | grep -v 'ExecEnv\.1\.' | awk -F'.' '{print $3}')
 
 Remove new ExecEnv:
 
-  $ R "ba-cli X_PRPLWARE-COM_SoftwareModules.ExecEnvDeleteCmd.CmdPath='Device.SoftwareModules.ExecEnv.${exec_env_index}'" | tail -n +2
+  $ R "ba-cli X_PRPLWARE-COM_SoftwareModules.ExecEnvDeleteCmd.CmdPath='Device.SoftwareModules.ExecEnv.${exec_env_index}'" | grep -Ev '^(>|$)'
   X_PRPLWARE-COM_SoftwareModules.ExecEnvDeleteCmd.
   X_PRPLWARE-COM_SoftwareModules.ExecEnvDeleteCmd.CmdPath="Device.SoftwareModules.ExecEnv.*" (glob)
-  
 
-  $ R "ba-cli X_PRPLWARE-COM_SoftwareModules.ExecEnvDeleteCmd.State='Requested'" | tail -n +2
+  $ R "ba-cli X_PRPLWARE-COM_SoftwareModules.ExecEnvDeleteCmd.State='Requested'" | grep -Ev '^(>|$)'
   X_PRPLWARE-COM_SoftwareModules.ExecEnvDeleteCmd.
   X_PRPLWARE-COM_SoftwareModules.ExecEnvDeleteCmd.State="Requested"
-  
 
 Check that new ExecEnv is deleted:
 
-  $ R "ba-cli 'SoftwareModules.ExecEnv.*.Name?'" | tail -n +2
+  $ R "ba-cli 'SoftwareModules.ExecEnv.*.Name?'" | grep -Ev '^(>|$)'
   SoftwareModules.ExecEnv.1.Name="generic"
-  
 
 Cleanup:
 
@@ -336,4 +316,3 @@ Cleanup:
   $ R "/etc/init.d/data-model-mapper stop" > /dev/null 2>&1
   $ R "opkg remove -V0 data-model-mapper >/dev/null 2>&1;echo $?"
   0
-

@@ -34,9 +34,8 @@ Get current tr181-led manager PID:
 
 Add test for checking tr181-leds manager using PID:
 
-  $ R "ba-cli 'ProcessMonitor.Test+{Type=Process,Name=tr181-led,Subject=/var/run/tr181-led.pid,FailAction=RESTART,TestInterval=30,MaxFailNum=1,ProcessMonitoringEnabled=0}' | grep -v '^>'"
+  $ R "ba-cli 'ProcessMonitor.Test+{Type=Process,Name=tr181-led,Subject=/var/run/tr181-led.pid,FailAction=RESTART,TestInterval=30,MaxFailNum=1,ProcessMonitoringEnabled=0}' | grep -Ev '^(>|$)'"
   ProcessMonitor.Test.\d+. (re)
-  
 
 Check the LED manager check datamodel settings:
 
