@@ -66,6 +66,47 @@
     - mkdir -p ~/.ssh; chmod 700 ~/.ssh
 
     - |
+      if [ -n "${PREBUILT_FIRMWARE_JOB_ID:-}" ]; then
+        prebuilt_artifacts_zip="$(mktemp)"
+        echo "Fetching artifacts from job $PREBUILT_FIRMWARE_JOB_ID..."
+        curl -fsSL --header "JOB-TOKEN: $CI_JOB_TOKEN" \
+          -o "$prebuilt_artifacts_zip" \
+          "$CI_API_V4_URL/projects/$CI_PROJECT_ID/jobs/$PREBUILT_FIRMWARE_JOB_ID/artifacts"
+
+        PREBUILT_ARTIFACTS_ZIP="$prebuilt_artifacts_zip" python3 - <<'PY'
+      import os
+      import sys
+      import zipfile
+
+      archive = os.environ["PREBUILT_ARTIFACTS_ZIP"]
+      ci_project_dir = os.environ["CI_PROJECT_DIR"]
+      image = f'{os.environ["TFTP_IMAGE_PATH"]}/{os.environ["TFTP_IMAGE_FILENAME"]}'
+      package_prefix = f'{os.environ["DUT_ARCH_PACKAGES_PATH"]}/feed_prplos/'
+
+      found_image = False
+      package_count = 0
+
+      with zipfile.ZipFile(archive) as artifacts:
+          for member in artifacts.infolist():
+              name = member.filename
+              if name == image:
+                  artifacts.extract(member, ci_project_dir)
+                  found_image = True
+              elif name.startswith(package_prefix):
+                  artifacts.extract(member, ci_project_dir)
+                  package_count += 1
+
+      if not found_image:
+          sys.exit(f"Missing {image} in prebuilt artifacts")
+      if package_count == 0:
+          sys.exit(f"Missing {package_prefix} packages in prebuilt artifacts")
+
+      print(f"Extracted {image} and {package_count} package artifacts")
+      PY
+
+        rm -f "$prebuilt_artifacts_zip"
+      fi
+
       echo "Using firmware image $TFTP_IMAGE_PATH/$TFTP_IMAGE_FILENAME"
       cp "$TFTP_IMAGE_PATH/$TFTP_IMAGE_FILENAME" "$TESTBED_TFTP_PATH"
 
