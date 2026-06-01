@@ -1054,10 +1054,6 @@ fake_fw_upgrade() {
     service rlyeh stop
     service timingila stop
 
-    umount /lcm/cthulhu/data/mounts/generic/applicationdata/mounts/00000000-0000-5000-b000-000000000001/Volume1 > /dev/null 2>&1
-    umount /lcm/cthulhu/data/mounts/generic/applicationdata/mounts/00000000-0000-5000-b000-000000000001/Volume2 > /dev/null 2>&1
-    umount /lcm/cthulhu/data/mounts/generic > /dev/null 2>&1
-
     rm -rf /etc/config/cthulhu /etc/config/lxc/"${duid}"
 
     service rlyeh start
@@ -1191,7 +1187,6 @@ add_containers_descriptors() {
         }" > /etc/amx/cthulhu/onboard/70a9bf70-9df9-5221-b51b-184c74d022e3.json
 }
 
-
 cleanup_pcm_test() {
 	remove_user_role --rolename full_caps > /dev/null
 	set_ee_roles > /dev/null
@@ -1203,62 +1198,3 @@ cleanup_pcm_test() {
 	echo "Done"
 }
 
-cleanup_appdata() {
-	umount /lcm/cthulhu/data/mounts/generic > /dev/null 2>&1
-	umount /lcm/cthulhu/data/mounts/generic/applicationdata/mounts/00000000-0000-5000-b000-000000000001/Volume1 > /dev/null 2>&1
-	umount /lcm/cthulhu/data/mounts/generic/applicationdata/mounts/00000000-0000-5000-b000-000000000001/Volume2 > /dev/null 2>&1
-	rm -rf /lcm/cthulhu/data/mounts/generic/applicationdata
-	service cthulhu stop > /dev/null 2>&1
-	while [ -n "$(pidof cthulhu)" ]; do sleep 1; done; sleep 10
-	rm -rf /etc/config/cthulhu/* > /dev/null 2>&1
-	service cthulhu start > /dev/null
-	sleep 2
-	service timingila restart > /dev/null
-}
-
-
-##
-## install_basic_container() - Install a container with default parameters and wait for it to become active.
-##
-## Fixed defaults applied by this function:
-##   --version prplos-v1   : Container image version to install.
-##   --ee                  : Execution environment (defaults to DEFAULT_EE = "generic" if not overridden).
-##   --uuid                : Deployment unit UUID (defaults to DEFAULT_UUID if not overridden).
-##   --privileged true     : Container is started in privileged mode.
-##
-## Parameters:
-##   "$@"  : Optional extra arguments forwarded verbatim to install_ctr.
-##           Any supported install_ctr argument (--url, --network, --hostobject,
-##           --appdata, --envvar, --retaindata, --usprequired, etc.) can be supplied
-##           here to override the defaults above.
-##
-## Example:
-##   install_basic_container
-##   install_basic_container --envvar --network '{ShareParentNetwork = "true"}'
-##
-install_basic_container() {
-	install_ctr --version prplos-v1 --ee --uuid --privileged true "$@" > /dev/null
-}
-
-##
-## install_basic_container_no_wait() - Install a container with default parameters without waiting for it to become active.
-##
-## Fixed defaults applied by this function:
-##   --version prplos-v1   : Container image version to install.
-##   --ee                  : Execution environment (defaults to DEFAULT_EE = "generic" if not overridden).
-##   --uuid                : Deployment unit UUID (defaults to DEFAULT_UUID if not overridden).
-##   --privileged true     : Container is started in privileged mode.
-##
-## Parameters:
-##   "$@"  : Optional extra arguments forwarded verbatim to install_ctr_no_wait.
-##           Any supported install_ctr argument (--url, --network, --hostobject,
-##           --appdata, --envvar, --retaindata, --usprequired, etc.) can be supplied
-##           here to override the defaults above.
-##
-## Example:
-##   install_basic_container_no_wait
-##   install_basic_container_no_wait --envvar
-##
-install_basic_container_no_wait() {
-	install_ctr_no_wait --version prplos-v1 --ee --uuid --privileged true "$@"
-}
