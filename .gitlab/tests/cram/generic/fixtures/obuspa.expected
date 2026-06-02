@@ -3138,6 +3138,7 @@ Device.SoftwareModules.ExecEnv.{i}.ApplicationData.{i}.Encrypted                
 Device.SoftwareModules.ExecEnv.{i}.ApplicationData.{i}.Name                                          proto::timingila
 Device.SoftwareModules.ExecEnv.{i}.ApplicationData.{i}.Retain                                        proto::timingila
 Device.SoftwareModules.ExecEnv.{i}.ApplicationData.{i}.Utilization                                   proto::timingila
+Device.SoftwareModules.ExecEnv.{i}.ApplicationDataNumberOfEntries                                    proto::timingila
 Device.SoftwareModules.ExecEnv.{i}.AvailableDiskSpace                                                proto::timingila
 Device.SoftwareModules.ExecEnv.{i}.AvailableMemory                                                   proto::timingila
 Device.SoftwareModules.ExecEnv.{i}.AvailableRoles                                                    proto::timingila
