@@ -241,6 +241,15 @@ get_ssid_ssid() {
   R "usp-cli -j -l Device.WiFi.SSID.?0 | jsonfilter -e @[0]'[@.Alias != \"ep2g0\" && @.Alias != \"ep5g0\" && @.Alias != \"ep6g0\"].SSID'" | LC_ALL=C sort
 }
 
+# print the status of the accesspoints related to a given radio
+# In : Radio index
+# Out : the status of all the accespoint attached to the radio
+get_radio_ap_status() {
+  local rad=$1
+  rad_name=$(R "ba-cli -l WiFi.Radio.$rad.Name?" | sed '/^$/d')
+  R "ba-cli WiFi.AccessPoint.? | sed -n '/Alias=\"${rad_name}/,/\.Status=/ { /\.Status=/p }'"
+}
+
 # Set MLDUnit
 # In : AccessPoint object index, MLDUnit
 # Out : MLDUnit value set
