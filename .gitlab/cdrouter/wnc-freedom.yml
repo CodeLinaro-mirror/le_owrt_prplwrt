@@ -1,5 +1,5 @@
 .wnc-freedom: &wnc_freedom
-  needs: ["build test qca_ipq95xx prpl cellular security thread"]
+  needs: []
   extends:
     - .wnc-freedom testbed
     - .cdrouter
@@ -50,11 +50,6 @@ CDRouter-Wireless Freedom initramfs:
 
 .wnc-freedom-ipv6: &wnc_freedom_ipv6
   <<: *wnc_freedom
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "schedule"'
-      when: never
-    - if: '$CI_COMMIT_BRANCH == $CI_DESIGNATED_BRANCH'
-    - when: manual
 
 CDRouter-UPnP-IPv46 Freedom initramfs:
   <<: *wnc_freedom_ipv6
