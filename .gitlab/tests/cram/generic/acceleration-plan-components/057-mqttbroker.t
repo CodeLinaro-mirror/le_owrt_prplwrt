@@ -4,39 +4,56 @@ Create R alias:
 
 Check the root datamodel settings:
 
-  $ R "ba-cli --json MQTTBroker.? | sed -n '2p'" | jq --sort-keys '.[0]'
+  $ R "ba-cli --json MQTTBroker.? | sed -n '2p'" | jq -S '.[0] | del(.. | .Process?)'
   {
     "MQTTBroker.": {
       "BrokerNumberOfEntries": 2
     },
     "MQTTBroker.Broker.1.": {
+      "ACLList": "",
       "Alias": "secure",
+      "AllowAnonymous": 0,
+      "AuthenticationMethod": "UsernamePassword",
       "BridgeNumberOfEntries": 0,
-      "Certificate": "",
+      "BrokerID": 1,
+      "CABundle": "",
+      "CipherList": "",
+      "ConfFile": "",
       "Enable": 1,
+      "IPVersion": 4,
       "Interface": "Device.IP.Interface.3.",
       "Name": "secure",
       "Password": "",
       "Port": 8883,
       "Status": "Enabled",
-      "Username": "",
-      "X_PRPLWARE-COM_UserNumberOfEntries": 0
+      "TransportProtocol": "TLS",
+      "Username": ""
     },
     "MQTTBroker.Broker.2.": {
+      "ACLList": "",
       "Alias": "local",
+      "AllowAnonymous": 0,
+      "AuthenticationMethod": "UsernamePassword",
       "BridgeNumberOfEntries": 0,
-      "Certificate": "",
+      "BrokerID": 1,
+      "CABundle": "",
+      "CipherList": "",
+      "ConfFile": "Device.DeviceInfo.VendorConfigFile.2.",
       "Enable": 1,
+      "IPVersion": 4,
       "Interface": "Device.IP.Interface.1.",
       "Name": "local",
       "Password": "",
       "Port": 1883,
       "Status": "Enabled",
-      "Username": "",
-      "X_PRPLWARE-COM_UserNumberOfEntries": 0
+      "TransportProtocol": "TLS",
+      "Username": ""
+    },
+    "MQTTBroker.BrokerSecurity.": {
+      "ACLNumberOfEntries": 0,
+      "ClientNumberOfEntries": 0
     }
   }
-
 Check that firewall is configured properly:
 
   $ R "iptables -nvL | grep dpt:1883 | grep -v '^Chain'"

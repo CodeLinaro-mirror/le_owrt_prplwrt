@@ -109,6 +109,7 @@ Check that ubus has expected datamodels available:
   Device.Logical.TUN
   Device.MQTT
   Device.MQTT.Broker
+  Device.MQTT.BrokerSecurity
   Device.ManagementServer
   Device.NAT
   Device.NeighborDiscovery
@@ -261,6 +262,9 @@ Check that ubus has expected datamodels available:
   MQTT.Client
   MQTTBroker
   MQTTBroker.Broker
+  MQTTBroker.BrokerSecurity
+  MQTTBroker.BrokerSecurity.ACL
+  MQTTBroker.BrokerSecurity.Client
   ManagementServer
   ManagementServer.ACSTransfers
   ManagementServer.ACSTransfers.ACSTransfer
