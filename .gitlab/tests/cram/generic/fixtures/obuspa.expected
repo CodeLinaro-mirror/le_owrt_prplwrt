@@ -5310,6 +5310,9 @@ Device.X_PRPLWARE-COM_ConnectionTrackingQuery.NotifyFlow.{i}.Protocol           
 Device.X_PRPLWARE-COM_ConnectionTrackingQuery.NotifyFlow.{i}.SourceIP                                proto::tr181-conntrack-query
 Device.X_PRPLWARE-COM_ConnectionTrackingQuery.NotifyFlow.{i}.SourcePort                              proto::tr181-conntrack-query
 Device.X_PRPLWARE-COM_ConnectionTrackingQuery.NotifyFlowNumberOfEntries                              proto::tr181-conntrack-query
+Device.X_PRPLWARE-COM_ConnectionTrackingQuery.Remove()                                               proto::tr181-conntrack-query
+Device.X_PRPLWARE-COM_ConnectionTrackingQuery.Remove() input:Expression
+Device.X_PRPLWARE-COM_ConnectionTrackingQuery.Remove() output:Count
 Device.X_PRPLWARE-COM_ConnectionTrackingQuery.RetrieveFlows()                                        proto::tr181-conntrack-query
 Device.X_PRPLWARE-COM_ConnectionTrackingQuery.RetrieveFlows() input:DestIP
 Device.X_PRPLWARE-COM_ConnectionTrackingQuery.RetrieveFlows() input:DestPort
