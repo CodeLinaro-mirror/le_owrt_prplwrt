@@ -41,7 +41,7 @@ If test is running on a Valyrian, skip the test due to PCF-2669:
   Device.LocalAgent.Subscription.*.Alias="cpe-*" (glob)
   Device.LocalAgent.Subscription.*.ID="cpe-*" (glob)
   Device.LocalAgent.Subscription.*.Recipient="Device.LocalAgent.Controller.*" (glob)
-  
+
   $ R "usp-cli \"Device.FdClient.OpenSocket()\""
   ? Device.FdClient.OpenSocket() (glob)
   Device.FdClient.OpenSocket() returned
@@ -49,7 +49,7 @@ If test is running on a Valyrian, skip the test due to PCF-2669:
       executed_command = "Device.FdClient.OpenSocket()",
       req_obj_path = "Device.LocalAgent.Request.?" (glob)
   }
-  
+
 ## Send data over socket from client to server
   $ R "usp-cli \"Device.FdClient.SendOverSocket(Data = \"ClientToServer\")\""
   ? Device.FdClient.SendOverSocket(Data = ClientToServer) (glob)
@@ -58,11 +58,12 @@ If test is running on a Valyrian, skip the test due to PCF-2669:
       {
       }
   ]
-  
+
 ## check logs
   $ R "tail -n 2 /var/log/lcm/${DUID_FDSERVER}/messages"
   * fdserver: fdserve - [x]Received 14 data: ClientToServer (glob)
   * (glob)
+
 ## Send data over socket from client to server
   $ R "usp-cli \"Device.FdServer.SendOverSocket(Data = \"ServerToClient\")\""
   ? Device.FdServer.SendOverSocket(Data = ServerToClient) (glob)
@@ -71,37 +72,33 @@ If test is running on a Valyrian, skip the test due to PCF-2669:
       {
       }
   ]
-  
+
 ## check logs
   $ R "tail -n 2 /var/log/lcm/${DUID_FDCLIENT}/messages"
   * fdclient: fdclien - [x]Received 14 data: ServerToClient (glob)
   * (glob)
+
 ## remove usp subscriptions
   $ R "usp-cli \"Device.LocalAgent.Subscription.[ReferenceList == \"Device.FdClient.OpenSocket\(\)\"].-\""
   ? Device.LocalAgent.Subscription.[ReferenceList == Device.FdClient.OpenSocket()].- (glob)
   Device.LocalAgent.Subscription.*. (glob)
-  
 
 ## Test direct USP connection
-  $ R "${S} && execute_in_container --uuid ${UUID_FDCLIENT} --cmd 'direct-connection-controller !amx variable connection'"
+  $ R "${S} && execute_in_container --uuid ${UUID_FDCLIENT} --cmd 'direct-connection-controller !amx variable connection' | sed '/^$/d'"
   ? !amx variable connection (glob)
   connection = "usp:/var/run/usp/uspdc.sock"
-  
 
-
-  $ R "${S} && execute_in_container --uuid ${UUID_FDCLIENT} --cmd 'direct-connection-controller Device.FdServer.?'"
+  $ R "${S} && execute_in_container --uuid ${UUID_FDCLIENT} --cmd 'direct-connection-controller Device.FdServer.?' | sed '/^$/d'"
   ? Device.FdServer.? (glob)
   Device.FdServer.
   Device.FdServer.Text="FdServer"
-  
 
-  $ R "${S} && execute_in_container --uuid ${UUID_FDCLIENT} --cmd 'direct-connection-controller Device.FdServer.GetText\(\)'"
+  $ R "${S} && execute_in_container --uuid ${UUID_FDCLIENT} --cmd 'direct-connection-controller Device.FdServer.GetText\(\)' | sed '/^$/d'"
   ? Device.FdServer.GetText() (glob)
   Device.FdServer.GetText() returned
   [
       "FdServer"
   ]
-  
 
 ## test FdClient.WriteToFile
 ## add subscription
@@ -114,7 +111,6 @@ If test is running on a Valyrian, skip the test due to PCF-2669:
       executed_command = "Device.FdClient.WriteToFile()",
       req_obj_path = "Device.LocalAgent.Request.*" (glob)
   }
-  
 
 ## check content of file in server
   $ R "${S} && execute_in_container --uuid ${UUID_FDSERVER} --cmd 'cat ${TEST_FILENAME}'"
@@ -122,7 +118,6 @@ If test is running on a Valyrian, skip the test due to PCF-2669:
 
 ## remove subscription
   $ R "usp-cli \"Device.LocalAgent.Subscription.[ReferenceList == \"Device.FdClient.WriteToFile\(\)\"].-\"" > /dev/null
-
 
 ## test FdClient.ReadFromFile
 ## add subscription
@@ -135,7 +130,7 @@ If test is running on a Valyrian, skip the test due to PCF-2669:
       executed_command = "Device.FdClient.ReadFromFile()",
       req_obj_path = "Device.LocalAgent.Request.*" (glob)
   }
-  
+
 ## remove subscription
   $ R "usp-cli \"Device.LocalAgent.Subscription.[ReferenceList == \"Device.FdClient.ReadFromFile\(\)\"].-\"" > /dev/null
 
@@ -150,7 +145,7 @@ If test is running on a Valyrian, skip the test due to PCF-2669:
       executed_command = "Device.FdClient.TestUspConnection()",
       req_obj_path = "Device.LocalAgent.Request.*" (glob)
   }
-  
+
 ## remove subscription
   $ R "usp-cli \"Device.LocalAgent.Subscription.[ReferenceList == \"Device.FdClient.TestUspConnection\(\)\"].-\"" > /dev/null
 
