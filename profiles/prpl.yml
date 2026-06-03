@@ -91,6 +91,7 @@ packages:
   - tr181-xpon
   - wan-manager
   - wifi-scheduler
+  - tr181-passthrough
 
 diffconfig: |
           CONFIG_PACKAGE_ppp-prpl=y
