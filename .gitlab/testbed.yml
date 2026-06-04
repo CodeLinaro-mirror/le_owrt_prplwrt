@@ -66,6 +66,15 @@
     - mkdir -p ~/.ssh; chmod 700 ~/.ssh
 
     - |
+      if [ -n "${PREBUILT_FIRMWARE_JOB_ID:-}" ]; then
+        mkdir -p "$TFTP_IMAGE_PATH"
+        echo "Fetching $TFTP_IMAGE_FILENAME from job $PREBUILT_FIRMWARE_JOB_ID artifacts..."
+        curl -fsSL --header "JOB-TOKEN: $CI_JOB_TOKEN" \
+          -o "$TFTP_IMAGE_PATH/$TFTP_IMAGE_FILENAME" \
+          "$CI_API_V4_URL/projects/$CI_PROJECT_ID/jobs/$PREBUILT_FIRMWARE_JOB_ID/artifacts/$TFTP_IMAGE_PATH/$TFTP_IMAGE_FILENAME"
+      fi
+
+    - |
       echo "Using firmware image $TFTP_IMAGE_PATH/$TFTP_IMAGE_FILENAME"
       cp "$TFTP_IMAGE_PATH/$TFTP_IMAGE_FILENAME" "$TESTBED_TFTP_PATH"
 
