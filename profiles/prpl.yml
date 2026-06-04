@@ -15,6 +15,7 @@ additional_packages:
       - picocom
       - usbids
       - usbutils
+      - conntrack
 
 packages:
   - dhcpv4-manager
@@ -104,3 +105,11 @@ diffconfig: |
           CONFIG_PACKAGE_libopensc=y
           CONFIG_PACKAGE_opensc-utils=y
           CONFIG_PACKAGE_opensc-utils-pkcs11-tool=y
+          # conntrack-tool
+          CONFIG_PACKAGE_kmod-nf-conntrack-netlink=y
+          CONFIG_PACKAGE_libnetfilter-conntrack=y
+          CONFIG_PACKAGE_libnetfilter-cthelper=y
+          CONFIG_PACKAGE_libnetfilter-cttimeout=y
+          CONFIG_PACKAGE_libnetfilter-queue=y
+          CONFIG_PACKAGE_libnfnetlink=y
+          CONFIG_PACKAGE_conntrack=y
