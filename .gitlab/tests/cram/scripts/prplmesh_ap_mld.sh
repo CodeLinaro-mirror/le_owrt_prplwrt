@@ -49,7 +49,7 @@ prplmesh_create_network_ap_mlo() {
   R "ba-cli -l '${base}.Security.SAEPassphrase=${passphrase}'" | sed '/^$/d'
   R "ba-cli -l '${base}.Security.KeyPassphrase=${passphrase}'" | sed '/^$/d'
   R "ba-cli -l '${base}.MultiApMode=Fronthaul'" | sed '/^$/d'
-  R "ba-cli -l '${base}.X_PRPLWARE_VapType=${vaptype}'" | sed '/^$/d'
+  R "ba-cli -l '${base}.X_PRPLWARE-COM_VapType=${vaptype}'" | sed '/^$/d'
   R "ba-cli -l '${base}.MLDUnit=${mldunit}'" | sed '/^$/d'
   R "ba-cli -j -l 'X_PRPLWARE-COM_Agent.Info.CurrentState?' | jsonfilter -e @[0]'[*].CurrentState'" | sed '/^$/d'
   R "ba-cli -l 'X_PRPLWARE-COM_WiFiController.Network.AccessPointCommit()'" | sed '/^$/d'

@@ -30,7 +30,7 @@ Check default WiFiScheduler configuration:
   Device.X_PRPLWARE-COM_WiFiScheduler.Enable=1
   Device.X_PRPLWARE-COM_WiFiScheduler.EnableMethod="Parameter"
   Device.X_PRPLWARE-COM_WiFiScheduler.GlobalTargetConfig="X_PRPLWARE-COM_WiFiController.Network"
-  Device.X_PRPLWARE-COM_WiFiScheduler.GroupTargetConfig="X_PRPLWARE-COM_WiFiController.Network.X-PRPL_ORG_Group"
+  Device.X_PRPLWARE-COM_WiFiScheduler.GroupTargetConfig="X_PRPLWARE-COM_WiFiController.Network.X_PRPLWARE-COM_Group"
   Device.X_PRPLWARE-COM_WiFiScheduler.Network.
 
 Check default SSID status:
@@ -69,10 +69,10 @@ Create prplMesh acces point and enable it:
   X_PRPLWARE-COM_WiFiController.Network.AccessPointCommit() returned
   [""]
 
-  $ R "ba-cli -j -l 'X_PRPLWARE-COM_WiFiController.Network.X-PRPL_ORG_Group+{Name=\"testGroup\",Enable=1}'" | sed '/^$/d'
-  {"X_PRPLWARE-COM_WiFiController.Network.X-PRPL_ORG_Group.1.":{}}
+  $ R "ba-cli -j -l 'X_PRPLWARE-COM_WiFiController.Network.X_PRPLWARE-COM_Group+{Name=\"testGroup\",Enable=1}'" | sed '/^$/d'
+  {"X_PRPLWARE-COM_WiFiController.Network.X_PRPLWARE-COM_Group.1.":{}}
 
-  $ R "ba-cli -j -l 'X_PRPLWARE-COM_WiFiController.Network.AccessPoint+{Band2_4G=1,Band5GH=1,Band5GL=1,Band6G=1,MultiApMode=\"Fronthaul+Backhaul\",SSID=\"prplOS\",X-PRPL_ORG_GroupName=\"testGroup\"}'" | sed '/^$/d'
+  $ R "ba-cli -j -l 'X_PRPLWARE-COM_WiFiController.Network.AccessPoint+{Band2_4G=1,Band5GH=1,Band5GL=1,Band6G=1,MultiApMode=\"Fronthaul+Backhaul\",SSID=\"prplOS\",X_PRPLWARE-COM_GroupName=\"testGroup\"}'" | sed '/^$/d'
   {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.":{}}
 
   $ R "ba-cli -j -l 'X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.Enable=1'" | sed '/^$/d'
