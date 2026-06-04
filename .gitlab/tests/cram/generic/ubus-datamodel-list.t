@@ -507,6 +507,7 @@ Check that ubus has expected datamodels available:
   X_PRPLWARE-COM_WiFiController.Network.Device.Radio
   X_PRPLWARE-COM_WiFiController.Network.Device.Radio.BSS
   X_PRPLWARE-COM_WiFiController.Network.Device.Radio.BSS.MultiAPSteering
+  X_PRPLWARE-COM_WiFiController.Network.Device.Radio.BSS.QMDescriptor
   X_PRPLWARE-COM_WiFiController.Network.Device.Radio.BSS.STA
   X_PRPLWARE-COM_WiFiController.Network.Device.Radio.BSS.STA.HTCapabilities
   X_PRPLWARE-COM_WiFiController.Network.Device.Radio.BSS.STA.MeasurementReport
@@ -517,6 +518,7 @@ Check that ubus has expected datamodels available:
   X_PRPLWARE-COM_WiFiController.Network.Device.Radio.BSS.STA.VHTCapabilities
   X_PRPLWARE-COM_WiFiController.Network.Device.Radio.BSS.STA.WiFi6Capabilities
   X_PRPLWARE-COM_WiFiController.Network.Device.Radio.BSS.STA.WiFi6Capabilities.MCSNSS
+  X_PRPLWARE-COM_WiFiController.Network.Device.Radio.BSS.SetQoSManagementInput
   X_PRPLWARE-COM_WiFiController.Network.Device.Radio.BackhaulSta
   X_PRPLWARE-COM_WiFiController.Network.Device.Radio.CACCapability
   X_PRPLWARE-COM_WiFiController.Network.Device.Radio.CACCapability.CACMethod
@@ -563,7 +565,7 @@ Check that ubus has expected datamodels available:
   X_PRPLWARE-COM_WiFiController.Network.Device.bSTAMLD
   X_PRPLWARE-COM_WiFiController.Network.Device.bSTAMLD.bSTAMLDConfig
   X_PRPLWARE-COM_WiFiController.Network.MultiAPSteeringSummaryStats
-  X_PRPLWARE-COM_WiFiController.Network.X-PRPL_ORG_Group
+  X_PRPLWARE-COM_WiFiController.Network.X_PRPLWARE-COM_Group
   X_PRPLWARE-COM_WiFiMapped
   X_PRPLWARE-COM_WiFiMapped.WiFi
   X_PRPLWARE-COM_WiFiMapped.WiFi.DataElements
