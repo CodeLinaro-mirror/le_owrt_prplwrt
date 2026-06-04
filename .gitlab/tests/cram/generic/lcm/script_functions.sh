@@ -8,6 +8,7 @@ DEFAULT_NETWORK='{AccessInterfaces = [{Reference = "Lan"}]}'
 DEFAULT_EE="generic"
 DEFAULT_APPDATA='[{Name = "Volume1", Capacity = 1, Retain = "UntilStopped", AccessPath = "/volume1"}, {Name = "Volume2", Capacity = 1, Retain = "Forever", AccessPath = "/volume2"}]'
 DEFAULT_URL="docker://registry.gitlab.com/prpl-foundation/prplos/prplos"
+DEFAULT_URL_HTTPS="https://registry.gitlab.com/prpl-foundation/prplos/prplos"
 DEFAULT_USPROLES="Full Access"
 DEFAULT_USPREQUIRED="Full Access"
 DEFAULT_USPOPTIONAL=""
@@ -302,6 +303,10 @@ install_update_ctr_with_params() {
 				ctr_name=$(get_container_name)
 				ctr_version="${value}"
 				str_params=$(concat_comma_string "${str_params}" "URL = \"${DEFAULT_URL}/prplos/${ctr_name}:${ctr_version}\"")
+			elif [ "${key}" = "httpsversion" ]; then
+				ctr_name=$(get_container_name)
+				ctr_version="${value}"
+				str_params=$(concat_comma_string "${str_params}" "URL = \"${DEFAULT_URL_HTTPS}/prplos/${ctr_name}:${ctr_version}\"")
 			elif [ "${key}" = "uuid" ]; then
 				value=$(value_or_default "${value_missing}" "${DEFAULT_UUID}" "${value}")
 				str_params=$(concat_comma_string "${str_params}" "UUID = ${value}")

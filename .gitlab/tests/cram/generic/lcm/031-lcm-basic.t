@@ -74,6 +74,75 @@ Uninstall the container and check everything is cleaned:
   [1]
 
 
+### HTTPS SCHEMA TEST
+### Testing with HTTPS schema instead of Docker
+### Trying privileged and unprivileged modes and switching between them
+
+Install a the container using HTTPS in privileged mode and check its status and type:
+
+  $ R "${S} && install_ctr --httpsversion prplos-v1 --ee --uuid --privileged true" > /dev/null
+  $ R "${S} && get_container_info --uuid"
+  Active
+  prplos-v1
+  prpl-foundation/prplos/prplos/prplos/lcm-test-* (glob)
+  $ R "${S} && get_ctr_type --uuid"
+  Privileged container
+  $ R "${S} && execute_in_container --uuid --cmd 'cat /etc/container-version'"
+  1
+
+Update to prplOS container to v2 in unprivileged mode using HTTPS:
+
+  $ R "${S} && update_ctr --httpsversion prplos-v2 --ee --uuid --privileged false" > /dev/null
+  $ sleep 20
+  $ R "${S} && get_container_info --uuid"
+  Active
+  prplos-v2
+  prpl-foundation/prplos/prplos/prplos/lcm-test-* (glob)
+  $ R "${S} && get_ctr_type --uuid"
+  Unprivileged container
+  $ R "${S} && execute_in_container --uuid --cmd 'cat /etc/container-version'"
+  2
+
+Uninstall the testing container and check datamodel cleaned:
+
+  $ R "${S} && uninstall_ctr_and_check --uuid --retaindata false"
+  [1]
+
+
+Install the container using HTTPS in unprivileged mode and check its status and type:
+
+  $ R "${S} && install_ctr --httpsversion prplos-v1 --ee --uuid --privileged false" > /dev/null
+  $ sleep 20
+  $ R "${S} && get_container_info --uuid"
+  Active
+  prplos-v1
+  prpl-foundation/prplos/prplos/prplos/lcm-test-* (glob)
+  $ R "${S} && get_ctr_type --uuid"
+  Unprivileged container
+  $ R "${S} && execute_in_container --uuid --cmd 'cat /etc/container-version'"
+  1
+
+
+Update to prplOS container to v2 in privileged mode using HTTPS:
+
+  $ R "${S} && update_ctr --httpsversion prplos-v2 --ee --uuid --privileged true" > /dev/null
+  $ sleep 20
+  $ R "${S} && get_container_info --uuid"
+  Active
+  prplos-v2
+  prpl-foundation/prplos/prplos/prplos/lcm-test-* (glob)
+  $ R "${S} && get_ctr_type --uuid"
+  Privileged container
+  $ R "${S} && execute_in_container --uuid --cmd 'cat /etc/container-version'"
+  2
+
+
+Uninstall the container and check everything is cleaned:
+
+  $ R "${S} && uninstall_ctr_and_check --uuid"
+  [1]
+
+
 Cleanup test environment:
 
   $ R "rm -f /tmp/script_functions.sh"
