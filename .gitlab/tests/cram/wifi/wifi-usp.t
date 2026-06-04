@@ -16,6 +16,14 @@ Check if there is at least one connected client (should be beerocks processes):
   $ R "netstat -ap 2>/dev/null | grep 'CONNECTED.*pwhm_usp.sock'| wc -l"
   [1-9]$ (re)
 
+
+Disable AccessPoint to make sure Event:
+
+$ R "ba-cli WiFi.AccessPoint.1.Enable=0" > /dev/null 2>&1
+
+$ sleep 5
+
+
 Test USP events:
 
   $ R "lua /tmp/usp-event.lua 'Device.WiFi.AccessPoint.1.Enable!' 'dm:object-changed' \"contains('parameters.Enable')\" > /tmp/pwhm_usp_events &"
