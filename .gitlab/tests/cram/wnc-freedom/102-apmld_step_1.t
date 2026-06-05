@@ -5,6 +5,36 @@ Create R alias:
 
   $ R logger -t cram "Starting APMLD test 1/2..."
 
+#########################################
+# Helper functions                      #
+#########################################
+
+  $ disable_6ghz_radio() {
+  >  R logger -t cram "Disable radio"
+  >  wifi_dm_radio_band 6 "Enable=0"
+  >  sleep 20
+  >  R logger -t cram "check 6GHz radio status:"
+  >  wifi_dm_radio_band 6 "Status?"
+  >  R logger -t cram "Check 6GHz vaps status:"
+  >  wifi_dm "AccessPoint.5.Status?0"
+  >  wifi_dm "AccessPoint.6.Status?0"
+  >  wifi_dm "AccessPoint.9.Status?0"
+  >  ls_hapd_sockets
+  > }
+
+  $ enable_6ghz_radio() {
+  >  R logger -t cram "Re-enable radio"
+  >  wifi_dm_radio_band 6 "Enable=1"
+  >  sleep 10
+  >  R logger -t cram "check 6GHz radio status:"
+  >  wifi_dm_radio_band 6 "Status?"
+  >  R logger -t cram "Check 6GHz vaps status:"
+  >  wifi_dm "AccessPoint.5.Status?0"
+  >  wifi_dm "AccessPoint.6.Status?0"
+  >  wifi_dm "AccessPoint.9.Status?0"
+  >  ls_hapd_sockets
+  > }
+
 Stop prplMesh:
 
   $ R logger -t cram "Stop prplmesh"
@@ -424,6 +454,194 @@ check ttlm_enable in hostapd configuration files:
   ttlm_enable=1
   ttlm_enable=1
   ttlm_enable=1
+
+#########################################
+#  Disable/Enable radio                 #
+#########################################
+  $ disable_6ghz_radio
+  Device.WiFi.Radio.\d+.Enable=0 (re)
+  Device.WiFi.Radio.\d+.Status="Down" (re)
+  Device.WiFi.AccessPoint.5.Status="Disabled"
+  Device.WiFi.AccessPoint.6.Status="Disabled"
+  Device.WiFi.AccessPoint.9.Status="Disabled"
+  wlan2.1
+  wlan2.1_link0
+  wlan2.1_link1
+  wlan2.2
+  wlan2.2_link0
+  wlan2.2_link1
+  wlan2.3
+  wlan2.3_link0
+  wlan2.3_link1
+
+  $ enable_6ghz_radio
+  Device.WiFi.Radio.\d+.Enable=1 (re)
+  Device.WiFi.Radio.\d+.Status="Up" (re)
+  Device.WiFi.AccessPoint.5.Status="Enabled"
+  Device.WiFi.AccessPoint.6.Status="Enabled"
+  Device.WiFi.AccessPoint.9.Status="Enabled"
+  wlan2.1
+  wlan2.1_link0
+  wlan2.1_link1
+  wlan2.1_link2
+  wlan2.2
+  wlan2.2_link0
+  wlan2.2_link1
+  wlan2.2_link2
+  wlan2.3
+  wlan2.3_link0
+  wlan2.3_link1
+  wlan2.3_link2
+
+Remove the 6GHz private vap from its APMLD then test disabling and enabling radio
+  $ R logger -t cram "Remove 6GHz priv VAP from its APMLD"
+  $ wifi_dm "AccessPoint.5.SSIDReference+.MLDUnit=-1"
+  Device.WiFi.SSID.\d+.MLDUnit=-1 (re)
+
+  $ sleep 10
+
+  $ disable_6ghz_radio
+  Device.WiFi.Radio.\d+.Enable=0 (re)
+  Device.WiFi.Radio.\d+.Status="Down" (re)
+  Device.WiFi.AccessPoint.5.Status="Disabled"
+  Device.WiFi.AccessPoint.6.Status="Disabled"
+  Device.WiFi.AccessPoint.9.Status="Disabled"
+  wlan2.1
+  wlan2.1_link0
+  wlan2.1_link1
+  wlan2.2
+  wlan2.2_link0
+  wlan2.2_link1
+  wlan2.3
+  wlan2.3_link0
+  wlan2.3_link1
+
+  $ enable_6ghz_radio
+  Device.WiFi.Radio.\d+.Enable=1 (re)
+  Device.WiFi.Radio.\d+.Status="Up" (re)
+  Device.WiFi.AccessPoint.5.Status="Enabled"
+  Device.WiFi.AccessPoint.6.Status="Enabled"
+  Device.WiFi.AccessPoint.9.Status="Enabled"
+  wlan0.1
+  wlan2.1
+  wlan2.1_link0
+  wlan2.1_link1
+  wlan2.2
+  wlan2.2_link0
+  wlan2.2_link1
+  wlan2.2_link2
+  wlan2.3
+  wlan2.3_link0
+  wlan2.3_link1
+  wlan2.3_link2
+
+Remove the 6GHz guest vap from its APMLD then test disabling and enabling radio
+  $ R logger -t cram "Remove 6GHz priv VAP from its APMLD"
+  $ wifi_dm "AccessPoint.6.SSIDReference+.MLDUnit=-1"
+  Device.WiFi.SSID.\d+.MLDUnit=-1 (re)
+
+  $ sleep 10
+
+  $ disable_6ghz_radio
+  Device.WiFi.Radio.\d+.Enable=0 (re)
+  Device.WiFi.Radio.\d+.Status="Down" (re)
+  Device.WiFi.AccessPoint.5.Status="Disabled"
+  Device.WiFi.AccessPoint.6.Status="Disabled"
+  Device.WiFi.AccessPoint.9.Status="Disabled"
+  wlan2.1
+  wlan2.1_link0
+  wlan2.1_link1
+  wlan2.2
+  wlan2.2_link0
+  wlan2.2_link1
+  wlan2.3
+  wlan2.3_link0
+  wlan2.3_link1
+
+  $ enable_6ghz_radio
+  Device.WiFi.Radio.\d+.Enable=1 (re)
+  Device.WiFi.Radio.\d+.Status="Up" (re)
+  Device.WiFi.AccessPoint.5.Status="Enabled"
+  Device.WiFi.AccessPoint.6.Status="Enabled"
+  Device.WiFi.AccessPoint.9.Status="Enabled"
+  wlan0.1
+  wlan0.2
+  wlan2.1
+  wlan2.1_link0
+  wlan2.1_link1
+  wlan2.2
+  wlan2.2_link0
+  wlan2.2_link1
+  wlan2.3
+  wlan2.3_link0
+  wlan2.3_link1
+  wlan2.3_link2
+
+Remove the 6GHz backhaul vap from its APMLD then test disabling and enabling radio
+  $ R logger -t cram "Remove 6GHz backhaul vap from its APMLD"
+  $ wifi_dm "AccessPoint.9.SSIDReference+.MLDUnit=-1"
+  Device.WiFi.SSID.\d+.MLDUnit=-1 (re)
+
+  $ sleep 10
+
+  $ disable_6ghz_radio
+  Device.WiFi.Radio.\d+.Enable=0 (re)
+  Device.WiFi.Radio.\d+.Status="Down" (re)
+  Device.WiFi.AccessPoint.5.Status="Disabled"
+  Device.WiFi.AccessPoint.6.Status="Disabled"
+  Device.WiFi.AccessPoint.9.Status="Disabled"
+  wlan2.1
+  wlan2.1_link0
+  wlan2.1_link1
+  wlan2.2
+  wlan2.2_link0
+  wlan2.2_link1
+  wlan2.3
+  wlan2.3_link0
+  wlan2.3_link1
+
+  $ enable_6ghz_radio
+  Device.WiFi.Radio.\d+.Enable=1 (re)
+  Device.WiFi.Radio.\d+.Status="Up" (re)
+  Device.WiFi.AccessPoint.5.Status="Enabled"
+  Device.WiFi.AccessPoint.6.Status="Enabled"
+  Device.WiFi.AccessPoint.9.Status="Enabled"
+  wlan0.1
+  wlan0.2
+  wlan0.3
+  wlan2.1
+  wlan2.1_link0
+  wlan2.1_link1
+  wlan2.2
+  wlan2.2_link0
+  wlan2.2_link1
+  wlan2.3
+  wlan2.3_link0
+  wlan2.3_link1
+
+Move back all 6GHz vaps to their previous APMLDs:
+  $ wifi_dm "AccessPoint.5.SSIDReference+.MLDUnit=0"
+  Device.WiFi.SSID.\d+.MLDUnit=0 (re)
+  $ wifi_dm "AccessPoint.6.SSIDReference+.MLDUnit=1"
+  Device.WiFi.SSID.\d+.MLDUnit=1 (re)
+  $ wifi_dm "AccessPoint.9.SSIDReference+.MLDUnit=2"
+  Device.WiFi.SSID.\d+.MLDUnit=2 (re)
+
+  $ sleep 10
+
+  $ ls_hapd_sockets
+  wlan2.1
+  wlan2.1_link0
+  wlan2.1_link1
+  wlan2.1_link2
+  wlan2.2
+  wlan2.2_link0
+  wlan2.2_link1
+  wlan2.2_link2
+  wlan2.3
+  wlan2.3_link0
+  wlan2.3_link1
+  wlan2.3_link2
 
 #########################################
 #  Unset MLDUnit of one priv SSID       #
