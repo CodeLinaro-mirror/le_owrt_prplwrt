@@ -1228,7 +1228,6 @@ Device.Hardware.X_PRPLWARE-COM_FlashDevice.{i}.Version                          
 Device.HomePlug.
 Device.HomePlug.Interface.{i}.                                                                       proto::tr181-homeplug
 Device.HomePlug.Interface.{i}.Alias                                                                  proto::tr181-homeplug
-Device.HomePlug.Interface.{i}.AssociateDeviceNumberOfEntries                                         proto::tr181-homeplug
 Device.HomePlug.Interface.{i}.AssociatedDevice.{i}.                                                  proto::tr181-homeplug
 Device.HomePlug.Interface.{i}.AssociatedDevice.{i}.Active                                            proto::tr181-homeplug
 Device.HomePlug.Interface.{i}.AssociatedDevice.{i}.AvgAttenuation                                    proto::tr181-homeplug
@@ -1239,6 +1238,7 @@ Device.HomePlug.Interface.{i}.AssociatedDevice.{i}.Manufacturer                 
 Device.HomePlug.Interface.{i}.AssociatedDevice.{i}.RxPhyRate                                         proto::tr181-homeplug
 Device.HomePlug.Interface.{i}.AssociatedDevice.{i}.SNRPerTone                                        proto::tr181-homeplug
 Device.HomePlug.Interface.{i}.AssociatedDevice.{i}.TxPhyRate                                         proto::tr181-homeplug
+Device.HomePlug.Interface.{i}.AssociatedDeviceNumberOfEntries                                        proto::tr181-homeplug
 Device.HomePlug.Interface.{i}.Enable                                                                 proto::tr181-homeplug
 Device.HomePlug.Interface.{i}.FirmwareVersion                                                        proto::tr181-homeplug
 Device.HomePlug.Interface.{i}.ForceCCo                                                               proto::tr181-homeplug
