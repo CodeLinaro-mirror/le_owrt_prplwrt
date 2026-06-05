@@ -17,7 +17,7 @@ feeds:
   - name: rootfs
     uri: https://github.com/maxlinear/rootfs.git
     tracking_branch: updk_9.2.10
-    revision: 5ee3da905d05077fb4c86e0de0fa3d2e46133bcc
+    revision: 2474c15ca9670ad03da21d4d37a93ed99c7d0f69
   - name: eip
     uri: https://github.com/maxlinear/feed_eip.git
     tracking_branch: updk_9.2.10
@@ -53,7 +53,7 @@ feeds:
   - name: pon
     uri: https://github.com/maxlinear/feed_pon.git
     tracking_branch: updk_9.2.10
-    revision: 9b1ed1f302831e219b92241cce06ed2237fa7322
+    revision: d6880c3ab8f7b679bd3e4ae3c70c4e993e79f372
   - name: ppa
     uri: https://github.com/maxlinear/feed_ppa.git
     tracking_branch: updk_9.2.10
