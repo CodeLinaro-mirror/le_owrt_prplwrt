@@ -5,10 +5,6 @@ Setup the test configuration:
   $ alias C="${CRAM_REMOTE_COPY:-}"
   $ S=". /tmp/script_functions.sh"
   $ C ${TESTDIR}/script_functions.sh root@${TARGET_LAN_IP}:/tmp/script_functions.sh 2>/dev/null
-  $ C ${TESTDIR}/usp-cli/usp-cli.conf root@${TARGET_LAN_IP}:/etc/amx/cli/usp-cli.conf 2>/dev/null
-  $ C ${TESTDIR}/usp-cli/usp-cli.init root@${TARGET_LAN_IP}:/etc/amx/cli/usp-cli.init 2>/dev/null
-  $ R "if [ ! -f /usr/bin/usp-cli ] ; then ln -s amx-cli /usr/bin/usp-cli; fi"
-
 
 Set-up ExecEnv configuration
 

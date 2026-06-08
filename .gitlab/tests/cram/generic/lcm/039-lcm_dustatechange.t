@@ -6,15 +6,15 @@ Setup the test configuration:
   $ S=". /tmp/script_functions.sh"
   $ C ${TESTDIR}/script_functions.sh root@${TARGET_LAN_IP}:/tmp/script_functions.sh 2>/dev/null
   $ C ${TESTDIR}/event.lua root@${TARGET_LAN_IP}:/tmp/event.lua 2>/dev/null
-  $ C ${TESTDIR}/usp-cli/usp-cli.conf root@${TARGET_LAN_IP}:/etc/amx/cli/usp-cli.conf 2>/dev/null
-  $ C ${TESTDIR}/usp-cli/usp-cli.init root@${TARGET_LAN_IP}:/etc/amx/cli/usp-cli.init 2>/dev/null
-  $ R "if [ ! -f /usr/bin/usp-cli ] ; then ln -s amx-cli /usr/bin/usp-cli; fi"
+  $ C ${TESTDIR}/usp-cli/usp-cli.conf root@${TARGET_LAN_IP}:/etc/amx/cli/usp-test-cli.conf 2>/dev/null
+  $ C ${TESTDIR}/usp-cli/usp-cli.init root@${TARGET_LAN_IP}:/etc/amx/cli/usp-test-cli.init 2>/dev/null
+  $ R "ln -s amx-cli /usr/bin/usp-test-cli"
 
 ### DUSTATECHANGE SECTION ###
 
 Subscribe to the DUStateChange event
 
-  $ R "usp-cli 'Device.LocalAgent.Subscription.+{Alias=\"DUStateChange\", ID=\"DUStateChange\", ReferenceList=\"Device.SoftwareModules.DUStateChange!\", Enable=1, NotifType=\"Event\"}'" > /dev/null
+  $ R "usp-test-cli 'Device.LocalAgent.Subscription.+{Alias=\"DUStateChange\", ID=\"DUStateChange\", ReferenceList=\"Device.SoftwareModules.DUStateChange!\", Enable=1, NotifType=\"Event\"}'" > /dev/null
 
 Listen to the event
 
@@ -106,7 +106,4 @@ check the event
 
 remove the subscription
 
-  $ R "usp-cli 'Device.LocalAgent.Subscription.[ Alias==\"DUStateChange\"]-'" > /dev/null
-
-
-
+  $ R "usp-test-cli 'Device.LocalAgent.Subscription.[ Alias==\"DUStateChange\"]-'" > /dev/null
