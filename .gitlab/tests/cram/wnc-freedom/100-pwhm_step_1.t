@@ -2,6 +2,8 @@ Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
   $ . "${TESTDIR}/../scripts/wifi.sh"
+  $ alias C="${CRAM_REMOTE_COPY:-}"
+  $ C ${TESTDIR}/../scripts/target/usp-events.lua root@${TARGET_LAN_IP}:/tmp/usp-event.lua 2>/dev/null
 
   $ R "logger -t cram 'Starting PWHM test (step 1) ...'"
 
@@ -63,6 +65,16 @@ Check that no hostapd instance is running:
 # Test activation of access point 1 #
 #####################################
 
+USP events: Before enabling the first vap, let's start testing usp events.
+Check pwhm usp socket:
+
+  $ R "netstat -ap 2>/dev/null | grep 'LISTENING.*pwhm_usp.sock'"
+  .*LISTENING.*pwhm_usp.sock (re)
+
+Listen to AP1 event:
+
+  $ R "lua /tmp/usp-event.lua 'Device.WiFi.AccessPoint.1.Enable!' 'dm:object-changed' \"contains('parameters.Enable')\" > /tmp/pwhm_usp_events &"
+
   $ R logger -t cram "Test AccessPoint 1 activation "$(get_ssid_ref 1)""
 
   $ enable_ap_sync 1 1
@@ -78,6 +90,21 @@ Check that no hostapd instance is running:
   Device.WiFi.AccessPoint.7.Status="Disabled"
   Device.WiFi.AccessPoint.8.Status="Disabled"
   Device.WiFi.AccessPoint.9.Status="Disabled"
+
+USP Events: Check if the USP event is catched:
+
+  $ R "cat /tmp/pwhm_usp_events"
+  Event dm:object-changed
+  {
+      object = "Device.WiFi.AccessPoint.1.",
+      parameters = {
+          Enable = {
+              from = "",
+              to = "true"
+          }
+      },
+      path = "Device.WiFi.AccessPoint.1."
+  }
 
 Check wpacltrl socket file:
 
