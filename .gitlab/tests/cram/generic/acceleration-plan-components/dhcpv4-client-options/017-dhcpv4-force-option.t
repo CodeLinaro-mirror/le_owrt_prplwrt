@@ -28,6 +28,7 @@ Create pool option with Force=true:
 Force=true, tag 42 absent from DHCPREQUEST PRL -> tag must be present in final DHCPACK:
 
   $ sudo -E python3 "$TESTDIR/dhcpv4_option_probe.py" --iface "$TESTBED_LAN_INTERFACE" --request-options "$REQ_WITHOUT_TAG" --timeout "$PROBE_TIMEOUT" 2>/dev/null
+  CLIENT_MAC=aa:bb:cc:dd:ee:ff
   RECEIVED_TAGS=.*(=|,)42(,|$).* (re)
 
 Set Force=false:
@@ -40,11 +41,13 @@ Set Force=false:
 Force=false, tag 42 absent from DHCPREQUEST PRL -> tag must be absent from final DHCPACK:
 
   $ sudo -E python3 "$TESTDIR/dhcpv4_option_probe.py" --iface "$TESTBED_LAN_INTERFACE" --request-options "$REQ_WITHOUT_TAG" --timeout "$PROBE_TIMEOUT" 2>/dev/null
+  CLIENT_MAC=aa:bb:cc:dd:ee:ff
   RECEIVED_TAGS=(?!.*(=|,)42(,|$)).* (re)
 
 Force=false, tag 42 present in DHCPREQUEST PRL -> tag must be present in final DHCPACK:
 
   $ sudo -E python3 "$TESTDIR/dhcpv4_option_probe.py" --iface "$TESTBED_LAN_INTERFACE" --request-options "$REQ_WITH_TAG" --timeout "$PROBE_TIMEOUT" 2>/dev/null
+  CLIENT_MAC=aa:bb:cc:dd:ee:ff
   RECEIVED_TAGS=.*(=|,)42(,|$).* (re)
 
 
