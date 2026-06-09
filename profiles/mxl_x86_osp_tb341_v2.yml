@@ -13,11 +13,11 @@ feeds:
   - name: intel_x86
     uri: https://github.com/maxlinear/feed_target_x86.git
     tracking_branch: updk_9.2.10
-    revision: e97e5b0acb707da9f0508a16daf4cb953492f507
+    revision: 22ebd469ca63aef102e571a4445b642f960a4cba
   - name: rootfs
     uri: https://github.com/maxlinear/rootfs.git
     tracking_branch: updk_9.2.10
-    revision: 5ee3da905d05077fb4c86e0de0fa3d2e46133bcc
+    revision: 7a8fa93cf76145e0a38095cba160fbcfe0b09851
   - name: eip
     uri: https://github.com/maxlinear/feed_eip.git
     tracking_branch: updk_9.2.10
@@ -77,7 +77,7 @@ feeds:
   - name: bootloader
     uri: https://github.com/maxlinear/feed_uboot.git
     tracking_branch:  updk_9.2.10
-    revision: 63c03954c01e22a1e23d9fcc3f8acf192ec5c346
+    revision: 25b7d6a82a456d5debe9a5b035defd46a03a19f8
   - name: dpl
     uri: https://github.com/maxlinear/feed_dpl.git
     tracking_branch:  updk_9.2.10
@@ -200,7 +200,8 @@ diffconfig: |
   CONFIG_BUSYBOX_CONFIG_FEATURE_TFTP_GET=y
   CONFIG_BUSYBOX_CONFIG_FEATURE_TFTP_PUT=y
   CONFIG_BUSYBOX_CONFIG_TFTP=y
-  CONFIG_BUSYBOX_CONFIG_DEVMEM=y
-  CONFIG_KERNEL_DEVMEM=y
   CONFIG_LGM_EIP123_SUPPORT=y
   CONFIG_KERNEL_FTRACE=y
+  CONFIG_IMAGEGENERATOR_BOARD="tb341_wav700"
+  CONFIG_SAH_LIB_MFG_RO_PART_FILE="/dev/mmcblk0p13"
+  CONFIG_SECURESTORE_LABEL="config"
