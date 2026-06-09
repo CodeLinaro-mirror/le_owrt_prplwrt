@@ -5999,3 +5999,8 @@ Device.X_PRPLWARE-COM_WiFiScheduler.Network.Schedule.{i}.Duration               
 Device.X_PRPLWARE-COM_WiFiScheduler.Network.Schedule.{i}.Enable                                      proto::wifi-scheduler
 Device.X_PRPLWARE-COM_WiFiScheduler.Network.Schedule.{i}.Running                                     proto::wifi-scheduler
 Device.X_PRPLWARE-COM_WiFiScheduler.Network.Schedule.{i}.StartTime                                   proto::wifi-scheduler
+Device.X_PRPLWARE-COM_Barometer.                                                                     proto::tr181-barometer
+Device.X_PRPLWARE-COM_Barometer.Data                                                                 proto::tr181-barometer
+Device.X_PRPLWARE-COM_GPS.                                                                           proto::tr181-gps
+Device.X_PRPLWARE-COM_GPS.AltMSL                                                                     proto::tr181-gps
+Device.X_PRPLWARE-COM_GPS.Data                                                                       proto::tr181-gps

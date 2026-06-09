@@ -91,6 +91,9 @@ packages:
   - tr181-xpon
   - wan-manager
   - wifi-scheduler
+  - tr181-barometer
+  - gpsd
+  - tr181-gps
 
 diffconfig: |
           CONFIG_PACKAGE_ppp-prpl=y
