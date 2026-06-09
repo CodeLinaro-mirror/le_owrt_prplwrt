@@ -11,6 +11,8 @@ packages:
   - libfdt
   - libubootenv
   - losetup
+  - mod-fwi-swupdate
+  - sysupgrade-prpl
   - readmfg
   - swupdate
   - uboot-tools
