@@ -1313,7 +1313,6 @@ Device.IP.
 Device.IP.ActivePort.{i}.                                                                            proto::ip-manager
 Device.IP.ActivePortNumberOfEntries                                                                  proto::ip-manager
 Device.IP.Diagnostics.                                                                               proto::tr181-ipdiagnostics
-Device.IP.Diagnostics.Controller                                                                     proto::tr181-ipdiagnostics
 Device.IP.Diagnostics.DownloadDiagnostics()                                                          proto::tr181-ipdiagnostics
 Device.IP.Diagnostics.DownloadDiagnostics() input:DSCP
 Device.IP.Diagnostics.DownloadDiagnostics() input:DownloadURL
@@ -1368,7 +1367,6 @@ Device.IP.Diagnostics.DownloadDiagnostics.TotalBytesReceived                    
 Device.IP.Diagnostics.DownloadDiagnostics.TotalBytesReceivedUnderFullLoading                         proto::tr181-ipdiagnostics
 Device.IP.Diagnostics.DownloadDiagnostics.TotalBytesSent                                             proto::tr181-ipdiagnostics
 Device.IP.Diagnostics.DownloadDiagnostics.TotalBytesSentUnderFullLoading                             proto::tr181-ipdiagnostics
-Device.IP.Diagnostics.DownloadDiagnosticsMaxConnections                                              proto::tr181-ipdiagnostics
 Device.IP.Diagnostics.DownloadDiagnosticsMaxIncrementalResult                                        proto::tr181-ipdiagnostics
 Device.IP.Diagnostics.DownloadTransports                                                             proto::tr181-ipdiagnostics
 Device.IP.Diagnostics.IPLayerCapacity()                                                              proto::tr181-ipdiagnostics
@@ -1548,7 +1546,6 @@ Device.IP.Diagnostics.IPPing() input:Timeout
 Device.IP.Diagnostics.IPPing.                                                                        proto::tr181-ipdiagnostics
 Device.IP.Diagnostics.IPPing.AverageResponseTime                                                     proto::tr181-ipdiagnostics
 Device.IP.Diagnostics.IPPing.AverageResponseTimeDetailed                                             proto::tr181-ipdiagnostics
-Device.IP.Diagnostics.IPPing.Controller                                                              proto::tr181-ipdiagnostics
 Device.IP.Diagnostics.IPPing.DSCP                                                                    proto::tr181-ipdiagnostics
 Device.IP.Diagnostics.IPPing.DataBlockSize                                                           proto::tr181-ipdiagnostics
 Device.IP.Diagnostics.IPPing.DiagnosticsState                                                        proto::tr181-ipdiagnostics
@@ -1576,8 +1573,6 @@ Device.IP.Diagnostics.IPv6ServerSelectionDiagnosticsSupported                   
 Device.IP.Diagnostics.IPv6TraceRouteSupported                                                        proto::tr181-ipdiagnostics
 Device.IP.Diagnostics.IPv6UDPEchoDiagnosticsSupported                                                proto::tr181-ipdiagnostics
 Device.IP.Diagnostics.IPv6UploadDiagnosticsSupported                                                 proto::tr181-ipdiagnostics
-Device.IP.Diagnostics.ProtocolVersionsAllowed                                                        proto::tr181-ipdiagnostics
-Device.IP.Diagnostics.SupportedControllers                                                           proto::tr181-ipdiagnostics
 Device.IP.Diagnostics.TraceRoute()                                                                   proto::tr181-ipdiagnostics
 Device.IP.Diagnostics.TraceRoute() input:DSCP
 Device.IP.Diagnostics.TraceRoute() input:DataBlockSize
@@ -1588,7 +1583,6 @@ Device.IP.Diagnostics.TraceRoute() input:NumberOfTries
 Device.IP.Diagnostics.TraceRoute() input:ProtocolVersion
 Device.IP.Diagnostics.TraceRoute() input:Timeout
 Device.IP.Diagnostics.TraceRoute.                                                                    proto::tr181-ipdiagnostics
-Device.IP.Diagnostics.TraceRoute.Controller                                                          proto::tr181-ipdiagnostics
 Device.IP.Diagnostics.TraceRoute.DSCP                                                                proto::tr181-ipdiagnostics
 Device.IP.Diagnostics.TraceRoute.DataBlockSize                                                       proto::tr181-ipdiagnostics
 Device.IP.Diagnostics.TraceRoute.DiagnosticsState                                                    proto::tr181-ipdiagnostics
@@ -1710,6 +1704,7 @@ Device.IP.Diagnostics.X_PRPLWARE-COM_DownloadResult.{i}.TotalBytesSent          
 Device.IP.Diagnostics.X_PRPLWARE-COM_DownloadResult.{i}.TotalBytesSentUnderFullLoading               proto::tr181-ipdiagnostics
 Device.IP.Diagnostics.X_PRPLWARE-COM_NumberOfDownloadResult                                          proto::tr181-ipdiagnostics
 Device.IP.Diagnostics.X_PRPLWARE-COM_NumberOfUploadResult                                            proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.X_PRPLWARE-COM_ProtocolVersionsAllowed                                         proto::tr181-ipdiagnostics
 Device.IP.Diagnostics.X_PRPLWARE-COM_UploadConfig.                                                   proto::tr181-ipdiagnostics
 Device.IP.Diagnostics.X_PRPLWARE-COM_UploadConfig.DSCP                                               proto::tr181-ipdiagnostics
 Device.IP.Diagnostics.X_PRPLWARE-COM_UploadConfig.EnablePerConnectionResults                         proto::tr181-ipdiagnostics
