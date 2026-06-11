@@ -27,6 +27,7 @@
   $ R ba-cli 'SFPs.SFPCage.1.?' | grep -Ev '^>|^$'
   SFPs.SFPCage.1.
   SFPs.SFPCage.1.Alias="cpe-cage-1"
+  SFPs.SFPCage.1.IsAllowed=1
   SFPs.SFPCage.1.MgmtInterface="SFF-8472"
   SFPs.SFPCage.1.Name="sfp0"
   SFPs.SFPCage.1.SFF8024Identifier=3
@@ -37,6 +38,7 @@
   $ R usp-cli 'Device.SFPs.SFPCage.1.?' | grep -Ev '^>|^$'
   Device.SFPs.SFPCage.1.
   Device.SFPs.SFPCage.1.Alias="cpe-cage-1"
+  Device.SFPs.SFPCage.1.IsAllowed=1
   Device.SFPs.SFPCage.1.MgmtInterface="SFF-8472"
   Device.SFPs.SFPCage.1.Name="sfp0"
   Device.SFPs.SFPCage.1.SFF8024Identifier=3

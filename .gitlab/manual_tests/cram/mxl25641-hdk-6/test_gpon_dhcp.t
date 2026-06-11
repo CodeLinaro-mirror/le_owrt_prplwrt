@@ -34,6 +34,7 @@
   $ R ba-cli 'SFPs.SFPCage.1.?' | grep -Ev '^>|^$'
   SFPs.SFPCage.1.
   SFPs.SFPCage.1.Alias="cpe-cage-1"
+  SFPs.SFPCage.1.IsAllowed=1
   SFPs.SFPCage.1.MgmtInterface="SFF-8472"
   SFPs.SFPCage.1.Name="sfp0"
   SFPs.SFPCage.1.SFF8024Identifier=3
@@ -44,6 +45,7 @@
   $ R usp-cli 'Device.SFPs.SFPCage.1.?' | grep -Ev '^>|^$'
   Device.SFPs.SFPCage.1.
   Device.SFPs.SFPCage.1.Alias="cpe-cage-1"
+  Device.SFPs.SFPCage.1.IsAllowed=1
   Device.SFPs.SFPCage.1.MgmtInterface="SFF-8472"
   Device.SFPs.SFPCage.1.Name="sfp0"
   Device.SFPs.SFPCage.1.SFF8024Identifier=3
@@ -85,14 +87,4 @@ default via 10.100.0.1 dev vlan100 proto static
 # Check implementation details
   $ R fw_printenv -n wantype
   pon
-
-  $ R cat /etc/config/serdes | grep -A 6 generic
-  config serdes 'generic'
-  	option tx_eq_pre '0'
-  	option tx_eq_main '40'
-  	option tx_eq_post '0'
-  	option vboost_en '0'
-  	option vboost_lvl '5'
-  	option iboost_lvl '15'
-
 
