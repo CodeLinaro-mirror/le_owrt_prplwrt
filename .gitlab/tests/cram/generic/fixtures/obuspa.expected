@@ -1202,6 +1202,16 @@ Device.Hardware.CPUs.CPU.{i}.DVFS.ScalingMinFrequency                           
 Device.Hardware.CPUs.CPU.{i}.DVFS.Status                                                             proto::tr181-cpu
 Device.Hardware.CPUs.CPU.{i}.DVFS.Supported                                                          proto::tr181-cpu
 Device.Hardware.CPUs.CPUNumberOfEntries                                                              proto::tr181-cpu
+Device.Hardware.PowerManagement.                                                                     proto::tr181-powermanager
+Device.Hardware.PowerManagement.Standby.                                                             proto::tr181-powermanager
+Device.Hardware.PowerManagement.Standby.Capability                                                   proto::tr181-powermanager
+Device.Hardware.PowerManagement.Standby.EnterStandbyMode()                                           proto::tr181-powermanager
+Device.Hardware.PowerManagement.Standby.EnterStandbyMode() input:Mode
+Device.Hardware.PowerManagement.Standby.NetworkAware                                                 proto::tr181-powermanager
+Device.Hardware.PowerManagement.Standby.ScheduleRef                                                  proto::tr181-powermanager
+Device.Hardware.PowerManagement.Standby.StandbyOccurred                                              proto::tr181-powermanager
+Device.Hardware.PowerManagement.Standby.Status                                                       proto::tr181-powermanager
+Device.Hardware.PowerManagement.Standby.TimerAware                                                   proto::tr181-powermanager
 Device.Hardware.X_PRPLWARE-COM_FlashDevice.{i}.                                                      proto::tr181-flashmonitor
 Device.Hardware.X_PRPLWARE-COM_FlashDevice.{i}.Alias                                                 proto::tr181-flashmonitor
 Device.Hardware.X_PRPLWARE-COM_FlashDevice.{i}.FlashType                                             proto::tr181-flashmonitor
