@@ -8,7 +8,7 @@ Setup the test configuration:
 ## FIXME: `get_arch_name` function returns wrong arch name for freedom board
   $ BOARD_ARCH=$(R "${S} && get_true_arch_name")
   $ READER_SERVICE_URL="docker://registry.gitlab.com/prpl-foundation/prplos/prplos/${BOARD_ARCH}/image-trusted-reader:latest"
-  $ PROVIDER_SERVICE_URL="docker://registry.gitlab.com/prpl-foundation/prplos/prplos/${BOARD_ARCH}/image-trusted-provider:latest"
+  $ PROVIDER_SERVICE_URL="docker://registry.gitlab.com/prpl-foundation/prplos/prplos/${BOARD_ARCH}/image-trusted-provider:1.0.0"
 
 
 Set-up ExecEnv configuration
@@ -38,9 +38,9 @@ Check that untrusted service cannot register model on USP bus when RegisterTrust
 
   $ R "${S} && install_ctr --url ${PROVIDER_SERVICE_URL} --ee --uuid --privileged true --usprequired \"Full Access\" --uspautomountipc \"USP_UDS_Authenticated\"" > /dev/null
   $ R "${S} && get_container_info --uuid"
+  1.0.0
   Active
-  latest
-  prpl-foundation/prplos/prplos/*/image-trusted-provider (glob)
+  image-trusted-provider
   $ CTR_ID=$(R "${S} && get_container_parameter --uuid --param EUID")
   $ CTR_ENDPOINTID=$(R "ba-cli -l 'Cthulhu.Container.Instances.[ContainerId==\"${CTR_ID}\"].EndpointID?' | sed '/^$/d'")
   $ R "usp-cli -lj 'Device.USPServices.Trust.[EndpointID==\"${CTR_ENDPOINTID}\"].?' | sed '/^$/d'"
