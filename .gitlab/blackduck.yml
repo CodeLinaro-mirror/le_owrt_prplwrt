@@ -22,7 +22,7 @@
         ./detect.sh \
             --blackduck.url=https://prplfoundation.app.blackduck.com \
             --blackduck.api.token=$BLACKDUCK_API_KEY \
-            --detect.project.name=prplos \
+            --detect.project.name=$( echo -n "$CI_COMMIT_REF_NAME" | sed -E '/^prplware-v[0-9]+\.[0-9]+\.[0-9]+$/{s|^(prplware-v)([0-9]+)\.[0-9]+\.[0-9]+?$|\1\2|};t;/^(mainline-|latest-).*$/{s|.*|prplos|};t;{s|.*|prplos-dev|}') \
             --detect.project.version.name=$CI_COMMIT_REF_NAME-$target_name \
             --detect.source.path=$dir \
             --detect.excluded.detector.types=PIP,NPM 2>&1 | tee logs/blackduck.log
