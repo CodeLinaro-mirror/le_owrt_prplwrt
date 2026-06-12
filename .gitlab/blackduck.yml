@@ -22,8 +22,8 @@
         ./detect.sh \
             --blackduck.url=https://prplfoundation.app.blackduck.com \
             --blackduck.api.token=$BLACKDUCK_API_KEY \
-            --detect.project.name=prplos \
-            --detect.project.version.name=$CI_COMMIT_REF_NAME-$target_name \
+            --detect.project.name=prplware-v4 \
+            --detect.project.version.name=prplware-v4.2.1-$target_name \
             --detect.source.path=$dir \
             --detect.excluded.detector.types=PIP,NPM 2>&1 | tee logs/blackduck.log
       done
