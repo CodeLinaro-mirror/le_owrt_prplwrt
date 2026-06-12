@@ -463,12 +463,6 @@ Device.DNS.SD.Advertise.{i}.TextRecord.{i}.Key                                  
 Device.DNS.SD.Advertise.{i}.TextRecord.{i}.Value                                                     proto::tr181-dnssd
 Device.DNS.SD.Advertise.{i}.TextRecordNumberOfEntries                                                proto::tr181-dnssd
 Device.DNS.SD.Advertise.{i}.TransportProtocol                                                        proto::tr181-dnssd
-Device.DNS.SD.Advertise.{i}.service_start_advertise()                                                proto::tr181-dnssd
-Device.DNS.SD.Advertise.{i}.service_start_advertise() input:application_protocol
-Device.DNS.SD.Advertise.{i}.service_start_advertise() input:instance_name
-Device.DNS.SD.Advertise.{i}.service_start_advertise() input:port
-Device.DNS.SD.Advertise.{i}.service_start_advertise() input:text_record
-Device.DNS.SD.Advertise.{i}.service_start_advertise() input:transport_protocol
 Device.DNS.SD.Advertise.{i}.service_stop_advertise()                                                 proto::tr181-dnssd
 Device.DNS.SD.Advertise.{i}.service_stop_advertise() input:instance_name
 Device.DNS.SD.AdvertiseNumberOfEntries                                                               proto::tr181-dnssd
@@ -493,10 +487,6 @@ Device.DNS.SD.Service.{i}.TransportProtocol                                     
 Device.DNS.SD.Service.{i}.Weight                                                                     proto::tr181-dnssd
 Device.DNS.SD.ServiceNumberOfEntries                                                                 proto::tr181-dnssd
 Device.DNS.SD.Status                                                                                 proto::tr181-dnssd
-Device.DNS.SD.service_subscribe()                                                                    proto::tr181-dnssd
-Device.DNS.SD.service_subscribe() input:application_protocol
-Device.DNS.SD.service_subscribe() input:key
-Device.DNS.SD.service_subscribe() input:transport_protocol
 Device.DNS.SD.service_unsubscribe()                                                                  proto::tr181-dnssd
 Device.DNS.SD.service_unsubscribe() input:key
 Device.DNS.SupportedRecordTypes                                                                      proto::tr181-dns
