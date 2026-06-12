@@ -72,10 +72,10 @@ coverity scan ipq807x prpl:
       aarch64-openwrt-linux-gcc
       aarch64-openwrt-linux-musl-gcc
 
-blackduck scan mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl extender_full cellular security thread:
+blackduck scan mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread:
   extends: .blackduck scan config
 
-blackduck scan qca_ipq95xx prpl extender_full cellular security thread:
+blackduck scan qca_ipq95xx prpl cellular security thread:
   extends: .blackduck scan config
 
 run test Turris Omnia initramfs:
