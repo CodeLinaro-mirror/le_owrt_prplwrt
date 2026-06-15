@@ -698,6 +698,7 @@ Device.DeviceInfo.ProcessStatus.CPU.{i}.SystemModeUtilization                   
 Device.DeviceInfo.ProcessStatus.CPU.{i}.UpTime                                                       proto::deviceinfo-manager
 Device.DeviceInfo.ProcessStatus.CPU.{i}.UserModeUtilization                                          proto::deviceinfo-manager
 Device.DeviceInfo.ProcessStatus.CPU.{i}.VendorLogFileRef                                             proto::deviceinfo-manager
+Device.DeviceInfo.ProcessStatus.CPUNumberOfEntries                                                   proto::deviceinfo-manager
 Device.DeviceInfo.ProcessStatus.CPUUsage                                                             proto::deviceinfo-manager
 Device.DeviceInfo.ProcessStatus.Process.{i}.                                                         proto::deviceinfo-manager
 Device.DeviceInfo.ProcessStatus.Process.{i}.CPUTime                                                  proto::deviceinfo-manager
