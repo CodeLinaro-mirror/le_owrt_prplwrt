@@ -8,7 +8,7 @@ description: Build image for MediaTek / Arcadyan Mozart board
 feeds:
   - name: feed_mediatek
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-mediatek
-    revision: fc38586f1160fbf5d1f2cdc9c7dc41651027ae29
+    revision: 6872438e80f3c9e85f9d1a29f5004e04b31ac0cc
 
 packages:
   - mediatek
