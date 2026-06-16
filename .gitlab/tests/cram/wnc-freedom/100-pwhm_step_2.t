@@ -485,8 +485,8 @@ Check if hostapd process is stopped:
 
 Resume prplMesh:
 
-$ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=1" | tr -d '\n'
-1 (no-eol)
+  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=1" | tr -d '\n'
+  1 (no-eol)
 
   $ R logger -t cram "Stopping PWHM test .."
 
