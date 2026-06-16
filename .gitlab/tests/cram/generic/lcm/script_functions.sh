@@ -1269,3 +1269,59 @@ normalize_dump(){
     ## Cthulhu LocalPolicy spacific case
     sed -i -e "s/\(\.LocalPolicyManager\.Action\)\.[[:digit:]]/\1\.{i}/g" $1
 }
+
+##
+## start_lcm_clean() - Reset the LCM environment to a clean state before running tests.
+##
+## This function performs a full cleanup of any leftover configuration from previous
+## test runs, ensuring a pristine environment for new tests. It uninstalls all existing
+## containers, stops all LCM-related services, clears all data and configuration files,
+## then restarts the services.
+##
+## Steps performed:
+##   1. Fetch all deployed containers and uninstall them (without retaining data).
+##   2. Stop LCM services: cthulhu, rlyeh, timingila.
+##   3. Unmount the generic execution environment mount point.
+##   4. Remove all LCM data directories and configuration files:
+##      - /lcm
+##      - /etc/config/cthulhu/*
+##      - /etc/config/timingila/*
+##      - /etc/config/lxc/*
+##   5. Restart all LCM services: rlyeh, cthulhu, timingila.
+##   6. Wait for services to register properly (e.g., USP agent registration).
+##
+## Parameters:
+##   None
+##
+## Returns:
+##   Nothing (exits with the status of the last command executed).
+##
+## Example:
+##   start_lcm_clean
+##
+start_lcm_clean() {
+
+        ## Fetch and try to uninstall all containers.
+        UUIDS=$(${CLI_JSON} "Device.SoftwareModules.DeploymentUnit.*.UUID?" | jsonfilter -e @[*].*.UUID)
+        for uuid in $UUIDS; do
+                uninstall_ctr_and_check --uuid ${uuid} --retaindata false
+        done
+
+        ## Stop all LCM services
+        service cthulhu stop > /dev/null 2>&1
+        service rlyeh stop > /dev/null 2>&1
+        service timingila stop > /dev/null 2>&1
+        sleep 3
+
+        ## Clear all LCM data or config
+        umount /lcm/cthulhu/data/mounts/generic > /dev/null 2>&1
+        rm -rf /lcm/* /etc/config/cthulhu/* /etc/config/timingila/* /etc/config/lxc/*
+
+        ## Restart all the services
+        service rlyeh start
+        service cthulhu start
+        service timingila start
+
+        ## Add wait delay (until) all the services register properly (such as registration to USP agent)
+        sleep 10
+}
