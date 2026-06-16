@@ -143,6 +143,15 @@ Restore MLDUnit to default values
   $ set_mlduint 6 1
   1
 
+  $ set_mlduint 7 2
+  2
+
+  $ set_mlduint 6 2
+  2
+
+  $ set_mlduint 6 2
+  2
+
   $ sleep 10
 
 Check RSNO2 parameter was added to 5GHz hostapd conf file:
