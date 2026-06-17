@@ -1,0 +1,26 @@
+---
+description: Add SIP PBX functionality
+additional_packages:
+  - feed: feed_prplos
+    packages:
+    - asterisk-manager
+    - libcami
+  - feed: telephony
+    packages:
+    - asterisk
+    - asterisk-pjsip
+    - asterisk-app-stack
+    - asterisk-codec-ulaw
+    - asterisk-codec-alaw
+    - asterisk-codec-gsm
+    - asterisk-codec-g729
+    - asterisk-codec-g722
+    - asterisk-format-wav
+    - asterisk-format-gsm
+    - asterisk-chan-rtp
+    - asterisk-bridge-builtin-features
+    - asterisk-bridge-builtin-interval-features
+    - asterisk-bridge-holding
+    - asterisk-bridge-native-rtp
+    - asterisk-bridge-simple
+    - asterisk-res-rtp-asterisk
