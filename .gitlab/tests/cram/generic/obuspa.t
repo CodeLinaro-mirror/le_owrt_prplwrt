@@ -3276,6 +3276,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.VendorCapabilities                                  proto::wld
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.VendorOUI                                           proto::wld
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.VhtCapabilities                                     proto::wld
+  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.WdsInterfaceName                                    proto::wld
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.getLastAssocReq()                                   proto::wld
   Device.WiFi.AccessPoint.{i}.AssociatedDeviceNumberOfEntries                                          proto::wld
   Device.WiFi.AccessPoint.{i}.AssociationCount.                                                        proto::wld
@@ -7930,6 +7931,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.VendorCapabilities                                  proto::wld
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.VendorOUI                                           proto::wld
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.VhtCapabilities                                     proto::wld
+  Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.WdsInterfaceName                                    proto::wld
   Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.getLastAssocReq()                                   proto::wld
   Device.WiFi.AccessPoint.{i}.AssociatedDeviceNumberOfEntries                                          proto::wld
   Device.WiFi.AccessPoint.{i}.AssociationCount.                                                        proto::wld
