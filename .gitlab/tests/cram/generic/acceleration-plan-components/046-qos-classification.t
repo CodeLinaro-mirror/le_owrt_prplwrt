@@ -45,23 +45,27 @@ Check that the created firewall rule and routing policy are deleted in the LL AP
 Check that changing X_PRPLWARE-COM_OutputInterface updates the mangle table rule without restarting tr181-qos:
   $ R "ba-cli 'QoS.Classification.lansubnet1.Enable = true'" > /dev/null
 
+Resolve interface names from logical references:
+  $ WAN_IFACE=$(R "ba-cli --less --json 'NetModel.Intf.ip-wan.getFirstParameter(name="NetDevName", flag = "netdev-bound")'" | sed '/^$/d' | tail -n 1 | cut -d'"' -f2)
+  $ LAN_IFACE=$(R "ba-cli --less --json 'NetModel.Intf.ip-lan.getFirstParameter(name="NetDevName", flag = "netdev-bound")'" | sed '/^$/d' | tail -n 1 | cut -d'"' -f2)
+
 Check initial rule has no output interface filter:
   $ R "iptables -t mangle -nvL FORWARD_class | awk '/MARK/ {print \$6,\$7}'"
   * *
 
-Set X_PRPLWARE-COM_OutputInterface to Logical.Interface.1 (resolves to wan):
+Set X_PRPLWARE-COM_OutputInterface to Logical.Interface.1:
   $ R "ubus-cli 'QoS.Classification.lansubnet1.X_PRPLWARE-COM_OutputInterface=Logical.Interface.1.'" > /dev/null
 
-Check the rule now filters on output interface wan without tr181-qos restart:
-  $ R "iptables -t mangle -nvL FORWARD_class | awk '/MARK/ {print \$6,\$7}'"
-  * wan
+Check the rule now filters on output WAN interface without tr181-qos restart:
+  $ RESULT=$(R "iptables -t mangle -nvL FORWARD_class | awk '/MARK/ {print \$6,\$7}'"); [ "$RESULT" = "* $WAN_IFACE" ] && echo "OK" || echo "FAIL: got '$RESULT', expected '* $WAN_IFACE'"
+  OK
 
-Change X_PRPLWARE-COM_OutputInterface to Logical.Interface.2 (resolves to br-lan):
+Change X_PRPLWARE-COM_OutputInterface to Logical.Interface.2:
   $ R "ubus-cli 'QoS.Classification.lansubnet1.X_PRPLWARE-COM_OutputInterface=Logical.Interface.2.'" > /dev/null
 
-Check the rule reflects the new output interface (br-lan) without tr181-qos restart:
-  $ R "iptables -t mangle -nvL FORWARD_class | awk '/MARK/ {print \$6,\$7}'"
-  * br-lan
+Check the rule reflects the new output LAN interface without tr181-qos restart:
+  $ RESULT=$(R "iptables -t mangle -nvL FORWARD_class | awk '/MARK/ {print \$6,\$7}'"); [ "$RESULT" = "* $LAN_IFACE" ] && echo "OK" || echo "FAIL: got '$RESULT', expected '* $LAN_IFACE'"
+  OK
 
 Restore original configuration:
   $ R "ba-cli 'QoS.Classification.lansubnet1.X_PRPLWARE-COM_OutputInterface = \"\"'" > /dev/null
