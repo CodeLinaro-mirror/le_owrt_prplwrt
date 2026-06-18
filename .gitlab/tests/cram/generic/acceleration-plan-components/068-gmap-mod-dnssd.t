@@ -15,6 +15,10 @@ Ensure DNS.SD service is enabled on HGW:
   $ R "ba-cli 'DNSSD.Enable?'" | grep -Ev '^(>|$)'
   DNSSD.Enable=1
 
+Set the DNSSD.RemoveServiceTimeout to 5 seconds (5000ms) to ensure quick service removal detection:
+
+  $ R "ba-cli 'DNSSD.RemoveServiceTimeout=5000'" >/dev/null
+
 Test 1: Service Advertisement (mDNS announcement):
 
   $ avahi-publish-service CramTestService1 _http._tcp 8080 "path=/test1" >/dev/null 2>&1 &
@@ -81,7 +85,8 @@ Verify entry is removed from gmap datamodel:
   $ R 'ba-cli "Devices.Device.*.mDNSService.[Name==\"CramTestService1\"].?"' | grep -Ev '^(>|$)' | grep 'CramTestService1' || echo "Not found"
   Not found
 
-Cleanup:
+Cleanup and restore default DNSSD settings:
 
   $ kill $AVAHI_PID1 2>/dev/null || true
+  $ R "ba-cli 'DNSSD.RemoveServiceTimeout=300000'" >/dev/null
   $ sudo service dbus stop >/dev/null 2>&1
