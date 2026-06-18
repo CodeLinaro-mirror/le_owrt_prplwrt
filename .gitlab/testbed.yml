@@ -65,6 +65,21 @@
 
     - mkdir -p ~/.ssh; chmod 700 ~/.ssh
 
+    # WIP: when PREBUILT_FIRMWARE_JOB_ID is set, fetch the images from another
+    # job's artifacts instead of consuming this build's, so testbed/cdrouter
+    # jobs can run without a local build. Gated by the var, which only the
+    # prebuilt boards set. Drop with the rest of the WIP commit.
+    - |
+      if [ -n "${PREBUILT_FIRMWARE_JOB_ID:-}" ]; then
+        mkdir -p "$TFTP_IMAGE_PATH"
+        for f in ${TFTP_IMAGE_FILENAMES:-$TFTP_IMAGE_FILENAME}; do
+          echo "Fetching $f from job $PREBUILT_FIRMWARE_JOB_ID artifacts..."
+          curl -fsSL --header "JOB-TOKEN: $CI_JOB_TOKEN" \
+            -o "$TFTP_IMAGE_PATH/$f" \
+            "$CI_API_V4_URL/projects/$CI_PROJECT_ID/jobs/$PREBUILT_FIRMWARE_JOB_ID/artifacts/${PREBUILT_ARTIFACT_PATH:-$TFTP_IMAGE_PATH}/$f"
+        done
+      fi
+
     - |
       for f in ${TFTP_IMAGE_FILENAMES:-$TFTP_IMAGE_FILENAME}; do
         echo "Using firmware image $TFTP_IMAGE_PATH/$f"

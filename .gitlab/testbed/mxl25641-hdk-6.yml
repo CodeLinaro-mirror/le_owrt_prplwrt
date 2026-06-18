@@ -12,5 +12,11 @@
       prplos-intel_x86-lgm-PRPL_OSP_v2-wgrtd159be_b_wav700-ext4.img
     DUT_ARCH_PACKAGES_PATH: $PACKAGE_DIR/${DUT_ARCH}
     CDROUTER_CONFIG_LAN_IFACE_ALIAS: cpe-lan2
+    # WIP: fetch prebuilt FEAT-29 OSPv2 images from prplos!1964 instead of
+    # building. The MR!1964 build emits these flat under bin/targets/intel_x86/
+    # lgm/ (not the single-images/ dest this branch uses), so the curl source
+    # path differs from TFTP_IMAGE_PATH. Drop with the rest of the WIP commit.
+    PREBUILT_FIRMWARE_JOB_ID: "14903865411"
+    PREBUILT_ARTIFACT_PATH: bin/targets/intel_x86/lgm
   tags:
-    - dut-mxl25641-hdk-6-b
+    - dut-mxl25641-hdk-6-b-sfl

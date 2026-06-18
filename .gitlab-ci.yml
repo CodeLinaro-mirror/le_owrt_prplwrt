@@ -85,18 +85,20 @@ run test Turris Omnia initramfs:
   allow_failure: true
   needs: ["build test mvebu prpl security"]
   extends: .turris-omnia testbed
+  rules: [{ when: never }]  # WIP: out of scope for the prebuilt OSPv2+Freedom run
 
 run test Haze initramfs:
   allow_failure: true
   needs: ["build test ipq807x prpl security"]
   extends: .prpl-haze testbed
+  rules: [{ when: never }]  # WIP: out of scope for the prebuilt OSPv2+Freedom run
 
 run test MXL25641-HDK-6 with system on eMMC:
-  needs: ["build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread"]
+  needs: []  # WIP: prebuilt firmware, no build dependency; drop with WIP commit
   extends: .mxl25641-hdk-6 testbed
 
 run test Freedom with system on eMMC:
-  needs: ["build test qca_ipq95xx prpl cellular security thread"]
+  needs: []  # WIP: prebuilt firmware, no build dependency; drop with WIP commit
   extends: .wnc-freedom testbed
 
 run test Mozart initramfs:
@@ -104,3 +106,119 @@ run test Mozart initramfs:
     - job: build test mtk_filogic prpl security
       optional: true
   extends: .arcadyan-mozart testbed
+  rules: [{ when: never }]  # WIP: out of scope for the prebuilt OSPv2+Freedom run
+
+# WIP: tailored pipeline for the FEAT-29 update_prpl flash flow (prplos!1964)
+# on the Freedom + OSPv2 testbeds only, from prebuilt images (no local build).
+# These cdrouter jobs default to `manual` on a feature branch; flip the OSPv2 +
+# Freedom functional suite to on_success and drop their build dependency so they
+# run off the prebuilt firmware fetched in the .cdrouter before_script. Heavy
+# cert/failing/USP-prpl jobs are deliberately left at their manual default.
+# All other boards/builds stay manual and do not run. Drop this whole block,
+# the two run-test `needs: []` overrides, the PREBUILT_* vars and the prebuilt
+# curl in .gitlab/{testbed,cdrouter}.yml before merge.
+"CDRouter-Top-100+mDNS-OSP MXL25641-HDK-6 eMMC": { needs: [], rules: [{ when: on_success }] }
+"CDRouter-Top-100+mDNS-OSP MXL25641-HDK-6 VLAN WAN/LAN eMMC": { needs: [], rules: [{ when: on_success }] }
+"CDRouter-Top-100+mDNS-OSP MXL25641-HDK-6 PPPoE WAN eMMC": { needs: [], rules: [{ when: on_success }] }
+"CDRouter-Wireless MXL25641-HDK-6 eMMC": { needs: [], rules: [{ when: on_success }] }
+"CDRouter-UPnP-IPv46 MXL25641-HDK-6 eMMC": { needs: [], rules: [{ when: on_success }] }
+"CDRouter-IPv6-Top-100+mDNS MXL25641-HDK-6 eMMC": { needs: [], rules: [{ when: on_success }] }
+"CDRouter-IPv6-Top-100+mDNS MXL25641-HDK-6 VLAN WAN/LAN eMMC": { needs: [], rules: [{ when: on_success }] }
+"CDRouter-TR-069 MXL25641-HDK-6 eMMC": { needs: [], rules: [{ when: on_success }] }
+"prplWare-Smoke-Test-Suite MXL25641-HDK-6 eMMC": { needs: [], rules: [{ when: on_success }] }
+"CDRouter-Top-100+mDNS Freedom eMMC": { needs: [], rules: [{ when: on_success }] }
+"CDRouter-Top-100+mDNS Freedom VLAN WAN/LAN eMMC": { needs: [], rules: [{ when: on_success }] }
+"CDRouter-Top-100+mDNS Freedom PPPoE WAN eMMC": { needs: [], rules: [{ when: on_success }] }
+"CDRouter-Wireless Freedom eMMC": { needs: [], rules: [{ when: on_success }] }
+"CDRouter-UPnP-IPv46 Freedom eMMC": { needs: [], rules: [{ when: on_success }] }
+"CDRouter-IPv6-Top-100+mDNS Freedom eMMC": { needs: [], rules: [{ when: on_success }] }
+"CDRouter-IPv6-Top-100+mDNS Freedom VLAN WAN/LAN eMMC": { needs: [], rules: [{ when: on_success }] }
+"CDRouter-TR-069 Freedom eMMC": { needs: [], rules: [{ when: on_success }] }
+"prplWare-Smoke-Test-Suite Freedom eMMC": { needs: [], rules: [{ when: on_success }] }
+
+# WIP: trim everything else out of the pipeline (weekly-CI style) so only the
+# OSPv2 + Freedom functional suite above remains. Builds are disabled at the
+# .build test config template (inherited via extends); the rest are per-job
+# rules overrides that deep-merge over the included definitions. Drop with the
+# WIP commit.
+".build test config": { rules: [{ when: never }] }
+"build Docker image ib-mvebu-cortexa9": { rules: [{ when: never }] }
+"build Docker image ib-qualcommax-ipq807x": { rules: [{ when: never }] }
+"build Docker image ib-x86-64": { rules: [{ when: never }] }
+"build Docker image sdk-mvebu-cortexa9": { rules: [{ when: never }] }
+"build Docker image sdk-qca_ipq95xx-generic": { rules: [{ when: never }] }
+"build Docker image sdk-qualcommax-ipq807x": { rules: [{ when: never }] }
+"build Docker image sdk-x86-64": { rules: [{ when: never }] }
+"build lcm-test-mvebu-cortexa9": { rules: [{ when: never }] }
+"build lcm-test-qualcommax-ipq807x": { rules: [{ when: never }] }
+"build lcm-test-x86-64": { rules: [{ when: never }] }
+"CDRouter-IPv6-Top-100+mDNS Haze initramfs": { rules: [{ when: never }] }
+"CDRouter-IPv6-Top-100+mDNS Haze VLAN WAN/LAN initramfs": { rules: [{ when: never }] }
+"CDRouter-IPv6-Top-100+mDNS Mozart initramfs": { rules: [{ when: never }] }
+"CDRouter-IPv6-Top-100+mDNS Mozart VLAN WAN/LAN initramfs": { rules: [{ when: never }] }
+"CDRouter-IPv6-Top-100+mDNS Turris initramfs": { rules: [{ when: never }] }
+"CDRouter-IPv6-Top-100+mDNS Turris VLAN WAN/LAN initramfs": { rules: [{ when: never }] }
+"CDRouter-Top-100+mDNS Haze initramfs": { rules: [{ when: never }] }
+"CDRouter-Top-100+mDNS Haze PPPoE WAN initramfs": { rules: [{ when: never }] }
+"CDRouter-Top-100+mDNS Haze VLAN WAN/LAN initramfs": { rules: [{ when: never }] }
+"CDRouter-Top-100+mDNS Mozart initramfs": { rules: [{ when: never }] }
+"CDRouter-Top-100+mDNS Mozart PPPoE WAN initramfs": { rules: [{ when: never }] }
+"CDRouter-Top-100+mDNS Mozart VLAN WAN/LAN initramfs": { rules: [{ when: never }] }
+"CDRouter-Top-100+mDNS Turris initramfs": { rules: [{ when: never }] }
+"CDRouter-Top-100+mDNS Turris PPPoE WAN initramfs": { rules: [{ when: never }] }
+"CDRouter-Top-100+mDNS Turris VLAN WAN/LAN initramfs": { rules: [{ when: never }] }
+"CDRouter-TR-069 Haze eMMC": { rules: [{ when: never }] }
+"CDRouter-TR-069 Mozart eMMC": { rules: [{ when: never }] }
+"CDRouter-TR-069 Turris eMMC": { rules: [{ when: never }] }
+"CDRouter-UPnP-IPv46-Failing Freedom eMMC": { rules: [{ when: never }] }
+"CDRouter-UPnP-IPv46-Failing Haze initramfs": { rules: [{ when: never }] }
+"CDRouter-UPnP-IPv46-Failing Mozart initramfs": { rules: [{ when: never }] }
+"CDRouter-UPnP-IPv46-Failing MXL25641-HDK-6 eMMC": { rules: [{ when: never }] }
+"CDRouter-UPnP-IPv46-Failing Turris initramfs": { rules: [{ when: never }] }
+"CDRouter-UPnP-IPv46 Haze initramfs": { rules: [{ when: never }] }
+"CDRouter-UPnP-IPv46 Mozart initramfs": { rules: [{ when: never }] }
+"CDRouter-UPnP-IPv46 Turris initramfs": { rules: [{ when: never }] }
+"CDRouter-USP-prpl Freedom eMMC": { rules: [{ when: never }] }
+"CDRouter-USP-prpl Haze initramfs": { rules: [{ when: never }] }
+"CDRouter-USP-prpl Mozart initramfs": { rules: [{ when: never }] }
+"CDRouter-USP-prpl MXL25641-HDK-6 eMMC": { rules: [{ when: never }] }
+"CDRouter-USP-prpl Turris initramfs": { rules: [{ when: never }] }
+"CDRouter-Wireless Haze initramfs": { rules: [{ when: never }] }
+"CDRouter-Wireless Mozart initramfs": { rules: [{ when: never }] }
+"CDRouter-Wireless Turris initramfs": { rules: [{ when: never }] }
+"EasyMesh-Smoke-test-R1-Freedom": { rules: [{ when: never }] }
+"prpl-Certification Freedom eMMC": { rules: [{ when: never }] }
+"prpl-Certification Haze initramfs": { rules: [{ when: never }] }
+"prpl-Certification Mozart initramfs": { rules: [{ when: never }] }
+"prpl-Certification MXL25641-HDK-6 eMMC": { rules: [{ when: never }] }
+"prpl-Certification Turris initramfs": { rules: [{ when: never }] }
+"prplOS-Network-Test-Plan-Candidate-v1.2.0 Freedom eMMC": { rules: [{ when: never }] }
+"prplOS-Network-Test-Plan-Candidate-v1.2.0 Haze initramfs": { rules: [{ when: never }] }
+"prplOS-Network-Test-Plan-Candidate-v1.2.0 Mozart initramfs": { rules: [{ when: never }] }
+"prplOS-Network-Test-Plan-Candidate-v1.2.0 MXL25641-HDK-6 eMMC": { rules: [{ when: never }] }
+"prplOS-Network-Test-Plan-Candidate-v1.2.0 Turris initramfs": { rules: [{ when: never }] }
+"prplOS-Network-Test-Plan-Mandatory-v1.2.0 Freedom eMMC": { rules: [{ when: never }] }
+"prplOS-Network-Test-Plan-Mandatory-v1.2.0 Haze initramfs": { rules: [{ when: never }] }
+"prplOS-Network-Test-Plan-Mandatory-v1.2.0 Mozart initramfs": { rules: [{ when: never }] }
+"prplOS-Network-Test-Plan-Mandatory-v1.2.0 MXL25641-HDK-6 eMMC": { rules: [{ when: never }] }
+"prplOS-Network-Test-Plan-Mandatory-v1.2.0 Turris initramfs": { rules: [{ when: never }] }
+"prplWare-Smoke-Test-Suite Haze initramfs": { rules: [{ when: never }] }
+"prplWare-Smoke-Test-Suite Mozart initramfs": { rules: [{ when: never }] }
+"prplWare-Smoke-Test-Suite Turris initramfs": { rules: [{ when: never }] }
+"test Docker image ib-mvebu-cortexa9": { rules: [{ when: never }] }
+"test Docker image ib-qualcommax-ipq807x": { rules: [{ when: never }] }
+"test Docker image ib-x86-64": { rules: [{ when: never }] }
+"test Docker image sdk-mvebu-cortexa9": { rules: [{ when: never }] }
+"test Docker image sdk-qca_ipq95xx-generic": { rules: [{ when: never }] }
+"test Docker image sdk-qualcommax-ipq807x": { rules: [{ when: never }] }
+"test Docker image sdk-x86-64": { rules: [{ when: never }] }
+"test lcm-test-x86-64": { rules: [{ when: never }] }
+# Disable the builder/testbed docker chains in full: their test/deploy jobs
+# need the build job, so dropping only the build job leaves a dangling need
+# that fails pipeline creation.
+"build Docker image builder": { rules: [{ when: never }] }
+"test Docker image builder": { rules: [{ when: never }] }
+"deploy Docker image builder": { rules: [{ when: never }] }
+"build Docker image testbed": { rules: [{ when: never }] }
+"test Docker image testbed": { rules: [{ when: never }] }
+"deploy Docker image testbed": { rules: [{ when: never }] }

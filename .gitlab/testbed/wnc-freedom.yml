@@ -14,5 +14,10 @@
       prplos-ipq95xx-generic-prpl_freedom-kernel.itb
       prplos-ipq95xx-generic-prpl_freedom-rootfs.itb
     CDROUTER_CONFIG_LAN_IFACE_ALIAS: cpe-lan1
+    # WIP: fetch prebuilt FEAT-29 Freedom images from prplos!1964 instead of
+    # building. These live at TFTP_IMAGE_PATH (bin/targets/ipq95xx/generic) in
+    # the artifact, so no PREBUILT_ARTIFACT_PATH override is needed. Drop with
+    # the rest of the WIP commit.
+    PREBUILT_FIRMWARE_JOB_ID: "14919756378"
   tags:
-    - dut-wnc-freedom
+    - dut-wnc-freedom-sfl
