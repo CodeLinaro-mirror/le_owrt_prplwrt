@@ -61,36 +61,6 @@ targets:
         boot_command: bootm 0x2000000
       UBootStrategy: {}
 
-  wnc-freedom-initramfs:
-    resources:
-      RawSerialPort:
-        port: "/dev/wnc-freedom"
-      ModbusTCPCoil:
-        host: quido.testbed-01.vpn.true.cz
-        coil: 2
-        managed_coils: 8
-        exclusive_coil_mode: True
-        write_multiple_coils: True
-    drivers:
-      ModbusCoilDriver: {}
-      DigitalOutputPowerDriver: {}
-      SerialDriver: {}
-      ShellDriver:
-        console_ready: Please press Enter to activate this console.
-        prompt: 'root@[\w()]+:[^ ]+ '
-        login_prompt: built-in shell (ash)
-        login_timeout: 120
-        await_login_timeout: 16
-        username: kingbanik
-      UBootDriver:
-        prompt: 'IPQ9574# '
-        init_commands:
-          - setenv serverip 10.0.0.1
-          - setenv ipaddr 10.0.0.2
-        boot_command: tftpboot prplos-ipq95xx-generic-prpl_freedom-initramfs-uImage.itb && aq_phy_reset && aq_load_fw 0x8 && bootm
-        boot_command_delay: 3
-      UBootStrategy: {}
-
   wnc-freedom-emmc:
     resources:
       RawSerialPort:
@@ -114,17 +84,25 @@ targets:
         username: kingbanik
       UBootDriver:
         prompt: 'IPQ9574# '
+        init_command_timeout: 75
         init_commands:
           - setenv serverip 10.0.0.1
           - setenv ipaddr 10.0.0.2
+          - setenv loadaddr 0x50000000
           - sleep 5
-          - tftpboot 0x44000000 prplos-ipq95xx-generic-prpl_freedom-squashfs-sysupgrade.bin
-          - aq_phy_reset
-          - aq_load_fw 0x8
-          - setenv untar_addr_kernel; setenv untar_addr_root; echo
-          - untar 0x$fileaddr 0x$filesize kernel root
-          - if test -n $untar_addr_kernel; then flash "0:HLOS" 0x$untar_addr_kernel 0x$untar_size_kernel; else echo "kernel is not found"; fi
-          - if test -n $untar_addr_root; then flash "rootfs" 0x$untar_addr_root 0x$untar_size_root; else echo "rootfs is not found"; fi
+          - tftpboot ${loadaddr} prplos-ipq95xx-generic-prpl_freedom-update_script.itb
+          - source ${loadaddr}:update-script
+          - setenv tftppath
+          - setenv img_kernel prplos-ipq95xx-generic-prpl_freedom-kernel.itb
+          - setenv img_rootfs prplos-ipq95xx-generic-prpl_freedom-rootfs.itb
+          - setenv img_uboot
+          - setenv img_xbl
+          - setenv img_smd
+          - setenv update_rescue_bank yes
+          - mmc dev 0
+          - mmc erase 0x534022 0x40000
+          - run update_prpl
+        boot_command: run bootcmd
       UBootStrategy: {}
 
   mxl25641-hdk-6-emmc:
@@ -150,12 +128,21 @@ targets:
       UBootDriver:
         prompt: 'Lightning #'
         console_decodeerrors: 'backslashreplace'
-        init_command_timeout: 90
+        init_command_timeout: 60
         init_commands:
           - setenv serverip 192.168.1.2
           - setenv ipaddr 192.168.1.1
-          - setenv lcm_data_block_start 0xa6c00
-          - setenv fullimage prplos-intel_x86-lgm-PRPL_OSP_v2-wgrtd159be_b_wav700_fullimage.fit
-          - mmc dev 0 && mmc erase ${lcm_data_block_start} 0x400
-          - mmc dev 0 && mmc erase ${rootfs_data_block_start} ${rootfs_data_block_size} && run update_fullimage
+          - setenv loadaddr 0x8200000
+          - tftpboot ${loadaddr} prplos-intel_x86-lgm-PRPL_OSP_v2-update_script.itb
+          - source ${loadaddr}:update-script
+          - setenv tftppath
+          - setenv img_kernel prplos-intel_x86-lgm-PRPL_OSP_v2-wgrtd159be_b_wav700-ext4.img
+          - setenv img_uboot
+          - setenv img_rbe
+          - setenv img_smd
+          - setenv update_rescue_bank yes
+          - mmc dev 0
+          - mmc erase 0x86c00 0x10000
+          - run update_prpl
+        boot_command: run bootcmd
       UBootStrategy: {}

@@ -47,8 +47,10 @@
     - mkdir -p ~/.ssh; chmod 700 ~/.ssh
 
     - |
-      echo "Using firmware image $TFTP_IMAGE_PATH/$TFTP_IMAGE_FILENAME"
-      cp "$TFTP_IMAGE_PATH/$TFTP_IMAGE_FILENAME" "$TESTBED_TFTP_PATH"
+      for f in ${TFTP_IMAGE_FILENAMES:-$TFTP_IMAGE_FILENAME}; do
+        echo "Using firmware image $TFTP_IMAGE_PATH/$f"
+        cp "$TFTP_IMAGE_PATH/$f" "$TESTBED_TFTP_PATH"
+      done
 
       if [ -n "$TFTP_IMAGE_UNPACK_COMMAND" ]; then
         echo "Running $TFTP_IMAGE_UNPACK_COMMAND"
