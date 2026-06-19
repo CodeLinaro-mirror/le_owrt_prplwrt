@@ -7,11 +7,11 @@ If test is running on a Mozart, Turris, OSPv1 or Haze, lets skip the test as the
 
 Check that ubus has expected Cellular datamodels available:
 
-  $ R "ubus list | grep -e '^Cellular' -e 'Device.Cellular' |  grep -v -e '\.[[:digit:]]'"
-  Cellular
-  Cellular.AccessPoint
-  Cellular.Interface
-  Cellular.Interface.Bearer.IPv4
-  Cellular.Interface.Bearer.IPv6
-  Cellular.Interface.Stats
-  Device.Cellular
+  $ R "ba-cli 'dump -r Cellular.' | cut -b 34- | grep -v '\.[[:digit:]]'; ba-cli 'dump -r Device.' | cut -b 34- | grep 'Device\.Cellular' | grep -v '\.[[:digit:]]'"
+  Cellular.
+  Cellular.AccessPoint.
+  Cellular.Interface.
+  Cellular.Interface.Bearer.IPv4.
+  Cellular.Interface.Bearer.IPv6.
+  Cellular.Interface.Stats.
+  Device.Cellular.

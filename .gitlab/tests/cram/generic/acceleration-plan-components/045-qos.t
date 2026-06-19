@@ -4,14 +4,23 @@ Create R alias:
 
 Check QoS root datamodel:
 
-  $ R "ubus -S call QoS _get"
-  {"QoS.":{"SupportedControllers":"mod-qos-tc","ShaperNumberOfEntries":1,"QueueNumberOfEntries":5,"MaxSchedulerEntries":20,"SchedulerNumberOfEntries":1,"QueueStatsNumberOfEntries":4,"ClassificationNumberOfEntries":4,"MaxClassificationEntries":40,"BrokenQDiscPrioMap":false,"MarkMask":31,"MaxQueueEntries":20,"MaxShaperEntries":20}}
-  {}
-  {"amxd-error-code":0}
+  $ R "ba-cli -l 'QoS.SupportedControllers?;QoS.ShaperNumberOfEntries?;QoS.QueueNumberOfEntries?;QoS.MaxSchedulerEntries?;QoS.SchedulerNumberOfEntries?;QoS.QueueStatsNumberOfEntries?;QoS.ClassificationNumberOfEntries?;QoS.MaxClassificationEntries?;QoS.BrokenQDiscPrioMap?;QoS.MarkMask?;QoS.MaxQueueEntries?;QoS.MaxShaperEntries?' | sort"
+  1
+  1
+  20
+  20
+  20
+  31
+  4
+  4
+  40
+  5
+  false
+  mod-qos-tc
 
 Check Qos.Node.7 datamodel:
 
-  $ R "ubus call QoS.Node.7 _get | jsonfilter -e @[*].TrafficClasses -e @[*].DropAlgorithm -e @[*].Controller -e @[*].AllInterfaces -e @[*].SchedulerAlgorithm -e @[*].Alias " | sort
+  $ R "ba-cli -l 'QoS.Node.7.TrafficClasses?;QoS.Node.7.DropAlgorithm?;QoS.Node.7.Controller?;QoS.Node.7.AllInterfaces?;QoS.Node.7.SchedulerAlgorithm?;QoS.Node.7.Alias?'" | sort
   3
   DT
   HTB
@@ -33,7 +42,7 @@ Enable QoS.Queue datamodel for stats-home-iptv configurations:
 
 Check QoS.Queue datamodel for stats-home-iptv:
 
-  $ R "ubus call QoS.Queue.5 _get | jsonfilter -e @[*].Alias -e @[*].SchedulerAlgorithm -e @[*].Status -e @[*].Controller -e @[*].TrafficClasses" | sort
+  $ R "ba-cli -l 'QoS.Queue.5.Alias?;QoS.Queue.5.SchedulerAlgorithm?;QoS.Queue.5.Status?;QoS.Queue.5.Controller?;QoS.Queue.5.TrafficClasses?'" | sort
   3
   Enabled
   HTB
@@ -42,7 +51,7 @@ Check QoS.Queue datamodel for stats-home-iptv:
 
 Check QoS.QueueStats datamodel for stats-home-iptv:
 
-  $ R "ubus -S call QoS.QueueStats.4 _get | jsonfilter -e @[*].Status -e @[*].QueueOccupancyPercentage -e @[*].Alias -e @[*].Queue" | sort
+  $ R "ba-cli -l 'QoS.QueueStats.4.Status?;QoS.QueueStats.4.QueueOccupancyPercentage?;QoS.QueueStats.4.Alias?;QoS.QueueStats.4.Queue?'" | sort
   0
   Enabled
   QoS.Queue.queue-home-iptv
@@ -50,7 +59,7 @@ Check QoS.QueueStats datamodel for stats-home-iptv:
 
 Check QoS.Scheduler datamodel:
 
-  $ R "ubus call QoS.Scheduler _get | jsonfilter -e @[*].DefaultQueue -e @[*].SchedulerAlgorithm -e @[*].Status -e @[*].Controller" | sort
+  $ R "ba-cli -l 'QoS.Scheduler.*.DefaultQueue?;QoS.Scheduler.*.SchedulerAlgorithm?;QoS.Scheduler.*.Status?;QoS.Scheduler.*.Controller?'" | sort
   Enabled
   HTB
   QoS.Queue.queue-home-data.
@@ -67,7 +76,7 @@ Enable QoS.Shaper.1 configurations:
 
 Check QoS.Shaper.1 datamodel:
 
-  $ R "ubus call QoS.Shaper.1 _get | jsonfilter -e @[*].Controller -e @[*].Enable -e @[*].Status" | sort
+  $ R "ba-cli -l 'QoS.Shaper.1.Controller?;QoS.Shaper.1.Enable?;QoS.Shaper.1.Status?'" | sort
   Enabled
   mod-qos-tc
   true
@@ -79,7 +88,7 @@ Check DSCP value for IPv4 ICMP packets with icmp_dscp_cs6 classification configu
   [{"QoS.Classification.1.":{"Enable":1}}]
 
   $ sleep 1
-  $ R "ubus call QoS.Classification.1 _get | jsonfilter -e @[*].Status -e @[*].DSCPMark -e @[*].Alias -e @[*].Protocol -e @[*].IPVersion" | sort
+  $ R "ba-cli -l 'QoS.Classification.1.Status?;QoS.Classification.1.DSCPMark?;QoS.Classification.1.Alias?;QoS.Classification.1.Protocol?;QoS.Classification.1.IPVersion?'" | sort
   1
   4
   48
@@ -95,7 +104,7 @@ Alter the previous classification and set the DSCP marking to 52:
 
 Check altered classification instance configuration:
 
-  $ R "ubus call QoS.Classification.1 _get | jsonfilter -e @[*].Status -e @[*].DSCPMark -e @[*].Alias -e @[*].Protocol -e @[*].IPVersion" | sort
+  $ R "ba-cli -l 'QoS.Classification.1.Status?;QoS.Classification.1.DSCPMark?;QoS.Classification.1.Alias?;QoS.Classification.1.Protocol?;QoS.Classification.1.IPVersion?'" | sort
   1
   4
   52

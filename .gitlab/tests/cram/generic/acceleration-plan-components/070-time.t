@@ -4,30 +4,31 @@ Create R alias:
 
 Check that we've expected datamodel:
 
-  $ R "ubus list | grep Time. | sort"
-  Time.Client
-  Time.Client.1
-  Time.Client.1.Authentication
-  Time.Client.1.Stats
-  Time.Server
-  Time.Server.1
-  Time.Server.1.Authentication
-  Time.Server.1.Stats
-  Time.Server.2
-  Time.Server.2.Authentication
-  Time.Server.2.Stats
-  Time.Server.3
-  Time.Server.3.Authentication
-  Time.Server.3.Stats
+  $ R "ba-cli 'dump -r Time.' | cut -b 34- | sort"
+  Time.
+  Time.Client.
+  Time.Client.1.
+  Time.Client.1.Authentication.
+  Time.Client.1.Stats.
+  Time.Server.
+  Time.Server.1.
+  Time.Server.1.Authentication.
+  Time.Server.1.Stats.
+  Time.Server.2.
+  Time.Server.2.Authentication.
+  Time.Server.2.Stats.
+  Time.Server.3.
+  Time.Server.3.Authentication.
+  Time.Server.3.Stats.
 
-  $ R "ubus call Time.Client.1 _get | jsonfilter -e @[*].Port -e @[*].Status -e @[*].Servers -e @[*].Alias -e @[*].Mode | sort"
+  $ R "ba-cli -l 'Time.Client.1.Port?;Time.Client.1.Status?;Time.Client.1.Servers?;Time.Client.1.Alias?;Time.Client.1.Mode?' | sort"
   0.europe.pool.ntp.org, 1.europe.pool.ntp.org
   123
   Synchronized
   Unicast
   cpe-Client-1
 
-  $ R "ubus call Time.Server _get | jsonfilter -e @[*].Port -e @[*].Status -e @[*].Alias -e @[*].Mode | sort"
+  $ R "ba-cli -l 'Time.Server.*.Port?;Time.Server.*.Status?;Time.Server.*.Alias?;Time.Server.*.Mode?' | sort"
   123
   123
   123
@@ -43,7 +44,7 @@ Check that we've expected datamodel:
 
 Check that we've correct Time.CurrentLocalTime:
 
-  $ time=$(R "ubus call Time _get '{\"rel_path\":\"CurrentLocalTime\"}' | jsonfilter -e @[*].CurrentLocalTime")
+  $ time=$(R "ba-cli -l 'Time.CurrentLocalTime?'")
   $ time=$(echo $time | sed -E 's/([0-9\-]+)T([0-9]+:[0-9]+:[0-9]+).*/\1 \2/')
   $ time=$(date -d "$time" +'%s')
   $ sys=$(R date +"%s")
@@ -59,28 +60,22 @@ Disable outgoing NTP traffic:
 
 Disable and enable the Time manager to force time synchronization:
 
-  $ R "ubus -S call Time _set '{\"parameters\":{\"Enable\":False}}'" ; sleep 5
-  {"Time.":{"Enable":false}}
-  {}
-  {"amxd-error-code":0}
+  $ R "ba-cli 'Time.Enable=false' > /dev/null" ; sleep 5
 
-  $ R "ubus -S call Time.Client.1 _get | jsonfilter -e @[*].Status"
+  $ R "ba-cli -l 'Time.Client.1.Status?'"
   Disabled
 
-  $ R "ubus -S call Time _get | jsonfilter -e @[*].Status"
+  $ R "ba-cli -l 'Time.Status?'"
   Disabled
 
-  $ R "ubus -S call Time _set '{\"parameters\":{\"Enable\":True}}'" ; sleep 5
-  {"Time.":{"Enable":true}}
-  {}
-  {"amxd-error-code":0}
+  $ R "ba-cli 'Time.Enable=true' > /dev/null" ; sleep 5
 
 Check that Status has expected Unsynchronized state:
 
-  $ R "ubus -S call Time.Client.1 _get | jsonfilter -e @[*].Status"
+  $ R "ba-cli -l 'Time.Client.1.Status?'"
   Unsynchronized
 
-  $ R "ubus -S call Time _get | jsonfilter -e @[*].Status"
+  $ R "ba-cli -l 'Time.Status?'"
   Unsynchronized
 
 Enable outgoing NTP traffic:
@@ -89,28 +84,22 @@ Enable outgoing NTP traffic:
 
 Disable and enable the Time manager to force time synchronization:
 
-  $ R "ubus -S call Time _set '{\"parameters\":{\"Enable\":False}}'" ; sleep 5
-  {"Time.":{"Enable":false}}
-  {}
-  {"amxd-error-code":0}
+  $ R "ba-cli 'Time.Enable=false' > /dev/null" ; sleep 5
 
-  $ R "ubus -S call Time.Client.1 _get | jsonfilter -e @[*].Status"
+  $ R "ba-cli -l 'Time.Client.1.Status?'"
   Disabled
 
-  $ R "ubus -S call Time _get | jsonfilter -e @[*].Status"
+  $ R "ba-cli -l 'Time.Status?'"
   Disabled
 
-  $ R "ubus -S call Time _set '{\"parameters\":{\"Enable\":True}}'" ; sleep 10
-  {"Time.":{"Enable":true}}
-  {}
-  {"amxd-error-code":0}
+  $ R "ba-cli 'Time.Enable=true' > /dev/null" ; sleep 10
 
 Check that Status has expected Synchronized state:
 
-  $ R "ubus -S call Time.Client.1 _get | jsonfilter -e @[*].Status"
+  $ R "ba-cli -l 'Time.Client.1.Status?'"
   Synchronized
 
-  $ R "ubus -S call Time _get | jsonfilter -e @[*].Status"
+  $ R "ba-cli -l 'Time.Status?'"
   Synchronized
 
 Check that CPE can provide NTP to LAN clients:
@@ -120,10 +109,7 @@ Check that CPE can provide NTP to LAN clients:
 
 Disable NTP server for LAN clients:
 
-  $ R "ubus -S call Time.Server.1 _set '{\"parameters\":{\"Enable\":False}}'" ; sleep 1
-  {"Time.Server.1.":{"Enable":false}}
-  {}
-  {"amxd-error-code":0}
+  $ R "ba-cli 'Time.Server.1.Enable=false' > /dev/null" ; sleep 1
 
 Check that CPE can't provide NTP to LAN clients:
 
@@ -132,10 +118,7 @@ Check that CPE can't provide NTP to LAN clients:
 
 Enable NTP server for LAN clients:
 
-  $ R "ubus -S call Time.Server.1 _set '{\"parameters\":{\"Enable\":True}}'" ; sleep 10
-  {"Time.Server.1.":{"Enable":true}}
-  {}
-  {"amxd-error-code":0}
+  $ R "ba-cli 'Time.Server.1.Enable=true' > /dev/null" ; sleep 10
 
 Check that CPE provides again NTP to the LAN clients:
 

@@ -39,10 +39,7 @@ First call of AccessPointCommit, controller should push empty config to agents:
 
   $ R logger -t cram "first call of AccessPointCommit pushes empty config, global teardown"
 
-  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network AccessPointCommit"
-  {"retval":""}
-  {}
-  {"amxd-error-code":0}
+  $ R "ba-cli 'X_PRPLWARE-COM_WiFiController.Network.AccessPointCommit()' > /dev/null"
 
   $ R sleep 15
 
@@ -75,75 +72,36 @@ Create instances of Network.AccessPoint and push them to the agent:
 
   $ R logger -t cram "create instances of Network.AccessPoint and push them to the agent"
 
-  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint _add"
-  {"object":"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.","index":1,"name":"1","parameters":{},"path":"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1."}
-  {}
-  {"amxd-error-code":0}
+  $ R "ba-cli 'X_PRPLWARE-COM_WiFiController.Network.AccessPoint+' > /dev/null"
 
 Since no persistent storage of NbAPI Network subsection, always index:1 after controller restart:
 
-  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1 _set '{\"parameters\":{\"Band2_4G\":1,\"Band5GH\":1,\"Band5GL\":1,\"Band6G\":1}}'"
-  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.":{"Band5GH":true,"Band6G":true,"Band2_4G":true,"Band5GL":true}}
-  {}
-  {"amxd-error-code":0}
+  $ R "ba-cli 'X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.Band2_4G=1; X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.Band5GH=1; X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.Band5GL=1; X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.Band6G=1' > /dev/null"
 
-  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1 _set '{\"parameters\":{\"MultiApMode\":\"Fronthaul+Backhaul\",\"X_PRPLWARE_VapType\":\"home\"}}'"
-  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.":{"X_PRPLWARE_VapType":"home","MultiApMode":"Fronthaul+Backhaul"}}
-  {}
-  {"amxd-error-code":0}
+  $ R "ba-cli 'X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.MultiApMode=\"Fronthaul+Backhaul\"; X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.X_PRPLWARE_VapType=\"home\"' > /dev/null"
 
-  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.Security _set '{\"parameters\":{\"ModeEnabled\":\"WPA2-Personal\",\"KeyPassphrase\":\"password\"}}'"
-  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.Security.":{"KeyPassphrase":"password","ModeEnabled":"WPA2-Personal"}}
-  {}
-  {"amxd-error-code":0}
+  $ R "ba-cli 'X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.Security.ModeEnabled=\"WPA2-Personal\"; X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.Security.KeyPassphrase=\"password\"' > /dev/null"
 
-  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1 _set '{\"parameters\":{\"SSID\":\"prplOSpriv\"}}'"
-  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.":{"SSID":"prplOSpriv"}}
-  {}
-  {"amxd-error-code":0}
+  $ R "ba-cli 'X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.SSID=\"prplOSpriv\"' > /dev/null"
 
 In case the controller does not yet have this parameter, catch error here isof later during teardown test:
-  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1 _set '{\"parameters\":{\"Enable\":1}}'"
-  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.":{"Enable":true}}
-  {}
-  {"amxd-error-code":0}
+  $ R "ba-cli 'X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.Enable=1' > /dev/null"
 
 Create second instance of Network.AccessPoint for guest VAPs:
 
-  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint _add"
-  {"object":"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.","index":2,"name":"2","parameters":{},"path":"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2."}
-  {}
-  {"amxd-error-code":0}
-  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2 _set '{\"parameters\":{\"Band2_4G\":1,\"Band5GH\":1,\"Band5GL\":1,\"Band6G\":1}}'"
-  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.":{"Band5GH":true,"Band6G":true,"Band2_4G":true,"Band5GL":true}}
-  {}
-  {"amxd-error-code":0}
+  $ R "ba-cli 'X_PRPLWARE-COM_WiFiController.Network.AccessPoint+' > /dev/null"
+  $ R "ba-cli 'X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.Band2_4G=1; X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.Band5GH=1; X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.Band5GL=1; X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.Band6G=1' > /dev/null"
 
-  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2 _set '{\"parameters\":{\"MultiApMode\":\"Fronthaul\",\"X_PRPLWARE_VapType\":\"guest\"}}'"
-  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.":{"X_PRPLWARE_VapType":"guest","MultiApMode":"Fronthaul"}}
-  {}
-  {"amxd-error-code":0}
+  $ R "ba-cli 'X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.MultiApMode=\"Fronthaul\"; X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.X_PRPLWARE_VapType=\"guest\"' > /dev/null"
 
-  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.Security _set '{\"parameters\":{\"ModeEnabled\":\"WPA2-Personal\",\"KeyPassphrase\":\"passwordGUEST\"}}'"
-  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.Security.":{"KeyPassphrase":"passwordGUEST","ModeEnabled":"WPA2-Personal"}}
-  {}
-  {"amxd-error-code":0}
+  $ R "ba-cli 'X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.Security.ModeEnabled=\"WPA2-Personal\"; X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.Security.KeyPassphrase=\"passwordGUEST\"' > /dev/null"
 
-  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2 _set '{\"parameters\":{\"SSID\":\"prplOSguest\"}}'"
-  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.":{"SSID":"prplOSguest"}}
-  {}
-  {"amxd-error-code":0}
+  $ R "ba-cli 'X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.SSID=\"prplOSguest\"' > /dev/null"
 
 In case the controller does not yet have this parameter, catch error here isof later during teardown test:
-  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2 _set '{\"parameters\":{\"Enable\":1}}'"
-  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.":{"Enable":true}}
-  {}
-  {"amxd-error-code":0}
+  $ R "ba-cli 'X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.Enable=1' > /dev/null"
 
-  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network AccessPointCommit"
-  {"retval":""}
-  {}
-  {"amxd-error-code":0}
+  $ R "ba-cli 'X_PRPLWARE-COM_WiFiController.Network.AccessPointCommit()' > /dev/null"
 
 
   $ sleep 15
@@ -239,20 +197,11 @@ To disable wireless, disable instances of Network.AccessPoint{i} and call Access
 
   $ R logger -t cram "Stop wireless"
 
-  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1 _set '{\"parameters\":{\"Enable\":0}}'"
-  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.":{"Enable":false}}
-  {}
-  {"amxd-error-code":0}
+  $ R "ba-cli 'X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.Enable=0' > /dev/null"
 
-  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2 _set '{\"parameters\":{\"Enable\":0}}'"
-  {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.":{"Enable":false}}
-  {}
-  {"amxd-error-code":0}
+  $ R "ba-cli 'X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.Enable=0' > /dev/null"
 
-  $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network AccessPointCommit"
-  {"retval":""}
-  {}
-  {"amxd-error-code":0}
+  $ R "ba-cli 'X_PRPLWARE-COM_WiFiController.Network.AccessPointCommit()' > /dev/null"
 
   $ sleep 10
 

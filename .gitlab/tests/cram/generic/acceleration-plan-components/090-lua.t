@@ -31,8 +31,13 @@ Check that mod-lua-amx is behaving as expected:
   >     }
   > }
   > EOF
-  > luatest -D ; ubus -t2 wait_for X_LuaTest ; ubus -S call X_LuaTest greet '{\"who\":\"World\"}' ;
+  > luatest -D ; ubus -t2 wait_for X_LuaTest ; ba-cli 'X_LuaTest.greet(who="World")' | grep -v '>' ;
   > pkill -9 luatest; rm -fr /etc/amx/luatest /usr/bin/luatest"
-  {"retval":"Hello World"}
-  {}
-  {"amxd-error-code":0}
+  X_LuaTest.greet() returned
+  [
+      "",
+      {
+          retval = "Hello World"
+      }
+  ]
+

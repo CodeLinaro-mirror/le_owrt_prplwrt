@@ -34,7 +34,7 @@ Enable password login:
 
 Check datamodel:
 
-  $ R "ubus call SSH.Server.3 _get | jsonfilter -e @[*].Status -e @[*].AllowPasswordLogin -e @[*].AllowRootLogin" | sort
+  $ R "ba-cli -l 'SSH.Server.3.Status?;SSH.Server.3.AllowPasswordLogin?;SSH.Server.3.AllowRootLogin?'" | sort
   Enabled
   true
   true
@@ -45,17 +45,11 @@ Check that root is able to login with no password:
 
 Disable password login:
 
-  $ R "ubus -S call SSH.Server.3 _set '{\"parameters\":{\"AllowRootPasswordLogin\":False}}'" ; sleep 2
-  {"SSH.Server.3.":{"AllowRootPasswordLogin":false}}
-  {}
-  {"amxd-error-code":0}
+  $ R "ba-cli 'SSH.Server.3.AllowRootPasswordLogin=false' > /dev/null" ; sleep 2
 
 Add public key:
 
-  $ R "ubus -S call SSH.AuthorizedKey.1 _set '{\"parameters\":{\"Key\":\"ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHiusVUeBdR2CY8vcBY5MjKBs8zfIoyZ4kfrJfSM13PS\"}}'" ; sleep 2
-  {"SSH.AuthorizedKey.1.":{"Key":"ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHiusVUeBdR2CY8vcBY5MjKBs8zfIoyZ4kfrJfSM13PS"}}
-  {}
-  {"amxd-error-code":0}
+  $ R "ba-cli 'SSH.AuthorizedKey.1.Key=\"ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHiusVUeBdR2CY8vcBY5MjKBs8zfIoyZ4kfrJfSM13PS\"' > /dev/null" ; sleep 2
 
 Start two client connections using public key authentication:
 

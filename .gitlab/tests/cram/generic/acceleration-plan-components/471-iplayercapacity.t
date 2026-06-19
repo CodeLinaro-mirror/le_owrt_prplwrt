@@ -199,8 +199,7 @@ Modify writable parameter via CWMP DataModel:
 
 Start test via USP command:
 
-  $ R "ubus call IPDiagnostics IPLayerCapacity '{\"Role\":\"Sender\", \"ServerList\":\"127.0.0.1:25000\"}'" | jq -s '.[2]["amxd-error-code"]'
-  0
+  $ R "ba-cli 'IPDiagnostics.IPLayerCapacity(Role=\"Sender\",ServerList=\"127.0.0.1:25000\")' > /dev/null"
 
 Verify DiagnosticsState is Complete after test completion:
 
@@ -234,8 +233,7 @@ Start test via CWMP command:
   $ R "ba-cli 'IPDiagnostics.IPLayerCapacityMetrics.NumberFirstModeTestSubIntervals=1'" >/dev/null
   $ R "ba-cli 'IPDiagnostics.IPLayerCapacityMetrics.DiagnosticsState=Requested'" >/dev/null
   $ sleep 2
-  $ R "ubus call IPDiagnostics IPLayerCapacity '{\"Role\":\"Sender\", \"ServerList\":\"127.0.0.1:25000\"}'" | jq -s '.[2]["amxd-error-code"]'
-  0
+  $ R "ba-cli 'IPDiagnostics.IPLayerCapacity(Role=\"Sender\",ServerList=\"127.0.0.1:25000\")' > /dev/null"
 
 Verify DiagnosticsState is Complete after test completion:
 
@@ -266,7 +264,7 @@ Test 8. USP to CWMP; nearest command (CWMP) should execute:
 
 Start test via USP command:
 
-  $ R "ubus call IPDiagnostics IPLayerCapacity '{\"Role\":\"Sender\", \"ServerList\":\"127.0.0.1:25000\"}'&"
+  $ R "ba-cli 'IPDiagnostics.IPLayerCapacity(Role=\"Sender\",ServerList=\"127.0.0.1:25000\")' > /dev/null &"
   $ sleep 2
 
 Start test via CWMP DataModel:

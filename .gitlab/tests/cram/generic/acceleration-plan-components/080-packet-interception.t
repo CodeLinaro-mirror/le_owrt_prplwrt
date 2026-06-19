@@ -4,10 +4,12 @@ Create R alias:
 
 Check PacketInterception root datamodel:
 
-  $ R "ubus -S call PacketInterception _get"
-  {"PacketInterception.":{"InterceptionNumberOfEntries":3,"Enable":false,"PacketHandlerNumberOfEntries":1,"ConditionNumberOfEntries":5,"Status":"Disabled"}}
-  {}
-  {"amxd-error-code":0}
+  $ R "ba-cli -l 'PacketInterception.InterceptionNumberOfEntries?;PacketInterception.Enable?;PacketInterception.PacketHandlerNumberOfEntries?;PacketInterception.ConditionNumberOfEntries?;PacketInterception.Status?' | sort"
+  1
+  3
+  5
+  Disabled
+  false
 
 Check that no interception is being configured:
 
@@ -17,10 +19,7 @@ Check that no interception is being configured:
 
 Enable interception of packets:
 
-  $ R "ubus -S call PacketInterception _set '{\"parameters\":{\"Enable\":True}}'" ; sleep 2
-  {"PacketInterception.":{"Enable":true}}
-  {}
-  {"amxd-error-code":0}
+  $ R "ba-cli 'PacketInterception.Enable=true' > /dev/null" ; sleep 2
 
 Check that interception is configured properly:
 
@@ -36,10 +35,7 @@ Check that interception is configured properly:
 
 Disable interception of packets:
 
-  $ R "ubus -S call PacketInterception _set '{\"parameters\":{\"Enable\":False}}'" ; sleep 2
-  {"PacketInterception.":{"Enable":false}}
-  {}
-  {"amxd-error-code":0}
+  $ R "ba-cli 'PacketInterception.Enable=false' > /dev/null" ; sleep 2
 
 Check that no interception is being configured:
 

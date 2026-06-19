@@ -41,11 +41,11 @@ Check that there is no profile currently selected:
 
 Check that TestingReceiver and TestingEmitter have correct default settings:
 
-  $ R "ubus call TestingReceiver _get \"{'rel_path':''}\" | jsonfilter -e @[*].NTPServer1 -e @[*].NTPServer2 | sort"
+  $ R "ba-cli -l 'TestingReceiver.*.NTPServer1?;TestingReceiver.*.NTPServer2?' | sort"
   0.eu.pool.ntp.org
   1.eu.pool.ntp.org
 
-  $ R "ubus call TestingEmitter _get \"{'rel_path':''}\" | jsonfilter -e @[*].CountryCode"
+  $ R "ba-cli -l 'TestingEmitter.*.CountryCode?'"
   EU
 
 Change profile to France:
@@ -54,10 +54,10 @@ Change profile to France:
 
 Check that french profile is correctly applied:
 
-  $ R "ubus list | grep TestingReceiver"
-  TestingReceiver
+  $ R "ba-cli 'dump -r TestingReceiver.' | cut -b 34-"
+  TestingReceiver.
 
-  $ R "ubus call TestingReceiver _get \"{'rel_path':''}\" | jsonfilter -e @[*].NTPServer1 -e @[*].NTPServer2 | sort"
+  $ R "ba-cli -l 'TestingReceiver.*.NTPServer1?;TestingReceiver.*.NTPServer2?' | sort"
   0.fr.pool.ntp.org
   1.fr.pool.ntp.org
 

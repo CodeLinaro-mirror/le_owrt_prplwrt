@@ -50,7 +50,7 @@ Check that additional rules has been created:
 
 Check that the owner IPAddress was correctly set:
 
-  $ R "ubus call NAT.PortTrigger _get '{\"rel_path\":\"test.Stats.IPAddress\"}' | jsonfilter -e @[*].IPAddress"
+  $ R "ba-cli -l 'NAT.PortTrigger.test.Stats.IPAddress?'"
   192.168.1.2
 
 Wait for expiration of port trigger and check that everything is disabled:
