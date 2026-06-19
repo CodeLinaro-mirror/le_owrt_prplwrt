@@ -20,6 +20,7 @@ PPW-1729, PPW-1731 and PPW-1786:
   /etc/amx/timingila/extensions/timingila-rlyeh-security/timingila-rlyeh-security-definition.odl
   /etc/amx/timingila/softwaremodules_definition.odl
   /etc/amx/tr181-cpu/tr181-cpu_definition.odl
+  /etc/amx/tr181-mqtt/tr181-mqtt_definition.odl
   /etc/amx/tr181-usb/tr181-usb_port.odl
 
   $ R "grep -r %usersetting /etc/amx | grep -vE '(upc.odl|.*default.*)' "\
