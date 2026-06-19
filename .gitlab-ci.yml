@@ -100,6 +100,7 @@ run test MXL25641-HDK-6 with system on eMMC:
 run test Freedom with system on eMMC:
   needs: []  # WIP: prebuilt firmware, no build dependency; drop with WIP commit
   extends: .wnc-freedom testbed
+  rules: [{ when: never }]  # WIP: OSPv2-only run, Freedom disabled
 
 run test Mozart initramfs:
   needs:
@@ -126,15 +127,15 @@ run test Mozart initramfs:
 "CDRouter-IPv6-Top-100+mDNS MXL25641-HDK-6 VLAN WAN/LAN eMMC": { needs: [], rules: [{ when: on_success }] }
 "CDRouter-TR-069 MXL25641-HDK-6 eMMC": { needs: [], rules: [{ when: on_success }] }
 "prplWare-Smoke-Test-Suite MXL25641-HDK-6 eMMC": { needs: [], rules: [{ when: on_success }] }
-"CDRouter-Top-100+mDNS Freedom eMMC": { needs: [], rules: [{ when: on_success }] }
-"CDRouter-Top-100+mDNS Freedom VLAN WAN/LAN eMMC": { needs: [], rules: [{ when: on_success }] }
-"CDRouter-Top-100+mDNS Freedom PPPoE WAN eMMC": { needs: [], rules: [{ when: on_success }] }
-"CDRouter-Wireless Freedom eMMC": { needs: [], rules: [{ when: on_success }] }
-"CDRouter-UPnP-IPv46 Freedom eMMC": { needs: [], rules: [{ when: on_success }] }
-"CDRouter-IPv6-Top-100+mDNS Freedom eMMC": { needs: [], rules: [{ when: on_success }] }
-"CDRouter-IPv6-Top-100+mDNS Freedom VLAN WAN/LAN eMMC": { needs: [], rules: [{ when: on_success }] }
-"CDRouter-TR-069 Freedom eMMC": { needs: [], rules: [{ when: on_success }] }
-"prplWare-Smoke-Test-Suite Freedom eMMC": { needs: [], rules: [{ when: on_success }] }
+"CDRouter-Top-100+mDNS Freedom eMMC": { needs: [], rules: [{ when: never }] }
+"CDRouter-Top-100+mDNS Freedom VLAN WAN/LAN eMMC": { needs: [], rules: [{ when: never }] }
+"CDRouter-Top-100+mDNS Freedom PPPoE WAN eMMC": { needs: [], rules: [{ when: never }] }
+"CDRouter-Wireless Freedom eMMC": { needs: [], rules: [{ when: never }] }
+"CDRouter-UPnP-IPv46 Freedom eMMC": { needs: [], rules: [{ when: never }] }
+"CDRouter-IPv6-Top-100+mDNS Freedom eMMC": { needs: [], rules: [{ when: never }] }
+"CDRouter-IPv6-Top-100+mDNS Freedom VLAN WAN/LAN eMMC": { needs: [], rules: [{ when: never }] }
+"CDRouter-TR-069 Freedom eMMC": { needs: [], rules: [{ when: never }] }
+"prplWare-Smoke-Test-Suite Freedom eMMC": { needs: [], rules: [{ when: never }] }
 
 # WIP: trim everything else out of the pipeline (weekly-CI style) so only the
 # OSPv2 + Freedom functional suite above remains. Builds are disabled at the
