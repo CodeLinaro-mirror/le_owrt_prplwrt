@@ -6,10 +6,12 @@ If test is running on a Valyrian, skip the test due to PCF-2669:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
   $ alias C="${CRAM_REMOTE_COPY:-}"
+  $ T="/tmp/lcm-pcm"
   $ S=". /tmp/script_functions.sh"
+  $ . ${TESTDIR}/script_functions.sh
   $ C ${TESTDIR}/script_functions.sh root@${TARGET_LAN_IP}:/tmp/script_functions.sh 2>/dev/null
   $ R "${S} && setup_hostobjects"
-  $ mkdir /tmp/lcm-pcm
+  $ mkdir ${T}
 
 Restart the LCM Agent so we start fresh with resetted indexes for ease of comparing the data models:
   $ R "service rlyeh stop"
@@ -51,9 +53,9 @@ Perform the backup process:
 
 Save the data model before simulated firmware upgrade:
 
-  $ R "ba-cli 'Cthulhu.?'" > /tmp/lcm-pcm/cthulhu_before.dm
-  $ R "ba-cli 'SoftwareModules.?'" > /tmp/lcm-pcm/timingila_before.dm
-  $ R "ba-cli 'Rlyeh.?'" > /tmp/lcm-pcm/rlyeh_before.dm
+  $ R "ba-cli 'Cthulhu.?'" > ${T}/cthulhu_before.dm
+  $ R "ba-cli 'SoftwareModules.?'" > ${T}/timingila_before.dm
+  $ R "ba-cli 'Rlyeh.?'" > ${T}/rlyeh_before.dm
 
 Simulate firmware upgrade with manual configuration removal:
 
@@ -61,20 +63,22 @@ Simulate firmware upgrade with manual configuration removal:
 
 Save the data model after simulated firmware upgrade:
 
-  $ R "ba-cli 'Cthulhu.?'" > /tmp/lcm-pcm/cthulhu_after.dm
-  $ R "ba-cli 'SoftwareModules.?'" > /tmp/lcm-pcm/timingila_after.dm
-  $ R "ba-cli 'Rlyeh.?'" > /tmp/lcm-pcm/rlyeh_after.dm
+  $ R "ba-cli 'Cthulhu.?'" > ${T}/cthulhu_after.dm
+  $ R "ba-cli 'SoftwareModules.?'" > ${T}/timingila_after.dm
+  $ R "ba-cli 'Rlyeh.?'" > ${T}/rlyeh_after.dm
 
 Compare the data models before and after the firmware upgrade:
 
-  $ diff /tmp/lcm-pcm/rlyeh_before.dm /tmp/lcm-pcm/rlyeh_after.dm
-  $ sed -i -e "s/\(Sandbox\.Instances\)\.2/\1\.1/g" /tmp/lcm-pcm/cthulhu_after.dm
-  $ sed -i -e "s/\(Sandbox\.Instances\)\.3/\1\.2/g" /tmp/lcm-pcm/cthulhu_after.dm
-  $ cp ${TESTDIR}/lcm-pcm_runtime_params /tmp/lcm-pcm/runtime_params
-  $ cthulhu_diff_params=$(diff -n /tmp/lcm-pcm/cthulhu_before.dm /tmp/lcm-pcm/cthulhu_after.dm | grep -o '^Cthulhu[^=]\+')
-  $ for param in ${cthulhu_diff_params}; do grep -Fxq "${param}" /tmp/lcm-pcm/runtime_params || echo "ERROR: runtime parameter mismatch - ${param}"; done
-  $ timingila_diff_params=$(diff -n /tmp/lcm-pcm/timingila_before.dm /tmp/lcm-pcm/timingila_after.dm | grep -o '^SoftwareModules[^=]\+')
-  $ for param in ${timingila_diff_params}; do grep -Fxq "${param}" /tmp/lcm-pcm/runtime_params || echo "ERROR: runtime parameter mismatch - ${param}"; done
+  $ diff ${T}/rlyeh_before.dm ${T}/rlyeh_after.dm
+  $ normalize_dump ${T}/cthulhu_before.dm
+  $ normalize_dump ${T}/cthulhu_after.dm
+  $ cp ${TESTDIR}/lcm-pcm_runtime_params ${T}/runtime_params
+  $ cthulhu_diff_params=$(diff -n ${T}/cthulhu_before.dm ${T}/cthulhu_after.dm | grep -o '^Cthulhu[^=]\+')
+  $ for param in ${cthulhu_diff_params}; do grep -Fxq "${param}" ${T}/runtime_params || echo "ERROR: runtime parameter mismatch - ${param}"; done
+  $ normalize_dump ${T}/timingila_before.dm
+  $ normalize_dump ${T}/timingila_after.dm
+  $ timingila_diff_params=$(diff -n ${T}/timingila_before.dm ${T}/timingila_after.dm | grep -o '^SoftwareModules[^=]\+')
+  $ for param in ${timingila_diff_params}; do grep -Fxq "${param}" ${T}/runtime_params || echo "ERROR: runtime parameter mismatch - ${param}"; done
 
 Check that ApplicationData volumes are available inside the container and use them:
 
