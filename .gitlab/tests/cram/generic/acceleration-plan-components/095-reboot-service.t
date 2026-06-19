@@ -21,7 +21,7 @@ Check the root datamodel settings:
       "Cause": "LocalFactoryReset",
       "FirmwareUpdated": 0,
       "Reason": "Power lost",
-      "TimeStamp": "\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d+Z" (re)
+      "TimeStamp": "\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?Z" (re)
     }
   }
 
