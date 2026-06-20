@@ -1,9 +1,9 @@
 %populate {
     object ProcessMonitor.Test {
-        instance add ("ip-manager") {
-            parameter Name = "ip-manager";
+        instance add ("cwmp_plugin") {
+            parameter Name = "cwmp_plugin";
             parameter Type = "Plugin";
-            parameter Subject = "IP";
+            parameter Subject = "ManagementServer";
             parameter MaxFailNum = 2;
             parameter MaxFailDuration = -1;
             parameter FailAction = "RESTART";

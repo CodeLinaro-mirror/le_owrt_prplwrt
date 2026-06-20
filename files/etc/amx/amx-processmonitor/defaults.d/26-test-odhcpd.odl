@@ -1,15 +1,15 @@
 %populate {
     object ProcessMonitor.Test {
-        instance add ("ip-manager") {
-            parameter Name = "ip-manager";
-            parameter Type = "Plugin";
-            parameter Subject = "IP";
+        instance add ("odhcpd") {
+            parameter Name = "odhcpd";
+            parameter Type = "Process";
+            parameter Subject = "/var/run/odhcpd.pid";
             parameter MaxFailNum = 2;
             parameter MaxFailDuration = -1;
             parameter FailAction = "RESTART";
             parameter RebootAfterRestartThreshold = 0;
-            parameter TestInterval = 60;
-            parameter TestIntervalMultiplier = 2;
+            parameter TestInterval = 30;
+            parameter TestIntervalMultiplier = 1;
             parameter TestResetInterval = 300;
         }
     }

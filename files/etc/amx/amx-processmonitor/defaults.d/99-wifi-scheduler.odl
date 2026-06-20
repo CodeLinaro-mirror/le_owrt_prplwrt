@@ -1,16 +1,15 @@
 %populate {
     object ProcessMonitor.Test {
-        instance add ("ip-manager") {
-            parameter Name = "ip-manager";
+        instance add ("wifi-scheduler") {
+            parameter Name = "wifi-scheduler";
             parameter Type = "Plugin";
-            parameter Subject = "IP";
+            parameter Subject = "WiFiScheduler";
             parameter MaxFailNum = 2;
             parameter MaxFailDuration = -1;
             parameter FailAction = "RESTART";
             parameter RebootAfterRestartThreshold = 0;
-            parameter TestInterval = 60;
-            parameter TestIntervalMultiplier = 2;
-            parameter TestResetInterval = 300;
+            parameter TestInterval = 5;
+            parameter TestResetInterval = 3600;
         }
     }
 }
