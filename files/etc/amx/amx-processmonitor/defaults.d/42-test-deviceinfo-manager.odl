@@ -1,9 +1,9 @@
 %populate {
     object ProcessMonitor.Test {
-        instance add ("ip-manager") {
-            parameter Name = "ip-manager";
+        instance add ("deviceinfo-manager") {
+            parameter Name = "deviceinfo-manager";
             parameter Type = "Plugin";
-            parameter Subject = "IP";
+            parameter Subject = "DeviceInfo";
             parameter MaxFailNum = 2;
             parameter MaxFailDuration = -1;
             parameter FailAction = "RESTART";
