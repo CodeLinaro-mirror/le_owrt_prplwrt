@@ -1,0 +1,15 @@
+%populate {
+    object ProcessMonitor.Test {
+        instance add ("tr181-bridging") {
+            parameter Name = "tr181-bridging";
+            parameter Type = "Plugin";
+            parameter Subject = "Bridging";
+            parameter MaxFailNum = 2;
+            parameter MaxFailDuration = -1;
+            parameter FailAction = "RESTART";
+            parameter TestInterval = 60;
+            parameter TestIntervalMultiplier = 2;
+            parameter TestResetInterval = 300;
+        }
+    }
+}
