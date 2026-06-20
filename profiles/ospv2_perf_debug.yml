@@ -1,0 +1,18 @@
+---
+description: OSPv2 performance profiling and debug tools
+
+packages:
+  - perf
+  - lsof
+  - strace
+  - sysstat
+  - tcpdump
+
+additional_packages:
+  - feed: packages
+    packages:
+      - lsof
+      - sysstat
+
+diffconfig: |
+  CONFIG_KERNEL_PERF_EVENTS=y
