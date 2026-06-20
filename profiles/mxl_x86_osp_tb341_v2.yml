@@ -12,6 +12,7 @@ description: Build images for the Maxlinear x86 devices - OSP TB341 v2
 
 include:
   - secure_boot_emmc
+  - ospv2_perf_debug
 
 feeds:
   - name: intel_x86
