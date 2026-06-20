@@ -1,0 +1,13 @@
+// OSPv2 has no cellular HW: a persisted cellular-manager ProcessMonitor.Test
+// defaults FailAction=REBOOT and reboots the board when its verification times
+// out. populate-behavior duplicate-instance="update" => this updates the
+// persisted instance to RESTART (and disables it) every boot. Loaded last (zz-).
+%populate {
+    object ProcessMonitor.Test {
+        instance add ("cellular-manager") {
+            parameter Name = "cellular-manager";
+            parameter Enable = false;
+            parameter FailAction = "RESTART";
+        }
+    }
+}
