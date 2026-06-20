@@ -16,3 +16,14 @@ additional_packages:
 
 diffconfig: |
   CONFIG_KERNEL_PERF_EVENTS=y
+  # -- per-process IO accounting: restores /proc/<pid>/io (rchar/wchar/syscr/syscw).
+  #    The stock OSPv2 kernel has TASKSTATS unset, so wld IO is unmeasurable.
+  #    TASK_XACCT / TASK_IO_ACCOUNTING / TASK_DELAY_ACCT all depend on TASKSTATS.
+  CONFIG_KERNEL_TASKSTATS=y
+  CONFIG_KERNEL_TASK_XACCT=y
+  CONFIG_KERNEL_TASK_IO_ACCOUNTING=y
+  CONFIG_KERNEL_TASK_DELAY_ACCT=y
+  # -- frame pointers for `perf record --call-graph fp` of wld/amxrt/libamx.
+  #    Global (not per-package) so no library in the call graph silently truncates.
+  #    Keeps -Os (eMMC size) and only pins %rbp as a frame pointer.
+  CONFIG_TARGET_OPTIMIZATION="-Os -pipe -fno-omit-frame-pointer -fno-optimize-sibling-calls"

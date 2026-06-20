@@ -9,6 +9,10 @@ description: Build images for the Maxlinear x86 devices - OSP TB341 v2
              git.maxlinear.com.
              For reference boards, source code access and reporting issues,
              please check https://gitlab.com/prpl-foundation/prplos/prplos/-/wikis/MaxLinear-Open-Service-Platform
+
+include:
+  - ospv2_perf_debug
+
 feeds:
   - name: intel_x86
     uri: https://github.com/maxlinear/feed_target_x86.git
