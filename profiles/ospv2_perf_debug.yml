@@ -24,6 +24,17 @@ diffconfig: |
   CONFIG_KERNEL_TASK_IO_ACCOUNTING=y
   CONFIG_KERNEL_TASK_DELAY_ACCT=y
   # -- frame pointers for `perf record --call-graph fp` of wld/amxrt/libamx.
-  #    Global (not per-package) so no library in the call graph silently truncates.
-  #    Keeps -Os (eMMC size) and only pins %rbp as a frame pointer.
-  CONFIG_TARGET_OPTIMIZATION="-Os -pipe -fno-omit-frame-pointer -fno-optimize-sibling-calls"
+  #    Added globally so every target user-space package and shared library
+  #    participates in frame-pointer unwinding; mixed frame-pointer and
+  #    non-frame-pointer DSOs truncate perf call chains at the first missing link.
+  #    On x86_64, -fno-omit-frame-pointer keeps %rbp as the stack-frame chain and
+  #    -fno-optimize-sibling-calls keeps tail-called frames visible.
+  #
+  #    NOTE: these MUST go in EXTRA_OPTIMIZATION, not TARGET_OPTIMIZATION: `make
+  #    defconfig` resets CONFIG_TARGET_OPTIMIZATION to the target default
+  #    ("-Os -pipe") but preserves CONFIG_EXTRA_OPTIMIZATION (verified on this
+  #    tree). EXTRA_OPTIMIZATION is appended to TARGET_OPTIMIZATION in TARGET_CFLAGS.
+  #    This restates the device profile's EXTRA flags because an included profile's
+  #    diffconfig is applied after the device profile's, so the last assignment
+  #    wins — keeping all perf instrumentation in this one profile.
+  CONFIG_EXTRA_OPTIMIZATION="-fno-caller-saves -fno-plt -Wno-error=deprecated-declarations -Wno-error=address -fno-omit-frame-pointer -fno-optimize-sibling-calls"
