@@ -24,7 +24,7 @@ Check default configuration:
   $ wifi_dm "MaxNumMLDs?"
   Device.WiFi.MaxNumMLDs=\d+ (re)
 
-  $ wifi_dm "APMLD.?" | LC_ALL=C sort
+  $ wifi_dm "APMLD.?" | grep -v TIDLinkMap | LC_ALL=C sort
   Device.WiFi.APMLD.1.APMLDConfig.EMLMREnabled=0
   Device.WiFi.APMLD.1.APMLDConfig.EMLSREnabled=1
   Device.WiFi.APMLD.1.APMLDConfig.NSTREnabled=1
@@ -196,16 +196,16 @@ Check wpacltrl socket file: default status
 
   $ ls_hapd_sockets
   wlan2.1
-  wlan2.1_link0
-  wlan2.1_link1
+  wlan2\.1_link\d+ (re)
+  wlan2\.1_link\d+ (re)
   wlan2\.1_link\d+ (re)
   wlan2.2
-  wlan2.2_link0
-  wlan2.2_link1
+  wlan2\.2_link\d+ (re)
+  wlan2\.2_link\d+ (re)
   wlan2\.2_link\d+ (re)
   wlan2.3
-  wlan2.3_link0
-  wlan2.3_link1
+  wlan2\.3_link\d+ (re)
+  wlan2\.3_link\d+ (re)
   wlan2\.3_link\d+ (re)
 
 #########################################
@@ -248,16 +248,16 @@ link interface with 2 links and AP1 interface should appear with no link (ie MLD
 
   $ ls_hapd_sockets
   wlan1.1
-  wlan1.1_link0
-  wlan1.1_link1
+  wlan1\.1_link\d+ (re)
+  wlan1\.1_link\d+ (re)
   wlan2.1
   wlan2.2
-  wlan2.2_link0
-  wlan2.2_link1
+  wlan2\.2_link\d+ (re)
+  wlan2\.2_link\d+ (re)
   wlan2\.2_link\d+ (re)
   wlan2.3
-  wlan2.3_link0
-  wlan2.3_link1
+  wlan2\.3_link\d+ (re)
+  wlan2\.3_link\d+ (re)
   wlan2\.3_link\d+ (re)
 
 #########################################
@@ -291,16 +291,16 @@ have again 3 links
 
   $ ls_hapd_sockets
   wlan1.1
-  wlan1.1_link0
-  wlan1.1_link1
+  wlan1\.1_link\d+ (re)
+  wlan1\.1_link\d+ (re)
   wlan1\.1_link\d+ (re)
   wlan2.2
-  wlan2.2_link0
-  wlan2.2_link1
+  wlan2\.2_link\d+ (re)
+  wlan2\.2_link\d+ (re)
   wlan2\.2_link\d+ (re)
   wlan2.3
-  wlan2.3_link0
-  wlan2.3_link1
+  wlan2\.3_link\d+ (re)
+  wlan2\.3_link\d+ (re)
   wlan2\.3_link\d+ (re)
 
 #########################################
@@ -352,17 +352,17 @@ main link interface with one link
 
   $ ls_hapd_sockets
   wlan1.1
-  wlan1.1_link0
-  wlan1.1_link1
+  wlan1\.1_link\d+ (re)
+  wlan1\.1_link\d+ (re)
   wlan2.1
-  wlan2.1_link0
+  wlan2\.1_link\d+ (re)
   wlan2.2
-  wlan2.2_link0
-  wlan2.2_link1
+  wlan2\.2_link\d+ (re)
+  wlan2\.2_link\d+ (re)
   wlan2\.2_link\d+ (re)
   wlan2.3
-  wlan2.3_link0
-  wlan2.3_link1
+  wlan2\.3_link\d+ (re)
+  wlan2\.3_link\d+ (re)
   wlan2\.3_link\d+ (re)
 
 #########################################
@@ -420,7 +420,7 @@ Disable guest vaps:
 
 Check if guest apmld is cleared:
 
-  $ wifi_dm "APMLD.2.?"
+  $ wifi_dm "APMLD.2.?" | grep -v TIDLinkMap
   Device.WiFi.APMLD.2.APMLDConfig.EMLMREnabled=0
   Device.WiFi.APMLD.2.APMLDConfig.EMLSREnabled=1
   Device.WiFi.APMLD.2.APMLDConfig.NSTREnabled=1
@@ -472,7 +472,7 @@ Check if private apmld is cleared:
 
   $ sleep 10
 
-  $ wifi_dm "APMLD.1.?"
+  $ wifi_dm "APMLD.1.?" | grep -v TIDLinkMap
   Device.WiFi.APMLD.1.APMLDConfig.EMLMREnabled=0
   Device.WiFi.APMLD.1.APMLDConfig.EMLSREnabled=1
   Device.WiFi.APMLD.1.APMLDConfig.NSTREnabled=1
