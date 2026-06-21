@@ -84,7 +84,7 @@ Check wpacltrl socket file:
 
   $ ls_hapd_sockets
   wlan2.1
-  wlan2.1_link0
+  wlan2\.1_link\d+ (re)
 
 Save hostap pid:
 
@@ -116,9 +116,9 @@ Check wpacltrl socket file:
 
   $ ls_hapd_sockets
   wlan2.1
-  wlan2.1_link0
+  wlan2\.1_link\d+ (re)
   wlan2.2
-  wlan2.2_link0
+  wlan2\.2_link\d+ (re)
 
 Test activation of access point 3:
 
@@ -145,10 +145,10 @@ Check wpacltrl socket file:
 
   $ ls_hapd_sockets
   wlan2.1
-  wlan2.1_link0
-  wlan2.1_link1
+  wlan2\.1_link\d+ (re)
+  wlan2\.1_link\d+ (re)
   wlan2.2
-  wlan2.2_link0
+  wlan2\.2_link\d+ (re)
 
 Test activation of access point 4:
 
@@ -175,11 +175,11 @@ Check wpacltrl socket file:
 
   $ ls_hapd_sockets
   wlan2.1
-  wlan2.1_link0
-  wlan2.1_link1
+  wlan2\.1_link\d+ (re)
+  wlan2\.1_link\d+ (re)
   wlan2.2
-  wlan2.2_link0
-  wlan2.2_link1
+  wlan2\.2_link\d+ (re)
+  wlan2\.2_link\d+ (re)
 
 Test activation of access point 5:
 
@@ -206,12 +206,12 @@ Check wpacltrl socket file:
 
   $ ls_hapd_sockets
   wlan2.1
-  wlan2.1_link0
-  wlan2.1_link1
-  wlan2.1_link2
+  wlan2\.1_link\d+ (re)
+  wlan2\.1_link\d+ (re)
+  wlan2\.1_link\d+ (re)
   wlan2.2
-  wlan2.2_link0
-  wlan2.2_link1
+  wlan2\.2_link\d+ (re)
+  wlan2\.2_link\d+ (re)
 
 Test activation of access point 6:
 
@@ -238,13 +238,13 @@ Check wpacltrl socket file:
 
   $ ls_hapd_sockets
   wlan2.1
-  wlan2.1_link0
-  wlan2.1_link1
-  wlan2.1_link2
+  wlan2\.1_link\d+ (re)
+  wlan2\.1_link\d+ (re)
+  wlan2\.1_link\d+ (re)
   wlan2.2
-  wlan2.2_link0
-  wlan2.2_link1
-  wlan2.2_link2
+  wlan2\.2_link\d+ (re)
+  wlan2\.2_link\d+ (re)
+  wlan2\.2_link\d+ (re)
 
 Test activation of access point 7:
 
@@ -271,15 +271,15 @@ Check wpacltrl socket file:
 
   $ ls_hapd_sockets
   wlan2.1
-  wlan2.1_link0
-  wlan2.1_link1
-  wlan2.1_link2
+  wlan2\.1_link\d+ (re)
+  wlan2\.1_link\d+ (re)
+  wlan2\.1_link\d+ (re)
   wlan2.2
-  wlan2.2_link0
-  wlan2.2_link1
-  wlan2.2_link2
+  wlan2\.2_link\d+ (re)
+  wlan2\.2_link\d+ (re)
+  wlan2\.2_link\d+ (re)
   wlan2.3
-  wlan2.3_link0
+  wlan2\.3_link\d+ (re)
 
 
 Test activation of access point 8:
@@ -307,16 +307,16 @@ Check wpacltrl socket file:
 
   $ ls_hapd_sockets
   wlan2.1
-  wlan2.1_link0
-  wlan2.1_link1
-  wlan2.1_link2
+  wlan2\.1_link\d+ (re)
+  wlan2\.1_link\d+ (re)
+  wlan2\.1_link\d+ (re)
   wlan2.2
-  wlan2.2_link0
-  wlan2.2_link1
-  wlan2.2_link2
+  wlan2\.2_link\d+ (re)
+  wlan2\.2_link\d+ (re)
+  wlan2\.2_link\d+ (re)
   wlan2.3
-  wlan2.3_link0
-  wlan2.3_link1
+  wlan2\.3_link\d+ (re)
+  wlan2\.3_link\d+ (re)
 
 Test activation of access point 9:
 
@@ -343,17 +343,17 @@ Check wpacltrl socket file:
 
   $ ls_hapd_sockets
   wlan2.1
-  wlan2.1_link0
-  wlan2.1_link1
-  wlan2.1_link2
+  wlan2\.1_link\d+ (re)
+  wlan2\.1_link\d+ (re)
+  wlan2\.1_link\d+ (re)
   wlan2.2
-  wlan2.2_link0
-  wlan2.2_link1
-  wlan2.2_link2
+  wlan2\.2_link\d+ (re)
+  wlan2\.2_link\d+ (re)
+  wlan2\.2_link\d+ (re)
   wlan2.3
-  wlan2.3_link0
-  wlan2.3_link1
-  wlan2.3_link2
+  wlan2\.3_link\d+ (re)
+  wlan2\.3_link\d+ (re)
+  wlan2\.3_link\d+ (re)
 
   $ sleep 5
 
@@ -437,16 +437,16 @@ Check wpacltrl socket file:
 
   $ ls_hapd_sockets
   wlan2.1
-  wlan2.1_link0
-  wlan2.1_link1
-  wlan2.1_link2
+  wlan2\.1_link\d+ (re)
+  wlan2\.1_link\d+ (re)
+  wlan2\.1_link\d+ (re)
   wlan2.2
-  wlan2.2_link0
-  wlan2.2_link1
-  wlan2.2_link2
+  wlan2\.2_link\d+ (re)
+  wlan2\.2_link\d+ (re)
+  wlan2\.2_link\d+ (re)
   wlan2.3
-  wlan2.3_link0
-  wlan2.3_link1
+  wlan2\.3_link\d+ (re)
+  wlan2\.3_link\d+ (re)
 
 Test deactivation of access point 8:
 
@@ -473,15 +473,15 @@ Check wpacltrl socket file:
 
   $ ls_hapd_sockets
   wlan2.1
-  wlan2.1_link0
-  wlan2.1_link1
-  wlan2.1_link2
+  wlan2\.1_link\d+ (re)
+  wlan2\.1_link\d+ (re)
+  wlan2\.1_link\d+ (re)
   wlan2.2
-  wlan2.2_link0
-  wlan2.2_link1
-  wlan2.2_link2
+  wlan2\.2_link\d+ (re)
+  wlan2\.2_link\d+ (re)
+  wlan2\.2_link\d+ (re)
   wlan2.3
-  wlan2.3_link0
+  wlan2\.3_link\d+ (re)
 
 Test deactivation of access point 7:
 
@@ -508,13 +508,13 @@ Check wpacltrl socket file:
 
   $ ls_hapd_sockets
   wlan2.1
-  wlan2.1_link0
-  wlan2.1_link1
-  wlan2.1_link2
+  wlan2\.1_link\d+ (re)
+  wlan2\.1_link\d+ (re)
+  wlan2\.1_link\d+ (re)
   wlan2.2
-  wlan2.2_link0
-  wlan2.2_link1
-  wlan2.2_link2
+  wlan2\.2_link\d+ (re)
+  wlan2\.2_link\d+ (re)
+  wlan2\.2_link\d+ (re)
 
 Test deactivation of access point 6:
 
@@ -541,12 +541,12 @@ Check wpacltrl socket file:
 
   $ ls_hapd_sockets
   wlan2.1
-  wlan2.1_link0
-  wlan2.1_link1
-  wlan2.1_link2
+  wlan2\.1_link\d+ (re)
+  wlan2\.1_link\d+ (re)
+  wlan2\.1_link\d+ (re)
   wlan2.2
-  wlan2.2_link0
-  wlan2.2_link1
+  wlan2\.2_link\d+ (re)
+  wlan2\.2_link\d+ (re)
 
 Test deactivation of access point 5:
 
@@ -573,11 +573,11 @@ Check wpacltrl socket file:
 
   $ ls_hapd_sockets
   wlan2.1
-  wlan2.1_link0
-  wlan2.1_link1
+  wlan2\.1_link\d+ (re)
+  wlan2\.1_link\d+ (re)
   wlan2.2
-  wlan2.2_link0
-  wlan2.2_link1
+  wlan2\.2_link\d+ (re)
+  wlan2\.2_link\d+ (re)
 
 Test deactivation of access point 4:
 
@@ -604,10 +604,10 @@ Check wpacltrl socket file:
 
   $ ls_hapd_sockets
   wlan2.1
-  wlan2.1_link0
-  wlan2.1_link1
+  wlan2\.1_link\d+ (re)
+  wlan2\.1_link\d+ (re)
   wlan2.2
-  wlan2.2_link0
+  wlan2\.2_link\d+ (re)
 
 Test deactivation of access point 3:
 
@@ -634,9 +634,9 @@ Check wpacltrl socket file:
 
   $ ls_hapd_sockets
   wlan2.1
-  wlan2.1_link0
+  wlan2\.1_link\d+ (re)
   wlan2.2
-  wlan2.2_link0
+  wlan2\.2_link\d+ (re)
 
 Test deactivation of access point 2:
 
@@ -663,7 +663,7 @@ Check wpacltrl socket file:
 
   $ ls_hapd_sockets
   wlan2.1
-  wlan2.1_link0
+  wlan2\.1_link\d+ (re)
 
 Before deactivating last AP (ie stopping hostpad), check if hostap pid has changed or not:
 
