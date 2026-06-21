@@ -369,7 +369,7 @@ get_interface_name() {
 # In : wlan interface
 # Out : sorted list of "addr xx:xx", "channel N ...", "link N" lines
 get_link_info() {
-  local itf=$1
+  local itf="$1"
   R logger -t cram "get_link_info: interface ${1}"
   local raw
   raw=$(R "iw dev ${itf} info")
@@ -408,7 +408,6 @@ get_main_link_itf () {
 
   if [ "$found" -eq 0 ]; then
     R logger -t cram "MAC $1 not associated to any main link"
-    echo "MAC $1 not associated to any main link"
   fi
 }
 
