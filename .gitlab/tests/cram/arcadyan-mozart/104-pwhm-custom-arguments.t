@@ -39,7 +39,7 @@ Enabling few accesspoints to check hostapd:
   $ enable_ap 5
   Device.WiFi.AccessPoint.5 enabled
 
-  $ sleep 5
+  $ sleep 10
 
 Check that hostapd is operating as expected:
 
