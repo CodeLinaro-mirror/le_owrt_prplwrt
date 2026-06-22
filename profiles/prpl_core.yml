@@ -1,17 +1,22 @@
 ---
 description: A minimal set of prpl packages and configs (no WAN support, no LCM, no management) common to prpl device classes (Gateway, Extender, ...)
 feeds:
+  # wld-scaling-perf: feed_amx main + libsahtrace zone-lookup short-circuit
+  #                    (skip zone walk above max effective level; ~5.9% wld CPU @114)
   - name: feed_amx
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_amx.git
-    revision: main@1c3641642554ddcc3e62125db46e0cb5c647a884
+    revision: ynezz/ospv2-wld-scaling-perf@774ac01bc7cbf67ec145ee51508da293075ad004
 
+  # wld-scaling-perf + Fix #5: scaling-perf prplmesh stack plus 0903 driver-pull
+  #                    alloc-churn patch (malloc not calloc in getAllStationsInfo)
   - name: feed_prplmesh
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplmesh.git
-    revision: main@70d551120e2531238b1eaf8f6cd4ea53666384c9
+    revision: ynezz/ospv2-wld-scaling-perf-callocchurn@2367a195d5e025855b2052c7d718469e92a76d76
 
+  # wld-scaling-perf: libusp v2.8.0 + PPW-2084 (prplos MR!2865 payload)
   - name: feed_prplos
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplos.git
-    revision: main@a3b49220f7b2f68a51b7c3e88245ab5b5100debf
+    revision: ynezz/ospv2-wld-scaling-perf@6938c31bfdc95c255b9ed47b8e8a77eff22623a2
 
 additional_packages:
   - feed: packages
