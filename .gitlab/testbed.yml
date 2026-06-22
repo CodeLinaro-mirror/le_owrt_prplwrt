@@ -35,6 +35,10 @@
       .gitlab/tests/cram/$DUT_BOARD
     CRAM_TEST_SUITE_POST: |
       .gitlab/tests/cram/post/generic
+    # Whitespace-separated test paths to drop from this target's cram run, e.g. a
+    # modem-less board excluding a generic test that asserts cellular objects and
+    # providing its own $DUT_BOARD/ copy instead. Empty by default (no exclusions).
+    CRAM_TEST_EXCLUDE: ''
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
 
@@ -138,6 +142,12 @@
 
       run_check ssh root@$TARGET_LAN_IP 'f=$(logread | grep "procd.*init complete"); echo "${f:-Warning: init is not complete yet,} $(uptime -p)"'
       run_check ssh root@$TARGET_LAN_IP 'logger -t CI -p local0.info "Testing starts, $(uptime -p)"'
+
+      for excl in $CRAM_TEST_EXCLUDE; do
+        echo "Excluding $excl from $LABGRID_TARGET cram run"
+        rm -f "$excl"
+      done
+
       run_check \
         timeout --kill-after=10s --verbose ${TEST_CUTOFF_TIMEOUT}s \
         python3 -m cram --xunit-file=cram-result-$LABGRID_TARGET.xunit.xml --verbose $CRAM_TEST_SUITE $CRAM_TEST_SUITE_EXTRA | tee cram-result-$LABGRID_TARGET.txt

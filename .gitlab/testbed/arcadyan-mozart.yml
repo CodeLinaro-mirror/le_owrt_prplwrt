@@ -12,5 +12,8 @@
     TFTP_IMAGE_FILENAME_PATTERN: /.*prplos-mediatek-filogic-arcadyan_mozart-initramfs.itb/
     DUT_ARCH_PACKAGES_PATH: $PACKAGE_DIR/${DUT_ARCH}_${DUT_CPU_TYPE}
     CDROUTER_CONFIG_LAN_IFACE_ALIAS: LAN0
+    # Mozart has no cellular modem: skip the generic datamodel-list test (asserts
+    # SessionManagement/TrustedElements) and use arcadyan-mozart/ubus-datamodel-list.t.
+    CRAM_TEST_EXCLUDE: .gitlab/tests/cram/generic/ubus-datamodel-list.t
   tags:
     - dut-arcadyan-mozart
