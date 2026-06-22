@@ -16,7 +16,7 @@
     # building. The MR!1964 build emits these flat under bin/targets/intel_x86/
     # lgm/ (not the single-images/ dest this branch uses), so the curl source
     # path differs from TFTP_IMAGE_PATH. Drop with the rest of the WIP commit.
-    PREBUILT_FIRMWARE_JOB_ID: "14926843672"
+    PREBUILT_FIRMWARE_JOB_ID: "14953590727"
     PREBUILT_ARTIFACT_PATH: bin/targets/intel_x86/lgm
   tags:
     - dut-mxl25641-hdk-6-b-sfl

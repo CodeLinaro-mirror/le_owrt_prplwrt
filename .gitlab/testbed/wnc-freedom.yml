@@ -18,6 +18,6 @@
     # building. These live at TFTP_IMAGE_PATH (bin/targets/ipq95xx/generic) in
     # the artifact, so no PREBUILT_ARTIFACT_PATH override is needed. Drop with
     # the rest of the WIP commit.
-    PREBUILT_FIRMWARE_JOB_ID: "14919756378"
+    PREBUILT_FIRMWARE_JOB_ID: "14953590732"
   tags:
     - dut-wnc-freedom-sfl
