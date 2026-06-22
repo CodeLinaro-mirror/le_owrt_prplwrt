@@ -13,6 +13,7 @@ additional_packages:
     packages:
       - audit
       - auditd
+      - libev
       - libaudit
       - libauparse
 
