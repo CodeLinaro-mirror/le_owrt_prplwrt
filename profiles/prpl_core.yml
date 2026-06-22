@@ -1,17 +1,25 @@
 ---
 description: A minimal set of prpl packages and configs (no WAN support, no LCM, no management) common to prpl device classes (Gateway, Extender, ...)
 feeds:
+  # wld-scaling-perf: latest-24.10 feed_amx main (1c364164) + libsahtrace zone-lookup
+  # short-circuit (~5.9% wld CPU @114); the perf commit sits directly on the latest main.
   - name: feed_amx
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_amx.git
-    revision: main@1c3641642554ddcc3e62125db46e0cb5c647a884
+    revision: ynezz/ospv2-wld-scaling-perf@774ac01bc7cbf67ec145ee51508da293075ad004
 
+  # MR-326 perf anchor: feed-prplmesh MR !326 (dev_PPW-1675_full, station-stats-brief
+  # PPW-1675 + PPM-4114) with pwhm frozen to a static git hash (45d986f2) for a
+  # reproducible measurement reference; prplmesh component pinned to 008425d6.
   - name: feed_prplmesh
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplmesh.git
-    revision: main@60049fbcc02d90676645884c16beca820ee04465
+    revision: ynezz/ospv2-wld-perf-mr326-anchor@fdc12211323ca5210515a23916881427fd95cf98
 
+  # wld-scaling-perf: latest-24.10 feed_prplos main (69a94fef, libusp v2.10.1) + PPW-2084
+  # protobuf-trace optimization (ed2396a0) re-applied as a downstream patch on v2.10.1
+  # (the opt is in no libusp release tag; dropping it would regress the USP message path).
   - name: feed_prplos
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplos.git
-    revision: main@69a94fef5a0a64bfd14b159409a792ca4cfb5421
+    revision: ynezz/ospv2-wld-perf-libusp2101-ppw2084@1b1e14d29e77557f3e452f817b0a46b6a1bbd176
 
 additional_packages:
   - feed: packages
