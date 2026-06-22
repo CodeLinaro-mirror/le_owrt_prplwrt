@@ -125,7 +125,6 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_cthulhu-networking=y
   CONFIG_PACKAGE_cthulhu-pcm=y
   CONFIG_PACKAGE_cthulhu-plugin-usp=y
-  CONFIG_PACKAGE_cthulhu-rootfs-oci-bundle=y
   CONFIG_PACKAGE_cthulhu-rootfs-oci-image=y
   CONFIG_PACKAGE_cthulhu-syslog=y
   CONFIG_PACKAGE_curl=y
