@@ -11,12 +11,30 @@ import shutil
 import io
 import re
 import sys
+import json
 from subprocess import run
 from os import getenv
 
 sys.stdout = io.TextIOWrapper(open(sys.stdout.fileno(), "wb", 0), write_through=True)
 profile_folders = getenv("GENCONFIG_PROFILE_DIRS", "./profiles")
 
+
+# --- Incremental feeds state file ---
+FEEDS_STATE_FILE = Path(".feeds_state.json")
+
+def load_feeds_state() -> dict:
+    """Load the set of already-processed feed strings from the state file."""
+    if FEEDS_STATE_FILE.is_file():
+        try:
+            return json.loads(FEEDS_STATE_FILE.read_text())
+        except Exception:
+            pass
+    return {"feeds": []}
+
+def save_feeds_state(state: dict):
+    """Persist the feeds state to disk."""
+    FEEDS_STATE_FILE.write_text(json.dumps(state, indent=2))
+# --- End incremental feeds helpers ---
 
 def run_cmd(cmd: list):
     if getenv("GENCONFIG_VERBOSE"):
@@ -150,8 +168,8 @@ if len(sys.argv) < 2:
     usage(1)
 
 rmtree("./tmp", ignore_errors=True)
-rmtree("./package/feeds/", ignore_errors=True)
-rmtree("./feeds", ignore_errors=True)
+#rmtree("./package/feeds/", ignore_errors=True)
+#rmtree("./feeds", ignore_errors=True)
 rmtree("./tmp", ignore_errors=True)
 #if Path("./feeds.conf").is_file():
 #    Path("./feeds.conf").unlink()
@@ -210,11 +228,24 @@ with open("feeds.conf.default", "r") as default_feeds:
         print(f"Adding default feed '{feed}'")
         feeds.append(feed.replace(" ", ",", 2))
 
+feeds_state = load_feeds_state()
+already_done_feeds  = set(feeds_state["feeds"])            # feeds fully fetched before
+new_feeds = [f for f in feeds if f not in already_done_feeds]
 if run_cmd(["./scripts/feeds", "setup", *feeds]).returncode:
     die(f"Error setting up feeds")
 
-if run_cmd(["./scripts/feeds", "update","-b"]).returncode:
-    die(f"Error updating feeds")
+if new_feeds:
+    print(f"New/delta feeds to fetch: {[f.split(',')[1] for f in new_feeds]}")
+    # Update only the delta feeds
+    for feed_str in new_feeds:
+        feed_name = feed_str.split(",")[1]  # e.g. "src-git,packages,URL^sha" -> "packages"
+        if run_cmd(["./scripts/feeds", "update", "-b", feed_name]).returncode:
+            die(f"Error updating feed {feed_name}")
+    # Persist newly fetched feeds
+    feeds_state["feeds"] = list(already_done_feeds | set(new_feeds))
+    save_feeds_state(feeds_state)
+else:
+    print("All feeds already fetched from a previous profile run – skipping update.")
 
 for p in profile.get("feeds", []):
     f = profile["feeds"].get(p)
