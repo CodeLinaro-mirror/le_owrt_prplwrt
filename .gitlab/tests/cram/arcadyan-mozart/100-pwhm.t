@@ -395,23 +395,26 @@ Check iw interfaces and beaconing:
 Check that the tree interfaces are present in the main link interface:
 
   $ R "iw dev" | grep -e link -A 3 | grep -e link -e channel | sed 's/^[ \t]*//'
-  link 0:
+  MLD with links:
+  - link ID +\d+ link addr ([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2} (re)
   channel.* (re)
-  link 1:
+  - link ID +\d+ link addr ([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2} (re)
   channel.* (re)
-  link 2:
+  - link ID +\d+ link addr ([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2} (re)
   channel.* (re)
-  link 0:
+  MLD with links:
+  - link ID +\d+ link addr ([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2} (re)
   channel.* (re)
-  link 1:
+  - link ID +\d+ link addr ([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2} (re)
   channel.* (re)
-  link 2:
+  - link ID +\d+ link addr ([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2} (re)
   channel.* (re)
-  link 0:
+  MLD with links:
+  - link ID +\d+ link addr ([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2} (re)
   channel.* (re)
-  link 1:
+  - link ID +\d+ link addr ([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2} (re)
   channel.* (re)
-  link 2:
+  - link ID +\d+ link addr ([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2} (re)
   channel.* (re)
 
 Test deactivation of access point 9:
