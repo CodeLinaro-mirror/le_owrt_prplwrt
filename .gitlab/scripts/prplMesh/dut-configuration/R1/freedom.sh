@@ -26,7 +26,7 @@ rm -f /etc/rc.d/S*tr181-firewall
 # Disable restarting failing serivces by default
 /etc/init.d/amx-processmonitor stop || true
 
-ubus wait_for IP.Interface
+ubus wait_for IP
 
 # Stop and disable the DHCP clients and servers:
 ba-cli DHCPv4Client.Client.wan.Enable=0
@@ -66,8 +66,8 @@ else
 fi
 
 # enable Wi-Fi radios
-ubus call "WiFi.Radio" _set '{ "rel_path": ".[OperatingFrequencyBand == \"2.4GHz\"].", "parameters": { "Enable": "true" } }'
-ubus call "WiFi.Radio" _set '{ "rel_path": ".[OperatingFrequencyBand == \"5GHz\"].", "parameters": { "Enable": "true" } }'
+ba-cli "WiFi.Radio.[OperatingFrequencyBand == \"2.4GHz\"].Enable=true"
+ba-cli "WiFi.Radio.[OperatingFrequencyBand == \"5GHz\"].Enable=true"
 
 ba-cli WiFi.Radio.*.RegulatoryDomain="US"
 

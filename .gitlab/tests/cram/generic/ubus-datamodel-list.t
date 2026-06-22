@@ -2,9 +2,9 @@ Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
-Check that ubus has expected datamodels available:
+Check that ba-cli has expected datamodels available:
 
-  $ R "ubus list | grep '[[:upper:]]' | grep -v -e '\.[[:digit:]]' -e '^Cellular' -e 'Device.Cellular' -e 'WiFi.Vendor.Daemon' -e 'WiFi.Vendor.ModuleMode' -e '^Bridging.Bridge.[SV]' -e 'WiFi.Vendor.ReconfManager'"
+  $ R "ba-cli list | sed 's/\.$//' | grep '[[:upper:]]' | grep -v -e '\.[[:digit:]]' -e '^Cellular' -e 'Device.Cellular' -e 'WiFi.Vendor.Daemon' -e 'WiFi.Vendor.ModuleMode' -e '^WiFi.Vendor.MLO' -e '^Bridging.Bridge.[SV]' -e 'WiFi.Vendor.ReconfManager'"
   ACLManager
   ACLManager.Role
   Bridging

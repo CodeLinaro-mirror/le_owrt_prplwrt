@@ -4,7 +4,7 @@ Create R alias:
 
 Check that wireless has desired configuration and state after boot:
 
-  $ R "ubus -S call WiFi.SSID _get | jsonfilter -e @[*].SSID -e @[*].Status | sort"
+  $ R "ba-cli -l 'WiFi.SSID.*.SSID?;WiFi.SSID.*.Status?' | grep -v '^$' | sort"
   Dormant
   Dormant
   Down
@@ -39,44 +39,32 @@ Start wireless:
 
   $ R logger -t cram "Start wireless"
 
-  $ R "ubus -S call WiFi.AccessPoint.1 _set '{\"parameters\":{\"Enable\":1}}'"
-  {"WiFi.AccessPoint.1.":{"Enable":true}}
-  {}
-  {"amxd-error-code":0}
+  $ R "ba-cli 'WiFi.AccessPoint.1.Enable=1' > /dev/null"
 
   $ sleep 10
 
-  $ R "i=15 ; while [ \$i -gt 1 ]; do ubus -S call WiFi.SSID.1 _get '{\"rel_path\":\"Status\"}'| grep -q Up && echo 'SSID.1 Up' && i=0 ; i=\$(( i-1 )); sleep 2 ; done"
+  $ R "i=15 ; while [ \$i -gt 1 ]; do ba-cli -l 'WiFi.SSID.1.Status?' | grep -q Up && echo 'SSID.1 Up' && i=0 ; i=\$(( i-1 )); sleep 2 ; done"
   SSID.1 Up
 
-  $ R "ubus -S call WiFi.AccessPoint.2 _set '{\"parameters\":{\"Enable\":1}}'"
-  {"WiFi.AccessPoint.2.":{"Enable":true}}
-  {}
-  {"amxd-error-code":0}
+  $ R "ba-cli 'WiFi.AccessPoint.2.Enable=1' > /dev/null"
 
   $ sleep 10
 
-  $ R "i=15 ; while [ \$i -gt 1 ]; do ubus -S call WiFi.SSID.2 _get '{\"rel_path\":\"Status\"}'| grep -q Up && echo 'SSID.2 Up' && i=0 ; i=\$(( i-1 )); sleep 2 ; done"
+  $ R "i=15 ; while [ \$i -gt 1 ]; do ba-cli -l 'WiFi.SSID.2.Status?' | grep -q Up && echo 'SSID.2 Up' && i=0 ; i=\$(( i-1 )); sleep 2 ; done"
   SSID.2 Up
 
-  $ R "ubus -S call WiFi.AccessPoint.3 _set '{\"parameters\":{\"Enable\":1}}'"
-  {"WiFi.AccessPoint.3.":{"Enable":true}}
-  {}
-  {"amxd-error-code":0}
+  $ R "ba-cli 'WiFi.AccessPoint.3.Enable=1' > /dev/null"
 
   $ sleep 10
 
-  $ R "i=15 ; while [ \$i -gt 1 ]; do ubus -S call WiFi.SSID.3 _get '{\"rel_path\":\"Status\"}'| grep -q Up && echo 'SSID.3 Up' && i=0 ; i=\$(( i-1 )); sleep 2 ; done"
+  $ R "i=15 ; while [ \$i -gt 1 ]; do ba-cli -l 'WiFi.SSID.3.Status?' | grep -q Up && echo 'SSID.3 Up' && i=0 ; i=\$(( i-1 )); sleep 2 ; done"
   SSID.3 Up
 
-  $ R "ubus -S call WiFi.AccessPoint.4 _set '{\"parameters\":{\"Enable\":1}}'"
-  {"WiFi.AccessPoint.4.":{"Enable":true}}
-  {}
-  {"amxd-error-code":0}
+  $ R "ba-cli 'WiFi.AccessPoint.4.Enable=1' > /dev/null"
 
   $ sleep 10
 
-  $ R "i=15 ; while [ \$i -gt 1 ]; do ubus -S call WiFi.SSID.4 _get '{\"rel_path\":\"Status\"}'| grep -q Up && echo 'SSID.4 Up' && i=0 ; i=\$(( i-1 )); sleep 2 ; done"
+  $ R "i=15 ; while [ \$i -gt 1 ]; do ba-cli -l 'WiFi.SSID.4.Status?' | grep -q Up && echo 'SSID.4 Up' && i=0 ; i=\$(( i-1 )); sleep 2 ; done"
   SSID.4 Up
 
 Check that hostapd is operating as expected:
@@ -94,7 +82,7 @@ Check that hostapd is operating as expected:
 
 Check that wireless is operating:
 
-  $ R "ubus -S call WiFi.SSID _get | jsonfilter -e @[*].SSID -e @[*].Status | sort"
+  $ R "ba-cli -l 'WiFi.SSID.*.SSID?;WiFi.SSID.*.Status?' | grep -v '^$' | sort"
   Dormant
   Dormant
   PWHM_SSID2
@@ -172,49 +160,37 @@ Disable wireless:
 
   $ R logger -t cram "Stop wireless"
 
-  $ R "ubus -S call WiFi.AccessPoint.4 _set '{\"parameters\":{\"Enable\":0}}'"
-  {"WiFi.AccessPoint.4.":{"Enable":false}}
-  {}
-  {"amxd-error-code":0}
+  $ R "ba-cli 'WiFi.AccessPoint.4.Enable=0' > /dev/null"
 
   $ sleep 10
 
-  $ R "i=15 ; while [ \$i -gt 1 ]; do ubus -S call WiFi.SSID.4 _get '{\"rel_path\":\"Status\"}'| grep -q Down && echo 'SSID.4 Down' && i=0 ; i=\$(( i-1 )); sleep 2 ; done"
+  $ R "i=15 ; while [ \$i -gt 1 ]; do ba-cli -l 'WiFi.SSID.4.Status?' | grep -q Down && echo 'SSID.4 Down' && i=0 ; i=\$(( i-1 )); sleep 2 ; done"
   SSID.4 Down
 
-  $ R "ubus -S call WiFi.AccessPoint.3 _set '{\"parameters\":{\"Enable\":0}}'"
-  {"WiFi.AccessPoint.3.":{"Enable":false}}
-  {}
-  {"amxd-error-code":0}
+  $ R "ba-cli 'WiFi.AccessPoint.3.Enable=0' > /dev/null"
 
   $ sleep 10
 
-  $ R "i=15 ; while [ \$i -gt 1 ]; do ubus -S call WiFi.SSID.3 _get '{\"rel_path\":\"Status\"}'| grep -q Down && echo 'SSID.3 Down' && i=0 ; i=\$(( i-1 )); sleep 2 ; done"
+  $ R "i=15 ; while [ \$i -gt 1 ]; do ba-cli -l 'WiFi.SSID.3.Status?' | grep -q Down && echo 'SSID.3 Down' && i=0 ; i=\$(( i-1 )); sleep 2 ; done"
   SSID.3 Down
 
-  $ R "ubus -S call WiFi.AccessPoint.2 _set '{\"parameters\":{\"Enable\":0}}'"
-  {"WiFi.AccessPoint.2.":{"Enable":false}}
-  {}
-  {"amxd-error-code":0}
+  $ R "ba-cli 'WiFi.AccessPoint.2.Enable=0' > /dev/null"
 
   $ sleep 10
 
-  $ R "i=15 ; while [ \$i -gt 1 ]; do ubus -S call WiFi.SSID.2 _get '{\"rel_path\":\"Status\"}'| grep -q Down && echo 'SSID.2 Down' && i=0 ; i=\$(( i-1 )); sleep 2 ; done"
+  $ R "i=15 ; while [ \$i -gt 1 ]; do ba-cli -l 'WiFi.SSID.2.Status?' | grep -q Down && echo 'SSID.2 Down' && i=0 ; i=\$(( i-1 )); sleep 2 ; done"
   SSID.2 Down
 
-  $ R "ubus -S call WiFi.AccessPoint.1 _set '{\"parameters\":{\"Enable\":0}}'"
-  {"WiFi.AccessPoint.1.":{"Enable":false}}
-  {}
-  {"amxd-error-code":0}
+  $ R "ba-cli 'WiFi.AccessPoint.1.Enable=0' > /dev/null"
 
   $ sleep 10
 
-  $ R "i=15 ; while [ \$i -gt 1 ]; do ubus -S call WiFi.SSID.1 _get '{\"rel_path\":\"Status\"}'| grep -q Down && echo 'SSID.1 Down' && i=0 ; i=\$(( i-1 )); sleep 2 ; done"
+  $ R "i=15 ; while [ \$i -gt 1 ]; do ba-cli -l 'WiFi.SSID.1.Status?' | grep -q Down && echo 'SSID.1 Down' && i=0 ; i=\$(( i-1 )); sleep 2 ; done"
   SSID.1 Down
 
 Check that wireless is disabled:
 
-  $ R "ubus -S call WiFi.SSID _get | jsonfilter -e @[*].SSID -e @[*].Status | sort"
+  $ R "ba-cli -l 'WiFi.SSID.*.SSID?;WiFi.SSID.*.Status?' | grep -v '^$' | sort"
   Dormant
   Dormant
   Down

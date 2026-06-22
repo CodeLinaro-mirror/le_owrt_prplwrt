@@ -21,9 +21,8 @@ Stop tr181-xpon service:
 
 Check that there is no Transceiver.1 datamodel available:
 
-  $ R "ubus call XPON.ONU.1.ANI.1.Transceiver.1 _get"
-  Command failed: Not found
-  [4]
+  $ R "ba-cli 'XPON.ONU.1.ANI.1.Transceiver.1.'"
+  [1]
 
 Start tr181-xpon service and mock:
 
@@ -35,26 +34,25 @@ Start tr181-xpon service and mock:
 
 Check that Transceiver.1 datamodel is properly available:
 
-  $ R "ubus call XPON.ONU.1.ANI.1.Transceiver.1 _get | jsonfilter -e @[*].VendorName -e @[*].PONMode -e @[*].VendorRevision | sort"
+  $ R "ba-cli -l 'XPON.ONU.1.ANI.1.Transceiver.1.VendorName?;XPON.ONU.1.ANI.1.Transceiver.1.PONMode?;XPON.ONU.1.ANI.1.Transceiver.1.VendorRevision?' | grep -v '^$' | sort"
   MyVendorName
   Version_1
   XGS-PON
 
 Check that there is no Transceiver.2 datamodel available:
 
-  $ R "ubus call XPON.ONU.1.ANI.1.Transceiver.2 _get"
-  Command failed: Not found
-  [4]
+  $ R "ba-cli 'XPON.ONU.1.ANI.1.Transceiver.2.'"
+  [1]
 
 Add Transceiver.2 instance:
 
   $ R "/opt/prplos/usr/bin/xpon-onu-hal-mock-dbgtool add_instance"
   $ R "ubus -t30 wait_for XPON.ONU.1.ANI.1.Transceiver.2"
 
-Check that Transceiver.1 datamodel is properly available:
+Check that Transceiver.2 datamodel is properly available:
 
-  $ R "ubus call XPON.ONU.1.ANI.1.Transceiver.2 _get | jsonfilter -e @[*].VendorName -e @[*].PONMode -e @[*].VendorRevision | sort"
-  
+  $ R "ba-cli -l 'XPON.ONU.1.ANI.1.Transceiver.2.VendorName?;XPON.ONU.1.ANI.1.Transceiver.2.PONMode?;XPON.ONU.1.ANI.1.Transceiver.2.VendorRevision?' | grep -v '^$' | sort"
+
   NG-PON2
   SomeOtherVendor
 
@@ -64,9 +62,8 @@ Remove Transceiver.2 instance:
 
 Check that there is no Transceiver.2 datamodel available:
 
-  $ R "ubus call XPON.ONU.1.ANI.1.Transceiver.2 _get"
-  Command failed: Not found
-  [4]
+  $ R "ba-cli 'XPON.ONU.1.ANI.1.Transceiver.2.'"
+  [1]
 
 Cleanup:
 

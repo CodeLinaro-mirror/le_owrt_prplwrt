@@ -4,10 +4,13 @@ Create R alias:
 
 Check PCP root datamodel:
 
-  $ R "ubus -S call PCP _get"
-  {"PCP.":{"Enable":false,"OptionList":"1,3","PreferredVersion":2,"SupportedVersions":"0,1,2","Debug":false,"ClientNumberOfEntries":1}}
-  {}
-  {"amxd-error-code":0}
+  $ R "ba-cli -l 'PCP.Enable?;PCP.OptionList?;PCP.PreferredVersion?;PCP.SupportedVersions?;PCP.Debug?;PCP.ClientNumberOfEntries?' | grep -v '^$'"
+  1
+  1,3
+  2
+  0,1,2
+  false
+  false
 
 Add Client:
 
@@ -15,7 +18,7 @@ Add Client:
 
 Check Client parameters:
 
-  $ R "ubus call PCP.Client.2 _get | jsonfilter -e @[*].WANInterface -e @[*].Status | sort"
+  $ R "ba-cli -l 'PCP.Client.2.WANInterface?;PCP.Client.2.Status?' | grep -v '^$' | sort"
   Device.Logical.Interface.1.
   StackDisabled
 
@@ -25,6 +28,6 @@ Add Server:
 
 Check Server parameters:
 
-  $ R "ubus call PCP.Client.2.Server.1 _get | jsonfilter -e @[*].Status -e @[*].Origin | sort"
+  $ R "ba-cli -l 'PCP.Client.2.Server.1.Status?;PCP.Client.2.Server.1.Origin?' | grep -v '^$' | sort"
   DHCPv6
   Disabled

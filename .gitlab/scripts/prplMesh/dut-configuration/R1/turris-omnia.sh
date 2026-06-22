@@ -26,7 +26,7 @@ rm -f /etc/rc.d/S*tr181-firewall
 # Disable restarting failing serivces by default
 sh /etc/init.d/amx-processmonitor stop || true
 
-ubus wait_for IP.Interface
+ubus wait_for IP
 
 # Stop and disable the DHCP clients and servers:
 ba-cli DHCPv4Client.Client.wan.Enable=0
@@ -70,8 +70,8 @@ fi
 # allows to verify that the device actually switches channel as part
 # of the test).
 # See also PPM-1928.
-ubus call "WiFi.Radio" _set '{ "rel_path": ".[OperatingFrequencyBand == \"2.4GHz\"].", "parameters": { "Channel": "1" } }'
-ubus call "WiFi.Radio" _set '{ "rel_path": ".[OperatingFrequencyBand == \"5GHz\"].", "parameters": { "Channel": "48" } }'
+ba-cli "WiFi.Radio.[OperatingFrequencyBand == \"2.4GHz\"].Channel=1"
+ba-cli "WiFi.Radio.[OperatingFrequencyBand == \"5GHz\"].Channel=48"
 
 # Restrict channel bandwidth or the certification test could miss beacons
 # (see PPM-258)

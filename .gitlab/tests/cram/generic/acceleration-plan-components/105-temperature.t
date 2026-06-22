@@ -4,10 +4,9 @@ Create R alias:
 
 Check TemperatureStatus root datamodel:
 
-  $ R "ubus -S call TemperatureStatus _get"
-  {"TemperatureStatus.":{"TemperatureSensorNumberOfEntries":[1-9][0-9]*,"PollingMaxRetry":-1}} (re)
-  {}
-  {"amxd-error-code":0}
+  $ R "ba-cli -l 'TemperatureStatus.TemperatureSensorNumberOfEntries?;TemperatureStatus.PollingMaxRetry?' | grep -v '^$'"
+  [1-9][0-9]* (re)
+  -1
 
 Check TemperatureSensorNumberOfEntries:
 
