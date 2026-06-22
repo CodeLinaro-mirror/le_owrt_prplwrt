@@ -107,7 +107,7 @@ Create one instances of Network.AccessPoint with WPA3-Personal enabled and push 
       ""
   ]
 
-  $ sleep 10
+  $ sleep 15
 
 Check that 3 SSID instances are still operating:
 
@@ -157,7 +157,7 @@ Push WPA3-Personal-Compatibility:
       ""
   ]
 
-  $ sleep 5
+  $ sleep 15
 
 Check if agent overrides the security mode:
 
@@ -208,7 +208,7 @@ Restore security modes in two steps: WPA3 Transition to 2.4GHz/5GHz and then WPA
       ""
   ]
 
-  $ sleep 5
+  $ sleep 15
 
   $ R "ba-cli \"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.{Band2_4G=0,Band5GH=0,Band5GL=0,Band6G=1}\"" | grep -Ev '^(>|$)' | sed '1d'
   X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.Band2_4G=0
@@ -225,7 +225,7 @@ Restore security modes in two steps: WPA3 Transition to 2.4GHz/5GHz and then WPA
       ""
   ]
 
-  $ sleep 5
+  $ sleep 15
 
   $ R logger -t cram "Stop prplmesh"
 

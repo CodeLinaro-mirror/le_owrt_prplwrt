@@ -71,7 +71,7 @@ Enable private vaps:
   $ enable_ap 3
   Device.WiFi.AccessPoint.3 enabled
 
-  $ sleep 10
+  $ sleep 15
 
 Check that 3 SSID instances are operating:
 
@@ -111,7 +111,7 @@ The functional test here is: Controller is able to read WPA3-Personal-Compatibil
   WPA3-Personal-Compatibility
   WPA3-Personal-Compatibility
 
-  $ sleep 10
+  $ sleep 15
 
 Agent did not overwrite the AccessPoint.Security.ModeEnabled in pwhm:
 
@@ -176,7 +176,7 @@ Additionally, restore 11be to test absence of RSNOverride2 in 2.4/5 GHz:
   $ set_radio_operating_standards '5GHz' 'a,n,ac,ax,be'
   a,n,ac,ax,be
 
-  $ sleep 10
+  $ sleep 15
 
 Check RSNO2 parameter was added to 5GHz hostapd conf file:
 
@@ -201,7 +201,7 @@ Next, restore security modes in two steps: WPA3 Transition to 2.4GHz/5GHz, and W
   $ R "usp-cli -j -l Device.WiFi.AccessPoint.3.Security.ModeEnabled='WPA3-Personal' | jsonfilter -e @[0]'[@].ModeEnabled'"
   WPA3-Personal
 
-  $ sleep 10
+  $ sleep 15
 
 Here the expected configuration is: One VAP Enabled on 2.4 / 5 GHz / 6GHz bands // Security.ModeEnabled=WPA3-Personal-Transition or WPA3-Personal
 
