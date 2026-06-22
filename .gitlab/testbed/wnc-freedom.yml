@@ -15,4 +15,4 @@
       prplos-ipq95xx-generic-prpl_freedom-rootfs.itb
     CDROUTER_CONFIG_LAN_IFACE_ALIAS: cpe-lan1
   tags:
-    - dut-wnc-freedom
+    - dut-wnc-freedom-sfl
