@@ -2,6 +2,10 @@ Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
+If test is running on a Mozart, Turris or Haze, lets skip the test as there is no cellular modem available:
+
+  $ if echo "$CI_JOB_NAME" | grep -q -E "(Mozart|Turris|Haze)"; then exit 80; fi
+
   $ R logger -t cram "Starting with CellularManager setup 018-cellular-trusted-elements.t"
 
 Read the IMSI value using mmcli:
