@@ -9,6 +9,13 @@ additional_packages:
       - apparmor-profiles-prpl
       - libapparmor-prpl
 
+  - feed: packages
+    packages:
+      - audit
+      - auditd
+      - libaudit
+      - libauparse
+
 diffconfig: |
           CONFIG_DEVEL=y
           CONFIG_JSON_CHECKSEC_MITIGATIONS_REPORT=y
@@ -28,3 +35,7 @@ diffconfig: |
           CONFIG_KERNEL_SECURITY_APPARMOR_HASH_DEFAULT=y
           CONFIG_KERNEL_DEFAULT_SECURITY_APPARMOR=y
           CONFIG_KERNEL_LSM="lockdown,yama,loadpin,safesetid,integrity,apparmor"
+          CONFIG_KERNEL_AUDIT=y
+          CONFIG_KERNEL_AUDITSYSCALL=y
+          CONFIG_KERNEL_AUDIT_GENERIC=y
+          CONFIG_KERNEL_AUDIT_COMPAT_GENERIC=y
