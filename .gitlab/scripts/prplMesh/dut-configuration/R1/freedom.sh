@@ -26,7 +26,7 @@ rm -f /etc/rc.d/S*tr181-firewall
 # Disable restarting failing serivces by default
 /etc/init.d/amx-processmonitor stop || true
 
-ubus wait_for IP.Interface
+ubus wait_for IP
 
 # Stop and disable the DHCP clients and servers:
 ba-cli DHCPv4Client.Client.wan.Enable=0
