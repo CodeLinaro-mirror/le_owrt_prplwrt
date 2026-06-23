@@ -1,3 +1,8 @@
+Skip on Freedom until PCF-2663 is resolved (5G modem not enumerated on PCIe):
+
+  $ [ "$DUT_BOARD" = "wnc-freedom" ] && exit 80
+  [1]
+
 Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
