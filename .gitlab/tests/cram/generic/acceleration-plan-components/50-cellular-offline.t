@@ -6,6 +6,11 @@ If test is running on a Mozart, Turris or Haze, lets skip the test as there is n
 
   $ if echo "$CI_JOB_NAME" | grep -q -E "(Mozart|Turris|Haze)"; then exit 80; fi
 
+Skip on Freedom until PCF-2663 is resolved (5G modem not enumerated on PCIe):
+
+  $ [ "$DUT_BOARD" = "wnc-freedom" ] && exit 80
+  [1]
+
 Make sure Cellular is registered in the Datamodel:
 
   $ R "ba-cli -ajl Cellular.?1"| jq -r '.[0] | keys[0]'
