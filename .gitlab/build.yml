@@ -32,7 +32,6 @@
         coccinelle \
         libbsd-dev \
         libssl-dev \
-        libpython3-dev \
         lzop
 
     - |
