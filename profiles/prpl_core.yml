@@ -11,7 +11,7 @@ feeds:
 
   - name: feed_prplos
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplos.git
-    revision: FEAT-334-3/apparmor@3c825629b8c4066442723d8aeedcd9edd690e08f
+    revision: FEAT-334-3/apparmor@2beee8c3e2eea99c76d75e195d3d47e35add4ef4
 
 additional_packages:
   - feed: packages
