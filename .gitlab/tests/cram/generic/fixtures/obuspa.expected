@@ -3203,6 +3203,7 @@ Device.SoftwareModules.ExecutionUnit.{i}.EnvVariable.{i}.                       
 Device.SoftwareModules.ExecutionUnit.{i}.EnvVariable.{i}.Alias                                       proto::timingila
 Device.SoftwareModules.ExecutionUnit.{i}.EnvVariable.{i}.Key                                         proto::timingila
 Device.SoftwareModules.ExecutionUnit.{i}.EnvVariable.{i}.Value                                       proto::timingila
+Device.SoftwareModules.ExecutionUnit.{i}.EnvVariableNumberOfEntries                                  proto::timingila
 Device.SoftwareModules.ExecutionUnit.{i}.ExecEnvLabel                                                proto::timingila
 Device.SoftwareModules.ExecutionUnit.{i}.ExecutionEnvRef                                             proto::timingila
 Device.SoftwareModules.ExecutionUnit.{i}.ExecutionFaultCode                                          proto::timingila
@@ -3213,6 +3214,7 @@ Device.SoftwareModules.ExecutionUnit.{i}.HostObject.{i}.Alias                   
 Device.SoftwareModules.ExecutionUnit.{i}.HostObject.{i}.Destination                                  proto::timingila
 Device.SoftwareModules.ExecutionUnit.{i}.HostObject.{i}.Options                                      proto::timingila
 Device.SoftwareModules.ExecutionUnit.{i}.HostObject.{i}.Source                                       proto::timingila
+Device.SoftwareModules.ExecutionUnit.{i}.HostObjectNumberOfEntries                                   proto::timingila
 Device.SoftwareModules.ExecutionUnit.{i}.MemoryInUse                                                 proto::timingila
 Device.SoftwareModules.ExecutionUnit.{i}.ModifyNetworkConfig()                                       proto::timingila
 Device.SoftwareModules.ExecutionUnit.{i}.ModifyNetworkConfig() input:NetworkConfig
