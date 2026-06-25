@@ -4643,6 +4643,7 @@ Device.WiFi.DataElements.Network.Device.{i}.SerialNumber                        
 Device.WiFi.DataElements.Network.Device.{i}.SoftwareVersion                                          proto::prplmesh-dm-mapper
 Device.WiFi.DataElements.Network.Device.{i}.TIDLinkMapCapability                                     proto::prplmesh-dm-mapper
 Device.WiFi.DataElements.Network.Device.{i}.UpdateVBSSCapabilities()                                 proto::prplmesh-dm-mapper
+Device.WiFi.DataElements.Network.Device.{i}.X_PRPLWARE-COM_AgentType                                 proto::prplmesh-dm-mapper
 Device.WiFi.DataElements.Network.Device.{i}.X_PRPLWARE-COM_SupportsVBSS                              proto::prplmesh-dm-mapper
 Device.WiFi.DataElements.Network.Device.{i}.bSTAMLD.                                                 proto::prplmesh-dm-mapper
 Device.WiFi.DataElements.Network.Device.{i}.bSTAMLD.AffiliatedbSTAList                               proto::prplmesh-dm-mapper
