@@ -29,7 +29,7 @@ Check that miniupnpd is enabled and running by default:
   udp        0      0 0.0.0.0:1900            0.0.0.0:\*                           .*\/miniupnpd (re)
   udp        0      0 :::1900                 :::\*                                .*\/miniupnpd (re)
 
-  $ R "netstat -tulpn 2>&1 | grep miniupnpd | grep \:5351"
+  $ R "netstat -tulpn 2>&1 | grep miniupnpd | grep -E ':5351[[:space:]]'"
   udp        0      0 192.168.1.1:5351        0.0.0.0:\*                           .*\/miniupnpd (re)
   udp        0      0 :::5351                 :::\*                                .*\/miniupnpd (re)
 
@@ -78,7 +78,7 @@ Check that miniupnpd is enabled and running again:
   udp        0      0 0.0.0.0:1900            0.0.0.0:\*                           .*\/miniupnpd (re)
   udp        0      0 :::1900                 :::\*                                .*\/miniupnpd (re)
 
-  $ R "netstat -tulpn 2>&1 | grep miniupnpd | grep \:5351"
+  $ R "netstat -tulpn 2>&1 | grep miniupnpd | grep -E ':5351[[:space:]]'"
   udp        0      0 192.168.1.1:5351        0.0.0.0:\*                           .*\/miniupnpd (re)
   udp        0      0 :::5351                 :::\*                                .*\/miniupnpd (re)
 
