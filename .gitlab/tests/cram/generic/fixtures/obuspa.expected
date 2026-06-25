@@ -730,9 +730,6 @@ Device.DeviceInfo.Reboots.RebootNumberOfEntries                                 
 Device.DeviceInfo.Reboots.RemoveAllReboots()                                                         proto::reboot-service
 Device.DeviceInfo.Reboots.WarmBootCount                                                              proto::reboot-service
 Device.DeviceInfo.Reboots.WatchdogBootCount                                                          proto::reboot-service
-Device.DeviceInfo.Reboots.reboot()                                                                   proto::reboot-service
-Device.DeviceInfo.Reboots.reboot() input:Cause
-Device.DeviceInfo.Reboots.reboot() input:Reason
 Device.DeviceInfo.SerialNumber                                                                       proto::deviceinfo-manager
 Device.DeviceInfo.SoftwareVersion                                                                    proto::deviceinfo-manager
 Device.DeviceInfo.TemperatureStatus.                                                                 proto::tr181-temperature
