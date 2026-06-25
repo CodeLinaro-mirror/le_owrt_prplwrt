@@ -28,12 +28,12 @@ Dump Stats object:
   .R....V. <public>         uint32 Device.DHCPv4.Client.1.Stats.FailedPackets=0
   .R....V. <public>         uint32 Device.DHCPv4.Client.1.Stats.Decline=0
   .R....V. <public>         uint32 Device.DHCPv4.Client.1.Stats.OtherMessageTypes=0
-  .R....V. <public>         uint32 Device.DHCPv4.Client.1.Stats.NAK=0
   .R....V. <public>         uint32 Device.DHCPv4.Client.1.Stats.Offer=0
   .R....V. <public>         uint32 Device.DHCPv4.Client.1.Stats.CorruptPackets=0
   .R....V. <public>         uint32 Device.DHCPv4.Client.1.Stats.Request=0
   .R....V. <public>         uint32 Device.DHCPv4.Client.1.Stats.Release=0
   .R....V. <public>         uint32 Device.DHCPv4.Client.1.Stats.ForceRenew=0
+  .R....V. <public>         uint32 Device.DHCPv4.Client.1.Stats.NACK=0
   .R....V. <public>         uint32 Device.DHCPv4.Client.1.Stats.ACK=0
   .R....V. <public>         uint32 Device.DHCPv4.Client.1.Stats.Discover=[01] (re)
 
