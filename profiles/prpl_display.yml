@@ -1,0 +1,10 @@
+---
+description: Add the core display functionality
+additional_packages:
+  - feed: packages
+    packages:
+      - meson
+      - libfmt
+packages:
+  - wlroots
+  - tr181-display

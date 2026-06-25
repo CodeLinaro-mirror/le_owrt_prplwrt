@@ -1,0 +1,15 @@
+---
+description: Enable Newhaven 240320AF displays on OSP v2 platform
+include:
+  - prpl_display
+  - mxl_x86_osp_tb341_v2
+diffconfig: |
+  CONFIG_DISPLAY_SUPPORT=y
+  # Enable devicetree settings
+  CONFIG_DISPLAY_NHD_240320AF=y
+  # Set screen type
+  CONFIG_TR181_DISPLAY_SCREEN_TYPE=LCD
+packages:
+  - kmod-panel-mipi-dbi-backport
+  - firmware-nhd-240320AF
+  - prpl-lvgl-sample-apps
