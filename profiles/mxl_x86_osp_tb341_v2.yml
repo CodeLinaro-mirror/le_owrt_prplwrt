@@ -16,8 +16,8 @@ include:
 feeds:
   - name: intel_x86
     uri: https://github.com/maxlinear/feed_target_x86.git
-    tracking_branch: updk_9.2.10
-    revision: 0859802e43adb7bc305340f9947609c2bd3d960d
+    tracking_branch: updk_9.2.12
+    revision: 5eb05883673704d828d64ff1a0327c2a5e94feb2
   - name: rootfs
     uri: https://github.com/maxlinear/rootfs.git
     tracking_branch: updk_9.2.10
