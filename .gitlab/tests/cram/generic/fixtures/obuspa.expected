@@ -177,7 +177,7 @@ Device.DHCPv4.Client.{i}.Stats.Discover                                         
 Device.DHCPv4.Client.{i}.Stats.FailedPackets                                                         proto::tr181-dhcpv4client
 Device.DHCPv4.Client.{i}.Stats.ForceRenew                                                            proto::tr181-dhcpv4client
 Device.DHCPv4.Client.{i}.Stats.Inform                                                                proto::tr181-dhcpv4client
-Device.DHCPv4.Client.{i}.Stats.NAK                                                                   proto::tr181-dhcpv4client
+Device.DHCPv4.Client.{i}.Stats.NACK                                                                  proto::tr181-dhcpv4client
 Device.DHCPv4.Client.{i}.Stats.Offer                                                                 proto::tr181-dhcpv4client
 Device.DHCPv4.Client.{i}.Stats.OtherMessageTypes                                                     proto::tr181-dhcpv4client
 Device.DHCPv4.Client.{i}.Stats.Release                                                               proto::tr181-dhcpv4client
