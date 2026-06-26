@@ -56,6 +56,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_FEATURE_SYSTEM_LOG_BUFFER_SIZE=8
   CONFIG_FEATURE_WAN_AUTO_DETECT=y
   CONFIG_FORCE_RUNNING_AS_ROOT=y
+  CONFIG_FWI_FLASH_PARTITIONS="u-boot,kernel"
   CONFIG_GCC_DEFAULT_PIE=y
   CONFIG_GPON_TOP_LINE_LEN=1000
   CONFIG_GPON_TOP_LINE_MAX=1000
@@ -669,6 +670,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_mod-dnssd-advertisement=y
   CONFIG_PACKAGE_mod-fw-amx=y
   CONFIG_PACKAGE_mod-fw-host=y
+  CONFIG_PACKAGE_mod-fwi-swupdate=y
   CONFIG_PACKAGE_mod-httpaccess-lighttpd=y
   CONFIG_PACKAGE_mod-logical-api=y
   CONFIG_PACKAGE_mod-lua-amx=y
@@ -822,6 +824,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_swpal_6x-uci-prpl=y
   CONFIG_PACKAGE_swupdate=y
   CONFIG_PACKAGE_syslog-ng=y
+  CONFIG_PACKAGE_sysupgrade-prpl=y
   CONFIG_PACKAGE_tc-tiny=y
   CONFIG_PACKAGE_terminfo=y
   CONFIG_PACKAGE_time-manager=y
@@ -1272,6 +1275,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_SWITCH_DEVICE_ID=0
   CONFIG_SWITCH_LAN_PORTS="0 1 2 4"
   CONFIG_SWITCH_MII1_PORT="5"
+  CONFIG_SWUPDATE_TARGET_HW_VERSION="ospv2:1.0"
   CONFIG_SYSREGISTER_RESET_BOOTCOUNT=y
   # CONFIG_TARGET_ROOTFS_EXT4FS is not set
   CONFIG_TARGET_SECURE_INITRAMFS=y
