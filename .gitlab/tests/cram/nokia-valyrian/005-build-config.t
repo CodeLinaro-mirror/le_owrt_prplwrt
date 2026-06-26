@@ -128,6 +128,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_gmap-server=y
   CONFIG_PACKAGE_hostapd-openssl=y
   CONFIG_PACKAGE_hosts-manager=y
+  CONFIG_PACKAGE_image-authentication=y
   CONFIG_PACKAGE_ip-bridge=y
   CONFIG_PACKAGE_ip-full=y
   CONFIG_PACKAGE_ip-manager=y
@@ -204,6 +205,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_libarchive=y
   CONFIG_PACKAGE_libatomic=y
   CONFIG_PACKAGE_libattr=y
+  CONFIG_PACKAGE_libbotan=y
   CONFIG_PACKAGE_libbpf=y
   CONFIG_PACKAGE_libbsd=y
   CONFIG_PACKAGE_libbz2=y
@@ -271,8 +273,10 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_libqosmodule=y
   CONFIG_PACKAGE_libqosnode=y
   CONFIG_PACKAGE_librlyeh=y
+  CONFIG_PACKAGE_librnp=y
   CONFIG_PACKAGE_libsahtrace=y
   CONFIG_PACKAGE_libseccomp=y
+  CONFIG_PACKAGE_libsexpp=y
   CONFIG_PACKAGE_libsqlite3=y
   CONFIG_PACKAGE_libstdcpp=y
   CONFIG_PACKAGE_libswla=y
@@ -471,6 +475,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_timingila=y
   CONFIG_PACKAGE_timingila-cthulhu=y
   CONFIG_PACKAGE_timingila-rlyeh=y
+  CONFIG_PACKAGE_timingila-rlyeh-security=y
   CONFIG_PACKAGE_tr069-manager=y
   CONFIG_PACKAGE_tr181-bridging=y
   CONFIG_PACKAGE_tr181-bulkdata=y
