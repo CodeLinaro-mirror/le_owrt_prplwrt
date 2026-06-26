@@ -480,6 +480,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_mod-dnssd-advertisement=y
   CONFIG_PACKAGE_mod-fw-amx=y
   CONFIG_PACKAGE_mod-fw-host=y
+  CONFIG_PACKAGE_mod-fwi-swupdate=y
   CONFIG_PACKAGE_mod-httpaccess-lighttpd=y
   CONFIG_PACKAGE_mod-logical-api=y
   CONFIG_PACKAGE_mod-lua-amx=y
@@ -605,6 +606,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_ssh-server=y
   CONFIG_PACKAGE_swupdate=y
   CONFIG_PACKAGE_syslog-ng=y
+  CONFIG_PACKAGE_sysupgrade-prpl=y
   CONFIG_PACKAGE_taskset=y
   CONFIG_PACKAGE_tc-tiny=y
   CONFIG_PACKAGE_terminfo=y
@@ -968,6 +970,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_SAH_MOD_BA_CLI_INSTALL_UBUS_CLI=y
   CONFIG_SAH_MOD_BA_CLI_INSTALL_USP_CLI=y
   CONFIG_SAH_MOD_FW-AMX=y
+  CONFIG_SAH_MOD_FWI_SWUPDATE=y
   CONFIG_SAH_MOD_HTTPACCESS_LIGHTTPD=y
   CONFIG_SAH_MOD_HTTPACCESS_LIGHTTPD_FORCEFUL_TIMEOUT_SHUTDOWN=10
   CONFIG_SAH_MOD_SAHTRACE=y
@@ -1041,6 +1044,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_SQLITE3_FTS4=y
   CONFIG_SQLITE3_FTS5=y
   CONFIG_SQLITE3_RTREE=y
+  CONFIG_SWUPDATE_TARGET_HW_VERSION="freedom:1.0"
   CONFIG_SYSREGISTER_RESET_BOOTCOUNT=y
   # CONFIG_TARGET_ROOTFS_INITRAMFS is not set
   CONFIG_TARGET_SECURE_INITRAMFS=y
