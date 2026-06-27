@@ -100,7 +100,8 @@ targets:
           - setenv img_smd
           - setenv update_rescue_bank yes
           - mmc dev 0
-          - mmc erase 0x534022 0x40000
+          - mmc erase 0x534022 0x40000 # rootfs_data
+          - mmc erase 0x134022 0x400 # lcm_data
           - run update_prpl
         boot_command: run bootcmd
       UBootStrategy: {}
@@ -142,7 +143,8 @@ targets:
           - setenv img_smd
           - setenv update_rescue_bank yes
           - mmc dev 0
-          - mmc erase 0x86c00 0x10000
+          - mmc erase 0x86c00 0x10000 # rootfs_data
+          - mmc erase 0xa6c00 0x400 # lcm_data
           - run update_prpl
         boot_command: run bootcmd
       UBootStrategy: {}
