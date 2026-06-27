@@ -2,6 +2,9 @@ Create alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
+If test is running on a Valyrian, skip the test due to PCF-2669:
+  $ if echo "$CI_JOB_NAME" | grep -q -E "Valyrian"; then exit 80; fi
+
   $ logger -t cram "Starting with Backup and restore flags verification test"
 
 Verify %upc and %usersetting flags are moved from normal odl files, these are\
