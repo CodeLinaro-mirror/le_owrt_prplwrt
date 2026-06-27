@@ -10,10 +10,10 @@ Read the IMSI value using mmcli:
 
   $ R logger -t cram "Setting IMSI value to: $IMSI"
 
-Add SIM to TrustedElements using the IMSI value found:
+Verify TrustedElements already available using the IMSI value found:
 
-  $ R "ba-cli -l -j 'TrustedElements.SIM+{IMSI=$IMSI}' | sed '/^$/d'"
-  \{"TrustedElements.SIM.\d+.":\{"IMSI":"\d{15}","Alias":".+"\}\} (re)
+  $ R "ba-cli -l -j 'TrustedElements.SIM.[IMSI==$IMSI].IMSI?' | sed '/^$/d'"
+  \[\{"TrustedElements.SIM.\d+.":\{"IMSI":"\d{15}"\}\}\] (re)
 
 Set the SIM preference list:
   $ R "ba-cli Cellular.Interface.[Name==\'wwan0\'].SIMReferenceList=\'Device.TrustedElements.SIM.1.\' | sed '/^$/d'"
