@@ -3,6 +3,9 @@ Create R alias:
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
   $ . "${TESTDIR}/../scripts/wifi.sh"
 
+If test is running on a Valyrian, skip the test due to PCF-2669:
+  $ if echo "$CI_JOB_NAME" | grep -q -E "Valyrian"; then exit 80; fi
+
   $ R "logger -t cram 'Starting PWHM test (step 1) ...'"
 
 Wait for Device.WiFi. datamodel availability:

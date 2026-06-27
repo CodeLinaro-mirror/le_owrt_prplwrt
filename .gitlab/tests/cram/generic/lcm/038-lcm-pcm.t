@@ -1,6 +1,9 @@
 ## Setup test configuration
 Setup the test configuration:
 
+If test is running on a Valyrian, skip the test due to PCF-2669:
+  $ if echo "$CI_JOB_NAME" | grep -q -E "Valyrian"; then exit 80; fi
+
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
   $ alias C="${CRAM_REMOTE_COPY:-}"
   $ S=". /tmp/script_functions.sh"
