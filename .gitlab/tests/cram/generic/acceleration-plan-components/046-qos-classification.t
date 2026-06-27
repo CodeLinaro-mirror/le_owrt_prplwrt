@@ -2,6 +2,9 @@ Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
+If test is running on a Valyrian, skip the test due to PCF-2669:
+  $ if echo "$CI_JOB_NAME" | grep -q -E "Valyrian"; then exit 80; fi
+
 Create QoS.Classification to disable HW offloading for packets with destination address 8.8.8.8
   $ R "ubus-cli 'QoS.Classification.+{Alias = \"ipv4_no_hw_offload\", DestIP = 8.8.8.8, Enable = 1, IPVersion = 4, X_PRPLWARE-COM_DoNotOffload = 1}'" > /dev/null 2>&1 
 Check that a rule is created in the mangle table to mark traffic to 8.8.8.8 with skb mark 0x20
