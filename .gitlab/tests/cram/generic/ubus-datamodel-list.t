@@ -69,6 +69,7 @@ Check that ubus has expected datamodels available:
   DNS.Zone
   DNSSD
   DNSSD.Advertise
+  DNSSD.Scan
   DNSSD.Service
   DSLite
   DSLite.InterfaceSetting
