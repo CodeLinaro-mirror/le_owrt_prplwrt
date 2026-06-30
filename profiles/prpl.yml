@@ -64,7 +64,7 @@ packages:
   - libfwinterface
   - libfwrules
   - libnetmodel
-  - lib_tr181-hosts
+  - libtr181-hosts
   - lua-amx
   - lxc
   - lxc-attach
