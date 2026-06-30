@@ -29,7 +29,7 @@ include:
     - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_PROTECTED == "true" && $CI_MERGE_REQUEST_LABELS =~ /ci::allow-expensive-jobs/'
   before_script:
     - export BRIDGE_COVERITY_BUILD_COMMAND="make -j $(nproc)"
-    - sudo apt-get -qq update && sudo apt-get install -y curl file unzip coccinelle
+    - sudo apt-get -qq update && sudo apt-get install -y curl file unzip coccinelle lzop libssl-dev
     - touch .build_failed
     - mkdir -p logs
     - set -o pipefail
