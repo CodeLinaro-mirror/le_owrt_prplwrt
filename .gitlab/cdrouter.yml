@@ -142,8 +142,20 @@
     - sudo ip link set $TESTBED_LAN_INTERFACE down 2> /dev/null
 
     - |
-      TEST_CUTOFF_TIMEOUT=$((CI_JOB_TIMEOUT - DUT_SLEEP_AFTER_BOOT - TEST_SETUP_TEARDOWN_DURATION))
-      echo "Job timeout: $CI_JOB_TIMEOUT seconds, test cutoff timeout: $TEST_CUTOFF_TIMEOUT seconds"
+      # Budget the cutoff against wall-clock already spent since job start
+      # (secrets, executor, get_sources, download_artifacts, testbed-setup,
+      # dut-bringup, ...), not just the boot sleep. Otherwise setup overhead
+      # (~500s) pushes the cutoff past CI_JOB_TIMEOUT, timeout(1) never fires
+      # before GitLab's hard kill, after_script never runs, and no debug logs
+      # are collected.
+      if [ -n "${CI_JOB_STARTED_AT:-}" ]; then
+        JOB_ELAPSED=$(( $(date -u +%s) - $(date -u -d "$CI_JOB_STARTED_AT" +%s) ))
+      else
+        JOB_ELAPSED=$DUT_SLEEP_AFTER_BOOT
+      fi
+      TEST_CUTOFF_TIMEOUT=$(( CI_JOB_TIMEOUT - JOB_ELAPSED - TEST_SETUP_TEARDOWN_DURATION ))
+      if [ "$TEST_CUTOFF_TIMEOUT" -lt 60 ]; then TEST_CUTOFF_TIMEOUT=60; fi
+      echo "Job timeout: ${CI_JOB_TIMEOUT}s, elapsed since start: ${JOB_ELAPSED}s, teardown reserve: ${TEST_SETUP_TEARDOWN_DURATION}s, test cutoff: ${TEST_CUTOFF_TIMEOUT}s"
 
     - section_start "test-execution" "Test Execution" "expanded"
     - |
