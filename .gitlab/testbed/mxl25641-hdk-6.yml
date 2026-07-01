@@ -11,5 +11,20 @@
       prplos-intel_x86-lgm-PRPL_OSP_v2-wgrtd159be_b_wav700-ext4.img
     DUT_ARCH_PACKAGES_PATH: $PACKAGE_DIR/${DUT_ARCH}
     CDROUTER_CONFIG_LAN_IFACE_ALIAS: cpe-lan2
+    # DEBUG SCAFFOLDING (drop before merge): reproduce the PPW-1696 038-lcm-pcm.t
+    # hang on the OSPv2 DUT from the already-built MR!2716 image (job 15077393455)
+    # instead of rebuilding. That build emits the images flat under
+    # bin/targets/intel_x86/lgm/, so the artifact source path differs from the
+    # local TFTP_IMAGE_PATH destination.
+    PREBUILT_FIRMWARE_JOB_ID: "15077393455"
+    PREBUILT_ARTIFACT_PATH: bin/targets/intel_x86/lgm
+    # Reach the hang fast: run only the lcm suite (000-lcm-setup..037 prereqs then
+    # the hanging 038-lcm-pcm.t) instead of the full ~70-min suite, and open a
+    # tmate shell to the DUT in after_script for live inspection of the hung
+    # ba-cli/PCM/USP state (needs TMATE_SESSION_TOKEN / TMATE_API_KEY CI vars).
+    CRAM_TEST_SUITE: ".gitlab/tests/cram/generic/lcm"
+    TMATE_ENABLE_SHELL: "YES"
   tags:
-    - dut-mxl25641-hdk-6-b-sfl
+    # DEBUG SCAFFOLDING (drop before merge): -fast variant for priority handling
+    # of this one-off debug run. Restore to dut-mxl25641-hdk-6-b-sfl before merge.
+    - dut-mxl25641-hdk-6-b-sfl-fast
