@@ -10,8 +10,8 @@ Check initial DHCPv6Client configuration:
 
 Check current ForceSolicitPolicy value:
 
-  $ R "ba-cli 'DHCPv6Client.Client.1.X_PRPLWARE-COM_ForceSolicitPolicy?' | grep -Ev '^(>|$)' | grep 'ForceSolicitPolicy'"
-  DHCPv6Client.Client.1.X_PRPLWARE-COM_ForceSolicitPolicy=0
+  $ R "ba-cli 'DHCPv6Client.Client.1.ForceSolicitPolicy?' | grep -Ev '^(>|$)' | grep 'ForceSolicitPolicy'"
+  DHCPv6Client.Client.1.ForceSolicitPolicy=0
 
 Start tcpdump in background to capture DHCPv6 packets on testbed WAN interface:
 
@@ -24,15 +24,15 @@ Verify DHCPv6 Solicit message was not captured by tcpdump:
 
 Enable ForceSolicitPolicy to trigger DHCPv6 Solicit message ( a restart of the client is needed):
 
-  $ R "ba-cli 'DHCPv6Client.Client.1.X_PRPLWARE-COM_ForceSolicitPolicy=1'" > /dev/null
+  $ R "ba-cli 'DHCPv6Client.Client.1.ForceSolicitPolicy=1'" > /dev/null
   $ R "ba-cli 'DHCPv6Client.Client.1.Enable=0'" > /dev/null
   $ R "ba-cli 'DHCPv6Client.Client.1.Enable=1'" > /dev/null
   $ sleep 1
 
 Verify the parameter was set correctly:
 
-  $ R "ba-cli 'DHCPv6Client.Client.1.X_PRPLWARE-COM_ForceSolicitPolicy?' | grep -Ev '^(>|$)' | grep 'ForceSolicitPolicy'"
-  DHCPv6Client.Client.1.X_PRPLWARE-COM_ForceSolicitPolicy=1
+  $ R "ba-cli 'DHCPv6Client.Client.1.ForceSolicitPolicy?' | grep -Ev '^(>|$)' | grep 'ForceSolicitPolicy'"
+  DHCPv6Client.Client.1.ForceSolicitPolicy=1
 
 Wait for DHCPv6 Solicit message to be sent and captured:
 
@@ -49,9 +49,9 @@ Cleanup tcpdump capture file:
 
 Reset ForceSolicitPolicy to original value:
 
-  $ R "ba-cli 'DHCPv6Client.Client.1.X_PRPLWARE-COM_ForceSolicitPolicy=0'" > /dev/null
+  $ R "ba-cli 'DHCPv6Client.Client.1.ForceSolicitPolicy=0'" > /dev/null
 
 Verify reset:
 
-  $ R "ba-cli 'DHCPv6Client.Client.1.X_PRPLWARE-COM_ForceSolicitPolicy?' | grep -Ev '^(>|$)' | grep 'ForceSolicitPolicy'"
-  DHCPv6Client.Client.1.X_PRPLWARE-COM_ForceSolicitPolicy=0
+  $ R "ba-cli 'DHCPv6Client.Client.1.ForceSolicitPolicy?' | grep -Ev '^(>|$)' | grep 'ForceSolicitPolicy'"
+  DHCPv6Client.Client.1.ForceSolicitPolicy=0
