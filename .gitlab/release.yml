@@ -60,17 +60,13 @@ upload:
         ${PACKAGE_REGISTRY_URL}/gemtek-ospv2/${prplware_version}/prplos-intel_x86-lgm-PRPL_OSP_v2-tb341_wav700-image.swu
 
     - |
-      curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
-        --upload-file bin/targets/intel_x86/lgm/prplos-intel_x86-lgm-PRPL_OSP_v2-tb341_wav700-ext4.img \
-        ${PACKAGE_REGISTRY_URL}/gemtek-ospv2/${prplware_version}/prplos-intel_x86-lgm-PRPL_OSP_v2-tb341_wav700-ext4.img
-
-    - |
-      # bootstack: both DDR variants (u-boot/SPL) + shared .itb boot script
+      # bootstack: both DDR variants (u-boot/SPL) + .itb boot script + ext4 rootfs
       tar -czf /tmp/prplos-intel_x86-lgm-PRPL_OSP_v2-tb341_wav700-bootstack.tar.gz \
         -C bin/targets/intel_x86/lgm \
           uboot-octopus-urx641-4GB-ddr-overlay-fit-p34x-phy-emmc-prpl \
           uboot-octopus-urx641-overlay-fit-p34x-phy-emmc-prpl \
-          prplos-intel_x86-lgm-PRPL_OSP_v2-update_script.itb
+          prplos-intel_x86-lgm-PRPL_OSP_v2-update_script.itb \
+          prplos-intel_x86-lgm-PRPL_OSP_v2-tb341_wav700-ext4.img
 
       curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
         --upload-file /tmp/prplos-intel_x86-lgm-PRPL_OSP_v2-tb341_wav700-bootstack.tar.gz \
@@ -83,17 +79,13 @@ upload:
         ${PACKAGE_REGISTRY_URL}/gemtek-ospv2-b/${prplware_version}/prplos-intel_x86-lgm-PRPL_OSP_v2-wgrtd159be_b_wav700-image.swu
 
     - |
-      curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
-        --upload-file bin/targets/intel_x86/lgm/prplos-intel_x86-lgm-PRPL_OSP_v2-wgrtd159be_b_wav700-ext4.img \
-        ${PACKAGE_REGISTRY_URL}/gemtek-ospv2-b/${prplware_version}/prplos-intel_x86-lgm-PRPL_OSP_v2-wgrtd159be_b_wav700-ext4.img
-
-    - |
-      # bootstack: both DDR variants (u-boot/SPL) + shared .itb boot script
+      # bootstack: both DDR variants (u-boot/SPL) + .itb boot script + ext4 rootfs
       tar -czf /tmp/prplos-intel_x86-lgm-PRPL_OSP_v2-wgrtd159be_b_wav700-bootstack.tar.gz \
         -C bin/targets/intel_x86/lgm \
           uboot-octopus-urx641-4GB-ddr-overlay-fit-p34x-phy-emmc-prpl \
           uboot-octopus-urx641-overlay-fit-p34x-phy-emmc-prpl \
-          prplos-intel_x86-lgm-PRPL_OSP_v2-update_script.itb
+          prplos-intel_x86-lgm-PRPL_OSP_v2-update_script.itb \
+          prplos-intel_x86-lgm-PRPL_OSP_v2-wgrtd159be_b_wav700-ext4.img
 
       curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
         --upload-file /tmp/prplos-intel_x86-lgm-PRPL_OSP_v2-wgrtd159be_b_wav700-bootstack.tar.gz \
@@ -178,10 +170,8 @@ release:
     - |
       release-cli create --name "prplWare release $prplware_version" --tag-name $CI_COMMIT_TAG \
         --assets-link "{\"name\":\"MaxLinear/Gemtek OSPv2 A-Step SWU update image\",\"url\":\"${PACKAGE_REGISTRY_URL}/gemtek-ospv2/${prplware_version}/prplos-intel_x86-lgm-PRPL_OSP_v2-tb341_wav700-image.swu\"}" \
-        --assets-link "{\"name\":\"MaxLinear/Gemtek OSPv2 A-Step ext4 image\",\"url\":\"${PACKAGE_REGISTRY_URL}/gemtek-ospv2/${prplware_version}/prplos-intel_x86-lgm-PRPL_OSP_v2-tb341_wav700-ext4.img\"}" \
         --assets-link "{\"name\":\"MaxLinear/Gemtek OSPv2 A-Step bootstack\",\"url\":\"${PACKAGE_REGISTRY_URL}/gemtek-ospv2/${prplware_version}/prplos-intel_x86-lgm-PRPL_OSP_v2-tb341_wav700-bootstack.tar.gz\"}" \
         --assets-link "{\"name\":\"MaxLinear/Gemtek OSPv2 B-Step SWU update image\",\"url\":\"${PACKAGE_REGISTRY_URL}/gemtek-ospv2-b/${prplware_version}/prplos-intel_x86-lgm-PRPL_OSP_v2-wgrtd159be_b_wav700-image.swu\"}" \
-        --assets-link "{\"name\":\"MaxLinear/Gemtek OSPv2 B-Step ext4 image\",\"url\":\"${PACKAGE_REGISTRY_URL}/gemtek-ospv2-b/${prplware_version}/prplos-intel_x86-lgm-PRPL_OSP_v2-wgrtd159be_b_wav700-ext4.img\"}" \
         --assets-link "{\"name\":\"MaxLinear/Gemtek OSPv2 B-Step bootstack\",\"url\":\"${PACKAGE_REGISTRY_URL}/gemtek-ospv2-b/${prplware_version}/prplos-intel_x86-lgm-PRPL_OSP_v2-wgrtd159be_b_wav700-bootstack.tar.gz\"}" \
         --assets-link "{\"name\":\"MediaTek/Arcadyan Mozart bootstack\",\"url\":\"${PACKAGE_REGISTRY_URL}/arcadyan-mozart/${prplware_version}/prplos-mediatek-filogic-arcadyan_mozart-emmc-bootstack.tar.gz\"}" \
         --assets-link "{\"name\":\"MediaTek/Arcadyan Mozart sysupgrade\",\"url\":\"${PACKAGE_REGISTRY_URL}/arcadyan-mozart/${prplware_version}/prplos-mediatek-filogic-arcadyan_mozart-squashfs-sysupgrade.itb\"}" \
