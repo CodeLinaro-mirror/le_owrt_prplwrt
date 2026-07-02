@@ -21,7 +21,7 @@
     DUT_OBUSPA_VERBOSE_LEVEL: ''
     DUT_OBUSPA_PROTOCOL_TRACE: ''
     DUT_SLEEP_AFTER_BOOT: 90
-    TEST_SETUP_TEARDOWN_DURATION: 360
+    TEST_TEARDOWN_DURATION: 120
     CDROUTER_LAN_INTERFACE: eth1
     CDROUTER_WAN_INTERFACE: eth2
     CDROUTER_ETH0_MAC_ADDRESS: 00:03:2d:49:2e:d8
@@ -159,18 +159,21 @@
     - |
       # Budget the cutoff against wall-clock already spent since job start
       # (secrets, executor, get_sources, download_artifacts, testbed-setup,
-      # dut-bringup, ...), not just the boot sleep. Otherwise setup overhead
-      # (~500s) pushes the cutoff past CI_JOB_TIMEOUT, timeout(1) never fires
-      # before GitLab's hard kill, after_script never runs, and no debug logs
-      # are collected.
+      # dut-bringup, ...), measured live via CI_JOB_STARTED_AT. Reserve only
+      # TEST_TEARDOWN_DURATION on top, for after_script DUT log collection.
+      # Setup is already captured by JOB_ELAPSED, so it must not also sit in
+      # the reserve: doing both double-counts setup (~400s here) and can leave
+      # the tests with almost no time, or push the cutoff past CI_JOB_TIMEOUT
+      # so timeout(1) never fires before GitLab's hard kill and no logs are
+      # collected.
       if [ -n "${CI_JOB_STARTED_AT:-}" ]; then
         JOB_ELAPSED=$(( $(date -u +%s) - $(date -u -d "$CI_JOB_STARTED_AT" +%s) ))
       else
         JOB_ELAPSED=$DUT_SLEEP_AFTER_BOOT
       fi
-      TEST_CUTOFF_TIMEOUT=$(( CI_JOB_TIMEOUT - JOB_ELAPSED - TEST_SETUP_TEARDOWN_DURATION ))
+      TEST_CUTOFF_TIMEOUT=$(( CI_JOB_TIMEOUT - JOB_ELAPSED - TEST_TEARDOWN_DURATION ))
       if [ "$TEST_CUTOFF_TIMEOUT" -lt 60 ]; then TEST_CUTOFF_TIMEOUT=60; fi
-      echo "Job timeout: ${CI_JOB_TIMEOUT}s, elapsed since start: ${JOB_ELAPSED}s, teardown reserve: ${TEST_SETUP_TEARDOWN_DURATION}s, test cutoff: ${TEST_CUTOFF_TIMEOUT}s"
+      echo "Job timeout: ${CI_JOB_TIMEOUT}s, elapsed since start: ${JOB_ELAPSED}s, teardown reserve: ${TEST_TEARDOWN_DURATION}s, test cutoff: ${TEST_CUTOFF_TIMEOUT}s"
 
     - section_start "test-execution" "Test Execution" "expanded"
     - |
