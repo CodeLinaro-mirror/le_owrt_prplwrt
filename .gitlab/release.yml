@@ -106,11 +106,6 @@ upload:
         ${PACKAGE_REGISTRY_URL}/wnc-freedom/${prplware_version}/prplos-ipq95xx-generic-prpl_freedom-image.swu
 
     - |
-      curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
-        --upload-file bin/targets/ipq95xx/generic/prplos-ipq95xx-generic-prpl_freedom-squashfs-sysupgrade.bin \
-        ${PACKAGE_REGISTRY_URL}/wnc-freedom/${prplware_version}/prplos-ipq95xx-generic-prpl_freedom-squashfs-sysupgrade.bin
-
-    - |
       # bootstack: U-Boot + .itb boot script + netboot payload (kernel/rootfs)
       tar -C bin/targets/ipq95xx/generic/ \
         -czf /tmp/prplos-ipq95xx-generic-prpl_freedom-bootstack.tar.gz \
@@ -195,7 +190,6 @@ release:
         --assets-link "{\"name\":\"prpl Haze initramfs\",\"url\":\"${PACKAGE_REGISTRY_URL}/prpl-haze/${prplware_version}/prplos-qualcommax-ipq807x-prpl_haze-initramfs-uImage.itb\"}" \
         --assets-link "{\"name\":\"Turris Omnia sysupgrade\",\"url\":\"${PACKAGE_REGISTRY_URL}/turris-omnia/${prplware_version}/prplos-mvebu-cortexa9-cznic_turris-omnia-squashfs-sysupgrade.img.gz\"}" \
         --assets-link "{\"name\":\"Turris Omnia initramfs\",\"url\":\"${PACKAGE_REGISTRY_URL}/turris-omnia/${prplware_version}/prplos-mvebu-cortexa9-cznic_turris-omnia-initramfs-kernel.bin\"}" \
-        --assets-link "{\"name\":\"Qualcomm/WNC Freedom sysupgrade\",\"url\":\"${PACKAGE_REGISTRY_URL}/wnc-freedom/${prplware_version}/prplos-ipq95xx-generic-prpl_freedom-squashfs-sysupgrade.bin\"}" \
         --assets-link "{\"name\":\"Qualcomm/WNC Freedom SWU update image\",\"url\":\"${PACKAGE_REGISTRY_URL}/wnc-freedom/${prplware_version}/prplos-ipq95xx-generic-prpl_freedom-image.swu\"}" \
         --assets-link "{\"name\":\"Qualcomm/WNC Freedom bootstack\",\"url\":\"${PACKAGE_REGISTRY_URL}/wnc-freedom/${prplware_version}/prplos-ipq95xx-generic-prpl_freedom-bootstack.tar.gz\"}" \
         --assets-link "{\"name\":\"Airoha/Nokia Valyrian sysupgrade\",\"url\":\"${PACKAGE_REGISTRY_URL}/nokia-valyrian/${prplware_version}/prplos-airoha-an7581-nokia_valyrian-squashfs-sysupgrade.bin\"}" \
