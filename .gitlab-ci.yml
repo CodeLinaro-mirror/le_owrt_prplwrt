@@ -86,39 +86,56 @@ blackduck scan mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl extender_full
 blackduck scan qca_ipq95xx prpl extender_full cellular security thread:
   extends: .blackduck scan config
 
+# DEBUG SCAFFOLDING (drop before merge): reproduce the MXL25641-HDK-6 (OSPv2)
+# subset of the ci-weekly prplWare 5.1.0 pretest matrix, minus the build stage and
+# every other device, running each job from the prebuilt pretest image (build job
+# 15135618961, see .gitlab/testbed/mxl25641-hdk-6.yml) instead of a 78-min rebuild.
+# The run-test jobs for the other devices are disabled here; the build stage and
+# the MXL cdrouter/smoke/certification selection are handled by the MXL-only
+# override block appended at the end of this file.
 run test Turris Omnia initramfs:
   allow_failure: true
   needs: ["build test mvebu prpl security"]
   extends: .turris-omnia testbed
+  rules: [{ when: never }]  # DEBUG SCAFFOLDING: OSPv2-only, drop before merge
 
 run test Haze initramfs:
   allow_failure: true
   needs: ["build test ipq807x prpl security"]
   extends: .prpl-haze testbed
+  rules: [{ when: never }]  # DEBUG SCAFFOLDING: OSPv2-only, drop before merge
 
 run test MXL25641-HDK-6 with system on eMMC:
-  needs: ["build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread"]
+  needs: []  # DEBUG SCAFFOLDING: prebuilt firmware, no build dependency; drop before merge
   extends: .mxl25641-hdk-6 testbed
 
 run test Freedom with system on eMMC:
   needs: ["build test qca_ipq95xx prpl cellular security thread"]
   extends: .wnc-freedom testbed
+  rules: [{ when: never }]  # DEBUG SCAFFOLDING: OSPv2-only, drop before merge
 
 run test Mozart initramfs:
   needs:
     - job: build test mtk_filogic prpl security
       optional: true
   extends: .arcadyan-mozart testbed
+  rules: [{ when: never }]  # DEBUG SCAFFOLDING: OSPv2-only, drop before merge
 
 run test Valyrian initramfs:
   needs:
     - job: build test airoha_an7581 prpl security
       optional: true
   extends: .nokia-valyrian testbed
+  rules: [{ when: never }]  # DEBUG SCAFFOLDING: OSPv2-only, drop before merge
 
-# --- weekly CI matrix override (regenerated for this base) — prplWare 5.1.0 pre-testing ---
+# --- MXL/OSPv2-only pretest override (DEBUG SCAFFOLDING, drop before merge) ---
+# Reproduce the MXL25641-HDK-6 (OSPv2) subset of the ci-weekly prplWare 5.1.0
+# pretest matrix (the job structure of weekly pipeline 2644956474), minus the
+# build stage and every other device. Each enabled MXL job runs from the
+# prebuilt image (build job 15135618961) via the PREBUILT_FIRMWARE_JOB_ID curl
+# fetch in .testbed / .cdrouter, so needs:[] detaches it from the disabled build.
 ".build test config":
-  rules: [{ when: on_success }]
+  rules: [{ when: never }]
 ".turris-omnia testbed":
   rules: [{ when: never }]
 ".prpl-haze testbed":
@@ -141,63 +158,53 @@ run test Valyrian initramfs:
   rules: [{ when: never }]
 ".deploy LCM container":
   rules: [{ when: never }]
-# Devices in the tested matrix: Freedom (eMMC), Mozart (initramfs), MXL25641-HDK-6 (eMMC), Nokia Valyrian (initramfs) — blocking
-"CDRouter-IPv6-Top-100+mDNS Freedom VLAN WAN/LAN eMMC": { rules: [{ when: on_success }] }
-"CDRouter-IPv6-Top-100+mDNS Freedom eMMC": { rules: [{ when: on_success }] }
-"CDRouter-IPv6-Top-100+mDNS MXL25641-HDK-6 VLAN WAN/LAN eMMC": { rules: [{ when: on_success }] }
-"CDRouter-IPv6-Top-100+mDNS MXL25641-HDK-6 eMMC": { rules: [{ when: on_success }] }
-"CDRouter-IPv6-Top-100+mDNS Mozart VLAN WAN/LAN initramfs": { rules: [{ when: on_success }] }
-"CDRouter-IPv6-Top-100+mDNS Mozart initramfs": { rules: [{ when: on_success }] }
-"CDRouter-IPv6-Top-100+mDNS Valyrian VLAN WAN/LAN initramfs": { rules: [{ when: on_success }] }
-"CDRouter-IPv6-Top-100+mDNS Valyrian initramfs": { rules: [{ when: on_success }] }
-"CDRouter-TR-069 Freedom eMMC": { rules: [{ when: on_success }] }
-"CDRouter-TR-069 MXL25641-HDK-6 eMMC": { rules: [{ when: on_success }] }
-"CDRouter-TR-069 Mozart eMMC": { rules: [{ when: on_success }] }
-"CDRouter-TR-069 Valyrian eMMC": { rules: [{ when: on_success }] }
-"CDRouter-Top-100+mDNS Freedom PPPoE WAN eMMC": { rules: [{ when: on_success }] }
-"CDRouter-Top-100+mDNS Freedom VLAN WAN/LAN eMMC": { rules: [{ when: on_success }] }
-"CDRouter-Top-100+mDNS Freedom eMMC": { rules: [{ when: on_success }] }
-"CDRouter-Top-100+mDNS Mozart PPPoE WAN initramfs": { rules: [{ when: on_success }] }
-"CDRouter-Top-100+mDNS Mozart VLAN WAN/LAN initramfs": { rules: [{ when: on_success }] }
-"CDRouter-Top-100+mDNS Mozart initramfs": { rules: [{ when: on_success }] }
-"CDRouter-Top-100+mDNS Valyrian PPPoE WAN initramfs": { rules: [{ when: on_success }] }
-"CDRouter-Top-100+mDNS Valyrian VLAN WAN/LAN initramfs": { rules: [{ when: on_success }] }
-"CDRouter-Top-100+mDNS Valyrian initramfs": { rules: [{ when: on_success }] }
-"CDRouter-Top-100+mDNS-OSP MXL25641-HDK-6 PPPoE WAN eMMC": { rules: [{ when: on_success }] }
-"CDRouter-Top-100+mDNS-OSP MXL25641-HDK-6 VLAN WAN/LAN eMMC": { rules: [{ when: on_success }] }
-"CDRouter-Top-100+mDNS-OSP MXL25641-HDK-6 eMMC": { rules: [{ when: on_success }] }
-"CDRouter-UPnP-IPv46 Freedom eMMC": { rules: [{ when: on_success }] }
-"CDRouter-UPnP-IPv46 MXL25641-HDK-6 eMMC": { rules: [{ when: on_success }] }
-"CDRouter-UPnP-IPv46 Mozart initramfs": { rules: [{ when: on_success }] }
-"CDRouter-UPnP-IPv46 Valyrian initramfs": { rules: [{ when: on_success }] }
-"CDRouter-Wireless Freedom eMMC": { rules: [{ when: on_success }] }
-"CDRouter-Wireless MXL25641-HDK-6 eMMC": { rules: [{ when: on_success }] }
-"CDRouter-Wireless Mozart initramfs": { rules: [{ when: on_success }] }
-"CDRouter-Wireless Valyrian initramfs": { rules: [{ when: on_success }] }
-"EasyMesh-Smoke-test-R1-Freedom": { rules: [{ when: on_success }] }
-"prplOS-Network-Test-Plan-Mandatory-v1.2.0 Freedom eMMC": { rules: [{ when: on_success }] }
-"prplOS-Network-Test-Plan-Mandatory-v1.2.0 MXL25641-HDK-6 eMMC": { rules: [{ when: on_success }] }
-"prplOS-Network-Test-Plan-Mandatory-v1.2.0 Mozart initramfs": { rules: [{ when: on_success }] }
-"prplOS-Network-Test-Plan-Mandatory-v1.2.0 Valyrian initramfs": { rules: [{ when: on_success }] }
-"prplWare-Smoke-Test-Suite Freedom eMMC": { rules: [{ when: on_success }] }
-"prplWare-Smoke-Test-Suite MXL25641-HDK-6 eMMC": { rules: [{ when: on_success }] }
-"prplWare-Smoke-Test-Suite Mozart initramfs": { rules: [{ when: on_success }] }
-"prplWare-Smoke-Test-Suite Valyrian initramfs": { rules: [{ when: on_success }] }
-# Disabled: Haze/Turris devices and the -Failing / USP-prpl / prpl-Certification / Network-Test-Plan-Candidate families
+# Enabled: only the MXL25641-HDK-6 jobs the weekly pretest ran, detached from build:
+"CDRouter-IPv6-Top-100+mDNS MXL25641-HDK-6 VLAN WAN/LAN eMMC": { rules: [{ when: on_success }], needs: [] }
+"CDRouter-IPv6-Top-100+mDNS MXL25641-HDK-6 eMMC": { rules: [{ when: on_success }], needs: [] }
+"CDRouter-TR-069 MXL25641-HDK-6 eMMC": { rules: [{ when: on_success }], needs: [] }
+"CDRouter-Top-100+mDNS-OSP MXL25641-HDK-6 PPPoE WAN eMMC": { rules: [{ when: on_success }], needs: [] }
+"CDRouter-Top-100+mDNS-OSP MXL25641-HDK-6 VLAN WAN/LAN eMMC": { rules: [{ when: on_success }], needs: [] }
+"CDRouter-Top-100+mDNS-OSP MXL25641-HDK-6 eMMC": { rules: [{ when: on_success }], needs: [] }
+"CDRouter-UPnP-IPv46 MXL25641-HDK-6 eMMC": { rules: [{ when: on_success }], needs: [] }
+"CDRouter-Wireless MXL25641-HDK-6 eMMC": { rules: [{ when: on_success }], needs: [] }
+"prplOS-Network-Test-Plan-Mandatory-v1.2.0 MXL25641-HDK-6 eMMC": { rules: [{ when: on_success }], needs: [] }
+"prplWare-Smoke-Test-Suite MXL25641-HDK-6 eMMC": { rules: [{ when: on_success }], needs: [] }
+# Disabled: all other devices + the MXL -Failing / USP-prpl / Certification / Candidate jobs:
+"CDRouter-IPv6-Top-100+mDNS Freedom VLAN WAN/LAN eMMC": { rules: [{ when: never }] }
+"CDRouter-IPv6-Top-100+mDNS Freedom eMMC": { rules: [{ when: never }] }
 "CDRouter-IPv6-Top-100+mDNS Haze VLAN WAN/LAN initramfs": { rules: [{ when: never }] }
 "CDRouter-IPv6-Top-100+mDNS Haze initramfs": { rules: [{ when: never }] }
+"CDRouter-IPv6-Top-100+mDNS Mozart VLAN WAN/LAN initramfs": { rules: [{ when: never }] }
+"CDRouter-IPv6-Top-100+mDNS Mozart initramfs": { rules: [{ when: never }] }
 "CDRouter-IPv6-Top-100+mDNS Turris VLAN WAN/LAN initramfs": { rules: [{ when: never }] }
 "CDRouter-IPv6-Top-100+mDNS Turris initramfs": { rules: [{ when: never }] }
+"CDRouter-IPv6-Top-100+mDNS Valyrian VLAN WAN/LAN initramfs": { rules: [{ when: never }] }
+"CDRouter-IPv6-Top-100+mDNS Valyrian initramfs": { rules: [{ when: never }] }
+"CDRouter-TR-069 Freedom eMMC": { rules: [{ when: never }] }
 "CDRouter-TR-069 Haze eMMC": { rules: [{ when: never }] }
+"CDRouter-TR-069 Mozart eMMC": { rules: [{ when: never }] }
 "CDRouter-TR-069 Turris eMMC": { rules: [{ when: never }] }
+"CDRouter-TR-069 Valyrian eMMC": { rules: [{ when: never }] }
+"CDRouter-Top-100+mDNS Freedom PPPoE WAN eMMC": { rules: [{ when: never }] }
+"CDRouter-Top-100+mDNS Freedom VLAN WAN/LAN eMMC": { rules: [{ when: never }] }
+"CDRouter-Top-100+mDNS Freedom eMMC": { rules: [{ when: never }] }
 "CDRouter-Top-100+mDNS Haze PPPoE WAN initramfs": { rules: [{ when: never }] }
 "CDRouter-Top-100+mDNS Haze VLAN WAN/LAN initramfs": { rules: [{ when: never }] }
 "CDRouter-Top-100+mDNS Haze initramfs": { rules: [{ when: never }] }
+"CDRouter-Top-100+mDNS Mozart PPPoE WAN initramfs": { rules: [{ when: never }] }
+"CDRouter-Top-100+mDNS Mozart VLAN WAN/LAN initramfs": { rules: [{ when: never }] }
+"CDRouter-Top-100+mDNS Mozart initramfs": { rules: [{ when: never }] }
 "CDRouter-Top-100+mDNS Turris PPPoE WAN initramfs": { rules: [{ when: never }] }
 "CDRouter-Top-100+mDNS Turris VLAN WAN/LAN initramfs": { rules: [{ when: never }] }
 "CDRouter-Top-100+mDNS Turris initramfs": { rules: [{ when: never }] }
+"CDRouter-Top-100+mDNS Valyrian PPPoE WAN initramfs": { rules: [{ when: never }] }
+"CDRouter-Top-100+mDNS Valyrian VLAN WAN/LAN initramfs": { rules: [{ when: never }] }
+"CDRouter-Top-100+mDNS Valyrian initramfs": { rules: [{ when: never }] }
+"CDRouter-UPnP-IPv46 Freedom eMMC": { rules: [{ when: never }] }
 "CDRouter-UPnP-IPv46 Haze initramfs": { rules: [{ when: never }] }
+"CDRouter-UPnP-IPv46 Mozart initramfs": { rules: [{ when: never }] }
 "CDRouter-UPnP-IPv46 Turris initramfs": { rules: [{ when: never }] }
+"CDRouter-UPnP-IPv46 Valyrian initramfs": { rules: [{ when: never }] }
 "CDRouter-UPnP-IPv46-Failing Freedom eMMC": { rules: [{ when: never }] }
 "CDRouter-UPnP-IPv46-Failing Haze initramfs": { rules: [{ when: never }] }
 "CDRouter-UPnP-IPv46-Failing MXL25641-HDK-6 eMMC": { rules: [{ when: never }] }
@@ -210,8 +217,12 @@ run test Valyrian initramfs:
 "CDRouter-USP-prpl Mozart initramfs": { rules: [{ when: never }] }
 "CDRouter-USP-prpl Turris initramfs": { rules: [{ when: never }] }
 "CDRouter-USP-prpl Valyrian initramfs": { rules: [{ when: never }] }
+"CDRouter-Wireless Freedom eMMC": { rules: [{ when: never }] }
 "CDRouter-Wireless Haze initramfs": { rules: [{ when: never }] }
+"CDRouter-Wireless Mozart initramfs": { rules: [{ when: never }] }
 "CDRouter-Wireless Turris initramfs": { rules: [{ when: never }] }
+"CDRouter-Wireless Valyrian initramfs": { rules: [{ when: never }] }
+"EasyMesh-Smoke-test-R1-Freedom": { rules: [{ when: never }] }
 "prpl-Certification Freedom eMMC": { rules: [{ when: never }] }
 "prpl-Certification Haze initramfs": { rules: [{ when: never }] }
 "prpl-Certification MXL25641-HDK-6 eMMC": { rules: [{ when: never }] }
@@ -224,7 +235,13 @@ run test Valyrian initramfs:
 "prplOS-Network-Test-Plan-Candidate-v1.2.0 Mozart initramfs": { rules: [{ when: never }] }
 "prplOS-Network-Test-Plan-Candidate-v1.2.0 Turris initramfs": { rules: [{ when: never }] }
 "prplOS-Network-Test-Plan-Candidate-v1.2.0 Valyrian initramfs": { rules: [{ when: never }] }
+"prplOS-Network-Test-Plan-Mandatory-v1.2.0 Freedom eMMC": { rules: [{ when: never }] }
 "prplOS-Network-Test-Plan-Mandatory-v1.2.0 Haze initramfs": { rules: [{ when: never }] }
+"prplOS-Network-Test-Plan-Mandatory-v1.2.0 Mozart initramfs": { rules: [{ when: never }] }
 "prplOS-Network-Test-Plan-Mandatory-v1.2.0 Turris initramfs": { rules: [{ when: never }] }
+"prplOS-Network-Test-Plan-Mandatory-v1.2.0 Valyrian initramfs": { rules: [{ when: never }] }
+"prplWare-Smoke-Test-Suite Freedom eMMC": { rules: [{ when: never }] }
 "prplWare-Smoke-Test-Suite Haze initramfs": { rules: [{ when: never }] }
+"prplWare-Smoke-Test-Suite Mozart initramfs": { rules: [{ when: never }] }
 "prplWare-Smoke-Test-Suite Turris initramfs": { rules: [{ when: never }] }
+"prplWare-Smoke-Test-Suite Valyrian initramfs": { rules: [{ when: never }] }
