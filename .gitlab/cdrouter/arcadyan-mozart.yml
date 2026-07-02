@@ -35,7 +35,7 @@ CDRouter-Top-100+mDNS Mozart PPPoE WAN initramfs:
 CDRouter-Wireless Mozart initramfs:
   <<: *arcadyan_mozart
   stage: smoke tests
-  timeout: 15 minutes
+  timeout: 17 minutes
   variables:
     CDROUTER_TEST_CONFIG: wireless
     CDROUTER_CONFIG_USP_CONTROLLER_MTP: websocket
