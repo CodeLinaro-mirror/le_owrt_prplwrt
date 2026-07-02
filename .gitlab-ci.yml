@@ -86,32 +86,44 @@ blackduck scan mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl extender_full
 blackduck scan qca_ipq95xx prpl extender_full cellular security thread:
   extends: .blackduck scan config
 
+# DEBUG SCAFFOLDING (drop before merge): reduce this branch's pipeline to the
+# single OSPv2 (MXL25641-HDK-6) run-test job, run from the prebuilt prplWare
+# 5.1.0 pre-testing image (job 15135618961, see .gitlab/testbed/mxl25641-hdk-6.yml)
+# to exercise the full cram suite on the OSPv2 DUT without a 78-min rebuild.
+# Builds and all cdrouter/smoke/cert jobs are `when: manual` on a feature branch,
+# so they do not auto-run; the other run-test jobs are `on_success`, so they are
+# disabled here.
 run test Turris Omnia initramfs:
   allow_failure: true
   needs: ["build test mvebu prpl security"]
   extends: .turris-omnia testbed
+  rules: [{ when: never }]  # DEBUG SCAFFOLDING: OSPv2-only, drop before merge
 
 run test Haze initramfs:
   allow_failure: true
   needs: ["build test ipq807x prpl security"]
   extends: .prpl-haze testbed
+  rules: [{ when: never }]  # DEBUG SCAFFOLDING: OSPv2-only, drop before merge
 
 run test MXL25641-HDK-6 with system on eMMC:
-  needs: ["build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread"]
+  needs: []  # DEBUG SCAFFOLDING: prebuilt firmware, no build dependency; drop before merge
   extends: .mxl25641-hdk-6 testbed
 
 run test Freedom with system on eMMC:
   needs: ["build test qca_ipq95xx prpl cellular security thread"]
   extends: .wnc-freedom testbed
+  rules: [{ when: never }]  # DEBUG SCAFFOLDING: OSPv2-only, drop before merge
 
 run test Mozart initramfs:
   needs:
     - job: build test mtk_filogic prpl security
       optional: true
   extends: .arcadyan-mozart testbed
+  rules: [{ when: never }]  # DEBUG SCAFFOLDING: OSPv2-only, drop before merge
 
 run test Valyrian initramfs:
   needs:
     - job: build test airoha_an7581 prpl security
       optional: true
   extends: .nokia-valyrian testbed
+  rules: [{ when: never }]  # DEBUG SCAFFOLDING: OSPv2-only, drop before merge
