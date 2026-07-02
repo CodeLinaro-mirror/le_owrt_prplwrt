@@ -12,6 +12,7 @@ upload:
     - job: build test qca_ipq95xx prpl cellular security thread
     - job: build test mtk_filogic prpl security
     - job: build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread
+    - job: build test airoha_an7581 prpl security
 
   rules:
     - if: '$CI_COMMIT_TAG =~ /^prplware-v[0-9]+\.[0-9]+\.[0-9]+.*$/'
@@ -55,25 +56,73 @@ upload:
     # ospv2 A-Step
     - |
       curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
-        --upload-file bin/targets/intel_x86/lgm/single-images/prplos-intel_x86-lgm-PRPL_OSP_v2-tb341_wav700_fullimage.fit \
-        ${PACKAGE_REGISTRY_URL}/gemtek-ospv2/${prplware_version}/prplos-intel_x86-lgm-PRPL_OSP_v2-tb341_wav700_fullimage.fit
+        --upload-file bin/targets/intel_x86/lgm/prplos-intel_x86-lgm-PRPL_OSP_v2-tb341_wav700-image.swu \
+        ${PACKAGE_REGISTRY_URL}/gemtek-ospv2/${prplware_version}/prplos-intel_x86-lgm-PRPL_OSP_v2-tb341_wav700-image.swu
+
+    - |
+      curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
+        --upload-file bin/targets/intel_x86/lgm/prplos-intel_x86-lgm-PRPL_OSP_v2-tb341_wav700-ext4.img \
+        ${PACKAGE_REGISTRY_URL}/gemtek-ospv2/${prplware_version}/prplos-intel_x86-lgm-PRPL_OSP_v2-tb341_wav700-ext4.img
+
+    - |
+      # bootstack: both DDR variants (u-boot/SPL) + shared .itb boot script
+      tar -czf /tmp/prplos-intel_x86-lgm-PRPL_OSP_v2-tb341_wav700-bootstack.tar.gz \
+        -C bin/targets/intel_x86/lgm \
+          uboot-octopus-urx641-4GB-ddr-overlay-fit-p34x-phy-emmc-prpl \
+          uboot-octopus-urx641-overlay-fit-p34x-phy-emmc-prpl \
+          prplos-intel_x86-lgm-PRPL_OSP_v2-update_script.itb
+
+      curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
+        --upload-file /tmp/prplos-intel_x86-lgm-PRPL_OSP_v2-tb341_wav700-bootstack.tar.gz \
+        ${PACKAGE_REGISTRY_URL}/gemtek-ospv2/${prplware_version}/prplos-intel_x86-lgm-PRPL_OSP_v2-tb341_wav700-bootstack.tar.gz
 
     # ospv2 B-Step
     - |
       curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
-        --upload-file bin/targets/intel_x86/lgm/single-images/prplos-intel_x86-lgm-PRPL_OSP_v2-wgrtd159be_b_wav700_fullimage.fit \
-        ${PACKAGE_REGISTRY_URL}/gemtek-ospv2-b/${prplware_version}/prplos-intel_x86-lgm-PRPL_OSP_v2-wgrtd159be_b_wav700_fullimage.fit
+        --upload-file bin/targets/intel_x86/lgm/prplos-intel_x86-lgm-PRPL_OSP_v2-wgrtd159be_b_wav700-image.swu \
+        ${PACKAGE_REGISTRY_URL}/gemtek-ospv2-b/${prplware_version}/prplos-intel_x86-lgm-PRPL_OSP_v2-wgrtd159be_b_wav700-image.swu
 
-    # qca_ipq95xx
     - |
       curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
-        --upload-file bin/targets/ipq95xx/generic/prplos-ipq95xx-generic-prpl_freedom-initramfs-uImage.itb \
-        ${PACKAGE_REGISTRY_URL}/wnc-freedom/${prplware_version}/prplos-ipq95xx-generic-prpl_freedom-initramfs-uImage.itb
+        --upload-file bin/targets/intel_x86/lgm/prplos-intel_x86-lgm-PRPL_OSP_v2-wgrtd159be_b_wav700-ext4.img \
+        ${PACKAGE_REGISTRY_URL}/gemtek-ospv2-b/${prplware_version}/prplos-intel_x86-lgm-PRPL_OSP_v2-wgrtd159be_b_wav700-ext4.img
+
+    - |
+      # bootstack: both DDR variants (u-boot/SPL) + shared .itb boot script
+      tar -czf /tmp/prplos-intel_x86-lgm-PRPL_OSP_v2-wgrtd159be_b_wav700-bootstack.tar.gz \
+        -C bin/targets/intel_x86/lgm \
+          uboot-octopus-urx641-4GB-ddr-overlay-fit-p34x-phy-emmc-prpl \
+          uboot-octopus-urx641-overlay-fit-p34x-phy-emmc-prpl \
+          prplos-intel_x86-lgm-PRPL_OSP_v2-update_script.itb
+
+      curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
+        --upload-file /tmp/prplos-intel_x86-lgm-PRPL_OSP_v2-wgrtd159be_b_wav700-bootstack.tar.gz \
+        ${PACKAGE_REGISTRY_URL}/gemtek-ospv2-b/${prplware_version}/prplos-intel_x86-lgm-PRPL_OSP_v2-wgrtd159be_b_wav700-bootstack.tar.gz
+
+    # qca_ipq95xx (WNC Freedom)
+    - |
+      curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
+        --upload-file bin/targets/ipq95xx/generic/prplos-ipq95xx-generic-prpl_freedom-image.swu \
+        ${PACKAGE_REGISTRY_URL}/wnc-freedom/${prplware_version}/prplos-ipq95xx-generic-prpl_freedom-image.swu
 
     - |
       curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
         --upload-file bin/targets/ipq95xx/generic/prplos-ipq95xx-generic-prpl_freedom-squashfs-sysupgrade.bin \
         ${PACKAGE_REGISTRY_URL}/wnc-freedom/${prplware_version}/prplos-ipq95xx-generic-prpl_freedom-squashfs-sysupgrade.bin
+
+    - |
+      # bootstack: U-Boot + .itb boot script + netboot payload (kernel/rootfs)
+      tar -C bin/targets/ipq95xx/generic/ \
+        -czf /tmp/prplos-ipq95xx-generic-prpl_freedom-bootstack.tar.gz \
+        prplos-ipq95xx-generic-prpl_freedom-u-boot.itb \
+        prplos-ipq95xx-generic-prpl_freedom-update_script.itb \
+        prplos-ipq95xx-generic-prpl_freedom-kernel.itb \
+        prplos-ipq95xx-generic-prpl_freedom-rootfs.itb \
+        openwrt-ipq9574-generic-u-boot.elfmbn
+
+      curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
+        --upload-file /tmp/prplos-ipq95xx-generic-prpl_freedom-bootstack.tar.gz \
+        ${PACKAGE_REGISTRY_URL}/wnc-freedom/${prplware_version}/prplos-ipq95xx-generic-prpl_freedom-bootstack.tar.gz
 
     # mtk_filogic
     - |
@@ -97,6 +146,27 @@ upload:
         --upload-file bin/targets/mediatek/filogic/prplos-mediatek-filogic-arcadyan_mozart-squashfs-sysupgrade.itb \
         ${PACKAGE_REGISTRY_URL}/arcadyan-mozart/${prplware_version}/prplos-mediatek-filogic-arcadyan_mozart-squashfs-sysupgrade.itb
 
+    # airoha_an7581 (Nokia Valyrian)
+    - |
+      curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
+        --upload-file bin/targets/airoha/an7581/prplos-airoha-an7581-nokia_valyrian-initramfs-kernel.bin \
+        ${PACKAGE_REGISTRY_URL}/nokia-valyrian/${prplware_version}/prplos-airoha-an7581-nokia_valyrian-initramfs-kernel.bin
+
+    - |
+      curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
+        --upload-file bin/targets/airoha/an7581/prplos-airoha-an7581-nokia_valyrian-squashfs-sysupgrade.bin \
+        ${PACKAGE_REGISTRY_URL}/nokia-valyrian/${prplware_version}/prplos-airoha-an7581-nokia_valyrian-squashfs-sysupgrade.bin
+
+    - |
+      tar -C bin/targets/airoha/an7581/ \
+        -czf /tmp/prplos-airoha-an7581-nokia_valyrian-bootstack.tar.gz \
+        prplos-airoha-an7581-nokia_valyrian-bl31-uboot.fip \
+        prplos-airoha-an7581-nokia_valyrian-preloader.bin
+
+      curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
+        --upload-file /tmp/prplos-airoha-an7581-nokia_valyrian-bootstack.tar.gz \
+        ${PACKAGE_REGISTRY_URL}/nokia-valyrian/${prplware_version}/prplos-airoha-an7581-nokia_valyrian-bootstack.tar.gz
+
 release:
   stage: release
 
@@ -112,8 +182,12 @@ release:
 
     - |
       release-cli create --name "prplWare release $prplware_version" --tag-name $CI_COMMIT_TAG \
-        --assets-link "{\"name\":\"MaxLinear/Gemtek OSPv2 A-Step single-image\",\"url\":\"${PACKAGE_REGISTRY_URL}/gemtek-ospv2/${prplware_version}/prplos-intel_x86-lgm-PRPL_OSP_v2-tb341_wav700_fullimage.fit\"}" \
-        --assets-link "{\"name\":\"MaxLinear/Gemtek OSPv2 B-Step single-image\",\"url\":\"${PACKAGE_REGISTRY_URL}/gemtek-ospv2-b/${prplware_version}/prplos-intel_x86-lgm-PRPL_OSP_v2-wgrtd159be_b_wav700_fullimage.fit\"}" \
+        --assets-link "{\"name\":\"MaxLinear/Gemtek OSPv2 A-Step SWU update image\",\"url\":\"${PACKAGE_REGISTRY_URL}/gemtek-ospv2/${prplware_version}/prplos-intel_x86-lgm-PRPL_OSP_v2-tb341_wav700-image.swu\"}" \
+        --assets-link "{\"name\":\"MaxLinear/Gemtek OSPv2 A-Step ext4 image\",\"url\":\"${PACKAGE_REGISTRY_URL}/gemtek-ospv2/${prplware_version}/prplos-intel_x86-lgm-PRPL_OSP_v2-tb341_wav700-ext4.img\"}" \
+        --assets-link "{\"name\":\"MaxLinear/Gemtek OSPv2 A-Step bootstack\",\"url\":\"${PACKAGE_REGISTRY_URL}/gemtek-ospv2/${prplware_version}/prplos-intel_x86-lgm-PRPL_OSP_v2-tb341_wav700-bootstack.tar.gz\"}" \
+        --assets-link "{\"name\":\"MaxLinear/Gemtek OSPv2 B-Step SWU update image\",\"url\":\"${PACKAGE_REGISTRY_URL}/gemtek-ospv2-b/${prplware_version}/prplos-intel_x86-lgm-PRPL_OSP_v2-wgrtd159be_b_wav700-image.swu\"}" \
+        --assets-link "{\"name\":\"MaxLinear/Gemtek OSPv2 B-Step ext4 image\",\"url\":\"${PACKAGE_REGISTRY_URL}/gemtek-ospv2-b/${prplware_version}/prplos-intel_x86-lgm-PRPL_OSP_v2-wgrtd159be_b_wav700-ext4.img\"}" \
+        --assets-link "{\"name\":\"MaxLinear/Gemtek OSPv2 B-Step bootstack\",\"url\":\"${PACKAGE_REGISTRY_URL}/gemtek-ospv2-b/${prplware_version}/prplos-intel_x86-lgm-PRPL_OSP_v2-wgrtd159be_b_wav700-bootstack.tar.gz\"}" \
         --assets-link "{\"name\":\"MediaTek/Arcadyan Mozart bootstack\",\"url\":\"${PACKAGE_REGISTRY_URL}/arcadyan-mozart/${prplware_version}/prplos-mediatek-filogic-arcadyan_mozart-emmc-bootstack.tar.gz\"}" \
         --assets-link "{\"name\":\"MediaTek/Arcadyan Mozart sysupgrade\",\"url\":\"${PACKAGE_REGISTRY_URL}/arcadyan-mozart/${prplware_version}/prplos-mediatek-filogic-arcadyan_mozart-squashfs-sysupgrade.itb\"}" \
         --assets-link "{\"name\":\"MediaTek/Arcadyan Mozart initramfs\",\"url\":\"${PACKAGE_REGISTRY_URL}/arcadyan-mozart/${prplware_version}/prplos-mediatek-filogic-arcadyan_mozart-initramfs.itb\"}" \
@@ -122,6 +196,10 @@ release:
         --assets-link "{\"name\":\"Turris Omnia sysupgrade\",\"url\":\"${PACKAGE_REGISTRY_URL}/turris-omnia/${prplware_version}/prplos-mvebu-cortexa9-cznic_turris-omnia-initramfs-kernel.bin\"}" \
         --assets-link "{\"name\":\"Turris Omnia initramfs\",\"url\":\"${PACKAGE_REGISTRY_URL}/turris-omnia/${prplware_version}/prplos-mvebu-cortexa9-cznic_turris-omnia-sysupgrade.img.gz\"}" \
         --assets-link "{\"name\":\"Qualcomm/WNC Freedom sysupgrade\",\"url\":\"${PACKAGE_REGISTRY_URL}/wnc-freedom/${prplware_version}/prplos-ipq95xx-generic-prpl_freedom-squashfs-sysupgrade.bin\"}" \
-        --assets-link "{\"name\":\"Qualcomm/WNC Freedom initramfs\",\"url\":\"${PACKAGE_REGISTRY_URL}/wnc-freedom/${prplware_version}/prplos-ipq95xx-generic-prpl_freedom-initramfs-uImage.itb\"}" \
+        --assets-link "{\"name\":\"Qualcomm/WNC Freedom SWU update image\",\"url\":\"${PACKAGE_REGISTRY_URL}/wnc-freedom/${prplware_version}/prplos-ipq95xx-generic-prpl_freedom-image.swu\"}" \
+        --assets-link "{\"name\":\"Qualcomm/WNC Freedom bootstack\",\"url\":\"${PACKAGE_REGISTRY_URL}/wnc-freedom/${prplware_version}/prplos-ipq95xx-generic-prpl_freedom-bootstack.tar.gz\"}" \
+        --assets-link "{\"name\":\"Airoha/Nokia Valyrian sysupgrade\",\"url\":\"${PACKAGE_REGISTRY_URL}/nokia-valyrian/${prplware_version}/prplos-airoha-an7581-nokia_valyrian-squashfs-sysupgrade.bin\"}" \
+        --assets-link "{\"name\":\"Airoha/Nokia Valyrian initramfs\",\"url\":\"${PACKAGE_REGISTRY_URL}/nokia-valyrian/${prplware_version}/prplos-airoha-an7581-nokia_valyrian-initramfs-kernel.bin\"}" \
+        --assets-link "{\"name\":\"Airoha/Nokia Valyrian bootstack\",\"url\":\"${PACKAGE_REGISTRY_URL}/nokia-valyrian/${prplware_version}/prplos-airoha-an7581-nokia_valyrian-bootstack.tar.gz\"}" \
         --assets-link "{\"name\":\"x86/64 sysupgrade\",\"url\":\"${PACKAGE_REGISTRY_URL}/x86-64/${prplware_version}/prplos-x86-64-generic-squashfs-combined-efi.img\"}" \
         --assets-link "{\"name\":\"x86/64 initramfs\",\"url\":\"${PACKAGE_REGISTRY_URL}/x86-64/${prplware_version}/prplos-x86-64-generic-initramfs-kernel.bin\"}"
