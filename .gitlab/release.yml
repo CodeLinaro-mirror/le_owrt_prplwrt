@@ -193,8 +193,8 @@ release:
         --assets-link "{\"name\":\"MediaTek/Arcadyan Mozart initramfs\",\"url\":\"${PACKAGE_REGISTRY_URL}/arcadyan-mozart/${prplware_version}/prplos-mediatek-filogic-arcadyan_mozart-initramfs.itb\"}" \
         --assets-link "{\"name\":\"prpl Haze sysupgrade\",\"url\":\"${PACKAGE_REGISTRY_URL}/prpl-haze/${prplware_version}/prplos-qualcommax-ipq807x-prpl_haze-squashfs-sysupgrade.bin\"}" \
         --assets-link "{\"name\":\"prpl Haze initramfs\",\"url\":\"${PACKAGE_REGISTRY_URL}/prpl-haze/${prplware_version}/prplos-qualcommax-ipq807x-prpl_haze-initramfs-uImage.itb\"}" \
-        --assets-link "{\"name\":\"Turris Omnia sysupgrade\",\"url\":\"${PACKAGE_REGISTRY_URL}/turris-omnia/${prplware_version}/prplos-mvebu-cortexa9-cznic_turris-omnia-initramfs-kernel.bin\"}" \
-        --assets-link "{\"name\":\"Turris Omnia initramfs\",\"url\":\"${PACKAGE_REGISTRY_URL}/turris-omnia/${prplware_version}/prplos-mvebu-cortexa9-cznic_turris-omnia-sysupgrade.img.gz\"}" \
+        --assets-link "{\"name\":\"Turris Omnia sysupgrade\",\"url\":\"${PACKAGE_REGISTRY_URL}/turris-omnia/${prplware_version}/prplos-mvebu-cortexa9-cznic_turris-omnia-squashfs-sysupgrade.img.gz\"}" \
+        --assets-link "{\"name\":\"Turris Omnia initramfs\",\"url\":\"${PACKAGE_REGISTRY_URL}/turris-omnia/${prplware_version}/prplos-mvebu-cortexa9-cznic_turris-omnia-initramfs-kernel.bin\"}" \
         --assets-link "{\"name\":\"Qualcomm/WNC Freedom sysupgrade\",\"url\":\"${PACKAGE_REGISTRY_URL}/wnc-freedom/${prplware_version}/prplos-ipq95xx-generic-prpl_freedom-squashfs-sysupgrade.bin\"}" \
         --assets-link "{\"name\":\"Qualcomm/WNC Freedom SWU update image\",\"url\":\"${PACKAGE_REGISTRY_URL}/wnc-freedom/${prplware_version}/prplos-ipq95xx-generic-prpl_freedom-image.swu\"}" \
         --assets-link "{\"name\":\"Qualcomm/WNC Freedom bootstack\",\"url\":\"${PACKAGE_REGISTRY_URL}/wnc-freedom/${prplware_version}/prplos-ipq95xx-generic-prpl_freedom-bootstack.tar.gz\"}" \
