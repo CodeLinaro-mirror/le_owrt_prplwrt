@@ -304,7 +304,6 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-crypto-aead=y
   CONFIG_PACKAGE_kmod-crypto-authenc=y
   CONFIG_PACKAGE_kmod-crypto-cbc=y
-  CONFIG_PACKAGE_kmod-crypto-chacha20poly1305=y
   CONFIG_PACKAGE_kmod-crypto-deflate=y
   CONFIG_PACKAGE_kmod-crypto-des=y
   CONFIG_PACKAGE_kmod-crypto-echainiv=y
@@ -525,6 +524,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_libgmap-client=y
   CONFIG_PACKAGE_libgmap-ext=y
   CONFIG_PACKAGE_libgmp=y
+  CONFIG_PACKAGE_libgpg-error=y
   CONFIG_PACKAGE_libhelper=y
   CONFIG_PACKAGE_libimtp=y
   CONFIG_PACKAGE_libip4tc=y
@@ -544,7 +544,6 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_liblua5.3=y
   CONFIG_PACKAGE_liblxc=y
   CONFIG_PACKAGE_liblzma=y
-  CONFIG_PACKAGE_libmariadb=y
   CONFIG_PACKAGE_libmbim=y
   CONFIG_PACKAGE_libmfg=y
   CONFIG_PACKAGE_libmicrohttpd-no-ssl=y
@@ -567,7 +566,6 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_libnl-nf=y
   CONFIG_PACKAGE_libnl-route=y
   CONFIG_PACKAGE_libocispec=y
-  CONFIG_PACKAGE_libopenldap=y
   CONFIG_PACKAGE_libopensc=y
   CONFIG_PACKAGE_libopenssl-conf=y
   CONFIG_PACKAGE_libp11=y
@@ -617,7 +615,6 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_libuv=y
   CONFIG_PACKAGE_libwebsockets4-full=y
   CONFIG_PACKAGE_libwireguard=y
-  CONFIG_PACKAGE_libwolfssl=y
   CONFIG_PACKAGE_libxml2=y
   CONFIG_PACKAGE_libxtables=y
   CONFIG_PACKAGE_libyaml=y
@@ -846,15 +843,27 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_strongswan=y
   CONFIG_PACKAGE_strongswan-charon=y
   CONFIG_PACKAGE_strongswan-default=y
+  CONFIG_PACKAGE_strongswan-ipsec=y
+  CONFIG_PACKAGE_strongswan-mod-addrblock=y
   CONFIG_PACKAGE_strongswan-mod-aes=y
   CONFIG_PACKAGE_strongswan-mod-attr=y
+  CONFIG_PACKAGE_strongswan-mod-blowfish=y
+  CONFIG_PACKAGE_strongswan-mod-ccm=y
+  CONFIG_PACKAGE_strongswan-mod-cmac=y
   CONFIG_PACKAGE_strongswan-mod-connmark=y
   CONFIG_PACKAGE_strongswan-mod-constraints=y
+  CONFIG_PACKAGE_strongswan-mod-ctr=y
+  CONFIG_PACKAGE_strongswan-mod-curl=y
   CONFIG_PACKAGE_strongswan-mod-des=y
   CONFIG_PACKAGE_strongswan-mod-dnskey=y
+  CONFIG_PACKAGE_strongswan-mod-drbg=y
+  CONFIG_PACKAGE_strongswan-mod-farp=y
   CONFIG_PACKAGE_strongswan-mod-fips-prf=y
+  CONFIG_PACKAGE_strongswan-mod-gcm=y
+  CONFIG_PACKAGE_strongswan-mod-gcrypt=y
   CONFIG_PACKAGE_strongswan-mod-gmp=y
   CONFIG_PACKAGE_strongswan-mod-hmac=y
+  CONFIG_PACKAGE_strongswan-mod-kdf=y
   CONFIG_PACKAGE_strongswan-mod-kernel-netlink=y
   CONFIG_PACKAGE_strongswan-mod-md5=y
   CONFIG_PACKAGE_strongswan-mod-mgf1=y
@@ -862,6 +871,10 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_strongswan-mod-pem=y
   CONFIG_PACKAGE_strongswan-mod-pgp=y
   CONFIG_PACKAGE_strongswan-mod-pkcs1=y
+  CONFIG_PACKAGE_strongswan-mod-pkcs11=y
+  CONFIG_PACKAGE_strongswan-mod-pkcs12=y
+  CONFIG_PACKAGE_strongswan-mod-pkcs7=y
+  CONFIG_PACKAGE_strongswan-mod-pkcs8=y
   CONFIG_PACKAGE_strongswan-mod-pubkey=y
   CONFIG_PACKAGE_strongswan-mod-random=y
   CONFIG_PACKAGE_strongswan-mod-rc2=y
@@ -871,6 +884,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_strongswan-mod-sha2=y
   CONFIG_PACKAGE_strongswan-mod-socket-default=y
   CONFIG_PACKAGE_strongswan-mod-sshkey=y
+  CONFIG_PACKAGE_strongswan-mod-stroke=y
   CONFIG_PACKAGE_strongswan-mod-updown=y
   CONFIG_PACKAGE_strongswan-mod-vici=y
   CONFIG_PACKAGE_strongswan-mod-x509=y
@@ -1372,6 +1386,5 @@ Assure expected build configuration (PCF-1413):
   CONFIG_WAVE_700=y
   CONFIG_WIRELESS_AFC=y
   CONFIG_WIRELESS_STA=y
-  CONFIG_WOLFSSL_HAS_NO_HW=y
   CONFIG_shadow-all=y
   # CONFIG_VERSION_FILENAMES is not set
