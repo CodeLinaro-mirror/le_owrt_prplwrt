@@ -3373,6 +3373,7 @@ Device.Time.ClientNumberOfEntries                                               
 Device.Time.CurrentLocalTime                                                                         proto::time-manager
 Device.Time.Enable                                                                                   proto::time-manager
 Device.Time.LocalTimeZone                                                                            proto::time-manager
+Device.Time.NTPServerSynchronized!                                                                   proto::time-manager
 Device.Time.Server.{i}.                                                                              proto::time-manager
 Device.Time.Server.{i}.Alias                                                                         proto::time-manager
 Device.Time.Server.{i}.Authentication.                                                               proto::time-manager
