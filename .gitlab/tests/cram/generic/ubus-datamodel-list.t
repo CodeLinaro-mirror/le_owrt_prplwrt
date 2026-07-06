@@ -186,7 +186,6 @@ Check that ubus has expected datamodels available:
   Firewall.Policy
   Firewall.Service
   Firewall.Set
-  Firewall.X_PRPLWARE-COM_InterfaceSetting
   Firewall.X_PRPLWARE-COM_WANAccess
   Firewall.X_PRPLWARE-COM_WANAccess.BlockList
   GRE
