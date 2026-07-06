@@ -45,11 +45,17 @@ Check that root is able to login with no password:
 
 Disable password login:
 
-  $ R "ba-cli 'SSH.Server.3.AllowRootPasswordLogin=false'" ; sleep 2
+  $ R "ba-cli -l 'SSH.Server.3.AllowRootPasswordLogin=false' | tr -d '\n'"
+    0 (no-eol)
+
+  $ sleep 2
 
 Add public key:
 
-  $ R "ba-cli 'SSH.AuthorizedKey.1.Key=\"ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHiusVUeBdR2CY8vcBY5MjKBs8zfIoyZ4kfrJfSM13PS\"'" ; sleep 2
+  $ R "ba-cli -l 'SSH.AuthorizedKey.1.Key=\"ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHiusVUeBdR2CY8vcBY5MjKBs8zfIoyZ4kfrJfSM13PS\"' | tr -d '\n'"
+    ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHiusVUeBdR2CY8vcBY5MjKBs8zfIoyZ4kfrJfSM13PS (no-eol)
+
+  $ sleep 2
 
 Start two client connections using public key authentication:
 

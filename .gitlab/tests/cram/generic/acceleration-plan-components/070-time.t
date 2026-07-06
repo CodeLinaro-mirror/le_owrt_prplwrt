@@ -60,7 +60,10 @@ Disable outgoing NTP traffic:
 
 Disable and enable the Time manager to force time synchronization:
 
-  $ R "ba-cli 'Time.Enable=false'" ; sleep 5
+  $ R "ba-cli -l 'Time.Enable=false' | tr -d '\n'"
+    0 (no-eol)
+
+  $ sleep 5
 
   $ R "ba-cli -l 'Time.Client.1.Status?' | grep -v '^$'"
   Disabled
@@ -68,7 +71,10 @@ Disable and enable the Time manager to force time synchronization:
   $ R "ba-cli -l 'Time.Status?' | grep -v '^$'"
   Disabled
 
-  $ R "ba-cli 'Time.Enable=true'" ; sleep 5
+  $ R "ba-cli -l 'Time.Enable=true' | tr -d '\n'"
+    1 (no-eol)
+
+  $ sleep 5
 
 Check that Status has expected Unsynchronized state:
 
@@ -84,7 +90,10 @@ Enable outgoing NTP traffic:
 
 Disable and enable the Time manager to force time synchronization:
 
-  $ R "ba-cli 'Time.Enable=false'" ; sleep 5
+  $ R "ba-cli -l 'Time.Enable=false' | tr -d '\n'"
+    0 (no-eol)
+
+  $ sleep 5
 
   $ R "ba-cli -l 'Time.Client.1.Status?' | grep -v '^$'"
   Disabled
@@ -92,7 +101,10 @@ Disable and enable the Time manager to force time synchronization:
   $ R "ba-cli -l 'Time.Status?' | grep -v '^$'"
   Disabled
 
-  $ R "ba-cli 'Time.Enable=true'" ; sleep 10
+  $ R "ba-cli -l 'Time.Enable=true' | tr -d '\n'"
+    1 (no-eol)
+
+  $ sleep 10
 
 Check that Status has expected Synchronized state:
 
@@ -109,7 +121,10 @@ Check that CPE can provide NTP to LAN clients:
 
 Disable NTP server for LAN clients:
 
-  $ R "ba-cli 'Time.Server.1.Enable=false'" ; sleep 1
+  $ R "ba-cli -l 'Time.Server.1.Enable=false' | tr -d '\n'"
+    0 (no-eol)
+
+  $ sleep 1
 
 Check that CPE can't provide NTP to LAN clients:
 
@@ -118,7 +133,10 @@ Check that CPE can't provide NTP to LAN clients:
 
 Enable NTP server for LAN clients:
 
-  $ R "ba-cli 'Time.Server.1.Enable=true'" ; sleep 10
+  $ R "ba-cli -l 'Time.Server.1.Enable=true' | tr -d '\n'"
+    1 (no-eol)
+
+  $ sleep 10
 
 Check that CPE provides again NTP to the LAN clients:
 

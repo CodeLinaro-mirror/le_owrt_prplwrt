@@ -46,7 +46,7 @@ First call of AccessPointCommit, controller should push empty config to agents:
 
   $ R logger -t cram "first call of AccessPointCommit pushes empty config, global teardown"
 
-  $ R "ba-cli 'X_PRPLWARE-COM_WiFiController.Network.AccessPointCommit()' | tail -n +2 | sed '/^$/d'
+  $ R "ba-cli 'X_PRPLWARE-COM_WiFiController.Network.AccessPointCommit()' | grep -Ev '^(>|$)'
     X_PRPLWARE-COM_WiFiController.Network.AccessPointCommit() returned
     [
         ""
@@ -84,7 +84,7 @@ Create instances of Network.AccessPoint and push them to the agent:
 
   $ R logger -t cram "create instances of Network.AccessPoint and push them to the agent"
 
-  $ R "ba-cli 'X_PRPLWARE-COM_WiFiController.Network.AccessPoint+' | tail -n +2 | sed '/^$/d'
+  $ R "ba-cli 'X_PRPLWARE-COM_WiFiController.Network.AccessPoint+' | grep -Ev '^(>|$)'
     X_PRPLWARE-COM_WiFiController.Network.AccessPoint.* (re)
 
 
@@ -118,7 +118,7 @@ In case the controller does not yet have this parameter, catch error here isof l
 
 Create second instance of Network.AccessPoint for guest VAPs:
 
-  $ R "ba-cli 'X_PRPLWARE-COM_WiFiController.Network.AccessPoint+' | tail -n +2 | sed '/^$/d'
+  $ R "ba-cli 'X_PRPLWARE-COM_WiFiController.Network.AccessPoint+' | grep -Ev '^(>|$)'
     X_PRPLWARE-COM_WiFiController.Network.AccessPoint.* (re)
 
   $ R "ba-cli -l 'X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.Band2_4G=1;X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.Band5GH=1;X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.Band5GL=1;X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.Band6G=1' | sed '/^$/d'
@@ -147,7 +147,7 @@ In case the controller does not yet have this parameter, catch error here isof l
     1 (no-eol)
 
 
-  $ R "ba-cli 'X_PRPLWARE-COM_WiFiController.Network.AccessPointCommit()' | tail -n +2 | sed '/^$/d'
+  $ R "ba-cli 'X_PRPLWARE-COM_WiFiController.Network.AccessPointCommit()' | grep -Ev '^(>|$)'
     X_PRPLWARE-COM_WiFiController.Network.AccessPointCommit() returned
     [
         ""
@@ -254,7 +254,7 @@ To disable wireless, disable instances of Network.AccessPoint{i} and call Access
     0 (no-eol)
 
 
-  $ R "ba-cli 'X_PRPLWARE-COM_WiFiController.Network.AccessPointCommit()' | tail -n +2 | sed '/^$/d'
+  $ R "ba-cli 'X_PRPLWARE-COM_WiFiController.Network.AccessPointCommit()' | grep -Ev '^(>|$)'
     X_PRPLWARE-COM_WiFiController.Network.AccessPointCommit() returned
     [
         ""

@@ -32,7 +32,10 @@ Check that prpl-webui is available from LAN by default:
 
 Disable prpl-webui access from LAN:
 
-  $ R "ba-cli 'UserInterface.HTTPAccess.1.Enable=false'" ; sleep 2
+  $ R "ba-cli -l 'UserInterface.HTTPAccess.1.Enable=false' | tr -d '\n'"
+    0 (no-eol)
+
+  $ sleep 2
 Check that prpl-webui is not available from LAN:
 
   $ curl --silent --max-time 1 "http://${TARGET_LAN_IP}" | grep -c prpl-webui/config/environment
@@ -41,7 +44,9 @@ Check that prpl-webui is not available from LAN:
 
 Enable prpl-webui access from LAN:
 
-  $ R "ba-cli 'UserInterface.HTTPAccess.1.Enable=true'"
+  $ R "ba-cli -l 'UserInterface.HTTPAccess.1.Enable=true' | tr -d '\n'"
+    1 (no-eol)
+
 
 Check that prpl-webui is available from LAN again:
 
