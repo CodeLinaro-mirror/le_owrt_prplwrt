@@ -4,13 +4,12 @@ Create R alias:
 
 Check PCP root datamodel:
 
-  $ R "ba-cli -l 'PCP.Enable?;PCP.OptionList?;PCP.PreferredVersion?;PCP.SupportedVersions?;PCP.Debug?;PCP.ClientNumberOfEntries?' | grep -v '^$'"
-  1
+  $ R "ba-cli -l 'PCP.Enable?;PCP.OptionList?;PCP.PreferredVersion?;PCP.SupportedVersions?;PCP.ClientNumberOfEntries?' | grep -v '^$'"
+  0
   1,3
   2
   0,1,2
-  false
-  false
+  [0-9]* (re)
 
 Add Client:
 

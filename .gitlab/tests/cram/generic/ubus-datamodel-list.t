@@ -4,145 +4,626 @@ Create R alias:
 
 Check that ba-cli has expected datamodels available:
 
-  $ R "ba-cli list | sed 's/\.$//' | grep '[[:upper:]]' | grep -v -e '\.[[:digit:]]' -e '^Cellular' -e 'Device.Cellular' -e 'WiFi.Vendor.Daemon' -e 'WiFi.Vendor.ModuleMode' -e '^WiFi.Vendor.MLO' -e '^Bridging.Bridge.[SV]' -e 'WiFi.Vendor.ReconfManager'"
+  $ R "ba-cli list | while read m; do ba-cli \"\${m}?\"; done | grep '\.\$' | sed 's/\.[0-9]\+\././g; s/\.\$//' | grep '[[:upper:]]' | grep -v -e '^Cellular' -e 'Device.Cellular' -e 'WiFi.Vendor.Daemon' -e 'WiFi.Vendor.ModuleMode' -e '^WiFi.Vendor.MLO' -e '^Bridging.Bridge.[SV]' -e 'WiFi.Vendor.ReconfManager' -e '^ERROR' | sort -u"
   ACLManager
   ACLManager.Role
   Bridging
   Bridging.Bridge
+  Bridging.Bridge.Port
+  Bridging.Bridge.Port.Stats
   BulkData
-  BulkData.Profile
   Buttons
   Buttons.Action
   Buttons.Button
+  Buttons.Button.Event
   CPUs
   CPUs.CPU
+  CPUs.CPU.DVFS
   CaptivePortal
-  CaptivePortal.LANInterface
   ConMon
   ConMon.Entry
+  ConMon.Entry.Stats
   ConnectionTrackingQuery
-  ConnectionTrackingQuery.NotifyFlow
   Cthulhu
   Cthulhu.Config
   Cthulhu.Config.Debug
   Cthulhu.Config.LocalPolicyManager
   Cthulhu.Config.Syslog
   Cthulhu.Container
-  Cthulhu.Container.Instances
   Cthulhu.Information
   Cthulhu.Information.LocalPolicyManager
-  Cthulhu.Information.LocalPolicyManager.Action
   Cthulhu.LocalManagement
   Cthulhu.LocalManagement.Action
   Cthulhu.Plugins
   Cthulhu.PluginsPrivate
   Cthulhu.PluginsPrivate.NetworkConfig
   Cthulhu.PluginsPrivate.NetworkConfig.FirewallRules
+  Cthulhu.PluginsPrivate.NetworkConfig.FirewallRules.Rules
   Cthulhu.PluginsPrivate.NetworkConfig.Interfaces
   Cthulhu.Sandbox
   Cthulhu.Sandbox.Instances
+  Cthulhu.Sandbox.Instances.Devices
+  Cthulhu.Sandbox.Instances.NetworkNS
+  Cthulhu.Sandbox.Instances.Plugins
   Cthulhu.Sandbox.Instances.Plugins.DHCP
-  Cthulhu.Sandbox.Instances.Plugins.DHCP.Interfaces
+  Cthulhu.Sandbox.Instances.PluginsPrivate
+  Cthulhu.Sandbox.Instances.Stats
+  Cthulhu.Sandbox.Instances.Stats.DiskSpace
+  Cthulhu.Sandbox.Instances.Stats.Memory
+  Cthulhu.Sandbox.Instances.UtsNS
   DHCPv4Client
   DHCPv4Client.Client
+  DHCPv4Client.Client.ReqOption
+  DHCPv4Client.Client.SentOption
+  DHCPv4Client.Client.Stats
   DHCPv4Server
   DHCPv4Server.Pool
+  DHCPv4Server.Pool.Client
+  DHCPv4Server.Pool.Client.IPv4Address
+  DHCPv4Server.Pool.Client.Option
+  DHCPv4Server.Pool.Option
   DHCPv6Client
   DHCPv6Client.Client
+  DHCPv6Client.Client.Retransmission
+  DHCPv6Client.Client.Stats
+  DHCPv6Client.Client.X_PRPLWARE-COM_Config
   DHCPv6Server
   DHCPv6Server.Pool
+  DHCPv6Server.Pool.Option
+  DHCPv6Server.Pool.X_PRPLWARE-COM_DNS
+  DHCPv6Server.Pool.X_PRPLWARE-COM_IANAConfig
   DNS
   DNS.Client
   DNS.Client.Server
   DNS.Diagnostics
   DNS.Diagnostics.NSLookupDiagnostics
-  DNS.Diagnostics.NSLookupDiagnostics.Result
   DNS.Relay
   DNS.Relay.Config
-  DNS.Relay.Config.Unbound
   DNS.Relay.Forwarding
-  DNS.X_PRPLWARE-COM_ForwardZone
   DNS.X_PRPLWARE-COM_Host
+  DNS.X_PRPLWARE-COM_Host.IPAddress
   DNS.X_PRPLWARE-COM_RebindProtection
-  DNS.X_PRPLWARE-COM_RebindProtection.DomainExceptions
   DNS.X_PRPLWARE-COM_RebindProtection.IPExceptions
-  DNS.Zone
   DNSSD
   DNSSD.Advertise
-  DNSSD.Service
+  DNSSD.Advertise.TextRecord
   DSLite
   DSLite.InterfaceSetting
   Device
   Device.Bridging
+  Device.Bridging.Bridge
+  Device.Bridging.Bridge.Port
+  Device.Bridging.Bridge.Port.Stats
+  Device.Bridging.Bridge.STP
+  Device.Bridging.Bridge.VLAN
+  Device.Bridging.Bridge.VLANPort
   Device.BulkData
+  Device.BulkData.Profile
   Device.CaptivePortal
+  Device.CaptivePortal.LANInterface
+  Device.CaptivePortal.LANInterface.Condition
   Device.DHCPv4
+  Device.DHCPv4.Client
+  Device.DHCPv4.Client.ReqOption
+  Device.DHCPv4.Client.SentOption
+  Device.DHCPv4.Client.Stats
   Device.DHCPv4.Server
+  Device.DHCPv4.Server.Pool
+  Device.DHCPv4.Server.Pool.AssignedLeases
+  Device.DHCPv4.Server.Pool.Client
+  Device.DHCPv4.Server.Pool.Client.IPv4Address
+  Device.DHCPv4.Server.Pool.Client.Option
+  Device.DHCPv4.Server.Pool.Option
+  Device.DHCPv4.Server.Pool.StaticAddress
   Device.DHCPv6
+  Device.DHCPv6.Client
+  Device.DHCPv6.Client.ReceivedOption
+  Device.DHCPv6.Client.Retransmission
+  Device.DHCPv6.Client.SentOption
+  Device.DHCPv6.Client.Server
+  Device.DHCPv6.Client.Stats
+  Device.DHCPv6.Client.X_PRPLWARE-COM_Config
   Device.DHCPv6.Server
+  Device.DHCPv6.Server.Pool
+  Device.DHCPv6.Server.Pool.Client
+  Device.DHCPv6.Server.Pool.Option
+  Device.DHCPv6.Server.Pool.X_PRPLWARE-COM_DNS
+  Device.DHCPv6.Server.Pool.X_PRPLWARE-COM_IANAConfig
   Device.DNS
+  Device.DNS.Client
+  Device.DNS.Client.Server
+  Device.DNS.Diagnostics
+  Device.DNS.Diagnostics.NSLookupDiagnostics
+  Device.DNS.Diagnostics.NSLookupDiagnostics.Result
+  Device.DNS.Relay
+  Device.DNS.Relay.Config
+  Device.DNS.Relay.Config.Unbound
+  Device.DNS.Relay.Forwarding
   Device.DNS.SD
+  Device.DNS.SD.Advertise
+  Device.DNS.SD.Advertise.TextRecord
+  Device.DNS.SD.Service
+  Device.DNS.X_PRPLWARE-COM_ForwardZone
+  Device.DNS.X_PRPLWARE-COM_Host
+  Device.DNS.X_PRPLWARE-COM_Host.IPAddress
+  Device.DNS.X_PRPLWARE-COM_RebindProtection
+  Device.DNS.X_PRPLWARE-COM_RebindProtection.DomainExceptions
+  Device.DNS.X_PRPLWARE-COM_RebindProtection.IPExceptions
+  Device.DNS.Zone
   Device.DSLite
+  Device.DSLite.InterfaceSetting
   Device.DeviceInfo
+  Device.DeviceInfo.DeviceImageFile
+  Device.DeviceInfo.FirmwareImage
   Device.DeviceInfo.KernelFaults
+  Device.DeviceInfo.KernelFaults.KernelFault
+  Device.DeviceInfo.Location
+  Device.DeviceInfo.LogRotate
+  Device.DeviceInfo.LogRotate.LogFile
+  Device.DeviceInfo.MemoryStatus
+  Device.DeviceInfo.MemoryStatus.MemoryMonitor
   Device.DeviceInfo.PowerStatus
+  Device.DeviceInfo.PowerStatus.PowerSensor
   Device.DeviceInfo.ProcessFaults
+  Device.DeviceInfo.ProcessFaults.ProcessFault
+  Device.DeviceInfo.ProcessStatus
+  Device.DeviceInfo.ProcessStatus.CPU
+  Device.DeviceInfo.ProcessStatus.Process
+  Device.DeviceInfo.Processor
   Device.DeviceInfo.Reboots
+  Device.DeviceInfo.Reboots.Reboot
+  Device.DeviceInfo.Reboots.X_PRPLWARE-COM_Reasons
   Device.DeviceInfo.TemperatureStatus
+  Device.DeviceInfo.TemperatureStatus.TemperatureSensor
+  Device.DeviceInfo.VendorConfigFile
+  Device.DeviceInfo.VendorLogFile
   Device.DynamicDNS
+  Device.DynamicDNS.Client
+  Device.DynamicDNS.Server
   Device.Ethernet
+  Device.Ethernet.Interface
+  Device.Ethernet.Interface.Stats
+  Device.Ethernet.Interface.X_PRPLWARE-COM_LED
+  Device.Ethernet.Link
+  Device.Ethernet.Link.Stats
+  Device.Ethernet.RMONStats
+  Device.Ethernet.VLANTermination
   Device.Firewall
+  Device.Firewall.Chain
+  Device.Firewall.Chain.Rule
+  Device.Firewall.ConnectionTracking
+  Device.Firewall.ConnectionTracking.SIP
+  Device.Firewall.DMZ
+  Device.Firewall.InterfaceSetting
+  Device.Firewall.Level
+  Device.Firewall.Log
+  Device.Firewall.Pinhole
+  Device.Firewall.Policy
+  Device.Firewall.Service
+  Device.Firewall.Set
+  Device.Firewall.X_PRPLWARE-COM_InterfaceSetting
+  Device.Firewall.X_PRPLWARE-COM_WANAccess
+  Device.Firewall.X_PRPLWARE-COM_WANAccess.BlockList
   Device.Hardware
   Device.Hardware.CPUs
+  Device.Hardware.CPUs.CPU
+  Device.Hardware.CPUs.CPU.DVFS
   Device.Hardware.X_PRPLWARE-COM_FlashDevice
+  Device.Hardware.X_PRPLWARE-COM_FlashDevice.Health
   Device.HomePlug
+  Device.HomePlug.Interface
+  Device.HomePlug.Interface.AssociatedDevice
   Device.Hosts
+  Device.Hosts.AccessControl
+  Device.Hosts.Host
+  Device.Hosts.Host.IPv4Address
+  Device.Hosts.Host.IPv6Address
+  Device.Hosts.X_PRPLWARE-COM_HostConfig
   Device.IP
+  Device.IP.ActivePort
   Device.IP.Diagnostics
+  Device.IP.Diagnostics.DownloadDiagnostics
+  Device.IP.Diagnostics.DownloadDiagnostics.IncrementalResult
+  Device.IP.Diagnostics.DownloadDiagnostics.PerConnectionResult
+  Device.IP.Diagnostics.IPLayerCapacityMetrics
+  Device.IP.Diagnostics.IPLayerCapacityMetrics.IPLayerCapacityAuthCode
+  Device.IP.Diagnostics.IPLayerCapacityMetrics.IncrementalResult
+  Device.IP.Diagnostics.IPLayerCapacityMetrics.ModalResult
+  Device.IP.Diagnostics.IPLayerCapacityMetrics.Process
+  Device.IP.Diagnostics.IPPing
+  Device.IP.Diagnostics.IPPing.Process
+  Device.IP.Diagnostics.TraceRoute
+  Device.IP.Diagnostics.TraceRoute.Process
+  Device.IP.Diagnostics.TraceRoute.RouteHops
+  Device.IP.Diagnostics.UploadDiagnostics
+  Device.IP.Diagnostics.UploadDiagnostics.IncrementalResult
+  Device.IP.Diagnostics.UploadDiagnostics.PerConnectionResult
+  Device.IP.Diagnostics.X_PRPLWARE-COM_DownloadConfig
+  Device.IP.Diagnostics.X_PRPLWARE-COM_DownloadResult
+  Device.IP.Diagnostics.X_PRPLWARE-COM_UploadConfig
+  Device.IP.Diagnostics.X_PRPLWARE-COM_UploadResult
+  Device.IP.Interface
+  Device.IP.Interface.IPv4Address
+  Device.IP.Interface.IPv6Address
+  Device.IP.Interface.IPv6Prefix
+  Device.IP.Interface.Stats
+  Device.IP.Interface.X_PRPLWARE-COM_IPv4Config
+  Device.IP.Interface.X_PRPLWARE-COM_IPv6Config
   Device.InterfaceStack
   Device.LEDs
+  Device.LEDs.LED
+  Device.LEDs.LED.CurrentCycleElement
+  Device.LEDs.LED.CycleElement
+  Device.LEDs.LED.ULED
   Device.Logical
+  Device.Logical.Interface
+  Device.Logical.Interface.Stats
+  Device.Logical.Interface.X_PRPLWARE-COM_LAN
+  Device.Logical.Interface.X_PRPLWARE-COM_LAN.HostName
+  Device.Logical.Interface.X_PRPLWARE-COM_WAN
+  Device.Logical.X_PRPLWARE-COM_Subnet
+  Device.Logical.X_PRPLWARE-COM_Subnet.Config
   Device.MQTT
   Device.MQTT.Broker
+  Device.MQTT.Broker.Bridge
+  Device.MQTT.Broker.X_PRPLWARE-COM_User
+  Device.MQTT.Capabilities
+  Device.MQTT.Client
+  Device.MQTT.Client.Stats
+  Device.MQTT.Client.Subscription
+  Device.MQTT.Client.UserProperty
   Device.ManagementServer
+  Device.ManagementServer.ACSTransfers
+  Device.ManagementServer.ACSTransfers.ACSTransfer
+  Device.ManagementServer.ConnRequest
+  Device.ManagementServer.HeartbeatPolicy
+  Device.ManagementServer.InformParameter
+  Device.ManagementServer.InternalSettings
+  Device.ManagementServer.ManageableDevice
+  Device.ManagementServer.Mapping
+  Device.ManagementServer.SMM
+  Device.ManagementServer.SMM.DUStateChangeComplete
+  Device.ManagementServer.State
+  Device.ManagementServer.Stats
+  Device.ManagementServer.Subscription
+  Device.ManagementServer.Transfers
+  Device.ManagementServer.Transfers.ScheduleDownload
   Device.NAT
+  Device.NAT.InterfaceSetting
+  Device.NAT.InterfaceSetting.X_PRPLWARE-COM_NATInterface
+  Device.NAT.PortMapping
+  Device.NAT.PortTrigger
+  Device.NAT.X_PRPLWARE-COM_StaticNAT
+  Device.NAT.X_PRPLWARE-COM_StaticNAT.Host
   Device.NeighborDiscovery
+  Device.NeighborDiscovery.InterfaceSetting
   Device.Optical
+  Device.Optical.Interface
   Device.PCP
+  Device.PCP.Client
+  Device.PCP.Client.PCPProxy
+  Device.PCP.Client.Server
+  Device.PCP.Client.Server.InboundMapping
+  Device.PCP.Client.Server.OutboundMapping
+  Device.PCP.Client.UPnPIWF
   Device.PPP
+  Device.PPP.Interface
+  Device.PPP.Interface.IPCP
+  Device.PPP.Interface.IPv6CP
+  Device.PPP.Interface.PPPoE
+  Device.PPP.Interface.Stats
   Device.PacketInterception
+  Device.PacketInterception.CommunicationConfig
+  Device.PacketInterception.CommunicationConfig.Socket
+  Device.PacketInterception.Condition
+  Device.PacketInterception.Interception
+  Device.PacketInterception.Interception.Bypass
+  Device.PacketInterception.Interception.Intercept
+  Device.PacketInterception.Interception.Intercept.CommunicationConfig
+  Device.PacketInterception.PacketHandler
+  Device.PacketInterception.PacketHandler.Stats
   Device.PeriodicFileTransfer
+  Device.PeriodicFileTransfer.FileTypeConfig
+  Device.PeriodicFileTransfer.Profile
+  Device.PeriodicFileTransfer.Profile.HTTP
+  Device.PeriodicFileTransfer.Profile.HTTP.RequestHeaderParameter
+  Device.PeriodicFileTransfer.Profile.HTTP.RequestURIParameter
+  Device.PeriodicFileTransfer.Stats
+  Device.PeriodicFileTransfer.Transfer
+  Device.PeriodicFileTransfer.Transfer.Stats
   Device.QoS
+  Device.QoS.Classification
+  Device.QoS.Node
+  Device.QoS.Node.Child
+  Device.QoS.Node.Parent
+  Device.QoS.Queue
+  Device.QoS.QueueStats
+  Device.QoS.Scheduler
+  Device.QoS.Shaper
   Device.RouterAdvertisement
+  Device.RouterAdvertisement.InterfaceSetting
+  Device.RouterAdvertisement.InterfaceSetting.Option
   Device.Routing
+  Device.Routing.Policy
+  Device.Routing.RIP
+  Device.Routing.RIP.InterfaceSetting
+  Device.Routing.RouteInformation
+  Device.Routing.RouteInformation.InterfaceSetting
+  Device.Routing.RouteInformation.InterfaceSetting.Option
+  Device.Routing.Router
+  Device.Routing.Router.IPv4Forwarding
+  Device.Routing.Router.IPv6Forwarding
   Device.SFPs
+  Device.SFPs.Mgmt
+  Device.SFPs.Mgmt.SFF8472
+  Device.SFPs.SFPCage
+  Device.SFPs.X_PRPLWARE-COM_SFPDatabase
   Device.SSH
+  Device.SSH.AuthorizedKey
+  Device.SSH.Server
+  Device.SSH.Server.Session
+  Device.SSH.Server.Stats
+  Device.SSH.Server.X_PRPLWARE-COM_FailedAttempt
   Device.Security
+  Device.Security.CABundle
+  Device.Security.Certificate
   Device.SoftwareModules
+  Device.SoftwareModules.DeploymentUnit
+  Device.SoftwareModules.ExecEnv
+  Device.SoftwareModules.ExecutionUnit
+  Device.SoftwareModules.LocalManagement
+  Device.SoftwareModules.LocalManagement.Action
+  Device.SoftwareModules.NetworkConfig
+  Device.SoftwareModules.NetworkConfig.Interfaces
   Device.Syslog
+  Device.Syslog.Action
+  Device.Syslog.Action.LogFile
+  Device.Syslog.Action.LogRemote
+  Device.Syslog.Filter
+  Device.Syslog.Source
+  Device.Syslog.Source.Network
+  Device.Syslog.Source.UnixDomainSocket
+  Device.Syslog.Template
   Device.Time
+  Device.Time.Client
+  Device.Time.Client.Authentication
+  Device.Time.Client.Stats
+  Device.Time.Server
+  Device.Time.Server.Authentication
+  Device.Time.Server.Stats
   Device.UPnP
   Device.UPnP.Description
+  Device.UPnP.Description.DeviceDescription
+  Device.UPnP.Description.DeviceInstance
+  Device.UPnP.Description.ServiceInstance
+  Device.UPnP.Device
+  Device.UPnP.Device.Capabilities
   Device.UPnP.Discovery
+  Device.UPnP.Discovery.Device
+  Device.UPnP.Discovery.RootDevice
+  Device.UPnP.Discovery.Service
+  Device.UPnP.X_PRPLWARE-COM_IGDConfig
   Device.USB
+  Device.USB.Interface
+  Device.USB.Interface.Stats
+  Device.USB.Port
+  Device.USB.USBHosts
+  Device.USB.USBHosts.AllowedDevice
+  Device.USB.USBHosts.Host
+  Device.USB.USBHosts.Host.Device
   Device.UserInterface
+  Device.UserInterface.HTTPAccess
+  Device.UserInterface.HTTPAccess.Session
+  Device.UserInterface.HTTPAccess.X_PRPLWARE-COM_HTTPConfig
   Device.Users
+  Device.Users.Group
+  Device.Users.Role
+  Device.Users.SupportedShell
+  Device.Users.User
   Device.WiFi
+  Device.WiFi.APMLD
+  Device.WiFi.APMLD.APMLDConfig
+  Device.WiFi.APMLD.AffiliatedAP
+  Device.WiFi.AccessPoint
+  Device.WiFi.AccessPoint.AssociatedDevice
+  Device.WiFi.AccessPoint.AssociationCount
+  Device.WiFi.AccessPoint.AssociationCount.FastReconnectTypes
+  Device.WiFi.AccessPoint.DriverConfig
+  Device.WiFi.AccessPoint.HotSpot2
+  Device.WiFi.AccessPoint.IEEE80211u
+  Device.WiFi.AccessPoint.ProbeFiltering
+  Device.WiFi.AccessPoint.ProbeFiltering.TempEntry
+  Device.WiFi.AccessPoint.RssiEventing
+  Device.WiFi.AccessPoint.Security
+  Device.WiFi.AccessPoint.VendorIEs
+  Device.WiFi.AccessPoint.VendorIEs.VendorIE
+  Device.WiFi.AccessPoint.WPS
+  Device.WiFi.AccessPoint.X_PRPLWARE-COM_IEEE80211r
+  Device.WiFi.AccessPoint.X_PRPLWARE-COM_MACFiltering
+  Device.WiFi.AccessPoint.X_PRPLWARE-COM_MACFiltering.Entry
+  Device.WiFi.AccessPoint.X_PRPLWARE-COM_MACFiltering.TempEntry
+  Device.WiFi.AccessPoint.X_PRPLWARE-COM_Neighbour
+  Device.WiFi.AutoNeighbourAddition
+  Device.WiFi.Config
+  Device.WiFi.DaemonMgt
+  Device.WiFi.DaemonMgt.Daemon
+  Device.WiFi.DaemonMgt.Daemon.ExecutionSettings
+  Device.WiFi.DataElements
+  Device.WiFi.DataElements.AssociationEvent
+  Device.WiFi.DataElements.AssociationEvent.AssociationEventData
+  Device.WiFi.DataElements.DisassociationEvent
+  Device.WiFi.DataElements.DisassociationEvent.DisassociationEventData
+  Device.WiFi.DataElements.FailedConnectionEvent
+  Device.WiFi.DataElements.FailedConnectionEvent.FailedConnectionEventData
+  Device.WiFi.DataElements.Network
+  Device.WiFi.DataElements.Network.AccessPoint
+  Device.WiFi.DataElements.Network.Device
+  Device.WiFi.DataElements.Network.Device.APMLD
+  Device.WiFi.DataElements.Network.Device.BTMSteeringDisallowedSTAList
+  Device.WiFi.DataElements.Network.Device.CACStatus
+  Device.WiFi.DataElements.Network.Device.CACStatus.CACActiveChannel
+  Device.WiFi.DataElements.Network.Device.CACStatus.CACAvailableChannel
+  Device.WiFi.DataElements.Network.Device.CACStatus.CACNonOccupancyChannel
+  Device.WiFi.DataElements.Network.Device.Default8021Q
+  Device.WiFi.DataElements.Network.Device.IEEE1905Security
+  Device.WiFi.DataElements.Network.Device.Interface
+  Device.WiFi.DataElements.Network.Device.Interface.Neighbor
+  Device.WiFi.DataElements.Network.Device.Interface.Stats
+  Device.WiFi.DataElements.Network.Device.LocalSteeringDisallowedSTA
+  Device.WiFi.DataElements.Network.Device.MultiAPCapabilities
+  Device.WiFi.DataElements.Network.Device.MultiAPDevice
+  Device.WiFi.DataElements.Network.Device.MultiAPDevice.Backhaul
+  Device.WiFi.DataElements.Network.Device.MultiAPDevice.Backhaul.CurrentOperatingClassProfile
+  Device.WiFi.DataElements.Network.Device.MultiAPDevice.Backhaul.Stats
+  Device.WiFi.DataElements.Network.Device.Radio
+  Device.WiFi.DataElements.Network.Device.Radio.BSS
+  Device.WiFi.DataElements.Network.Device.Radio.BackhaulSta
+  Device.WiFi.DataElements.Network.Device.Radio.CACCapability
+  Device.WiFi.DataElements.Network.Device.Radio.CACCapability.CACMethod
+  Device.WiFi.DataElements.Network.Device.Radio.CACCapability.CACMethod.OpClassChannels
+  Device.WiFi.DataElements.Network.Device.Radio.CACCapability.CACMethod.OpClassChannels.Channel
+  Device.WiFi.DataElements.Network.Device.Radio.Capabilities
+  Device.WiFi.DataElements.Network.Device.Radio.Capabilities.AKMBackhaul
+  Device.WiFi.DataElements.Network.Device.Radio.Capabilities.AKMFrontHaul
+  Device.WiFi.DataElements.Network.Device.Radio.Capabilities.HTCapabilities
+  Device.WiFi.DataElements.Network.Device.Radio.Capabilities.OperatingClasses
+  Device.WiFi.DataElements.Network.Device.Radio.Capabilities.OperatingClasses.NonOperable
+  Device.WiFi.DataElements.Network.Device.Radio.Capabilities.VBSSCapabilities
+  Device.WiFi.DataElements.Network.Device.Radio.Capabilities.VHTCapabilities
+  Device.WiFi.DataElements.Network.Device.Radio.Capabilities.WiFi6APRole
+  Device.WiFi.DataElements.Network.Device.Radio.Capabilities.WiFi6APRole.MCSNSS
+  Device.WiFi.DataElements.Network.Device.Radio.Capabilities.WiFi6bSTARole
+  Device.WiFi.DataElements.Network.Device.Radio.Capabilities.WiFi6bSTARole.MCSNSS
+  Device.WiFi.DataElements.Network.Device.Radio.Capabilities.WiFi7APRole
+  Device.WiFi.DataElements.Network.Device.Radio.Capabilities.WiFi7APRole.EMLMRFreqSeparation
+  Device.WiFi.DataElements.Network.Device.Radio.Capabilities.WiFi7APRole.EMLSRFreqSeparation
+  Device.WiFi.DataElements.Network.Device.Radio.Capabilities.WiFi7APRole.NSTRFreqSeparation
+  Device.WiFi.DataElements.Network.Device.Radio.Capabilities.WiFi7APRole.STRFreqSeparation
+  Device.WiFi.DataElements.Network.Device.Radio.Capabilities.WiFi7bSTARole
+  Device.WiFi.DataElements.Network.Device.Radio.Capabilities.WiFi7bSTARole.EMLMRFreqSeparation
+  Device.WiFi.DataElements.Network.Device.Radio.Capabilities.WiFi7bSTARole.EMLSRFreqSeparation
+  Device.WiFi.DataElements.Network.Device.Radio.Capabilities.WiFi7bSTARole.NSTRFreqSeparation
+  Device.WiFi.DataElements.Network.Device.Radio.Capabilities.WiFi7bSTARole.STRFreqSeparation
+  Device.WiFi.DataElements.Network.Device.Radio.CurrentOperatingClassProfile
+  Device.WiFi.DataElements.Network.Device.Radio.ScanCapability
+  Device.WiFi.DataElements.Network.Device.Radio.ScanCapability.OpClassChannels
+  Device.WiFi.DataElements.Network.Device.Radio.ScanCapability.OpClassChannels.Channel
+  Device.WiFi.DataElements.Network.Device.Radio.ScanResult
+  Device.WiFi.DataElements.Network.Device.Radio.SpatialReuse
+  Device.WiFi.DataElements.Network.Device.Radio.UnassociatedSTA
+  Device.WiFi.DataElements.Network.Device.Radio.X_PRPLWARE-COM_CACCompletion
+  Device.WiFi.DataElements.Network.Device.Radio.X_PRPLWARE-COM_CACCompletion.Pairs
+  Device.WiFi.DataElements.Network.Device.SPRule
+  Device.WiFi.DataElements.Network.Device.SSIDtoVIDMapping
+  Device.WiFi.DataElements.Network.Device.bSTAMLD
+  Device.WiFi.DataElements.Network.Device.bSTAMLD.bSTAMLDConfig
+  Device.WiFi.DataElements.Network.MultiAPSteeringSummaryStats
+  Device.WiFi.DataElements.Network.X-PRPL_ORG_Group
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Controller
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Controller.AgentConnectedEvent
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Controller.AgentDisconnectedEvent
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Controller.Configuration
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Controller.Configuration.QoS
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Controller.Configuration.TrafficSeparation
+  Device.WiFi.DataElements.X_PRPLWARE-COM_Controller.SteerEvent
+  Device.WiFi.EndPoint
+  Device.WiFi.EndPoint.AssocStats
+  Device.WiFi.EndPoint.Profile
+  Device.WiFi.EndPoint.Security
+  Device.WiFi.EndPoint.Stats
+  Device.WiFi.EndPoint.WPS
+  Device.WiFi.Radio
+  Device.WiFi.Radio.Capabilities
+  Device.WiFi.Radio.Capabilities.WiFi7APRole
+  Device.WiFi.Radio.Capabilities.WiFi7STARole
+  Device.WiFi.Radio.DFS
+  Device.WiFi.Radio.DFS.Event
+  Device.WiFi.Radio.DriverConfig
+  Device.WiFi.Radio.DriverStatus
+  Device.WiFi.Radio.EventCounter
+  Device.WiFi.Radio.IEEE80211ax
+  Device.WiFi.Radio.MACConfig
+  Device.WiFi.Radio.RadCaps
+  Device.WiFi.Radio.ScanConfig
+  Device.WiFi.Radio.ScanResults
+  Device.WiFi.Radio.ScanResults.SurroundingChannels
+  Device.WiFi.Radio.ScanStats
+  Device.WiFi.Radio.ScanStats.ScanReason
+  Device.WiFi.Radio.StaticPuncturing
+  Device.WiFi.Radio.Stats
+  Device.WiFi.Radio.Stats.X_PRPLWARE-COM_WmmBytesReceived
+  Device.WiFi.Radio.Stats.X_PRPLWARE-COM_WmmBytesSent
+  Device.WiFi.Radio.Stats.X_PRPLWARE-COM_WmmFailedBytesReceived
+  Device.WiFi.Radio.Stats.X_PRPLWARE-COM_WmmFailedReceived
+  Device.WiFi.Radio.Stats.X_PRPLWARE-COM_WmmFailedSent
+  Device.WiFi.Radio.Stats.X_PRPLWARE-COM_WmmFailedbytesSent
+  Device.WiFi.Radio.Stats.X_PRPLWARE-COM_WmmPacketsReceived
+  Device.WiFi.Radio.Stats.X_PRPLWARE-COM_WmmPacketsSent
+  Device.WiFi.Radio.Vendor
+  Device.WiFi.Radio.X_PRPLWARE-COM_ChannelMgt
+  Device.WiFi.Radio.X_PRPLWARE-COM_ChannelMgt.BgDfs
+  Device.WiFi.Radio.X_PRPLWARE-COM_ChannelMgt.BgDfs.Stats
+  Device.WiFi.Radio.X_PRPLWARE-COM_ChannelMgt.ChannelChanges
+  Device.WiFi.Radio.X_PRPLWARE-COM_ChannelMgt.CurrentChanspec
+  Device.WiFi.Radio.X_PRPLWARE-COM_ChannelMgt.TargetChanspec
+  Device.WiFi.Radio.X_PRPLWARE-COM_NaStaMonitor
+  Device.WiFi.Radio.X_PRPLWARE-COM_NaStaMonitor.MonitorDevice
+  Device.WiFi.Radio.X_PRPLWARE-COM_NaStaMonitor.NonAssociatedDevice
+  Device.WiFi.Radio.X_PRPLWARE-COM_NaStaMonitor.RssiEventing
+  Device.WiFi.Radio.X_PRPLWARE-COM_Sensing
+  Device.WiFi.Radio.X_PRPLWARE-COM_Sensing.CSIClient
+  Device.WiFi.SSID
+  Device.WiFi.SSID.Stats
+  Device.WiFi.SSID.Stats.X_PRPLWARE-COM_WmmBytesReceived
+  Device.WiFi.SSID.Stats.X_PRPLWARE-COM_WmmBytesSent
+  Device.WiFi.SSID.Stats.X_PRPLWARE-COM_WmmFailedBytesReceived
+  Device.WiFi.SSID.Stats.X_PRPLWARE-COM_WmmFailedReceived
+  Device.WiFi.SSID.Stats.X_PRPLWARE-COM_WmmFailedSent
+  Device.WiFi.SSID.Stats.X_PRPLWARE-COM_WmmFailedbytesSent
+  Device.WiFi.SSID.Stats.X_PRPLWARE-COM_WmmPacketsReceived
+  Device.WiFi.SSID.Stats.X_PRPLWARE-COM_WmmPacketsSent
+  Device.WiFi.Vendor
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing
+  Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session
+  Device.WiFi.bSTAMLD
+  Device.WiFi.wps_DefParam
   Device.XPON
+  Device.XPON.ONU
   Device.X_PRPLWARE-COM_Buttons
+  Device.X_PRPLWARE-COM_Buttons.Action
+  Device.X_PRPLWARE-COM_Buttons.Button
+  Device.X_PRPLWARE-COM_Buttons.Button.Event
   Device.X_PRPLWARE-COM_ConMon
+  Device.X_PRPLWARE-COM_ConMon.Entry
+  Device.X_PRPLWARE-COM_ConMon.Entry.Stats
   Device.X_PRPLWARE-COM_ConnectionTrackingQuery
+  Device.X_PRPLWARE-COM_ConnectionTrackingQuery.NotifyFlow
   Device.X_PRPLWARE-COM_GenericNetworkInterface
+  Device.X_PRPLWARE-COM_GenericNetworkInterface.Interface
   Device.X_PRPLWARE-COM_MCASTD
+  Device.X_PRPLWARE-COM_MCASTD.Debug
+  Device.X_PRPLWARE-COM_MCASTD.Debug.Zone
+  Device.X_PRPLWARE-COM_MCASTD.Intf
+  Device.X_PRPLWARE-COM_MCASTD.Tuner
   Device.X_PRPLWARE-COM_MultiSettings
+  Device.X_PRPLWARE-COM_MultiSettings.Profile
   Device.X_PRPLWARE-COM_PersistentConfiguration
-  Device.X_PRPLWARE-COM_SoftwareModules
+  Device.X_PRPLWARE-COM_PersistentConfiguration.BackupFile
+  Device.X_PRPLWARE-COM_PersistentConfiguration.Config
+  Device.X_PRPLWARE-COM_PersistentConfiguration.Config.Security
+  Device.X_PRPLWARE-COM_PersistentConfiguration.Service
+  Device.X_PRPLWARE-COM_PersistentConfiguration.Service.Schema
   Device.X_PRPLWARE-COM_WANManager
+  Device.X_PRPLWARE-COM_WANManager.WAN
+  Device.X_PRPLWARE-COM_WANManager.WAN.Intf
+  Device.X_PRPLWARE-COM_WANManager.WAN.Intf.IPv4Address
+  Device.X_PRPLWARE-COM_WANManager.WAN.Intf.IPv6Address
   Device.X_PRPLWARE-COM_WiFiScheduler
+  Device.X_PRPLWARE-COM_WiFiScheduler.Group
+  Device.X_PRPLWARE-COM_WiFiScheduler.Network
+  Device.X_PRPLWARE-COM_WiFiScheduler.Network.Schedule
   DeviceInfo
-  DeviceInfo.DeviceImageFile
   DeviceInfo.FirmwareImage
-  DeviceInfo.Location
   DeviceInfo.LogRotate
   DeviceInfo.MemoryStatus
   DeviceInfo.MemoryStatus.MemoryMonitor
@@ -156,158 +637,156 @@ Check that ba-cli has expected datamodels available:
   Devices.Config
   Devices.Config.global
   Devices.Config.mod-self
-  Devices.Debug
   Devices.Device
+  Devices.Device.IPv4Address
+  Devices.Device.IPv6Address
+  Devices.Device.LDevice
+  Devices.Device.Service
+  Devices.Device.UDevice
   Devices.Query
   DynamicDNS
-  DynamicDNS.Client
   DynamicDNS.Server
   Ethernet
   Ethernet.Interface
+  Ethernet.Interface.Stats
+  Ethernet.Interface.X_PRPLWARE-COM_LED
   Ethernet.Link
+  Ethernet.Link.Stats
   Ethernet.RMONStats
-  Ethernet.VLANTermination
   Firewall
   Firewall.Chain
+  Firewall.Chain.Rule
   Firewall.ConnectionTracking
   Firewall.ConnectionTracking.SIP
   Firewall.DMZ
   Firewall.InterfaceSetting
   Firewall.Level
   Firewall.Log
-  Firewall.Pinhole
   Firewall.Policy
   Firewall.Service
-  Firewall.Set
-  Firewall.X_PRPLWARE-COM_InterfaceSetting
   Firewall.X_PRPLWARE-COM_WANAccess
-  Firewall.X_PRPLWARE-COM_WANAccess.BlockList
   GenericNetworkInterface
-  GenericNetworkInterface.Interface
   Hardware
   Hardware.FlashDevice
+  Hardware.FlashDevice.Health
   HomePlug
   HomePlug.Interface
   Hosts
-  Hosts.AccessControl
   Hosts.Host
+  Hosts.Host.IPv4Address
+  Hosts.Host.IPv6Address
   Hosts.X_PRPLWARE-COM_HostConfig
   IP
-  IP.ActivePort
   IP.Interface
+  IP.Interface.IPv4Address
+  IP.Interface.IPv6Address
+  IP.Interface.IPv6Prefix
+  IP.Interface.Stats
+  IP.Interface.X_PRPLWARE-COM_IPv4Config
+  IP.Interface.X_PRPLWARE-COM_IPv6Config
   IPDiagnostics
   IPDiagnostics.DownloadDiagnostics
-  IPDiagnostics.DownloadDiagnostics.IncrementalResult
-  IPDiagnostics.DownloadDiagnostics.PerConnectionResult
   IPDiagnostics.IPLayerCapacityMetrics
-  IPDiagnostics.IPLayerCapacityMetrics.IPLayerCapacityAuthCode
-  IPDiagnostics.IPLayerCapacityMetrics.IncrementalResult
-  IPDiagnostics.IPLayerCapacityMetrics.ModalResult
-  IPDiagnostics.IPLayerCapacityMetrics.Process
   IPDiagnostics.IPPing
-  IPDiagnostics.IPPing.Process
   IPDiagnostics.TraceRoute
-  IPDiagnostics.TraceRoute.Process
-  IPDiagnostics.TraceRoute.RouteHops
   IPDiagnostics.UploadDiagnostics
-  IPDiagnostics.UploadDiagnostics.IncrementalResult
-  IPDiagnostics.UploadDiagnostics.PerConnectionResult
   IPDiagnostics.X_PRPLWARE-COM_DownloadConfig
-  IPDiagnostics.X_PRPLWARE-COM_DownloadResult
-  IPDiagnostics.X_PRPLWARE-COM_DownloadResult.Config
-  IPDiagnostics.X_PRPLWARE-COM_DownloadResult.Process
   IPDiagnostics.X_PRPLWARE-COM_UploadConfig
-  IPDiagnostics.X_PRPLWARE-COM_UploadResult
-  IPDiagnostics.X_PRPLWARE-COM_UploadResult.Config
-  IPDiagnostics.X_PRPLWARE-COM_UploadResult.IncrementalResult
-  IPDiagnostics.X_PRPLWARE-COM_UploadResult.PerConnectionResult
-  IPDiagnostics.X_PRPLWARE-COM_UploadResult.Process
   KernelFaults
-  KernelFaults.KernelFault
   LEDs
   LEDs.LED
+  LEDs.LED.CurrentCycleElement
+  LEDs.LED.CycleElement
   Logical
   Logical.Interface
+  Logical.Interface.Stats
+  Logical.Interface.X_PRPLWARE-COM_LAN
+  Logical.Interface.X_PRPLWARE-COM_WAN
   Logical.X_PRPLWARE-COM_Subnet
-  Logical.X_PRPLWARE-COM_Subnet.Config
   MCASTD
   MCASTD.Debug
-  MCASTD.Debug.Zone
   MCASTD.Intf
   MCASTD.Tuner
   MQTT
   MQTT.Capabilities
   MQTT.Client
+  MQTT.Client.Stats
   MQTTBroker
   MQTTBroker.Broker
   ManagementServer
-  ManagementServer.ACSTransfers
-  ManagementServer.ACSTransfers.ACSTransfer
-  ManagementServer.ConnRequest
   ManagementServer.HeartbeatPolicy
-  ManagementServer.InformParameter
-  ManagementServer.InternalSettings
-  ManagementServer.ManageableDevice
-  ManagementServer.Mapping
-  ManagementServer.SMM
-  ManagementServer.SMM.DUStateChangeComplete
-  ManagementServer.State
-  ManagementServer.Stats
-  ManagementServer.Subscription
-  ManagementServer.Transfers
-  ManagementServer.Transfers.ScheduleDownload
   MultiSettings
-  MultiSettings.Profile
   NAT
   NAT.InterfaceSetting
-  NAT.PortMapping
-  NAT.PortTrigger
   NAT.X_PRPLWARE-COM_StaticNAT
-  NAT.X_PRPLWARE-COM_StaticNAT.Host
   NeighborDiscovery
   NeighborDiscovery.InterfaceSetting
   NetDev
   NetDev.ConversionTable
-  NetDev.ConversionTable.Protocol
-  NetDev.ConversionTable.Scope
-  NetDev.ConversionTable.Table
   NetDev.Link
+  NetDev.Link.BridgeTable
+  NetDev.Link.IPv4Addr
+  NetDev.Link.IPv4Route
+  NetDev.Link.IPv6Addr
+  NetDev.Link.IPv6Route
+  NetDev.Link.Neigh
+  NetDev.Link.STP
+  NetDev.Link.Stats
   NetDev.Rule
   NetDev.Stats
   NetModel
   NetModel.Intf
+  NetModel.Intf.IPv4
+  NetModel.Intf.IPv4Address
+  NetModel.Intf.IPv6
+  NetModel.Intf.IPv6Address
+  NetModel.Intf.IPv6Prefix
+  NetModel.Intf.IPv6Router
+  NetModel.Intf.IPv6Router.Option
+  NetModel.Intf.LLIntf
+  NetModel.Intf.Query
+  NetModel.Intf.ReqOption
+  NetModel.Intf.ULIntf
   Optical
-  Optical.Interface
   PCP
   PCP.Client
+  PCP.Client.PCPProxy
+  PCP.Client.Server
+  PCP.Client.UPnPIWF
   PPP
   PPP.Interface
+  PPP.Interface.IPCP
+  PPP.Interface.IPv6CP
+  PPP.Interface.PPPoE
+  PPP.Interface.Stats
   PacketInterception
   PacketInterception.CommunicationConfig
   PacketInterception.CommunicationConfig.Socket
   PacketInterception.Condition
   PacketInterception.Interception
+  PacketInterception.Interception.Bypass
+  PacketInterception.Interception.Intercept
+  PacketInterception.Interception.Intercept.CommunicationConfig
   PacketInterception.PacketHandler
+  PacketInterception.PacketHandler.Stats
   PeriodicFileTransfer
-  PeriodicFileTransfer.FileTypeConfig
   PeriodicFileTransfer.Profile
+  PeriodicFileTransfer.Profile.HTTP
   PeriodicFileTransfer.Stats
   PeriodicFileTransfer.Transfer
+  PeriodicFileTransfer.Transfer.Stats
   PersistentConfiguration
-  PersistentConfiguration.BackupFile
   PersistentConfiguration.Config
   PersistentConfiguration.Config.Security
   PersistentConfiguration.Service
   PowerStatus
-  PowerStatus.PowerSensor
   ProcessFaults
-  ProcessFaults.ProcessFault
   ProcessMonitor
   ProcessMonitor.Test
+  ProcessMonitor.Test.ProcessRespawnParams
   ProxyManager
   QoS
   QoS.Classification
-  QoS.Node
   QoS.Queue
   QoS.QueueStats
   QoS.Scheduler
@@ -316,46 +795,46 @@ Check that ba-cli has expected datamodels available:
   Reboot.Reboot
   Reboot.X_PRPLWARE-COM_Reasons
   Rlyeh
-  Rlyeh.Images
   RouterAdvertisement
   RouterAdvertisement.InterfaceSetting
   Routing
-  Routing.Policy
   Routing.RIP
-  Routing.RIP.InterfaceSetting
   Routing.RouteInformation
   Routing.RouteInformation.InterfaceSetting
+  Routing.RouteInformation.InterfaceSetting.Option
   Routing.Router
+  Routing.Router.IPv4Forwarding
+  Routing.Router.IPv6Forwarding
   SFPs
   SFPs.Mgmt
-  SFPs.Mgmt.SFF8472
-  SFPs.SFPCage
-  SFPs.X_PRPLWARE-COM_SFPDatabase
   SSH
-  SSH.AuthorizedKey
   SSH.Server
+  SSH.Server.Session
+  SSH.Server.Stats
   Security
-  Security.CABundle
   Security.Certificate
   SoftwareModules
-  SoftwareModules.DeploymentUnit
-  SoftwareModules.ExecEnv
-  SoftwareModules.ExecutionUnit
   SoftwareModules.LocalManagement
-  SoftwareModules.LocalManagement.Action
   SoftwareModules.NetworkConfig
-  SoftwareModules.NetworkConfig.Interfaces
   Syslog
   Syslog.Action
+  Syslog.Action.LogFile
+  Syslog.Action.LogRemote
   Syslog.Filter
   Syslog.Source
+  Syslog.Source.Network
+  Syslog.Source.UnixDomainSocket
   Syslog.Template
   System
   TemperatureStatus
   TemperatureStatus.TemperatureSensor
   Time
   Time.Client
+  Time.Client.Authentication
+  Time.Client.Stats
   Time.Server
+  Time.Server.Authentication
+  Time.Server.Stats
   Timingila
   Timingila.CthulhuAdapters
   Timingila.CthulhuAdapters.CthulhuCommandDefaults
@@ -365,6 +844,7 @@ Check that ba-cli has expected datamodels available:
   Timingila.CthulhuAdapters.CthulhuCommandMapping
   Timingila.CthulhuAdapters.SoftwareModulesFuncArgsOverload
   Timingila.CthulhuAdapters.SoftwareModulesTable
+  Timingila.CthulhuAdapters.SoftwareModulesTable.ParamMapping
   UPnP
   UPnP.Device
   UPnP.Device.Capabilities
@@ -379,14 +859,15 @@ Check that ba-cli has expected datamodels available:
   UPnPDiscovery.Service
   USB
   USB.Interface
+  USB.Interface.Stats
   USB.Port
   USB.USBHosts
-  USB.USBHosts.AllowedDevice
   USB.USBHosts.Host
   Unbound-br-lan
   Unbound-lo
   UserInterface
   UserInterface.HTTPAccess
+  UserInterface.HTTPAccess.X_PRPLWARE-COM_HTTPConfig
   Users
   Users.Group
   Users.Role
@@ -394,158 +875,239 @@ Check that ba-cli has expected datamodels available:
   Users.User
   WANManager
   WANManager.WAN
+  WANManager.WAN.Intf
+  WANManager.WAN.Intf.IPv4Address
   WiFi
   WiFi.APMLD
+  WiFi.APMLD.APMLDConfig
   WiFi.AccessPoint
+  WiFi.AccessPoint.AssociationCount
+  WiFi.AccessPoint.AssociationCount.FastReconnectTypes
+  WiFi.AccessPoint.DriverConfig
+  WiFi.AccessPoint.HotSpot2
+  WiFi.AccessPoint.IEEE80211r
+  WiFi.AccessPoint.IEEE80211u
+  WiFi.AccessPoint.MACFiltering
+  WiFi.AccessPoint.ProbeFiltering
+  WiFi.AccessPoint.RssiEventing
+  WiFi.AccessPoint.Security
+  WiFi.AccessPoint.VendorIEs
+  WiFi.AccessPoint.WPS
   WiFi.AutoCommitMgr
-  WiFi.AutoNeighbourAddition
-  WiFi.Config
-  WiFi.DaemonMgt
-  WiFi.DaemonMgt.Daemon
   WiFi.EndPoint
+  WiFi.EndPoint.AssocStats
+  WiFi.EndPoint.Security
+  WiFi.EndPoint.Stats
+  WiFi.EndPoint.WPS
   WiFi.Radio
+  WiFi.Radio.Capabilities
+  WiFi.Radio.Capabilities.WiFi7APRole
+  WiFi.Radio.Capabilities.WiFi7STARole
+  WiFi.Radio.ChannelMgt
+  WiFi.Radio.ChannelMgt.BgDfs
+  WiFi.Radio.ChannelMgt.BgDfs.Stats
+  WiFi.Radio.ChannelMgt.CurrentChanspec
+  WiFi.Radio.ChannelMgt.TargetChanspec
+  WiFi.Radio.DFS
+  WiFi.Radio.DriverConfig
+  WiFi.Radio.DriverStatus
+  WiFi.Radio.EventCounter
+  WiFi.Radio.IEEE80211ax
+  WiFi.Radio.MACConfig
+  WiFi.Radio.NaStaMonitor
+  WiFi.Radio.NaStaMonitor.RssiEventing
+  WiFi.Radio.RadCaps
+  WiFi.Radio.ScanConfig
+  WiFi.Radio.ScanResults
+  WiFi.Radio.ScanStats
+  WiFi.Radio.Sensing
+  WiFi.Radio.StaticPuncturing
+  WiFi.Radio.Stats
+  WiFi.Radio.Stats.WmmBytesReceived
+  WiFi.Radio.Stats.WmmBytesSent
+  WiFi.Radio.Stats.WmmFailedBytesReceived
+  WiFi.Radio.Stats.WmmFailedReceived
+  WiFi.Radio.Stats.WmmFailedSent
+  WiFi.Radio.Stats.WmmFailedbytesSent
+  WiFi.Radio.Stats.WmmPacketsReceived
+  WiFi.Radio.Stats.WmmPacketsSent
+  WiFi.Radio.Vendor
   WiFi.SSID
+  WiFi.SSID.Stats
+  WiFi.SSID.Stats.WmmBytesReceived
+  WiFi.SSID.Stats.WmmBytesSent
+  WiFi.SSID.Stats.WmmFailedBytesReceived
+  WiFi.SSID.Stats.WmmFailedReceived
+  WiFi.SSID.Stats.WmmFailedSent
+  WiFi.SSID.Stats.WmmFailedbytesSent
+  WiFi.SSID.Stats.WmmPacketsReceived
+  WiFi.SSID.Stats.WmmPacketsSent
   WiFi.Vendor
-  WiFi.bSTAMLD
   WiFi.wps_DefParam
   WiFiScheduler
-  WiFiScheduler.Group
-  WiFiScheduler.Group.Schedule
   WiFiScheduler.Network
-  WiFiScheduler.Network.Schedule
   XPON
-  XPON.ONU
   X_PRPLWARE-COM_Agent
   X_PRPLWARE-COM_Agent.Configuration
   X_PRPLWARE-COM_Agent.Info
   X_PRPLWARE-COM_Agent.Info.Fronthaul
   X_PRPLWARE-COM_Agent.WPS
   X_PRPLWARE-COM_Controller
-  X_PRPLWARE-COM_Controller.AgentConnectedEvent
-  X_PRPLWARE-COM_Controller.AgentConnectedEvent.AgentConnected
-  X_PRPLWARE-COM_Controller.AgentConnectedEvent.AgentConnected.Neighbor
-  X_PRPLWARE-COM_Controller.AgentConnectedEvent.AgentConnected.Radio
-  X_PRPLWARE-COM_Controller.AgentConnectedEvent.AgentConnected.Radio.BSS
-  X_PRPLWARE-COM_Controller.AgentConnectedEvent.AgentConnected.Radio.BSS.STA
-  X_PRPLWARE-COM_Controller.AgentDisconnectedEvent
-  X_PRPLWARE-COM_Controller.AgentDisconnectedEvent.AgentDisconnected
-  X_PRPLWARE-COM_Controller.AgentDisconnectedEvent.AgentDisconnected.Neighbor
-  X_PRPLWARE-COM_Controller.AgentDisconnectedEvent.AgentDisconnected.Radio
-  X_PRPLWARE-COM_Controller.AgentDisconnectedEvent.AgentDisconnected.Radio.BSS
-  X_PRPLWARE-COM_Controller.AgentDisconnectedEvent.AgentDisconnected.Radio.BSS.STA
   X_PRPLWARE-COM_Controller.Configuration
   X_PRPLWARE-COM_Controller.Configuration.QoS
   X_PRPLWARE-COM_Controller.Configuration.TrafficSeparation
-  X_PRPLWARE-COM_Controller.SteerEvent
   X_PRPLWARE-COM_ProcessManager
   X_PRPLWARE-COM_ProcessManager.PWHM
   X_PRPLWARE-COM_ProcessManager.PrplMesh
   X_PRPLWARE-COM_ProcessManager.Sensing
   X_PRPLWARE-COM_WiFiController
   X_PRPLWARE-COM_WiFiController.AssociationEvent
-  X_PRPLWARE-COM_WiFiController.AssociationEvent.AssociationEventData
-  X_PRPLWARE-COM_WiFiController.AssociationEvent.AssociationEventData.HTCapabilities
-  X_PRPLWARE-COM_WiFiController.AssociationEvent.AssociationEventData.VHTCapabilities
-  X_PRPLWARE-COM_WiFiController.AssociationEvent.AssociationEventData.WiFi6Capabilities
-  X_PRPLWARE-COM_WiFiController.AssociationEvent.AssociationEventData.WiFi6Capabilities.MCSNSS
   X_PRPLWARE-COM_WiFiController.DisassociationEvent
-  X_PRPLWARE-COM_WiFiController.DisassociationEvent.DisassociationEventData
   X_PRPLWARE-COM_WiFiController.FailedConnectionEvent
-  X_PRPLWARE-COM_WiFiController.FailedConnectionEvent.FailedConnectionEventData
   X_PRPLWARE-COM_WiFiController.Network
-  X_PRPLWARE-COM_WiFiController.Network.AccessPoint
-  X_PRPLWARE-COM_WiFiController.Network.AccessPoint.Security
   X_PRPLWARE-COM_WiFiController.Network.Device
-  X_PRPLWARE-COM_WiFiController.Network.Device.APMLD
-  X_PRPLWARE-COM_WiFiController.Network.Device.APMLD.APMLDConfig
-  X_PRPLWARE-COM_WiFiController.Network.Device.APMLD.AffiliatedAP
-  X_PRPLWARE-COM_WiFiController.Network.Device.APMLD.STAMLD
-  X_PRPLWARE-COM_WiFiController.Network.Device.APMLD.STAMLD.AffiliatedSTA
-  X_PRPLWARE-COM_WiFiController.Network.Device.APMLD.STAMLD.STAMLDConfig
-  X_PRPLWARE-COM_WiFiController.Network.Device.APMLD.STAMLD.STATIDLinkMap
-  X_PRPLWARE-COM_WiFiController.Network.Device.APMLD.STAMLD.WiFi7Capabilities
-  X_PRPLWARE-COM_WiFiController.Network.Device.APMLD.TIDLinkMap
-  X_PRPLWARE-COM_WiFiController.Network.Device.BTMSteeringDisallowedSTAList
   X_PRPLWARE-COM_WiFiController.Network.Device.CACStatus
-  X_PRPLWARE-COM_WiFiController.Network.Device.CACStatus.CACActiveChannel
-  X_PRPLWARE-COM_WiFiController.Network.Device.CACStatus.CACAvailableChannel
-  X_PRPLWARE-COM_WiFiController.Network.Device.CACStatus.CACNonOccupancyChannel
-  X_PRPLWARE-COM_WiFiController.Network.Device.Default8021Q
-  X_PRPLWARE-COM_WiFiController.Network.Device.IEEE1905Security
   X_PRPLWARE-COM_WiFiController.Network.Device.Interface
   X_PRPLWARE-COM_WiFiController.Network.Device.Interface.Neighbor
   X_PRPLWARE-COM_WiFiController.Network.Device.Interface.Stats
-  X_PRPLWARE-COM_WiFiController.Network.Device.LocalSteeringDisallowedSTA
   X_PRPLWARE-COM_WiFiController.Network.Device.MultiAPCapabilities
   X_PRPLWARE-COM_WiFiController.Network.Device.MultiAPDevice
   X_PRPLWARE-COM_WiFiController.Network.Device.MultiAPDevice.Backhaul
-  X_PRPLWARE-COM_WiFiController.Network.Device.MultiAPDevice.Backhaul.CurrentOperatingClassProfile
   X_PRPLWARE-COM_WiFiController.Network.Device.MultiAPDevice.Backhaul.Stats
   X_PRPLWARE-COM_WiFiController.Network.Device.Radio
-  X_PRPLWARE-COM_WiFiController.Network.Device.Radio.BSS
-  X_PRPLWARE-COM_WiFiController.Network.Device.Radio.BSS.MultiAPSteering
-  X_PRPLWARE-COM_WiFiController.Network.Device.Radio.BSS.STA
-  X_PRPLWARE-COM_WiFiController.Network.Device.Radio.BSS.STA.HTCapabilities
-  X_PRPLWARE-COM_WiFiController.Network.Device.Radio.BSS.STA.MeasurementReport
-  X_PRPLWARE-COM_WiFiController.Network.Device.Radio.BSS.STA.MultiAPSTA
-  X_PRPLWARE-COM_WiFiController.Network.Device.Radio.BSS.STA.MultiAPSTA.SteeringHistory
-  X_PRPLWARE-COM_WiFiController.Network.Device.Radio.BSS.STA.MultiAPSTA.SteeringSummaryStats
-  X_PRPLWARE-COM_WiFiController.Network.Device.Radio.BSS.STA.TIDQueueSizes
-  X_PRPLWARE-COM_WiFiController.Network.Device.Radio.BSS.STA.VHTCapabilities
-  X_PRPLWARE-COM_WiFiController.Network.Device.Radio.BSS.STA.WiFi6Capabilities
-  X_PRPLWARE-COM_WiFiController.Network.Device.Radio.BSS.STA.WiFi6Capabilities.MCSNSS
   X_PRPLWARE-COM_WiFiController.Network.Device.Radio.BackhaulSta
   X_PRPLWARE-COM_WiFiController.Network.Device.Radio.CACCapability
   X_PRPLWARE-COM_WiFiController.Network.Device.Radio.CACCapability.CACMethod
   X_PRPLWARE-COM_WiFiController.Network.Device.Radio.CACCapability.CACMethod.OpClassChannels
   X_PRPLWARE-COM_WiFiController.Network.Device.Radio.CACCapability.CACMethod.OpClassChannels.Channel
   X_PRPLWARE-COM_WiFiController.Network.Device.Radio.Capabilities
-  X_PRPLWARE-COM_WiFiController.Network.Device.Radio.Capabilities.AKMBackhaul
-  X_PRPLWARE-COM_WiFiController.Network.Device.Radio.Capabilities.AKMFrontHaul
   X_PRPLWARE-COM_WiFiController.Network.Device.Radio.Capabilities.HTCapabilities
   X_PRPLWARE-COM_WiFiController.Network.Device.Radio.Capabilities.OperatingClasses
   X_PRPLWARE-COM_WiFiController.Network.Device.Radio.Capabilities.OperatingClasses.NonOperable
   X_PRPLWARE-COM_WiFiController.Network.Device.Radio.Capabilities.VBSSCapabilities
   X_PRPLWARE-COM_WiFiController.Network.Device.Radio.Capabilities.VHTCapabilities
   X_PRPLWARE-COM_WiFiController.Network.Device.Radio.Capabilities.WiFi6APRole
-  X_PRPLWARE-COM_WiFiController.Network.Device.Radio.Capabilities.WiFi6APRole.MCSNSS
-  X_PRPLWARE-COM_WiFiController.Network.Device.Radio.Capabilities.WiFi6Capabilities
-  X_PRPLWARE-COM_WiFiController.Network.Device.Radio.Capabilities.WiFi6Capabilities.MCSNSS
   X_PRPLWARE-COM_WiFiController.Network.Device.Radio.Capabilities.WiFi6bSTARole
-  X_PRPLWARE-COM_WiFiController.Network.Device.Radio.Capabilities.WiFi6bSTARole.MCSNSS
   X_PRPLWARE-COM_WiFiController.Network.Device.Radio.Capabilities.WiFi7APRole
-  X_PRPLWARE-COM_WiFiController.Network.Device.Radio.Capabilities.WiFi7APRole.EMLMRFreqSeparation
-  X_PRPLWARE-COM_WiFiController.Network.Device.Radio.Capabilities.WiFi7APRole.EMLSRFreqSeparation
-  X_PRPLWARE-COM_WiFiController.Network.Device.Radio.Capabilities.WiFi7APRole.NSTRFreqSeparation
-  X_PRPLWARE-COM_WiFiController.Network.Device.Radio.Capabilities.WiFi7APRole.STRFreqSeparation
   X_PRPLWARE-COM_WiFiController.Network.Device.Radio.Capabilities.WiFi7bSTARole
-  X_PRPLWARE-COM_WiFiController.Network.Device.Radio.Capabilities.WiFi7bSTARole.EMLMRFreqSeparation
-  X_PRPLWARE-COM_WiFiController.Network.Device.Radio.Capabilities.WiFi7bSTARole.EMLSRFreqSeparation
-  X_PRPLWARE-COM_WiFiController.Network.Device.Radio.Capabilities.WiFi7bSTARole.NSTRFreqSeparation
-  X_PRPLWARE-COM_WiFiController.Network.Device.Radio.Capabilities.WiFi7bSTARole.STRFreqSeparation
   X_PRPLWARE-COM_WiFiController.Network.Device.Radio.CurrentOperatingClassProfile
   X_PRPLWARE-COM_WiFiController.Network.Device.Radio.ScanCapability
   X_PRPLWARE-COM_WiFiController.Network.Device.Radio.ScanCapability.OpClassChannels
   X_PRPLWARE-COM_WiFiController.Network.Device.Radio.ScanCapability.OpClassChannels.Channel
-  X_PRPLWARE-COM_WiFiController.Network.Device.Radio.ScanResult
-  X_PRPLWARE-COM_WiFiController.Network.Device.Radio.ScanResult.OpClassScan
-  X_PRPLWARE-COM_WiFiController.Network.Device.Radio.ScanResult.OpClassScan.ChannelScan
-  X_PRPLWARE-COM_WiFiController.Network.Device.Radio.ScanResult.OpClassScan.ChannelScan.NeighborBSS
   X_PRPLWARE-COM_WiFiController.Network.Device.Radio.SpatialReuse
-  X_PRPLWARE-COM_WiFiController.Network.Device.Radio.UnassociatedSTA
   X_PRPLWARE-COM_WiFiController.Network.Device.Radio.X_PRPLWARE-COM_CACCompletion
-  X_PRPLWARE-COM_WiFiController.Network.Device.Radio.X_PRPLWARE-COM_CACCompletion.Pairs
-  X_PRPLWARE-COM_WiFiController.Network.Device.SPRule
-  X_PRPLWARE-COM_WiFiController.Network.Device.SSIDtoVIDMapping
   X_PRPLWARE-COM_WiFiController.Network.Device.bSTAMLD
   X_PRPLWARE-COM_WiFiController.Network.Device.bSTAMLD.bSTAMLDConfig
   X_PRPLWARE-COM_WiFiController.Network.MultiAPSteeringSummaryStats
-  X_PRPLWARE-COM_WiFiController.Network.X-PRPL_ORG_Group
   X_PRPLWARE-COM_WiFiMapped
   X_PRPLWARE-COM_WiFiMapped.WiFi
+  X_PRPLWARE-COM_WiFiMapped.WiFi.APMLD
+  X_PRPLWARE-COM_WiFiMapped.WiFi.APMLD.APMLDConfig
+  X_PRPLWARE-COM_WiFiMapped.WiFi.AccessPoint
+  X_PRPLWARE-COM_WiFiMapped.WiFi.AccessPoint.AssociationCount
+  X_PRPLWARE-COM_WiFiMapped.WiFi.AccessPoint.AssociationCount.FastReconnectTypes
+  X_PRPLWARE-COM_WiFiMapped.WiFi.AccessPoint.DriverConfig
+  X_PRPLWARE-COM_WiFiMapped.WiFi.AccessPoint.HotSpot2
+  X_PRPLWARE-COM_WiFiMapped.WiFi.AccessPoint.IEEE80211u
+  X_PRPLWARE-COM_WiFiMapped.WiFi.AccessPoint.ProbeFiltering
+  X_PRPLWARE-COM_WiFiMapped.WiFi.AccessPoint.RssiEventing
+  X_PRPLWARE-COM_WiFiMapped.WiFi.AccessPoint.Security
+  X_PRPLWARE-COM_WiFiMapped.WiFi.AccessPoint.VendorIEs
+  X_PRPLWARE-COM_WiFiMapped.WiFi.AccessPoint.WPS
+  X_PRPLWARE-COM_WiFiMapped.WiFi.AccessPoint.X_PRPLWARE-COM_IEEE80211r
+  X_PRPLWARE-COM_WiFiMapped.WiFi.AccessPoint.X_PRPLWARE-COM_MACFiltering
   X_PRPLWARE-COM_WiFiMapped.WiFi.DataElements
+  X_PRPLWARE-COM_WiFiMapped.WiFi.DataElements.AssociationEvent
+  X_PRPLWARE-COM_WiFiMapped.WiFi.DataElements.DisassociationEvent
+  X_PRPLWARE-COM_WiFiMapped.WiFi.DataElements.FailedConnectionEvent
+  X_PRPLWARE-COM_WiFiMapped.WiFi.DataElements.Network
+  X_PRPLWARE-COM_WiFiMapped.WiFi.DataElements.Network.Device
+  X_PRPLWARE-COM_WiFiMapped.WiFi.DataElements.Network.Device.CACStatus
+  X_PRPLWARE-COM_WiFiMapped.WiFi.DataElements.Network.Device.Interface
+  X_PRPLWARE-COM_WiFiMapped.WiFi.DataElements.Network.Device.Interface.Neighbor
+  X_PRPLWARE-COM_WiFiMapped.WiFi.DataElements.Network.Device.Interface.Stats
+  X_PRPLWARE-COM_WiFiMapped.WiFi.DataElements.Network.Device.MultiAPCapabilities
+  X_PRPLWARE-COM_WiFiMapped.WiFi.DataElements.Network.Device.MultiAPDevice
+  X_PRPLWARE-COM_WiFiMapped.WiFi.DataElements.Network.Device.MultiAPDevice.Backhaul
+  X_PRPLWARE-COM_WiFiMapped.WiFi.DataElements.Network.Device.MultiAPDevice.Backhaul.Stats
+  X_PRPLWARE-COM_WiFiMapped.WiFi.DataElements.Network.Device.Radio
+  X_PRPLWARE-COM_WiFiMapped.WiFi.DataElements.Network.Device.Radio.BackhaulSta
+  X_PRPLWARE-COM_WiFiMapped.WiFi.DataElements.Network.Device.Radio.CACCapability
+  X_PRPLWARE-COM_WiFiMapped.WiFi.DataElements.Network.Device.Radio.CACCapability.CACMethod
+  X_PRPLWARE-COM_WiFiMapped.WiFi.DataElements.Network.Device.Radio.CACCapability.CACMethod.OpClassChannels
+  X_PRPLWARE-COM_WiFiMapped.WiFi.DataElements.Network.Device.Radio.CACCapability.CACMethod.OpClassChannels.Channel
+  X_PRPLWARE-COM_WiFiMapped.WiFi.DataElements.Network.Device.Radio.Capabilities
+  X_PRPLWARE-COM_WiFiMapped.WiFi.DataElements.Network.Device.Radio.Capabilities.HTCapabilities
+  X_PRPLWARE-COM_WiFiMapped.WiFi.DataElements.Network.Device.Radio.Capabilities.OperatingClasses
+  X_PRPLWARE-COM_WiFiMapped.WiFi.DataElements.Network.Device.Radio.Capabilities.OperatingClasses.NonOperable
+  X_PRPLWARE-COM_WiFiMapped.WiFi.DataElements.Network.Device.Radio.Capabilities.VBSSCapabilities
+  X_PRPLWARE-COM_WiFiMapped.WiFi.DataElements.Network.Device.Radio.Capabilities.VHTCapabilities
+  X_PRPLWARE-COM_WiFiMapped.WiFi.DataElements.Network.Device.Radio.Capabilities.WiFi6APRole
+  X_PRPLWARE-COM_WiFiMapped.WiFi.DataElements.Network.Device.Radio.Capabilities.WiFi6bSTARole
+  X_PRPLWARE-COM_WiFiMapped.WiFi.DataElements.Network.Device.Radio.Capabilities.WiFi7APRole
+  X_PRPLWARE-COM_WiFiMapped.WiFi.DataElements.Network.Device.Radio.Capabilities.WiFi7bSTARole
+  X_PRPLWARE-COM_WiFiMapped.WiFi.DataElements.Network.Device.Radio.CurrentOperatingClassProfile
+  X_PRPLWARE-COM_WiFiMapped.WiFi.DataElements.Network.Device.Radio.ScanCapability
+  X_PRPLWARE-COM_WiFiMapped.WiFi.DataElements.Network.Device.Radio.ScanCapability.OpClassChannels
+  X_PRPLWARE-COM_WiFiMapped.WiFi.DataElements.Network.Device.Radio.ScanCapability.OpClassChannels.Channel
+  X_PRPLWARE-COM_WiFiMapped.WiFi.DataElements.Network.Device.Radio.SpatialReuse
+  X_PRPLWARE-COM_WiFiMapped.WiFi.DataElements.Network.Device.Radio.X_PRPLWARE-COM_CACCompletion
+  X_PRPLWARE-COM_WiFiMapped.WiFi.DataElements.Network.Device.bSTAMLD
+  X_PRPLWARE-COM_WiFiMapped.WiFi.DataElements.Network.Device.bSTAMLD.bSTAMLDConfig
+  X_PRPLWARE-COM_WiFiMapped.WiFi.DataElements.Network.MultiAPSteeringSummaryStats
   X_PRPLWARE-COM_WiFiMapped.WiFi.DataElements.X_PRPLWARE-COM_Controller
+  X_PRPLWARE-COM_WiFiMapped.WiFi.DataElements.X_PRPLWARE-COM_Controller.Configuration
+  X_PRPLWARE-COM_WiFiMapped.WiFi.DataElements.X_PRPLWARE-COM_Controller.Configuration.QoS
+  X_PRPLWARE-COM_WiFiMapped.WiFi.DataElements.X_PRPLWARE-COM_Controller.Configuration.TrafficSeparation
+  X_PRPLWARE-COM_WiFiMapped.WiFi.EndPoint
+  X_PRPLWARE-COM_WiFiMapped.WiFi.EndPoint.AssocStats
+  X_PRPLWARE-COM_WiFiMapped.WiFi.EndPoint.Security
+  X_PRPLWARE-COM_WiFiMapped.WiFi.EndPoint.Stats
+  X_PRPLWARE-COM_WiFiMapped.WiFi.EndPoint.WPS
+  X_PRPLWARE-COM_WiFiMapped.WiFi.Radio
+  X_PRPLWARE-COM_WiFiMapped.WiFi.Radio.Capabilities
+  X_PRPLWARE-COM_WiFiMapped.WiFi.Radio.Capabilities.WiFi7APRole
+  X_PRPLWARE-COM_WiFiMapped.WiFi.Radio.Capabilities.WiFi7STARole
+  X_PRPLWARE-COM_WiFiMapped.WiFi.Radio.DFS
+  X_PRPLWARE-COM_WiFiMapped.WiFi.Radio.DriverConfig
+  X_PRPLWARE-COM_WiFiMapped.WiFi.Radio.DriverStatus
+  X_PRPLWARE-COM_WiFiMapped.WiFi.Radio.EventCounter
+  X_PRPLWARE-COM_WiFiMapped.WiFi.Radio.IEEE80211ax
+  X_PRPLWARE-COM_WiFiMapped.WiFi.Radio.MACConfig
+  X_PRPLWARE-COM_WiFiMapped.WiFi.Radio.RadCaps
+  X_PRPLWARE-COM_WiFiMapped.WiFi.Radio.ScanConfig
+  X_PRPLWARE-COM_WiFiMapped.WiFi.Radio.ScanResults
+  X_PRPLWARE-COM_WiFiMapped.WiFi.Radio.ScanStats
+  X_PRPLWARE-COM_WiFiMapped.WiFi.Radio.StaticPuncturing
+  X_PRPLWARE-COM_WiFiMapped.WiFi.Radio.Stats
+  X_PRPLWARE-COM_WiFiMapped.WiFi.Radio.Stats.X_PRPLWARE-COM_WmmBytesReceived
+  X_PRPLWARE-COM_WiFiMapped.WiFi.Radio.Stats.X_PRPLWARE-COM_WmmBytesSent
+  X_PRPLWARE-COM_WiFiMapped.WiFi.Radio.Stats.X_PRPLWARE-COM_WmmFailedBytesReceived
+  X_PRPLWARE-COM_WiFiMapped.WiFi.Radio.Stats.X_PRPLWARE-COM_WmmFailedReceived
+  X_PRPLWARE-COM_WiFiMapped.WiFi.Radio.Stats.X_PRPLWARE-COM_WmmFailedSent
+  X_PRPLWARE-COM_WiFiMapped.WiFi.Radio.Stats.X_PRPLWARE-COM_WmmFailedbytesSent
+  X_PRPLWARE-COM_WiFiMapped.WiFi.Radio.Stats.X_PRPLWARE-COM_WmmPacketsReceived
+  X_PRPLWARE-COM_WiFiMapped.WiFi.Radio.Stats.X_PRPLWARE-COM_WmmPacketsSent
+  X_PRPLWARE-COM_WiFiMapped.WiFi.Radio.Vendor
+  X_PRPLWARE-COM_WiFiMapped.WiFi.Radio.X_PRPLWARE-COM_ChannelMgt
+  X_PRPLWARE-COM_WiFiMapped.WiFi.Radio.X_PRPLWARE-COM_ChannelMgt.BgDfs
+  X_PRPLWARE-COM_WiFiMapped.WiFi.Radio.X_PRPLWARE-COM_ChannelMgt.BgDfs.Stats
+  X_PRPLWARE-COM_WiFiMapped.WiFi.Radio.X_PRPLWARE-COM_ChannelMgt.CurrentChanspec
+  X_PRPLWARE-COM_WiFiMapped.WiFi.Radio.X_PRPLWARE-COM_ChannelMgt.TargetChanspec
+  X_PRPLWARE-COM_WiFiMapped.WiFi.Radio.X_PRPLWARE-COM_NaStaMonitor
+  X_PRPLWARE-COM_WiFiMapped.WiFi.Radio.X_PRPLWARE-COM_NaStaMonitor.RssiEventing
+  X_PRPLWARE-COM_WiFiMapped.WiFi.Radio.X_PRPLWARE-COM_Sensing
+  X_PRPLWARE-COM_WiFiMapped.WiFi.SSID
+  X_PRPLWARE-COM_WiFiMapped.WiFi.SSID.Stats
+  X_PRPLWARE-COM_WiFiMapped.WiFi.SSID.Stats.X_PRPLWARE-COM_WmmBytesReceived
+  X_PRPLWARE-COM_WiFiMapped.WiFi.SSID.Stats.X_PRPLWARE-COM_WmmBytesSent
+  X_PRPLWARE-COM_WiFiMapped.WiFi.SSID.Stats.X_PRPLWARE-COM_WmmFailedBytesReceived
+  X_PRPLWARE-COM_WiFiMapped.WiFi.SSID.Stats.X_PRPLWARE-COM_WmmFailedReceived
+  X_PRPLWARE-COM_WiFiMapped.WiFi.SSID.Stats.X_PRPLWARE-COM_WmmFailedSent
+  X_PRPLWARE-COM_WiFiMapped.WiFi.SSID.Stats.X_PRPLWARE-COM_WmmFailedbytesSent
+  X_PRPLWARE-COM_WiFiMapped.WiFi.SSID.Stats.X_PRPLWARE-COM_WmmPacketsReceived
+  X_PRPLWARE-COM_WiFiMapped.WiFi.SSID.Stats.X_PRPLWARE-COM_WmmPacketsSent
+  X_PRPLWARE-COM_WiFiMapped.WiFi.Vendor
   X_PRPLWARE-COM_WiFiMapped.WiFi.X_PRPLWARE-COM_WiFiSensing
+  X_PRPLWARE-COM_WiFiMapped.WiFi.wps_DefParam
   X_PRPLWARE-COM_WiFiSensing
-  X_PRPLWARE-COM_WiFiSensing.Session
-  X_PRPLWARE-COM_WiFiSensing.Session.Exchange

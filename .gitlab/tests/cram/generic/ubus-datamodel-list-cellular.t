@@ -7,11 +7,11 @@ If test is running on a Mozart, Turris, OSPv1 or Haze, lets skip the test as the
 
 Check that ba-cli has expected Cellular datamodels available:
 
-  $ R "ba-cli list | sed 's/\.$//' | grep -e '^Cellular' -e 'Device.Cellular' | grep -v -e '\.[[:digit:]]'"
-  Cellular
+  $ R "ba-cli 'Device.Cellular.?' | grep '\.\$' | sed '1d; s/^Device\.//; s/\.[0-9]\+\././g; s/\.\$//' | sort -u"
   Cellular.AccessPoint
   Cellular.Interface
+  Cellular.Interface.Bearer
   Cellular.Interface.Bearer.IPv4
   Cellular.Interface.Bearer.IPv6
   Cellular.Interface.Stats
-  Device.Cellular
+  Cellular.Interface.USIM

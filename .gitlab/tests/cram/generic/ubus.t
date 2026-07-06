@@ -12,8 +12,8 @@ Check that we've correct bridge aliases:
 Check that we've correct DHCP pool settings:
 
   $ R "ba-cli -l 'DHCPv4Server.Pool.*.Alias?;DHCPv4Server.Pool.*.MinAddress?;DHCPv4Server.Pool.*.MaxAddress?;DHCPv4Server.Pool.*.Enable?;DHCPv4Server.Pool.*.DNSServers?;DHCPv4Server.Pool.*.Status?;DHCPv4Server.Pool.*.WINSServers?' | grep -v '^$'"
-  guest
   lan
+  guest
   lcm
   192.168.1.2
   192.168.2.100
@@ -32,8 +32,8 @@ Check that we've correct DHCP pool settings:
   Enabled
 
   $ R "ba-cli -l 'DHCPv6Server.Pool.*.Alias?;DHCPv6Server.Pool.*.Enable?;DHCPv6Server.Pool.*.IANAEnable?;DHCPv6Server.Pool.*.IAPDEnable?;DHCPv6Server.Pool.*.Status?' | grep -v '^$'"
-  guest
   lan
+  guest
   lcm
   1
   1

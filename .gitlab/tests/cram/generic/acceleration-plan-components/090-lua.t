@@ -31,6 +31,6 @@ Check that mod-lua-amx is behaving as expected:
   >     }
   > }
   > EOF
-  > luatest -D ; ubus -t2 wait_for X_LuaTest ; ba-cli 'X_LuaTest.greet(who=\"World\")' | sed -n '3p' | cut -d'=' -f2 ;
+  > luatest -D ; ubus -t2 wait_for X_LuaTest ; ba-cli 'X_LuaTest.greet(who=\"World\")' | sed -n '4p' | sed 's/^[[:space:]]*//' ;
   > pkill -9 luatest; rm -fr /etc/amx/luatest /usr/bin/luatest"
   "Hello World"

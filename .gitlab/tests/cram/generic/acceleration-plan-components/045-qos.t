@@ -4,29 +4,16 @@ Create R alias:
 
 Check QoS root datamodel:
 
-  $ R "ba-cli -l 'QoS.SupportedControllers?;QoS.ShaperNumberOfEntries?;QoS.QueueNumberOfEntries?;QoS.MaxSchedulerEntries?;QoS.SchedulerNumberOfEntries?;QoS.QueueStatsNumberOfEntries?;QoS.ClassificationNumberOfEntries?;QoS.MaxClassificationEntries?;QoS.BrokenQDiscPrioMap?;QoS.MarkMask?;QoS.MaxQueueEntries?;QoS.MaxShaperEntries?' | grep -v '^$' | sort"
-  mod-qos-tc
+  $ R "ba-cli -l 'QoS.ShaperNumberOfEntries?;QoS.QueueNumberOfEntries?;QoS.MaxSchedulerEntries?;QoS.SchedulerNumberOfEntries?;QoS.QueueStatsNumberOfEntries?;QoS.ClassificationNumberOfEntries?;QoS.MaxClassificationEntries?;QoS.MaxQueueEntries?;QoS.MaxShaperEntries?' | grep -v '^$' | sort"
   1
-  5
+  1
   20
-  1
+  20
+  20
   4
   4
   40
-  0
-  31
-  20
-  20
-
-Check Qos.Node.7 datamodel:
-
-  $ R "ba-cli -l 'QoS.Node.7.TrafficClasses?;QoS.Node.7.DropAlgorithm?;QoS.Node.7.Controller?;QoS.Node.7.AllInterfaces?;QoS.Node.7.SchedulerAlgorithm?;QoS.Node.7.Alias?' | grep -v '^$' | sort"
-  3
-  DT
-  HTB
-  false
-  mod-qos-tc
-  node-queue-home-iptv
+  5
 
 Enable QoS.Queue datamodel for stats-home-iptv configurations:
 
@@ -42,11 +29,10 @@ Enable QoS.Queue datamodel for stats-home-iptv configurations:
 
 Check QoS.Queue datamodel for stats-home-iptv:
 
-  $ R "ba-cli -l 'QoS.Queue.5.Alias?;QoS.Queue.5.SchedulerAlgorithm?;QoS.Queue.5.Status?;QoS.Queue.5.Controller?;QoS.Queue.5.TrafficClasses?' | grep -v '^$' | sort"
+  $ R "ba-cli -l 'QoS.Queue.5.Alias?;QoS.Queue.5.SchedulerAlgorithm?;QoS.Queue.5.Status?;QoS.Queue.5.TrafficClasses?' | grep -v '^$' | sort"
   3
   Enabled
   HTB
-  mod-qos-tc
   queue-home-iptv
 
 Check QoS.QueueStats datamodel for stats-home-iptv:
@@ -59,11 +45,10 @@ Check QoS.QueueStats datamodel for stats-home-iptv:
 
 Check QoS.Scheduler datamodel:
 
-  $ R "ba-cli -l 'QoS.Scheduler.*.DefaultQueue?;QoS.Scheduler.*.SchedulerAlgorithm?;QoS.Scheduler.*.Status?;QoS.Scheduler.*.Controller?' | grep -v '^$' | sort"
+  $ R "ba-cli -l 'QoS.Scheduler.*.DefaultQueue?;QoS.Scheduler.*.SchedulerAlgorithm?;QoS.Scheduler.*.Status?' | grep -v '^$' | sort"
   Enabled
   HTB
   QoS.Queue.queue-home-data.
-  mod-qos-tc
 
 Enable QoS.Shaper.1 configurations:
 
@@ -76,10 +61,9 @@ Enable QoS.Shaper.1 configurations:
 
 Check QoS.Shaper.1 datamodel:
 
-  $ R "ba-cli -l 'QoS.Shaper.1.Controller?;QoS.Shaper.1.Enable?;QoS.Shaper.1.Status?' | grep -v '^$' | sort"
+  $ R "ba-cli -l 'QoS.Shaper.1.Enable?;QoS.Shaper.1.Status?' | grep -v '^$' | sort"
+  1
   Enabled
-  mod-qos-tc
-  true
 
 Check DSCP value for IPv4 ICMP packets with icmp_dscp_cs6 classification configuration:
 

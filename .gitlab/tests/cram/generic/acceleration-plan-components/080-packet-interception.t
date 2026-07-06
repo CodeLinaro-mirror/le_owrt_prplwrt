@@ -5,11 +5,11 @@ Create R alias:
 Check PacketInterception root datamodel:
 
   $ R "ba-cli -l 'PacketInterception.InterceptionNumberOfEntries?;PacketInterception.Enable?;PacketInterception.PacketHandlerNumberOfEntries?;PacketInterception.ConditionNumberOfEntries?;PacketInterception.Status?' | grep -v '^$' | sort"
+  0
   1
   3
   5
   Disabled
-  0
 
 Check that no interception is being configured:
 
