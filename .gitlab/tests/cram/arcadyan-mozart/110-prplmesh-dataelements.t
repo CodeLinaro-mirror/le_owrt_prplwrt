@@ -29,7 +29,9 @@ Restart prplmesh:
 
   $ R logger -t cram "Restart prplmesh"
 
-  $ R "ba-cli X_PRPLWARE-COM_ProcessManager.PrplMesh.ManagementMode=Multi-AP-Controller-and-Agent"  > /dev/null
+  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.ManagementMode=Multi-AP-Controller-and-Agent" | tr -d '\n'
+    Multi-AP-Controller-and-Agent (no-eol)
+
   $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=1" | tr -d '\n'
   1 (no-eol)
 
@@ -39,7 +41,12 @@ First call of AccessPointCommit, controller should push empty config to agents:
 
   $ R logger -t cram "first call of AccessPointCommit pushes empty config, global teardown"
 
-  $ R "ba-cli 'X_PRPLWARE-COM_WiFiController.Network.AccessPointCommit()' > /dev/null"
+  $ R "ba-cli 'X_PRPLWARE-COM_WiFiController.Network.AccessPointCommit()' | tail -n +2 | sed '/^$/d'
+    X_PRPLWARE-COM_WiFiController.Network.AccessPointCommit() returned
+    [
+        ""
+    ]
+
 
   $ R sleep 15
 
@@ -72,36 +79,75 @@ Create instances of Network.AccessPoint and push them to the agent:
 
   $ R logger -t cram "create instances of Network.AccessPoint and push them to the agent"
 
-  $ R "ba-cli 'X_PRPLWARE-COM_WiFiController.Network.AccessPoint+' > /dev/null"
+  $ R "ba-cli 'X_PRPLWARE-COM_WiFiController.Network.AccessPoint+' | tail -n +2 | sed '/^$/d'
+    X_PRPLWARE-COM_WiFiController.Network.AccessPoint.* (re)
+
 
 Since no persistent storage of NbAPI Network subsection, always index:1 after controller restart:
 
-  $ R "ba-cli 'X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.Band2_4G=1;X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.Band5GH=1;X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.Band5GL=1;X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.Band6G=1' > /dev/null"
+  $ R "ba-cli -l 'X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.Band2_4G=1;X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.Band5GH=1;X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.Band5GL=1;X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.Band6G=1' | sed '/^$/d'
+    1
+    1
+    1
+    1
 
-  $ R "ba-cli 'X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.MultiApMode=\"Fronthaul+Backhaul\";X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.X_PRPLWARE_VapType=\"home\"' > /dev/null"
 
-  $ R "ba-cli 'X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.Security.ModeEnabled=\"WPA2-Personal\";X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.Security.KeyPassphrase=\"password\"' > /dev/null"
+  $ R "ba-cli -l 'X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.MultiApMode=\"Fronthaul+Backhaul\";X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.X_PRPLWARE_VapType=\"home\"' | sed '/^$/d'
+    \"Fronthaul+Backhaul\
+    \"home\
 
-  $ R "ba-cli 'X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.SSID=\"prplOSpriv\"' > /dev/null"
+
+  $ R "ba-cli -l 'X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.Security.ModeEnabled=\"WPA2-Personal\";X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.Security.KeyPassphrase=\"password\"' | sed '/^$/d'
+    \"WPA2-Personal\
+    \"password\
+
+
+  $ R "ba-cli -l 'X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.SSID=\"prplOSpriv\"' | tr -d '\n'
+    \"prplOSpriv\ (no-eol)
+
 
 In case the controller does not yet have this parameter, catch error here isof later during teardown test:
-  $ R "ba-cli 'X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.Enable=1' > /dev/null"
+  $ R "ba-cli -l 'X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.Enable=1' | tr -d '\n'
+    1 (no-eol)
+
 
 Create second instance of Network.AccessPoint for guest VAPs:
 
-  $ R "ba-cli 'X_PRPLWARE-COM_WiFiController.Network.AccessPoint+' > /dev/null"
-  $ R "ba-cli 'X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.Band2_4G=1;X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.Band5GH=1;X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.Band5GL=1;X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.Band6G=1' > /dev/null"
+  $ R "ba-cli 'X_PRPLWARE-COM_WiFiController.Network.AccessPoint+' | tail -n +2 | sed '/^$/d'
+    X_PRPLWARE-COM_WiFiController.Network.AccessPoint.* (re)
 
-  $ R "ba-cli 'X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.MultiApMode=\"Fronthaul\";X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.X_PRPLWARE_VapType=\"guest\"' > /dev/null"
+  $ R "ba-cli -l 'X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.Band2_4G=1;X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.Band5GH=1;X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.Band5GL=1;X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.Band6G=1' | sed '/^$/d'
+    1
+    1
+    1
+    1
 
-  $ R "ba-cli 'X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.Security.ModeEnabled=\"WPA2-Personal\";X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.Security.KeyPassphrase=\"passwordGUEST\"' > /dev/null"
 
-  $ R "ba-cli 'X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.SSID=\"prplOSguest\"' > /dev/null"
+  $ R "ba-cli -l 'X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.MultiApMode=\"Fronthaul\";X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.X_PRPLWARE_VapType=\"guest\"' | sed '/^$/d'
+    \"Fronthaul\
+    \"guest\
+
+
+  $ R "ba-cli -l 'X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.Security.ModeEnabled=\"WPA2-Personal\";X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.Security.KeyPassphrase=\"passwordGUEST\"' | sed '/^$/d'
+    \"WPA2-Personal\
+    \"passwordGUEST\
+
+
+  $ R "ba-cli -l 'X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.SSID=\"prplOSguest\"' | tr -d '\n'
+    \"prplOSguest\ (no-eol)
+
 
 In case the controller does not yet have this parameter, catch error here isof later during teardown test:
-  $ R "ba-cli 'X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.Enable=1' > /dev/null"
+  $ R "ba-cli -l 'X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.Enable=1' | tr -d '\n'
+    1 (no-eol)
 
-  $ R "ba-cli 'X_PRPLWARE-COM_WiFiController.Network.AccessPointCommit()' > /dev/null"
+
+  $ R "ba-cli 'X_PRPLWARE-COM_WiFiController.Network.AccessPointCommit()' | tail -n +2 | sed '/^$/d'
+    X_PRPLWARE-COM_WiFiController.Network.AccessPointCommit() returned
+    [
+        ""
+    ]
+
 
 
   $ sleep 15
@@ -197,11 +243,20 @@ To disable wireless, disable instances of Network.AccessPoint{i} and call Access
 
   $ R logger -t cram "Stop wireless"
 
-  $ R "ba-cli 'X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.Enable=0' > /dev/null"
+  $ R "ba-cli -l 'X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.Enable=0' | tr -d '\n'
+    0 (no-eol)
 
-  $ R "ba-cli 'X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.Enable=0' > /dev/null"
 
-  $ R "ba-cli 'X_PRPLWARE-COM_WiFiController.Network.AccessPointCommit()' > /dev/null"
+  $ R "ba-cli -l 'X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.Enable=0' | tr -d '\n'
+    0 (no-eol)
+
+
+  $ R "ba-cli 'X_PRPLWARE-COM_WiFiController.Network.AccessPointCommit()' | tail -n +2 | sed '/^$/d'
+    X_PRPLWARE-COM_WiFiController.Network.AccessPointCommit() returned
+    [
+        ""
+    ]
+
 
   $ sleep 10
 

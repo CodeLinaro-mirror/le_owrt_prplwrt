@@ -33,7 +33,11 @@ Check that miniupnpd is enabled and running by default:
 
 Disable miniupnpd:
 
-  $ R "ba-cli 'UPnP.Device.UPnPIGD=false' > /dev/null" ; sleep 2
+  $ R "ba-cli -l 'UPnP.Device.UPnPIGD=false' | tr -d '\n'
+    0 (no-eol)
+    
+    $ R; sleep 2
+
 
 Check that miniupnpd is disabled and not running:
 
@@ -49,7 +53,11 @@ Check that miniupnpd is disabled and not running:
 
 Enable miniupnpd:
 
-  $ R "ba-cli 'UPnP.Device.UPnPIGD=true' > /dev/null" ; sleep 3
+  $ R "ba-cli -l 'UPnP.Device.UPnPIGD=true' | tr -d '\n'
+    1 (no-eol)
+    
+    $ R; sleep 3
+
 
 Check that miniupnpd is enabled and running again:
 

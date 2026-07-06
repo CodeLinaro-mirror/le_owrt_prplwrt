@@ -28,7 +28,9 @@ Restart prplmesh:
 
   $ R logger -t cram "Restart prplmesh"
 
-  $ R "ba-cli X_PRPLWARE-COM_ProcessManager.PrplMesh.ManagementMode=Multi-AP-Controller-and-Agent"  > /dev/null
+  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.ManagementMode=Multi-AP-Controller-and-Agent" | tr -d '\n'
+    Multi-AP-Controller-and-Agent (no-eol)
+
   $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=1" | tr -d '\n'
   1 (no-eol)
   
@@ -39,28 +41,36 @@ Start wireless:
 
   $ R logger -t cram "Start wireless"
 
-  $ R "ba-cli 'WiFi.AccessPoint.1.Enable=1' > /dev/null"
+  $ R "ba-cli -l 'WiFi.AccessPoint.1.Enable=1' | tr -d '\n'
+    1 (no-eol)
+
 
   $ sleep 10
 
   $ R "i=15 ; while [ \$i -gt 1 ]; do ba-cli -l 'WiFi.SSID.1.Status?' | grep -q Up && echo 'SSID.1 Up' && i=0 ; i=\$(( i-1 )); sleep 2 ; done"
   SSID.1 Up
 
-  $ R "ba-cli 'WiFi.AccessPoint.2.Enable=1' > /dev/null"
+  $ R "ba-cli -l 'WiFi.AccessPoint.2.Enable=1' | tr -d '\n'
+    1 (no-eol)
+
 
   $ sleep 10
 
   $ R "i=15 ; while [ \$i -gt 1 ]; do ba-cli -l 'WiFi.SSID.2.Status?' | grep -q Up && echo 'SSID.2 Up' && i=0 ; i=\$(( i-1 )); sleep 2 ; done"
   SSID.2 Up
 
-  $ R "ba-cli 'WiFi.AccessPoint.3.Enable=1' > /dev/null"
+  $ R "ba-cli -l 'WiFi.AccessPoint.3.Enable=1' | tr -d '\n'
+    1 (no-eol)
+
 
   $ sleep 10
 
   $ R "i=15 ; while [ \$i -gt 1 ]; do ba-cli -l 'WiFi.SSID.3.Status?' | grep -q Up && echo 'SSID.3 Up' && i=0 ; i=\$(( i-1 )); sleep 2 ; done"
   SSID.3 Up
 
-  $ R "ba-cli 'WiFi.AccessPoint.4.Enable=1' > /dev/null"
+  $ R "ba-cli -l 'WiFi.AccessPoint.4.Enable=1' | tr -d '\n'
+    1 (no-eol)
+
 
   $ sleep 10
 
@@ -160,28 +170,36 @@ Disable wireless:
 
   $ R logger -t cram "Stop wireless"
 
-  $ R "ba-cli 'WiFi.AccessPoint.4.Enable=0' > /dev/null"
+  $ R "ba-cli -l 'WiFi.AccessPoint.4.Enable=0' | tr -d '\n'
+    0 (no-eol)
+
 
   $ sleep 10
 
   $ R "i=15 ; while [ \$i -gt 1 ]; do ba-cli -l 'WiFi.SSID.4.Status?' | grep -q Down && echo 'SSID.4 Down' && i=0 ; i=\$(( i-1 )); sleep 2 ; done"
   SSID.4 Down
 
-  $ R "ba-cli 'WiFi.AccessPoint.3.Enable=0' > /dev/null"
+  $ R "ba-cli -l 'WiFi.AccessPoint.3.Enable=0' | tr -d '\n'
+    0 (no-eol)
+
 
   $ sleep 10
 
   $ R "i=15 ; while [ \$i -gt 1 ]; do ba-cli -l 'WiFi.SSID.3.Status?' | grep -q Down && echo 'SSID.3 Down' && i=0 ; i=\$(( i-1 )); sleep 2 ; done"
   SSID.3 Down
 
-  $ R "ba-cli 'WiFi.AccessPoint.2.Enable=0' > /dev/null"
+  $ R "ba-cli -l 'WiFi.AccessPoint.2.Enable=0' | tr -d '\n'
+    0 (no-eol)
+
 
   $ sleep 10
 
   $ R "i=15 ; while [ \$i -gt 1 ]; do ba-cli -l 'WiFi.SSID.2.Status?' | grep -q Down && echo 'SSID.2 Down' && i=0 ; i=\$(( i-1 )); sleep 2 ; done"
   SSID.2 Down
 
-  $ R "ba-cli 'WiFi.AccessPoint.1.Enable=0' > /dev/null"
+  $ R "ba-cli -l 'WiFi.AccessPoint.1.Enable=0' | tr -d '\n'
+    0 (no-eol)
+
 
   $ sleep 10
 

@@ -112,7 +112,9 @@ Add a new classification instance 5. Mark ICMP packets to network 192.168.25.0/2
   > ba-cli QoS.Classification.icmp_dscp_cs1.Enable=1
   > EOF
   $ script --command "ssh -t root@$TARGET_LAN_IP '$(cat /tmp/new-classification)'" > /dev/null
-  $ R "ba-cli 'QoS.Classification.lansubnet1.Enable = true' > /dev/null"
+  $ R "ba-cli -l 'QoS.Classification.lansubnet1.Enable = true' | tr -d '\n'
+    1 (no-eol)
+
   $ sleep 2
 
 The firewall rule to set a DSCP value for ICMP packets to network 192.168.25.0/24 must be the first one, so change the order:

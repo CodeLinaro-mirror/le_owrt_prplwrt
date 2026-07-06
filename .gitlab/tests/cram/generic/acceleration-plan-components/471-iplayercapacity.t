@@ -199,7 +199,9 @@ Modify writable parameter via CWMP DataModel:
 
 Start test via USP command:
 
-  $ R "ba-cli 'IPDiagnostics.IPLayerCapacity(Role=\"Sender\", ServerList=\"127.0.0.1:25000\")' > /dev/null && echo 0"
+  $ R "ba-cli -l 'IPDiagnostics.IPLayerCapacity(Role=\"Sender\", ServerList=\"127.0.0.1:25000\")' | tr -d '\n'
+    \"Sender\", ServerList=\"127.0.0.1:25000\") (no-eol)
+
   0
 
 Verify DiagnosticsState is Complete after test completion:
@@ -234,7 +236,9 @@ Start test via CWMP command:
   $ R "ba-cli 'IPDiagnostics.IPLayerCapacityMetrics.NumberFirstModeTestSubIntervals=1'" >/dev/null
   $ R "ba-cli 'IPDiagnostics.IPLayerCapacityMetrics.DiagnosticsState=Requested'" >/dev/null
   $ sleep 2
-  $ R "ba-cli 'IPDiagnostics.IPLayerCapacity(Role=\"Sender\", ServerList=\"127.0.0.1:25000\")' > /dev/null && echo 0"
+  $ R "ba-cli -l 'IPDiagnostics.IPLayerCapacity(Role=\"Sender\", ServerList=\"127.0.0.1:25000\")' | tr -d '\n'
+    \"Sender\", ServerList=\"127.0.0.1:25000\") (no-eol)
+
   0
 
 Verify DiagnosticsState is Complete after test completion:
@@ -266,7 +270,9 @@ Test 8. USP to CWMP; nearest command (CWMP) should execute:
 
 Start test via USP command:
 
-  $ R "ba-cli 'IPDiagnostics.IPLayerCapacity(Role=\"Sender\", ServerList=\"127.0.0.1:25000\")' > /dev/null &"
+  $ R "ba-cli -l 'IPDiagnostics.IPLayerCapacity(Role=\"Sender\", ServerList=\"127.0.0.1:25000\")' | tr -d '\n'
+    \"Sender\", ServerList=\"127.0.0.1:25000\") (no-eol)
+
   $ sleep 2
 
 Start test via CWMP DataModel:

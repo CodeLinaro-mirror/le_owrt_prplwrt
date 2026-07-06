@@ -19,7 +19,11 @@ Check that no interception is being configured:
 
 Enable interception of packets:
 
-  $ R "ba-cli 'PacketInterception.Enable=true' > /dev/null" ; sleep 2
+  $ R "ba-cli -l 'PacketInterception.Enable=true' | tr -d '\n'
+    1 (no-eol)
+    
+    $ R; sleep 2
+
 
 Check that interception is configured properly:
 
@@ -35,7 +39,11 @@ Check that interception is configured properly:
 
 Disable interception of packets:
 
-  $ R "ba-cli 'PacketInterception.Enable=false' > /dev/null" ; sleep 2
+  $ R "ba-cli -l 'PacketInterception.Enable=false' | tr -d '\n'
+    0 (no-eol)
+    
+    $ R; sleep 2
+
 
 Check that no interception is being configured:
 
