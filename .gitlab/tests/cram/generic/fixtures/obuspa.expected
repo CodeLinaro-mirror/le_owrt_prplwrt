@@ -97,7 +97,6 @@ Device.BulkData.Profile.{i}.Enable                                              
 Device.BulkData.Profile.{i}.EncodingType                                                             proto::tr181-bulkdata
 Device.BulkData.Profile.{i}.ForceCollection()                                                        proto::tr181-bulkdata
 Device.BulkData.Profile.{i}.HTTP.                                                                    proto::tr181-bulkdata
-Device.BulkData.Profile.{i}.HTTP.CACertificate                                                       proto::tr181-bulkdata
 Device.BulkData.Profile.{i}.HTTP.Compression                                                         proto::tr181-bulkdata
 Device.BulkData.Profile.{i}.HTTP.CompressionsSupported                                               proto::tr181-bulkdata
 Device.BulkData.Profile.{i}.HTTP.Method                                                              proto::tr181-bulkdata
@@ -114,6 +113,7 @@ Device.BulkData.Profile.{i}.HTTP.RetryMinimumWaitInterval                       
 Device.BulkData.Profile.{i}.HTTP.URL                                                                 proto::tr181-bulkdata
 Device.BulkData.Profile.{i}.HTTP.UseDateHeader                                                       proto::tr181-bulkdata
 Device.BulkData.Profile.{i}.HTTP.Username                                                            proto::tr181-bulkdata
+Device.BulkData.Profile.{i}.HTTP.X_PRPLWARE-COM_CABundle                                             proto::tr181-bulkdata
 Device.BulkData.Profile.{i}.JSONEncoding.                                                            proto::tr181-bulkdata
 Device.BulkData.Profile.{i}.JSONEncoding.ReportFormat                                                proto::tr181-bulkdata
 Device.BulkData.Profile.{i}.JSONEncoding.ReportTimestamp                                             proto::tr181-bulkdata
