@@ -12,6 +12,19 @@ define Overlay/Prepare/Patch
 endef
 Hooks/Prepare/Post += Overlay/Prepare/Patch
 
+# All patches which paths added into OVERLAY_HOST_PATCHES
+# will be applied to the host build dir.
+# If left empty (the default), the host build receives the same patches as
+# the target build (OVERLAY_PATCHES), mirroring the HOST_PATCH_DIR convention.
+OVERLAY_HOST_PATCHES ?=
+
+define Overlay/HostPrepare/Patch
+    $(foreach pf,$(filter %.patch,$(if $(OVERLAY_HOST_PATCHES),$(OVERLAY_HOST_PATCHES),$(OVERLAY_PATCHES))), \
+            patch -d "$(HOST_BUILD_DIR)" -p1 < $(pf) $$(newline) \
+    )
+endef
+Hooks/HostPrepare/Post += Overlay/HostPrepare/Patch
+
 ifneq ($(wildcard $(TMP_DIR)/info/.files-packageinfo-$(SCAN_COOKIE)),)
 $(call rewrite,OVERLAY_MAKEFILE_APPENDS,$(shell grep '^[$$].*/$(PKG_DIR_NAME)/Makefile.append' $(TMP_DIR)/info/.files-packageinfo-$(SCAN_COOKIE)))
 else
@@ -29,3 +42,4 @@ define Build/IncludeOverlay
 endef
 
 $(call prepend,BuildPackage,$$(Build/IncludeOverlay)$(newline))
+$(call prepend,HostBuild,$$(Build/IncludeOverlay)$(newline))
