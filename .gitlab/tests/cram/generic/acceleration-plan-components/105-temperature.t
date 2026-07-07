@@ -4,8 +4,9 @@ Create R alias:
 
 Check TemperatureStatus root datamodel:
 
-  $ R "ba-cli -l 'TemperatureStatus.TemperatureSensorNumberOfEntries?' | grep -v '^$'"
+  $ R "ba-cli -l 'protected; TemperatureStatus.TemperatureSensorNumberOfEntries?;TemperatureStatus.PollingMaxRetry?' | grep -E '^-?[0-9]'"
   [1-9][0-9]* (re)
+  -1
 
 Check TemperatureSensorNumberOfEntries:
 

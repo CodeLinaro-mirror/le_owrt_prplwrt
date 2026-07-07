@@ -4,16 +4,29 @@ Create R alias:
 
 Check QoS root datamodel:
 
-  $ R "ba-cli -l 'QoS.ShaperNumberOfEntries?;QoS.QueueNumberOfEntries?;QoS.MaxSchedulerEntries?;QoS.SchedulerNumberOfEntries?;QoS.QueueStatsNumberOfEntries?;QoS.ClassificationNumberOfEntries?;QoS.MaxClassificationEntries?;QoS.MaxQueueEntries?;QoS.MaxShaperEntries?' | grep -v '^$' | sort"
+  $ R "ba-cli -l 'protected; QoS.SupportedControllers?;QoS.ShaperNumberOfEntries?;QoS.QueueNumberOfEntries?;QoS.MaxSchedulerEntries?;QoS.SchedulerNumberOfEntries?;QoS.QueueStatsNumberOfEntries?;QoS.ClassificationNumberOfEntries?;QoS.MaxClassificationEntries?;QoS.BrokenQDiscPrioMap?;QoS.MarkMask?;QoS.MaxQueueEntries?;QoS.MaxShaperEntries?' | sed 's/\x1b\[[0-9;]*[A-Za-z]//g' | grep -v '^>' | grep -v '^$'"
+  mod-qos-tc
   1
+  5
+  20
   1
-  20
-  20
-  20
   4
   4
   40
-  5
+  0
+  31
+  20
+  20
+
+Check QoS.Node.7 datamodel:
+
+  $ R "ba-cli -l 'protected; QoS.Node.7.TrafficClasses?;QoS.Node.7.DropAlgorithm?;QoS.Node.7.Controller?;QoS.Node.7.AllInterfaces?;QoS.Node.7.SchedulerAlgorithm?;QoS.Node.7.Alias?' | sed 's/\x1b\[[0-9;]*[A-Za-z]//g' | grep -v '^>' | grep -v '^$' | sed 's/^0$/false/' | sort"
+  3
+  DT
+  HTB
+  false
+  mod-qos-tc
+  node-queue-home-iptv
 
 Enable QoS.Queue datamodel for stats-home-iptv configurations:
 
@@ -29,10 +42,11 @@ Enable QoS.Queue datamodel for stats-home-iptv configurations:
 
 Check QoS.Queue datamodel for stats-home-iptv:
 
-  $ R "ba-cli -l 'QoS.Queue.5.Alias?;QoS.Queue.5.SchedulerAlgorithm?;QoS.Queue.5.Status?;QoS.Queue.5.TrafficClasses?' | grep -v '^$' | sort"
+  $ R "ba-cli -l 'protected; QoS.Queue.5.Alias?;QoS.Queue.5.SchedulerAlgorithm?;QoS.Queue.5.Status?;QoS.Queue.5.TrafficClasses?;QoS.Queue.5.Controller?' | sed 's/\x1b\[[0-9;]*[A-Za-z]//g' | grep -v '^>' | grep -v '^$' | sort"
   3
   Enabled
   HTB
+  mod-qos-tc
   queue-home-iptv
 
 Check QoS.QueueStats datamodel for stats-home-iptv:
@@ -45,10 +59,11 @@ Check QoS.QueueStats datamodel for stats-home-iptv:
 
 Check QoS.Scheduler datamodel:
 
-  $ R "ba-cli -l 'QoS.Scheduler.*.DefaultQueue?;QoS.Scheduler.*.SchedulerAlgorithm?;QoS.Scheduler.*.Status?' | grep -v '^$' | sort"
+  $ R "ba-cli -l 'protected; QoS.Scheduler.*.DefaultQueue?;QoS.Scheduler.*.SchedulerAlgorithm?;QoS.Scheduler.*.Status?;QoS.Scheduler.*.Controller?' | sed 's/\x1b\[[0-9;]*[A-Za-z]//g' | grep -v '^>' | grep -v '^$' | sort"
   Enabled
   HTB
   QoS.Queue.queue-home-data.
+  mod-qos-tc
 
 Enable QoS.Shaper.1 configurations:
 
@@ -61,9 +76,10 @@ Enable QoS.Shaper.1 configurations:
 
 Check QoS.Shaper.1 datamodel:
 
-  $ R "ba-cli -l 'QoS.Shaper.1.Enable?;QoS.Shaper.1.Status?' | grep -v '^$' | sort"
-  1
+  $ R "ba-cli -l 'protected; QoS.Shaper.1.Controller?;QoS.Shaper.1.Enable?;QoS.Shaper.1.Status?' | sed 's/\x1b\[[0-9;]*[A-Za-z]//g' | grep -v '^>' | grep -v '^$' | sed 's/^1$/true/' | sort"
   Enabled
+  mod-qos-tc
+  true
 
 Check DSCP value for IPv4 ICMP packets with icmp_dscp_cs6 classification configuration:
 
@@ -112,8 +128,8 @@ Add a new classification instance 5. Mark ICMP packets to network 192.168.25.0/2
   > ba-cli QoS.Classification.icmp_dscp_cs1.Enable=1
   > EOF
   $ script --command "ssh -t root@$TARGET_LAN_IP '$(cat /tmp/new-classification)'" > /dev/null
-  $ R "ba-cli -l 'QoS.Classification.lansubnet1.Enable = true' | tr -d '\n'
-    1 (no-eol)
+  $ R "ba-cli -l 'QoS.Classification.lansubnet1.Enable = true' | tr -d '\n'"
+  1 (no-eol)
 
   $ sleep 2
 

@@ -4,7 +4,7 @@ Create R alias:
 
 Check that ba-cli has expected datamodels available:
 
-  $ R "ba-cli list | while read m; do ba-cli \"\${m}?\"; done | grep '\.\$' | sed 's/\.[0-9]\+\././g; s/\.\$//' | grep '[[:upper:]]' | grep -v -e '^Cellular' -e 'Device.Cellular' -e 'WiFi.Vendor.Daemon' -e 'WiFi.Vendor.ModuleMode' -e '^WiFi.Vendor.MLO' -e '^Bridging.Bridge.[SV]' -e 'WiFi.Vendor.ReconfManager' -e '^ERROR' | sort -u"
+  $ R "ba-cli list | sed 's/\.$//' | grep '^[[:upper:]]' | while read m; do ba-cli \"\${m}.? 10\" </dev/null; done 2>&1 | grep -v '^>' | grep '\.$' | sed 's/\.[0-9]\+\././g; s/\.$//' | grep '[[:upper:]]' | grep -v -e '\.[[:digit:]]' -e '^Cellular' -e 'Device.Cellular' -e 'Device.SessionManagement' -e 'Device.TrustedElements' -e '^SessionManagement' -e '^TrustedElements' -e 'WiFi.Vendor.Daemon' -e 'WiFi.Vendor.ModuleMode' -e '^WiFi.Vendor.MLO' -e '^Bridging.Bridge.[SV]' -e 'WiFi.Vendor.ReconfManager' | sort -u"
   ACLManager
   ACLManager.Role
   Bridging
@@ -12,6 +12,7 @@ Check that ba-cli has expected datamodels available:
   Bridging.Bridge.Port
   Bridging.Bridge.Port.Stats
   BulkData
+  BulkData.Profile
   Buttons
   Buttons.Action
   Buttons.Button
@@ -20,6 +21,7 @@ Check that ba-cli has expected datamodels available:
   CPUs.CPU
   CPUs.CPU.DVFS
   CaptivePortal
+  CaptivePortal.LANInterface
   ConMon
   ConMon.Entry
   ConMon.Entry.Stats
@@ -636,7 +638,10 @@ Check that ba-cli has expected datamodels available:
   Devices
   Devices.Config
   Devices.Config.global
+  Devices.Config.location
+  Devices.Config.mDNSScanner
   Devices.Config.mod-self
+  Devices.Config.priority
   Devices.Device
   Devices.Device.IPv4Address
   Devices.Device.IPv6Address
@@ -814,6 +819,7 @@ Check that ba-cli has expected datamodels available:
   Security
   Security.Certificate
   SoftwareModules
+  SoftwareModules.ExecEnv
   SoftwareModules.LocalManagement
   SoftwareModules.NetworkConfig
   Syslog

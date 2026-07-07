@@ -4,12 +4,12 @@ Create R alias:
 
 Check PacketInterception root datamodel:
 
-  $ R "ba-cli -l 'PacketInterception.InterceptionNumberOfEntries?;PacketInterception.Enable?;PacketInterception.PacketHandlerNumberOfEntries?;PacketInterception.ConditionNumberOfEntries?;PacketInterception.Status?' | grep -v '^$' | sort"
-  0
+  $ R "ba-cli -l 'PacketInterception.PacketHandlerNumberOfEntries?;PacketInterception.InterceptionNumberOfEntries?;PacketInterception.ConditionNumberOfEntries?;PacketInterception.Status?;PacketInterception.Enable?' | grep -v '^$'"
   1
   3
   5
   Disabled
+  0
 
 Check that no interception is being configured:
 
@@ -19,10 +19,10 @@ Check that no interception is being configured:
 
 Enable interception of packets:
 
-  $ R "ba-cli -l 'PacketInterception.Enable=true' | tr -d '\n'
-    1 (no-eol)
-    
-    $ R; sleep 2
+  $ R "ba-cli -l 'PacketInterception.Enable=true' | tr -d '\n'"
+  1 (no-eol)
+
+  $ sleep 2
 
 
 Check that interception is configured properly:
@@ -39,10 +39,10 @@ Check that interception is configured properly:
 
 Disable interception of packets:
 
-  $ R "ba-cli -l 'PacketInterception.Enable=false' | tr -d '\n'
-    0 (no-eol)
-    
-    $ R; sleep 2
+  $ R "ba-cli -l 'PacketInterception.Enable=false' | tr -d '\n'"
+  0 (no-eol)
+
+  $ sleep 2
 
 
 Check that no interception is being configured:
