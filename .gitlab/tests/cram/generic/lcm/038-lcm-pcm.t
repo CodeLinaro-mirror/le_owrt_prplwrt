@@ -18,6 +18,7 @@ Restart the LCM Agent so we start fresh with resetted indexes for ease of compar
   $ R "service cthulhu stop"
   $ R "service timingila stop"
   $ sleep 3
+  $ R "rm -f /etc/amx/cthulhu/defaults.d/cthulhu_information.odl"
   $ R "service rlyeh start"
   $ R "service cthulhu start"
   $ R "service timingila start"
