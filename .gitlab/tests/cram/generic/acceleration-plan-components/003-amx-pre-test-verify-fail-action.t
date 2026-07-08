@@ -15,14 +15,14 @@ Initialize the ProcessMonitor.Test.i Id for required processes:
   $ Tr181McastdId=$(R "ba-cli  ProcessMonitor.Test.*.Name? | grep tr181-mcastd | sed -n 's/.*Test\.\([0-9]\+\)\..*/\1/p'")
   $ Tr181PcpId=$(R "ba-cli  ProcessMonitor.Test.*.Name? | grep tr181-pcp | sed -n 's/.*Test\.\([0-9]\+\)\..*/\1/p'")
   $ Tr181QosId=$(R "ba-cli  ProcessMonitor.Test.*.Name? | grep tr181-qos | sed -n 's/.*Test\.\([0-9]\+\)\..*/\1/p'")
-  $ Dhcpv4ManagerId=$(R "ba-cli  ProcessMonitor.Test.*.Name? | grep dhcpv4-manager | sed -n 's/.*Test\.\([0-9]\+\)\..*/\1/p'")
+  $ Tr181CellularManagerId=$(R "ba-cli  ProcessMonitor.Test.*.Name? | grep cellular-manager | sed -n 's/.*Test\.\([0-9]\+\)\..*/\1/p'")
 
 Ensure all previous NumFail params has been reset before starting the new cram on amx-processmonitor on all above PIds
 
   $ R "ba-cli 'ProcessMonitor.Test.tr181-mcastd.reset()' >/dev/null 2>&1"
   $ R "ba-cli 'ProcessMonitor.Test.tr181-pcp.reset()' >/dev/null 2>&1"
   $ R "ba-cli 'ProcessMonitor.Test.tr181-qos.reset()' >/dev/null 2>&1"
-  $ R "ba-cli 'ProcessMonitor.Test.dhcpv4-manager.reset()'  >/dev/null 2>&1"
+  $ R "ba-cli 'ProcessMonitor.Test.cellular-manager.reset()'  >/dev/null 2>&1"
 
 Verify any process monitoring failures observed before starting with tests:
 Exclude prplmesh, wifi-sensing and pwhm checks till FEAT-27 is merged:

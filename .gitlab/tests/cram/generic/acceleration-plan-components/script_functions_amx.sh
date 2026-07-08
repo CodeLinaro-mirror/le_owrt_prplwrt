@@ -122,7 +122,7 @@ verify_num_Process_fail() {
 
 # Gets TestInterval for provided ProcessMonitor.Test.i
 get_test_interval() {
-        ${CLI} "ProcessMonitor.Test.$1.TestInterval?" > /dev/null
+        ${CLI} "ProcessMonitor.Test.$1.TestInterval?" | sed '/^$/d'
 }
 
 # Sets TestInterval for provided ProcessMonitor.Test.i to shorter interval
