@@ -5,6 +5,11 @@ Create R alias:
   $ alias C="${CRAM_REMOTE_COPY:-}"
   $ C ${TESTDIR}/../scripts/target/usp-events.lua root@${TARGET_LAN_IP}:/tmp/usp-event.lua 2>/dev/null
 
+
+Set MLDUnitSetting='Required' for all radios
+  $ R "ba-cli -l -a \"protected; WiFi.Radio.*.IEEE80211be.MLDUnitSetting='Required'\" | grep Required | wc -l"
+  3
+
   $ R "logger -t cram 'Starting PWHM test (step 1) ...'"
 
 Wait for Device.WiFi. datamodel availability:
