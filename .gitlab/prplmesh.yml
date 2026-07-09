@@ -13,8 +13,8 @@ EasyMesh-Smoke-test-R1-Freedom:
       EASYMESH_TESTS=$EASYMESH_TESTS_SIMPLE
       echo -e "${TXT_RED}Executing Easymesh tests: ${TXT_PRPL}$EASYMESH_TESTS${TXT_CLEAR}"
     - mkdir -p build/freedom/
-    - cp bin/targets/ipq95xx/generic/prplos-ipq95xx-generic-prpl_freedom-squashfs-sysupgrade.bin build/freedom/prplos-ipq95xx-generic-prpl_freedom-squashfs-sysupgrade.bin
-    - .gitlab/scripts/prplMesh/deploy_firmware.py --device "$RUN_ON_DEVICE" --full --target-name "$RUN_ON_DEVICE" --image "prplos-ipq95xx-generic-prpl_freedom-squashfs-sysupgrade.bin" --whm --configuration ".gitlab/scripts/prplMesh/dut-configuration/R1/freedom.sh"
+    - cp bin/targets/ipq95xx/generic/{prplos-ipq95xx-generic-prpl_freedom-update_script.itb,prplos-ipq95xx-generic-prpl_freedom-kernel.itb,prplos-ipq95xx-generic-prpl_freedom-rootfs.itb} build/freedom/
+    - .gitlab/scripts/prplMesh/deploy_firmware.py --device "$RUN_ON_DEVICE" --full --target-name "$RUN_ON_DEVICE" --image "prplos-ipq95xx-generic-prpl_freedom-kernel.itb" --rootfs "prplos-ipq95xx-generic-prpl_freedom-rootfs.itb" --whm --configuration ".gitlab/scripts/prplMesh/dut-configuration/R1/freedom.sh"
     - .gitlab/scripts/prplMesh/git-clean-reset.sh ~/easymesh_cert "$(<".gitlab/scripts/prplMesh/easymesh_cert_version")"
     - ~/easymesh_cert/run_test_file.py --verbose --log-folder logs --easymesh-revision "$EASYMESH_REVISION" --device-under-test $RUN_ON_DEVICE "$EASYMESH_TESTS"
   after_script:
@@ -33,6 +33,6 @@ EasyMesh-Smoke-test-R1-Freedom:
       - logs
     when: always
   tags:
-    - dut-prplmesh-freedom
+    - dut-prplmesh-freedom-SMD
     - prplmesh-R1
 
