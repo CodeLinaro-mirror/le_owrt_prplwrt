@@ -21,6 +21,7 @@ additional_packages:
 
 packages:
   - busybox
+  - ethtool-full
   - procd
   - iptables-mod-conntrack-extra
   - kmod-ipt-ipopt
