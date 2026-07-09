@@ -46,28 +46,47 @@ class URXOSP(GenericPrplOS):
         # Give the ethernet interfaces some time to initialize:
         time.sleep(5)
 
-        # Changes the default image name to upgrade
-        # shell.sendline(f"setenv fullimage {self.image}")
-        # shell.sendline("")
-        # shell.sendline("saveenv")
-        # shell.expect("OK")
-
-        shell.sendline("run update_fullimage")
-        shell.expect("done", timeout=30)
-        # Image transfer successful
-        shell.expect("Found device tree image", timeout=15)
-        shell.expect("Saving Environment to MMC", timeout=15)
-        shell.expect("OK", timeout=15)
-        # Image written to MMC
-        shell.sendline("")
+        shell.sendline(f"setenv serverip {self.serverip}")
         shell.expect(self.bootloader_prompt)
-
-        time.sleep(10)
-        shell.sendline(
-            "mmc erase ${overlay_container_a_block_start} ${overlay_container_a_block_size}")
-        shell.expect("blocks erased: OK", timeout=15)
+        shell.sendline(f"setenv ipaddr {self.ipaddr}")
+        shell.expect(self.bootloader_prompt)
+        shell.sendline("setenv loadaddr 0x8200000")
+        shell.expect(self.bootloader_prompt)
         time.sleep(5)
-        shell.sendline(
-            "mmc erase ${overlay_container_a_block_start} ${overlay_container_a_block_size}")
-        shell.expect("blocks erased: OK", timeout=15)
+
+        shell.sendline(f"tftpboot ${{loadaddr}} {self.update_script}")
+        shell.expect("done")
         shell.expect(self.bootloader_prompt)
+        shell.sendline("source ${loadaddr}:update-script")
+        shell.expect("run update_prpl")
+        shell.expect("========================================================")
+        shell.expect(self.bootloader_prompt)
+
+        shell.sendline(f"setenv img_kernel {self.image}")
+        shell.expect(self.bootloader_prompt)
+        shell.sendline(f"setenv img_rootfs")
+        shell.expect(self.bootloader_prompt)
+        shell.sendline("setenv img_uboot")
+        shell.expect(self.bootloader_prompt)
+        shell.sendline("setenv img_rbe")
+        shell.expect(self.bootloader_prompt)
+        shell.sendline("setenv img_smd")
+        shell.expect(self.bootloader_prompt)
+        shell.sendline("setenv update_rescue_bank yes")
+        shell.expect(self.bootloader_prompt)
+
+        shell.sendline("mmc dev 0")
+        shell.expect(self.bootloader_prompt)
+        shell.sendline("mmc erase 0x86c00 0x10000")
+        shell.expect("blocks erased: OK")
+        shell.expect(self.bootloader_prompt)
+
+        shell.sendline("run update_prpl")
+        shell.expect("image.ext4 written successfully to kernel-active.", timeout=45)
+        shell.expect("image.ext4 written successfully to kernel-inactive", timeout=45)
+        shell.expect("img_uboot not set")
+        shell.expect("img_rbe not set")
+        shell.expect("img_smd not set")
+        shell.expect("Done.")
+        shell.expect(self.bootloader_prompt)
+        print("Flashing completed successfully")

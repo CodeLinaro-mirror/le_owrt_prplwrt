@@ -23,7 +23,7 @@ def main():
                                      or using sysupgrade, depending on the target device.""")
     parser.add_argument('-d', '--device',
                         help="""Device to upgrade. Currently supported targets are:
-                        turris-omnia haze urx_osp urx_ospv2""", required=True)
+                        freedom urx_osp urx_ospv2 mozart""", required=True)
     parser.add_argument(
         '-t',
         '--target-name',
@@ -34,6 +34,22 @@ def main():
         '--image',
         help="Name of the image to use for the upgrade (should exist in the artifacts folder).",
         required=True)
+
+    parser.add_argument(
+        '-s',
+        '--rootfs',
+        help="Name of the rootfs FIT image to use for the upgrade "
+             "(should exist in the artifacts folder).", required=False)
+
+    parser.add_argument(
+        '-a',
+        '--ipaddr',
+        help="Bootloader IP address of the DUT", required=False)
+
+    parser.add_argument(
+        '-v',
+        '--serverip',
+        help="Bootloader IP address of the TFTP server", required=False)
 
     parser.add_argument(
         '-f',
@@ -54,7 +70,11 @@ def main():
 
     args = parser.parse_args()
 
-    dev = device_from_name(args.device, args.target_name, args.image)
+    if args.device == "freedom" and args.rootfs is None:
+        raise ValueError("--rootfs is required when upgrading Freedom")
+
+    dev = device_from_name(args.device, args.target_name, args.image, args.rootfs,
+                           args.ipaddr, args.serverip)
 
     def do_upgrade(dev):
         try:

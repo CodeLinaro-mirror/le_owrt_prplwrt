@@ -62,7 +62,9 @@ class SerialDevice(pexpect.fdpexpect.fdspawn):
                              + "Please make sure you have an appropriate udev rule for it.")
         if self.serial is not None:
             raise ValueError("Serial already connected!")
-        self.serial = serial.Serial(self.serial_path, self.baudrate, xonxoff=True)
+        """Setting xonxoff (software flow control)
+        will not work for the serial connection to Freedom in R6"""
+        self.serial = serial.Serial(self.serial_path, self.baudrate)
         self.serial.flushInput()
         super().__init__(self.serial, logfile=self.logfile)
 
@@ -104,3 +106,11 @@ class SerialDevice(pexpect.fdpexpect.fdspawn):
         for char in s:
             self.send(char)
             time.sleep(self.send_delay / 1000.)
+
+    def flush(self):
+        """Flush the serial read buffer"""
+        if self.serial.is_open:
+            if hasattr(self.serial, "reset_input_buffer"):
+                self.serial.reset_input_buffer()
+            else:
+                self.serial.flushInput()
