@@ -5176,7 +5176,6 @@ Device.WiFi.Radio.{i}.FullScan() input:HomeTime
 Device.WiFi.Radio.{i}.FullScan() input:SSID
 Device.WiFi.Radio.{i}.GuardInterval                                                                  proto::prplmesh-dm-mapper
 Device.WiFi.Radio.{i}.IEEE80211ax.                                                                   proto::prplmesh-dm-mapper
-Device.WiFi.Radio.{i}.IEEE80211be.                                                                   proto::prplmesh-dm-mapper
 Device.WiFi.Radio.{i}.IEEE80211hEnabled                                                              proto::prplmesh-dm-mapper
 Device.WiFi.Radio.{i}.IEEE80211hSupported                                                            proto::prplmesh-dm-mapper
 Device.WiFi.Radio.{i}.LastChange                                                                     proto::prplmesh-dm-mapper
@@ -5290,6 +5289,8 @@ Device.WiFi.Radio.{i}.X_PRPLWARE-COM_ChannelMgt.ClearedDfsChannels              
 Device.WiFi.Radio.{i}.X_PRPLWARE-COM_ChannelMgt.CurrentChanspec.                                     proto::prplmesh-dm-mapper
 Device.WiFi.Radio.{i}.X_PRPLWARE-COM_ChannelMgt.TargetChanspec.                                      proto::prplmesh-dm-mapper
 Device.WiFi.Radio.{i}.X_PRPLWARE-COM_DFS Done!                                                       proto::prplmesh-dm-mapper
+Device.WiFi.Radio.{i}.X_PRPLWARE-COM_IEEE80211be.                                                    proto::prplmesh-dm-mapper
+Device.WiFi.Radio.{i}.X_PRPLWARE-COM_IEEE80211be.MLDUnitSetting                                      proto::prplmesh-dm-mapper
 Device.WiFi.Radio.{i}.X_PRPLWARE-COM_IEEE80211kSupported                                             proto::prplmesh-dm-mapper
 Device.WiFi.Radio.{i}.X_PRPLWARE-COM_IEEE80211rSupported                                             proto::prplmesh-dm-mapper
 Device.WiFi.Radio.{i}.X_PRPLWARE-COM_NaStaMonitor.                                                   proto::prplmesh-dm-mapper

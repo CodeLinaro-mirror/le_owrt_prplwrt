@@ -331,6 +331,14 @@ get_private_mldunit() {
    R 'usp-cli -j -l "Device.WiFi.SSID.[SSID==\"prplOS\"].MLDUnit?" | jsonfilter -e @[0]'[*].MLDUnit''  | head -n 1
 }
 
+# Set MLDUnit of private MLD based on SSID
+# In : SSID
+# In : MLDUnit
+# Out : N/A
+set_ssid_mldunit() {
+   R "usp-cli -j -l 'Device.WiFi.SSID.[SSID==\"${1}\"].MLDUnit=${2}' | jsonfilter -e @[0]'[*].MLDUnit'"
+}
+
 # Print MLDUnit of private MLD based on default SSID (prplOS-guest)
 # In : N/A
 # Out : MLDUnit
