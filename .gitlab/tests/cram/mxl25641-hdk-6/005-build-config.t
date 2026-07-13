@@ -264,6 +264,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_gmap-mibs-common=y
   CONFIG_PACKAGE_gmap-mod-dnssd=y
   CONFIG_PACKAGE_gmap-mod-ethernet-dev=y
+  CONFIG_PACKAGE_gmap-mod-homeplug=y
   CONFIG_PACKAGE_gmap-mod-name-selector=y
   CONFIG_PACKAGE_gmap-mod-self=y
   CONFIG_PACKAGE_gmap-mod-upnp=y
