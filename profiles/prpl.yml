@@ -24,6 +24,7 @@ packages:
   - gmap-mibs-common
   - gmap-mod-dnssd
   - gmap-mod-ethernet-dev
+  - gmap-mod-homeplug
   - gmap-mod-name-selector
   - gmap-mod-self
   - gmap-mod-upnp
