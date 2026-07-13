@@ -44,9 +44,9 @@ packages:
   - lighttpd-mod-fastcgi
   - lighttpd-mod-openssl
   - lua-amx
-  - mcastd-core
+  - kmod-mcastd-core
   - mcastd-noforward
-  - mcastd-routing
+  - kmod-mcastd-routing
   - miniupnpd-prpl
   - mod-autosensing
   - mod-busstats
