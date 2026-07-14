@@ -186,3 +186,5 @@ diffconfig: |
           # CONFIG_BUSYBOX_CONFIG_NTPD is not set
           CONFIG_SAH_AMX_USERMANAGEMENT_DISABLE_PASSWORD_HASHED_FORMAT_STORAGE=y
           CONFIG_INCLUDE_CONFIG=y
+          CONFIG_PACKAGE_kmod-ipt-u32=y
+          CONFIG_PACKAGE_iptables-mod-u32=y
