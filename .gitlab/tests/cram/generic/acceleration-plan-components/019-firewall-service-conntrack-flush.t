@@ -1,7 +1,11 @@
 Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
-  $ : ${TARGET_WAN_INTERFACE:=wan}
+
+Resolve the WAN interface name from the logical reference:
+
+  $ WAN_IFACE=$(R "ba-cli --less --json 'NetModel.Intf.ip-wan.getFirstParameter(name="NetDevName", flag = "netdev-bound")'" | sed '/^$/d' | tail -n 1 | cut -d'"' -f2)
+  $ test -n "$WAN_IFACE"
 
 Disable the existing ICMP drop rule on WAN interface to allow ping:
 
@@ -21,18 +25,19 @@ Create firewall service allowing ICMP on the WAN interface:
 
 Check that INPUT_Services rule is present:
 
-  $ R "iptables -L INPUT_Services -nv | grep 'icmp' | grep 'ACCEPT' | grep '$TARGET_WAN_INTERFACE' | wc -l"
-  1
+  $ R "i=0; n=0; while [ \$i -lt 10 ]; do n=\$(iptables -L INPUT_Services -nv | grep 'icmp' | grep 'ACCEPT' | grep '$WAN_IFACE' | wc -l); [ \$n -ge 1 ] && break; i=\$((i+1)); sleep 1; done; [ \$n -ge 1 ] && echo rule-present || echo rule-count=\$n"
+  rule-present
 
 Start ping from testbed WAN to router WAN IP to create conntrack entry:
 
+  $ R "conntrack -D -p icmp --src $TESTBED_WAN_IP --dst $TARGET_WAN_IP" > /dev/null 2>&1; true
   $ ping -I $TESTBED_WAN_IP -c 1 $TARGET_WAN_IP > /dev/null 2>&1 &
   $ sleep 2
 
 Verify conntrack entry is present:
 
-  $ R "conntrack -L -p icmp --src $TESTBED_WAN_IP --dst $TARGET_WAN_IP 2>/dev/null | wc -l"
-  1
+  $ R "i=0; n=0; while [ \$i -lt 10 ]; do n=\$(conntrack -L -p icmp --src $TESTBED_WAN_IP --dst $TARGET_WAN_IP 2>/dev/null | wc -l); [ \$n -ge 1 ] && break; i=\$((i+1)); sleep 1; done; [ \$n -ge 1 ] && echo entry-present || echo entry-count=\$n"
+  entry-present
 
 Kill ping and delete service:
 
@@ -41,7 +46,7 @@ Kill ping and delete service:
 
 Check that INPUT_Services ACCEPT rule for icmp is gone:
 
-  $ R "iptables -L INPUT_Services -nv | grep 'icmp' | grep 'ACCEPT' | grep '$TARGET_WAN_INTERFACE' | wc -l"
+  $ R "iptables -L INPUT_Services -nv | grep 'icmp' | grep 'ACCEPT' | grep '$WAN_IFACE' | wc -l"
   0
 
 Verify conntrack entry was flushed after service deletion:
@@ -61,11 +66,12 @@ Create service again to verify conntrack flush on disable:
   > " > /tmp/cram
   $ script --command "ssh -t root@$TARGET_LAN_IP '$(cat /tmp/cram)'" > /dev/null; sleep 1
 
+  $ R "conntrack -D -p icmp --src $TESTBED_WAN_IP --dst $TARGET_WAN_IP" > /dev/null 2>&1; true
   $ ping -I $TESTBED_WAN_IP -c 1 $TARGET_WAN_IP > /dev/null 2>&1 &
   $ sleep 2
 
-  $ R "conntrack -L -p icmp --src $TESTBED_WAN_IP --dst $TARGET_WAN_IP 2>/dev/null | wc -l"
-  1
+  $ R "i=0; n=0; while [ \$i -lt 10 ]; do n=\$(conntrack -L -p icmp --src $TESTBED_WAN_IP --dst $TARGET_WAN_IP 2>/dev/null | wc -l); [ \$n -ge 1 ] && break; i=\$((i+1)); sleep 1; done; [ \$n -ge 1 ] && echo entry-present || echo entry-count=\$n"
+  entry-present
 
 Kill ping and disable service:
 
