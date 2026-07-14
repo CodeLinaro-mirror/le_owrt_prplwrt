@@ -40,6 +40,11 @@ Disable time synchronization and restart tr181-bulkdata to test BulkData module 
   >  R "/etc/init.d/tr181-bulkdata restart"
   > fi
 
+Get the serial number that BulkData will report:
+
+  $ serial_number=$(R "ba-cli -lj 'DeviceInfo.SerialNumber?'" | jq -er '.[] | .[] | .SerialNumber')
+  $ test -n "$serial_number"
+
 Enable BulkData and check object status:
 
   $ R "ba-cli 'Device.BulkData.Enable=1' | grep -Ev '^(>|$)' | grep 'Enable'"
@@ -98,9 +103,20 @@ Wait for 6 seconds:
 
 Check message are recieved by mosquitto_sub:
 
-  $ R 'cat /tmp/mqtt_subscriber' | \
-  >   grep -cP '^\{"Report":\[\{"SN":"SN[A-F0-9]+","CollectionTime":"[0-9]{13}"\}\]\}$'
-  [1-9][0-9]* (re)
+  $ mqtt_payload=$(R 'cat /tmp/mqtt_subscriber')
+  $ if printf '%s\n' "$mqtt_payload" | jq -e --arg serial "$serial_number" '
+  >   (.Report | type) == "array" and
+  >   (.Report | length) == 1 and
+  >   .Report[0].SN == $serial and
+  >   (.Report[0].CollectionTime | type) == "string" and
+  >   (.Report[0].CollectionTime | test("^[0-9]{13}$"))
+  > ' > /dev/null; then
+  >   echo "BulkData MQTT payload is valid"
+  > else
+  >   printf 'Invalid BulkData MQTT payload: %s\n' "$mqtt_payload" >&2
+  >   false
+  > fi
+  BulkData MQTT payload is valid
   $ R 'rm /tmp/mqtt_subscriber'
 
 Teardown, Stop mosquitto_sub:
