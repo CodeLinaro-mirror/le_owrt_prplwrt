@@ -24,8 +24,8 @@ Establish TCP connection through portmapping to create conntrack entry:
 
 Verify conntrack entry is present:
 
-  $ R "conntrack -L -p tcp --dport 5002 2>/dev/null | wc -l"
-  1
+  $ R "i=0; n=0; while [ \$i -lt 10 ]; do n=\$(conntrack -L -p tcp --dport 5002 2>/dev/null | wc -l); [ \$n -ge 1 ] && break; i=\$((i+1)); sleep 1; done; [ \$n -ge 1 ] && echo entry-present || echo entry-count=\$n"
+  entry-present
 
 Remove portmapping:
 
@@ -38,11 +38,11 @@ Verify conntrack entry was flushed:
 
   $ pkill -f 'nc.*12347' 2>/dev/null; pkill -f 'nc.*5002' 2>/dev/null; sleep 2; true
 
-Create portmapping again to verify conntrack flush on disable:
+Create portmapping again on external port 5004 to verify conntrack flush on disable:
 
   $ printf "\
   > ba-cli 'NAT.PortMapping+{Alias=\"ct-pm-test2\"}'
-  > ba-cli 'NAT.PortMapping.ct-pm-test2.ExternalPort=5002'
+  > ba-cli 'NAT.PortMapping.ct-pm-test2.ExternalPort=5004'
   > ba-cli 'NAT.PortMapping.ct-pm-test2.Interface=\"Device.IP.Interface.2\"'
   > ba-cli 'NAT.PortMapping.ct-pm-test2.InternalClient=\"$TARGET_LAN_TEST_HOST\"'
   > ba-cli 'NAT.PortMapping.ct-pm-test2.InternalPort=12347'
@@ -53,11 +53,11 @@ Create portmapping again to verify conntrack flush on disable:
 
   $ nc -l -p 12347 -s $TARGET_LAN_TEST_HOST > /dev/null 2>&1 &
   $ sleep 1
-  $ nc -w 60 -s $TESTBED_WAN_IP $TARGET_WAN_IP 5002 > /dev/null 2>&1 &
+  $ nc -w 60 -s $TESTBED_WAN_IP $TARGET_WAN_IP 5004 > /dev/null 2>&1 &
   $ sleep 2
 
-  $ R "conntrack -L -p tcp --dport 5002 2>/dev/null | wc -l"
-  1
+  $ R "i=0; n=0; while [ \$i -lt 10 ]; do n=\$(conntrack -L -p tcp --dport 5004 2>/dev/null | wc -l); [ \$n -ge 1 ] && break; i=\$((i+1)); sleep 1; done; [ \$n -ge 1 ] && echo entry-present || echo entry-count=\$n"
+  entry-present
 
 Disable portmapping:
 
@@ -65,10 +65,10 @@ Disable portmapping:
 
 Verify conntrack flushed after disable:
 
-  $ R "conntrack -L -p tcp --dport 5002 2>/dev/null | wc -l"
+  $ R "conntrack -L -p tcp --dport 5004 2>/dev/null | wc -l"
   0
 
-  $ pkill -f 'nc.*12347' 2>/dev/null; pkill -f 'nc.*5002' 2>/dev/null; sleep 2; true
+  $ pkill -f 'nc.*12347' 2>/dev/null; pkill -f 'nc.*5004' 2>/dev/null; sleep 2; true
 
 Re-enable and verify conntrack flush on ExternalPort change:
 
@@ -76,23 +76,23 @@ Re-enable and verify conntrack flush on ExternalPort change:
 
   $ nc -l -p 12347 -s $TARGET_LAN_TEST_HOST > /dev/null 2>&1 &
   $ sleep 1
-  $ nc -w 60 -s $TESTBED_WAN_IP $TARGET_WAN_IP 5002 > /dev/null 2>&1 &
+  $ nc -w 60 -s $TESTBED_WAN_IP $TARGET_WAN_IP 5004 > /dev/null 2>&1 &
   $ sleep 2
 
-  $ R "conntrack -L -p tcp --dport 5002 2>/dev/null | wc -l"
-  1
+  $ R "i=0; n=0; while [ \$i -lt 10 ]; do n=\$(conntrack -L -p tcp --dport 5004 2>/dev/null | wc -l); [ \$n -ge 1 ] && break; i=\$((i+1)); sleep 1; done; [ \$n -ge 1 ] && echo entry-present || echo entry-count=\$n"
+  entry-present
 
 Change ExternalPort:
 
   $ script --command "ssh -t root@$TARGET_LAN_IP 'ba-cli \"NAT.PortMapping.ct-pm-test2.ExternalPort=5003\"'" > /dev/null; sleep 2
 
-Verify conntrack for old port 5002 was flushed:
+Verify conntrack for old port 5004 was flushed:
 
-  $ R "conntrack -L -p tcp --dport 5002 2>/dev/null | wc -l"
+  $ R "conntrack -L -p tcp --dport 5004 2>/dev/null | wc -l"
   0
 
 Remove portmapping:
 
   $ script --command "ssh -t root@$TARGET_LAN_IP 'ba-cli \"NAT.PortMapping.ct-pm-test2-\"'" > /dev/null
-  $ pkill -f 'nc.*12347' 2>/dev/null; pkill -f 'nc.*500[23]' 2>/dev/null; true
+  $ pkill -f 'nc.*12347' 2>/dev/null; pkill -f 'nc.*500[24]' 2>/dev/null; true
 

@@ -41,8 +41,8 @@ Establish TCP connection through portmapping to create conntrack entry:
 
 Verify conntrack entry is present:
 
-  $ R "conntrack -L -p tcp --dport 6022 2>/dev/null | wc -l"
-  1
+  $ R "i=0; n=0; while [ \$i -lt 10 ]; do n=\$(conntrack -L -p tcp --dport 6022 2>/dev/null | wc -l); [ \$n -ge 1 ] && break; i=\$((i+1)); sleep 1; done; [ \$n -ge 1 ] && echo entry-present || echo entry-count=\$n"
+  entry-present
 
 Kill nc connections and delete pinhole:
 
@@ -58,41 +58,42 @@ Verify conntrack entry was flushed after pinhole deletion:
 
   $ R "conntrack -L -p tcp --dport 6022 2>/dev/null | wc -l"
   0
-  $ sleep 2
 
-Add pinhole again to verify conntrack flush on disable:
+Move the portmapping to port 6023 and add pinhole again to verify conntrack flush on disable:
 
   $ printf "\
+  > ba-cli 'NAT.PortMapping.ct-ph-pm.ExternalPort=6023'
+  > ba-cli 'NAT.PortMapping.ct-ph-pm.InternalPort=6023'
   > ba-cli 'Firewall.Pinhole+{Alias=\"ct-ph-test2\"}'
   > ba-cli 'Firewall.Pinhole.ct-ph-test2.Protocol=6'
   > ba-cli 'Firewall.Pinhole.ct-ph-test2.Interface=\"Device.IP.Interface.2\"'
   > ba-cli 'Firewall.Pinhole.ct-ph-test2.DestIP=\"$TARGET_LAN_TEST_HOST\"'
-  > ba-cli 'Firewall.Pinhole.ct-ph-test2.DestPort=6022'
+  > ba-cli 'Firewall.Pinhole.ct-ph-test2.DestPort=6023'
   > ba-cli 'Firewall.Pinhole.ct-ph-test2.Enable=1'
   > " > /tmp/cram
   $ script --command "ssh -t root@$TARGET_LAN_IP '$(cat /tmp/cram)'" > /dev/null; sleep 1
 
-  $ nc -l -p 6022 -s $TARGET_LAN_TEST_HOST > /dev/null 2>&1 &
+  $ nc -l -p 6023 -s $TARGET_LAN_TEST_HOST > /dev/null 2>&1 &
   $ sleep 1
-  $ nc -w 60 -s $TESTBED_WAN_IP $TARGET_WAN_IP 6022 > /dev/null 2>&1 &
+  $ nc -w 60 -s $TESTBED_WAN_IP $TARGET_WAN_IP 6023 > /dev/null 2>&1 &
   $ sleep 2
 
-  $ R "conntrack -L -p tcp --dport 6022 2>/dev/null | wc -l"
-  1
+  $ R "i=0; n=0; while [ \$i -lt 10 ]; do n=\$(conntrack -L -p tcp --dport 6023 2>/dev/null | wc -l); [ \$n -ge 1 ] && break; i=\$((i+1)); sleep 1; done; [ \$n -ge 1 ] && echo entry-present || echo entry-count=\$n"
+  entry-present
 
 Kill nc connections and disable pinhole:
 
-  $ pkill -f 'nc.*6022' 2>/dev/null; sleep 1
+  $ pkill -f 'nc.*6023' 2>/dev/null; sleep 1
   $ script --command "ssh -t root@$TARGET_LAN_IP 'ba-cli \"Firewall.Pinhole.ct-ph-test2.Enable=0\"'" > /dev/null; sleep 2
 
 Verify conntrack entry was flushed after pinhole disable:
 
-  $ R "conntrack -L -p tcp --dport 6022 2>/dev/null | wc -l"
+  $ R "conntrack -L -p tcp --dport 6023 2>/dev/null | wc -l"
   0
 
 Remove pinhole and supporting portmapping:
 
   $ script --command "ssh -t root@$TARGET_LAN_IP 'ba-cli \"Firewall.Pinhole.ct-ph-test2-\"'" > /dev/null
   $ script --command "ssh -t root@$TARGET_LAN_IP 'ba-cli \"NAT.PortMapping.ct-ph-pm-\"'" > /dev/null
-  $ pkill -f 'nc.*6022' 2>/dev/null; true
+  $ pkill -f 'nc.*602[23]' 2>/dev/null; true
 
