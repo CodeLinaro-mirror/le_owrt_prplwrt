@@ -3609,8 +3609,8 @@ Device.UserInterface.HTTPAccess.{i}.Session.{i}.IPAddress                       
 Device.UserInterface.HTTPAccess.{i}.Session.{i}.Port                                                 proto::tr181-httpaccess
 Device.UserInterface.HTTPAccess.{i}.Session.{i}.Protocol                                             proto::tr181-httpaccess
 Device.UserInterface.HTTPAccess.{i}.Session.{i}.StartDate                                            proto::tr181-httpaccess
-Device.UserInterface.HTTPAccess.{i}.Session.{i}.Status                                               proto::tr181-httpaccess
 Device.UserInterface.HTTPAccess.{i}.Session.{i}.User                                                 proto::tr181-httpaccess
+Device.UserInterface.HTTPAccess.{i}.Session.{i}.X_PRPLWARE-COM_Status                                proto::tr181-httpaccess
 Device.UserInterface.HTTPAccess.{i}.SessionNumberOfEntries                                           proto::tr181-httpaccess
 Device.UserInterface.HTTPAccess.{i}.Status                                                           proto::tr181-httpaccess
 Device.UserInterface.HTTPAccess.{i}.X_PRPLWARE-COM_HTTPConfig.                                       proto::tr181-httpaccess
