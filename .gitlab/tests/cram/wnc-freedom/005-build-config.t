@@ -118,6 +118,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_ca-certificates=y
   CONFIG_PACKAGE_cellular-manager=y
   CONFIG_PACKAGE_chrony-prpl=y
+  CONFIG_PACKAGE_conntrack=y
   CONFIG_PACKAGE_cthulhu=y
   CONFIG_PACKAGE_cthulhu-capabilities=y
   CONFIG_PACKAGE_cthulhu-dhcpc=y
@@ -361,6 +362,8 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_libmosquitto-ssl=y
   CONFIG_PACKAGE_libncurses=y
   CONFIG_PACKAGE_libnetfilter-conntrack=y
+  CONFIG_PACKAGE_libnetfilter-cthelper=y
+  CONFIG_PACKAGE_libnetfilter-cttimeout=y
   CONFIG_PACKAGE_libnetfilter-queue=y
   CONFIG_PACKAGE_libnetlink-utils=y
   CONFIG_PACKAGE_libnetmodel=y

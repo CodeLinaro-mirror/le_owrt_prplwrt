@@ -1028,6 +1028,8 @@ Device.Firewall.ConnectionTracking.SIP.Enable                                   
 Device.Firewall.ConnectionTracking.SIP.ExternalMedia                                                 proto::tr181-firewall
 Device.Firewall.ConnectionTracking.SIP.Ports                                                         proto::tr181-firewall
 Device.Firewall.ConnectionTracking.SIP.TimeOut                                                       proto::tr181-firewall
+Device.Firewall.ConnectionTracking.X_PRPLWARE-COM_Delete()                                           proto::tr181-firewall
+Device.Firewall.ConnectionTracking.X_PRPLWARE-COM_Delete() input:Expression
 Device.Firewall.DMZ.{i}.                                                                             proto::tr181-firewall
 Device.Firewall.DMZ.{i}.Alias                                                                        proto::tr181-firewall
 Device.Firewall.DMZ.{i}.Description                                                                  proto::tr181-firewall
