@@ -207,7 +207,7 @@ Verify restored configuration after restart:
   $ R "ba-cli -l -j DNS.X_PRPLWARE-COM_Host.$DnsId3.\?" | jq --sort-keys '.[0]'
   {
     "DNS.X_PRPLWARE-COM_Host.\d+.": { (re)
-      "Alias": "cpe-X_PRPLWARE-COM_Host-\d", (re)
+      "Alias": "cpe-X_PRPLWARE-COM_Host-\d+", (re)
       "Enable": 1,
       "IPAddressNumberOfEntries": 0,
       "Interface": "",
