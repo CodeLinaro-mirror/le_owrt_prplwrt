@@ -1,3 +1,7 @@
+Run only on testbed-02, the HomePlug PLC devices are physically present only there:
+
+  $ echo "$CI_RUNNER_DESCRIPTION" | grep -q testbed-02 || exit 80
+
 Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
@@ -10,8 +14,8 @@ Verification of main parameters:
   $ R "ba-cli Device.HomePlug.Interface.1.Status? | grep '='"
   Device.HomePlug.Interface.1.Status="Up"
 
-  $ R "ba-cli Device.HomePlug.Interface.1.AssociateDeviceNumberOfEntries? | grep '='"
-  Device.HomePlug.Interface.1.AssociateDeviceNumberOfEntries=2
+  $ R "ba-cli Device.HomePlug.Interface.1.AssociatedDeviceNumberOfEntries? | grep '='"
+  Device.HomePlug.Interface.1.AssociatedDeviceNumberOfEntries=2
 
 Verification of first AssociatedDevice:
   $ MAC=$(R "ba-cli Device.HomePlug.Interface.1.AssociatedDevice.1.MACAddress?" \
