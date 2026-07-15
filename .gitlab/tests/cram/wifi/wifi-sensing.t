@@ -59,7 +59,7 @@ Note: To fully test this API an associated station is required but let's test wi
 Delete session using SessionID:
 
   $ R "usp-cli -j -l 'Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.$SessionID.DeleteSession()'" | sed '/^$/d' | tail -n +2
-  [{}]
+  [{},{"_userconfig":{"CommandKey":"Device.WiFi.X_PRPLWARE-COM_WiFiSensing.Session.1.DeleteSession()-0"}}]
 
 Check that socket is deleted and sessions number is zero:
 
