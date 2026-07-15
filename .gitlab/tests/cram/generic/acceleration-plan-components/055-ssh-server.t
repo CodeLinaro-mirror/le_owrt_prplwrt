@@ -15,7 +15,7 @@ Add testing SSH server instance on LAN interface and port 1922:
 
 Check that the server is running:
 
-  $ R "pgrep -f dropbear.*1922 --count"
+  $ R "pgrep -f '^dropbear.*1922' --count"
   1
 
 Check that root is not able to login with password:
