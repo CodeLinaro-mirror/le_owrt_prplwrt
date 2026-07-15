@@ -5,10 +5,10 @@ source ${CI_PROJECT_DIR}/.gitlab/scripts/helpers.sh
 set -eu         # exit on error and undefined variables
 set -o pipefail # catch errors in pipes
 
-# Execute provided command using ba-cli --less --json
+# Execute provided command using ba-cli -l --json
 ba_cli_json() {
         # shellcheck disable=SC2029
-        ssh "root@$TARGET_LAN_IP" "ba-cli --less --json '$1'"
+        ssh "root@$TARGET_LAN_IP" "ba-cli -l --json '$1'"
 }
 
 # Execute provided command using ba-cli --less
@@ -55,6 +55,12 @@ wait_till_dm_ready() {
 # Check ProcessMonitor.Test.i.FailAction for all process and if set as REBOOT
 # change it to RESTART CI cram and CDRouter tests
 change_fail_action_to_restart() {
+		process_monitor_null_check=$(ba_cli_json "ProcessMonitor.Test.?" \
+				| jq -r '.[0] | keys[]' | sed 's/\.$//') 
+		if [ -z "$process_monitor_null_check" ]; then
+                log_error "ProcessMonitor.Test Data Model is null"
+		fi
+		
         for id in $(ba_cli 'ProcessMonitor.Test.[FailAction == "REBOOT"].?' | \
             grep Name | \
             sed -n 's/.*Test\.\([0-9]\+\).*/\1/p'); do
@@ -73,3 +79,6 @@ main() {
 }
 
 main
+
+
+
