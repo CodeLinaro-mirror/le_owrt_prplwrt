@@ -1016,6 +1016,7 @@ Device.Firewall.Chain.{i}.Rule.{i}.SourcePortRangeMax                           
 Device.Firewall.Chain.{i}.Rule.{i}.Status                                                            proto::tr181-firewall
 Device.Firewall.Chain.{i}.Rule.{i}.Target                                                            proto::tr181-firewall
 Device.Firewall.Chain.{i}.Rule.{i}.TargetChain                                                       proto::tr181-firewall
+Device.Firewall.Chain.{i}.Rule.{i}.X_PRPLWARE-COM_U32Expression                                      proto::tr181-firewall
 Device.Firewall.Chain.{i}.Rule.{i}.X_PRPLWARE-COM_VendorClassID                                      proto::tr181-firewall
 Device.Firewall.Chain.{i}.RuleNumberOfEntries                                                        proto::tr181-firewall
 Device.Firewall.ChainNumberOfEntries                                                                 proto::tr181-firewall
