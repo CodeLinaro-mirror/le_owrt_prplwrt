@@ -1842,11 +1842,12 @@ Device.InterfaceStack.{i}.LowerAlias                                            
 Device.InterfaceStack.{i}.LowerLayer                                                                 proto::tr181-device
 Device.InterfaceStackNumberOfEntries                                                                 proto::tr181-device
 Device.LEDs.                                                                                         proto::tr181-led
-Device.LEDs.BrightnessLimiter                                                                        proto::tr181-led
 Device.LEDs.LED.{i}.                                                                                 proto::tr181-led
 Device.LEDs.LED.{i}.Alias                                                                            proto::tr181-led
 Device.LEDs.LED.{i}.CurrentCycleElement.                                                             proto::tr181-led
+Device.LEDs.LED.{i}.CurrentCycleElement.Color                                                        proto::tr181-led
 Device.LEDs.LED.{i}.CurrentCycleElement.CycleElementReference                                        proto::tr181-led
+Device.LEDs.LED.{i}.CurrentCycleElement.Duration                                                     proto::tr181-led
 Device.LEDs.LED.{i}.CycleElement.{i}.                                                                proto::tr181-led
 Device.LEDs.LED.{i}.CycleElement.{i}.Alias                                                           proto::tr181-led
 Device.LEDs.LED.{i}.CycleElement.{i}.Brightness                                                      proto::tr181-led
