@@ -2290,6 +2290,7 @@ Device.NeighborDiscovery.InterfaceSetting.{i}.Alias                             
 Device.NeighborDiscovery.InterfaceSetting.{i}.DADTransmits                                           proto::tr181-neighbordiscovery
 Device.NeighborDiscovery.InterfaceSetting.{i}.Enable                                                 proto::tr181-neighbordiscovery
 Device.NeighborDiscovery.InterfaceSetting.{i}.Interface                                              proto::tr181-neighbordiscovery
+Device.NeighborDiscovery.InterfaceSetting.{i}.MaxRtrSolicitationDelay                                proto::tr181-neighbordiscovery
 Device.NeighborDiscovery.InterfaceSetting.{i}.MaxRtrSolicitations                                    proto::tr181-neighbordiscovery
 Device.NeighborDiscovery.InterfaceSetting.{i}.NUDEnable                                              proto::tr181-neighbordiscovery
 Device.NeighborDiscovery.InterfaceSetting.{i}.RSEnable                                               proto::tr181-neighbordiscovery
