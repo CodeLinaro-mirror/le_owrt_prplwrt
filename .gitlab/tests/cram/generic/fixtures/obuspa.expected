@@ -2908,6 +2908,7 @@ Device.QoS.Classification.{i}.X_PRPLWARE-COM_MarkCheck                          
 Device.QoS.Classification.{i}.X_PRPLWARE-COM_MarkMask                                                proto::tr181-qos
 Device.QoS.Classification.{i}.X_PRPLWARE-COM_OutputInterface                                         proto::tr181-qos
 Device.QoS.Classification.{i}.X_PRPLWARE-COM_Return                                                  proto::tr181-qos
+Device.QoS.Classification.{i}.X_PRPLWARE-COM_U32Expression                                           proto::tr181-qos
 Device.QoS.ClassificationNumberOfEntries                                                             proto::tr181-qos
 Device.QoS.MaxClassificationEntries                                                                  proto::tr181-qos
 Device.QoS.MaxQueueEntries                                                                           proto::tr181-qos
