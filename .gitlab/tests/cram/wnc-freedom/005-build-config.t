@@ -1068,5 +1068,4 @@ Assure expected build configuration (PCF-1413):
   CONFIG_shadow-all=y
   CONFIG_PACKAGE_ucode-mod-uci=y
   CONFIG_PACKAGE_wifi-scripts=y
-  # CONFIG_VERSION_CODE_FILENAMES is not set
   # CONFIG_VERSION_FILENAMES is not set
