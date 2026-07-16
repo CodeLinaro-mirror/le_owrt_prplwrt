@@ -346,6 +346,8 @@ install_update_ctr_with_params() {
 			elif [ "${key}" = "password" ]; then
 				value=$(value_or_default "${value_missing}" "${DEFAULT_PASSWORD}" "${value}")
 				str_params=$(concat_comma_string "${str_params}" "Password = \"${value}\"")
+			elif [ "${key}" = "numusp" ]; then
+				str_params=$(concat_comma_string "${str_params}" "NumUSPEIDs = ${value}")
 			elif [ "${key}" = "privileged" ]; then
 				value=$(value_or_default "${value_missing}" "${DEFAULT_PRIVILEGED}" "${value}")
 				str_params=$(concat_comma_string "${str_params}" "Privileged = ${value}")
@@ -392,7 +394,9 @@ install_update_ctr_with_params() {
 		${CLI_JSON} "SoftwareModules.InstallDU($str_params)"
 	elif [ "${operation}" = "update" ]; then
 		${CLI_JSON} "SoftwareModules.DeploymentUnit.[ UUID == \"${uuid}\" ].Update($str_params)"
-		wait_ctr_down
+		if [ "$no_wait" == "false" ]; then
+			wait_ctr_down
+		fi
 	fi
 
 	if [ "$no_wait" == "false" ]; then
@@ -633,6 +637,216 @@ get_container_parameter() {
 	else
 		duid=$(${CLI_JSON} "SoftwareModules.DeploymentUnit.[ UUID == \"${uuid}\" ].DUID?" | jsonfilter -e @[*].*.DUID)
 		${CLI_JSON} "SoftwareModules.ExecutionUnit.[ EUID == \"${duid}\" ].?0" | jsonfilter -e @[*].*.${param} | sort
+	fi
+}
+
+## returns the Name of the ControllerTrust.Role assigned to the DU's internal
+## USP controller (Device.LocalAgent.Controller.N.AssignedRole -> ...Role.M.Name)
+get_controller_role() {
+	uuid=""
+	while [ $# -gt 0 ]; do
+		key="$1"
+		value=""
+		value_missing=false
+		case $key in
+		--*)
+			key="${key#--}"
+			shift
+			if [ $# -gt 0 ] && case "$1" in --*) false ;; *) true ;; esac then
+				value="$1"
+				shift
+			elif [ $# -eq 0 ] || case "$1" in --*) true ;; *) false ;; esac then
+				value_missing=true
+			fi
+			if [ "${key}" = "uuid" ]; then
+				uuid=$(value_or_default "${value_missing}" "${DEFAULT_UUID}" "${value}")
+			else
+				echo "Unknown argument: $key=${value}"
+			fi
+			;;
+		*)
+			echo "Unknown argument: $1"
+			shift
+			;;
+		esac
+	done
+
+	if [ -z "${uuid}" ]; then
+		echo "Missing UUID parameter: Cannot get controller role"
+	else
+		id=$(execute_in_container --uuid "${uuid}" --cmd 'env' | grep USP_ENDPOINT_ID | sed 's/^[^=]*=//' | sort | head -n1)
+		role=$(usp-cli -lj "Device.LocalAgent.Controller.[EndpointID==\"${id}\"].AssignedRole?" | jsonfilter -e @[*].*.AssignedRole | head -n1)
+		usp-cli -lj "${role}Name?" | jsonfilter -e @[*].*.Name | head -n1
+	fi
+}
+
+## returns a parameter of the DU's internal USP controller
+## (Device.LocalAgent.Controller.N.<param>), e.g. EndpointID, Enable
+get_controller_parameter() {
+	uuid=""
+	param=""
+	while [ $# -gt 0 ]; do
+		key="$1"
+		value=""
+		value_missing=false
+		case $key in
+		--*)
+			key="${key#--}"
+			shift
+			if [ $# -gt 0 ] && case "$1" in --*) false ;; *) true ;; esac then
+				value="$1"
+				shift
+			elif [ $# -eq 0 ] || case "$1" in --*) true ;; *) false ;; esac then
+				value_missing=true
+			fi
+			if [ "${key}" = "uuid" ]; then
+				uuid=$(value_or_default "${value_missing}" "${DEFAULT_UUID}" "${value}")
+			elif [ "${key}" = "param" ]; then
+				param=$(value_or_default "${value_missing}" "" "${value}")
+			else
+				echo "Unknown argument: $key=${value}"
+			fi
+			;;
+		*)
+			echo "Unknown argument: $1"
+			shift
+			;;
+		esac
+	done
+
+	if [ -z "${uuid}" ]; then
+		echo "Missing UUID parameter: Cannot get controller info"
+	elif [ -z "${param}" ]; then
+		echo "Missing parameter: Cannot get controller info"
+	else
+		id=$(execute_in_container --uuid "${uuid}" --cmd 'env' | grep USP_ENDPOINT_ID | sed 's/^[^=]*=//' | sort | head -n1)
+		usp-cli -lj "Device.LocalAgent.Controller.[EndpointID==\"${id}\"].${param}?" | jsonfilter -e "@[*].*.${param}" | head -n1
+	fi
+}
+
+## for each of the container's USP endpoints, prints the
+## Device.USPServices.Trust record for that EndpointID, confirming a
+## protected USP operation (registered via --uspregisterpaths) is
+## reachable from every endpoint
+check_endpoint_trust() {
+	uuid=""
+	while [ $# -gt 0 ]; do
+		key="$1"
+		value=""
+		value_missing=false
+		case $key in
+		--*)
+			key="${key#--}"
+			shift
+			if [ $# -gt 0 ] && case "$1" in --*) false ;; *) true ;; esac then
+				value="$1"
+				shift
+			elif [ $# -eq 0 ] || case "$1" in --*) true ;; *) false ;; esac then
+				value_missing=true
+			fi
+			if [ "${key}" = "uuid" ]; then
+				uuid=$(value_or_default "${value_missing}" "${DEFAULT_UUID}" "${value}")
+			else
+				echo "Unknown argument: $key=${value}"
+			fi
+			;;
+		*)
+			echo "Unknown argument: $1"
+			shift
+			;;
+		esac
+	done
+
+	if [ -z "${uuid}" ]; then
+		echo "Missing UUID parameter: Cannot check endpoint trust"
+	else
+		for id in $(execute_in_container --uuid "${uuid}" --cmd 'env' | grep USP_ENDPOINT_ID | sed 's/^[^=]*=//' | sort); do
+			usp-cli -lj "Device.USPServices.Trust.[EndpointID==\"${id}\"].?" | sed '/^$/d'
+		done
+	fi
+}
+
+## for each of the container's USP endpoints, resolves the Name of the
+## ControllerTrust.Role assigned to that specific endpoint
+## (Device.LocalAgent.Controller.[EndpointID==<id>].AssignedRole -> ...Role.Name)
+check_endpoint_role() {
+	uuid=""
+	while [ $# -gt 0 ]; do
+		key="$1"
+		value=""
+		value_missing=false
+		case $key in
+		--*)
+			key="${key#--}"
+			shift
+			if [ $# -gt 0 ] && case "$1" in --*) false ;; *) true ;; esac then
+				value="$1"
+				shift
+			elif [ $# -eq 0 ] || case "$1" in --*) true ;; *) false ;; esac then
+				value_missing=true
+			fi
+			if [ "${key}" = "uuid" ]; then
+				uuid=$(value_or_default "${value_missing}" "${DEFAULT_UUID}" "${value}")
+			else
+				echo "Unknown argument: $key=${value}"
+			fi
+			;;
+		*)
+			echo "Unknown argument: $1"
+			shift
+			;;
+		esac
+	done
+
+	if [ -z "${uuid}" ]; then
+		echo "Missing UUID parameter: Cannot check endpoint role"
+	else
+		for id in $(execute_in_container --uuid "${uuid}" --cmd 'env' | grep USP_ENDPOINT_ID | sed 's/^[^=]*=//' | sort); do
+			role=$(usp-cli -lj "Device.LocalAgent.Controller.[EndpointID==\"${id}\"].AssignedRole?" | jsonfilter -e @[*].*.AssignedRole | head -n1)
+			usp-cli -lj "${role}Name?" | jsonfilter -e @[*].*.Name | head -n1
+		done
+	fi
+}
+
+#returns a parameter of a deployment unit by UUID
+get_du_parameter() {
+	uuid=""
+	param=""
+	while [ $# -gt 0 ]; do
+		key="$1"
+		value=""
+		value_missing=false
+		case $key in
+		--*)
+			key="${key#--}"
+			shift
+			if [ $# -gt 0 ] && case "$1" in --*) false ;; *) true ;; esac then
+				value="$1"
+				shift
+			elif [ $# -eq 0 ] || case "$1" in --*) true ;; *) false ;; esac then
+				value_missing=true
+			fi
+			if [ "${key}" = "uuid" ]; then
+				uuid=$(value_or_default "${value_missing}" "${DEFAULT_UUID}" "${value}")
+			elif [ "${key}" = "param" ]; then
+				param=$(value_or_default "${value_missing}" "" "${value}")
+			else
+				echo "Unknown argument: $key=${value}"
+			fi
+			;;
+		*)
+			echo "Unknown argument: $1"
+			shift
+			;;
+		esac
+	done
+
+	if [ -z "${uuid}" ]; then
+		echo "Missing UUID parameter: Cannot get DU info"
+	elif [ -z "${param}" ]; then
+		echo "Missing parameter: Cannot get DU info"
+	else
+		${CLI_JSON} "SoftwareModules.DeploymentUnit.[ UUID == \"${uuid}\" ].?0" | jsonfilter -e @[*].*.${param}
 	fi
 }
 
@@ -937,6 +1151,10 @@ install_ctr() {
 
 update_ctr() {
 	install_update_ctr_with_params update false "$@"
+}
+
+update_ctr_no_wait() {
+	install_update_ctr_with_params update true "$@"
 }
 
 ## Create the host object resources used for the default HostObject config
