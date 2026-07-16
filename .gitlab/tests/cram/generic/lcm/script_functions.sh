@@ -20,6 +20,8 @@ DEFAULT_RETAINDATA="false"
 DEFAULT_ENVVAR='[{Key="ENVVAR_KEY1", Value="ENVVAR_VALUE1"}, {Key="ENVVAR_KEY2", Value="ENVVAR_VALUE2"}]'
 DEFAULT_SIGNATURE_PASSWORD="secret"
 DEFAULT_SIGNATURE_USERNAME="admin"
+DEFAULT_PRIVILEGED="false"
+DEFAULT_ENABLEHOSTCAPABILITIES="false"
 
 CLI_JSON="ba-cli -l -j"
 CLI="ba-cli"
@@ -371,6 +373,9 @@ install_update_ctr_with_params() {
 			elif [ "${key}" = "signature_user" ]; then
 				value=$(value_or_default "${value_missing}" "${DEFAULT_SIGNATURE_USERNAME}" "${value}")
 				str_params=$(concat_comma_string "${str_params}" "SignatureUsername = \"${value}\"")
+			elif [ "${key}" = "enablehostcapabilities" ]; then
+				value=$(value_or_default "${value_missing}" "${enablehostcapabilities}" "${value}")
+				str_params=$(concat_comma_string "${str_params}" "EnableHostCapabilities = ${value}")
 			elif [ "${key}" = "debugargs" ]; then
 				debugargs=$(value_or_default "${value_missing}" "1" "${value}")
 			else
