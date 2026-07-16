@@ -27,12 +27,20 @@ Set script parameters and copy the script to device:
   > "sed '/^$/d'"); if [ ${curInterval} -gt 0 ];then echo "$1 CurrentTestInterval $curInterval"; \
   > else echo "$1 CurrentTestInterval Failed, Not configured (0)";fi; }
 
+Pre-test actions, call Reset() on the processes to clear the respawns and other
+failures before starting with tests
+
+  $ R "ba-cli 'ProcessMonitor.Test.tr181-mcastd.reset()' >/dev/null 2>&1"
+  $ R "ba-cli 'ProcessMonitor.Test.tr181-pcp.reset()' >/dev/null 2>&1"
+  $ R "ba-cli 'ProcessMonitor.Test.tr181-qos.reset()' >/dev/null 2>&1"
+  $ R "ba-cli 'ProcessMonitor.Test.cellular-manager.reset()'  >/dev/null 2>&1"
+
 Initialize the ProcessMonitor.Test.i Id for required processes:
 
   $ Tr181McastId=$(R "ba-cli  ProcessMonitor.Test.*.Name? | grep tr181-mcastd | sed -n 's/.*Test\.\([0-9]\+\)\..*/\1/p'")
   $ Tr181PcpId=$(R "ba-cli  ProcessMonitor.Test.*.Name? | grep tr181-pcp | sed -n 's/.*Test\.\([0-9]\+\)\..*/\1/p'")
   $ Tr181QosId=$(R "ba-cli  ProcessMonitor.Test.*.Name? | grep tr181-qos | sed -n 's/.*Test\.\([0-9]\+\)\..*/\1/p'")
-  $ Dhcpv4ManagerId=$(R "ba-cli  ProcessMonitor.Test.*.Name? | grep dhcpv4-manager | sed -n 's/.*Test\.\([0-9]\+\)\..*/\1/p'")
+  $ Tr181CellularManagerId=$(R "ba-cli  ProcessMonitor.Test.*.Name? | grep cellular-manager | sed -n 's/.*Test\.\([0-9]\+\)\..*/\1/p'")
 
 Make TestIntervalMultiplier defaults to 1 on cram test to avoid higher recover time with simulated failures
 
@@ -45,46 +53,60 @@ Make TestIntervalMultiplier defaults to 1 on cram test to avoid higher recover t
   $ R "ba-cli -l ProcessMonitor.Test.$Tr181QosId.TestIntervalMultiplier=1 | sed '/^$/d'"
   1
 
-  $ R "ba-cli -l ProcessMonitor.Test.$Dhcpv4ManagerId.TestIntervalMultiplier=1 | sed '/^$/d'"
+  $ R "ba-cli -l ProcessMonitor.Test.$Tr181CellularManagerId.TestIntervalMultiplier=1 | sed '/^$/d'"
   1
+
+Make TestResetInterval defaults to 5 on cram test to avoid higher recover time with simulated failures
+
+  $ R "ba-cli -l  ProcessMonitor.Test.$Tr181McastId.TestResetInterval=5 | sed '/^$/d'"
+  5
+
+  $ R "ba-cli -l ProcessMonitor.Test.$Tr181PcpId.TestResetInterval=5 | sed '/^$/d'"
+  5
+
+  $ R "ba-cli -l ProcessMonitor.Test.$Tr181QosId.TestResetInterval=5 | sed '/^$/d'"
+  5
+
+  $ R "ba-cli -l ProcessMonitor.Test.$Tr181CellularManagerId.TestResetInterval=5 | sed '/^$/d'"
+  5
 
 Get the initial MaxFailNum for all the processes:
 
   $ Tr181McastMaxFail=$(R "ba-cli -l ProcessMonitor.Test.$Tr181McastId.MaxFailNum? | sed '/^$/d'")
   $ Tr181PcpMaxFail=$(R "ba-cli -l ProcessMonitor.Test.$Tr181PcpId.MaxFailNum? | sed '/^$/d'")
   $ Tr181QosMaxFail=$(R "ba-cli -l ProcessMonitor.Test.$Tr181QosId.MaxFailNum? | sed '/^$/d'")
-  $ Dhcpv4ManagerMaxFail=$(R "ba-cli -l ProcessMonitor.Test.$Dhcpv4ManagerId.MaxFailNum? | sed '/^$/d'")
+  $ Tr181CellularManagerMaxFail=$(R "ba-cli -l ProcessMonitor.Test.$Tr181CellularManagerId.MaxFailNum? | sed '/^$/d'")
 
 Verify process are up and running:
 
-  $ for process_name in "tr181-mcastd" "tr181-pcp"  "tr181-qos" "dhcpv4-manager"; do
+  $ for process_name in "tr181-mcastd" "tr181-pcp"  "tr181-qos" "cellular-manager"; do
   > R "${S} && get_pid \"$process_name\""; done
   tr181-mcastd.* \d+ (re)
   tr181-pcp.* \d+ (re)
   tr181-qos.* \d+ (re)
-  dhcpv4-manager.* \d+ (re)
+  cellular-manager.* \d+ (re)
 
 Change MaxFail parameter for the processes to 1:
 
-  $ for process_name in "tr181-mcastd" "tr181-pcp"  "tr181-qos" "dhcpv4-manager"; \
+  $ for process_name in "tr181-mcastd" "tr181-pcp"  "tr181-qos" "cellular-manager"; \
   > do set_pm_test_max_failnum ${process_name} 1; done
   tr181-mcastd MaxFailNum 1
   tr181-pcp MaxFailNum 1
   tr181-qos MaxFailNum 1
-  dhcpv4-manager MaxFailNum 1
+  cellular-manager MaxFailNum 1
 
 Verify process not getting monitored by amx-processmonitor when deliberately shutdown made
 
   $ R "service tr181-mcastd stop  > /dev/null 2>&1"
   $ R "service tr181-pcp stop  > /dev/null 2>&1"
   $ R "service tr181-qos stop  > /dev/null 2>&1"
-  $ R "service dhcpv4-manager stop  > /dev/null 2>&1"
+  $ R "service cellular-manager stop  > /dev/null 2>&1"
 
   $ sleep 5
 
 Verify NumFail/NumFailActions not incremented with deliberate stop service as expected
 
-  $ for process_name in "tr181-mcastd" "tr181-pcp"  "tr181-qos" "dhcpv4-manager"; \
+  $ for process_name in "tr181-mcastd" "tr181-pcp"  "tr181-qos" "cellular-manager"; \
   > do verify_pm_test_fail_stats ${process_name}; done
   tr181-mcastd NumFailed PASS
   tr181-mcastd NumFailAction PASS
@@ -92,24 +114,24 @@ Verify NumFail/NumFailActions not incremented with deliberate stop service as ex
   tr181-pcp NumFailAction PASS
   tr181-qos NumFailed PASS
   tr181-qos NumFailAction PASS
-  dhcpv4-manager NumFailed PASS
-  dhcpv4-manager NumFailAction PASS
+  cellular-manager NumFailed PASS
+  cellular-manager NumFailAction PASS
 
   $ R "service tr181-mcastd start  > /dev/null 2>&1"
   $ R "service tr181-pcp start  > /dev/null 2>&1"
   $ R "service tr181-qos start  > /dev/null 2>&1"
-  $ R "service dhcpv4-manager start  > /dev/null 2>&1"
+  $ R "service cellular-manager start  > /dev/null 2>&1"
 
   $ sleep 5
 
 Verify CurrentTestInterval configured back once processes are started back
 
-  $ for process_name in "tr181-mcastd" "tr181-pcp"  "tr181-qos" "dhcpv4-manager"; \
+  $ for process_name in "tr181-mcastd" "tr181-pcp"  "tr181-qos" "cellular-manager"; \
   > do get_cur_test_interval ${process_name}; done
   tr181-mcastd CurrentTestInterval [1-9][0-9]* (re)
   tr181-pcp CurrentTestInterval [1-9][0-9]* (re)
   tr181-qos CurrentTestInterval [1-9][0-9]* (re)
-  dhcpv4-manager CurrentTestInterval [1-9][0-9]* (re)
+  cellular-manager CurrentTestInterval [1-9][0-9]* (re)
 
 Clean-up Revert MaxFail parameter for the process to initial value:
 
@@ -122,7 +144,7 @@ Clean-up Revert MaxFail parameter for the process to initial value:
   $ R "ba-cli -l ProcessMonitor.Test.$Tr181QosId.MaxFailNum=$Tr181QosMaxFail | sed '/^$/d'"
   \d+ (re)
 
-  $ R "ba-cli -l ProcessMonitor.Test.$Dhcpv4ManagerId.MaxFailNum=$Dhcpv4ManagerMaxFail | sed '/^$/d'"
+  $ R "ba-cli -l ProcessMonitor.Test.$Tr181CellularManagerId.MaxFailNum=$Tr181CellularManagerMaxFail | sed '/^$/d'"
   \d+ (re)
 
   $ R logger -t cram "Amx-processmonitoring process deliberate stop test finished"

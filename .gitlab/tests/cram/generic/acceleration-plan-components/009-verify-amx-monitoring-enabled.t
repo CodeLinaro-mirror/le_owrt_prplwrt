@@ -44,4 +44,15 @@ Verify all expected processes are enabled for monitoring by amx-processmonitor, 
   $ get_amx_process_monitoring cellular-manager
   cellular-manager=1
 
+Revert back the TestIntervalMultiplier/ResetInterval to initial value.
+
+  $ R "ba-cli 'ProcessMonitor.Test.tr181-mcastd.TestIntervalMultiplier=2' >/dev/null 2>&1"
+  $ R "ba-cli 'ProcessMonitor.Test.tr181-mcastd.TestResetInterval=300' >/dev/null 2>&1"
+  $ R "ba-cli 'ProcessMonitor.Test.tr181-pcp.TestIntervalMultiplier=2' >/dev/null 2>&1"
+  $ R "ba-cli 'ProcessMonitor.Test.tr181-pcp.TestResetInterval=300' >/dev/null 2>&1"
+  $ R "ba-cli 'ProcessMonitor.Test.tr181-qos.TestIntervalMultiplier=2' >/dev/null 2>&1"
+  $ R "ba-cli 'ProcessMonitor.Test.tr181-qos.TestResetInterval=300' >/dev/null 2>&1"
+  $ R "ba-cli 'ProcessMonitor.Test.cellular-manager.TestIntervalMultiplier=2'  >/dev/null 2>&1"
+  $ R "ba-cli 'ProcessMonitor.Test.cellular-manager.TestResetInterval=300'  >/dev/null 2>&1"
+
   $ R logger -t cram "Amx-processmonitoring Process Enable tests finished"

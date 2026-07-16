@@ -13,14 +13,26 @@ Set script parameters and copy the script to device:
 
   $ R logger -t cram "Starting amx-processmonitoring process fail test"
 
-Pre-test actions, Restart the process service to clear the respawns and other failures before starting with tests:
+As a prerequisite, restart the process service to validate the process-failure scenarios using respawn + 1 kill.
 
   $ R "service tr181-mcastd restart  > /dev/null 2>&1"
   $ R "service tr181-pcp restart  > /dev/null 2>&1"
   $ R "service tr181-qos restart > /dev/null 2>&1"
-  $ R "service dhcpv4-manager restart  > /dev/null 2>&1"
+  $ R "service cellular-manager restart  > /dev/null 2>&1"
 
-Wait 5 seconds for the process to become functional:
+Wait 5 seconds for the process to become functional with Restart:
+
+  $ sleep 5
+
+Pre-test actions, call Reset() on the processes to clear the respawns and other
+failures before starting with tests
+
+  $ R "ba-cli 'ProcessMonitor.Test.tr181-mcastd.reset()' >/dev/null 2>&1"
+  $ R "ba-cli 'ProcessMonitor.Test.tr181-pcp.reset()' >/dev/null 2>&1"
+  $ R "ba-cli 'ProcessMonitor.Test.tr181-qos.reset()' >/dev/null 2>&1"
+  $ R "ba-cli 'ProcessMonitor.Test.cellular-manager.reset()'  >/dev/null 2>&1"
+
+Wait 5 more seconds for the process to become stable with initial Reset:
 
   $ sleep 5
 
@@ -29,37 +41,37 @@ Initialize the ProcessMonitor.Test.i Id for required processes:
   $ Tr181McastId=$(R "ba-cli  ProcessMonitor.Test.*.Name? | grep tr181-mcastd | sed -n 's/.*Test\.\([0-9]\+\)\..*/\1/p'")
   $ Tr181PcpId=$(R "ba-cli  ProcessMonitor.Test.*.Name? | grep tr181-pcp | sed -n 's/.*Test\.\([0-9]\+\)\..*/\1/p'")
   $ Tr181QosId=$(R "ba-cli  ProcessMonitor.Test.*.Name? | grep tr181-qos | sed -n 's/.*Test\.\([0-9]\+\)\..*/\1/p'")
-  $ Dhcpv4ManagerId=$(R "ba-cli  ProcessMonitor.Test.*.Name? | grep dhcpv4-manager | sed -n 's/.*Test\.\([0-9]\+\)\..*/\1/p'")
+  $ Tr181CellularManagerId=$(R "ba-cli  ProcessMonitor.Test.*.Name? | grep cellular-manager | sed -n 's/.*Test\.\([0-9]\+\)\..*/\1/p'")
 
 Get the initial NumProcessRespawn for all the process:
 
   $ Tr181McastRespawn=$(R "ba-cli -l ProcessMonitor.Test.$Tr181McastId.NumProcessRespawn? | sed '/^$/d'")
   $ Tr181PcpRespawn=$(R "ba-cli -l ProcessMonitor.Test.$Tr181PcpId.NumProcessRespawn? | sed '/^$/d'")
   $ Tr181QosRespawn=$(R "ba-cli -l ProcessMonitor.Test.$Tr181QosId.NumProcessRespawn? | sed '/^$/d'")
-  $ Dhcpv4ManagerRespawn=$(R "ba-cli -l ProcessMonitor.Test.$Dhcpv4ManagerId.NumProcessRespawn? | sed '/^$/d'")
+  $ Tr181CellularManagerRespawn=$(R "ba-cli -l ProcessMonitor.Test.$Tr181CellularManagerId.NumProcessRespawn? | sed '/^$/d'")
 
 Get the initial NumProcessFail for all the process:
 
   $ Tr181McastFail=$(R "ba-cli -l ProcessMonitor.Test.$Tr181McastId.NumProcessFail? | sed '/^$/d'")
   $ Tr181PcpFail=$(R "ba-cli -l ProcessMonitor.Test.$Tr181PcpId.NumProcessFail? | sed '/^$/d'")
   $ Tr181QosFail=$(R "ba-cli -l ProcessMonitor.Test.$Tr181QosId.NumProcessFail? | sed '/^$/d'")
-  $ Dhcpv4ManagerFail=$(R "ba-cli -l ProcessMonitor.Test.$Dhcpv4ManagerId.NumProcessFail? | sed '/^$/d'")
+  $ Tr181CellularManagerFail=$(R "ba-cli -l ProcessMonitor.Test.$Tr181CellularManagerId.NumProcessFail? | sed '/^$/d'")
 
 Get the initial MaxFailNum for all the process:
 
   $ Tr181McastMaxFail=$(R "ba-cli -l ProcessMonitor.Test.$Tr181McastId.MaxFailNum? | sed '/^$/d'")
   $ Tr181PcpMaxFail=$(R "ba-cli -l ProcessMonitor.Test.$Tr181PcpId.MaxFailNum? | sed '/^$/d'")
   $ Tr181QosMaxFail=$(R "ba-cli -l ProcessMonitor.Test.$Tr181QosId.MaxFailNum? | sed '/^$/d'")
-  $ Dhcpv4ManagerMaxFail=$(R "ba-cli -l ProcessMonitor.Test.$Dhcpv4ManagerId.MaxFailNum? | sed '/^$/d'")
+  $ Tr181CellularManagerMaxFail=$(R "ba-cli -l ProcessMonitor.Test.$Tr181CellularManagerId.MaxFailNum? | sed '/^$/d'")
 
 Verify process are up and running:
 
-  $ for process_name in "tr181-mcastd" "tr181-pcp"  "tr181-qos" "dhcpv4-manager"; do
+  $ for process_name in "tr181-mcastd" "tr181-pcp"  "tr181-qos" "cellular-manager"; do
   > R "${S} && get_pid \"$process_name\""; done
   tr181-mcastd.* \d+ (re)
   tr181-pcp.* \d+ (re)
   tr181-qos.* \d+ (re)
-  dhcpv4-manager.* \d+ (re)
+  cellular-manager.* \d+ (re)
 
 Change MaxFail parameter for the processes to higher value:
 
@@ -72,69 +84,69 @@ Change MaxFail parameter for the processes to higher value:
   $ R "ba-cli -l ProcessMonitor.Test.$Tr181QosId.MaxFailNum=30 | sed '/^$/d'"
   30
 
-  $ R "ba-cli -l ProcessMonitor.Test.$Dhcpv4ManagerId.MaxFailNum=30 | sed '/^$/d'"
+  $ R "ba-cli -l ProcessMonitor.Test.$Tr181CellularManagerId.MaxFailNum=30 | sed '/^$/d'"
   30
 
 Get existing values of CurrentTestInterval, Health for processes:
 
   $ R "${S} && get_health_and_interval \"$Tr181McastId\" \"$Tr181PcpId\""\
-  > " \"$Tr181QosId\" \"$Dhcpv4ManagerId\""
+  > " \"$Tr181QosId\" \"$Tr181CellularManagerId\""
   tr181-mcastd \d+ .* (re)
   tr181-pcp \d+ .* (re)
   tr181-qos \d+ .* (re)
-  dhcpv4-manager \d+ .* (re)
+  cellular-manager \d+ .* (re)
 
 Kill the processes - first kill attempt:
 
-  $ for process_name in tr181-mcastd tr181-pcp tr181-qos dhcpv4-manager; do
+  $ for process_name in tr181-mcastd tr181-pcp tr181-qos cellular-manager; do
   > R "${S} && kill_process \"$process_name\""; done
 
   $ sleep 5
 
 Verify process respawn:
 
-  $ for process_name in "tr181-mcastd" "tr181-pcp"  "tr181-qos" "dhcpv4-manager"; do
+  $ for process_name in "tr181-mcastd" "tr181-pcp"  "tr181-qos" "cellular-manager"; do
   > R "${S} && get_pid \"$process_name\""; done
   tr181-mcastd.* \d+ (re)
   tr181-pcp.* \d+ (re)
   tr181-qos.* \d+ (re)
-  dhcpv4-manager.* \d+ (re)
+  cellular-manager.* \d+ (re)
 
 Kill the processes - Second kill attempt:
 
-  $ for process_name in "tr181-mcastd" "tr181-pcp"  "tr181-qos" "dhcpv4-manager"; do
+  $ for process_name in "tr181-mcastd" "tr181-pcp"  "tr181-qos" "cellular-manager"; do
   > R "${S} && kill_process \"$process_name\""; done
 
   $ sleep 5
 
 Verify process respawn:
 
-  $ for process_name in "tr181-mcastd" "tr181-pcp"  "tr181-qos" "dhcpv4-manager"; do
+  $ for process_name in "tr181-mcastd" "tr181-pcp"  "tr181-qos" "cellular-manager"; do
   > R "${S} && get_pid \"$process_name\""; done
   tr181-mcastd.* \d+ (re)
   tr181-pcp.* \d+ (re)
   tr181-qos.* \d+ (re)
-  dhcpv4-manager.* \d+ (re)
+  cellular-manager.* \d+ (re)
 
 Kill the processes - third kill attempt:
 
-  $ for process_name in "tr181-mcastd" "tr181-pcp"  "tr181-qos" "dhcpv4-manager"; do
+  $ for process_name in "tr181-mcastd" "tr181-pcp"  "tr181-qos" "cellular-manager"; do
   > R "${S} && kill_process \"$process_name\""; done
 
   $ sleep 5
 
 Verify process respawn:
 
-  $ for process_name in "tr181-mcastd" "tr181-pcp"  "tr181-qos" "dhcpv4-manager"; do
+  $ for process_name in "tr181-mcastd" "tr181-pcp"  "tr181-qos" "cellular-manager"; do
   > R "${S} && get_pid \"$process_name\""; done
   tr181-mcastd.* \d+ (re)
   tr181-pcp.* \d+ (re)
   tr181-qos.* \d+ (re)
-  dhcpv4-manager.* \d+ (re)
+  cellular-manager.* \d+ (re)
 
 Kill the processes - Fourth kill attempt, no more respawns of failed process by procd and NumProcessFail will increment:
 
-  $ for process_name in "tr181-mcastd" "tr181-pcp"  "tr181-qos" "dhcpv4-manager"; do
+  $ for process_name in "tr181-mcastd" "tr181-pcp"  "tr181-qos" "cellular-manager"; do
   > R "${S} && kill_process \"$process_name\""; done
 
   $ sleep 5
@@ -150,8 +162,8 @@ Verify NumProcessFail is incremented for process fail:
   $ R "${S} && verify_num_Process_fail $Tr181QosId $((Tr181QosFail+1))"
   tr181-qos NumProcessFail PASS
 
-  $ R "${S} && verify_num_Process_fail $Dhcpv4ManagerId $((Dhcpv4ManagerFail+1))"
-  dhcpv4-manager NumProcessFail PASS
+  $ R "${S} && verify_num_Process_fail $Tr181CellularManagerId $((Tr181CellularManagerFail+1))"
+  cellular-manager NumProcessFail PASS
 
 Verify amx-process monitor has updated the NumProcessRespawn after process respawn for all kill attempts above:
 
@@ -164,15 +176,22 @@ Verify amx-process monitor has updated the NumProcessRespawn after process respa
   $ R "${S} && verify_respawn_value $Tr181QosId $((Tr181QosRespawn+3))"
   tr181-qos NumProcessRespawn PASS
 
-  $ R "${S} && verify_respawn_value $Dhcpv4ManagerId $((Dhcpv4ManagerRespawn+3))"
-  dhcpv4-manager NumProcessRespawn PASS
+  $ R "${S} && verify_respawn_value $Tr181CellularManagerId $((Tr181CellularManagerRespawn+3))"
+  cellular-manager NumProcessRespawn PASS
 
-Restart process service to clear the respawns from above tests:
+Cleanup, call Reset() on the processes to clear the respawn/other failures for those services:
+
+  $ R "ba-cli 'ProcessMonitor.Test.tr181-mcastd.reset()' >/dev/null 2>&1"
+  $ R "ba-cli 'ProcessMonitor.Test.tr181-pcp.reset()' >/dev/null 2>&1"
+  $ R "ba-cli 'ProcessMonitor.Test.tr181-qos.reset()' >/dev/null 2>&1"
+  $ R "ba-cli 'ProcessMonitor.Test.cellular-manager.reset()'  >/dev/null 2>&1"
+
+Perform Restart() on those services to bring them back on functional after instance.fail events
 
   $ R "service tr181-mcastd restart  > /dev/null 2>&1"
   $ R "service tr181-pcp restart  > /dev/null 2>&1"
   $ R "service tr181-qos restart > /dev/null 2>&1"
-  $ R "service dhcpv4-manager restart  > /dev/null 2>&1"
+  $ R "service cellular-manager restart  > /dev/null 2>&1"
 
 Clean-up Revert MaxFail parameter for the process to initial value:
 
@@ -185,7 +204,7 @@ Clean-up Revert MaxFail parameter for the process to initial value:
   $ R "ba-cli -l ProcessMonitor.Test.$Tr181QosId.MaxFailNum=$Tr181QosMaxFail | sed '/^$/d'"
   \d+ (re)
 
-  $ R "ba-cli -l ProcessMonitor.Test.$Dhcpv4ManagerId.MaxFailNum=$Dhcpv4ManagerMaxFail | sed '/^$/d'"
+  $ R "ba-cli -l ProcessMonitor.Test.$Tr181CellularManagerId.MaxFailNum=$Tr181CellularManagerMaxFail | sed '/^$/d'"
   \d+ (re)
 
 Verify for any amx-processmonitoring failure action during tests, Any pre-test:
