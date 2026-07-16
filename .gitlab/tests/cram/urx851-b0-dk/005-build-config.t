@@ -262,6 +262,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_iptables-mod-ipopt=y
   CONFIG_PACKAGE_iptables-mod-ipsec=y
   CONFIG_PACKAGE_iptables-mod-nfqueue=y
+  CONFIG_PACKAGE_iptables-mod-u32=y
   CONFIG_PACKAGE_iptables-zz-legacy=y
   CONFIG_PACKAGE_iputils-ping=y
   CONFIG_PACKAGE_ivykis=y
@@ -330,6 +331,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-ipt-nfqueue=y
   CONFIG_PACKAGE_kmod-ipt-raw=y
   CONFIG_PACKAGE_kmod-ipt-raw6=y
+  CONFIG_PACKAGE_kmod-ipt-u32=y
   CONFIG_PACKAGE_kmod-iptunnel=y
   CONFIG_PACKAGE_kmod-iptunnel4=y
   CONFIG_PACKAGE_kmod-iptunnel6=y
