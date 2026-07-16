@@ -1198,3 +1198,48 @@ cleanup_pcm_test() {
 	echo "Done"
 }
 
+##
+## install_basic_container() - Install a container with default parameters and wait for it to become active.
+##
+## Fixed defaults applied by this function:
+##   --version prplos-v1   : Container image version to install.
+##   --ee                  : Execution environment (defaults to DEFAULT_EE = "generic" if not overridden).
+##   --uuid                : Deployment unit UUID (defaults to DEFAULT_UUID if not overridden).
+##   --privileged true     : Container is started in privileged mode.
+##
+## Parameters:
+##   "$@"  : Optional extra arguments forwarded verbatim to install_ctr.
+##           Any supported install_ctr argument (--url, --network, --hostobject,
+##           --appdata, --envvar, --retaindata, --usprequired, etc.) can be supplied
+##           here to override the defaults above.
+##
+## Example:
+##   install_basic_container
+##   install_basic_container --envvar --network '{ShareParentNetwork = "true"}'
+##
+install_basic_container() {
+	install_ctr --version prplos-v1 --ee --uuid --privileged true "$@" > /dev/null
+}
+
+##
+## install_basic_container_no_wait() - Install a container with default parameters without waiting for it to become active.
+##
+## Fixed defaults applied by this function:
+##   --version prplos-v1   : Container image version to install.
+##   --ee                  : Execution environment (defaults to DEFAULT_EE = "generic" if not overridden).
+##   --uuid                : Deployment unit UUID (defaults to DEFAULT_UUID if not overridden).
+##   --privileged true     : Container is started in privileged mode.
+##
+## Parameters:
+##   "$@"  : Optional extra arguments forwarded verbatim to install_ctr_no_wait.
+##           Any supported install_ctr argument (--url, --network, --hostobject,
+##           --appdata, --envvar, --retaindata, --usprequired, etc.) can be supplied
+##           here to override the defaults above.
+##
+## Example:
+##   install_basic_container_no_wait
+##   install_basic_container_no_wait --envvar
+##
+install_basic_container_no_wait() {
+	install_ctr_no_wait --version prplos-v1 --ee --uuid --privileged true "$@"
+}
