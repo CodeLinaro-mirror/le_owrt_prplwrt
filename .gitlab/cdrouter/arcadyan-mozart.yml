@@ -1,184 +1,28 @@
-.arcadyan-mozart: &arcadyan_mozart
-  needs: ["build test mtk_filogic prpl security"]
+prplOS-Network-Test-Plan-Candidate-v1.2.0 Mozart eMMC:
   extends:
     - .arcadyan-mozart testbed
     - .cdrouter
-
-CDRouter-Top-100+mDNS Mozart initramfs:
-  <<: *arcadyan_mozart
-  variables:
-    DUT_INIT_SCRIPTS: |
-      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
-      .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
-      .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
-
-CDRouter-Top-100+mDNS Mozart VLAN WAN/LAN initramfs:
-  <<: *arcadyan_mozart
-  variables:
-    CDROUTER_TEST_CONFIG: vlan
-    DUT_INIT_SCRIPTS: |
-      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
-      .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
-      .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
-      .gitlab/scripts/dut-init/cdrouter-dut-enable-vlans.sh
-
-CDRouter-Top-100+mDNS Mozart PPPoE WAN initramfs:
-  <<: *arcadyan_mozart
-  variables:
-    CDROUTER_TEST_CONFIG: ppp
-    DUT_INIT_SCRIPTS: |
-      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
-      .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
-      .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
-      .gitlab/scripts/dut-init/cdrouter-dut-enable-pppoe.sh
-
-CDRouter-Wireless Mozart initramfs:
-  <<: *arcadyan_mozart
-  stage: smoke tests
-  timeout: 15 minutes
-  variables:
-    CDROUTER_TEST_CONFIG: wireless
-    CDROUTER_CONFIG_USP_CONTROLLER_MTP: websocket
-    CDROUTER_DUT_INIT_USP_MTP_SCRIPT: .gitlab/scripts/dut-init/cdrouter-dut-configure-usp-ws.sh
-    CDROUTER_CONFIG_WIFI_BEACON_PHY: 'ax b be g n'
-    CDROUTER_CONFIG_WIFI_BEACON_RSN_CIPHER: 'CCMP-128 GCMP-256'
-    DUT_INIT_SCRIPTS: |
-      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
-      .gitlab/scripts/dut-init/cdrouter-dut-configure-wireless.sh
-      .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
-
-
-.arcadyan-mozart-ipv6: &arcadyan_mozart_ipv6
-  <<: *arcadyan_mozart
+  needs: []
+  tags:
+    - dut-arcadyan-mozart-prio
+  timeout: 52 minutes
   rules:
-    - if: '$CI_PIPELINE_SOURCE == "schedule"'
-      when: never
-    - if: '$CI_COMMIT_BRANCH == $CI_DESIGNATED_BRANCH'
     - when: manual
-
-CDRouter-UPnP-IPv46 Mozart initramfs:
-  <<: *arcadyan_mozart_ipv6
-  timeout: 60 minutes
-  variables:
-    CDROUTER_TEST_CONFIG: generic-ipv6-upnp
-    DUT_INIT_SCRIPTS: |
-      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
-      .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
-
-CDRouter-UPnP-IPv46-Failing Mozart initramfs:
-  <<: *arcadyan_mozart_ipv6
-  timeout: 120 minutes
-  allow_failure: true
-  variables:
-    CDROUTER_TEST_CONFIG: generic-ipv6-upnp
-    DUT_INIT_SCRIPTS: |
-      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
-      .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
-
-CDRouter-IPv6-Top-100+mDNS Mozart initramfs:
-  <<: *arcadyan_mozart_ipv6
-  variables:
-    CDROUTER_TEST_CONFIG: generic-ipv6
-    DUT_INIT_SCRIPTS: |
-      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
-      .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
-
-prpl-Certification Mozart initramfs:
-  <<: *arcadyan_mozart_ipv6
-  timeout: 120 minutes
-  allow_failure: true
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "schedule"'
-      when: never
-    - when: manual
-  variables:
-    CDROUTER_TEST_CONFIG: generic-ipv6
-    DUT_INIT_SCRIPTS: |
-      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
-      .gitlab/scripts/dut-init/cdrouter-dut-configure-cwmpd.sh
-      .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
-
-CDRouter-IPv6-Top-100+mDNS Mozart VLAN WAN/LAN initramfs:
-  <<: *arcadyan_mozart_ipv6
-  variables:
-    CDROUTER_TEST_CONFIG: vlan-ipv6
-    CDROUTER_CONFIG_USP_CONTROLLER_MTP: stomp
-    CDROUTER_DUT_INIT_USP_MTP_SCRIPT: ''
-    DUT_INIT_SCRIPTS: |
-      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
-      .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
-      .gitlab/scripts/dut-init/cdrouter-dut-enable-vlans.sh
-
-.CDRouter-IPv6-Top-100+mDNS Mozart PPPoE WAN initramfs:
-  <<: *arcadyan_mozart_ipv6
-  variables:
-    CDROUTER_TEST_CONFIG: ppp-ipv6
-    DUT_INIT_SCRIPTS: |
-      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
-      .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
-      .gitlab/scripts/dut-init/cdrouter-dut-enable-pppoe.sh
-
-CDRouter-TR-069 Mozart eMMC:
-  <<: *arcadyan_mozart
   variables:
     LABGRID_TARGET: arcadyan-mozart-emmc
     TFTP_IMAGE_FILENAME: prplos-mediatek-filogic-arcadyan_mozart-squashfs-sysupgrade.itb
     TFTP_IMAGE_FILENAME_PATTERN: /.*prplos-mediatek-filogic-arcadyan_mozart-squashfs-sysupgrade.itb/
-    DUT_INIT_SCRIPTS: |
-      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
-      .gitlab/scripts/dut-init/cdrouter-tr181-mockups.sh
-      .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
-
-CDRouter-USP-prpl Mozart initramfs:
-  <<: *arcadyan_mozart
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "schedule"'
-      when: never
-    - when: manual
-  variables:
-    DUT_INIT_SCRIPTS: |
-      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
-      .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
-      .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
-
-prplWare-Smoke-Test-Suite Mozart initramfs:
-  <<: *arcadyan_mozart_ipv6
-  stage: smoke tests
-  variables:
-    CDROUTER_TEST_CONFIG: smoke-test
-    DUT_INIT_SCRIPTS: |
-      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
-      .gitlab/scripts/dut-init/cdrouter-tr181-mockups.sh
-      .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
-      .gitlab/scripts/dut-init/cdrouter-dut-configure-prplmesh-controller.sh
-      .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
-
-.arcadyan-mozart-certification-variables: &arcadyan_mozart_certification_variables
-  CDROUTER_TEST_CONFIG: prplos-certification
-  DUT_INIT_SCRIPTS: |
-    .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
-    .gitlab/scripts/dut-init/cdrouter-dut-configure-cwmpd.sh
-    .gitlab/scripts/dut-init/cdrouter-dut-configure-prplos-certification.sh
-    .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
-
-.arcadyan-mozart-certification: &arcadyan_mozart_certification
-  <<: *arcadyan_mozart_ipv6
-  stage: certification tests
-  timeout: 1h 45m
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "schedule"'
-      when: never
-    - when: manual
-  variables:
-    <<: *arcadyan_mozart_certification_variables
-
-prplOS-Network-Test-Plan-Mandatory-v1.2.0 Mozart initramfs:
-  <<: *arcadyan_mozart_certification
-
-prplOS-Network-Test-Plan-Candidate-v1.2.0 Mozart initramfs:
-  <<: *arcadyan_mozart_certification
-  timeout: 52 minutes
-  variables:
-    <<: *arcadyan_mozart_certification_variables
+    CDROUTER_TEST_CONFIG: prplos-certification
     CDROUTER_CONFIG_USP_CONTROLLER_MTP: websocket
-    CDROUTER_DUT_INIT_USP_MTP_SCRIPT: .gitlab/scripts/dut-init/cdrouter-dut-configure-usp-ws.sh
+    CDROUTER_DUT_INIT_USP_MTP_SCRIPT: ''
+    DUT_INIT_SCRIPTS: ''
+  before_script:
+    - mkdir -p "$TFTP_IMAGE_PATH"
+    - >-
+      curl --fail
+      --output "$TFTP_IMAGE_PATH/$TFTP_IMAGE_FILENAME"
+      http://phrozen.org/openwrt-mediatek-filogic-arcadyan_mozart-squashfs-sysupgrade.itb
+    - >-
+      echo "103ce674374becd22d2e0e6afdd5a357c220584b3d98464de20be3f80d0ae5d7  $TFTP_IMAGE_PATH/$TFTP_IMAGE_FILENAME"
+      | sha256sum --check -
+    - !reference [.cdrouter, before_script]
