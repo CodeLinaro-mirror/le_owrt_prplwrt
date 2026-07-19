@@ -18,7 +18,7 @@ Copy over testing certificates:
 
   $ R "mkdir -p /etc/amx/tr181-security/defaults.d"
   $ R "mkdir -p /etc/config/autocert"
-  $ C ${CI_PROJECT_DIR}/.gitlab/certs/tr181-security/autocert/* "root@${TARGET_LAN_IP}:/etc/config/autocert/"
+  $ C -O ${CI_PROJECT_DIR}/.gitlab/certs/tr181-security/autocert/* "root@${TARGET_LAN_IP}:/etc/config/autocert/"
   Warning: Permanently added '*' (*) to the list of known hosts* (glob)
 
 Restart tr181-security service:

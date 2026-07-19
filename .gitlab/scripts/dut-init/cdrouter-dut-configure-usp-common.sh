@@ -83,7 +83,7 @@ configure_usp_reset_file() {
 	ssh "root@$TARGET_LAN_IP" "service obuspa stop"
 
 	log_info "Installing ${protocol_name} OBUSPA reset file"
-	scp "$reset_file" "root@${TARGET_LAN_IP}:${remote_reset_file}"
+	scp -O "$reset_file" "root@${TARGET_LAN_IP}:${remote_reset_file}"
 
 	log_info "Removing stale OBUSPA database"
 	ssh "root@$TARGET_LAN_IP" "rm -f /etc/obuspa.db"
