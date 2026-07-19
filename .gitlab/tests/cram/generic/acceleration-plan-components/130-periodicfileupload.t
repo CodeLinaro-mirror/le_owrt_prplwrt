@@ -141,7 +141,8 @@ Prepare CABundle for the cram tests:
   $ R 'ba-cli "Device.PeriodicFileTransfer.Transfer.cram-Transfer-1.Enable=1"' > /dev/null
   $ sleep 1
   $ kill -9 "$servefile_pid"
-  $ servefile -u /tmp/130-periodicfileuploads/ -p 8181 --ssl >/dev/null 2>&1 &
+  $ openssl req -x509 -newkey rsa:2048 -nodes -keyout /tmp/servefile.key -out /tmp/servefile.crt -subj "/CN=$SERVER_IP" -addext "subjectAltName=IP:$SERVER_IP" -days 1 >/dev/null 2>&1
+  $ servefile -u /tmp/130-periodicfileuploads/ -p 8181 --ssl --key /tmp/servefile.key --cert /tmp/servefile.crt >/dev/null 2>&1 &
   $ servefile_pid="$!"
   $ sleep 4
   $ R "openssl s_client -connect \"$SERVER_IP:8181\" -showcerts < /dev/null 2> /dev/null | openssl x509 -outform PEM > /tmp/server-cert.crt"
@@ -192,7 +193,7 @@ Check PeriodicFileTransfer error code reporting for various failure scenarios:
   ]
 
   $ kill -9 "$servefile_pid"
-  $ servefile -u /tmp/130-periodicfileuploads/ -p 8181 --ssl >/dev/null 2>&1 &
+  $ servefile -u /tmp/130-periodicfileuploads/ -p 8181 --ssl --key /tmp/servefile.key --cert /tmp/servefile.crt >/dev/null 2>&1 &
   $ servefile_pid="$!"
   $ R 'ba-cli "Device.PeriodicFileTransfer.Profile.cram-Profile-1.Protocol=HTTPS"' > /dev/null
   $ R "ba-cli 'Device.PeriodicFileTransfer.Profile.cram-Profile-1.HTTP.URL=\"https://$SERVER_IP:8181\"'" > /dev/null
@@ -216,3 +217,4 @@ Cleanup test instances:
   $ R 'ba-cli "Device.PeriodicFileTransfer.Transfer.cram-Transfer-1.-"' > /dev/null
   $ R 'ba-cli "Device.PeriodicFileTransfer.Profile.cram-Profile-1.-"' > /dev/null
   $ kill -9 "$servefile_pid"
+  $ rm -f /tmp/servefile.key /tmp/servefile.crt
