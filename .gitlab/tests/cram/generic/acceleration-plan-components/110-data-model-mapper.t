@@ -2,8 +2,8 @@ Setup the test configuration:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
   $ S=". /tmp/script_functions.sh"
-  $ scp ${TESTDIR}/../lcm/script_functions.sh root@${TARGET_LAN_IP}:/tmp/script_functions.sh
-  $ scp ${CI_PROJECT_DIR}/${DUT_ARCH_PACKAGES_PATH}/feed_prplos/data-model-mapper*.ipk "root@${TARGET_LAN_IP}:/tmp/"
+  $ scp -O ${TESTDIR}/../lcm/script_functions.sh root@${TARGET_LAN_IP}:/tmp/script_functions.sh
+  $ scp -O ${CI_PROJECT_DIR}/${DUT_ARCH_PACKAGES_PATH}/feed_prplos/data-model-mapper*.ipk "root@${TARGET_LAN_IP}:/tmp/"
   $ R "opkg install -V0 --force-reinstall /tmp/data-model-mapper*.ipk;echo $?"
   0
 
