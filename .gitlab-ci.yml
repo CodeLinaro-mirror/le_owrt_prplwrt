@@ -17,7 +17,6 @@ include:
   - local: .gitlab/coverity.yml
   - local: .gitlab/docker.yml
   - local: .gitlab/docker/builder/gitlab.yml
-  - local: .gitlab/docker/testbed/gitlab.yml
   - local: .gitlab/docker/sdk/gitlab.yml
   - local: .gitlab/docker/ib/gitlab.yml
   - local: .gitlab/docker/ib/lcm/gitlab.yml
