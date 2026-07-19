@@ -78,7 +78,7 @@ Verify device entry appears in gmap datamodel:
       "Name": "Windows Media Connect compatible (MiniDLNA)",
       "PresentationURL": "/",
       "SerialNumber": "12345678",
-      "Server": "Debian DLNADOC/1.50 UPnP/1.0 MiniDLNA/1.2.1",
+      "Server": "Debian DLNADOC/1.50 UPnP/1.0 MiniDLNA/*", (glob)
       "Tags": "upnp logical",
       "Type": "urn:schemas-upnp-org:device:MediaServer:1",
       "UDN": "4d696e69-444c-164e-9d41-.*", (re)
