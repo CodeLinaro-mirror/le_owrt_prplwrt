@@ -2,16 +2,16 @@
 description: A minimal set of prpl packages and configs (no WAN support, no LCM, no management) common to prpl device classes (Gateway, Extender, ...)
 feeds:
   - name: feed_amx
-    uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_amx.git
-    revision: main@762470833040ec51bfb46814448c2b9df7b2dbb8
+    uri: /var/home/ynezz/devel/prplos-ram-optimizations-latest-24.10/feeds/feed_amx
+    revision: ynezz/ram-optimizations-latest-24.10@de907bb06df940253e318df03d290e0229187b11
 
   - name: feed_prplmesh
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplmesh.git
     revision: main@882d60df97acec8b0e4bd579c005ca31a12dd89f
 
   - name: feed_prplos
-    uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplos.git
-    revision: main@584b485acdcb6f799ba833afc89856eb24303126
+    uri: /var/home/ynezz/devel/prplos-ram-optimizations-latest-24.10/feeds/feed_prplos
+    revision: ynezz/ram-optimizations-latest-24.10@c4ae5a6a99e4af4ee373e85e176df4809e92b0a7
 
 additional_packages:
   - feed: packages
