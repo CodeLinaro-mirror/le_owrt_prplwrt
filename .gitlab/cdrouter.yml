@@ -1,7 +1,7 @@
 .cdrouter:
   stage: cdrouter
   timeout: 40 minutes
-  image: "$CI_REGISTRY_IMAGE/$CI_DESIGNATED_BRANCH_SLUG/testbed:latest"
+  image: "registry.gitlab.com/prpl-foundation/prplos/ci/containers/testbed/testbed:v1.1.0"
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
       when: never
