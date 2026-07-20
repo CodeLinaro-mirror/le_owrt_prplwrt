@@ -347,6 +347,8 @@ Check that ubus has expected datamodels available:
   Schedules.Schedule
   Security
   Security.CABundle
+  Security.CADefaults
+  Security.CADefaults.FirmwareImage
   Security.Certificate
   SoftwareModules
   SoftwareModules.Config
