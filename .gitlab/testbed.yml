@@ -59,8 +59,6 @@
     - sudo ip link set $TESTBED_WAN_INTERFACE up 2> /dev/null
     - sleep 10
 
-    - sudo apt-get update && sudo apt-get install --yes --no-install-recommends minidlna avahi-daemon avahi-utils dbus
-
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
 
