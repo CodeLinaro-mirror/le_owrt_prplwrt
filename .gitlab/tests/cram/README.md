@@ -61,6 +61,8 @@ jobs do not use them.
   expansion, and partition logic.
 - `resolve-component-tests.py` prints the ordered test list for one board and
   component.
+- `check-component-coverage.py` validates the manifest and reports sanity and
+  bucket counts, newly added remainder tests, and broken test symlinks.
 
 `cram_component_bucketing.py` uses underscores because it is an importable
 module. Executable scripts follow the repository's hyphenated CLI convention.
@@ -83,3 +85,23 @@ The command prints the ordered test paths for cram. Valid component values are
 `full`, `sanity`, `prplmesh`, `lcm`, and `prplos`. Use `sanity` to inspect the
 always-run block. The `sanity` value is for inspection, not pipeline job
 selection.
+
+Run the manifest lint from that environment as well:
+
+```sh
+.gitlab/tests/cram/scripts/check-component-coverage.py \
+  --test-root .gitlab/tests/cram \
+  --manifest components.yml
+```
+
+By default, the lint prints the `full` and `sanity` counts, the component and
+reserved-set counts, and warnings without listing the entire `prplos`
+remainder. It rejects unmatched include globs, overlaps between `sanity` and
+an explicit component, and overlaps between explicit components. Add
+`--print-remainder` to include the sorted remainder list.
+
+Add `--base-ref <commit>` to compare against the tests tracked by a Git
+revision. `--base-list <path>` accepts a newline-separated baseline instead;
+the two baseline options are mutually exclusive. The lint still succeeds when
+a newly added test enters the `prplos` remainder, but prints a warning so the
+assignment can be reviewed.
