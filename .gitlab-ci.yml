@@ -1,116 +1,104 @@
 variables:
   CI_DESIGNATED_BRANCH: prpl/nightly
   CI_DESIGNATED_BRANCH_SLUG: prpl-nightly
+  PFD_PIPELINE_ID: "2686553123"
+  PFD_BINARY_URL: "https://gitlab.com/ynezz/prplos-ci-build-artifacts/-/jobs/13116912273/artifacts/raw/pfd-linux-amd64"
+  PFD_BINARY_SHA256: "e3e987b9b556bba1caa04ec61ef5e98e6fa420caf656eac4fc621c37287646eb"
 
 include:
-  - local: .gitlab/build.yml
-  - local: .gitlab/blackduck.yml
-  - local: .gitlab/release.yml
   - local: .gitlab/cdrouter.yml
-  - local: .gitlab/prplmesh.yml
-  - local: .gitlab/cdrouter/prpl-haze.yml
-  - local: .gitlab/cdrouter/turris-omnia.yml
-  - local: .gitlab/cdrouter/mxl25641-hdk-6.yml
-  - local: .gitlab/cdrouter/arcadyan-mozart.yml
   - local: .gitlab/cdrouter/wnc-freedom.yml
-  - local: .gitlab/cdrouter/nokia-valyrian.yml
-  - local: .gitlab/coverity.yml
-  - local: .gitlab/docker.yml
-  - local: .gitlab/docker/builder/gitlab.yml
-  - local: .gitlab/docker/sdk/gitlab.yml
-  - local: .gitlab/docker/ib/gitlab.yml
-  - local: .gitlab/docker/ib/lcm/gitlab.yml
   - local: .gitlab/testbed.yml
-  - local: .gitlab/testbed/prpl-haze.yml
-  - local: .gitlab/testbed/turris-omnia.yml
   - local: .gitlab/testbed/mxl25641-hdk-6.yml
-  - local: .gitlab/testbed/arcadyan-mozart.yml
   - local: .gitlab/testbed/wnc-freedom.yml
-  - local: .gitlab/testbed/nokia-valyrian.yml
 
 stages:
-  - docker
-  - docker test
-  - docker deploy
-  - build
-  - release
-  - docker SDK and IB
-  - docker SDK and IB test
-  - docker SDK and IB deploy
-  - docker IB LCM container
   - run
   - smoke tests
-  - certification tests
-  - cdrouter
-  - coverity
-  - blackduck
 
-build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread:
-  extends: .build test config
+.focused prebuilt firmware:
+  before_script:
+    - export XDG_CONFIG_HOME="/tmp/testbed-config-$CI_JOB_ID"
+    - sudo chown "$(id -u):$(id -g)" "$HOME"
+    - mkdir -p "$XDG_CONFIG_HOME/pfd" "$TFTP_IMAGE_PATH"
+    - curl --fail --location --silent --show-error --output ./pfd "$PFD_BINARY_URL"
+    - echo "$PFD_BINARY_SHA256  ./pfd" | sha256sum --check --strict
+    - chmod +x ./pfd
+    - install -m 0644 .pfd/devices.yaml "$XDG_CONFIG_HOME/pfd/devices.yaml"
+    - |
+      for image_type in $PFD_IMAGE_TYPES; do
+        ./pfd get "$DUT_BOARD" \
+          --project prpl-foundation/prplos/prplos \
+          --pipeline "$PFD_PIPELINE_ID" \
+          --type "$image_type" --no-cache \
+          --output "$TFTP_IMAGE_PATH/"
+      done
+    - echo "$PFD_FIRMWARE_SHA256S" | sha256sum --check --strict
+    - |
+      if [ -n "${PREBUILT_FIRMWARE_JOB_ID:-}" ]; then
+        prebuilt_artifacts_zip="$(mktemp)"
+        curl --fail --location --silent --show-error \
+          --header "JOB-TOKEN: $CI_JOB_TOKEN" \
+          --output "$prebuilt_artifacts_zip" \
+          "$CI_API_V4_URL/projects/$CI_PROJECT_ID/jobs/$PREBUILT_FIRMWARE_JOB_ID/artifacts"
+        echo "$PREBUILT_ARTIFACT_SHA256  $prebuilt_artifacts_zip" \
+          | sha256sum --check --strict
 
-build test mvebu prpl security:
-  extends: .build test config
+        PREBUILT_ARTIFACTS_ZIP="$prebuilt_artifacts_zip" python3 - <<'PY'
+      import os
+      import sys
+      import zipfile
 
-build test x86_64 prpl security:
-  extends: .build test config
+      archive = os.environ["PREBUILT_ARTIFACTS_ZIP"]
+      destination = os.environ["CI_PROJECT_DIR"]
+      prefix = f'{os.environ["DUT_ARCH_PACKAGES_PATH"]}/feed_prplos/'
+      extra_artifacts = [
+          line.split(maxsplit=1)[1]
+          for line in os.environ.get("PREBUILT_EXTRA_ARTIFACT_SHA256S", "").splitlines()
+          if line.strip()
+      ]
+      extracted = 0
 
-build test ipq807x prpl security:
-  extends: .build test config
+      with zipfile.ZipFile(archive) as artifacts:
+          for member in artifacts.infolist():
+              if member.filename.startswith(prefix):
+                  artifacts.extract(member, destination)
+                  extracted += 1
+          for artifact in extra_artifacts:
+              try:
+                  artifacts.extract(artifact, destination)
+              except KeyError:
+                  sys.exit(f"Missing {artifact} in prebuilt artifacts")
 
-build test mtk_filogic prpl security:
-  extends: .build test config
+      if extracted == 0:
+          sys.exit(f"Missing {prefix} packages in prebuilt artifacts")
 
-build test airoha_an7581 prpl security:
-  extends: .build test config
+      print(f"Extracted {extracted} package artifacts from {prefix}")
+      print(f"Extracted {len(extra_artifacts)} extra artifacts")
+      PY
 
-build test qca_ipq95xx prpl cellular security thread:
-  extends: .build test config
-
-build test qca_ipq95xx extender_minimal cellular security thread:
-  extends: .build test config
-
-build test qca_ipq95xx extender_full cellular security thread:
-  extends: .build test config
-
-coverity scan qca_ipq95xx prpl extender_full cellular thread:
-  extends: .coverity scan config
-  variables:
-    CI_COVERITY_COMPILER_TEMPLATE_LIST: >
-      aarch64-openwrt-linux-gcc
-      aarch64-openwrt-linux-musl-gcc
-
-blackduck scan mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl extender_full cellular security thread:
-  extends: .blackduck scan config
-
-blackduck scan qca_ipq95xx prpl extender_full cellular security thread:
-  extends: .blackduck scan config
-
-run test Turris Omnia initramfs:
-  allow_failure: true
-  needs: ["build test mvebu prpl security"]
-  extends: .turris-omnia testbed
-
-run test Haze initramfs:
-  allow_failure: true
-  needs: ["build test ipq807x prpl security"]
-  extends: .prpl-haze testbed
+        if [ -n "${PREBUILT_EXTRA_ARTIFACT_SHA256S:-}" ]; then
+          echo "$PREBUILT_EXTRA_ARTIFACT_SHA256S" | sha256sum --check --strict
+        fi
+        rm -f "$prebuilt_artifacts_zip"
+      fi
 
 run test MXL25641-HDK-6 with system on eMMC:
-  needs: ["build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread"]
   extends: .mxl25641-hdk-6 testbed
-
-run test Freedom with system on eMMC:
-  needs: ["build test qca_ipq95xx prpl cellular security thread"]
-  extends: .wnc-freedom testbed
-
-run test Mozart initramfs:
-  needs:
-    - job: build test mtk_filogic prpl security
-      optional: true
-  extends: .arcadyan-mozart testbed
-
-run test Valyrian initramfs:
-  needs:
-    - job: build test airoha_an7581 prpl security
-      optional: true
-  extends: .nokia-valyrian testbed
+  needs: []
+  tags:
+    - dut-mxl25641-hdk-6-b-sfl-prio
+  rules:
+    - when: on_success
+  variables:
+    PFD_IMAGE_TYPES: emmc bootstack
+    PFD_FIRMWARE_SHA256S: |
+      1fe97db1e0e4f9133b2f9a6b9b239d8957af1c304ffc554c4d45e742343209cd  bin/targets/intel_x86/lgm/prplos-intel_x86-lgm-PRPL_OSP_v2-update_script.itb
+      b111c329a4fafb33a4fe258e9d6f92c5115604c89b77f827963d8adc780be350  bin/targets/intel_x86/lgm/prplos-intel_x86-lgm-PRPL_OSP_v2-wgrtd159be_b_wav700-ext4.img
+    PREBUILT_FIRMWARE_JOB_ID: "15410650125"
+    PREBUILT_ARTIFACT_SHA256: "8bd272fb50f7d0308e67e7a2348455a3809243b34f043f4fbf2f4146827a338c"
+    PREBUILT_EXTRA_ARTIFACT_SHA256S: |
+      c7e82122ef5310d79add3fa671b5af4c43907a49cdd12f6c2bd655844cac9346  bin/targets/intel_x86/lgm/prplos-intel_x86-lgm-PRPL_OSP_v2-tb341_wav700-image.swu
+  before_script:
+    - !reference [.focused prebuilt firmware, before_script]
+    - !reference [.testbed, before_script]

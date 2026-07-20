@@ -1,6 +1,6 @@
 .testbed:
   stage: run
-  image: "registry.gitlab.com/prpl-foundation/prplos/ci/containers/testbed/testbed:v1.1.0"
+  image: "registry.gitlab.com/prpl-foundation/prplos/ci/containers/testbed/testbed:v1.1.0@sha256:dcc310f73719808f58f18dbbc4f5677d0c027bae01ff66bf45ab1778413e7519"
   timeout: 85 minutes
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
