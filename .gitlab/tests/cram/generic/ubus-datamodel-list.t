@@ -380,6 +380,7 @@ Check that ubus has expected datamodels available:
   Security
   Security.CABundle
   Security.Certificate
+  Security.ClientCertificateDefault
   SoftwareModules
   SoftwareModules.Config
   SoftwareModules.Config.Repository
