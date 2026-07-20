@@ -1,7 +1,7 @@
 .cdrouter:
   stage: cdrouter
   timeout: 40 minutes
-  image: "$CI_REGISTRY_IMAGE/$CI_DESIGNATED_BRANCH_SLUG/testbed:latest"
+  image: "registry.gitlab.com/prpl-foundation/prplos/ci/containers/testbed/testbed:v1.3.0@sha256:7f50dde2279c201542569b7f31e965d43a308e245a4ec973df52d581560b0c28"
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
       when: never
@@ -44,7 +44,8 @@
     - sudo ip link set $TESTBED_WAN_INTERFACE up 2> /dev/null
     - sleep 10
 
-    - mkdir -p ~/.ssh; chmod 700 ~/.ssh
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
 
     - |
       for f in ${TFTP_IMAGE_FILENAMES:-$TFTP_IMAGE_FILENAME}; do
@@ -180,7 +181,8 @@
       cat cdrouter-results/final.txt &&
       .gitlab/scripts/cdrouter-pretty-failures.awk cdrouter-results/*.txt
 
-    - mkdir -p ~/.ssh; chmod 700 ~/.ssh
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
 
     - >
       if echo "$CI_RUNNER_DESCRIPTION" | grep -q testbed-02; then
