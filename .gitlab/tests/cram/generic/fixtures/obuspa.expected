@@ -252,6 +252,7 @@ Device.DHCPv6.Client.{i}.AuthenticationProtocol                                 
 Device.DHCPv6.Client.{i}.DSCPMark                                                                    proto::tr181-dhcpv6client
 Device.DHCPv6.Client.{i}.DUID                                                                        proto::tr181-dhcpv6client
 Device.DHCPv6.Client.{i}.Enable                                                                      proto::tr181-dhcpv6client
+Device.DHCPv6.Client.{i}.ForceSolicitPolicy                                                          proto::tr181-dhcpv6client
 Device.DHCPv6.Client.{i}.Interface                                                                   proto::tr181-dhcpv6client
 Device.DHCPv6.Client.{i}.RapidCommit                                                                 proto::tr181-dhcpv6client
 Device.DHCPv6.Client.{i}.ReceivedOption.{i}.                                                         proto::tr181-dhcpv6client
@@ -331,7 +332,6 @@ Device.DHCPv6.Client.{i}.X_PRPLWARE-COM_Config.LeaseRenewedWhen                 
 Device.DHCPv6.Client.{i}.X_PRPLWARE-COM_Config.T1Renewed                                             proto::tr181-dhcpv6client
 Device.DHCPv6.Client.{i}.X_PRPLWARE-COM_Config.T2Renewed                                             proto::tr181-dhcpv6client
 Device.DHCPv6.Client.{i}.X_PRPLWARE-COM_DHCPv6Status                                                 proto::tr181-dhcpv6client
-Device.DHCPv6.Client.{i}.X_PRPLWARE-COM_ForceSolicitPolicy                                           proto::tr181-dhcpv6client
 Device.DHCPv6.ClientNumberOfEntries                                                                  proto::tr181-dhcpv6client
 Device.DHCPv6.Server.                                                                                proto::dhcpv6s-manager
 Device.DHCPv6.Server.Enable                                                                          proto::dhcpv6s-manager
