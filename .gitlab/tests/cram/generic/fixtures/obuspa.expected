@@ -571,6 +571,8 @@ Device.DeviceInfo.FirmwareImage.{i}.Available                                   
 Device.DeviceInfo.FirmwareImage.{i}.BootFailureLog                                                   proto::deviceinfo-manager
 Device.DeviceInfo.FirmwareImage.{i}.Download()                                                       proto::deviceinfo-manager
 Device.DeviceInfo.FirmwareImage.{i}.Download() input:AutoActivate
+Device.DeviceInfo.FirmwareImage.{i}.Download() input:CABundle
+Device.DeviceInfo.FirmwareImage.{i}.Download() input:Certificate
 Device.DeviceInfo.FirmwareImage.{i}.Download() input:CheckSum
 Device.DeviceInfo.FirmwareImage.{i}.Download() input:CheckSumAlgorithm
 Device.DeviceInfo.FirmwareImage.{i}.Download() input:FileSize
@@ -3297,6 +3299,7 @@ Device.ScheduleTimer()                                                          
 Device.ScheduleTimer() input:DelaySeconds
 Device.Security.                                                                                     proto::tr181-security
 Device.Security.CABundle.{i}.                                                                        proto::tr181-security
+Device.Security.CABundle.{i}.Alias                                                                   proto::tr181-security
 Device.Security.CABundle.{i}.CACertificates                                                          proto::tr181-security
 Device.Security.CABundle.{i}.CADir()                                                                 proto::tr181-security
 Device.Security.CABundle.{i}.CADir() output:CADir
@@ -3305,6 +3308,10 @@ Device.Security.CABundle.{i}.CAFile() output:CAFile
 Device.Security.CABundle.{i}.Enable                                                                  proto::tr181-security
 Device.Security.CABundle.{i}.Name                                                                    proto::tr181-security
 Device.Security.CABundleNumberOfEntries                                                              proto::tr181-security
+Device.Security.CADefaults.                                                                          proto::tr181-security
+Device.Security.CADefaults.FirmwareImage.                                                            proto::tr181-security
+Device.Security.CADefaults.FirmwareImage.CABundle                                                    proto::tr181-security
+Device.Security.CADefaults.FirmwareImage.Certificate                                                 proto::tr181-security
 Device.Security.Certificate.{i}.                                                                     proto::tr181-security
 Device.Security.Certificate.{i}.Alias                                                                proto::tr181-security
 Device.Security.Certificate.{i}.Enable                                                               proto::tr181-security
