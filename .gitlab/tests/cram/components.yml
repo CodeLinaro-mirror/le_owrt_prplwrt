@@ -1,0 +1,51 @@
+# Maps cram tests to product components for split CI jobs.
+# Globs are relative to this cram test root.
+# prplos is the computed remainder and must never be enumerated here.
+# full is implicit and contains every test collected for a board.
+# sanity is prepended to each split component bucket by the resolver.
+version: 1
+sanity:
+  include:
+    - "*/005-build-config.t"
+    - "generic/ulimit.t"
+    - "generic/ubus-datamodel*.t"
+    - "generic/obuspa*.t"
+
+components:
+  lcm:
+    description: Lifecycle Manager
+    include:
+      - "**/*lcm*.t"
+      - "generic/lcm/**/*.t"
+      - "generic/obuspa/obuspa-passing-fds.t"
+      - "generic/acceleration-plan-components/110-data-model-mapper.t"
+      - "generic/acceleration-plan-components/015-nat-reverse-portmapping.t"
+  prplmesh:
+    description: prplMesh + wireless stack (pwhm/mlo/apmld/wifi)
+    include:
+      - "**/*prplmesh*.t"
+      - "**/*pwhm*.t"
+      - "**/*mlo*.t"
+      - "**/*apmld*.t"
+      - "**/*bstamld*.t"
+      - "**/*wifi*.t"
+      - "**/*eht*.t"
+      - "**/*puncturing*.t"
+      - "**/*dm-mapper*.t"
+      - "**/*dataelement*.t"
+      - "**/*process-manager*.t"
+      - "wifi/**/*.t"
+  # prplos is the implicit remainder; do not add it as a component.
+
+# Provisional CI-5 stub: final smoke-set curation is deferred to CI-5.
+smoke:
+  include:
+    - "generic/busybox.t"
+    - "generic/ubus.t"
+
+# Provisional CI-5 stub from the classification document's Real-HW list.
+hw_only:
+  include:
+    - "generic/acceleration-plan-components/040-usb-filter.t"
+
+# post/** is invoked separately for every component job and is not bucketed.
