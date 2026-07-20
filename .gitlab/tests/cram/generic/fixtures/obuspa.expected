@@ -572,6 +572,8 @@ Device.DeviceInfo.FirmwareImage.{i}.Available                                   
 Device.DeviceInfo.FirmwareImage.{i}.BootFailureLog                                                   proto::deviceinfo-manager
 Device.DeviceInfo.FirmwareImage.{i}.Download()                                                       proto::deviceinfo-manager
 Device.DeviceInfo.FirmwareImage.{i}.Download() input:AutoActivate
+Device.DeviceInfo.FirmwareImage.{i}.Download() input:CABundle
+Device.DeviceInfo.FirmwareImage.{i}.Download() input:Certificate
 Device.DeviceInfo.FirmwareImage.{i}.Download() input:CheckSum
 Device.DeviceInfo.FirmwareImage.{i}.Download() input:CheckSumAlgorithm
 Device.DeviceInfo.FirmwareImage.{i}.Download() input:FileSize
@@ -3610,6 +3612,7 @@ Device.ScheduleTimer()                                                          
 Device.ScheduleTimer() input:DelaySeconds
 Device.Security.                                                                                     proto::tr181-security
 Device.Security.CABundle.{i}.                                                                        proto::tr181-security
+Device.Security.CABundle.{i}.Alias                                                                   proto::tr181-security
 Device.Security.CABundle.{i}.CACertificates                                                          proto::tr181-security
 Device.Security.CABundle.{i}.CADir()                                                                 proto::tr181-security
 Device.Security.CABundle.{i}.CADir() output:CADir
@@ -3633,6 +3636,12 @@ Device.Security.Certificate.{i}.SignatureAlgorithm                              
 Device.Security.Certificate.{i}.Subject                                                              proto::tr181-security
 Device.Security.Certificate.{i}.SubjectAlt                                                           proto::tr181-security
 Device.Security.CertificateNumberOfEntries                                                           proto::tr181-security
+Device.Security.ClientCertificateDefault.{i}.                                                        proto::tr181-security
+Device.Security.ClientCertificateDefault.{i}.Alias                                                   proto::tr181-security
+Device.Security.ClientCertificateDefault.{i}.CABundle                                                proto::tr181-security
+Device.Security.ClientCertificateDefault.{i}.Certificate                                             proto::tr181-security
+Device.Security.ClientCertificateDefault.{i}.Type                                                    proto::tr181-security
+Device.Security.ClientCertificateDefaultNumberOfEntries                                              proto::tr181-security
 Device.SelfTestDiagnostics()                                                                         proto::tr181-device
 Device.SelfTestDiagnostics() output:Results
 Device.SelfTestDiagnostics() output:Status

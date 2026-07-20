@@ -117,6 +117,8 @@ cleanup_security() {
 	rm -rf ${ROOT_LOCATION}
 	rm -rf /etc/config/softwaremodules/odl/timingila.odl
 	rm -rf /etc/amx/tr181-security/extensions/01_cram_lcm.odl
+	rm -rf /usr/share/ca-certificates/lcm_servers_root_ca1.crt
+	rm -rf /usr/share/ca-certificates/ca_bundle.crt
 
 	sed -i '/signature\.server1\.local\.com/d' /etc/hosts
 	sed -i '/signature\.server2\.local\.com/d' /etc/hosts
