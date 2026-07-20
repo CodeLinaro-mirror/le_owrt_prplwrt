@@ -242,5 +242,34 @@
       export CRAM_TEST_SUITE
     - !reference [.testbed, script]
 
+lint cram component manifest:
+  stage: run
+  image: "registry.gitlab.com/prpl-foundation/prplos/ci/containers/testbed/testbed:v1.3.0@sha256:7f50dde2279c201542569b7f31e965d43a308e245a4ec973df52d581560b0c28"
+  needs: []
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: never
+    - when: on_success
+  script:
+    - |
+      export GIT_CONFIG_COUNT=1
+      export GIT_CONFIG_KEY_0=safe.directory
+      export GIT_CONFIG_VALUE_0="$CI_PROJECT_DIR"
+
+      base_ref="${CI_MERGE_REQUEST_DIFF_BASE_SHA:-}"
+      if [ -n "$base_ref" ]; then
+        echo "Comparing manifest coverage against MR diff base $base_ref"
+        git cat-file -e "$base_ref^{commit}" 2>/dev/null ||
+          git fetch --no-tags origin "$base_ref"
+        set -- --base-ref "$base_ref"
+      else
+        set --
+      fi
+
+      .gitlab/tests/cram/scripts/check-component-coverage.py \
+        --test-root .gitlab/tests/cram \
+        --manifest components.yml \
+        "$@"
+
 .testbed true.cz:
   extends: .cram_component
