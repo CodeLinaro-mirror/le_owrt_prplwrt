@@ -1,6 +1,6 @@
 .testbed:
   stage: run
-  image: "$CI_REGISTRY_IMAGE/$CI_DESIGNATED_BRANCH_SLUG/testbed:latest"
+  image: "registry.gitlab.com/prpl-foundation/prplos/ci/containers/testbed/testbed:v1.3.0@sha256:7f50dde2279c201542569b7f31e965d43a308e245a4ec973df52d581560b0c28"
   timeout: 85 minutes
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
@@ -63,7 +63,8 @@
     - sudo sed -i 's|http://deb.debian.org/debian-security|http://archive.debian.org/debian-security|g' /etc/apt/sources.list 2>/dev/null
     - sudo apt-get update && sudo apt-get install --yes --no-install-recommends minidlna avahi-daemon avahi-utils dbus
 
-    - mkdir -p ~/.ssh; chmod 700 ~/.ssh
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
 
     - |
       for f in ${TFTP_IMAGE_FILENAMES:-$TFTP_IMAGE_FILENAME}; do
@@ -170,7 +171,8 @@
         true
       }
 
-    - mkdir -p ~/.ssh; chmod 700 ~/.ssh
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
 
     - >
       if echo "$CI_RUNNER_DESCRIPTION" | grep -q testbed-02; then
