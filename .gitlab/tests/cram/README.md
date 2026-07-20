@@ -126,3 +126,7 @@ revision. `--base-list <path>` accepts a newline-separated baseline instead;
 the two baseline options are mutually exclusive. The lint still succeeds when
 a newly added test enters the `prplos` remainder, but prints a warning so the
 assignment can be reviewed.
+
+Merge request pipelines pass the diff base to this lint automatically. Other
+pipeline types run the same manifest checks without a comparison baseline;
+scheduled pipelines skip the job.
