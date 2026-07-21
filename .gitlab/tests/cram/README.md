@@ -67,6 +67,27 @@ jobs do not use them.
 `cram_component_bucketing.py` uses underscores because it is an importable
 module. Executable scripts follow the repository's hyphenated CLI convention.
 
+## Selecting pipeline jobs
+
+Set the pipeline-level `CRAM_COMPONENTS` variable to a comma-separated list
+containing one or more of `full`, `prplmesh`, `lcm`, and `prplos`. Do not add
+spaces around the commas. The default is `prplos`.
+
+For example:
+
+```text
+CRAM_COMPONENTS=prplmesh
+CRAM_COMPONENTS=lcm,prplos
+CRAM_COMPONENTS=full
+```
+
+Release tag pipelines (`prplware-v*`) start the `full` jobs automatically.
+Scheduled pipelines never create cram jobs, because they also never create
+the build jobs these jobs need. Other pipeline sources run the jobs named by
+the list. The job names have the form
+`cram <Board> [<component>]`, such as `cram OSPv2 [lcm]`. The trailing
+component name lets GitLab group the four jobs for a board in the pipeline UI.
+
 ## Resolving tests locally
 
 The CI jobs call the resolver at runtime. Run it from the same checkout and

@@ -2,10 +2,6 @@
   stage: run
   image: "registry.gitlab.com/prpl-foundation/prplos/ci/containers/testbed/testbed:v1.3.0@sha256:7f50dde2279c201542569b7f31e965d43a308e245a4ec973df52d581560b0c28"
   timeout: 87 minutes
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "schedule"'
-      when: never
-    - when: on_success
   variables:
     DUT_WAN_INTERFACE: eth1
     TESTBED_MNG_INTERFACE: enp1s0
@@ -115,7 +111,7 @@
 
   script:
     - source .gitlab/scripts/helpers.sh
-    - section_start "test-execution" "Test Execution" "expanded"
+    - section_start "test-execution" "Test Execution${COMPONENT:+ [$COMPONENT]}" "expanded"
 
     - |
       TEST_CUTOFF_TIMEOUT=$((CI_JOB_TIMEOUT - DUT_SLEEP_AFTER_BOOT - TEST_SETUP_TEARDOWN_DURATION))
@@ -222,5 +218,29 @@
     reports:
       junit: cram-result-$LABGRID_TARGET.junit.xml
 
-.testbed true.cz:
+.cram_component:
   extends: .testbed
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: never
+    - if: '$CI_COMMIT_TAG =~ /^prplware-v[0-9]+\.[0-9]+\.[0-9]+.*$/ && $COMPONENT == "full"'
+    - if: '$COMPONENT == "full" && $CRAM_COMPONENTS =~ /(^|,)full($|,)/'
+    - if: '$COMPONENT == "prplmesh" && $CRAM_COMPONENTS =~ /(^|,)prplmesh($|,)/'
+    - if: '$COMPONENT == "lcm" && $CRAM_COMPONENTS =~ /(^|,)lcm($|,)/'
+    - if: '$COMPONENT == "prplos" && $CRAM_COMPONENTS =~ /(^|,)prplos($|,)/'
+  variables:
+    COMPONENT: prplos
+  script:
+    - |
+      CRAM_TEST_SUITE="$(
+        .gitlab/tests/cram/scripts/resolve-component-tests.py \
+          --test-root .gitlab/tests/cram \
+          --manifest components.yml \
+          --board "$DUT_BOARD" \
+          --component "$COMPONENT"
+      )"
+      export CRAM_TEST_SUITE
+    - !reference [.testbed, script]
+
+.testbed true.cz:
+  extends: .cram_component
