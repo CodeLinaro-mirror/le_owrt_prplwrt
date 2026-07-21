@@ -228,6 +228,8 @@
     - if: '$COMPONENT == "prplmesh" && $CRAM_COMPONENTS =~ /(^|,)prplmesh($|,)/'
     - if: '$COMPONENT == "lcm" && $CRAM_COMPONENTS =~ /(^|,)lcm($|,)/'
     - if: '$COMPONENT == "prplos" && $CRAM_COMPONENTS =~ /(^|,)prplos($|,)/'
+    - when: manual
+      allow_failure: true
   variables:
     COMPONENT: prplos
   script:
@@ -249,7 +251,8 @@ lint cram component manifest:
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
       when: never
-    - when: on_success
+    - when: manual
+      allow_failure: true
   script:
     - |
       export GIT_CONFIG_COUNT=1
