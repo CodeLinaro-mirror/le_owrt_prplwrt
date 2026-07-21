@@ -69,9 +69,17 @@ module. Executable scripts follow the repository's hyphenated CLI convention.
 
 ## Selecting pipeline jobs
 
-Set the pipeline-level `CRAM_COMPONENTS` variable to a comma-separated list
-containing one or more of `full`, `prplmesh`, `lcm`, and `prplos`. Do not add
-spaces around the commas. The default is `prplos`.
+Non-scheduled pipelines create every component job and the non-DUT
+`lint cram component manifest` job as manual jobs and start none of them.
+Play the lint at any time, or play the wanted bucket jobs once the board's
+build test job has finished. Manually started jobs never gate the pipeline
+result.
+
+To start buckets automatically, set the pipeline-level `CRAM_COMPONENTS`
+variable to a comma-separated list containing one or more of `full`,
+`prplmesh`, `lcm`, and `prplos`. Do not add spaces around the commas. Listed
+buckets start as soon as their board's build succeeds and keep the board's
+existing blocking behavior. The variable is unset by default.
 
 For example:
 
@@ -81,12 +89,12 @@ CRAM_COMPONENTS=lcm,prplos
 CRAM_COMPONENTS=full
 ```
 
-Release tag pipelines (`prplware-v*`) start the `full` jobs automatically.
-Scheduled pipelines never create cram jobs, because they also never create
-the build jobs these jobs need. Other pipeline sources run the jobs named by
-the list. The job names have the form
-`cram <Board> [<component>]`, such as `cram OSPv2 [lcm]`. The trailing
-component name lets GitLab group the four jobs for a board in the pipeline UI.
+Release tag pipelines (`prplware-v*`) start the `full` jobs automatically;
+the other buckets stay manual there. Scheduled pipelines never create cram
+jobs, because they also never create the build jobs these jobs need. The job
+names have the form `cram <Board> [<component>]`, such as `cram OSPv2 [lcm]`.
+The trailing component name lets GitLab group the four jobs for a board in
+the pipeline UI.
 
 ## Resolving tests locally
 
@@ -127,6 +135,7 @@ the two baseline options are mutually exclusive. The lint still succeeds when
 a newly added test enters the `prplos` remainder, but prints a warning so the
 assignment can be reviewed.
 
-Merge request pipelines pass the diff base to this lint automatically. Other
-pipeline types run the same manifest checks without a comparison baseline;
-scheduled pipelines skip the job.
+The lint is a manual, non-gating play button in every non-scheduled pipeline.
+When played in a merge request pipeline, it still receives the diff base
+automatically. Other pipeline types run the same manifest checks without a
+comparison baseline; scheduled pipelines skip the job.
