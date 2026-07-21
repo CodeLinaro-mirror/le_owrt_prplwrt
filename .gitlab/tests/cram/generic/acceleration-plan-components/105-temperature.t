@@ -31,8 +31,8 @@ Check if directories or symbolic links exist for each TemperatureSensor object:
   > fi
   All zones exists
 
-If test is running on a mxl, skip the next part because of PPW-423
-  $ if echo "$CI_JOB_NAME" | grep -q -E "MXL|URX"; then exit 80; fi
+If test is running on an MXL board, skip the next part because of PPW-423
+  $ if echo "$DUT_BOARD" | grep -q -E "^(mxl25641-hdk-6|urx851-)"; then exit 80; fi
 
 Check that the value is actually synchronized with the system value:
 
