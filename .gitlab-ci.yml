@@ -1,6 +1,7 @@
 variables:
   CI_DESIGNATED_BRANCH: prpl/nightly
   CI_DESIGNATED_BRANCH_SLUG: prpl-nightly
+  CRAM_COMPONENTS: prplos
 
 include:
   - local: .gitlab/build.yml
@@ -85,32 +86,170 @@ blackduck scan mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl extender_full
 blackduck scan qca_ipq95xx prpl extender_full cellular security thread:
   extends: .blackduck scan config
 
-run test Turris Omnia initramfs:
+cram Omnia [full]:
   allow_failure: true
   needs: ["build test mvebu prpl security"]
   extends: .turris-omnia testbed
+  variables:
+    COMPONENT: full
 
-run test Haze initramfs:
+cram Omnia [prplmesh]:
+  allow_failure: true
+  needs: ["build test mvebu prpl security"]
+  extends: .turris-omnia testbed
+  variables:
+    COMPONENT: prplmesh
+
+cram Omnia [lcm]:
+  allow_failure: true
+  needs: ["build test mvebu prpl security"]
+  extends: .turris-omnia testbed
+  variables:
+    COMPONENT: lcm
+
+cram Omnia [prplos]:
+  allow_failure: true
+  needs: ["build test mvebu prpl security"]
+  extends: .turris-omnia testbed
+  variables:
+    COMPONENT: prplos
+
+cram Haze [full]:
   allow_failure: true
   needs: ["build test ipq807x prpl security"]
   extends: .prpl-haze testbed
+  variables:
+    COMPONENT: full
 
-run test MXL25641-HDK-6 with system on eMMC:
+cram Haze [prplmesh]:
+  allow_failure: true
+  needs: ["build test ipq807x prpl security"]
+  extends: .prpl-haze testbed
+  variables:
+    COMPONENT: prplmesh
+
+cram Haze [lcm]:
+  allow_failure: true
+  needs: ["build test ipq807x prpl security"]
+  extends: .prpl-haze testbed
+  variables:
+    COMPONENT: lcm
+
+cram Haze [prplos]:
+  allow_failure: true
+  needs: ["build test ipq807x prpl security"]
+  extends: .prpl-haze testbed
+  variables:
+    COMPONENT: prplos
+
+cram OSPv2 [full]:
   needs: ["build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread"]
   extends: .mxl25641-hdk-6 testbed
+  variables:
+    COMPONENT: full
 
-run test Freedom with system on eMMC:
+cram OSPv2 [prplmesh]:
+  needs: ["build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread"]
+  extends: .mxl25641-hdk-6 testbed
+  variables:
+    COMPONENT: prplmesh
+
+cram OSPv2 [lcm]:
+  needs: ["build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread"]
+  extends: .mxl25641-hdk-6 testbed
+  variables:
+    COMPONENT: lcm
+
+cram OSPv2 [prplos]:
+  needs: ["build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread"]
+  extends: .mxl25641-hdk-6 testbed
+  variables:
+    COMPONENT: prplos
+
+cram Freedom [full]:
   needs: ["build test qca_ipq95xx prpl cellular security thread"]
   extends: .wnc-freedom testbed
+  variables:
+    COMPONENT: full
 
-run test Mozart initramfs:
+cram Freedom [prplmesh]:
+  needs: ["build test qca_ipq95xx prpl cellular security thread"]
+  extends: .wnc-freedom testbed
+  variables:
+    COMPONENT: prplmesh
+
+cram Freedom [lcm]:
+  needs: ["build test qca_ipq95xx prpl cellular security thread"]
+  extends: .wnc-freedom testbed
+  variables:
+    COMPONENT: lcm
+
+cram Freedom [prplos]:
+  needs: ["build test qca_ipq95xx prpl cellular security thread"]
+  extends: .wnc-freedom testbed
+  variables:
+    COMPONENT: prplos
+
+cram Mozart [full]:
   needs:
     - job: build test mtk_filogic prpl security
       optional: true
   extends: .arcadyan-mozart testbed
+  variables:
+    COMPONENT: full
 
-run test Valyrian initramfs:
+cram Mozart [prplmesh]:
+  needs:
+    - job: build test mtk_filogic prpl security
+      optional: true
+  extends: .arcadyan-mozart testbed
+  variables:
+    COMPONENT: prplmesh
+
+cram Mozart [lcm]:
+  needs:
+    - job: build test mtk_filogic prpl security
+      optional: true
+  extends: .arcadyan-mozart testbed
+  variables:
+    COMPONENT: lcm
+
+cram Mozart [prplos]:
+  needs:
+    - job: build test mtk_filogic prpl security
+      optional: true
+  extends: .arcadyan-mozart testbed
+  variables:
+    COMPONENT: prplos
+
+cram Valyrian [full]:
   needs:
     - job: build test airoha_an7581 prpl security
       optional: true
   extends: .nokia-valyrian testbed
+  variables:
+    COMPONENT: full
+
+cram Valyrian [prplmesh]:
+  needs:
+    - job: build test airoha_an7581 prpl security
+      optional: true
+  extends: .nokia-valyrian testbed
+  variables:
+    COMPONENT: prplmesh
+
+cram Valyrian [lcm]:
+  needs:
+    - job: build test airoha_an7581 prpl security
+      optional: true
+  extends: .nokia-valyrian testbed
+  variables:
+    COMPONENT: lcm
+
+cram Valyrian [prplos]:
+  needs:
+    - job: build test airoha_an7581 prpl security
+      optional: true
+  extends: .nokia-valyrian testbed
+  variables:
+    COMPONENT: prplos
