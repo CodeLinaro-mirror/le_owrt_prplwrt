@@ -120,9 +120,15 @@ dependency match the job:
 ```
 
 The command prints the ordered test paths for cram. Valid component values are
-`full`, `sanity`, `prplmesh`, `lcm`, and `prplos`. Use `sanity` to inspect the
-always-run block. The `sanity` value is for inspection, not pipeline job
-selection.
+`full`, `sanity`, `prplmesh`, `lcm`, and `prplos`. A comma-separated value such
+as `prplmesh,lcm` resolves the ordered union: the sanity block is emitted once,
+then each selected bucket in manifest order, so the job still uses one boot.
+Repeated components and tests are de-duplicated. Selecting `full`, or selecting
+all three split buckets, collapses to the legacy full-suite ordering. Do not put
+spaces around the commas.
+
+Use `sanity` to inspect the always-run block. The `sanity` value is for
+inspection, not pipeline job selection.
 
 Run the manifest lint from that environment as well:
 

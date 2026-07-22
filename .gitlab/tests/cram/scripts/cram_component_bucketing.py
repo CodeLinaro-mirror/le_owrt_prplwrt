@@ -361,6 +361,39 @@ def partition_tests(
     return buckets
 
 
+def select_component_tests(
+    full: Sequence[Path],
+    buckets: Mapping[str, List[Path]],
+    components: Sequence[str],
+) -> List[Path]:
+    """Select an ordered component union with the sanity tests first."""
+
+    allowed = {"full", "sanity", "prplmesh", "lcm", "prplos"}
+    unknown = sorted(set(components) - allowed)
+    if unknown:
+        raise BucketingError(f"unknown components: {', '.join(unknown)}")
+    if not components:
+        raise BucketingError("at least one component is required")
+
+    unique = tuple(dict.fromkeys(components))
+    if "full" in unique:
+        return list(full)
+    if len(unique) == 1:
+        component = unique[0]
+        if component == "sanity":
+            return list(buckets["sanity"])
+        return list(buckets["sanity"] + buckets[component])
+
+    selected = set(buckets["sanity"])
+    for component in unique:
+        if component != "sanity":
+            selected.update(buckets[component])
+
+    sanity = list(buckets["sanity"])
+    sanity_set = set(sanity)
+    return sanity + [path for path in full if path in selected and path not in sanity_set]
+
+
 def render_test_paths(paths: Sequence[Path]) -> str:
     """Render ordered test paths for cram's command-line arguments."""
 
