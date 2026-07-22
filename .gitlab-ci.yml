@@ -1,254 +1,64 @@
 variables:
   CI_DESIGNATED_BRANCH: prpl/nightly
   CI_DESIGNATED_BRANCH_SLUG: prpl-nightly
+  PFD_PIPELINE_ID: "2697816458"
+  PFD_BINARY_URL: "https://gitlab.com/ynezz/prplos-ci-build-artifacts/-/jobs/13116912273/artifacts/raw/pfd-linux-amd64"
+  PFD_BINARY_SHA256: "e3e987b9b556bba1caa04ec61ef5e98e6fa420caf656eac4fc621c37287646eb"
 
 include:
-  - local: .gitlab/build.yml
-  - local: .gitlab/blackduck.yml
-  - local: .gitlab/release.yml
-  - local: .gitlab/cdrouter.yml
-  - local: .gitlab/prplmesh.yml
-  - local: .gitlab/cdrouter/prpl-haze.yml
-  - local: .gitlab/cdrouter/turris-omnia.yml
-  - local: .gitlab/cdrouter/mxl25641-hdk-6.yml
-  - local: .gitlab/cdrouter/arcadyan-mozart.yml
-  - local: .gitlab/cdrouter/wnc-freedom.yml
-  - local: .gitlab/cdrouter/nokia-valyrian.yml
-  - local: .gitlab/coverity.yml
-  - local: .gitlab/docker.yml
-  - local: .gitlab/docker/builder/gitlab.yml
-  - local: .gitlab/docker/sdk/gitlab.yml
-  - local: .gitlab/docker/ib/gitlab.yml
-  - local: .gitlab/docker/ib/lcm/gitlab.yml
   - local: .gitlab/testbed.yml
-  - local: .gitlab/testbed/prpl-haze.yml
-  - local: .gitlab/testbed/turris-omnia.yml
-  - local: .gitlab/testbed/mxl25641-hdk-6.yml
-  - local: .gitlab/testbed/arcadyan-mozart.yml
   - local: .gitlab/testbed/wnc-freedom.yml
-  - local: .gitlab/testbed/nokia-valyrian.yml
 
 stages:
-  - docker
-  - docker test
-  - docker deploy
-  - build
-  - release
-  - docker SDK and IB
-  - docker SDK and IB test
-  - docker SDK and IB deploy
-  - docker IB LCM container
   - run
   - smoke tests
-  - certification tests
-  - cdrouter
-  - coverity
-  - blackduck
 
-build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread:
-  extends: .build test config
+lint cram component manifest:
+  rules:
+    - when: never
 
-build test mvebu prpl security:
-  extends: .build test config
+.focused prebuilt firmware:
+  before_script:
+    - mkdir -p ~/.config/pfd "$TFTP_IMAGE_PATH"
+    - curl --fail --location --silent --show-error --output ./pfd "$PFD_BINARY_URL"
+    - echo "$PFD_BINARY_SHA256  ./pfd" | sha256sum --check --strict
+    - chmod +x ./pfd
+    - install -m 0644 .pfd/devices.yaml ~/.config/pfd/devices.yaml
+    - |
+      for image_type in $PFD_IMAGE_TYPES; do
+        ./pfd get "$DUT_BOARD" \
+          --project prpl-foundation/prplos/prplos \
+          --pipeline "$PFD_PIPELINE_ID" \
+          --type "$image_type" --no-cache \
+          --output "$TFTP_IMAGE_PATH/"
+      done
+    - echo "$PFD_FIRMWARE_SHA256S" | sha256sum --check --strict
 
-build test x86_64 prpl security:
-  extends: .build test config
-
-build test ipq807x prpl security:
-  extends: .build test config
-
-build test mtk_filogic prpl security:
-  extends: .build test config
-
-build test airoha_an7581 prpl security:
-  extends: .build test config
-
-build test qca_ipq95xx prpl cellular security thread:
-  extends: .build test config
-
-build test qca_ipq95xx extender_minimal cellular security thread:
-  extends: .build test config
-
-build test qca_ipq95xx extender_full cellular security thread:
-  extends: .build test config
-
-coverity scan qca_ipq95xx prpl extender_full cellular thread:
-  extends: .coverity scan config
+.focused Freedom inputs:
   variables:
-    CI_COVERITY_COMPILER_TEMPLATE_LIST: >
-      aarch64-openwrt-linux-gcc
-      aarch64-openwrt-linux-musl-gcc
+    PFD_IMAGE_TYPES: emmc bootstack
+    PFD_FIRMWARE_SHA256S: |
+      21336a8d420ac0f6432d07a40fd77e9fb8794c881da2c2ce5af8aa585af660d5  bin/targets/ipq95xx/generic/prplos-ipq95xx-generic-prpl_freedom-update_script.itb
+      c2f5683b15a55297c8b4bb92600a960088a4f984978978249ea46f87c72a79f5  bin/targets/ipq95xx/generic/prplos-ipq95xx-generic-prpl_freedom-kernel.itb
+      bb4fa820da9c826d1f51c4a22d9bd500a6a518d11e10642309bf616a89b50ad6  bin/targets/ipq95xx/generic/prplos-ipq95xx-generic-prpl_freedom-rootfs.itb
 
-blackduck scan mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl extender_full cellular security thread:
-  extends: .blackduck scan config
-
-blackduck scan qca_ipq95xx prpl extender_full cellular security thread:
-  extends: .blackduck scan config
-
-cram Omnia [full]:
-  allow_failure: true
-  needs: ["build test mvebu prpl security"]
-  extends: .turris-omnia testbed
+cram Freedom [py314-preflight]:
+  extends:
+    - .wnc-freedom testbed
+    - .focused prebuilt firmware
+    - .focused Freedom inputs
+  needs: []
+  tags:
+    - dut-wnc-freedom-sfl-prio
+  rules:
+    - when: on_success
   variables:
-    COMPONENT: full
-
-cram Omnia [prplmesh]:
-  allow_failure: true
-  needs: ["build test mvebu prpl security"]
-  extends: .turris-omnia testbed
-  variables:
-    COMPONENT: prplmesh
-
-cram Omnia [lcm]:
-  allow_failure: true
-  needs: ["build test mvebu prpl security"]
-  extends: .turris-omnia testbed
-  variables:
-    COMPONENT: lcm
-
-cram Omnia [prplos]:
-  allow_failure: true
-  needs: ["build test mvebu prpl security"]
-  extends: .turris-omnia testbed
-  variables:
-    COMPONENT: prplos
-
-cram Haze [full]:
-  allow_failure: true
-  needs: ["build test ipq807x prpl security"]
-  extends: .prpl-haze testbed
-  variables:
-    COMPONENT: full
-
-cram Haze [prplmesh]:
-  allow_failure: true
-  needs: ["build test ipq807x prpl security"]
-  extends: .prpl-haze testbed
-  variables:
-    COMPONENT: prplmesh
-
-cram Haze [lcm]:
-  allow_failure: true
-  needs: ["build test ipq807x prpl security"]
-  extends: .prpl-haze testbed
-  variables:
-    COMPONENT: lcm
-
-cram Haze [prplos]:
-  allow_failure: true
-  needs: ["build test ipq807x prpl security"]
-  extends: .prpl-haze testbed
-  variables:
-    COMPONENT: prplos
-
-cram OSPv2 [full]:
-  needs: ["build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread"]
-  extends: .mxl25641-hdk-6 testbed
-  variables:
-    COMPONENT: full
-
-cram OSPv2 [prplmesh]:
-  needs: ["build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread"]
-  extends: .mxl25641-hdk-6 testbed
-  variables:
-    COMPONENT: prplmesh
-
-cram OSPv2 [lcm]:
-  needs: ["build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread"]
-  extends: .mxl25641-hdk-6 testbed
-  variables:
-    COMPONENT: lcm
-
-cram OSPv2 [prplos]:
-  needs: ["build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread"]
-  extends: .mxl25641-hdk-6 testbed
-  variables:
-    COMPONENT: prplos
-
-cram Freedom [full]:
-  needs: ["build test qca_ipq95xx prpl cellular security thread"]
-  extends: .wnc-freedom testbed
-  variables:
-    COMPONENT: full
-
-cram Freedom [prplmesh]:
-  needs: ["build test qca_ipq95xx prpl cellular security thread"]
-  extends: .wnc-freedom testbed
-  variables:
-    COMPONENT: prplmesh
-
-cram Freedom [lcm]:
-  needs: ["build test qca_ipq95xx prpl cellular security thread"]
-  extends: .wnc-freedom testbed
-  variables:
-    COMPONENT: lcm
-
-cram Freedom [prplos]:
-  needs: ["build test qca_ipq95xx prpl cellular security thread"]
-  extends: .wnc-freedom testbed
-  variables:
-    COMPONENT: prplos
-
-cram Mozart [full]:
-  needs:
-    - job: build test mtk_filogic prpl security
-      optional: true
-  extends: .arcadyan-mozart testbed
-  variables:
-    COMPONENT: full
-
-cram Mozart [prplmesh]:
-  needs:
-    - job: build test mtk_filogic prpl security
-      optional: true
-  extends: .arcadyan-mozart testbed
-  variables:
-    COMPONENT: prplmesh
-
-cram Mozart [lcm]:
-  needs:
-    - job: build test mtk_filogic prpl security
-      optional: true
-  extends: .arcadyan-mozart testbed
-  variables:
-    COMPONENT: lcm
-
-cram Mozart [prplos]:
-  needs:
-    - job: build test mtk_filogic prpl security
-      optional: true
-  extends: .arcadyan-mozart testbed
-  variables:
-    COMPONENT: prplos
-
-cram Valyrian [full]:
-  needs:
-    - job: build test airoha_an7581 prpl security
-      optional: true
-  extends: .nokia-valyrian testbed
-  variables:
-    COMPONENT: full
-
-cram Valyrian [prplmesh]:
-  needs:
-    - job: build test airoha_an7581 prpl security
-      optional: true
-  extends: .nokia-valyrian testbed
-  variables:
-    COMPONENT: prplmesh
-
-cram Valyrian [lcm]:
-  needs:
-    - job: build test airoha_an7581 prpl security
-      optional: true
-  extends: .nokia-valyrian testbed
-  variables:
-    COMPONENT: lcm
-
-cram Valyrian [prplos]:
-  needs:
-    - job: build test airoha_an7581 prpl security
-      optional: true
-  extends: .nokia-valyrian testbed
-  variables:
-    COMPONENT: prplos
+    CRAM_TEST_SUITE: |
+      .gitlab/tests/cram/generic/busybox.t
+      .gitlab/tests/cram/generic/sysregister.t
+      .gitlab/tests/cram/py314-suite-size-probe.t
+  before_script:
+    - !reference [.focused prebuilt firmware, before_script]
+    - !reference [.testbed, before_script]
+  script:
+    - !reference [.testbed, script]

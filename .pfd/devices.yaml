@@ -1,0 +1,36 @@
+devices:
+  mxl25641-hdk-6:
+    target: intel_x86/lgm
+    aliases:
+      - ospv2
+    build_job: "build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread"
+    artifact_dir: bin/targets/intel_x86/lgm/
+    default_ref: latest-24.10
+    default_type: emmc
+    images:
+      emmc:
+        paths:
+          - prplos-intel_x86-lgm-PRPL_OSP_v2-update_script.itb
+    bootstack:
+      - paths:
+          - prplos-intel_x86-lgm-PRPL_OSP_v2-wgrtd159be_b_wav700-ext4.img
+        required: true
+  wnc-freedom:
+    target: ipq95xx/generic
+    aliases:
+      - freedom
+    build_job: "build test qca_ipq95xx prpl cellular security thread"
+    artifact_dir: bin/targets/ipq95xx/generic/
+    default_ref: latest-24.10
+    default_type: emmc
+    images:
+      emmc:
+        paths:
+          - prplos-ipq95xx-generic-prpl_freedom-update_script.itb
+    bootstack:
+      - paths:
+          - prplos-ipq95xx-generic-prpl_freedom-kernel.itb
+        required: true
+      - paths:
+          - prplos-ipq95xx-generic-prpl_freedom-rootfs.itb
+        required: true
