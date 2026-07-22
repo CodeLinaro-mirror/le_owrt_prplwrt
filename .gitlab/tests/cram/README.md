@@ -212,6 +212,13 @@ remainder. It rejects unmatched include globs, overlaps between `sanity` and
 an explicit component, and overlaps between explicit components. Add
 `--print-remainder` to include the sorted remainder list.
 
+The same lint validates the selection schema and its board references. Every
+`profiles/*.yml` file must be categorized by exactly one effective selection
+row, including explicit no-ops, so adding an uncategorized profile fails CI.
+It also derives each board's coarse `rules:changes` list from the manifest and
+compares it with the YAML anchors used by GitLab. This prevents pipeline
+arming rules from drifting away from the runtime matrix.
+
 Add `--base-ref <commit>` to compare against the tests tracked by a Git
 revision. `--base-list <path>` accepts a newline-separated baseline instead;
 the two baseline options are mutually exclusive. The lint still succeeds when
