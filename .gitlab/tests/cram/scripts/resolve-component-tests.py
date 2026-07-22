@@ -16,6 +16,7 @@ from cram_component_bucketing import (
     partition_tests,
     render_test_paths,
     resolve_manifest_path,
+    select_component_tests,
 )
 
 
@@ -37,7 +38,7 @@ def parse_args(argv: Sequence[str]) -> argparse.Namespace:
     parser.add_argument(
         "--component",
         required=True,
-        choices=("full", "sanity", "prplmesh", "lcm", "prplos"),
+        help="component name or comma-separated component union",
     )
     return parser.parse_args(argv)
 
@@ -50,12 +51,10 @@ def main(argv: Sequence[str] | None = None) -> int:
         expanded = expand_manifest(args.test_root, manifest)
         full = collect_board_tests(args.test_root, args.board)
         buckets = partition_tests(full, args.test_root, expanded)
-        if args.component == "full":
-            selected = full
-        elif args.component == "sanity":
-            selected = buckets["sanity"]
-        else:
-            selected = buckets["sanity"] + buckets[args.component]
+        components = args.component.split(",")
+        if any(not component for component in components):
+            raise BucketingError("component list contains an empty value")
+        selected = select_component_tests(full, buckets, components)
     except BucketingError as error:
         print(f"error: {error}", file=sys.stderr)
         return 2
