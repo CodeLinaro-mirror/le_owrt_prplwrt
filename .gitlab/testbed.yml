@@ -1,6 +1,6 @@
 .testbed:
   stage: run
-  image: "registry.gitlab.com/prpl-foundation/prplos/ci/containers/testbed/testbed:v1.3.0@sha256:7f50dde2279c201542569b7f31e965d43a308e245a4ec973df52d581560b0c28"
+  image: "registry.gitlab.com/prpl-foundation/prplos/ci/containers/testbed/testbed:ynezz-ci-7-testbed-python314-dc7d8ba7@sha256:58eae69b01909689aa601a80ce7458f928be5850b420ca0ec2883865680559ec"
   timeout: 85 minutes
   variables:
     DUT_WAN_INTERFACE: eth1
@@ -246,7 +246,7 @@
 
 lint cram component manifest:
   stage: run
-  image: "registry.gitlab.com/prpl-foundation/prplos/ci/containers/testbed/testbed:v1.3.0@sha256:7f50dde2279c201542569b7f31e965d43a308e245a4ec973df52d581560b0c28"
+  image: "registry.gitlab.com/prpl-foundation/prplos/ci/containers/testbed/testbed:ynezz-ci-7-testbed-python314-dc7d8ba7@sha256:58eae69b01909689aa601a80ce7458f928be5850b420ca0ec2883865680559ec"
   needs: []
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
