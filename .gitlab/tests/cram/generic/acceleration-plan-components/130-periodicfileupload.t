@@ -1,6 +1,6 @@
 Create R alias:
 
-  $ alias R="$(echo "${CRAM_REMOTE_COMMAND}" | sed 's/ssh /ssh -n /')"
+  $ alias R="${CRAM_REMOTE_COMMAND}"
   $ alias C="${CRAM_REMOTE_COPY:-}"
   $ export SERVER_IP="`ip route | grep "192.168.1.0/24" | grep -o "src [0-9.]*" | cut -d' ' -f2 | head -1`"
 
