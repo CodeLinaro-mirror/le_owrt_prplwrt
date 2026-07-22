@@ -254,6 +254,71 @@
       export CRAM_TEST_SUITE
     - !reference [.testbed, script]
 
+.cram_component_auto:
+  variables:
+    COMPONENT: null
+  before_script:
+    - |
+      export GIT_CONFIG_COUNT=1
+      export GIT_CONFIG_KEY_0=safe.directory
+      export GIT_CONFIG_VALUE_0="$CI_PROJECT_DIR"
+
+      runtime_labels="${CI_MERGE_REQUEST_LABELS:-}"
+      labels_json="$(mktemp)"
+      if curl --fail --silent --show-error \
+        --header "JOB-TOKEN: $CI_JOB_TOKEN" \
+        --output "$labels_json" \
+        "$CI_API_V4_URL/projects/$CI_PROJECT_ID/merge_requests/$CI_MERGE_REQUEST_IID"; then
+        runtime_labels="$(
+          python3 - "$labels_json" <<'PY'
+      import json
+      import sys
+
+      with open(sys.argv[1], encoding="utf-8") as source:
+          print(",".join(json.load(source)["labels"]))
+      PY
+        )"
+      else
+        echo "WARNING: cannot refresh MR labels; using pipeline snapshot" >&2
+      fi
+      rm -f "$labels_json"
+
+      base_ref="${CI_MERGE_REQUEST_DIFF_BASE_SHA:-}"
+      if [ -z "$base_ref" ]; then
+        echo "error: CI_MERGE_REQUEST_DIFF_BASE_SHA is unset" >&2
+        exit 1
+      fi
+      git cat-file -e "$base_ref^{commit}" 2>/dev/null ||
+        git fetch --no-tags origin "$base_ref"
+
+      set -- \
+        .gitlab/tests/cram/scripts/resolve-changed-components.py \
+        --test-root .gitlab/tests/cram \
+        --manifest components.yml \
+        --base-ref "$base_ref" \
+        --board "$DUT_BOARD" \
+        --labels "$runtime_labels"
+      if [ "${CRAM_COMPONENTS+x}" = x ]; then
+        set -- "$@" --cram-components "$CRAM_COMPONENTS"
+      fi
+      if ! COMPONENT="$("$@")"; then
+        echo "error: cram component selection failed" >&2
+        exit 1
+      fi
+      if [ -z "$COMPONENT" ]; then
+        exit 0
+      fi
+      export COMPONENT
+      touch .cram-auto-selected
+    - !reference [.testbed, before_script]
+  after_script:
+    - |
+      if [ ! -f .cram-auto-selected ]; then
+        echo "Skipping DUT cleanup: automatic selection was empty"
+        exit 0
+      fi
+    - !reference [.testbed, after_script]
+
 lint cram component manifest:
   stage: run
   image: "registry.gitlab.com/prpl-foundation/prplos/ci/containers/testbed/testbed:v1.3.0@sha256:7f50dde2279c201542569b7f31e965d43a308e245a4ec973df52d581560b0c28"
@@ -283,6 +348,57 @@ lint cram component manifest:
         --test-root .gitlab/tests/cram \
         --manifest components.yml \
         "$@"
+
+      .gitlab/tests/cram/scripts/check-auto-job-variables.py
+
+.report_cram_selection:
+  stage: run
+  image: "registry.gitlab.com/prpl-foundation/prplos/ci/containers/testbed/testbed:v1.3.0@sha256:7f50dde2279c201542569b7f31e965d43a308e245a4ec973df52d581560b0c28"
+  script:
+    - |
+      export GIT_CONFIG_COUNT=1
+      export GIT_CONFIG_KEY_0=safe.directory
+      export GIT_CONFIG_VALUE_0="$CI_PROJECT_DIR"
+
+      runtime_labels="${CI_MERGE_REQUEST_LABELS:-}"
+      labels_json="$(mktemp)"
+      if curl --fail --silent --show-error \
+        --header "JOB-TOKEN: $CI_JOB_TOKEN" \
+        --output "$labels_json" \
+        "$CI_API_V4_URL/projects/$CI_PROJECT_ID/merge_requests/$CI_MERGE_REQUEST_IID"; then
+        runtime_labels="$(
+          python3 - "$labels_json" <<'PY'
+      import json
+      import sys
+
+      with open(sys.argv[1], encoding="utf-8") as source:
+          print(",".join(json.load(source)["labels"]))
+      PY
+        )"
+      else
+        echo "WARNING: cannot refresh MR labels; using pipeline snapshot" >&2
+      fi
+      rm -f "$labels_json"
+
+      base_ref="${CI_MERGE_REQUEST_DIFF_BASE_SHA:-}"
+      if [ -z "$base_ref" ]; then
+        echo "error: CI_MERGE_REQUEST_DIFF_BASE_SHA is unset" >&2
+        exit 1
+      fi
+      git cat-file -e "$base_ref^{commit}" 2>/dev/null ||
+        git fetch --no-tags origin "$base_ref"
+
+      set -- \
+        .gitlab/tests/cram/scripts/resolve-changed-components.py \
+        --test-root .gitlab/tests/cram \
+        --manifest components.yml \
+        --base-ref "$base_ref" \
+        --report \
+        --labels "$runtime_labels"
+      if [ "${CRAM_COMPONENTS+x}" = x ]; then
+        set -- "$@" --cram-components "$CRAM_COMPONENTS"
+      fi
+      "$@"
 
 .testbed true.cz:
   extends: .cram_component
