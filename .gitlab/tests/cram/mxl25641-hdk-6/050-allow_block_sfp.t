@@ -42,7 +42,7 @@
 # Allowing/blocking SFPs via that table is already covered by the unit tests of
 # tr181-sfp.
 
-  $ alias R="${CRAM_REMOTE_COMMAND:-ssh root@192.168.1.1}"
+  $ alias R="${CRAM_REMOTE_COMMAND:-ssh -n root@192.168.1.1}"
 
 Check if we're on the right board
 
