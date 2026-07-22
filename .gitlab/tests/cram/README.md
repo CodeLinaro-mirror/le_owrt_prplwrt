@@ -76,6 +76,74 @@ uses those paths to distinguish full, prplMesh, and prplOS coverage.
 `cram_component_bucketing.py` uses underscores because it is an importable
 module. Executable scripts follow the repository's hyphenated CLI convention.
 
+## Diff-based selection
+
+Merge request pipelines map changed paths to component lists for six hardware
+boards. Board-specific paths select their owning board. Cross-cutting paths
+select only the two priority boards, Freedom and OSPv2; the other four boards
+remain available for manual runs and weekly full coverage.
+
+| Changed path | Board scope | Selection |
+|---|---|---|
+| `profiles/mvebu.yml`, `ipq807x.yml`, `mtk_filogic.yml`, or `airoha_an7581.yml` | Omnia, Haze, Mozart, or Valyrian respectively | `full` |
+| `profiles/qca_ipq95xx.yml` | Freedom | `full` |
+| `profiles/mxl_x86_osp_tb341_v2.yml` or `mxl_wlan_hostap_ng_wav700.yml` | OSPv2 | `full` |
+| `profiles/secure_boot_emmc.yml` | Freedom + OSPv2 | `full` |
+| `profiles/feed_amx.yml` | Freedom + OSPv2 | `full` |
+| `profiles/feed_prplmesh.yml` | Freedom + OSPv2 | `prplmesh` |
+| `profiles/feed_prplos.yml` | Freedom + OSPv2 | `prplos` |
+| `profiles/lcm.yml` | Freedom + OSPv2 | `lcm` |
+| `profiles/prpl_core.yml`, `prpl.yml`, or `security.yml` | Freedom + OSPv2 | `full` |
+| `profiles/mgmt.yml`, `cellular.yml`, or `thread.yml` | Freedom + OSPv2 | `prplos` |
+| `.gitlab/tests/cram/<board>/**` | owning board | touched test's bucket |
+| `.gitlab/tests/cram/generic/**` | Freedom + OSPv2 | touched test's bucket |
+| `.gitlab/tests/cram/post/**` or a sanity-listed test | Freedom + OSPv2 | `prplos` |
+| `.gitlab/testbed/<board>.yml` | owning board | `prplos` |
+| `.gitlab/testbed.yml` | Freedom + OSPv2 | `prplos` |
+| `package/**`, `target/**`, `toolchain/**`, `include/**`, `config/**`, `tools/**`, `feeds.conf.default`, `Makefile`, or `rules.mk` | Freedom + OSPv2 | `full` |
+
+A `by-test` row asks the manifest which bucket owns each touched test. Multiple
+matches form an ordered component union; a `full` match or all three split
+buckets collapse to `full`. Unmatched paths, including documentation and other
+CI files, do not arm a board.
+
+Profiles without a cram build consumer are explicit no-ops:
+`debug.yml`, `extender_full.yml`, `extender_minimal.yml`, `ipq40xx.yml`,
+`mxl_x86.yml`, `mxl_x86_sec.yml`, `mxl_x86_osp_tb341.yml`, `mxl_wlan.yml`,
+`mxl_wlan_hostap_ng.yml`, and `mxl_wlan_hostap_ng_gw.yml`. Changes to
+`components.yml` and its scripts are also no-ops because lint validates them
+and the author deliberately chooses any DUT run.
+
+### Labels and precedence
+
+The scoped labels `cram::full`, `cram::prplmesh`, `cram::lcm`, and
+`cram::prplos` override the computed selection. `cram::skip` suppresses
+automatic selection for the merge request. The labels share the `cram::`
+scope, so GitLab keeps at most one on an MR.
+
+Selection precedence is:
+
+1. A set `CRAM_COMPONENTS` pipeline variable stands the `[auto]` jobs down and
+   controls the existing component jobs. `CRAM_COMPONENTS=none` matches no
+   component.
+2. `cram::skip` stands `[auto]` jobs down; another `cram::*` label forces that
+   component.
+3. Otherwise, the merge request diff is resolved through the matrix above.
+4. Any `full` result, or the union of all split buckets, collapses to `full`.
+
+Labels are checked both when GitLab creates the pipeline and again when the
+job starts. A label added after pipeline creation but before the build is
+played therefore still controls the tests that run.
+
+### QEMU end-state
+
+CI-5 will add QEMU as a selection board without changing the resolver or job
+template. `test:qemu:smoke` remains an unfiltered MR pre-gate,
+`test:qemu:full` remains an always-full non-blocking equivalence run, and a
+future `cram qemu [auto]` receives cross-cutting selections. At that point
+`profiles/x86_64.yml`, currently an explicit no-op reserved for CI-5, maps to
+QEMU `full`.
+
 ## Selecting pipeline jobs
 
 Non-scheduled pipelines create every component job and the non-DUT

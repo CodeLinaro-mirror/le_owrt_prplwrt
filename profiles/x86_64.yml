@@ -1,4 +1,5 @@
 ---
+# reserved: QEMU board (CI-5)
 profiles:
   - generic
 target: x86
