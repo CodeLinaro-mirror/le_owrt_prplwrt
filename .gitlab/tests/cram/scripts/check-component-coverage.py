@@ -4,17 +4,21 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import os
 import subprocess
 import sys
 from pathlib import Path
-from typing import Iterable, List, Sequence, Set
+from typing import Iterable, List, Mapping, Sequence, Set
+
+import yaml
 
 from cram_component_bucketing import (
     BucketingError,
     discover_tests,
     expand_manifest,
     load_manifest,
+    path_matches_glob,
     partition_tests,
     resolve_manifest_path,
 )
@@ -48,6 +52,12 @@ def parse_args(argv: Sequence[str]) -> argparse.Namespace:
         "--print-remainder",
         action="store_true",
         help="print every test in the computed prplos remainder",
+    )
+    parser.add_argument(
+        "--rules-fixture",
+        type=Path,
+        default=Path(__file__).parent / "fixtures/selection-rules-changes.yml",
+        help="expected hashes for derived per-board rules:changes paths",
     )
     return parser.parse_args(argv)
 
@@ -168,11 +178,151 @@ def _relative_paths(paths: Iterable[Path], test_root: Path) -> Set[str]:
     return {path.relative_to(test_root).as_posix() for path in paths}
 
 
+def _expected_changes(manifest: object) -> Mapping[str, List[str]]:
+    return {
+        board: [
+            path.glob
+            for path in manifest.selection.paths
+            if board in path.boards and path.component != "noop"
+        ]
+        for board in manifest.selection.boards
+    }
+
+
+def _load_yaml(path: Path, context: str) -> object:
+    try:
+        return yaml.safe_load(path.read_text(encoding="utf-8"))
+    except (OSError, UnicodeError, yaml.YAMLError) as error:
+        raise BucketingError(f"cannot load {context} {path}: {error}") from error
+
+
+def _check_changes_fixture(
+    expected: Mapping[str, List[str]], fixture_path: Path
+) -> None:
+    raw = _load_yaml(fixture_path, "rules fixture")
+    if not isinstance(raw, dict) or set(raw) != {"schema", "boards"}:
+        raise BucketingError("rules fixture must contain schema and boards")
+    if raw["schema"] != 1 or not isinstance(raw["boards"], dict):
+        raise BucketingError("rules fixture schema is invalid")
+    if set(raw["boards"]) != set(expected):
+        raise BucketingError("rules fixture board set differs from selection")
+    for board, paths in expected.items():
+        fixture = raw["boards"][board]
+        digest = hashlib.sha256(("\n".join(paths) + "\n").encode()).hexdigest()
+        actual = {"count": len(paths), "sha256": digest}
+        if fixture != actual:
+            raise BucketingError(
+                f"rules fixture drift for {board}: expected {fixture}, got {actual}"
+            )
+
+
+def _tracked_profiles(repository: Path) -> Set[str]:
+    output = _run_git(
+        repository,
+        [
+            "ls-files",
+            "--cached",
+            "--others",
+            "--exclude-standard",
+            "--",
+            "profiles/*.yml",
+        ],
+    )
+    return set(output.splitlines())
+
+
+def _check_profile_completeness(repository: Path, manifest: object) -> tuple[int, int]:
+    profiles = _tracked_profiles(repository)
+    categorized = {
+        profile
+        for profile in profiles
+        if any(path_matches_glob(profile, row.glob) for row in manifest.selection.paths)
+    }
+    missing = sorted(profiles - categorized)
+    if missing:
+        rendered = "\n".join(f"  - {path}" for path in missing)
+        raise BucketingError("uncategorized profiles:\n" + rendered)
+    return len(profiles), len(categorized)
+
+
+def _yaml_value(loader: yaml.SafeLoader, node: yaml.Node) -> object:
+    if isinstance(node, yaml.SequenceNode):
+        return loader.construct_sequence(node)
+    if isinstance(node, yaml.MappingNode):
+        return loader.construct_mapping(node)
+    return loader.construct_scalar(node)
+
+
+class _GitLabLoader(yaml.SafeLoader):
+    pass
+
+
+_GitLabLoader.add_multi_constructor(
+    "!", lambda loader, _tag, node: _yaml_value(loader, node)
+)
+
+
+def _check_real_wiring(
+    repository: Path,
+    manifest: object,
+    expected: Mapping[str, List[str]],
+) -> bool:
+    config_path = repository / ".gitlab-ci.yml"
+    try:
+        config = yaml.load(
+            config_path.read_text(encoding="utf-8"), Loader=_GitLabLoader
+        )
+    except (OSError, UnicodeError, yaml.YAMLError) as error:
+        raise BucketingError(
+            f"cannot load GitLab config {config_path}: {error}"
+        ) from error
+    jobs = {}
+    for board, definition in manifest.selection.boards.items():
+        name = f"cram {definition.alias} [auto]"
+        if isinstance(config, dict) and name in config:
+            jobs[board] = config[name]
+    if not jobs:
+        print("no [auto] wiring found; rules:changes drift check deferred")
+        return False
+    if set(jobs) != set(expected):
+        missing = ", ".join(sorted(set(expected) - set(jobs)))
+        raise BucketingError(f"incomplete [auto] wiring; missing boards: {missing}")
+    for board, job in jobs.items():
+        if not isinstance(job, dict) or not isinstance(job.get("rules"), list):
+            raise BucketingError(f"cram auto job for {board} has no rules list")
+        actual = []
+        for rule in job["rules"]:
+            if not isinstance(rule, dict) or "changes" not in rule:
+                continue
+            changes = rule["changes"]
+            if isinstance(changes, dict):
+                changes = changes.get("paths")
+            if not isinstance(changes, list) or any(
+                not isinstance(path, str) for path in changes
+            ):
+                raise BucketingError(f"cram auto job for {board} has invalid changes")
+            actual.extend(changes)
+        actual = list(dict.fromkeys(actual))
+        if actual != expected[board]:
+            raise BucketingError(
+                f"rules:changes drift for {board}: "
+                f"expected {expected[board]!r}, got {actual!r}"
+            )
+    return True
+
+
 def main(argv: Sequence[str] | None = None) -> int:
     args = parse_args(sys.argv[1:] if argv is None else argv)
     try:
         manifest_path = resolve_manifest_path(args.test_root, args.manifest)
         manifest = load_manifest(manifest_path)
+        repository, _ = _git_context(args.test_root)
+        expected_changes = _expected_changes(manifest)
+        _check_changes_fixture(expected_changes, args.rules_fixture)
+        profile_count, categorized_count = _check_profile_completeness(
+            repository, manifest
+        )
+        wiring_found = _check_real_wiring(repository, manifest, expected_changes)
         expanded = expand_manifest(args.test_root, manifest)
         tests = discover_tests(args.test_root)
         buckets = partition_tests(tests, args.test_root, expanded)
@@ -186,7 +336,9 @@ def main(argv: Sequence[str] | None = None) -> int:
             base = None
 
         remainder = _relative_paths(buckets["prplos"], args.test_root)
-        newly_remainder = sorted((current - base) & remainder) if base is not None else []
+        newly_remainder = (
+            sorted((current - base) & remainder) if base is not None else []
+        )
         broken_symlinks = _tracked_broken_symlinks(args.test_root, tests)
     except BucketingError as error:
         print(f"error: {error}", file=sys.stderr)
@@ -199,6 +351,11 @@ def main(argv: Sequence[str] | None = None) -> int:
     print(f"prplos: {len(buckets['prplos'])}")
     print(f"smoke: {len(expanded.smoke_matches)}")
     print(f"hw_only: {len(expanded.hw_only_matches)}")
+    print(f"profiles: {categorized_count}/{profile_count} categorized")
+    print(
+        "rules:changes: "
+        + ("all boards match" if wiring_found else "fixture derivation verified")
+    )
     if args.print_remainder:
         print("prplos remainder:")
         for path in sorted(remainder):
