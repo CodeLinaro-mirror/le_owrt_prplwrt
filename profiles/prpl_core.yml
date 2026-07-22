@@ -1,17 +1,9 @@
 ---
 description: A minimal set of prpl packages and configs (no WAN support, no LCM, no management) common to prpl device classes (Gateway, Extender, ...)
-feeds:
-  - name: feed_amx
-    uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_amx.git
-    revision: main@077495621990fcdf2e2fbc277ccd508391ee3975
-
-  - name: feed_prplmesh
-    uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplmesh.git
-    revision: main@af298bb28afbc83168b9217eec17d6099b80a0b7
-
-  - name: feed_prplos
-    uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplos.git
-    revision: main@5887d447a41a38bdb306602e73ba04b0b1d14501
+include:
+  - feed_amx
+  - feed_prplmesh
+  - feed_prplos
 
 additional_packages:
   - feed: packages
