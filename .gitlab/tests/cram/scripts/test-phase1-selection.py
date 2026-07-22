@@ -17,6 +17,7 @@ TEST_ROOT = REPOSITORY / ".gitlab/tests/cram"
 MANIFEST_PATH = TEST_ROOT / "components.yml"
 FIXTURE_PATH = SCRIPT_DIR / "fixtures/selection-cases.yml"
 RESOLVER = SCRIPT_DIR / "resolve-changed-components.py"
+AUTO_VARIABLES_GUARD = SCRIPT_DIR / "check-auto-job-variables.py"
 
 sys.path.insert(0, str(SCRIPT_DIR))
 from cram_component_bucketing import (  # noqa: E402
@@ -294,6 +295,8 @@ def main() -> int:
             raise AssertionError("uncategorized profile passed lint")
 
     print("10 lint fixture: PASS (uncategorized profile rejected)")
+    run([str(AUTO_VARIABLES_GUARD), "--repository", str(REPOSITORY)])
+    print("11 auto variables: PASS (six auto/full pairs match)")
     return 0
 
 
