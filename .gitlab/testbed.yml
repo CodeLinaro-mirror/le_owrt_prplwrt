@@ -25,7 +25,7 @@
     DUT_OBUSPA_VERBOSE_LEVEL: ''
     DUT_OBUSPA_PROTOCOL_TRACE: ''
     TEST_SETUP_TEARDOWN_DURATION: 360
-    CRAM_REMOTE_COMMAND: ssh root@$TARGET_LAN_IP
+    CRAM_REMOTE_COMMAND: ssh -n root@$TARGET_LAN_IP
     CRAM_REMOTE_COPY: scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
     CRAM_TEST_SUITE: |
       .gitlab/tests/cram/generic/acceleration-plan-components
