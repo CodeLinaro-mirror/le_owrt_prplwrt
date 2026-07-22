@@ -55,6 +55,15 @@ The `smoke` and `hw_only` sets are reserved for the upcoming QEMU testbed lane
 excluded from the QEMU candidate set. The lint validates both sets; hardware
 jobs do not use them.
 
+## Feed pin layout
+
+The `feed_amx`, `feed_prplmesh`, and `feed_prplos` pins live in
+`profiles/feed_amx.yml`, `profiles/feed_prplmesh.yml`, and
+`profiles/feed_prplos.yml`. `profiles/prpl_core.yml` includes those profiles,
+so builds still receive the same feeds while a feed-only bump has its own
+changed path. Keep each feed pin in its dedicated profile; the selection matrix
+uses those paths to distinguish full, prplMesh, and prplOS coverage.
+
 ## Scripts
 
 - `cram_component_bucketing.py` provides the shared manifest, collection, glob
