@@ -97,3 +97,4 @@ diffconfig: |
           CONFIG_KERNEL_USER_NS=y
           CONFIG_KERNEL_UTS_NS=y
 
+# CI-9 phase-3 union probe.

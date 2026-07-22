@@ -1,4 +1,5 @@
 ---
+# CI-9 phase-3 union probe.
 feeds:
   - name: feed_prplmesh
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplmesh.git
