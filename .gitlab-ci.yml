@@ -252,6 +252,17 @@ build test airoha_an7581 prpl security:
 
 build test qca_ipq95xx prpl cellular security thread:
   extends: .build test config
+  script:
+    - |
+      artifacts_zip=freedom-build-artifacts.zip
+      curl --fail --location --silent --show-error \
+        --header "JOB-TOKEN: $CI_JOB_TOKEN" \
+        --output "$artifacts_zip" \
+        "$CI_API_V4_URL/projects/$CI_PROJECT_ID/jobs/15472255004/artifacts"
+      echo "bb099793e6c697161a4694b92e360ce9229f290c7dd232dbead95efcc71f2588  $artifacts_zip" \
+        | sha256sum --check --strict
+      unzip -q "$artifacts_zip"
+      rm "$artifacts_zip" .build_failed
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
       when: never
@@ -354,6 +365,8 @@ cram Freedom [auto]:
   extends:
     - .wnc-freedom testbed
     - .cram_component_auto
+  tags:
+    - dut-wnc-freedom-sfl-prio
   rules:
     - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
       when: never
