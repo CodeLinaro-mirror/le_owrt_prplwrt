@@ -49,3 +49,69 @@ hw_only:
     - "generic/acceleration-plan-components/040-usb-filter.t"
 
 # post/** is invoked separately for every component job and is not bucketed.
+
+selection:
+  schema: 1
+  boards:
+    wnc-freedom: {alias: Freedom, priority: true}
+    mxl25641-hdk-6: {alias: OSPv2, priority: true}
+    turris-omnia: {alias: Omnia, priority: false}
+    prpl-haze: {alias: Haze, priority: false}
+    arcadyan-mozart: {alias: Mozart, priority: false}
+    nokia-valyrian: {alias: Valyrian, priority: false}
+  paths:
+    - {glob: profiles/mvebu.yml, boards: [turris-omnia], component: full}
+    - {glob: profiles/ipq807x.yml, boards: [prpl-haze], component: full}
+    - {glob: profiles/mtk_filogic.yml, boards: [arcadyan-mozart], component: full}
+    - {glob: profiles/airoha_an7581.yml, boards: [nokia-valyrian], component: full}
+    - {glob: profiles/qca_ipq95xx.yml, boards: [wnc-freedom], component: full}
+    - {glob: profiles/mxl_x86_osp_tb341_v2.yml, boards: [mxl25641-hdk-6], component: full}
+    - {glob: profiles/mxl_wlan_hostap_ng_wav700.yml, boards: [mxl25641-hdk-6], component: full}
+    - {glob: profiles/secure_boot_emmc.yml, boards: priority, component: full}
+    - {glob: profiles/feed_amx.yml, boards: priority, component: full}
+    - {glob: profiles/feed_prplmesh.yml, boards: priority, component: prplmesh}
+    - {glob: profiles/feed_prplos.yml, boards: priority, component: prplos}
+    - {glob: profiles/lcm.yml, boards: priority, component: lcm}
+    - {glob: profiles/prpl_core.yml, boards: priority, component: full}
+    - {glob: profiles/prpl.yml, boards: priority, component: full}
+    - {glob: profiles/mgmt.yml, boards: priority, component: prplos}
+    - {glob: profiles/security.yml, boards: priority, component: full}
+    - {glob: profiles/cellular.yml, boards: priority, component: prplos}
+    - {glob: profiles/thread.yml, boards: priority, component: prplos}
+    - {glob: .gitlab/tests/cram/generic/**, boards: priority, component: by-test}
+    - {glob: .gitlab/tests/cram/post/**, boards: priority, component: by-test}
+    - {glob: .gitlab/testbed.yml, boards: priority, component: prplos}
+    - {glob: package/**, boards: priority, component: full}
+    - {glob: target/**, boards: priority, component: full}
+    - {glob: toolchain/**, boards: priority, component: full}
+    - {glob: include/**, boards: priority, component: full}
+    - {glob: config/**, boards: priority, component: full}
+    - {glob: tools/**, boards: priority, component: full}
+    - {glob: feeds.conf.default, boards: priority, component: full}
+    - {glob: Makefile, boards: priority, component: full}
+    - {glob: rules.mk, boards: priority, component: full}
+    - {glob: .gitlab/tests/cram/turris-omnia/**, boards: [turris-omnia], component: by-test}
+    - {glob: .gitlab/tests/cram/prpl-haze/**, boards: [prpl-haze], component: by-test}
+    - {glob: .gitlab/tests/cram/arcadyan-mozart/**, boards: [arcadyan-mozart], component: by-test}
+    - {glob: .gitlab/tests/cram/nokia-valyrian/**, boards: [nokia-valyrian], component: by-test}
+    - {glob: .gitlab/tests/cram/wnc-freedom/**, boards: [wnc-freedom], component: by-test}
+    - {glob: .gitlab/tests/cram/mxl25641-hdk-6/**, boards: [mxl25641-hdk-6], component: by-test}
+    - {glob: .gitlab/testbed/turris-omnia.yml, boards: [turris-omnia], component: prplos}
+    - {glob: .gitlab/testbed/prpl-haze.yml, boards: [prpl-haze], component: prplos}
+    - {glob: .gitlab/testbed/arcadyan-mozart.yml, boards: [arcadyan-mozart], component: prplos}
+    - {glob: .gitlab/testbed/nokia-valyrian.yml, boards: [nokia-valyrian], component: prplos}
+    - {glob: .gitlab/testbed/wnc-freedom.yml, boards: [wnc-freedom], component: prplos}
+    - {glob: .gitlab/testbed/mxl25641-hdk-6.yml, boards: [mxl25641-hdk-6], component: prplos}
+    - {glob: profiles/debug.yml, component: noop}
+    - {glob: profiles/extender_full.yml, component: noop}
+    - {glob: profiles/extender_minimal.yml, component: noop}
+    - {glob: profiles/x86_64.yml, component: noop}
+    - {glob: profiles/ipq40xx.yml, component: noop}
+    - {glob: profiles/mxl_x86.yml, component: noop}
+    - {glob: profiles/mxl_x86_sec.yml, component: noop}
+    - {glob: profiles/mxl_x86_osp_tb341.yml, component: noop}
+    - {glob: profiles/mxl_wlan.yml, component: noop}
+    - {glob: profiles/mxl_wlan_hostap_ng.yml, component: noop}
+    - {glob: profiles/mxl_wlan_hostap_ng_gw.yml, component: noop}
+    - {glob: .gitlab/tests/cram/components.yml, component: noop}
+    - {glob: .gitlab/tests/cram/scripts/**, component: noop}
