@@ -1,0 +1,20 @@
+schema: 1
+boards:
+  wnc-freedom:
+    count: 26
+    sha256: d74659df1d0e4e337baf1ad60e3afb9ae296f30dd64b45efa5e0cc8f38a0e2e7
+  mxl25641-hdk-6:
+    count: 27
+    sha256: 340a9853cd3b473502cd0aec7f45cf5cd946511d6c3d77bec7db306fd78aa9b8
+  turris-omnia:
+    count: 3
+    sha256: 616a243fca9cdc2272299fb88cd2c68c48e7adb6e4dce9d5ace311b1ce42657b
+  prpl-haze:
+    count: 3
+    sha256: d379db63e81ba25b7c0fdbc103ab8a82643dea69571602d226a7a3e0aaa62ad5
+  arcadyan-mozart:
+    count: 3
+    sha256: f662d793e55a70288acd441a8e06fe075958eab75511363d1d4876d0efd21126
+  nokia-valyrian:
+    count: 3
+    sha256: 9ff51313b927a7dee7aeb338f2f5a21bc93fe55cd2ddcd21a2059bf919dcb9d4
