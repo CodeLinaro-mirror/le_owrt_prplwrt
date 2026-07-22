@@ -146,17 +146,23 @@ QEMU `full`.
 
 ## Selecting pipeline jobs
 
-Non-scheduled pipelines create every component job and the non-DUT
-`lint cram component manifest` job as manual jobs and start none of them.
-Play the lint at any time, or play the wanted bucket jobs once the board's
-build test job has finished. Manually started jobs never gate the pipeline
-result.
+Merge request pipelines contain one `cram <Board> [auto]` job for every
+hardware board, alongside the four existing component jobs per board. An
+`[auto]` job resolves the MR diff, labels, and variables when it starts, then
+runs the resulting component union in one DUT boot.
 
-To start buckets automatically, set the pipeline-level `CRAM_COMPONENTS`
+The non-DUT `report cram selection` job is a manual, non-gating preview. Play
+it before starting a build to print all six board selections and their reasons;
+it reserves no hardware. The `lint cram component manifest` job and the four
+named component jobs also remain manual and non-gating. Play a named component
+job directly when an explicit bucket is more useful than the computed result.
+
+To start named component jobs automatically, set the pipeline-level
+`CRAM_COMPONENTS`
 variable to a comma-separated list containing one or more of `full`,
 `prplmesh`, `lcm`, and `prplos`. Do not add spaces around the commas. Listed
-buckets start as soon as their board's build succeeds and keep the board's
-existing blocking behavior. The variable is unset by default.
+buckets start as soon as their board's build succeeds; `[auto]` jobs stand
+down to avoid duplicate runs. The variable is unset by default.
 
 For example:
 
@@ -170,7 +176,7 @@ Release tag pipelines (`prplware-v*`) start the `full` jobs automatically;
 the other buckets stay manual there. Scheduled pipelines never create cram
 jobs, because they also never create the build jobs these jobs need. The job
 names have the form `cram <Board> [<component>]`, such as `cram OSPv2 [lcm]`.
-The trailing component name lets GitLab group the four jobs for a board in
+The trailing component name lets GitLab group the five jobs for a board in
 the pipeline UI.
 
 ## Resolving tests locally

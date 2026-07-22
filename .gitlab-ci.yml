@@ -2,6 +2,95 @@ variables:
   CI_DESIGNATED_BRANCH: prpl/nightly
   CI_DESIGNATED_BRANCH_SLUG: prpl-nightly
 
+.cram changes wnc-freedom:
+  rules:
+    - changes: &cram_changes_wnc_freedom
+        - profiles/qca_ipq95xx.yml
+        - profiles/secure_boot_emmc.yml
+        - profiles/feed_amx.yml
+        - profiles/feed_prplmesh.yml
+        - profiles/feed_prplos.yml
+        - profiles/lcm.yml
+        - profiles/prpl_core.yml
+        - profiles/prpl.yml
+        - profiles/mgmt.yml
+        - profiles/security.yml
+        - profiles/cellular.yml
+        - profiles/thread.yml
+        - .gitlab/tests/cram/generic/**
+        - .gitlab/tests/cram/post/**
+        - .gitlab/testbed.yml
+        - package/**
+        - target/**
+        - toolchain/**
+        - include/**
+        - config/**
+        - tools/**
+        - feeds.conf.default
+        - Makefile
+        - rules.mk
+        - .gitlab/tests/cram/wnc-freedom/**
+        - .gitlab/testbed/wnc-freedom.yml
+
+.cram changes mxl25641-hdk-6:
+  rules:
+    - changes: &cram_changes_mxl25641_hdk_6
+        - profiles/mxl_x86_osp_tb341_v2.yml
+        - profiles/mxl_wlan_hostap_ng_wav700.yml
+        - profiles/secure_boot_emmc.yml
+        - profiles/feed_amx.yml
+        - profiles/feed_prplmesh.yml
+        - profiles/feed_prplos.yml
+        - profiles/lcm.yml
+        - profiles/prpl_core.yml
+        - profiles/prpl.yml
+        - profiles/mgmt.yml
+        - profiles/security.yml
+        - profiles/cellular.yml
+        - profiles/thread.yml
+        - .gitlab/tests/cram/generic/**
+        - .gitlab/tests/cram/post/**
+        - .gitlab/testbed.yml
+        - package/**
+        - target/**
+        - toolchain/**
+        - include/**
+        - config/**
+        - tools/**
+        - feeds.conf.default
+        - Makefile
+        - rules.mk
+        - .gitlab/tests/cram/mxl25641-hdk-6/**
+        - .gitlab/testbed/mxl25641-hdk-6.yml
+
+.cram changes turris-omnia:
+  rules:
+    - changes: &cram_changes_turris_omnia
+        - profiles/mvebu.yml
+        - .gitlab/tests/cram/turris-omnia/**
+        - .gitlab/testbed/turris-omnia.yml
+
+.cram changes prpl-haze:
+  rules:
+    - changes: &cram_changes_prpl_haze
+        - profiles/ipq807x.yml
+        - .gitlab/tests/cram/prpl-haze/**
+        - .gitlab/testbed/prpl-haze.yml
+
+.cram changes arcadyan-mozart:
+  rules:
+    - changes: &cram_changes_arcadyan_mozart
+        - profiles/mtk_filogic.yml
+        - .gitlab/tests/cram/arcadyan-mozart/**
+        - .gitlab/testbed/arcadyan-mozart.yml
+
+.cram changes nokia-valyrian:
+  rules:
+    - changes: &cram_changes_nokia_valyrian
+        - profiles/airoha_an7581.yml
+        - .gitlab/tests/cram/nokia-valyrian/**
+        - .gitlab/testbed/nokia-valyrian.yml
+
 include:
   - local: .gitlab/build.yml
   - local: .gitlab/blackduck.yml
@@ -84,6 +173,131 @@ blackduck scan mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl extender_full
 
 blackduck scan qca_ipq95xx prpl extender_full cellular security thread:
   extends: .blackduck scan config
+
+cram Omnia [auto]:
+  needs: ["build test mvebu prpl security"]
+  extends:
+    - .turris-omnia testbed
+    - .cram_component_auto
+  timeout: 85 minutes
+  rules:
+    - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
+      when: never
+    - if: '$CRAM_COMPONENTS != null'
+      when: never
+    - if: '$CI_MERGE_REQUEST_LABELS =~ /(^|,)cram::skip($|,)/'
+      when: manual
+      allow_failure: true
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      changes: *cram_changes_turris_omnia
+    - when: manual
+      allow_failure: true
+
+cram Haze [auto]:
+  needs: ["build test ipq807x prpl security"]
+  extends:
+    - .prpl-haze testbed
+    - .cram_component_auto
+  timeout: 85 minutes
+  rules:
+    - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
+      when: never
+    - if: '$CRAM_COMPONENTS != null'
+      when: never
+    - if: '$CI_MERGE_REQUEST_LABELS =~ /(^|,)cram::skip($|,)/'
+      when: manual
+      allow_failure: true
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      changes: *cram_changes_prpl_haze
+    - when: manual
+      allow_failure: true
+
+cram OSPv2 [auto]:
+  needs: ["build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread"]
+  extends:
+    - .mxl25641-hdk-6 testbed
+    - .cram_component_auto
+  timeout: 85 minutes
+  rules:
+    - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
+      when: never
+    - if: '$CRAM_COMPONENTS != null'
+      when: never
+    - if: '$CI_MERGE_REQUEST_LABELS =~ /(^|,)cram::skip($|,)/'
+      when: manual
+      allow_failure: true
+    - if: '$CI_MERGE_REQUEST_LABELS =~ /(^|,)cram::(full|prplmesh|lcm|prplos)($|,)/'
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      changes: *cram_changes_mxl25641_hdk_6
+    - when: manual
+      allow_failure: true
+
+cram Freedom [auto]:
+  needs: ["build test qca_ipq95xx prpl cellular security thread"]
+  extends:
+    - .wnc-freedom testbed
+    - .cram_component_auto
+  timeout: 85 minutes
+  rules:
+    - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
+      when: never
+    - if: '$CRAM_COMPONENTS != null'
+      when: never
+    - if: '$CI_MERGE_REQUEST_LABELS =~ /(^|,)cram::skip($|,)/'
+      when: manual
+      allow_failure: true
+    - if: '$CI_MERGE_REQUEST_LABELS =~ /(^|,)cram::(full|prplmesh|lcm|prplos)($|,)/'
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      changes: *cram_changes_wnc_freedom
+    - when: manual
+      allow_failure: true
+
+cram Mozart [auto]:
+  needs: ["build test mtk_filogic prpl security"]
+  extends:
+    - .arcadyan-mozart testbed
+    - .cram_component_auto
+  timeout: 85 minutes
+  rules:
+    - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
+      when: never
+    - if: '$CRAM_COMPONENTS != null'
+      when: never
+    - if: '$CI_MERGE_REQUEST_LABELS =~ /(^|,)cram::skip($|,)/'
+      when: manual
+      allow_failure: true
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      changes: *cram_changes_arcadyan_mozart
+    - when: manual
+      allow_failure: true
+
+cram Valyrian [auto]:
+  needs: ["build test airoha_an7581 prpl security"]
+  extends:
+    - .nokia-valyrian testbed
+    - .cram_component_auto
+  timeout: 85 minutes
+  rules:
+    - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
+      when: never
+    - if: '$CRAM_COMPONENTS != null'
+      when: never
+    - if: '$CI_MERGE_REQUEST_LABELS =~ /(^|,)cram::skip($|,)/'
+      when: manual
+      allow_failure: true
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      changes: *cram_changes_nokia_valyrian
+    - when: manual
+      allow_failure: true
+
+report cram selection:
+  extends: .report_cram_selection
+  needs: []
+  rules:
+    - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
+      when: never
+    - when: manual
+      allow_failure: true
 
 cram Omnia [full]:
   allow_failure: true
