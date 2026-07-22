@@ -157,6 +157,31 @@ it reserves no hardware. The `lint cram component manifest` job and the four
 named component jobs also remain manual and non-gating. Play a named component
 job directly when an explicit bucket is more useful than the computed result.
 
+### Build consent and job states
+
+Automatic selection never starts a build. Playing a board's manual build is
+the consent action; after a successful build, an armed `[auto]` job starts
+without another click. Cross-cutting changes arm only Freedom and OSPv2, while
+a board-specific change can arm its owning non-priority board.
+
+The dependency on the manual build affects the state GitLab displays:
+
+- `created` means `[auto]` is armed and waiting for a required, blocking build.
+- `manual` means the job is directly playable now, as with named component
+  jobs or an `[auto]` job whose manual fallback is available after its build.
+- `skipped` can mean **skipped until the build runs**: a dormant `[auto]` job
+  whose required build is still an unplayed, non-blocking manual job is shown
+  as skipped rather than manual/created. Playing and completing that build
+  makes the downstream job available; the selection was not deleted.
+
+The last state also covers the creation-time `cram::skip` scenario: the label
+makes both the build and `[auto]` fallback non-blocking, so GitLab displays the
+downstream job as `skipped`. If `cram::skip` is added only after pipeline
+creation, the runtime label check exits an already-armed job green before
+labgrid reservation. Other empty results (`nothing-mapped` and the guarded
+coarse/runtime drift case) also log their reason and exit before any DUT
+interaction; resolver or malformed-matrix errors remain failures.
+
 To start named component jobs automatically, set the pipeline-level
 `CRAM_COMPONENTS`
 variable to a comma-separated list containing one or more of `full`,
@@ -171,6 +196,15 @@ CRAM_COMPONENTS=prplmesh
 CRAM_COMPONENTS=lcm,prplos
 CRAM_COMPONENTS=full
 ```
+
+### Kill switches
+
+Use the narrowest suitable control:
+
+1. Add `cram::skip` to disable automatic selection for one MR.
+2. Run one pipeline with `CRAM_COMPONENTS=none`.
+3. Set the project CI variable `CRAM_COMPONENTS=none` for a global stand-down.
+4. Revert the CI wiring commit for the hard rollback.
 
 Release tag pipelines (`prplware-v*`) start the `full` jobs automatically;
 the other buckets stay manual there. Scheduled pipelines never create cram
