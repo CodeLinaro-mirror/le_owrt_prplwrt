@@ -3,252 +3,74 @@ variables:
   CI_DESIGNATED_BRANCH_SLUG: prpl-nightly
 
 include:
-  - local: .gitlab/build.yml
-  - local: .gitlab/blackduck.yml
-  - local: .gitlab/release.yml
-  - local: .gitlab/cdrouter.yml
-  - local: .gitlab/prplmesh.yml
-  - local: .gitlab/cdrouter/prpl-haze.yml
-  - local: .gitlab/cdrouter/turris-omnia.yml
-  - local: .gitlab/cdrouter/mxl25641-hdk-6.yml
-  - local: .gitlab/cdrouter/arcadyan-mozart.yml
-  - local: .gitlab/cdrouter/wnc-freedom.yml
-  - local: .gitlab/cdrouter/nokia-valyrian.yml
-  - local: .gitlab/coverity.yml
-  - local: .gitlab/docker.yml
-  - local: .gitlab/docker/builder/gitlab.yml
-  - local: .gitlab/docker/sdk/gitlab.yml
-  - local: .gitlab/docker/ib/gitlab.yml
-  - local: .gitlab/docker/ib/lcm/gitlab.yml
   - local: .gitlab/testbed.yml
-  - local: .gitlab/testbed/prpl-haze.yml
-  - local: .gitlab/testbed/turris-omnia.yml
-  - local: .gitlab/testbed/mxl25641-hdk-6.yml
-  - local: .gitlab/testbed/arcadyan-mozart.yml
   - local: .gitlab/testbed/wnc-freedom.yml
-  - local: .gitlab/testbed/nokia-valyrian.yml
 
 stages:
-  - docker
-  - docker test
-  - docker deploy
-  - build
-  - release
-  - docker SDK and IB
-  - docker SDK and IB test
-  - docker SDK and IB deploy
-  - docker IB LCM container
   - run
   - smoke tests
-  - certification tests
-  - cdrouter
-  - coverity
-  - blackduck
 
-build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread:
-  extends: .build test config
+lint cram component manifest:
+  rules:
+    - when: never
 
-build test mvebu prpl security:
-  extends: .build test config
-
-build test x86_64 prpl security:
-  extends: .build test config
-
-build test ipq807x prpl security:
-  extends: .build test config
-
-build test mtk_filogic prpl security:
-  extends: .build test config
-
-build test airoha_an7581 prpl security:
-  extends: .build test config
-
-build test qca_ipq95xx prpl cellular security thread:
-  extends: .build test config
-
-build test qca_ipq95xx extender_minimal cellular security thread:
-  extends: .build test config
-
-build test qca_ipq95xx extender_full cellular security thread:
-  extends: .build test config
-
-coverity scan qca_ipq95xx prpl extender_full cellular thread:
-  extends: .coverity scan config
+.focused prebuilt Freedom firmware:
   variables:
-    CI_COVERITY_COMPILER_TEMPLATE_LIST: >
-      aarch64-openwrt-linux-gcc
-      aarch64-openwrt-linux-musl-gcc
+    PREBUILT_FIRMWARE_JOB_ID: "15470703394"
+    PREBUILT_ARTIFACT_SHA256: "8d2ddd92aace63cc68359fa3eb6f06e0de0ad9b9b48f82b69bbd854cf53435b5"
+    PFD_FIRMWARE_SHA256S: |
+      21336a8d420ac0f6432d07a40fd77e9fb8794c881da2c2ce5af8aa585af660d5  bin/targets/ipq95xx/generic/prplos-ipq95xx-generic-prpl_freedom-update_script.itb
+      cd672bcc1786c938d8482823f671e5bdab9e70e281fb63f4b5b708aa577f2cad  bin/targets/ipq95xx/generic/prplos-ipq95xx-generic-prpl_freedom-kernel.itb
+      589b3a4662da59926b77bd5ac80d7d4f740c1a8bb71357158f8fd5ab6fc171f0  bin/targets/ipq95xx/generic/prplos-ipq95xx-generic-prpl_freedom-rootfs.itb
+  before_script:
+    - mkdir -p "$TFTP_IMAGE_PATH"
+    - |
+      prebuilt_artifacts_zip="$(mktemp)"
+      curl --fail --location --silent --show-error \
+        --header "JOB-TOKEN: $CI_JOB_TOKEN" \
+        --output "$prebuilt_artifacts_zip" \
+        "$CI_API_V4_URL/projects/$CI_PROJECT_ID/jobs/$PREBUILT_FIRMWARE_JOB_ID/artifacts"
+      echo "$PREBUILT_ARTIFACT_SHA256  $prebuilt_artifacts_zip" \
+        | sha256sum --check --strict
+    - |
+      PREBUILT_ARTIFACTS_ZIP="$prebuilt_artifacts_zip" python3 - <<'PY'
+      import os
+      import sys
+      import zipfile
 
-blackduck scan mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl extender_full cellular security thread:
-  extends: .blackduck scan config
+      archive = os.environ["PREBUILT_ARTIFACTS_ZIP"]
+      destination = os.environ["CI_PROJECT_DIR"]
+      firmware = [
+          line.split(maxsplit=1)[1]
+          for line in os.environ["PFD_FIRMWARE_SHA256S"].splitlines()
+          if line.strip()
+      ]
 
-blackduck scan qca_ipq95xx prpl extender_full cellular security thread:
-  extends: .blackduck scan config
+      with zipfile.ZipFile(archive) as artifacts:
+          for path in firmware:
+              try:
+                  artifacts.extract(path, destination)
+              except KeyError:
+                  sys.exit(f"Missing {path} in prebuilt artifacts")
 
-cram Omnia [full]:
-  allow_failure: true
-  needs: ["build test mvebu prpl security"]
-  extends: .turris-omnia testbed
-  variables:
-    COMPONENT: full
-
-cram Omnia [prplmesh]:
-  allow_failure: true
-  needs: ["build test mvebu prpl security"]
-  extends: .turris-omnia testbed
-  variables:
-    COMPONENT: prplmesh
-
-cram Omnia [lcm]:
-  allow_failure: true
-  needs: ["build test mvebu prpl security"]
-  extends: .turris-omnia testbed
-  variables:
-    COMPONENT: lcm
-
-cram Omnia [prplos]:
-  allow_failure: true
-  needs: ["build test mvebu prpl security"]
-  extends: .turris-omnia testbed
-  variables:
-    COMPONENT: prplos
-
-cram Haze [full]:
-  allow_failure: true
-  needs: ["build test ipq807x prpl security"]
-  extends: .prpl-haze testbed
-  variables:
-    COMPONENT: full
-
-cram Haze [prplmesh]:
-  allow_failure: true
-  needs: ["build test ipq807x prpl security"]
-  extends: .prpl-haze testbed
-  variables:
-    COMPONENT: prplmesh
-
-cram Haze [lcm]:
-  allow_failure: true
-  needs: ["build test ipq807x prpl security"]
-  extends: .prpl-haze testbed
-  variables:
-    COMPONENT: lcm
-
-cram Haze [prplos]:
-  allow_failure: true
-  needs: ["build test ipq807x prpl security"]
-  extends: .prpl-haze testbed
-  variables:
-    COMPONENT: prplos
-
-cram OSPv2 [full]:
-  needs: ["build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread"]
-  extends: .mxl25641-hdk-6 testbed
-  variables:
-    COMPONENT: full
-
-cram OSPv2 [prplmesh]:
-  needs: ["build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread"]
-  extends: .mxl25641-hdk-6 testbed
-  variables:
-    COMPONENT: prplmesh
-
-cram OSPv2 [lcm]:
-  needs: ["build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread"]
-  extends: .mxl25641-hdk-6 testbed
-  variables:
-    COMPONENT: lcm
-
-cram OSPv2 [prplos]:
-  needs: ["build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread"]
-  extends: .mxl25641-hdk-6 testbed
-  variables:
-    COMPONENT: prplos
-
-cram Freedom [full]:
-  needs: ["build test qca_ipq95xx prpl cellular security thread"]
-  extends: .wnc-freedom testbed
-  variables:
-    COMPONENT: full
-
-cram Freedom [prplmesh]:
-  needs: ["build test qca_ipq95xx prpl cellular security thread"]
-  extends: .wnc-freedom testbed
-  variables:
-    COMPONENT: prplmesh
-
-cram Freedom [lcm]:
-  needs: ["build test qca_ipq95xx prpl cellular security thread"]
-  extends: .wnc-freedom testbed
-  variables:
-    COMPONENT: lcm
+      print(f"Extracted {len(firmware)} pinned Freedom firmware artifacts")
+      PY
+    - echo "$PFD_FIRMWARE_SHA256S" | sha256sum --check --strict
+    - rm -f "$prebuilt_artifacts_zip"
 
 cram Freedom [prplos]:
-  needs: ["build test qca_ipq95xx prpl cellular security thread"]
-  extends: .wnc-freedom testbed
+  extends:
+    - .wnc-freedom testbed
+    - .focused prebuilt Freedom firmware
+  needs: []
+  tags:
+    - dut-wnc-freedom-sfl-prio
+  rules:
+    - when: on_success
   variables:
-    COMPONENT: prplos
-
-cram Mozart [full]:
-  needs:
-    - job: build test mtk_filogic prpl security
-      optional: true
-  extends: .arcadyan-mozart testbed
-  variables:
-    COMPONENT: full
-
-cram Mozart [prplmesh]:
-  needs:
-    - job: build test mtk_filogic prpl security
-      optional: true
-  extends: .arcadyan-mozart testbed
-  variables:
-    COMPONENT: prplmesh
-
-cram Mozart [lcm]:
-  needs:
-    - job: build test mtk_filogic prpl security
-      optional: true
-  extends: .arcadyan-mozart testbed
-  variables:
-    COMPONENT: lcm
-
-cram Mozart [prplos]:
-  needs:
-    - job: build test mtk_filogic prpl security
-      optional: true
-  extends: .arcadyan-mozart testbed
-  variables:
-    COMPONENT: prplos
-
-cram Valyrian [full]:
-  needs:
-    - job: build test airoha_an7581 prpl security
-      optional: true
-  extends: .nokia-valyrian testbed
-  variables:
-    COMPONENT: full
-
-cram Valyrian [prplmesh]:
-  needs:
-    - job: build test airoha_an7581 prpl security
-      optional: true
-  extends: .nokia-valyrian testbed
-  variables:
-    COMPONENT: prplmesh
-
-cram Valyrian [lcm]:
-  needs:
-    - job: build test airoha_an7581 prpl security
-      optional: true
-  extends: .nokia-valyrian testbed
-  variables:
-    COMPONENT: lcm
-
-cram Valyrian [prplos]:
-  needs:
-    - job: build test airoha_an7581 prpl security
-      optional: true
-  extends: .nokia-valyrian testbed
-  variables:
-    COMPONENT: prplos
+    CRAM_TEST_SUITE: .gitlab/tests/cram/phase10-readiness-probe.t
+  before_script:
+    - !reference [.focused prebuilt Freedom firmware, before_script]
+    - !reference [.testbed, before_script]
+  script:
+    - !reference [.testbed, script]
