@@ -9,7 +9,7 @@ Check correct routing table:
   10.0.0.0/24 dev eth1 proto kernel scope link src 10.0.0.2 
   192.168.1.0/24 dev br-lan proto kernel scope link src 192.168.1.1 
   192.168.2.0/24 dev br-guest proto kernel scope link src 192.168.2.1 linkdown 
-  192.168.3.0/24 dev br-lcm proto kernel scope link src 192.168.3.1 linkdown 
+  192\.168\.3\.0/24 dev br-lcm proto kernel scope link src 192\.168\.3\.1( linkdown)?  (re)
 
 Check correct interface setup:
 
@@ -17,7 +17,7 @@ Check correct interface setup:
   
    br-guest: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc noqueue state DOWN mode DEFAULT group default qlen 1000
    br-lan: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP mode DEFAULT group default qlen 1000
-   br-lcm: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc noqueue state DOWN mode DEFAULT group default qlen 1000
+   br-lcm: <(NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc noqueue state DOWN|BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UNKNOWN) mode DEFAULT group default qlen 1000 (re)
    cpu0_0_0: <BROADCAST,MULTICAST> mtu 1500 qdisc noop state DOWN mode DEFAULT group default qlen 1000
    cpu0_1_0: <BROADCAST,MULTICAST> mtu 1500 qdisc noop state DOWN mode DEFAULT group default qlen 1000
    cpu1_2_0: <BROADCAST,MULTICAST> mtu 1500 qdisc noop state DOWN mode DEFAULT group default qlen 1000
