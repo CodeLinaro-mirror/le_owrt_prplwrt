@@ -1,6 +1,7 @@
 Cthulhu.Container.Instances.{i}.RootfsIsMounted
 Cthulhu.Container.Instances.{i}.Pid
 Cthulhu.Container.Instances.{i}.StartTime
+Cthulhu.Container.Instances.{i}.StartTimeMonotonic
 Cthulhu.Container.Instances.{i}.AutoRestart.RunningSince
 Cthulhu.Container.Instances.{i}.Interfaces.2.Addresses.1.Address
 Cthulhu.Container.Instances.{i}.Interfaces.6.Addresses.1.Address
