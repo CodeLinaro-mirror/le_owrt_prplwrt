@@ -51,7 +51,6 @@ packages:
   - mod-ppp-daemon
   - mod-ra-radvd
   - mod-routing-dhcp
-  - mod-wanmgr-sfp
   - mod-wanmgr-system
   - mod-xpon-prpl
   - netmodel-dslite
@@ -82,7 +81,6 @@ packages:
   - tr181-ppp
   - tr181-rest-api
   - tr181-routeradvertisement
-  - tr181-sfp
   - tr181-upnp
   - tr181-upnpdiscovery
   - tr181-usb
