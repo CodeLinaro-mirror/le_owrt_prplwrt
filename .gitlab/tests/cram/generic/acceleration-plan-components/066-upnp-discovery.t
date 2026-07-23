@@ -2,6 +2,10 @@ Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
+Wait up to one minute for the first root device to be discovered:
+
+  $ R "i=30; while ! ba-cli 'UPnPDiscovery.RootDevice.1.?' 2>/dev/null | grep -q '^UPnPDiscovery.RootDevice.1.UUID='; do i=\$((i - 1)); [ \"\$i\" -gt 0 ] || exit 1; sleep 2; done"
+
 Verification of main parameters:
 
   $ R "ba-cli UPnPDiscovery.DeviceNumberOfEntries? | sort | grep '='"
