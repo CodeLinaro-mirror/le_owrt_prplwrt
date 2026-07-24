@@ -29,7 +29,7 @@ Read and verify cellular interface status:
 Read and verify SIM under TrustedElements:
 
   $ R "ba-cli -l -j TrustedElements.SIM.1.Alias\? | sed '/^$/d'"
-  [{"TrustedElements.SIM.1.":{"Alias":"cpe-SIM-1"}}]
+  [{"TrustedElements.SIM.1.":{"Alias":"CpeSIM-wwan0-1"}}]
 
 Verify NetworkInUse:
 
