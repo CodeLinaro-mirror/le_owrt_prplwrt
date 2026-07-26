@@ -123,9 +123,18 @@
       run_check() {
         "$@" || {
           local statuses=("${PIPESTATUS[@]}")
+          local command=("$@")
+          local test_count=0
+          while [ "${#command[@]}" -gt 0 ] && [[ "${command[-1]}" == *.t ]]; do
+            unset 'command[-1]'
+            ((test_count += 1))
+          done
+          if [ "$test_count" -gt 0 ]; then
+            command+=("($test_count tests)")
+          fi
           for status in "${statuses[@]}"; do
             if [ "$status" -ne 0 ]; then
-              log_error "run_check: $* | FAILED! (status: $status)" | tee -a .run_check_failed
+              log_error "run_check: ${command[*]} | FAILED! (status: $status)" | tee -a .run_check_failed
             fi
           done
         }
