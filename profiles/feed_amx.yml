@@ -2,4 +2,4 @@
 feeds:
   - name: feed_amx
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_amx.git
-    revision: main@8211e8e7383629053ef27aaa02883649f2a83b8c
+    revision: main@56dee6cbb5d2a8d58551a6b99f12a86d4189b42b
