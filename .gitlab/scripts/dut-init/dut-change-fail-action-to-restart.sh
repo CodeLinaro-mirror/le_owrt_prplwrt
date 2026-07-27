@@ -58,15 +58,15 @@ change_fail_action_to_restart() {
 		process_monitor_null_check=$(ba_cli_json "ProcessMonitor.Test.?" \
 				| jq -r '.[0] | keys[]' | sed 's/\.$//') 
 		if [ -z "$process_monitor_null_check" ]; then
-                log_error "ProcessMonitor.Test Data Model is null"
+                	log_error "ProcessMonitor.Test Data Model is null"
 		fi
 		
         for id in $(ba_cli 'ProcessMonitor.Test.[FailAction == "REBOOT"].?' | \
             grep Name | \
             sed -n 's/.*Test\.\([0-9]\+\).*/\1/p'); do
                 ba_cli \
-                "ProcessMonitor.Test.$id.FailAction=\"RESTART\"" \
-                > /dev/null
+                	"ProcessMonitor.Test.$id.FailAction=\"RESTART\"" \
+                	> /dev/null
                 log_info "Modified ProcessMonitor.Test.$id" \
                         "FailAction from REBOOT to RESTART"
         done
@@ -79,6 +79,3 @@ main() {
 }
 
 main
-
-
-
