@@ -198,14 +198,17 @@ Allow USP endpoint/controller registrations to settle before checking role/trust
 
   $ sleep 5
 
-  $ R "${S} && get_controller_role --uuid"
+  $ R "${S} && check_endpoint_role --uuid"
+  Full Access
+  Full Access
+  Full Access
   Full Access
 
-  $ R "${S} && check_endpoint_trust --uuid"
-  [{"Device.USPServices.Trust.*.":{"TargetPaths":"Device.LCMSampleApp.","EndpointID":"*"}}] (glob)
-  [{"Device.USPServices.Trust.*.":{"TargetPaths":"Device.LCMSampleApp.","EndpointID":"*"}}] (glob)
-  [{"Device.USPServices.Trust.*.":{"TargetPaths":"Device.LCMSampleApp.","EndpointID":"*"}}] (glob)
-  [{"Device.USPServices.Trust.*.":{"TargetPaths":"Device.LCMSampleApp.","EndpointID":"*"}}] (glob)
+  $ R "${S} && check_endpoint_permission --uuid"
+  rw-n
+  rw-n
+  rw-n
+  rw-n
 
 --- M21: InstallDU with RequiredRoles=Untrusted, protected USP operation denied from all endpoints ---
 
@@ -231,11 +234,91 @@ Allow USP endpoint/controller registrations to settle before checking role/trust
   Untrusted
   Untrusted
 
-  $ R "${S} && check_endpoint_trust --uuid"
-  [{"Device.USPServices.Trust.*.":{"TargetPaths":"Device.LCMSampleApp.","EndpointID":"*"}}] (glob)
-  [{"Device.USPServices.Trust.*.":{"TargetPaths":"Device.LCMSampleApp.","EndpointID":"*"}}] (glob)
-  [{"Device.USPServices.Trust.*.":{"TargetPaths":"Device.LCMSampleApp.","EndpointID":"*"}}] (glob)
-  [{"Device.USPServices.Trust.*.":{"TargetPaths":"Device.LCMSampleApp.","EndpointID":"*"}}] (glob)
+  $ R "${S} && check_endpoint_permission --uuid"
+  ----
+  ----
+  ----
+  ----
+
+--- M22: UpdateDU from Untrusted to Full Access, all endpoints gain access ---
+
+  $ R "${S} && update_ctr --url ${SERVICE_URL} --uuid --ee --privileged true --usprequired 'Full Access' --uspregisterpaths 'Device.LCMSampleApp.' --network '{ShareParentNetwork=true}' --numusp 4 --waittime 120" > /dev/null
+
+  $ R "${S} && get_container_parameter --uuid --param NumUSPEIDs"
+  4
+
+  $ sleep 5
+
+  $ R "${S} && check_endpoint_role --uuid"
+  Full Access
+  Full Access
+  Full Access
+  Full Access
+
+  $ R "${S} && check_endpoint_permission --uuid"
+  rw-n
+  rw-n
+  rw-n
+  rw-n
+
+--- M23: UpdateDU from Full Access to Untrusted, all endpoints lose access ---
+
+  $ R "${S} && update_ctr --url ${SERVICE_URL} --uuid --ee --privileged true --usprequired 'Untrusted' --uspregisterpaths 'Device.LCMSampleApp.' --network '{ShareParentNetwork=true}' --numusp 4 --waittime 120" > /dev/null
+
+  $ R "${S} && get_container_parameter --uuid --param NumUSPEIDs"
+  4
+
+  $ sleep 5
+
+  $ R "${S} && check_endpoint_role --uuid"
+  Untrusted
+  Untrusted
+  Untrusted
+  Untrusted
+
+  $ R "${S} && check_endpoint_permission --uuid"
+  ----
+  ----
+  ----
+  ----
+
+--- M24: Scale endpoint count from 4->2 while using Full Access, remaining endpoints inherit Full Access ---
+
+  $ R "${S} && update_ctr --url ${SERVICE_URL} --uuid --ee --privileged true --usprequired 'Full Access' --uspregisterpaths 'Device.LCMSampleApp.' --network '{ShareParentNetwork=true}' --numusp 2 --waittime 120" > /dev/null
+
+  $ R "${S} && get_container_parameter --uuid --param NumUSPEIDs"
+  2
+
+  $ sleep 5
+
+  $ R "${S} && check_endpoint_role --uuid"
+  Full Access
+  Full Access
+
+  $ R "${S} && check_endpoint_permission --uuid"
+  rw-n
+  rw-n
+
+--- M25: Scale endpoint count from 2->4 while using Untrusted, all endpoints retain denied permissions ---
+
+  $ R "${S} && update_ctr --url ${SERVICE_URL} --uuid --ee --privileged true --usprequired 'Untrusted' --uspregisterpaths 'Device.LCMSampleApp.' --network '{ShareParentNetwork=true}' --numusp 4 --waittime 120" > /dev/null
+
+  $ R "${S} && get_container_parameter --uuid --param NumUSPEIDs"
+  4
+
+  $ sleep 5
+
+  $ R "${S} && check_endpoint_role --uuid"
+  Untrusted
+  Untrusted
+  Untrusted
+  Untrusted
+
+  $ R "${S} && check_endpoint_permission --uuid"
+  ----
+  ----
+  ----
+  ----
 
   $ R "${S} && uninstall_ctr_and_check --uuid --retaindata false"
   [1]
