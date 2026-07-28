@@ -21,6 +21,7 @@ RUN \
 	sshpass \
 	sudo \
 	tcpdump \
+	dnsutils \
 	xz-utils && \
     apt-get -y autoremove && \
     apt-get clean && \

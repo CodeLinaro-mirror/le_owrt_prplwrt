@@ -18,6 +18,7 @@ RUN \
 	libncurses5-dev \
 	locales \
 	nmap \
+	dnsutils \
 	openssh-client \
 	pwgen \
 	python3 \
