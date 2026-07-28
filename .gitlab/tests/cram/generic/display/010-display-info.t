@@ -15,6 +15,7 @@ Get display information:
   Display.SessionNumberOfEntries=0
   Display.Screen.1.
   Display.Screen.1.Alias="SPI-1"
+  Display.Screen.1.Enable=1
   Display.Screen.1.Height=240
   Display.Screen.1.PhysicalHeight=36
   Display.Screen.1.PhysicalWidth=49
