@@ -123,7 +123,7 @@ diffconfig: |
           # CONFIG_PACKAGE_umdns is not set
           CONFIG_DROPBEAR_ECC=y
           CONFIG_SAH_LUA_AMX_LUA_VERSION_OVERRIDE=y
-          CONFIG_SAH_LUA_AMX_LUA_VERSION="5.1"
+          CONFIG_SAH_LUA_AMX_LUA_VERSION="5.3"
           CONFIG_PACKAGE_rpcd-mod-luci=y
           CONFIG_PACKAGE_ip-full=y
           CONFIG_PACKAGE_ip-bridge=y
