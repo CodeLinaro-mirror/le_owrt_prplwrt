@@ -58,6 +58,7 @@ Check that ubus has expected datamodels available:
   DNS.Relay
   DNS.Relay.Config
   DNS.Relay.Forwarding
+  DNS.Relay.Stats
   DNS.X_PRPLWARE-COM_ForwardZone
   DNS.X_PRPLWARE-COM_Host
   DNS.X_PRPLWARE-COM_RebindProtection
