@@ -66,7 +66,18 @@ Use a higher timeout when network delays are expected:
 sudo -E python3 dhcpv4_option_probe.py --iface <interface> --request-options "1,3,6,15,42" --timeout 12
 ```
 
+## Retransmission
+
+`--timeout` is the time waited for a reply per attempt, `--retries` (default `2`)
+is how often an unanswered `DHCPDISCOVER`/`DHCPREQUEST` is retransmitted. Writing
+a `Device.DHCPv4.Server.` parameter makes `dhcpv4-manager` restart `dnsmasq`, so a
+request sent right after such a write can be lost; without retransmission the probe
+reports a missing reply instead of the option state it is meant to check.
+
 ## Exit codes
 
 - `0`: success (`DHCPACK` received and parsed)
 - `2`: error (`DHCPOFFER`/`DHCPACK` missing, `DHCPNAK`, or invalid DHCP response)
+
+The `ERROR:` line explaining a non-zero exit is printed on stdout so it stays
+visible in the Cram diff, which discards stderr.
