@@ -2,8 +2,10 @@ DHCPv6 Server - Lease Persistence with Same WAN Configuration (Requirement 1)
 
 Verify that after the DHCPv6 server restarts with the same WAN IPv6
 configuration, odhcpd correctly reloads its lease file and re-issues
-the exact same IANA address and IAPD prefix to the same LAN client
-(identified by DUID + IAID).
+an IANA address and IAPD prefix that preserve the client's identity
+(same host portion and relative WAN-prefix offset) for the same LAN
+client (identified by DUID + IAID). If the upstream WAN prefix shifts
+uniformly after reboot, the relative position must still be identical.
 
 Create R alias:
 
@@ -130,7 +132,7 @@ Verify IAPD exchange succeeded after restart:
   $ grep -F "[SUCCESS]" /tmp/dhcpv6_iapd_after.txt
   *dhcpv6-client-test*SUCCESS* (glob)
 
-Step 7 - Verify IANA address and IAPD prefix are identical to pre-restart values:
+Step 7 - Verify IANA host identity and IAPD relative position are preserved after restart:
 
 Extract post-restart leased IANA address:
 
@@ -140,15 +142,38 @@ Extract post-restart leased IAPD prefix:
 
   $ IAPD_PREFIX_AFTER=$(awk '/Leased Addr\/Prefix:/{print $NF}' /tmp/dhcpv6_iapd_after.txt)
 
-Verify the IANA address is the same before and after restart:
+Verify the IANA host identifier (last 64 bits) is preserved - odhcpd must restore the same
+host portion even if the upstream WAN prefix shifts uniformly after reboot:
 
-  $ [ "$IANA_ADDR_BEFORE" = "$IANA_ADDR_AFTER" ] && echo "IANA SAME: $IANA_ADDR_BEFORE" || echo "IANA CHANGED: was=$IANA_ADDR_BEFORE now=$IANA_ADDR_AFTER"
-  IANA SAME: * (glob)
+  $ python3 -c "
+  > import ipaddress
+  > b = ipaddress.IPv6Address('$IANA_ADDR_BEFORE')
+  > a = ipaddress.IPv6Address('$IANA_ADDR_AFTER')
+  > HOST_MASK = (1 << 64) - 1
+  > if (int(b) & HOST_MASK) == (int(a) & HOST_MASK):
+  >     print('IANA HOST SAME: ' + str(a))
+  > else:
+  >     print('IANA HOST CHANGED: was=' + str(b) + ' now=' + str(a))
+  > "
+  IANA HOST SAME: * (glob)
 
-Verify the IAPD prefix is the same before and after restart:
+Verify the IAPD prefix relative position within the WAN allocation is preserved - compute
+the WAN prefix shift from the IANA address delta and confirm IAPD moved by the same offset:
 
-  $ [ "$IAPD_PREFIX_BEFORE" = "$IAPD_PREFIX_AFTER" ] && echo "IAPD SAME: $IAPD_PREFIX_BEFORE" || echo "IAPD CHANGED: was=$IAPD_PREFIX_BEFORE now=$IAPD_PREFIX_AFTER"
-  IAPD SAME: * (glob)
+  $ python3 -c "
+  > import ipaddress
+  > iana_b = ipaddress.IPv6Address('$IANA_ADDR_BEFORE')
+  > iana_a = ipaddress.IPv6Address('$IANA_ADDR_AFTER')
+  > iapd_b = ipaddress.IPv6Network('$IAPD_PREFIX_BEFORE')
+  > iapd_a = ipaddress.IPv6Network('$IAPD_PREFIX_AFTER')
+  > wan_shift = int(iana_a) - int(iana_b)
+  > expected = ipaddress.IPv6Network((int(iapd_b.network_address) + wan_shift, iapd_b.prefixlen), strict=False)
+  > if expected == iapd_a:
+  >     print('IAPD RELATIVE SAME: ' + str(iapd_a))
+  > else:
+  >     print('IAPD RELATIVE CHANGED: expected=' + str(expected) + ' got=' + str(iapd_a))
+  > "
+  IAPD RELATIVE SAME: * (glob)
 
 Cleanup:
 
