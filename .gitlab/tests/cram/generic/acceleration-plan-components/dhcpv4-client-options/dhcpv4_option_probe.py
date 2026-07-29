@@ -3,8 +3,10 @@
 Minimal DHCPv4 probe for Cram:
 - Sends DHCPDISCOVER with configurable Parameter Request List (PRL)
 - Sends DHCPREQUEST using the offered address and server identifier
+- Retransmits unanswered DHCPDISCOVER/DHCPREQUEST (--retries)
 - Prints CLIENT_MAC=<mac> then RECEIVED_TAGS=1,3,6,...
 - Optional: custom MAC (--chaddr) and hostname option 12 (--hostname)
+- Errors are reported on stdout, packet dumps (--debug) on stderr
 """
 
 import argparse
@@ -19,7 +21,8 @@ def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("--iface", required=True, help="Interface used to send/receive DHCP")
     parser.add_argument("--request-options", default="", help="CSV option tags in PRL, e.g. 1,3,6,15,42")
-    parser.add_argument("--timeout", type=int, default=8)
+    parser.add_argument("--timeout", type=int, default=8, help="Seconds waited for a reply per attempt")
+    parser.add_argument("--retries", type=int, default=2, help="Retransmissions of an unanswered request")
     parser.add_argument("--debug", action="store_true")
     parser.add_argument("--chaddr", default="", help="MAC as aa:bb:cc:dd:ee:ff (default: aa:bb:cc:dd:ee:ff)")
     parser.add_argument("--hostname", default="", help="Hostname string for DHCP option 12")
@@ -39,13 +42,13 @@ def parse_chaddr(mac_str):
     try:
         octets = [int(b, 16) for b in mac_str.strip().split(":")]
     except ValueError:
-        print("ERROR: invalid --chaddr value: " + mac_str, file=sys.stderr)
+        print("ERROR: invalid --chaddr value: " + mac_str)
         sys.exit(2)
     if len(octets) != 6:
-        print("ERROR: --chaddr must have exactly 6 octets, got " + str(len(octets)), file=sys.stderr)
+        print("ERROR: --chaddr must have exactly 6 octets, got " + str(len(octets)))
         sys.exit(2)
     if any(o < 0 or o > 255 for o in octets):
-        print("ERROR: --chaddr octet out of range 0-255: " + mac_str, file=sys.stderr)
+        print("ERROR: --chaddr octet out of range 0-255: " + mac_str)
         sys.exit(2)
     return bytes(octets)
 
@@ -118,9 +121,10 @@ def main():
         print("--- DHCPDISCOVER sent ---", file=sys.stderr)
         print(discover_packet.show(dump=True), file=sys.stderr)
 
-    offer = srp1(discover_packet, iface=args.iface, timeout=args.timeout, verbose=False)
+    offer = srp1(discover_packet, iface=args.iface, timeout=args.timeout,
+                 retry=args.retries, verbose=False)
     if offer is None or not offer.haslayer(DHCP):
-        print("ERROR: no DHCPOFFER received", file=sys.stderr)
+        print("ERROR: no DHCPOFFER received")
         return 2
 
     if args.debug:
@@ -128,7 +132,7 @@ def main():
         print(offer.show(dump=True), file=sys.stderr)
 
     if get_message_type(offer[DHCP].options) != 2:
-        print("ERROR: received DHCP response is not DHCPOFFER", file=sys.stderr)
+        print("ERROR: received DHCP response is not DHCPOFFER")
         return 2
 
     offered_ip = offer[BOOTP].yiaddr
@@ -159,9 +163,10 @@ def main():
         print("--- DHCPREQUEST sent ---", file=sys.stderr)
         print(request_packet.show(dump=True), file=sys.stderr)
 
-    final_reply = srp1(request_packet, iface=args.iface, timeout=args.timeout, verbose=False)
+    final_reply = srp1(request_packet, iface=args.iface, timeout=args.timeout,
+                       retry=args.retries, verbose=False)
     if final_reply is None or not final_reply.haslayer(DHCP):
-        print("ERROR: no DHCPACK received", file=sys.stderr)
+        print("ERROR: no DHCPACK received")
         return 2
 
     if args.debug:
@@ -170,10 +175,10 @@ def main():
 
     message_type = get_message_type(final_reply[DHCP].options)
     if message_type == 6:
-        print("ERROR: DHCPNAK received", file=sys.stderr)
+        print("ERROR: DHCPNAK received")
         return 2
     if message_type != 5:
-        print("ERROR: final DHCP response is not DHCPACK", file=sys.stderr)
+        print("ERROR: final DHCP response is not DHCPACK")
         return 2
 
     tags = extract_option_tags(final_reply[DHCP].options)

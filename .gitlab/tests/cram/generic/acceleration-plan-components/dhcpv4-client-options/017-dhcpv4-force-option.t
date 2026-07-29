@@ -13,6 +13,7 @@ Pick test constants:
   $ REQ_WITHOUT_TAG=1,3,6,15
   $ REQ_WITH_TAG=1,3,6,15,42
   $ PROBE_TIMEOUT=12
+  $ PROBE_RETRIES=2
 
 Create pool option with Force=true:
 
@@ -23,7 +24,7 @@ Create pool option with Force=true:
 
 Force=true, tag 42 absent from DHCPREQUEST PRL -> tag must be present in final DHCPACK:
 
-  $ sudo -E python3 "$TESTDIR/dhcpv4_option_probe.py" --iface "$TESTBED_LAN_INTERFACE" --request-options "$REQ_WITHOUT_TAG" --timeout "$PROBE_TIMEOUT" 2>/dev/null
+  $ sudo -E python3 "$TESTDIR/dhcpv4_option_probe.py" --iface "$TESTBED_LAN_INTERFACE" --request-options "$REQ_WITHOUT_TAG" --timeout "$PROBE_TIMEOUT" --retries "$PROBE_RETRIES" 2>/dev/null
   CLIENT_MAC=aa:bb:cc:dd:ee:ff
   RECEIVED_TAGS=.*(=|,)42(,|$).* (re)
 
@@ -36,15 +37,16 @@ Set Force=false:
 
 Force=false, tag 42 absent from DHCPREQUEST PRL -> tag must be absent from final DHCPACK:
 
-  $ sudo -E python3 "$TESTDIR/dhcpv4_option_probe.py" --iface "$TESTBED_LAN_INTERFACE" --request-options "$REQ_WITHOUT_TAG" --timeout "$PROBE_TIMEOUT" 2>/dev/null
+  $ sudo -E python3 "$TESTDIR/dhcpv4_option_probe.py" --iface "$TESTBED_LAN_INTERFACE" --request-options "$REQ_WITHOUT_TAG" --timeout "$PROBE_TIMEOUT" --retries "$PROBE_RETRIES" 2>/dev/null
   CLIENT_MAC=aa:bb:cc:dd:ee:ff
   RECEIVED_TAGS=(?!.*(=|,)42(,|$)).* (re)
 
 Force=false, tag 42 present in DHCPREQUEST PRL -> tag must be present in final DHCPACK:
 
-  $ sudo -E python3 "$TESTDIR/dhcpv4_option_probe.py" --iface "$TESTBED_LAN_INTERFACE" --request-options "$REQ_WITH_TAG" --timeout "$PROBE_TIMEOUT" 2>/dev/null
+  $ sudo -E python3 "$TESTDIR/dhcpv4_option_probe.py" --iface "$TESTBED_LAN_INTERFACE" --request-options "$REQ_WITH_TAG" --timeout "$PROBE_TIMEOUT" --retries "$PROBE_RETRIES" --release 2>/dev/null
   CLIENT_MAC=aa:bb:cc:dd:ee:ff
   RECEIVED_TAGS=.*(=|,)42(,|$).* (re)
+  RELEASED=.* (re)
 
 
 Cleanup:
