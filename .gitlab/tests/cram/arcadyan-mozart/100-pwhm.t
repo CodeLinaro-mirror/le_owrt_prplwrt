@@ -58,7 +58,7 @@ Check that no hostapd instance is running:
 
 Test activation of access point 1:
 
-  $ R logger -t cram "Test AccessPoint 1 activation "$(get_ssid_ref 1)""
+  $ R logger -t cram "Test AccessPoint 1 activation \"$(get_ssid_ref 1)\""
 
   $ enable_ap_sync 1 1
   AccessPoint.\d+.Enable=1 (re)
@@ -81,7 +81,7 @@ Save hostap pid:
 
 Test activation of access point 2:
 
-  $ R logger -t cram "Test AccessPoint 2 activation "$(get_ssid_ref 2)""
+  $ R logger -t cram "Test AccessPoint 2 activation \"$(get_ssid_ref 2)\""
 
   $ enable_ap_sync 2 1
   AccessPoint.2.Enable=1
@@ -99,7 +99,7 @@ Test activation of access point 2:
 
 Test activation of access point 3:
 
-  $ R logger -t cram "Test AccessPoint 3 activation "$(get_ssid_ref 3)""
+  $ R logger -t cram "Test AccessPoint 3 activation \"$(get_ssid_ref 3)\""
 
   $ enable_ap_sync 3 1
   AccessPoint.3.Enable=1
@@ -117,7 +117,7 @@ Test activation of access point 3:
 
 Test activation of access point 4:
 
-  $ R logger -t cram "Test AccessPoint 4 activation "$(get_ssid_ref 4)""
+  $ R logger -t cram "Test AccessPoint 4 activation \"$(get_ssid_ref 4)\""
 
   $ enable_ap_sync 4 1
   AccessPoint.4.Enable=1
@@ -135,7 +135,7 @@ Test activation of access point 4:
 
 Test activation of access point 5:
 
-  $ R logger -t cram "Test AccessPoint 5 activation "$(get_ssid_ref 5)""
+  $ R logger -t cram "Test AccessPoint 5 activation \"$(get_ssid_ref 5)\""
 
   $ enable_ap_sync 5 1
   AccessPoint.5.Enable=1
@@ -153,7 +153,7 @@ Test activation of access point 5:
 
 Test activation of access point 6:
 
-  $ R logger -t cram "Test AccessPoint 6 activation "$(get_ssid_ref 6)""
+  $ R logger -t cram "Test AccessPoint 6 activation \"$(get_ssid_ref 6)\""
 
   $ enable_ap_sync 6 1
   AccessPoint.6.Enable=1
@@ -171,7 +171,7 @@ Test activation of access point 6:
 
 Test activation of access point 7:
 
-  $ R logger -t cram "Test AccessPoint 7 activation "$(get_ssid_ref 7)""
+  $ R logger -t cram "Test AccessPoint 7 activation \"$(get_ssid_ref 7)\""
 
   $ enable_ap_sync 7 1
   AccessPoint.7.Enable=1
@@ -189,7 +189,7 @@ Test activation of access point 7:
 
 Test activation of access point 8:
 
-  $ R logger -t cram "Test AccessPoint 8 activation "$(get_ssid_ref 8)""
+  $ R logger -t cram "Test AccessPoint 8 activation \"$(get_ssid_ref 8)\""
 
   $ enable_ap_sync 8 1
   AccessPoint.8.Enable=1
@@ -207,7 +207,7 @@ Test activation of access point 8:
 
 Test activation of access point 9:
 
-  $ R logger -t cram "Test AccessPoint 9 activation "$(get_ssid_ref 9)""
+  $ R logger -t cram "Test AccessPoint 9 activation \"$(get_ssid_ref 9)\""
 
   $ enable_ap_sync 9 1
   AccessPoint.9.Enable=1
@@ -288,7 +288,7 @@ Test deactivation of access point 9:
 
 Test deactivation of access point 8:
 
-  $ R logger -t cram "Test AccessPoint 8 deactivation "$(get_ssid_ref 8)""
+  $ R logger -t cram "Test AccessPoint 8 deactivation \"$(get_ssid_ref 8)\""
 
   $ enable_ap_sync 8 0
   AccessPoint.8.Enable=0
@@ -306,7 +306,7 @@ Test deactivation of access point 8:
 
 Test deactivation of access point 7:
 
-  $ R logger -t cram "Test AccessPoint 7 deactivation "$(get_ssid_ref 7)""
+  $ R logger -t cram "Test AccessPoint 7 deactivation \"$(get_ssid_ref 7)\""
 
   $ enable_ap_sync 7 0
   AccessPoint.7.Enable=0
@@ -324,7 +324,7 @@ Test deactivation of access point 7:
 
 Test deactivation of access point 6:
 
-  $ R logger -t cram "Test AccessPoint 6 deactivation "$(get_ssid_ref 6)""
+  $ R logger -t cram "Test AccessPoint 6 deactivation \"$(get_ssid_ref 6)\""
 
   $ enable_ap_sync 6 0
   AccessPoint.6.Enable=0
@@ -342,7 +342,7 @@ Test deactivation of access point 6:
 
 Test deactivation of access point 5:
 
-  $ R logger -t cram "Test AccessPoint 5 deactivation "$(get_ssid_ref 5)""
+  $ R logger -t cram "Test AccessPoint 5 deactivation \"$(get_ssid_ref 5)\""
 
   $ enable_ap_sync 5 0
   AccessPoint.5.Enable=0
@@ -360,7 +360,7 @@ Test deactivation of access point 5:
 
 Test deactivation of access point 4:
 
-  $ R logger -t cram "Test AccessPoint 4 deactivation "$(get_ssid_ref 4)""
+  $ R logger -t cram "Test AccessPoint 4 deactivation \"$(get_ssid_ref 4)\""
 
   $ enable_ap_sync 4 0
   AccessPoint.4.Enable=0
@@ -378,7 +378,7 @@ Test deactivation of access point 4:
 
 Test deactivation of access point 3:
 
-  $ R logger -t cram "Test AccessPoint 3 deactivation "$(get_ssid_ref 3)""
+  $ R logger -t cram "Test AccessPoint 3 deactivation \"$(get_ssid_ref 3)\""
 
   $ enable_ap_sync 3 0
   AccessPoint.3.Enable=0
@@ -396,7 +396,7 @@ Test deactivation of access point 3:
 
 Test deactivation of access point 2:
 
-  $ R logger -t cram "Test AccessPoint 2 deactivation "$(get_ssid_ref 2)""
+  $ R logger -t cram "Test AccessPoint 2 deactivation \"$(get_ssid_ref 2)\""
 
   $ enable_ap_sync 2 0
   AccessPoint.2.Enable=0
@@ -419,7 +419,7 @@ Before deactivating last AP (ie stopping hostpad), check if hostap pid has chang
 
 Test deactivation of access point 1:
 
-  $ R logger -t cram "Test AccessPoint 1 deactivation "$(get_ssid_ref 1)""
+  $ R logger -t cram "Test AccessPoint 1 deactivation \"$(get_ssid_ref 1)\""
 
   $ enable_ap_sync 1 0
   AccessPoint.1.Enable=0

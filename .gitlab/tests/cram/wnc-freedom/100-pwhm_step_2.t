@@ -124,7 +124,7 @@ The non-TX bss links can't be dynamically reconfigured due to a limitation in ho
 # Test deactivation of access point 8 #
 #######################################
 
-  $ R logger -t cram "Test AccessPoint 8 deactivation "$(get_ssid_ref 8)""
+  $ R logger -t cram "Test AccessPoint 8 deactivation \"$(get_ssid_ref 8)\""
 
   $ enable_ap_sync 8 0
   AccessPoint.8.Enable=0
@@ -172,7 +172,7 @@ One link was removed, so there should be one less socket:
 # Test deactivation of access point 7 #
 #######################################
 
-  $ R logger -t cram "Test AccessPoint 7 deactivation "$(get_ssid_ref 7)""
+  $ R logger -t cram "Test AccessPoint 7 deactivation \"$(get_ssid_ref 7)\""
 
   $ enable_ap_sync 7 0
   AccessPoint.7.Enable=0
@@ -266,7 +266,7 @@ The non-TX bss links can't be dynamically reconfigured due to a limitation in ho
 # Test deactivation of access point 5 #
 #######################################
 
-  $ R logger -t cram "Test AccessPoint 5 deactivation "$(get_ssid_ref 5)""
+  $ R logger -t cram "Test AccessPoint 5 deactivation \"$(get_ssid_ref 5)\""
 
   $ enable_ap_sync 5 0
   AccessPoint.5.Enable=0
@@ -310,7 +310,7 @@ One link was removed, so there should be one less socket:
 # Test deactivation of access point 4 #
 #######################################
 
-  $ R logger -t cram "Test AccessPoint 4 deactivation "$(get_ssid_ref 4)""
+  $ R logger -t cram "Test AccessPoint 4 deactivation \"$(get_ssid_ref 4)\""
 
   $ enable_ap_sync 4 0
   AccessPoint.4.Enable=0
@@ -353,7 +353,7 @@ One link was removed, so there should be one less socket:
 # Test deactivation of access point 3 #
 #######################################
 
-  $ R logger -t cram "Test AccessPoint 3 deactivation "$(get_ssid_ref 3)""
+  $ R logger -t cram "Test AccessPoint 3 deactivation \"$(get_ssid_ref 3)\""
 
   $ enable_ap_sync 3 0
   AccessPoint.3.Enable=0
@@ -439,7 +439,7 @@ Before deactivating last AP (ie stopping hostpad), check if hostap pid has chang
 # Test deactivation of access point 1 #
 #######################################
 
-  $ R logger -t cram "Test AccessPoint 1 deactivation "$(get_ssid_ref 1)""
+  $ R logger -t cram "Test AccessPoint 1 deactivation \"$(get_ssid_ref 1)\""
 
   $ enable_ap_sync 1 0
   AccessPoint.1.Enable=0
