@@ -75,7 +75,7 @@ Listen to AP1 event:
 
   $ R "lua /tmp/usp-event.lua 'Device.WiFi.AccessPoint.1.Enable!' 'dm:object-changed' \"contains('parameters.Enable')\" > /tmp/pwhm_usp_events &"
 
-  $ R logger -t cram "Test AccessPoint 1 activation "$(get_ssid_ref 1)""
+  $ R logger -t cram "Test AccessPoint 1 activation \"$(get_ssid_ref 1)\""
 
   $ enable_ap_sync 1 1
   AccessPoint.\d+.Enable=1 (re)
@@ -139,7 +139,7 @@ This is a new MLD so two new sockets should be created:
 # Test activation of access point 2 #
 #####################################
 
-  $ R logger -t cram "Test AccessPoint 2 activation "$(get_ssid_ref 2)""
+  $ R logger -t cram "Test AccessPoint 2 activation \"$(get_ssid_ref 2)\""
 
   $ enable_ap_sync 2 1
   AccessPoint.2.Enable=1
@@ -182,7 +182,7 @@ This is a new MLD so two new sockets should be created:
 # Test activation of access point 3 #
 #####################################
 
-  $ R logger -t cram "Test AccessPoint 3 activation "$(get_ssid_ref 3)""
+  $ R logger -t cram "Test AccessPoint 3 activation \"$(get_ssid_ref 3)\""
 
   $ enable_ap_sync 3 1
   AccessPoint.3.Enable=1
@@ -225,7 +225,7 @@ This is a new link so one new socket should be created:
 # Test activation of access point 4 #
 #####################################
 
-  $ R logger -t cram "Test AccessPoint 4 activation "$(get_ssid_ref 4)""
+  $ R logger -t cram "Test AccessPoint 4 activation \"$(get_ssid_ref 4)\""
 
   $ enable_ap_sync 4 1
   AccessPoint.4.Enable=1
@@ -269,7 +269,7 @@ This is a new link so one new socket should be created:
 # Test activation of access point 5 #
 #####################################
 
-  $ R logger -t cram "Test AccessPoint 5 activation "$(get_ssid_ref 5)""
+  $ R logger -t cram "Test AccessPoint 5 activation \"$(get_ssid_ref 5)\""
 
   $ enable_ap_sync 5 1
   AccessPoint.5.Enable=1
@@ -314,7 +314,7 @@ This is a new link so one new socket should be created:
 # Test activation of access point 6 #
 #####################################
 
-  $ R logger -t cram "Test AccessPoint 6 activation "$(get_ssid_ref 6)""
+  $ R logger -t cram "Test AccessPoint 6 activation \"$(get_ssid_ref 6)\""
 
   $ enable_ap_sync 6 1
   AccessPoint.6.Enable=1
@@ -360,7 +360,7 @@ This is a new link so one new socket should be created:
 # Test activation of access point 7 #
 #####################################
 
-  $ R logger -t cram "Test AccessPoint 7 activation "$(get_ssid_ref 7)""
+  $ R logger -t cram "Test AccessPoint 7 activation \"$(get_ssid_ref 7)\""
 
   $ enable_ap_sync 7 1
   AccessPoint.7.Enable=1
@@ -409,7 +409,7 @@ This is a new MLD so two new sockets should be created:
 # Test activation of access point 8 #
 #####################################
 
-  $ R logger -t cram "Test AccessPoint 8 activation "$(get_ssid_ref 8)""
+  $ R logger -t cram "Test AccessPoint 8 activation \"$(get_ssid_ref 8)\""
 
   $ enable_ap_sync 8 1
   AccessPoint.8.Enable=1
@@ -458,7 +458,7 @@ This is a new link so one new socket should be created:
 # Test activation of access point 9 #
 #####################################
 
-  $ R logger -t cram "Test AccessPoint 9 activation "$(get_ssid_ref 9)""
+  $ R logger -t cram "Test AccessPoint 9 activation \"$(get_ssid_ref 9)\""
 
   $ enable_ap_sync 9 1
   AccessPoint.9.Enable=1

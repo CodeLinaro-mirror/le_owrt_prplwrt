@@ -12,7 +12,7 @@ Save hostap pid:
 
 Test deactivation of access point 9:
 
-  $ R logger -t cram "Disable AP 9 "$(get_ssid_ref 9)""
+  $ R logger -t cram "Disable AP 9 \"$(get_ssid_ref 9)\""
 
   $ disable_ap 9
   Device.WiFi.AccessPoint.9 disabled
@@ -35,7 +35,7 @@ Test deactivation of access point 9:
 
 Test deactivation of access point 8:
 
-  $ R logger -t cram "Disable AP 8 "$(get_ssid_ref 8)""
+  $ R logger -t cram "Disable AP 8 \"$(get_ssid_ref 8)\""
 
   $ disable_ap 8
   Device.WiFi.AccessPoint.8 disabled
@@ -58,7 +58,7 @@ Test deactivation of access point 8:
 
 Test deactivation of access point 7:
 
-  $ R logger -t cram "Disable AP 7 "$(get_ssid_ref 7)""
+  $ R logger -t cram "Disable AP 7 \"$(get_ssid_ref 7)\""
 
   $ disable_ap 7
   Device.WiFi.AccessPoint.7 disabled
@@ -80,7 +80,7 @@ Test deactivation of access point 7:
   Up
 Test deactivation of access point 6:
 
-  $ R logger -t cram "Disable AP 6 "$(get_ssid_ref 6)""
+  $ R logger -t cram "Disable AP 6 \"$(get_ssid_ref 6)\""
 
   $ disable_ap 6
   Device.WiFi.AccessPoint.6 disabled
@@ -103,7 +103,7 @@ Test deactivation of access point 6:
 
 Test deactivation of access point 5:
 
-  $ R logger -t cram "Disable AP 5 "$(get_ssid_ref 5)""
+  $ R logger -t cram "Disable AP 5 \"$(get_ssid_ref 5)\""
 
   $ disable_ap 5
   Device.WiFi.AccessPoint.5 disabled
@@ -126,7 +126,7 @@ Test deactivation of access point 5:
 
 Test deactivation of access point 4:
 
-  $ R logger -t cram "Disable AP 4 "$(get_ssid_ref 4)""
+  $ R logger -t cram "Disable AP 4 \"$(get_ssid_ref 4)\""
 
   $ disable_ap 4
   Device.WiFi.AccessPoint.4 disabled
@@ -149,7 +149,7 @@ Test deactivation of access point 4:
 
 Test deactivation of access point 3:
 
-  $ R logger -t cram "Disable AP 3 "$(get_ssid_ref 3)""
+  $ R logger -t cram "Disable AP 3 \"$(get_ssid_ref 3)\""
 
   $ disable_ap 3
   Device.WiFi.AccessPoint.3 disabled
@@ -172,7 +172,7 @@ Test deactivation of access point 3:
 
 Test deactivation of access point 2:
 
-  $ R logger -t cram "Disable AP 2 "$(get_ssid_ref 2)""
+  $ R logger -t cram "Disable AP 2 \"$(get_ssid_ref 2)\""
 
   $ disable_ap 2
   Device.WiFi.AccessPoint.2 disabled
@@ -200,7 +200,7 @@ Before deactivating last AP (ie stopping hostpad), check if hostap pid has chang
 
 Test deactivation of access point 1:
 
-  $ R logger -t cram "Disable AP 1 "$(get_ssid_ref 1)""
+  $ R logger -t cram "Disable AP 1 \"$(get_ssid_ref 1)\""
 
   $ disable_ap 1
   Device.WiFi.AccessPoint.1 disabled

@@ -75,7 +75,7 @@ Listen to AP1 event:
 
 Test activation of access point 1:
 
-  $ R logger -t cram "Test AccessPoint 1 activation "$(get_ssid_ref 1)""
+  $ R logger -t cram "Test AccessPoint 1 activation \"$(get_ssid_ref 1)\""
 
   $ enable_ap 1
   Device.WiFi.AccessPoint.1 enabled
@@ -114,7 +114,7 @@ USP Events: Check if the USP event is catched:
 
 Test activation of access point 2:
 
-  $ R logger -t cram "Test AccessPoint 2 activation "$(get_ssid_ref 2)""
+  $ R logger -t cram "Test AccessPoint 2 activation \"$(get_ssid_ref 2)\""
 
   $ enable_ap 2
   Device.WiFi.AccessPoint.2 enabled
@@ -137,7 +137,7 @@ Test activation of access point 2:
 
 Test activation of access point 3:
 
-  $ R logger -t cram "Test AccessPoint 3 activation "$(get_ssid_ref 3)""
+  $ R logger -t cram "Test AccessPoint 3 activation \"$(get_ssid_ref 3)\""
 
   $ enable_ap 3
   Device.WiFi.AccessPoint.3 enabled
@@ -160,7 +160,7 @@ Test activation of access point 3:
 
 Test activation of access point 4:
 
-  $ R logger -t cram "Test AccessPoint 4 activation "$(get_ssid_ref 4)""
+  $ R logger -t cram "Test AccessPoint 4 activation \"$(get_ssid_ref 4)\""
 
   $ enable_ap 4
   Device.WiFi.AccessPoint.4 enabled
@@ -183,7 +183,7 @@ Test activation of access point 4:
 
 Test activation of access point 5:
 
-  $ R logger -t cram "Test AccessPoint 5 activation "$(get_ssid_ref 5)""
+  $ R logger -t cram "Test AccessPoint 5 activation \"$(get_ssid_ref 5)\""
 
   $ enable_ap 5
   Device.WiFi.AccessPoint.5 enabled
@@ -206,7 +206,7 @@ Test activation of access point 5:
 
 Test activation of access point 6:
 
-  $ R logger -t cram "Test AccessPoint 6 activation "$(get_ssid_ref 6)""
+  $ R logger -t cram "Test AccessPoint 6 activation \"$(get_ssid_ref 6)\""
 
   $ enable_ap 6
   Device.WiFi.AccessPoint.6 enabled
@@ -229,7 +229,7 @@ Test activation of access point 6:
 
 Test activation of access point 7:
 
-  $ R logger -t cram "Test AccessPoint 7 activation "$(get_ssid_ref 7)""
+  $ R logger -t cram "Test AccessPoint 7 activation \"$(get_ssid_ref 7)\""
 
   $ enable_ap 7
   Device.WiFi.AccessPoint.7 enabled
@@ -252,7 +252,7 @@ Test activation of access point 7:
 
 Test activation of access point 8:
 
-  $ R logger -t cram "Test AccessPoint 8 activation "$(get_ssid_ref 8)""
+  $ R logger -t cram "Test AccessPoint 8 activation \"$(get_ssid_ref 8)\""
 
   $ enable_ap 8
   Device.WiFi.AccessPoint.8 enabled
@@ -275,7 +275,7 @@ Test activation of access point 8:
 
 Test activation of access point 9:
 
-  $ R logger -t cram "Test AccessPoint 9 activation "$(get_ssid_ref 9)""
+  $ R logger -t cram "Test AccessPoint 9 activation \"$(get_ssid_ref 9)\""
 
   $ enable_ap 9
   Device.WiFi.AccessPoint.9 enabled
