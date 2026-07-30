@@ -3050,6 +3050,9 @@ Device.Security.CertificateNumberOfEntries                                      
 Device.SelfTestDiagnostics()                                                                         proto::tr181-device
 Device.SelfTestDiagnostics() output:Results
 Device.SelfTestDiagnostics() output:Status
+Device.Shutdown()                                                                                    proto::tr181-device
+Device.Shutdown() input:Cause
+Device.Shutdown() input:Reason
 Device.SoftwareModules.                                                                              proto::timingila
 Device.SoftwareModules.AddExecEnv()                                                                  proto::timingila
 Device.SoftwareModules.AddExecEnv() input:AllocatedCPUPercent
