@@ -45,7 +45,7 @@ Check iw interfaces and beaconing:
 
 Test deactivation of access point 9:
 
-  $ R logger -t cram "Test AccessPoint 9 deactivation "$(get_ssid_ref 9)""
+  $ R logger -t cram "Test AccessPoint 9 deactivation \"$(get_ssid_ref 9)\""
 
   $ disable_ap 9
   Device.WiFi.AccessPoint.9 disabled
@@ -68,7 +68,7 @@ Test deactivation of access point 9:
 
 Test deactivation of access point 8:
 
-  $ R logger -t cram "Test AccessPoint 8 deactivation "$(get_ssid_ref 8)""
+  $ R logger -t cram "Test AccessPoint 8 deactivation \"$(get_ssid_ref 8)\""
 
   $ disable_ap 8
   Device.WiFi.AccessPoint.8 disabled
@@ -91,7 +91,7 @@ Test deactivation of access point 8:
 
 Test deactivation of access point 7:
 
-  $ R logger -t cram "Test AccessPoint 7 deactivation "$(get_ssid_ref 7)""
+  $ R logger -t cram "Test AccessPoint 7 deactivation \"$(get_ssid_ref 7)\""
 
   $ disable_ap 7
   Device.WiFi.AccessPoint.7 disabled
@@ -114,7 +114,7 @@ Test deactivation of access point 7:
 
 Test deactivation of access point 6:
 
-  $ R logger -t cram "Test AccessPoint 6 deactivation "$(get_ssid_ref 6)""
+  $ R logger -t cram "Test AccessPoint 6 deactivation \"$(get_ssid_ref 6)\""
 
   $ disable_ap 6
   Device.WiFi.AccessPoint.6 disabled
@@ -137,7 +137,7 @@ Test deactivation of access point 6:
 
 Test deactivation of access point 5:
 
-  $ R logger -t cram "Test AccessPoint 5 deactivation "$(get_ssid_ref 5)""
+  $ R logger -t cram "Test AccessPoint 5 deactivation \"$(get_ssid_ref 5)\""
 
   $ disable_ap 5
   Device.WiFi.AccessPoint.5 disabled
@@ -160,7 +160,7 @@ Test deactivation of access point 5:
 
 Test deactivation of access point 4:
 
-  $ R logger -t cram "Test AccessPoint 4 deactivation "$(get_ssid_ref 4)""
+  $ R logger -t cram "Test AccessPoint 4 deactivation \"$(get_ssid_ref 4)\""
 
   $ disable_ap 4
   Device.WiFi.AccessPoint.4 disabled
@@ -183,7 +183,7 @@ Test deactivation of access point 4:
 
 Test deactivation of access point 3:
 
-  $ R logger -t cram "Test AccessPoint 3 deactivation "$(get_ssid_ref 3)""
+  $ R logger -t cram "Test AccessPoint 3 deactivation \"$(get_ssid_ref 3)\""
 
   $ disable_ap 3
   Device.WiFi.AccessPoint.3 disabled
@@ -206,7 +206,7 @@ Test deactivation of access point 3:
 
 Test deactivation of access point 2:
 
-  $ R logger -t cram "Test AccessPoint 2 deactivation "$(get_ssid_ref 2)""
+  $ R logger -t cram "Test AccessPoint 2 deactivation \"$(get_ssid_ref 2)\""
 
   $ disable_ap 2
   Device.WiFi.AccessPoint.2 disabled
@@ -229,7 +229,7 @@ Test deactivation of access point 2:
 
 Test deactivation of access point 1:
 
-  $ R logger -t cram "Test AccessPoint 1 deactivation "$(get_ssid_ref 1)""
+  $ R logger -t cram "Test AccessPoint 1 deactivation \"$(get_ssid_ref 1)\""
 
   $ disable_ap 1
   Device.WiFi.AccessPoint.1 disabled
