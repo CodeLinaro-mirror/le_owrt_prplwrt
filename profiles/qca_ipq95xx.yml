@@ -8,7 +8,7 @@ description: Build image for prpl Foundation Freedom board
 feeds:
   - name: feed_qca
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-qca.git
-    revision: latest-24.10/ath13.1@1a86eec8a5295c60fb5e7f7287679251a704d0fd
+    revision: latest-24.10/ath13.1@b6e2c2b11456fe0bcc01515102a0636783ae63dd
 
 include:
   - secure_boot_emmc
@@ -53,6 +53,7 @@ packages:
   - kmod-qca-wifi-nss-plugins
   - wifi-scripts
   - wifi-helper-scripts
+  - kmod-input-gpio-keys-polled
 
 diffconfig: |
   CONFIG_BUSYBOX_CUSTOM=y
