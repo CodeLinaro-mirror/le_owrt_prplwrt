@@ -15,7 +15,7 @@ Download on the active bank with AutoActivate=false is rejected:
 
   $ R "ba-cli 'DeviceInfo.FirmwareImage.$ACTIVE.Download(URL=\"http://127.0.0.1:1/x.swu\",AutoActivate=false)'" 2>&1
   *DeviceInfo.FirmwareImage.*.Download(URL="http://127.0.0.1:1/x.swu",AutoActivate=false) (glob)
-  ERROR: call (null) failed with status 18 - invalid argument
+  ERROR: call (null) failed with status 11 - invalid action
   DeviceInfo.FirmwareImage.*.Download() returned (glob)
   [
       ""
@@ -23,14 +23,15 @@ Download on the active bank with AutoActivate=false is rejected:
   $ R "ba-cli 'DeviceInfo.ActiveFirmwareImage?'" | grep -oE "FirmwareImage.$ACTIVE\"" | wc -l | tr -d ' '
   1
 
-Download on the active bank with AutoActivate=true is not supported:
+Download on the active bank with AutoActivate=true is rejected the same way,
+unconditionally, without ever touching the data model:
 
   $ R "ba-cli 'DeviceInfo.FirmwareImage.$ACTIVE.Download(URL=\"http://127.0.0.1:1/x.swu\",AutoActivate=true)'" 2>&1
   *DeviceInfo.FirmwareImage.*.Download(URL="http://127.0.0.1:1/x.swu",AutoActivate=true) (glob)
-  ERROR: call (null) failed with status 24 - not supported
+  ERROR: call (null) failed with status 11 - invalid action
   DeviceInfo.FirmwareImage.*.Download() returned (glob)
   [
-      * (glob)
+      ""
   ]
   $ R "ba-cli 'DeviceInfo.ActiveFirmwareImage?'" | grep -oE "FirmwareImage.$ACTIVE\"" | wc -l | tr -d ' '
   1
