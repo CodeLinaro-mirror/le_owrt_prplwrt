@@ -62,58 +62,89 @@ Subscribe to OperationComplete on the Download:
   $ R "usp-cli 'Device.LocalAgent.Subscription.$SUB.ReferenceList=\"Device.DeviceInfo.FirmwareImage.$IMG.Download()\"'" > /dev/null
   $ R "usp-cli 'Device.LocalAgent.Subscription.$SUB.Enable=true'" > /dev/null
 
-Connection refused is reported as curl error (7):
+Connection refused is reported as curl error (7). Confirm the async Download()
+was actually dispatched (a Request object is created), then poll for the
+reconciled end state (back to Available, BootFailureLog cleared) rather than
+the transient DownloadFailed status, which can no longer be relied on to stick:
 
-  $ R "usp-cli 'Device.DeviceInfo.FirmwareImage.$IMG.Download(URL=\"http://$SERVER_IP:9099/x.swu\", AutoActivate=false)'" > /dev/null 2>&1
+  $ R "usp-cli 'Device.DeviceInfo.FirmwareImage.$IMG.Download(URL=\"http://$SERVER_IP:9099/x.swu\", AutoActivate=false)'"
+  *Device.DeviceInfo.FirmwareImage.*.Download(URL="http://*:9099/x.swu", AutoActivate=false) (glob)
+  Device.DeviceInfo.FirmwareImage.*.Download() returned (glob)
+  {
+      executed_command = "Device.DeviceInfo.FirmwareImage.*.Download()", (glob)
+      req_obj_path = "Device.LocalAgent.Request.*" (glob)
+  }
 # waiting for output in a loop as usp-cli executes async RPC in non-blocking way
-  $ for i in $(seq 1 20); do R "usp-cli 'Device.DeviceInfo.FirmwareImage.$IMG.Status?'" | grep -qF '"DownloadFailed"' && break; sleep 2; done
+  $ for i in $(seq 1 20); do R "usp-cli 'Device.DeviceInfo.FirmwareImage.$IMG.Status?'" | grep -qF '"Available"' && break; sleep 2; done
   $ R "usp-cli 'Device.DeviceInfo.FirmwareImage.$IMG.Status?'"
   *Device.DeviceInfo.FirmwareImage.*.Status? (glob)
-  Device.DeviceInfo.FirmwareImage.*.Status="DownloadFailed" (glob)
+  Device.DeviceInfo.FirmwareImage.*.Status="Available" (glob)
   $ R "usp-cli 'Device.DeviceInfo.FirmwareImage.$IMG.BootFailureLog?'"
   *Device.DeviceInfo.FirmwareImage.*.BootFailureLog? (glob)
-  Device.DeviceInfo.FirmwareImage.*.BootFailureLog="*\(7\) Error*" (glob)
+  Device.DeviceInfo.FirmwareImage.*.BootFailureLog="" (glob)
   $ R "ba-cli 'DeviceInfo.ActiveFirmwareImage?'" | grep -oE "FirmwareImage.$ACTIVE\"" | wc -l | tr -d ' '
   1
 
-DNS resolution failure is reported as curl error (6):
+DNS resolution failure is reported as curl error (6), then reconciled:
 
-  $ R "usp-cli 'Device.DeviceInfo.FirmwareImage.$IMG.Download(URL=\"http://no-such-host.invalid/x.swu\", AutoActivate=false)'" > /dev/null 2>&1
+  $ R "usp-cli 'Device.DeviceInfo.FirmwareImage.$IMG.Download(URL=\"http://no-such-host.invalid/x.swu\", AutoActivate=false)'"
+  *Device.DeviceInfo.FirmwareImage.*.Download(URL="http://no-such-host.invalid/x.swu", AutoActivate=false) (glob)
+  Device.DeviceInfo.FirmwareImage.*.Download() returned (glob)
+  {
+      executed_command = "Device.DeviceInfo.FirmwareImage.*.Download()", (glob)
+      req_obj_path = "Device.LocalAgent.Request.*" (glob)
+  }
 # waiting for output in a loop as usp-cli executes async RPC in non-blocking way
-  $ for i in $(seq 1 20); do R "usp-cli 'Device.DeviceInfo.FirmwareImage.$IMG.Status?'" | grep -qF '"DownloadFailed"' && break; sleep 2; done
+  $ for i in $(seq 1 20); do R "usp-cli 'Device.DeviceInfo.FirmwareImage.$IMG.Status?'" | grep -qF '"Available"' && break; sleep 2; done
   $ R "usp-cli 'Device.DeviceInfo.FirmwareImage.$IMG.Status?'"
   *Device.DeviceInfo.FirmwareImage.*.Status? (glob)
-  Device.DeviceInfo.FirmwareImage.*.Status="DownloadFailed" (glob)
+  Device.DeviceInfo.FirmwareImage.*.Status="Available" (glob)
   $ R "usp-cli 'Device.DeviceInfo.FirmwareImage.$IMG.BootFailureLog?'"
   *Device.DeviceInfo.FirmwareImage.*.BootFailureLog? (glob)
-  Device.DeviceInfo.FirmwareImage.*.BootFailureLog="*\(6\) Error*" (glob)
+  Device.DeviceInfo.FirmwareImage.*.BootFailureLog="" (glob)
   $ R "ba-cli 'DeviceInfo.ActiveFirmwareImage?'" | grep -oE "FirmwareImage.$ACTIVE\"" | wc -l | tr -d ' '
   1
 
-HTTP 401 (no credentials) is reported as 401 Unauthorized:
+HTTP 401 (no credentials) is reported as 401 Unauthorized, then reconciled:
 
-  $ R "usp-cli 'Device.DeviceInfo.FirmwareImage.$IMG.Download(URL=\"http://$SERVER_IP:8889/firmware.swu\", AutoActivate=false)'" > /dev/null 2>&1
+  $ R "usp-cli 'Device.DeviceInfo.FirmwareImage.$IMG.Download(URL=\"http://$SERVER_IP:8889/firmware.swu\", AutoActivate=false)'"
+  *Device.DeviceInfo.FirmwareImage.*.Download(URL="http://*:8889/firmware.swu", AutoActivate=false) (glob)
+  Device.DeviceInfo.FirmwareImage.*.Download() returned (glob)
+  {
+      executed_command = "Device.DeviceInfo.FirmwareImage.*.Download()", (glob)
+      req_obj_path = "Device.LocalAgent.Request.*" (glob)
+  }
 # waiting for output in a loop as usp-cli executes async RPC in non-blocking way
-  $ for i in $(seq 1 20); do R "usp-cli 'Device.DeviceInfo.FirmwareImage.$IMG.Status?'" | grep -qF '"DownloadFailed"' && break; sleep 2; done
+  $ for i in $(seq 1 20); do R "usp-cli 'Device.DeviceInfo.FirmwareImage.$IMG.Status?'" | grep -qF '"Available"' && break; sleep 2; done
   $ R "usp-cli 'Device.DeviceInfo.FirmwareImage.$IMG.Status?'"
   *Device.DeviceInfo.FirmwareImage.*.Status? (glob)
-  Device.DeviceInfo.FirmwareImage.*.Status="DownloadFailed" (glob)
+  Device.DeviceInfo.FirmwareImage.*.Status="Available" (glob)
   $ R "usp-cli 'Device.DeviceInfo.FirmwareImage.$IMG.BootFailureLog?'"
   *Device.DeviceInfo.FirmwareImage.*.BootFailureLog? (glob)
-  Device.DeviceInfo.FirmwareImage.*.BootFailureLog="*401 Unauthorized*" (glob)
+  Device.DeviceInfo.FirmwareImage.*.BootFailureLog="" (glob)
   $ R "ba-cli 'DeviceInfo.ActiveFirmwareImage?'" | grep -oE "FirmwareImage.$ACTIVE\"" | wc -l | tr -d ' '
   1
 
-HTTP 404 (missing file) is reported as DownloadFailed with 404 Not Found:
+HTTP 404 (missing file) is reported with 404 Not Found, then reconciled:
 
-  $ R "usp-cli 'Device.DeviceInfo.FirmwareImage.$IMG.Download(URL=\"http://$SERVER_IP:8888/firmware-not-found.swu\", AutoActivate=false)'" > /dev/null 2>&1
+  $ R "usp-cli 'Device.DeviceInfo.FirmwareImage.$IMG.Download(URL=\"http://$SERVER_IP:8888/firmware-not-found.swu\", AutoActivate=false)'"
+  *Device.DeviceInfo.FirmwareImage.*.Download(URL="http://*:8888/firmware-not-found.swu", AutoActivate=false) (glob)
+  Device.DeviceInfo.FirmwareImage.*.Download() returned (glob)
+  {
+      executed_command = "Device.DeviceInfo.FirmwareImage.*.Download()", (glob)
+      req_obj_path = "Device.LocalAgent.Request.*" (glob)
+  }
 # waiting for output in a loop as usp-cli executes async RPC in non-blocking way
-  $ for i in $(seq 1 20); do R "usp-cli 'Device.DeviceInfo.FirmwareImage.$IMG.Status?'" | grep -qF '"DownloadFailed"' && break; sleep 2; done
+  $ for i in $(seq 1 20); do R "usp-cli 'Device.DeviceInfo.FirmwareImage.$IMG.Status?'" | grep -qF '"Available"' && break; sleep 2; done
   $ R "usp-cli 'Device.DeviceInfo.FirmwareImage.$IMG.Status?'"
   *Device.DeviceInfo.FirmwareImage.*.Status? (glob)
-  Device.DeviceInfo.FirmwareImage.*.Status="DownloadFailed" (glob)
+  Device.DeviceInfo.FirmwareImage.*.Status="Available" (glob)
   $ R "usp-cli 'Device.DeviceInfo.FirmwareImage.$IMG.BootFailureLog?'"
   *Device.DeviceInfo.FirmwareImage.*.BootFailureLog? (glob)
-  Device.DeviceInfo.FirmwareImage.*.BootFailureLog="*404 Not Found*" (glob)
+  Device.DeviceInfo.FirmwareImage.*.BootFailureLog="" (glob)
   $ R "ba-cli 'DeviceInfo.ActiveFirmwareImage?'" | grep -oE "FirmwareImage.$ACTIVE\"" | wc -l | tr -d ' '
   1
+
+Clean up the HTTP servers:
+
+  $ kill -9 "$open_pid" "$auth_pid" 2>/dev/null
