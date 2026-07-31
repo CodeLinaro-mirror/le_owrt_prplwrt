@@ -34,14 +34,15 @@ sysupgrade-prpl accepts the URL and dispatches Download() on the inactive bank:
   $ R "ba-cli 'DeviceInfo.ActiveFirmwareImage?'" | grep -oE "FirmwareImage.$ACTIVE\"" | wc -l | tr -d ' '
   1
 
-The 404 fails the download - the inactive bank reports DownloadFailed:
+The 404 fails the download - the inactive bank's state is reconciled from
+the controller (back to Available, BootFailureLog cleared):
 
   $ R "ba-cli 'DeviceInfo.FirmwareImage.$IMG.Status?'"
   *DeviceInfo.FirmwareImage.*.Status? (glob)
-  DeviceInfo.FirmwareImage.*.Status="DownloadFailed" (glob)
+  DeviceInfo.FirmwareImage.*.Status="Available" (glob)
   $ R "ba-cli 'DeviceInfo.FirmwareImage.$IMG.BootFailureLog?'"
   *DeviceInfo.FirmwareImage.*.BootFailureLog? (glob)
-  DeviceInfo.FirmwareImage.*.BootFailureLog="*404 Not Found*" (glob)
+  DeviceInfo.FirmwareImage.*.BootFailureLog="" (glob)
   $ R "ba-cli 'DeviceInfo.ActiveFirmwareImage?'" | grep -oE "FirmwareImage.$ACTIVE\"" | wc -l | tr -d ' '
   1
 
@@ -54,3 +55,7 @@ sysupgrade-prpl fails if DeviceInfo data model is down:
   $ R "/etc/init.d/deviceinfo-manager start > /dev/null 2>&1"
 # Wait for deviceinfo to start
   $ for i in $(seq 1 5); do R "ba-cli 'DeviceInfo.FirmwareImage.$ACTIVE.Status?'" | grep -qF '="Active"' && break; sleep 2; done
+
+Clean up the HTTP server:
+
+  $ kill -9 "$open_pid" 2>/dev/null

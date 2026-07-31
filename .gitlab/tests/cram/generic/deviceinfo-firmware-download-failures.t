@@ -31,7 +31,9 @@ Check the servers answer 404 and 401:
   $ R "curl -s -o /dev/null -w '%{http_code}\n' http://$SERVER_IP:8190/fw.swu"
   401
 
-Connection refused is reported as curl error (7):
+Connection refused is reported as curl error (7), then the image state is
+reconciled from the controller (still Available - the failed download does
+not affect the previously flashed image) and BootFailureLog is cleared:
 
   $ R "ba-cli 'DeviceInfo.FirmwareImage.$IMG.Download(URL=\"http://$SERVER_IP:9099/fw.swu\",AutoActivate=false)'" 2>&1
   *DeviceInfo.FirmwareImage.*.Download(URL="http://*:9099/fw.swu",AutoActivate=false) (glob)
@@ -42,14 +44,14 @@ Connection refused is reported as curl error (7):
   ]
   $ R "ba-cli 'DeviceInfo.FirmwareImage.$IMG.Status?'"
   *DeviceInfo.FirmwareImage.*.Status? (glob)
-  DeviceInfo.FirmwareImage.*.Status="DownloadFailed" (glob)
+  DeviceInfo.FirmwareImage.*.Status="Available" (glob)
   $ R "ba-cli 'DeviceInfo.FirmwareImage.$IMG.BootFailureLog?'"
   *DeviceInfo.FirmwareImage.*.BootFailureLog? (glob)
-  DeviceInfo.FirmwareImage.*.BootFailureLog="*\(7\) Error*" (glob)
+  DeviceInfo.FirmwareImage.*.BootFailureLog="" (glob)
   $ R "ba-cli 'DeviceInfo.ActiveFirmwareImage?'" | grep -oE "FirmwareImage.$ACTIVE\"" | wc -l | tr -d ' '
   1
 
-DNS resolution failure is reported as curl error (6):
+DNS resolution failure is reported as curl error (6), then reconciled:
 
   $ R "ba-cli 'DeviceInfo.FirmwareImage.$IMG.Download(URL=\"http://no-such-host.invalid/fw.swu\",AutoActivate=false)'" 2>&1
   *DeviceInfo.FirmwareImage.*.Download(URL="http://no-such-host.invalid/fw.swu",AutoActivate=false) (glob)
@@ -60,14 +62,14 @@ DNS resolution failure is reported as curl error (6):
   ]
   $ R "ba-cli 'DeviceInfo.FirmwareImage.$IMG.Status?'"
   *DeviceInfo.FirmwareImage.*.Status? (glob)
-  DeviceInfo.FirmwareImage.*.Status="DownloadFailed" (glob)
+  DeviceInfo.FirmwareImage.*.Status="Available" (glob)
   $ R "ba-cli 'DeviceInfo.FirmwareImage.$IMG.BootFailureLog?'"
   *DeviceInfo.FirmwareImage.*.BootFailureLog? (glob)
-  DeviceInfo.FirmwareImage.*.BootFailureLog="*\(6\) Error*" (glob)
+  DeviceInfo.FirmwareImage.*.BootFailureLog="" (glob)
   $ R "ba-cli 'DeviceInfo.ActiveFirmwareImage?'" | grep -oE "FirmwareImage.$ACTIVE\"" | wc -l | tr -d ' '
   1
 
-HTTP 401 (no credentials) is reported as 401 Unauthorized:
+HTTP 401 (no credentials) is reported as 401 Unauthorized, then reconciled:
 
   $ R "ba-cli 'DeviceInfo.FirmwareImage.$IMG.Download(URL=\"http://$SERVER_IP:8190/fw.swu\",AutoActivate=false)'" 2>&1
   *DeviceInfo.FirmwareImage.*.Download(URL="http://*:8190/fw.swu",AutoActivate=false) (glob)
@@ -78,14 +80,14 @@ HTTP 401 (no credentials) is reported as 401 Unauthorized:
   ]
   $ R "ba-cli 'DeviceInfo.FirmwareImage.$IMG.Status?'"
   *DeviceInfo.FirmwareImage.*.Status? (glob)
-  DeviceInfo.FirmwareImage.*.Status="DownloadFailed" (glob)
+  DeviceInfo.FirmwareImage.*.Status="Available" (glob)
   $ R "ba-cli 'DeviceInfo.FirmwareImage.$IMG.BootFailureLog?'"
   *DeviceInfo.FirmwareImage.*.BootFailureLog? (glob)
-  DeviceInfo.FirmwareImage.*.BootFailureLog="*401 Unauthorized*" (glob)
+  DeviceInfo.FirmwareImage.*.BootFailureLog="" (glob)
   $ R "ba-cli 'DeviceInfo.ActiveFirmwareImage?'" | grep -oE "FirmwareImage.$ACTIVE\"" | wc -l | tr -d ' '
   1
 
-HTTP 404 (missing file) is reported as 404 Not Found:
+HTTP 404 (missing file) is reported as 404 Not Found, then reconciled:
 
   $ R "ba-cli 'DeviceInfo.FirmwareImage.$IMG.Download(URL=\"http://$SERVER_IP:8189/nonexistent.swu\",AutoActivate=false)'" 2>&1
   *DeviceInfo.FirmwareImage.*.Download(URL="http://*:8189/nonexistent.swu",AutoActivate=false) (glob)
@@ -96,9 +98,13 @@ HTTP 404 (missing file) is reported as 404 Not Found:
   ]
   $ R "ba-cli 'DeviceInfo.FirmwareImage.$IMG.Status?'"
   *DeviceInfo.FirmwareImage.*.Status? (glob)
-  DeviceInfo.FirmwareImage.*.Status="DownloadFailed" (glob)
+  DeviceInfo.FirmwareImage.*.Status="Available" (glob)
   $ R "ba-cli 'DeviceInfo.FirmwareImage.$IMG.BootFailureLog?'"
   *DeviceInfo.FirmwareImage.*.BootFailureLog? (glob)
-  DeviceInfo.FirmwareImage.*.BootFailureLog="*404 Not Found*" (glob)
+  DeviceInfo.FirmwareImage.*.BootFailureLog="" (glob)
   $ R "ba-cli 'DeviceInfo.ActiveFirmwareImage?'" | grep -oE "FirmwareImage.$ACTIVE\"" | wc -l | tr -d ' '
   1
+
+Clean up the HTTP servers:
+
+  $ kill -9 "$open_pid" "$auth_pid" 2>/dev/null
