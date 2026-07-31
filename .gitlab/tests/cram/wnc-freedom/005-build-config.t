@@ -222,6 +222,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-input-core=y
   CONFIG_PACKAGE_kmod-input-evdev=y
   CONFIG_PACKAGE_kmod-input-gpio-keys=y
+  CONFIG_PACKAGE_kmod-input-gpio-keys-polled=y
   CONFIG_PACKAGE_kmod-ip6tables=y
   CONFIG_PACKAGE_kmod-ip6tables-extra=y
   CONFIG_PACKAGE_kmod-ipsec=y
