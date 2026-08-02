@@ -158,10 +158,10 @@ targets:
   mxl25641-hdk-6-emmc:
     resources:
       RawSerialPort:
-        port: "/dev/mxl25641-hdk-6"
+        port: "/dev/mxl25641-hdk-6-legacy"
       ModbusTCPCoil:
         host: quido.testbed-01.vpn.true.cz
-        coil: 1
+        coil: 4
         managed_coils: 8
         exclusive_coil_mode: True
         write_multiple_coils: True
