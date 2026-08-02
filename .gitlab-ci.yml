@@ -27,8 +27,10 @@ include:
   - local: .gitlab/testbed/arcadyan-mozart.yml
   - local: .gitlab/testbed/wnc-freedom.yml
   - local: .gitlab/testbed/nokia-valyrian.yml
+  - component: $CI_SERVER_FQDN/prpl-foundation/prplos/ci/components/git-commit-checker/static@dev/initial-porting-of-the-git-commit-checker-to-prpl
 
 stages:
+  - commit-check
   - docker
   - docker test
   - docker deploy
