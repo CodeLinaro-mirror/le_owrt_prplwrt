@@ -1,7 +1,3 @@
-Run only on testbed-02, the HomePlug PLC devices are physically present only there:
-
-  $ echo "$CI_RUNNER_DESCRIPTION" | grep -q testbed-02 || exit 80
-
 Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
