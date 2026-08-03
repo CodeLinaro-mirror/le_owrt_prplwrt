@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
+import errno
 import glob
 import os
 import sys
@@ -89,6 +90,8 @@ class UbusTR181:
 
 
 class TestbedDevice:
+    STALE_CONSOLE_ERRNOS = {errno.EIO, errno.ENODEV, errno.ENOENT}
+
     def __init__(self, args):
         self.args = args
         self.shell = None
@@ -183,13 +186,79 @@ class TestbedDevice:
         self.shell.run("netstat -nlp | grep :22")
         self.shell.run("ping -c1 192.168.1.1; ping -c1 192.168.1.2")
 
+    @classmethod
+    def _is_stale_console_error(cls, exception):
+        pending = [exception]
+        seen = set()
+
+        while pending:
+            current = pending.pop()
+            if id(current) in seen:
+                continue
+            seen.add(id(current))
+
+            if (
+                isinstance(current, OSError)
+                and current.errno in cls.STALE_CONSOLE_ERRNOS
+            ):
+                return True
+
+            if current.__cause__ is not None:
+                pending.append(current.__cause__)
+            if current.__context__ is not None:
+                pending.append(current.__context__)
+
+        return False
+
+    def _reopen_console(self, console, timeout=4.0):
+        self.target.deactivate(console)
+        deadline = time.monotonic() + timeout
+        port = getattr(getattr(console, "port", None), "port", None)
+
+        while True:
+            if port is None or os.path.exists(port):
+                try:
+                    self.target.activate(console)
+                    return
+                except Exception as exception:
+                    if not self._is_stale_console_error(exception):
+                        raise
+
+            if time.monotonic() >= deadline:
+                self.target.activate(console)
+                return
+
+            time.sleep(0.1)
+
     def boot_into(self):
         strategy = self.target.get_driver("UBootStrategy")
         dest = self.args.destination
+
+        strategy.transition("off")
+        self.target.activate(strategy.console)
+        strategy.power.cycle()
+
+        try:
+            self.target.activate(strategy.uboot)
+        except Exception as exception:
+            if strategy.uboot.get_status() or not self._is_stale_console_error(
+                exception
+            ):
+                raise
+
+            logging.warning(
+                "Console became stale during U-Boot activation; "
+                "waiting for UART re-enumeration"
+            )
+            self._reopen_console(strategy.console)
+            logging.info("Console reopened; retrying U-Boot activation")
+            self.target.activate(strategy.uboot)
+
         if dest == "shell":
-            strategy.transition("shell")
-        if dest == "bootloader":
-            strategy.transition("uboot")
+            strategy.uboot.boot("")
+            strategy.uboot.await_boot()
+            self.target.activate(strategy.shell)
+            strategy.shell.run("systemctl is-system-running --wait")
 
     def power(self):
         power = self.target.get_driver("PowerProtocol")
