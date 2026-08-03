@@ -229,6 +229,7 @@
 
 .cram_component:
   extends: .testbed
+  timeout: 40 minutes
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
       when: never

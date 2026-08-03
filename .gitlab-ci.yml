@@ -89,6 +89,7 @@ cram Omnia [full]:
   allow_failure: true
   needs: ["build test mvebu prpl security"]
   extends: .turris-omnia testbed
+  timeout: 85 minutes
   variables:
     COMPONENT: full
 
@@ -117,6 +118,7 @@ cram Haze [full]:
   allow_failure: true
   needs: ["build test ipq807x prpl security"]
   extends: .prpl-haze testbed
+  timeout: 85 minutes
   variables:
     COMPONENT: full
 
@@ -144,6 +146,7 @@ cram Haze [prplos]:
 cram OSPv2 [full]:
   needs: ["build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread"]
   extends: .mxl25641-hdk-6 testbed
+  timeout: 85 minutes
   variables:
     COMPONENT: full
 
@@ -168,6 +171,7 @@ cram OSPv2 [prplos]:
 cram Freedom [full]:
   needs: ["build test qca_ipq95xx prpl cellular security thread"]
   extends: .wnc-freedom testbed
+  timeout: 85 minutes
   variables:
     COMPONENT: full
 
@@ -194,6 +198,7 @@ cram Mozart [full]:
     - job: build test mtk_filogic prpl security
       optional: true
   extends: .arcadyan-mozart testbed
+  timeout: 85 minutes
   variables:
     COMPONENT: full
 
@@ -226,6 +231,7 @@ cram Valyrian [full]:
     - job: build test airoha_an7581 prpl security
       optional: true
   extends: .nokia-valyrian testbed
+  timeout: 85 minutes
   variables:
     COMPONENT: full
 
