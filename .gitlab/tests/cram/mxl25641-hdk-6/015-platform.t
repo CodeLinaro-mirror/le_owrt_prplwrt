@@ -4,10 +4,10 @@ Create R alias:
 
 Check that there is SFP+ stick present:
 
-  $ R 'ba-cli --less --json SFPs.Mgmt.SFF8472.1.Transceiver.?' | jq -r '.[0]."SFPs.Mgmt.SFF8472.1.Transceiver." | [.VendorSN, .VendorPN, .VendorName] | sort | .[]'
-  F\d+$ (re)
+  $ R 'ba-cli --less --json SFPs.Mgmt.SFF8472.1.Transceiver.?' | jq -r '.[0]."SFPs.Mgmt.SFF8472.1.Transceiver." | [.VendorName, .VendorPN, .VendorSN] | .[]'
   FS
-  SFP-10G-T
+  SFP-10G-T(-30)? (re)
+  (F|G)\d+$ (re)
 
 Check that we've WPS gpio key available:
 
