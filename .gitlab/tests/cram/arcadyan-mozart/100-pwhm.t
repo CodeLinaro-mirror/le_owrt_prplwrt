@@ -16,27 +16,27 @@ Stop prplMesh:
 Set AutoChannelEnable=0 on all WiFi.Radio. interfaces:
 
   $ wifi_dm "Radio.*.AutoChannelEnable=0"
-  WiFi.Radio.1.AutoChannelEnable=0
-  WiFi.Radio.2.AutoChannelEnable=0
-  WiFi.Radio.3.AutoChannelEnable=0
+  Device.WiFi.Radio.1.AutoChannelEnable=0
+  Device.WiFi.Radio.2.AutoChannelEnable=0
+  Device.WiFi.Radio.3.AutoChannelEnable=0
 
 Set channel to a non DFS one:
 
   $ wifi_dm "Radio.2.Channel=36"
-  WiFi.Radio.2.Channel=36 (re)
+  Device.WiFi.Radio.2.Channel=36 (re)
 
 Check default SSID status:
 
   $ get_ap_status
-  WiFi.AccessPoint.1.Status="Disabled"
-  WiFi.AccessPoint.2.Status="Disabled"
-  WiFi.AccessPoint.3.Status="Disabled"
-  WiFi.AccessPoint.4.Status="Disabled"
-  WiFi.AccessPoint.5.Status="Disabled"
-  WiFi.AccessPoint.6.Status="Disabled"
-  WiFi.AccessPoint.7.Status="Disabled"
-  WiFi.AccessPoint.8.Status="Disabled"
-  WiFi.AccessPoint.9.Status="Disabled"
+  Device.WiFi.AccessPoint.1.Status="Disabled"
+  Device.WiFi.AccessPoint.2.Status="Disabled"
+  Device.WiFi.AccessPoint.3.Status="Disabled"
+  Device.WiFi.AccessPoint.4.Status="Disabled"
+  Device.WiFi.AccessPoint.5.Status="Disabled"
+  Device.WiFi.AccessPoint.6.Status="Disabled"
+  Device.WiFi.AccessPoint.7.Status="Disabled"
+  Device.WiFi.AccessPoint.8.Status="Disabled"
+  Device.WiFi.AccessPoint.9.Status="Disabled"
 
 Check default SSID configuration of access points:
 
@@ -64,15 +64,15 @@ Test activation of access point 1:
   AccessPoint.\d+.Enable=1 (re)
 
   $ wifi_dm "AccessPoint.*.Status?0"
-  WiFi.AccessPoint.1.Status="Enabled"
-  WiFi.AccessPoint.2.Status="Disabled"
-  WiFi.AccessPoint.3.Status="Disabled"
-  WiFi.AccessPoint.4.Status="Disabled"
-  WiFi.AccessPoint.5.Status="Disabled"
-  WiFi.AccessPoint.6.Status="Disabled"
-  WiFi.AccessPoint.7.Status="Disabled"
-  WiFi.AccessPoint.8.Status="Disabled"
-  WiFi.AccessPoint.9.Status="Disabled"
+  Device.WiFi.AccessPoint.1.Status="Enabled"
+  Device.WiFi.AccessPoint.2.Status="Disabled"
+  Device.WiFi.AccessPoint.3.Status="Disabled"
+  Device.WiFi.AccessPoint.4.Status="Disabled"
+  Device.WiFi.AccessPoint.5.Status="Disabled"
+  Device.WiFi.AccessPoint.6.Status="Disabled"
+  Device.WiFi.AccessPoint.7.Status="Disabled"
+  Device.WiFi.AccessPoint.8.Status="Disabled"
+  Device.WiFi.AccessPoint.9.Status="Disabled"
 
 Save hostap pid:
 
@@ -87,15 +87,15 @@ Test activation of access point 2:
   AccessPoint.2.Enable=1
 
   $ wifi_dm "AccessPoint.*.Status?0"
-  WiFi.AccessPoint.1.Status="Enabled"
-  WiFi.AccessPoint.2.Status="Enabled"
-  WiFi.AccessPoint.3.Status="Disabled"
-  WiFi.AccessPoint.4.Status="Disabled"
-  WiFi.AccessPoint.5.Status="Disabled"
-  WiFi.AccessPoint.6.Status="Disabled"
-  WiFi.AccessPoint.7.Status="Disabled"
-  WiFi.AccessPoint.8.Status="Disabled"
-  WiFi.AccessPoint.9.Status="Disabled"
+  Device.WiFi.AccessPoint.1.Status="Enabled"
+  Device.WiFi.AccessPoint.2.Status="Enabled"
+  Device.WiFi.AccessPoint.3.Status="Disabled"
+  Device.WiFi.AccessPoint.4.Status="Disabled"
+  Device.WiFi.AccessPoint.5.Status="Disabled"
+  Device.WiFi.AccessPoint.6.Status="Disabled"
+  Device.WiFi.AccessPoint.7.Status="Disabled"
+  Device.WiFi.AccessPoint.8.Status="Disabled"
+  Device.WiFi.AccessPoint.9.Status="Disabled"
 
 Test activation of access point 3:
 
@@ -105,15 +105,15 @@ Test activation of access point 3:
   AccessPoint.3.Enable=1
 
   $ wifi_dm "AccessPoint.*.Status?0"
-  WiFi.AccessPoint.1.Status="Enabled"
-  WiFi.AccessPoint.2.Status="Enabled"
-  WiFi.AccessPoint.3.Status="Enabled"
-  WiFi.AccessPoint.4.Status="Disabled"
-  WiFi.AccessPoint.5.Status="Disabled"
-  WiFi.AccessPoint.6.Status="Disabled"
-  WiFi.AccessPoint.7.Status="Disabled"
-  WiFi.AccessPoint.8.Status="Disabled"
-  WiFi.AccessPoint.9.Status="Disabled"
+  Device.WiFi.AccessPoint.1.Status="Enabled"
+  Device.WiFi.AccessPoint.2.Status="Enabled"
+  Device.WiFi.AccessPoint.3.Status="Enabled"
+  Device.WiFi.AccessPoint.4.Status="Disabled"
+  Device.WiFi.AccessPoint.5.Status="Disabled"
+  Device.WiFi.AccessPoint.6.Status="Disabled"
+  Device.WiFi.AccessPoint.7.Status="Disabled"
+  Device.WiFi.AccessPoint.8.Status="Disabled"
+  Device.WiFi.AccessPoint.9.Status="Disabled"
 
 Test activation of access point 4:
 
@@ -123,15 +123,15 @@ Test activation of access point 4:
   AccessPoint.4.Enable=1
 
   $ wifi_dm "AccessPoint.*.Status?0"
-  WiFi.AccessPoint.1.Status="Enabled"
-  WiFi.AccessPoint.2.Status="Enabled"
-  WiFi.AccessPoint.3.Status="Enabled"
-  WiFi.AccessPoint.4.Status="Enabled"
-  WiFi.AccessPoint.5.Status="Disabled"
-  WiFi.AccessPoint.6.Status="Disabled"
-  WiFi.AccessPoint.7.Status="Disabled"
-  WiFi.AccessPoint.8.Status="Disabled"
-  WiFi.AccessPoint.9.Status="Disabled"
+  Device.WiFi.AccessPoint.1.Status="Enabled"
+  Device.WiFi.AccessPoint.2.Status="Enabled"
+  Device.WiFi.AccessPoint.3.Status="Enabled"
+  Device.WiFi.AccessPoint.4.Status="Enabled"
+  Device.WiFi.AccessPoint.5.Status="Disabled"
+  Device.WiFi.AccessPoint.6.Status="Disabled"
+  Device.WiFi.AccessPoint.7.Status="Disabled"
+  Device.WiFi.AccessPoint.8.Status="Disabled"
+  Device.WiFi.AccessPoint.9.Status="Disabled"
 
 Test activation of access point 5:
 
@@ -141,15 +141,15 @@ Test activation of access point 5:
   AccessPoint.5.Enable=1
 
   $ wifi_dm "AccessPoint.*.Status?0"
-  WiFi.AccessPoint.1.Status="Enabled"
-  WiFi.AccessPoint.2.Status="Enabled"
-  WiFi.AccessPoint.3.Status="Enabled"
-  WiFi.AccessPoint.4.Status="Enabled"
-  WiFi.AccessPoint.5.Status="Enabled"
-  WiFi.AccessPoint.6.Status="Disabled"
-  WiFi.AccessPoint.7.Status="Disabled"
-  WiFi.AccessPoint.8.Status="Disabled"
-  WiFi.AccessPoint.9.Status="Disabled"
+  Device.WiFi.AccessPoint.1.Status="Enabled"
+  Device.WiFi.AccessPoint.2.Status="Enabled"
+  Device.WiFi.AccessPoint.3.Status="Enabled"
+  Device.WiFi.AccessPoint.4.Status="Enabled"
+  Device.WiFi.AccessPoint.5.Status="Enabled"
+  Device.WiFi.AccessPoint.6.Status="Disabled"
+  Device.WiFi.AccessPoint.7.Status="Disabled"
+  Device.WiFi.AccessPoint.8.Status="Disabled"
+  Device.WiFi.AccessPoint.9.Status="Disabled"
 
 Test activation of access point 6:
 
@@ -159,15 +159,15 @@ Test activation of access point 6:
   AccessPoint.6.Enable=1
 
   $ wifi_dm "AccessPoint.*.Status?0"
-  WiFi.AccessPoint.1.Status="Enabled"
-  WiFi.AccessPoint.2.Status="Enabled"
-  WiFi.AccessPoint.3.Status="Enabled"
-  WiFi.AccessPoint.4.Status="Enabled"
-  WiFi.AccessPoint.5.Status="Enabled"
-  WiFi.AccessPoint.6.Status="Enabled"
-  WiFi.AccessPoint.7.Status="Disabled"
-  WiFi.AccessPoint.8.Status="Disabled"
-  WiFi.AccessPoint.9.Status="Disabled"
+  Device.WiFi.AccessPoint.1.Status="Enabled"
+  Device.WiFi.AccessPoint.2.Status="Enabled"
+  Device.WiFi.AccessPoint.3.Status="Enabled"
+  Device.WiFi.AccessPoint.4.Status="Enabled"
+  Device.WiFi.AccessPoint.5.Status="Enabled"
+  Device.WiFi.AccessPoint.6.Status="Enabled"
+  Device.WiFi.AccessPoint.7.Status="Disabled"
+  Device.WiFi.AccessPoint.8.Status="Disabled"
+  Device.WiFi.AccessPoint.9.Status="Disabled"
 
 Test activation of access point 7:
 
@@ -177,15 +177,15 @@ Test activation of access point 7:
   AccessPoint.7.Enable=1
 
   $ wifi_dm "AccessPoint.*.Status?0"
-  WiFi.AccessPoint.1.Status="Enabled"
-  WiFi.AccessPoint.2.Status="Enabled"
-  WiFi.AccessPoint.3.Status="Enabled"
-  WiFi.AccessPoint.4.Status="Enabled"
-  WiFi.AccessPoint.5.Status="Enabled"
-  WiFi.AccessPoint.6.Status="Enabled"
-  WiFi.AccessPoint.7.Status="Enabled"
-  WiFi.AccessPoint.8.Status="Disabled"
-  WiFi.AccessPoint.9.Status="Disabled"
+  Device.WiFi.AccessPoint.1.Status="Enabled"
+  Device.WiFi.AccessPoint.2.Status="Enabled"
+  Device.WiFi.AccessPoint.3.Status="Enabled"
+  Device.WiFi.AccessPoint.4.Status="Enabled"
+  Device.WiFi.AccessPoint.5.Status="Enabled"
+  Device.WiFi.AccessPoint.6.Status="Enabled"
+  Device.WiFi.AccessPoint.7.Status="Enabled"
+  Device.WiFi.AccessPoint.8.Status="Disabled"
+  Device.WiFi.AccessPoint.9.Status="Disabled"
 
 Test activation of access point 8:
 
@@ -195,15 +195,15 @@ Test activation of access point 8:
   AccessPoint.8.Enable=1
 
   $ wifi_dm "AccessPoint.*.Status?0"
-  WiFi.AccessPoint.1.Status="Enabled"
-  WiFi.AccessPoint.2.Status="Enabled"
-  WiFi.AccessPoint.3.Status="Enabled"
-  WiFi.AccessPoint.4.Status="Enabled"
-  WiFi.AccessPoint.5.Status="Enabled"
-  WiFi.AccessPoint.6.Status="Enabled"
-  WiFi.AccessPoint.7.Status="Enabled"
-  WiFi.AccessPoint.8.Status="Enabled"
-  WiFi.AccessPoint.9.Status="Disabled"
+  Device.WiFi.AccessPoint.1.Status="Enabled"
+  Device.WiFi.AccessPoint.2.Status="Enabled"
+  Device.WiFi.AccessPoint.3.Status="Enabled"
+  Device.WiFi.AccessPoint.4.Status="Enabled"
+  Device.WiFi.AccessPoint.5.Status="Enabled"
+  Device.WiFi.AccessPoint.6.Status="Enabled"
+  Device.WiFi.AccessPoint.7.Status="Enabled"
+  Device.WiFi.AccessPoint.8.Status="Enabled"
+  Device.WiFi.AccessPoint.9.Status="Disabled"
 
 Test activation of access point 9:
 
@@ -213,15 +213,15 @@ Test activation of access point 9:
   AccessPoint.9.Enable=1
 
   $ wifi_dm "AccessPoint.*.Status?0"
-  WiFi.AccessPoint.1.Status="Enabled"
-  WiFi.AccessPoint.2.Status="Enabled"
-  WiFi.AccessPoint.3.Status="Enabled"
-  WiFi.AccessPoint.4.Status="Enabled"
-  WiFi.AccessPoint.5.Status="Enabled"
-  WiFi.AccessPoint.6.Status="Enabled"
-  WiFi.AccessPoint.7.Status="Enabled"
-  WiFi.AccessPoint.8.Status="Enabled"
-  WiFi.AccessPoint.9.Status="Enabled"
+  Device.WiFi.AccessPoint.1.Status="Enabled"
+  Device.WiFi.AccessPoint.2.Status="Enabled"
+  Device.WiFi.AccessPoint.3.Status="Enabled"
+  Device.WiFi.AccessPoint.4.Status="Enabled"
+  Device.WiFi.AccessPoint.5.Status="Enabled"
+  Device.WiFi.AccessPoint.6.Status="Enabled"
+  Device.WiFi.AccessPoint.7.Status="Enabled"
+  Device.WiFi.AccessPoint.8.Status="Enabled"
+  Device.WiFi.AccessPoint.9.Status="Enabled"
 
 Check that hostapd is operating as expected:
 
@@ -276,15 +276,15 @@ Test deactivation of access point 9:
   AccessPoint.9.Enable=0
 
   $ wifi_dm "AccessPoint.*.Status?0"
-  WiFi.AccessPoint.1.Status="Enabled"
-  WiFi.AccessPoint.2.Status="Enabled"
-  WiFi.AccessPoint.3.Status="Enabled"
-  WiFi.AccessPoint.4.Status="Enabled"
-  WiFi.AccessPoint.5.Status="Enabled"
-  WiFi.AccessPoint.6.Status="Enabled"
-  WiFi.AccessPoint.7.Status="Enabled"
-  WiFi.AccessPoint.8.Status="Enabled"
-  WiFi.AccessPoint.9.Status="Disabled"
+  Device.WiFi.AccessPoint.1.Status="Enabled"
+  Device.WiFi.AccessPoint.2.Status="Enabled"
+  Device.WiFi.AccessPoint.3.Status="Enabled"
+  Device.WiFi.AccessPoint.4.Status="Enabled"
+  Device.WiFi.AccessPoint.5.Status="Enabled"
+  Device.WiFi.AccessPoint.6.Status="Enabled"
+  Device.WiFi.AccessPoint.7.Status="Enabled"
+  Device.WiFi.AccessPoint.8.Status="Enabled"
+  Device.WiFi.AccessPoint.9.Status="Disabled"
 
 Test deactivation of access point 8:
 
@@ -294,15 +294,15 @@ Test deactivation of access point 8:
   AccessPoint.8.Enable=0
 
   $ wifi_dm "AccessPoint.*.Status?0"
-  WiFi.AccessPoint.1.Status="Enabled"
-  WiFi.AccessPoint.2.Status="Enabled"
-  WiFi.AccessPoint.3.Status="Enabled"
-  WiFi.AccessPoint.4.Status="Enabled"
-  WiFi.AccessPoint.5.Status="Enabled"
-  WiFi.AccessPoint.6.Status="Enabled"
-  WiFi.AccessPoint.7.Status="Enabled"
-  WiFi.AccessPoint.8.Status="Disabled"
-  WiFi.AccessPoint.9.Status="Disabled"
+  Device.WiFi.AccessPoint.1.Status="Enabled"
+  Device.WiFi.AccessPoint.2.Status="Enabled"
+  Device.WiFi.AccessPoint.3.Status="Enabled"
+  Device.WiFi.AccessPoint.4.Status="Enabled"
+  Device.WiFi.AccessPoint.5.Status="Enabled"
+  Device.WiFi.AccessPoint.6.Status="Enabled"
+  Device.WiFi.AccessPoint.7.Status="Enabled"
+  Device.WiFi.AccessPoint.8.Status="Disabled"
+  Device.WiFi.AccessPoint.9.Status="Disabled"
 
 Test deactivation of access point 7:
 
@@ -312,15 +312,15 @@ Test deactivation of access point 7:
   AccessPoint.7.Enable=0
 
   $ wifi_dm "AccessPoint.*.Status?0"
-  WiFi.AccessPoint.1.Status="Enabled"
-  WiFi.AccessPoint.2.Status="Enabled"
-  WiFi.AccessPoint.3.Status="Enabled"
-  WiFi.AccessPoint.4.Status="Enabled"
-  WiFi.AccessPoint.5.Status="Enabled"
-  WiFi.AccessPoint.6.Status="Enabled"
-  WiFi.AccessPoint.7.Status="Disabled"
-  WiFi.AccessPoint.8.Status="Disabled"
-  WiFi.AccessPoint.9.Status="Disabled"
+  Device.WiFi.AccessPoint.1.Status="Enabled"
+  Device.WiFi.AccessPoint.2.Status="Enabled"
+  Device.WiFi.AccessPoint.3.Status="Enabled"
+  Device.WiFi.AccessPoint.4.Status="Enabled"
+  Device.WiFi.AccessPoint.5.Status="Enabled"
+  Device.WiFi.AccessPoint.6.Status="Enabled"
+  Device.WiFi.AccessPoint.7.Status="Disabled"
+  Device.WiFi.AccessPoint.8.Status="Disabled"
+  Device.WiFi.AccessPoint.9.Status="Disabled"
 
 Test deactivation of access point 6:
 
@@ -330,15 +330,15 @@ Test deactivation of access point 6:
   AccessPoint.6.Enable=0
 
   $ wifi_dm "AccessPoint.*.Status?0"
-  WiFi.AccessPoint.1.Status="Enabled"
-  WiFi.AccessPoint.2.Status="Enabled"
-  WiFi.AccessPoint.3.Status="Enabled"
-  WiFi.AccessPoint.4.Status="Enabled"
-  WiFi.AccessPoint.5.Status="Enabled"
-  WiFi.AccessPoint.6.Status="Disabled"
-  WiFi.AccessPoint.7.Status="Disabled"
-  WiFi.AccessPoint.8.Status="Disabled"
-  WiFi.AccessPoint.9.Status="Disabled"
+  Device.WiFi.AccessPoint.1.Status="Enabled"
+  Device.WiFi.AccessPoint.2.Status="Enabled"
+  Device.WiFi.AccessPoint.3.Status="Enabled"
+  Device.WiFi.AccessPoint.4.Status="Enabled"
+  Device.WiFi.AccessPoint.5.Status="Enabled"
+  Device.WiFi.AccessPoint.6.Status="Disabled"
+  Device.WiFi.AccessPoint.7.Status="Disabled"
+  Device.WiFi.AccessPoint.8.Status="Disabled"
+  Device.WiFi.AccessPoint.9.Status="Disabled"
 
 Test deactivation of access point 5:
 
@@ -348,15 +348,15 @@ Test deactivation of access point 5:
   AccessPoint.5.Enable=0
 
   $ wifi_dm "AccessPoint.*.Status?0"
-  WiFi.AccessPoint.1.Status="Enabled"
-  WiFi.AccessPoint.2.Status="Enabled"
-  WiFi.AccessPoint.3.Status="Enabled"
-  WiFi.AccessPoint.4.Status="Enabled"
-  WiFi.AccessPoint.5.Status="Disabled"
-  WiFi.AccessPoint.6.Status="Disabled"
-  WiFi.AccessPoint.7.Status="Disabled"
-  WiFi.AccessPoint.8.Status="Disabled"
-  WiFi.AccessPoint.9.Status="Disabled"
+  Device.WiFi.AccessPoint.1.Status="Enabled"
+  Device.WiFi.AccessPoint.2.Status="Enabled"
+  Device.WiFi.AccessPoint.3.Status="Enabled"
+  Device.WiFi.AccessPoint.4.Status="Enabled"
+  Device.WiFi.AccessPoint.5.Status="Disabled"
+  Device.WiFi.AccessPoint.6.Status="Disabled"
+  Device.WiFi.AccessPoint.7.Status="Disabled"
+  Device.WiFi.AccessPoint.8.Status="Disabled"
+  Device.WiFi.AccessPoint.9.Status="Disabled"
 
 Test deactivation of access point 4:
 
@@ -366,15 +366,15 @@ Test deactivation of access point 4:
   AccessPoint.4.Enable=0
 
   $ wifi_dm "AccessPoint.*.Status?0"
-  WiFi.AccessPoint.1.Status="Enabled"
-  WiFi.AccessPoint.2.Status="Enabled"
-  WiFi.AccessPoint.3.Status="Enabled"
-  WiFi.AccessPoint.4.Status="Disabled"
-  WiFi.AccessPoint.5.Status="Disabled"
-  WiFi.AccessPoint.6.Status="Disabled"
-  WiFi.AccessPoint.7.Status="Disabled"
-  WiFi.AccessPoint.8.Status="Disabled"
-  WiFi.AccessPoint.9.Status="Disabled"
+  Device.WiFi.AccessPoint.1.Status="Enabled"
+  Device.WiFi.AccessPoint.2.Status="Enabled"
+  Device.WiFi.AccessPoint.3.Status="Enabled"
+  Device.WiFi.AccessPoint.4.Status="Disabled"
+  Device.WiFi.AccessPoint.5.Status="Disabled"
+  Device.WiFi.AccessPoint.6.Status="Disabled"
+  Device.WiFi.AccessPoint.7.Status="Disabled"
+  Device.WiFi.AccessPoint.8.Status="Disabled"
+  Device.WiFi.AccessPoint.9.Status="Disabled"
 
 Test deactivation of access point 3:
 
@@ -384,15 +384,15 @@ Test deactivation of access point 3:
   AccessPoint.3.Enable=0
 
   $ wifi_dm "AccessPoint.*.Status?0"
-  WiFi.AccessPoint.1.Status="Enabled"
-  WiFi.AccessPoint.2.Status="Enabled"
-  WiFi.AccessPoint.3.Status="Disabled"
-  WiFi.AccessPoint.4.Status="Disabled"
-  WiFi.AccessPoint.5.Status="Disabled"
-  WiFi.AccessPoint.6.Status="Disabled"
-  WiFi.AccessPoint.7.Status="Disabled"
-  WiFi.AccessPoint.8.Status="Disabled"
-  WiFi.AccessPoint.9.Status="Disabled"
+  Device.WiFi.AccessPoint.1.Status="Enabled"
+  Device.WiFi.AccessPoint.2.Status="Enabled"
+  Device.WiFi.AccessPoint.3.Status="Disabled"
+  Device.WiFi.AccessPoint.4.Status="Disabled"
+  Device.WiFi.AccessPoint.5.Status="Disabled"
+  Device.WiFi.AccessPoint.6.Status="Disabled"
+  Device.WiFi.AccessPoint.7.Status="Disabled"
+  Device.WiFi.AccessPoint.8.Status="Disabled"
+  Device.WiFi.AccessPoint.9.Status="Disabled"
 
 Test deactivation of access point 2:
 
@@ -402,15 +402,15 @@ Test deactivation of access point 2:
   AccessPoint.2.Enable=0
 
   $ wifi_dm "AccessPoint.*.Status?0"
-  WiFi.AccessPoint.1.Status="Enabled"
-  WiFi.AccessPoint.2.Status="Disabled"
-  WiFi.AccessPoint.3.Status="Disabled"
-  WiFi.AccessPoint.4.Status="Disabled"
-  WiFi.AccessPoint.5.Status="Disabled"
-  WiFi.AccessPoint.6.Status="Disabled"
-  WiFi.AccessPoint.7.Status="Disabled"
-  WiFi.AccessPoint.8.Status="Disabled"
-  WiFi.AccessPoint.9.Status="Disabled"
+  Device.WiFi.AccessPoint.1.Status="Enabled"
+  Device.WiFi.AccessPoint.2.Status="Disabled"
+  Device.WiFi.AccessPoint.3.Status="Disabled"
+  Device.WiFi.AccessPoint.4.Status="Disabled"
+  Device.WiFi.AccessPoint.5.Status="Disabled"
+  Device.WiFi.AccessPoint.6.Status="Disabled"
+  Device.WiFi.AccessPoint.7.Status="Disabled"
+  Device.WiFi.AccessPoint.8.Status="Disabled"
+  Device.WiFi.AccessPoint.9.Status="Disabled"
 
 Before deactivating last AP (ie stopping hostpad), check if hostap pid has changed or not:
 
@@ -425,15 +425,15 @@ Test deactivation of access point 1:
   AccessPoint.1.Enable=0
 
   $ wifi_dm "AccessPoint.*.Status?0"
-  WiFi.AccessPoint.1.Status="Disabled"
-  WiFi.AccessPoint.2.Status="Disabled"
-  WiFi.AccessPoint.3.Status="Disabled"
-  WiFi.AccessPoint.4.Status="Disabled"
-  WiFi.AccessPoint.5.Status="Disabled"
-  WiFi.AccessPoint.6.Status="Disabled"
-  WiFi.AccessPoint.7.Status="Disabled"
-  WiFi.AccessPoint.8.Status="Disabled"
-  WiFi.AccessPoint.9.Status="Disabled"
+  Device.WiFi.AccessPoint.1.Status="Disabled"
+  Device.WiFi.AccessPoint.2.Status="Disabled"
+  Device.WiFi.AccessPoint.3.Status="Disabled"
+  Device.WiFi.AccessPoint.4.Status="Disabled"
+  Device.WiFi.AccessPoint.5.Status="Disabled"
+  Device.WiFi.AccessPoint.6.Status="Disabled"
+  Device.WiFi.AccessPoint.7.Status="Disabled"
+  Device.WiFi.AccessPoint.8.Status="Disabled"
+  Device.WiFi.AccessPoint.9.Status="Disabled"
 
 Check if hostapd process is stopped:
 
