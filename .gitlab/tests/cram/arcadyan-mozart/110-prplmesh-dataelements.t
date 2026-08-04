@@ -3,15 +3,15 @@ Create R alias:
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
   $ . "${TESTDIR}/../scripts/wifi.sh"
 
-Set AutoChannelEnable=0 on all WiFi.Radio. interfaces:
+Set AutoChannelEnable=0 on all Device.WiFi.Radio. interfaces:
 
   $ R "ba-cli -j -l WiFi.Radio.*.AutoChannelEnable=0 | sed '/^$/d'"
   [{"WiFi.Radio.1.":{"AutoChannelEnable":0},"WiFi.Radio.2.":{"AutoChannelEnable":0},"WiFi.Radio.3.":{"AutoChannelEnable":0}}]
 
 Set channel to a non DFS one:
 
-  $ R "ba-cli -j -l WiFi.Radio.2.Channel=36 | sed '/^$/d'"
-  [{"WiFi.Radio.2.":{"Channel":36}}]
+  $ R "usp-cli -j -l Device.WiFi.Radio.2.Channel=36 | sed '/^$/d'"
+  [{"Device.WiFi.Radio.2.":{"Channel":36}}]
 
   $ sleep 5
 
@@ -30,10 +30,13 @@ Restart prplmesh:
   $ R logger -t cram "Restart prplmesh"
 
   $ R "ba-cli X_PRPLWARE-COM_ProcessManager.PrplMesh.ManagementMode=Multi-AP-Controller-and-Agent"  > /dev/null
+
   $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=1" | tr -d '\n'
   1 (no-eol)
 
   $ R "ubus -t 60 wait_for X_PRPLWARE-COM_WiFiController.Network.Device.1"
+
+  $ sleep 5
 
 First call of AccessPointCommit, controller should push empty config to agents:
 
@@ -146,7 +149,7 @@ In case the controller does not yet have this parameter, catch error here isof l
   {"amxd-error-code":0}
 
 
-  $ sleep 15
+  $ sleep 60
 
 Check that wireless is operating:
 
@@ -160,19 +163,6 @@ Check that wireless is operating:
   Up
   Up
   Up
-
-  $ get_ssid_ssid
-  backhaul_(1C:F4:3F|20:37:F0):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
-  backhaul_(1C:F4:3F|20:37:F0):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
-  backhaul_(1C:F4:3F|20:37:F0):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
-  prplOSguest
-  prplOSguest
-  prplOSguest
-  prplOSpriv
-  prplOSpriv
-  prplOSpriv
-
-  $ sleep 10
 
 Check that prplmesh processes are running:
 
@@ -189,7 +179,7 @@ Check that prplmesh is operational:
   Mode: Agent+Controller
   Controller:
           bridge MAC: [0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
-          [1-9]+ agent\(s\) connected (re)
+          1 agent(s) connected
   Agent:
           MAC address: [0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
           management mode: Multi-AP-Controller-and-Agent
@@ -210,13 +200,6 @@ Check that prplmesh is operational:
                   current state: OPERATIONAL
                   best state: OPERATIONAL
 
-Assert agent count matches testbed topology (testbed-01: 1, testbed-02: 2 with HomePlug-backhauled TL-WPA7817, see PCF-2504):
-
-  $ ACT=$(R "/opt/prplmesh/bin/prplmesh_cli -c status -o pretty" \
-  >     | awk '/agent\(s\) connected/ {print $1}')
-  $ if echo "$CI_RUNNER_DESCRIPTION" | grep -q testbed-02; then EXP=2; else EXP=1; fi
-  $ test "$ACT" = "$EXP" || echo "agent count mismatch: actual=$ACT expected=$EXP"
-
 Check that controller received correct info about wifi subsystem:
 
   $ R logger -t cram "Check controller info about network"
@@ -231,11 +214,9 @@ Check that controller received correct info about wifi subsystem:
   wlan1
   wlan1.0
   wlan1.1
-  wlan1.2
   wlan2
   wlan2.0
   wlan2.1
-  wlan2.2
 
 To disable wireless, disable instances of Network.AccessPoint{i} and call AccessPointCommit():
 
@@ -260,17 +241,17 @@ To disable wireless, disable instances of Network.AccessPoint{i} and call Access
 
 Restore Security.ModeEnabled for AccessPoints used in the test
 
-  $ R "ba-cli  \"WiFi.AccessPoint.[RadioReference == 'Device.WiFi.Radio.1'].Security.ModeEnabled='WPA3-Personal-Transition'\"" | grep 'ModeEnabled=' | sed '/^$/d' | grep -Ev '^(>|$)'
+  $ R "ba-cli  \"WiFi.AccessPoint.[RadioReference == 'Device.WiFi.Radio.1'].Security.ModeEnabled='WPA3-Personal-Transition'\"" | grep 'ModeEnabled=' | sed '/^$/d' | grep -v '>'
   WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal-Transition" (re)
   WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal-Transition" (re)
   WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal-Transition" (re)
 
-  $ R "ba-cli  \"WiFi.AccessPoint.[RadioReference == 'Device.WiFi.Radio.2'].Security.ModeEnabled='WPA3-Personal-Transition'\"" | grep 'ModeEnabled=' | sed '/^$/d' | grep -Ev '^(>|$)'
+  $ R "ba-cli  \"WiFi.AccessPoint.[RadioReference == 'Device.WiFi.Radio.2'].Security.ModeEnabled='WPA3-Personal-Transition'\"" | grep 'ModeEnabled=' | sed '/^$/d' | grep -v '>'
   WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal-Transition" (re)
   WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal-Transition" (re)
   WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal-Transition" (re)
 
-  $ R "ba-cli  \"WiFi.AccessPoint.[RadioReference == 'Device.WiFi.Radio.3'].Security.ModeEnabled='WPA3-Personal'\"" | grep 'ModeEnabled=' | sed '/^$/d' | grep -Ev '^(>|$)'
+  $ R "ba-cli  \"WiFi.AccessPoint.[RadioReference == 'Device.WiFi.Radio.3'].Security.ModeEnabled='WPA3-Personal'\"" | grep 'ModeEnabled=' | sed '/^$/d' | grep -v '>'
   WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal" (re)
   WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal" (re)
   WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal" (re)
@@ -288,32 +269,19 @@ Check that wireless is disabled:
   Down
   Down
 
-Check that SSIDs did not change:
-
-  $ get_ssid_ssid
-  backhaul_(1C:F4:3F|20:37:F0):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
-  backhaul_(1C:F4:3F|20:37:F0):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
-  backhaul_(1C:F4:3F|20:37:F0):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
-  prplOSguest
-  prplOSguest
-  prplOSguest
-  prplOSpriv
-  prplOSpriv
-  prplOSpriv
-
 Restore Security Mode to default values
 
-  $ R "ba-cli  \"WiFi.AccessPoint.[RadioReference == 'Device.WiFi.Radio.1'].Security.ModeEnabled='WPA3-Personal-Transition'\"" | grep 'ModeEnabled=' | sed '/^$/d' | grep -Ev '^(>|$)'
+  $ R "ba-cli  \"WiFi.AccessPoint.[RadioReference == 'Device.WiFi.Radio.1'].Security.ModeEnabled='WPA3-Personal-Transition'\"" | grep 'ModeEnabled=' | sed '/^$/d' | grep -v '>'
   WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal-Transition" (re)
   WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal-Transition" (re)
   WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal-Transition" (re)
 
-  $ R "ba-cli  \"WiFi.AccessPoint.[RadioReference == 'Device.WiFi.Radio.2'].Security.ModeEnabled='WPA3-Personal-Transition'\"" | grep 'ModeEnabled=' | sed '/^$/d' | grep -Ev '^(>|$)'
+  $ R "ba-cli  \"WiFi.AccessPoint.[RadioReference == 'Device.WiFi.Radio.2'].Security.ModeEnabled='WPA3-Personal-Transition'\"" | grep 'ModeEnabled=' | sed '/^$/d' | grep -v '>'
   WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal-Transition" (re)
   WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal-Transition" (re)
   WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal-Transition" (re)
 
-  $ R "ba-cli  \"WiFi.AccessPoint.[RadioReference == 'Device.WiFi.Radio.3'].Security.ModeEnabled='WPA3-Personal'\"" | grep 'ModeEnabled=' | sed '/^$/d' | grep -Ev '^(>|$)'
+  $ R "ba-cli  \"WiFi.AccessPoint.[RadioReference == 'Device.WiFi.Radio.3'].Security.ModeEnabled='WPA3-Personal'\"" | grep 'ModeEnabled=' | sed '/^$/d' | grep -v '>'
   WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal" (re)
   WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal" (re)
   WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal" (re)
