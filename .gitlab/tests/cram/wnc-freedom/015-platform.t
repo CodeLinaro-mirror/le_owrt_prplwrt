@@ -74,3 +74,190 @@ Check that we've Reset gpio key available:
 
   $ R "hexdump -s2 -n2 -e '1/1 \"0x%02x \"' /sys/firmware/devicetree/base/soc@0/gpio_keys/button@2/linux,code"
   0x01 0x98  (no-eol)
+
+Check that EIP/IPsec hardware integration is ready:
+
+  $ R 'set -eu
+  > if [ ! -d /sys/module/qca_nss_eip ]; then
+  >   echo "qca_nss_eip missing" >&2
+  >   exit 1
+  > fi
+  > echo "qca_nss_eip loaded"
+  > if [ ! -r /lib/modules/$(uname -r)/qca-nss-eip-ipsec.ko ]; then
+  >   echo "qca-nss-eip-ipsec.ko missing" >&2
+  >   exit 1
+  > fi
+  > echo "qca-nss-eip-ipsec.ko installed"
+  > if [ ! -x /etc/init.d/qca-nss-ipsec ]; then
+  >   echo "qca-nss-ipsec init script missing" >&2
+  >   exit 1
+  > fi
+  > echo "qca-nss-ipsec init script installed"'
+  qca_nss_eip loaded
+  qca-nss-eip-ipsec.ko installed
+  qca-nss-ipsec init script installed
+
+Check that all EIP firmware blobs are installed and booted consistently:
+
+  $ R 'set -eu
+  > expected_version=
+  > for blob in ifpp.bin ipue.bin ofpp.bin opue.bin; do
+  >   if [ ! -r "/lib/firmware/$blob" ]; then
+  >     echo "$blob missing" >&2
+  >     exit 1
+  >   fi
+  >   echo "$blob installed"
+  >   version=$(dmesg | sed -n "s/.*$blob version(\\(0x[[:xdigit:]][[:xdigit:]]*\\)).*/\\1/p" | tail -n 1)
+  >   if [ -z "$version" ]; then
+  >     echo "$blob boot version missing" >&2
+  >     exit 1
+  >   fi
+  >   echo "$blob booted"
+  >   if [ -z "$expected_version" ]; then
+  >     expected_version=$version
+  >   elif [ "$version" != "$expected_version" ]; then
+  >     echo "$blob boot version inconsistent" >&2
+  >     exit 1
+  >   fi
+  > done
+  > echo "EIP firmware versions consistent"'
+  ifpp.bin installed
+  ifpp.bin booted
+  ipue.bin installed
+  ipue.bin booted
+  ofpp.bin installed
+  ofpp.bin booted
+  opue.bin installed
+  opue.bin booted
+  EIP firmware versions consistent
+
+Check that EIP inline support booted without firmware load failures:
+
+  $ R 'set -eu
+  > if ! dmesg | grep "EIP inline_support: yes" >/dev/null; then
+  >   echo "EIP inline support not enabled" >&2
+  >   exit 1
+  > fi
+  > echo "EIP inline support enabled"
+  > for blob in ifpp.bin ipue.bin ofpp.bin opue.bin; do
+  >   if dmesg | grep -i "$blob" | grep -i "fail" >/dev/null; then
+  >     echo "$blob load failure found" >&2
+  >     exit 1
+  >   fi
+  > done
+  > echo "EIP firmware load failures absent"'
+  EIP inline support enabled
+  EIP firmware load failures absent
+
+Check that all EIP rings and interrupts are registered:
+
+  $ R 'set -eu
+  > for ring in 0 1 2 3 4 5 6 7; do
+  >   ring_file="/sys/kernel/debug/qca-nss-eip/eip197/ring_$ring"
+  >   if [ ! -r "$ring_file" ] || ! cat "$ring_file" >/dev/null; then
+  >     echo "ring_$ring missing or unreadable" >&2
+  >     exit 1
+  >   fi
+  >   echo "ring_$ring readable"
+  >   if ! grep "eip_irq_ring_$ring" /proc/interrupts >/dev/null; then
+  >     echo "eip_irq_ring_$ring missing" >&2
+  >     exit 1
+  >   fi
+  >   echo "eip_irq_ring_$ring registered"
+  > done'
+  ring_0 readable
+  eip_irq_ring_0 registered
+  ring_1 readable
+  eip_irq_ring_1 registered
+  ring_2 readable
+  eip_irq_ring_2 registered
+  ring_3 readable
+  eip_irq_ring_3 registered
+  ring_4 readable
+  eip_irq_ring_4 registered
+  ring_5 readable
+  eip_irq_ring_5 registered
+  ring_6 readable
+  eip_irq_ring_6 registered
+  ring_7 readable
+  eip_irq_ring_7 registered
+
+Check that GRE/PPE acceleration modules are loaded:
+
+  $ R 'set -eu
+  > for module in ip_gre qca_nss_ppe qca_nss_ppe_gre qca_nss_ppe_tun ecm; do
+  >   if [ ! -d "/sys/module/$module" ]; then
+  >     echo "$module missing" >&2
+  >     exit 1
+  >   fi
+  >   echo "$module loaded"
+  > done'
+  ip_gre loaded
+  qca_nss_ppe loaded
+  qca_nss_ppe_gre loaded
+  qca_nss_ppe_tun loaded
+  ecm loaded
+
+Check that GRETAP and L3 GRE acceleration are enabled:
+
+  $ R 'set -eu
+  > ppe_tun=/sys/kernel/debug/qca-nss-ppe/ppe_tun
+  > check_control() {
+  >   file=$1
+  >   expected=$2
+  >   description=$3
+  >   if [ ! -r "$file" ]; then
+  >     echo "$description control missing" >&2
+  >     exit 1
+  >   fi
+  >   value=$(cat "$file")
+  >   if [ "$value" != "$expected" ]; then
+  >     echo "$description disabled: $value" >&2
+  >     exit 1
+  >   fi
+  >   echo "$description enabled"
+  > }
+  > check_control "$ppe_tun/accel_mode/gretap" "gretap accel enabled" \
+  >               "GRETAP acceleration"
+  > check_control "$ppe_tun/accel_mode/gretun" "gretun accel enabled" \
+  >               "L3 GRE acceleration"
+  > check_control "$ppe_tun/xcpn_mode/gretap" "Gretap xcpn mode 1" \
+  >               "GRETAP exception mode"
+  > check_control "$ppe_tun/xcpn_mode/gretun" "Gretun xcpn mode 1" \
+  >               "L3 GRE exception mode"'
+  GRETAP acceleration enabled
+  L3 GRE acceleration enabled
+  GRETAP exception mode enabled
+  L3 GRE exception mode enabled
+
+Check that PPE tunnel and ECM/PPE IPv4 statistics are available:
+
+  $ R 'set -eu
+  > ppe_stats=/sys/kernel/debug/qca-nss-ppe/ppe_tun/stats
+  > if [ ! -r "$ppe_stats" ] || ! cat "$ppe_stats" >/dev/null; then
+  >   echo "PPE tunnel statistics missing or unreadable" >&2
+  >   exit 1
+  > fi
+  > echo "PPE tunnel statistics readable"
+  > ecm_ipv4=/sys/kernel/debug/ecm/ecm_ppe_ipv4
+  > for counter in accelerated_count pending_accel_count pending_decel_count \
+  >                tcp_accelerated_count udp_accelerated_count \
+  >                non_ported_accelerated_count; do
+  >   if [ ! -r "$ecm_ipv4/$counter" ] || \
+  >      ! cat "$ecm_ipv4/$counter" >/dev/null; then
+  >     echo "ECM/PPE IPv4 $counter missing or unreadable" >&2
+  >     exit 1
+  >   fi
+  > done
+  > echo "ECM/PPE IPv4 counters readable"
+  > ecm_stop=/sys/kernel/debug/ecm/front_end_ipv4_stop
+  > if [ ! -r "$ecm_stop" ]; then
+  >   echo "front_end_ipv4_stop missing" >&2
+  >   exit 1
+  > fi
+  > stop=$(cat "$ecm_stop")
+  > echo "front_end_ipv4_stop=$stop"
+  > test "$stop" = 0'
+  PPE tunnel statistics readable
+  ECM/PPE IPv4 counters readable
+  front_end_ipv4_stop=0
