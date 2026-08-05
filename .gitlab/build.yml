@@ -53,6 +53,15 @@
       fi
 
     - |
+      if [ -n "$CI_COMMIT_TAG" ]; then
+        release_version="$(scripts/getver.sh)"
+        release_version_date="$(scripts/get_source_date_epoch.sh)"
+        printf '%s\n' "$release_version" > version
+        printf '%s\n' "$release_version_date" > version.date
+        printf 'Generated release version data: version=%s version.date=%s\n' "$release_version" "$release_version_date"
+      fi
+
+    - |
       if [ -z "$CI_COMMIT_TAG" ] && [ "$CI_DESIGNATED_BRANCH" != "$CI_COMMIT_BRANCH" ]; then
         echo "Enabling coredumps and exception tracing in the build."
         export CI_BUILD_ENABLE_COREDUMPS=1
