@@ -47,6 +47,12 @@
       fi
 
     - |
+      if [ -z "$CI_COMMIT_TAG" ] && { [ -e version ] || [ -e version.date ]; }; then
+        echo "ERROR: version or version.date is present in a development build. Development builds must use git-derived version data. Cherry-pick upstream's \"revert to branch defaults\" commit alongside release-tag syncs."
+        exit 1
+      fi
+
+    - |
       if [ -z "$CI_COMMIT_TAG" ] && [ "$CI_DESIGNATED_BRANCH" != "$CI_COMMIT_BRANCH" ]; then
         echo "Enabling coredumps and exception tracing in the build."
         export CI_BUILD_ENABLE_COREDUMPS=1
