@@ -41,8 +41,6 @@ Check that ubus has expected datamodels available:
   Cthulhu.PluginsPrivate.NetworkConfig.Interfaces
   Cthulhu.Sandbox
   Cthulhu.Sandbox.Instances
-  Cthulhu.Sandbox.Instances.Plugins.DHCP
-  Cthulhu.Sandbox.Instances.Plugins.DHCP.Interfaces
   DHCPv4Client
   DHCPv4Client.Client
   DHCPv4Server
@@ -59,7 +57,6 @@ Check that ubus has expected datamodels available:
   DNS.Diagnostics.NSLookupDiagnostics.Result
   DNS.Relay
   DNS.Relay.Config
-  DNS.Relay.Config.Unbound
   DNS.Relay.Forwarding
   DNS.X_PRPLWARE-COM_ForwardZone
   DNS.X_PRPLWARE-COM_Host
@@ -461,7 +458,6 @@ Check that ubus has expected datamodels available:
   WiFi.wps_DefParam
   WiFiScheduler
   WiFiScheduler.Group
-  WiFiScheduler.Group.Schedule
   WiFiScheduler.Network
   WiFiScheduler.Network.Schedule
   WireGuard
