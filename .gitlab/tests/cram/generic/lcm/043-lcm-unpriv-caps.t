@@ -1,6 +1,4 @@
-## Setup test configuration
-Set-up the test configuration:
-
+Set-up the test configuration
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
   $ alias C="${CRAM_REMOTE_COPY:-}"
