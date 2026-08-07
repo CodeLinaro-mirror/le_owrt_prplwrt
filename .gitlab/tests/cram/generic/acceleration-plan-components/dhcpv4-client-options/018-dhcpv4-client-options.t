@@ -23,7 +23,7 @@ Test 1 - basic client options (option 12 hostname):
   SENT_HOSTNAME=cramhostA
   RECEIVED_TAGS=.* (re)
 
-  $ sleep 3
+  $ sleep 1
 
 Verify client A appears in DHCPv4.Server.Pool.Client:
 
@@ -55,7 +55,7 @@ Test 2 - multiple clients each with their own options (C-2 per FEAT-13 spec):
   SENT_HOSTNAME=cramhostB
   RECEIVED_TAGS=.* (re)
 
-  $ sleep 3
+  $ sleep 1
 
 Verify client B appears in DHCPv4.Server.Pool.Client:
 
@@ -105,7 +105,7 @@ Cleanup - release both leases and verify clients are marked inactive in DM:
   RECEIVED_TAGS=.* (re)
   RELEASED=.* (re)
 
-  $ sleep 3
+  $ sleep 1
 
   $ R "ba-cli 'Device.DHCPv4.Server.Pool.lan.Client.[Chaddr==\"$MAC_A\"].Active?'" | grep -Ev '^(>|$)'
   Device\.DHCPv4\.Server\.Pool\.[0-9]+\.Client\.[0-9]+\.Active=0 (re)
