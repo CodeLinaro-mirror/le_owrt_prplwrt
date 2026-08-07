@@ -71,6 +71,6 @@ Remove the testing SSH server:
 
 Check that the testing SSH server is not running:
 
-  $ R "pgrep -f dropbear.*1922 --count"
+  $ R "pgrep -f '^dropbear.*1922' --count"
   0
   [1]
