@@ -134,7 +134,7 @@ wait for cthulhu to terminate all containers and itself, before clear its data
 ### Stopping Cthulhu by sending a signal to the main process, as the init script kills the process (forcefully) after a timeout. The stopping of the containers is done in parallel, thus depending on the number of containers to stop and the configured graceful shutdown.
 
   $ R "ls -l /cfg/pcm/cthulhu*"
-  -rw-r--r--    1 root * /cfg/pcm/cthulhu_Cthulhu.json (glob)
+  -rw-r--r--    1 tr181_ap * /cfg/pcm/cthulhu_Cthulhu.json (glob)
   $ R "kill \$(cat /var/run/cthulhu.pid)"
   $ R "/etc/init.d/rlyeh stop"
   $ R "/etc/init.d/timingila stop"
