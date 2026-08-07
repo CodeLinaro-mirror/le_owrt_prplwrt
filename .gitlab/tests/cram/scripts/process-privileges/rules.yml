@@ -11,6 +11,10 @@
   - cmd: acl-manager
     id: tr181_app:acl
     caps: chown,dac_override,dac_read_search
+  - cmd: afcd
+    id: root:root
+    caps: full
+    optional: true
   - cmd: amx-faultmonitor
     id: tr181_app:tr181_app
     caps: dac_override
@@ -39,6 +43,10 @@
   - cmd: beerocks_vendor_message
     id: root:root
     caps: full
+  - cmd: blockd
+    id: root:root
+    caps: full
+    optional: true
   - cmd: cellular-manager
     id: root:root
     caps: full
@@ -60,6 +68,11 @@
     - cmd: cwmpd
       id: tr181_app:tr181_app
       caps: dac_override
+  - cmd: dbus-daemon
+    id: root:root
+    caps: full
+    optional: true
+    ignore_child: true
   - cmd: deviceinfo-manager
     id: tr181_app:tr181_app
     caps: chown,dac_override,dac_read_search,sys_admin,sys_ptrace
@@ -76,6 +89,14 @@
   - cmd: dhcpv6s-manager
     id: tr181_app:tr181_app
     caps: dac_override
+  - cmd: dump_handler
+    id: root:root
+    caps: full
+    optional: true
+  - cmd: dwpal_daemon
+    id: root:root
+    caps: full
+    optional: true
   - cmd: ethernet-manager
     id: tr181_app:tr181_app
     caps: dac_override,net_admin,sys_rawio
@@ -97,6 +118,10 @@
   - cmd: "lua:amx_monitor_dm"
     id: root:root
     caps: full
+  - cmd: mbim-proxy
+    id: root:root
+    caps: full
+    optional: true
   - cmd: multisettings
     id: tr181_app:tr181_app
     caps: chown,dac_override,dac_read_search
@@ -124,12 +149,20 @@
   - cmd: pcm-manager
     id: tr181_app:tr181_app
     caps: chown,dac_override
+  - cmd: ppmd
+    id: root:root
+    caps: full
+    optional: true
   - cmd: prplmesh-dm-mapper
     id: root:root
     caps: full
   - cmd: prplmesh-process-manager
     id: root:root
     caps: full
+  - cmd: rcvry_monitor
+    id: root:root
+    caps: full
+    optional: true
   - cmd: reboot-service
     id: tr181_app:tr181_app
     caps: dac_override
@@ -142,6 +175,11 @@
   - cmd: rpcd
     id: root:root
     caps: full
+  - cmd: sh
+    id: root:root
+    caps: full
+    optional: true
+    ignore_child: true
   - cmd: ssh_server
     id: tr181_app:tr181_app
     caps: chown,dac_override,dac_read_search,sys_ptrace
