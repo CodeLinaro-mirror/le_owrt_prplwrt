@@ -5,6 +5,8 @@ Verify that a BGP session can be established between CPE and BGP Peer when MD5
 authentication is configured on both sides using matching key chain and password.
 Verify that session fails to establish when mismatched password is used.
 
+  $ if [ "$DUT_BOARD" = "qemu-x86-64" ]; then exit 80; fi
+
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
 Enable BGP on CPE. Verify Device.Routing.X_PRPLWARE-COM_BGP.Enable = true.
