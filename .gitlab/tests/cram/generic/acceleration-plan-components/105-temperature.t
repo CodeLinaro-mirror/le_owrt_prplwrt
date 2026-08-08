@@ -2,6 +2,8 @@ Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
+  $ if [ "$DUT_BOARD" = "qemu-standard-pc-q35-ich9-2009" ]; then exit 80; fi
+
 Check TemperatureStatus root datamodel:
 
   $ R "ubus -S call TemperatureStatus _get"

@@ -1,6 +1,7 @@
 Create R alias and find the host IP:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
+  $ if [ "$DUT_BOARD" = "qemu-standard-pc-q35-ich9-2009" ]; then exit 80; fi
   $ export SERVER_IP="`ip route | grep "192.168.1.0/24" | grep -o "src [0-9.]*" | cut -d' ' -f2 | head -1`"
 
 Start a plain (8189) and an authenticated (8190) HTTP server:

@@ -2,6 +2,8 @@ Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
+  $ if [ "$DUT_BOARD" = "qemu-standard-pc-q35-ich9-2009" ]; then exit 80; fi
+
 Check that ubus has expected datamodels available:
 
   $ R "ubus list | grep '[[:upper:]]' | grep -v -e '\.[[:digit:]]' -e '^Cellular' -e 'Device.Cellular' -e 'Device.SessionManagement' -e 'Device.TrustedElements' -e '^SessionManagement' -e '^TrustedElements' -e 'Device.X_PRPLWARE-COM_SoftwareModules' -e 'WiFi.Vendor.Daemon' -e 'WiFi.Vendor.ModuleMode' -e '^WiFi.Vendor.MLO' -e '^Bridging.Bridge.[SV]' -e 'WiFi.Vendor.ReconfManager'"

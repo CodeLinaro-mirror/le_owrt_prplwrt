@@ -52,7 +52,17 @@ smoke:
 # Provisional CI-5 stub from the classification document's Real-HW list.
 hw_only:
   include:
+    - "generic/acceleration-plan-components/003-amx-pre-test-verify-fail-action.t"
+    - "generic/acceleration-plan-components/010-firewall-dhcp.t"
+    - "generic/acceleration-plan-components/010-firewall-dhcp_toggle.t"
     - "generic/acceleration-plan-components/040-usb-filter.t"
+    - "generic/acceleration-plan-components/095-reboot-service.t"
+    - "generic/acceleration-plan-components/105-temperature.t"
+    - "generic/acceleration-plan-components/120-buttons.t"
+    - "generic/deviceinfo-firmware-download-failures.t"
+    - "generic/obuspa.t"
+    - "generic/sysupgrade-prpl-download-failure.t"
+    - "generic/ubus-datamodel-list.t"
 
 # post/** is invoked separately for every component job and is not bucketed.
 

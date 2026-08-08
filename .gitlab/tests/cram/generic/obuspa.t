@@ -3,6 +3,8 @@ Create obuspa datamodel helpers:
   $ VERIFY_OBUSPA_DATAMODEL="${TESTDIR}/../scripts/verify-obuspa-datamodel.sh"
   $ EXPECTED_OBUSPA_DATAMODEL="${TESTDIR}/fixtures/obuspa.expected"
 
+  $ if [ "$DUT_BOARD" = "qemu-standard-pc-q35-ich9-2009" ]; then exit 80; fi
+
 If test is running on a Valyrian, skip the test due to PCF-2669:
   $ if echo "$CI_JOB_NAME" | grep -q -E "Valyrian"; then exit 80; fi
 

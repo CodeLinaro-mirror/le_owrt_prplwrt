@@ -2,6 +2,8 @@ Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
+  $ if [ "$DUT_BOARD" = "qemu-standard-pc-q35-ich9-2009" ]; then exit 80; fi
+
   $ R logger -t cram "Starting with amx-processmonitoring pre-checks"
 
 Ensure ProcessMonitor.Test.i.FailAction does not have REBOOT action:

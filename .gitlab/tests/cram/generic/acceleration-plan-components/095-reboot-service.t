@@ -2,6 +2,8 @@ Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
+  $ if [ "$DUT_BOARD" = "qemu-standard-pc-q35-ich9-2009" ]; then exit 80; fi
+
 Check the root datamodel settings:
 
   $ R "ba-cli --json Reboot.? | sed -n '2p'" | jq --sort-keys '.[0]'
