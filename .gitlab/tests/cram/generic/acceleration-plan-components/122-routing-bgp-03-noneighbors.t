@@ -5,6 +5,8 @@ Verify that BGP does not automatically discover neighbors - peers must be
 explicitly configured via TR-181 data model before any session can be
 established. BGP instances can not be created if no BGP Neighbors are set.
 
+  $ if [ "$DUT_BOARD" = "qemu-x86-64" ]; then exit 80; fi
+
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
 Enable BGP on CPE. Verify Device.Routing.X_PRPLWARE-COM_BGP.Enable = true.

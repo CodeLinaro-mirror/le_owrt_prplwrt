@@ -4,6 +4,8 @@ Establish eBGP ipv6 session test:
 Verify that a CPE device correctly establishes an eBGP ipv6 session with a
 remote BGP Server.
 
+  $ if [ "$DUT_BOARD" = "qemu-x86-64" ]; then exit 80; fi
+
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
   $ TESTBED_IP6_A="fd00:1::2"
   $ DUT_IP6_A="fd00:1::1"

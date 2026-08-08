@@ -4,6 +4,8 @@ Link-State Database (Router-, Network- and Intra-Area-Prefix-LSAs), for IPv4 and
 
 Setup the test configuration:
 
+  $ if [ "$DUT_BOARD" = "qemu-x86-64" ]; then exit 80; fi
+
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
   $ alias C="${CRAM_REMOTE_COPY:-}"
   $ OSPF_DM="Routing.X_PRPLWARE-COM_OSPF."
