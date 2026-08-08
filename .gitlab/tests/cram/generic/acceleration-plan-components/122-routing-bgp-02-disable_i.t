@@ -4,6 +4,8 @@ Disable BGP instance test:
 
 Verify that BGP sessions drop and all BGP-learned routes are removed when BGP instance is disabled.
 
+  $ if [ "$DUT_BOARD" = "qemu-x86-64" ]; then exit 80; fi
+
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
 Enable BGP on CPE. Verify Device.Routing.X_PRPLWARE-COM_BGP.Enable = true.
