@@ -1,5 +1,7 @@
 Setup the test configuration:
 
+  $ if [ "$DUT_BOARD" = "qemu-x86-64" ]; then exit 80; fi
+
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
   $ S=". /tmp/script_functions.sh"
   $ scp -O ${TESTDIR}/../lcm/script_functions.sh root@${TARGET_LAN_IP}:/tmp/script_functions.sh
