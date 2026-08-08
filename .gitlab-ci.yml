@@ -117,6 +117,7 @@ include:
   - local: .gitlab/testbed/arcadyan-mozart.yml
   - local: .gitlab/testbed/wnc-freedom.yml
   - local: .gitlab/testbed/nokia-valyrian.yml
+  - local: .gitlab/testbed/qemu-x86-64.yml
   - component: $CI_SERVER_FQDN/prpl-foundation/prplos/ci/components/git-commit-checker/static@v1.0.0
 
 stages:
