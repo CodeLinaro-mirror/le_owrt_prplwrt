@@ -1,5 +1,7 @@
 Create R alias:
 
+  $ if [ "$DUT_BOARD" = "qemu-x86-64" ]; then exit 80; fi
+
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
 Don't run test on Turris Omnia as it doesn't have Reset and WPS buttons:
