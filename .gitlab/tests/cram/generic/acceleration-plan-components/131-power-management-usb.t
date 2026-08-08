@@ -1,5 +1,7 @@
 Create R alias:
 
+  $ if [ "$DUT_BOARD" = "qemu-x86-64" ]; then exit 80; fi
+
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
 If test is running on a Valyrian or Mozart, lets skip the test due to PCF-2617:

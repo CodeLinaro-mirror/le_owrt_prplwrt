@@ -1,5 +1,7 @@
 Create R alias:
 
+  $ if [ "$DUT_BOARD" = "qemu-x86-64" ]; then exit 80; fi
+
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
 Skip when the DUT has no cellular modem fitted:
