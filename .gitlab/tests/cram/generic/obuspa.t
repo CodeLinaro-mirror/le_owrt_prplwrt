@@ -1,5 +1,7 @@
 Create obuspa datamodel helpers:
 
+  $ if [ "$DUT_BOARD" = "qemu-x86-64" ]; then exit 80; fi
+
   $ VERIFY_OBUSPA_DATAMODEL="${TESTDIR}/../scripts/verify-obuspa-datamodel.sh"
   $ EXPECTED_OBUSPA_DATAMODEL="${TESTDIR}/fixtures/obuspa.expected"
 

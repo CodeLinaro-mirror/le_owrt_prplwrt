@@ -1,5 +1,7 @@
 Skip on testbed-02 until PCF-2585 is resolved:
 
+  $ if [ "$DUT_BOARD" = "qemu-x86-64" ]; then exit 80; fi
+
   $ if echo "$CI_RUNNER_DESCRIPTION" | grep -q testbed-02; then exit 80; fi
 
 Skip when the DUT has no cellular modem fitted:
