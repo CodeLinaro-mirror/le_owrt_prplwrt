@@ -4,6 +4,8 @@ Skip when the DUT has no cellular modem fitted:
 
 Create R alias:
 
+  $ if [ "$DUT_BOARD" = "qemu-x86-64" ]; then exit 80; fi
+
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
 Skip on testbeds without a cellular modem, same list as 50-cellular-offline.t:
