@@ -177,7 +177,7 @@ Verify odhcpd process:
   odhcpd true
   odhcpd \d+ (re)
 
-  $ if echo "$CI_JOB_NAME" | grep -q -E "(Valyrian|Mozart|Turris|Haze|HDK-3)"; then exit 80; fi
+  $ if ! R "ubus list | grep -qx Cellular"; then exit 80; fi
 
   $ get_status_and_pid cellular-manager
   cellular-manager true

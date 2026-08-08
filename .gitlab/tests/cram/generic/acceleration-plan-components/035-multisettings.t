@@ -4,7 +4,7 @@ Create R alias:
 
 Add testing service:
 
-  $ scp -O -r $TESTDIR/035-multisettings/* root@${TARGET_LAN_IP}:/
+  $ scp -O -o LogLevel=ERROR -r $TESTDIR/035-multisettings/* root@${TARGET_LAN_IP}:/
 
 Restart multisettings service and start testing service:
 

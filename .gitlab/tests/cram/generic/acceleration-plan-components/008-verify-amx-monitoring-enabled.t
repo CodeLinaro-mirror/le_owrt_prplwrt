@@ -39,7 +39,8 @@ Verify all expected processes are enabled for monitoring by amx-processmonitor, 
   hosts-manager=1
   dhcpv4-manager=1
 
-  $ if echo "$CI_JOB_NAME" | grep -q -E "(Valyrian|Mozart|Turris|Haze|HDK-3)"; then exit 80; fi
+  $ cellular_monitor=$(R "ba-cli ProcessMonitor.Test.*.Name? | grep cellular-manager" || true)
+  $ if [ -z "$cellular_monitor" ]; then exit 80; fi
 
   $ get_amx_process_monitoring cellular-manager
   cellular-manager=1

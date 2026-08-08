@@ -25,7 +25,7 @@ Check that user and group exists:
 
 Check that we are able to login:
 
-  $ sshpass -ppassword ssh testuser@$TARGET_LAN_IP id
+  $ sshpass -ppassword ssh -o LogLevel=ERROR testuser@$TARGET_LAN_IP id
   uid=666(testuser) gid=999(testgroup) groups=999(testgroup),999(testgroup)
 
 Change password to unsecure word:
@@ -38,7 +38,7 @@ Change password to unsecure word:
 
 Check that we are able to login with unsecure password:
 
-  $ sshpass -punsecure ssh testuser@$TARGET_LAN_IP id
+  $ sshpass -punsecure ssh -o LogLevel=ERROR testuser@$TARGET_LAN_IP id
   uid=666(testuser) gid=999(testgroup) groups=999(testgroup),999(testgroup)
 
 Delete group and user:
@@ -63,6 +63,6 @@ Check that user and group does not exists:
 
 Check that we are not able to login:
 
-  $ sshpass -punsecure ssh testuser@$TARGET_LAN_IP id
+  $ sshpass -punsecure ssh -o LogLevel=ERROR testuser@$TARGET_LAN_IP id
   Permission denied, please try again.\r (esc)
   [5]

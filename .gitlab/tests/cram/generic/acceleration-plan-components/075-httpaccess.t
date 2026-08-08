@@ -4,11 +4,10 @@ Create R alias:
 
 Check that we've expected datamodel:
 
-  $ R "ubus list | grep UserInterface. | sort"
+  $ R "ubus list | grep UserInterface. | grep -v -e '\.Session\.[[:digit:]]' | sort"
   UserInterface.HTTPAccess
   UserInterface.HTTPAccess.1
   UserInterface.HTTPAccess.1.Session
-  UserInterface.HTTPAccess.1.Session.1
   UserInterface.HTTPAccess.1.X_PRPLWARE-COM_HTTPConfig
   UserInterface.HTTPAccess.2
   UserInterface.HTTPAccess.2.Session

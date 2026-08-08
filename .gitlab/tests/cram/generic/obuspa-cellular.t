@@ -3,8 +3,12 @@ Create obuspa cellular datamodel helpers:
   $ VERIFY_OBUSPA_DATAMODEL="${TESTDIR}/../scripts/verify-obuspa-datamodel.sh"
   $ EXPECTED_OBUSPA_CELLULAR_DATAMODEL="${TESTDIR}/fixtures/obuspa-cellular.expected"
 
-If test is running on a Valyrian, Mozart, Turris, OSPv1 or Haze, lets skip the test as there is no Cellular support:
-  $ if echo "$CI_JOB_NAME" | grep -q -E "(Valyrian|Mozart|Turris|Haze|HDK-3)"; then exit 80; fi
+Create R alias:
+
+  $ alias R="${CRAM_REMOTE_COMMAND:-}"
+
+Skip the schema comparison when the target has no cellular capability:
+  $ if ! R "ubus list | grep -qx Cellular"; then exit 80; fi
 
 Check that obuspa keeps the expected cellular datamodel across restart:
 

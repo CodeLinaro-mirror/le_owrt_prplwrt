@@ -8,18 +8,24 @@ Create R alias:
 Check Bulkdata syslog messages:
 
   $ check_bulkdata_success() {
-  >   local no_sync="$1"
-  >   success=true
-  >   if [ -z "$no_sync" ]; then
-  >     result=$(R "grep 'bulkdata' /var/log/messages | grep 'http request sent successfully for profile' | tail -n 1 | sed 's/.*tr181-bulkdata: //'")
-  >     transfer_failed=$(R "grep 'bulkdata' /var/log/messages | grep 'transfer failed' | tail -n 1 | sed 's/.*tr181-bulkdata: //'")
-  >     if [ -z "$result" -a -z "$transfer_failed" ]; then
-  >       success=false
+  >   local first_line="$1"
+  >   local timeout="$2"
+  >   local success_pattern="$3"
+  >   local attempt logs
+  >   for attempt in $(seq 1 "$timeout"); do
+  >     logs=$(R "tail -n +$first_line /var/log/messages | grep bulkdata" || true)
+  >     if echo "$logs" | grep -Fq 'transfer failed'; then
+  >       echo "$logs" >&2
+  >       return 1
   >     fi
-  >   fi
-  >   if [ "$success" = true ]; then
-  >     echo "Test Successful"
-  >   fi
+  >     if echo "$logs" | grep -Fq "$success_pattern"; then
+  >       echo "Test Successful"
+  >       return 0
+  >     fi
+  >     sleep 1
+  >   done
+  >   echo "$logs" >&2
+  >   return 1
   > }
 
 Check time synchronization to start BulkData module:
@@ -80,12 +86,13 @@ Check adding a parameter to be sent in the report:
 Check after enabling the configured profile:
 
   $ sleep 5 # wait for object creation
+  $ log_start=$(R "wc -l < /var/log/messages"); log_start=$((log_start + 1))
   $ R "ba-cli 'BulkData.Profile.http-json.Enable="true"' | grep -Ev '^(>|$)' | grep '='"
   BulkData.Profile.[0-9]+.Enable=1 (re)
 
 Check traces:
 
-  $ check_bulkdata_success "$no_sync"
+  $ check_bulkdata_success "$log_start" 40 "HTTP request sent successfully for profile 'BulkData.Profile.http-json'"
   Test Successful
 
 2-HTTP Profile to send CSV report
@@ -130,12 +137,13 @@ Check adding a parameter to be sent in the report:
 Check after enabling the configured profile:
 
   $ sleep 5 # wait for object creation
+  $ log_start=$(R "wc -l < /var/log/messages"); log_start=$((log_start + 1))
   $ R "ba-cli 'BulkData.Profile.http-csv.Enable="true"' | grep -Ev '^(>|$)' | grep '='"
   BulkData.Profile.[0-9]+.Enable=1 (re)
 
 Check traces:
 
-  $ check_bulkdata_success "$no_sync"
+  $ check_bulkdata_success "$log_start" 40 "HTTP request sent successfully for profile 'BulkData.Profile.http-csv'"
   Test Successful
 
 3-MQTT Profile
@@ -162,12 +170,13 @@ Check adding a parameter to be sent in the report:
 Check after enabling the configured profile:
 
   $ sleep 5 # wait for object creation
+  $ log_start=$(R "wc -l < /var/log/messages"); log_start=$((log_start + 1))
   $ R "ba-cli 'BulkData.Profile.mqtt-json.Enable="true"' | grep -Ev '^(>|$)' | grep '='"
   BulkData.Profile.[0-9]+.Enable=1 (re)
 
 Check traces:
 
-  $ check_bulkdata_success "$no_sync"
+  $ check_bulkdata_success "$log_start" 20 'Unable to get value for Phonebook.Contact.'
   Test Successful
 
 Restore default settings:

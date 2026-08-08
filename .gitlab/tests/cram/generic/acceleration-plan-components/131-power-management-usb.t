@@ -2,8 +2,9 @@ Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
-If test is running on a Valyrian or Mozart, lets skip the test due to PCF-2617:
-  $ if echo "$CI_JOB_NAME" | grep -q -E "(Valyrian|Mozart)"; then exit 80; fi
+Find a USB port that exposes power-management controls:
+  $ usb_power_port=$(R "ba-cli 'USB.Port.*.PowerCapability?' | sed -n 's/.*USB.Port\.\([0-9][0-9]*\)\.PowerCapability=.*/\1/p' | head -n1")
+  $ if [ -z "$usb_power_port" ]; then exit 80; fi
 
 Check USB.Port datamodel has PowerManagement parameters:
 
@@ -18,30 +19,30 @@ Check USB.Port datamodel has PowerManagement parameters:
 
 Check read-only parameters:
 
-  $ R "ba-cli 'USB.Port.1.PowerStatus="On"' | sort | grep 'ERROR'"
-  ERROR: set USB.Port.1.PowerStatus failed \([0-9]+ - .*read only\) (re)
+  $ R "ba-cli 'USB.Port.$usb_power_port.PowerStatus="On"' | sort | grep 'ERROR'"
+  ERROR: set USB.Port.[0-9]+.PowerStatus failed \([0-9]+ - .*read only\) (re)
 
-  $ R "ba-cli 'USB.Port.1.PowerCapability="On,Off"' | sort | grep 'ERROR'"
-  ERROR: set USB.Port.1.PowerCapability failed \([0-9]+ - .*read only\) (re)
+  $ R "ba-cli 'USB.Port.$usb_power_port.PowerCapability="On,Off"' | sort | grep 'ERROR'"
+  ERROR: set USB.Port.[0-9]+.PowerCapability failed \([0-9]+ - .*read only\) (re)
 
 Check ChangePowerMode function:
 
-  $ alias=$(R "ba-cli 'USB.Port.1.PowerCapability?' | grep -Ev '^(>|$)' | grep 'PowerCapability'| sed -E 's/.*PowerCapability=\"([^\"]+)\"/\1/'")
+  $ alias=$(R "ba-cli 'USB.Port.$usb_power_port.PowerCapability?' | grep -Ev '^(>|$)' | grep 'PowerCapability'| sed -E 's/.*PowerCapability=\"([^\"]+)\"/\1/'")
   $ first=${alias%%,*}
-  $ R "ba-cli 'USB.Port.1.ChangePowerMode(PowerState = \"$first\")' | grep -Ev '^(>|$)'"
-  USB.Port.1.ChangePowerMode() returned
+  $ R "ba-cli 'USB.Port.$usb_power_port.ChangePowerMode(PowerState = \"$first\")' | grep -Ev '^(>|$)'"
+  USB.Port.[0-9]+.ChangePowerMode\(\) returned (re)
   [
       ""
   ]
 
 Check invalid value for ChangePowerMode function:
 
-  $ R "ba-cli 'USB.Port.1.ChangePowerMode(PowerState = "InvalidState")' | grep -Ev '^(>|$)' | grep 'ERROR'"
+  $ R "ba-cli 'USB.Port.$usb_power_port.ChangePowerMode(PowerState = "InvalidState")' | grep -Ev '^(>|$)' | grep 'ERROR'"
   ERROR: call (null) failed with status 10 - invalid value
 
 Check PowerStatus after ChangePowerMode:
 
-  $ status=$(R "ba-cli 'USB.Port.1.PowerStatus?' | grep -Ev '^(>|$)' | sed -E 's/.*PowerStatus=\"([^\"]+)\".*/\1/'")
+  $ status=$(R "ba-cli 'USB.Port.$usb_power_port.PowerStatus?' | grep -Ev '^(>|$)' | sed -E 's/.*PowerStatus=\"([^\"]+)\".*/\1/'")
 
   $ if [ "$status" = "$first" ]; then 
   >   echo "PowerStatus has been updated successfully"

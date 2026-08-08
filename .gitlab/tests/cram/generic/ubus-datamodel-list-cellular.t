@@ -2,8 +2,8 @@ Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
-If test is running on a Valyrian, Mozart, Turris, OSPv1 or Haze, lets skip the test as there is no Cellular support:
-  $ if echo "$CI_JOB_NAME" | grep -q -E "(Valyrian|Mozart|Turris|Haze|HDK-3)"; then exit 80; fi
+Skip the inventory check when the target has no cellular capability:
+  $ if ! R "ubus list | grep -qx Cellular"; then exit 80; fi
 
 Check that ubus has expected Cellular datamodels available:
 
