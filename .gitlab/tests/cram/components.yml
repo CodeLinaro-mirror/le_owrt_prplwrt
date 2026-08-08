@@ -43,10 +43,45 @@ smoke:
     - "generic/busybox.t"
     - "generic/ubus.t"
 
-# Provisional CI-5 stub from the classification document's Real-HW list.
+# Tests requiring hardware or firmware capabilities unavailable on QEMU.
 hw_only:
   include:
+    - "generic/acceleration-plan-components/003-amx-pre-test-verify-fail-action.t"
+    - "generic/acceleration-plan-components/010-firewall-dhcp.t"
+    - "generic/acceleration-plan-components/010-firewall-dhcp_toggle.t"
+    - "generic/acceleration-plan-components/018-cellular-trusted-elements.t"
     - "generic/acceleration-plan-components/040-usb-filter.t"
+    - "generic/acceleration-plan-components/060-xpon-mock.t"
+    - "generic/acceleration-plan-components/095-reboot-service.t"
+    - "generic/acceleration-plan-components/105-temperature.t"
+    - "generic/acceleration-plan-components/110-data-model-mapper.t"
+    - "generic/acceleration-plan-components/120-buttons.t"
+    - "generic/acceleration-plan-components/122-routing-*.t"
+    - "generic/acceleration-plan-components/130-gre-e2e.t"
+    - "generic/acceleration-plan-components/130-tr181-gre.t"
+    - "generic/acceleration-plan-components/131-power-management-usb.t"
+    - "generic/acceleration-plan-components/132-tr181-tuntap.t"
+    - "generic/acceleration-plan-components/132-tr181-wireguard.t"
+    - "generic/acceleration-plan-components/132-wireguard-e2e.t"
+    - "generic/acceleration-plan-components/133-ipsec-e2e.t"
+    - "generic/acceleration-plan-components/133-tr181-ipsec.t"
+    - "generic/acceleration-plan-components/50-cellular-offline.t"
+    - "generic/acceleration-plan-components/dhcpv4-client-options/018-dhcpv4-client-options.t"
+    - "generic/cellular-manager/010-verify-sim-selection.t"
+    - "generic/cellular-manager/020-verify-usim-data-elements.t"
+    - "generic/cellular-manager/045-verify-roaming-upstream-status.t"
+    - "generic/cellular-manager/060-verify-access-point.t"
+    - "generic/cellular-manager/070-verify-data-session.t"
+    - "generic/cellular-manager/100-bearer-session-disable.t"
+    - "generic/cellular-manager/110-access-technology.t"
+    - "generic/cellular-manager/120-sms-storage.t"
+    - "generic/cellular-manager/130-sms-message-attributes.t"
+    - "generic/deviceinfo-firmware-download-failures.t"
+    - "generic/obuspa-cellular.t"
+    - "generic/obuspa.t"
+    - "generic/sysupgrade-prpl-download-failure.t"
+    - "generic/ubus-datamodel-list-cellular.t"
+    - "generic/ubus-datamodel-list.t"
 
 # post/** is invoked separately for every component job and is not bucketed.
 

@@ -1,5 +1,7 @@
 Create R alias:
 
+  $ if [ "$DUT_BOARD" = "qemu-x86-64" ]; then exit 80; fi
+
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
 If test is running on a Valyrian, Mozart, Turris, OSPv1 or Haze, lets skip the test as there is no USB storage device attached:
