@@ -1,0 +1,46 @@
+.qemu-x86-64 testbed:
+  stage: run
+  image: "registry.gitlab.com/prpl-foundation/prplos/ci/containers/testbed-qemu@sha256:8c00d17ac1dde961fb5f8d47e10754081f0e135445a10e10bb4ffd229dbafdcc"
+  tags: [qemu-amd64, kvm]
+  timeout: 40 minutes
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: never
+    - if: '$CI_COMMIT_TAG =~ /^prplware-v[0-9]+\.[0-9]+\.[0-9]+.*$/ && $COMPONENT == "full"'
+    - if: '$COMPONENT == "full" && $CRAM_COMPONENTS =~ /(^|,)full($|,)/'
+    - if: '$COMPONENT == "prplmesh" && $CRAM_COMPONENTS =~ /(^|,)prplmesh($|,)/'
+    - if: '$COMPONENT == "lcm" && $CRAM_COMPONENTS =~ /(^|,)lcm($|,)/'
+    - if: '$COMPONENT == "prplos" && $CRAM_COMPONENTS =~ /(^|,)prplos($|,)/'
+    - when: manual
+      allow_failure: true
+  variables:
+    COMPONENT: prplos
+    DUT_BOARD: qemu-standard-pc-q35-ich9-2009
+    TARGET_LAN_IP: 192.168.1.1
+    TESTBED_QEMU_ACCEL: kvm
+    TESTBED_QEMU_IMAGE: bin/targets/x86/64/prplos-x86-64-generic-squashfs-combined-efi.img
+  script:
+    - |
+      CRAM_TEST_SUITE="$(
+        .gitlab/tests/cram/scripts/resolve-component-tests.py \
+          --test-root .gitlab/tests/cram \
+          --manifest components.yml \
+          --board qemu-x86-64 \
+          --component "$COMPONENT"
+      )"
+      export CRAM_TEST_SUITE
+    - mkdir -p artifacts
+    - >
+      PRPLOS_SOURCE_ROOT="$CI_PROJECT_DIR"
+      testbed-qemu run
+      --image "$CI_PROJECT_DIR/$TESTBED_QEMU_IMAGE"
+      --artifacts "$CI_PROJECT_DIR/artifacts"
+      --accel "$TESTBED_QEMU_ACCEL"
+      -- testbed-qemu-cram $CRAM_TEST_SUITE
+  artifacts:
+    expire_in: 1 month
+    when: always
+    paths:
+      - artifacts/
+    reports:
+      junit: artifacts/cram.xml
