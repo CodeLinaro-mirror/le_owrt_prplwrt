@@ -1,5 +1,7 @@
 Create R alias:
 
+  $ if [ "$DUT_BOARD" = "qemu-x86-64" ]; then exit 80; fi
+
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
 Check that client is able to get new lease:
