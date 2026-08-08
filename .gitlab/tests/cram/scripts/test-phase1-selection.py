@@ -218,8 +218,8 @@ def main() -> int:
 
         report = invoke(repository, base, union_head, "--report")
         check(report.returncode == 0, "report mode failed")
-        check(len(report.stdout.splitlines()) == 6, "report must show six boards")
-        print("5 report mode: PASS (6 boards)")
+        check(len(report.stdout.splitlines()) == 7, "report must show seven boards")
+        print("5 report mode: PASS (7 boards)")
 
         unmapped = invoke(repository, base, union_head, "--board", "turris-omnia")
         drift_head = commit_paths(
@@ -296,7 +296,7 @@ def main() -> int:
 
     print("10 lint fixture: PASS (uncategorized profile rejected)")
     run([str(AUTO_VARIABLES_GUARD), "--repository", str(REPOSITORY)])
-    print("11 auto variables: PASS (six auto/full pairs match)")
+    print("11 auto variables: PASS (seven auto/full pairs match)")
     return 0
 
 

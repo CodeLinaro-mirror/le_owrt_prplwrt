@@ -19,6 +19,7 @@ BOARDS = {
     "Freedom": "wnc-freedom",
     "Mozart": "arcadyan-mozart",
     "Valyrian": "nokia-valyrian",
+    "QEMU x86-64": "qemu-x86-64",
 }
 
 

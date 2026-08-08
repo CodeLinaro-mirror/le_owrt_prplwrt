@@ -37,11 +37,17 @@ components:
       - "wifi/**/*.t"
   # prplos is the implicit remainder; do not add it as a component.
 
-# Provisional CI-5 stub: final smoke-set curation is deferred to CI-5.
 smoke:
   include:
+    - "generic/obuspa.t"
+    - "generic/obuspa-cellular.t"
+    - "generic/ubus-datamodel-list.t"
+    - "generic/ubus-datamodel-list-cellular.t"
+    - "generic/ulimit.t"
+    - "generic/network.t"
     - "generic/busybox.t"
-    - "generic/ubus.t"
+    - "qemu-x86-64/connectivity.t"
+    - "qemu-x86-64/reboot.t"
 
 # Provisional CI-5 stub from the classification document's Real-HW list.
 hw_only:
@@ -59,6 +65,7 @@ selection:
     prpl-haze: {alias: Haze, priority: false}
     arcadyan-mozart: {alias: Mozart, priority: false}
     nokia-valyrian: {alias: Valyrian, priority: false}
+    qemu-x86-64: {alias: "QEMU x86-64", priority: true}
   paths:
     - {glob: profiles/mvebu.yml, boards: [turris-omnia], component: full}
     - {glob: profiles/ipq807x.yml, boards: [prpl-haze], component: full}
@@ -96,16 +103,18 @@ selection:
     - {glob: .gitlab/tests/cram/nokia-valyrian/**, boards: [nokia-valyrian], component: by-test}
     - {glob: .gitlab/tests/cram/wnc-freedom/**, boards: [wnc-freedom], component: by-test}
     - {glob: .gitlab/tests/cram/mxl25641-hdk-6/**, boards: [mxl25641-hdk-6], component: by-test}
+    - {glob: .gitlab/tests/cram/qemu-x86-64/**, boards: [qemu-x86-64], component: by-test}
     - {glob: .gitlab/testbed/turris-omnia.yml, boards: [turris-omnia], component: prplos}
     - {glob: .gitlab/testbed/prpl-haze.yml, boards: [prpl-haze], component: prplos}
     - {glob: .gitlab/testbed/arcadyan-mozart.yml, boards: [arcadyan-mozart], component: prplos}
     - {glob: .gitlab/testbed/nokia-valyrian.yml, boards: [nokia-valyrian], component: prplos}
     - {glob: .gitlab/testbed/wnc-freedom.yml, boards: [wnc-freedom], component: prplos}
     - {glob: .gitlab/testbed/mxl25641-hdk-6.yml, boards: [mxl25641-hdk-6], component: prplos}
+    - {glob: .gitlab/testbed/qemu-x86-64.yml, boards: [qemu-x86-64], component: prplos}
     - {glob: profiles/debug.yml, component: noop}
     - {glob: profiles/extender_full.yml, component: noop}
     - {glob: profiles/extender_minimal.yml, component: noop}
-    - {glob: profiles/x86_64.yml, component: noop}
+    - {glob: profiles/x86_64.yml, boards: [qemu-x86-64], component: full}
     - {glob: profiles/ipq40xx.yml, component: noop}
     - {glob: profiles/mxl_x86.yml, component: noop}
     - {glob: profiles/mxl_x86_sec.yml, component: noop}
