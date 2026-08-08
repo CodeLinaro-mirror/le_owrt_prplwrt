@@ -1,0 +1,58 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 prpl Foundation
+.qemu-x86-64 testbed:
+  stage: run
+  image: "registry.gitlab.com/prpl-foundation/prplos/ci/containers/testbed-qemu@sha256:4f87f818e1511091c43baac3cf02a9cab5b9cfa59a84674672a8555645b37979"
+  tags: [qemu-amd64, kvm]
+  timeout: 40 minutes
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: never
+    - when: manual
+      allow_failure: true
+  variables:
+    COMPONENT: prplos
+    DUT_BOARD: qemu-x86-64
+    TARGET_LAN_IP: 192.168.1.1
+    TESTBED_QEMU_ACCEL: kvm
+    TESTBED_QEMU_IMAGE: bin/targets/x86/64/prplos-x86-64-generic-squashfs-combined-efi.img
+    DUT_HAS_MODEM: "0"
+  script:
+    - source .gitlab/scripts/helpers.sh
+
+    - section_start "testbed-setup" "Testbed Setup" "collapsed"
+
+    # Resolve the COMPONENT bucket into a list of test paths.
+    - |
+      CRAM_TEST_SUITE="$(
+        .gitlab/tests/cram/scripts/resolve-component-tests.py \
+          --test-root .gitlab/tests/cram \
+          --manifest components.yml \
+          --board "$DUT_BOARD" \
+          --component "$COMPONENT"
+      )"
+      export CRAM_TEST_SUITE
+
+    - mkdir -p artifacts
+
+    - section_end "testbed-setup"
+
+    - section_start "test-execution" "Test Execution${COMPONENT:+ [$COMPONENT]}" "expanded"
+
+    # Boot the firmware image in QEMU and run cram.
+    - >
+      PRPLOS_SOURCE_ROOT="$CI_PROJECT_DIR"
+      testbed-qemu run
+      --image "$CI_PROJECT_DIR/$TESTBED_QEMU_IMAGE"
+      --artifacts "$CI_PROJECT_DIR/artifacts"
+      --accel "$TESTBED_QEMU_ACCEL"
+      -- testbed-qemu cram $CRAM_TEST_SUITE
+
+    - section_end "test-execution"
+
+  artifacts:
+    expire_in: 1 month
+    when: always
+    paths:
+      - artifacts/
+    reports:
+      junit: artifacts/cram.xml
