@@ -17,6 +17,8 @@ SCHEMA_VERSION = 1
 COMPONENT_NAMES = ("lcm", "prplmesh")
 RESERVED_NAMES = {"full", "prplos", "sanity", "smoke", "hw_only"}
 SELECTION_COMPONENT_ORDER = ("prplmesh", "lcm", "prplos")
+# Shared/component directories; everything else under the test root is a board directory.
+NON_BOARD_DIRECTORIES = {"generic", "post", "prplmesh", "wifi"}
 
 
 class BucketingError(Exception):
@@ -82,6 +84,12 @@ def resolve_manifest_path(test_root: Path, manifest: Path) -> Path:
     if manifest.is_absolute():
         return manifest
     return test_root / manifest
+
+
+def is_board_test(relative_path: str) -> bool:
+    """Identify board tests by their first path component below the test root."""
+
+    return PurePosixPath(relative_path).parts[0] not in NON_BOARD_DIRECTORIES
 
 
 def suite_roots(test_root: Path, board: str) -> List[Path]:
