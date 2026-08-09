@@ -154,6 +154,14 @@ There is no QEMU `[full]` job. A `full` automatic selection runs the union of
 the three component buckets after `hw_only` tests are removed. Changes to
 `profiles/x86_64.yml` select that full QEMU component set.
 
+The QEMU smoke job precedes the three QEMU component jobs. On an armed merge
+request path, each hardware `[auto]` job has an optional dependency on
+`cram QEMU x86-64 [auto]`. This keeps the QEMU result advisory while allowing
+it to appear in the same pipeline gate. The optional dependency should become
+blocking only in a separate change after at least 10 armed merge request
+pipelines over at least two weeks finish with zero QEMU infrastructure
+failures on a KVM runner.
+
 ## Selecting pipeline jobs
 
 Merge request pipelines contain one `cram <Board> [auto]` job for every

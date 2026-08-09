@@ -341,7 +341,9 @@ blackduck scan qca_ipq95xx prpl extender_full cellular security thread:
   extends: .blackduck scan config
 
 cram Omnia [auto]:
-  needs: ["build test mvebu prpl security"]
+  needs:
+    - build test mvebu prpl security
+    - {job: "cram QEMU x86-64 [auto]", artifacts: false, optional: true}
   extends:
     - .turris-omnia testbed
     - .cram_component_auto
@@ -360,7 +362,9 @@ cram Omnia [auto]:
       allow_failure: true
 
 cram Haze [auto]:
-  needs: ["build test ipq807x prpl security"]
+  needs:
+    - build test ipq807x prpl security
+    - {job: "cram QEMU x86-64 [auto]", artifacts: false, optional: true}
   extends:
     - .prpl-haze testbed
     - .cram_component_auto
@@ -379,7 +383,9 @@ cram Haze [auto]:
       allow_failure: true
 
 cram OSPv2 [auto]:
-  needs: ["build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread"]
+  needs:
+    - build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread
+    - {job: "cram QEMU x86-64 [auto]", artifacts: false, optional: true}
   extends:
     - .mxl25641-hdk-6 testbed
     - .cram_component_auto
@@ -399,7 +405,9 @@ cram OSPv2 [auto]:
       allow_failure: true
 
 cram Freedom [auto]:
-  needs: ["build test qca_ipq95xx prpl cellular security thread"]
+  needs:
+    - build test qca_ipq95xx prpl cellular security thread
+    - {job: "cram QEMU x86-64 [auto]", artifacts: false, optional: true}
   extends:
     - .wnc-freedom testbed
     - .cram_component_auto
@@ -419,7 +427,9 @@ cram Freedom [auto]:
       allow_failure: true
 
 cram Mozart [auto]:
-  needs: ["build test mtk_filogic prpl security"]
+  needs:
+    - build test mtk_filogic prpl security
+    - {job: "cram QEMU x86-64 [auto]", artifacts: false, optional: true}
   extends:
     - .arcadyan-mozart testbed
     - .cram_component_auto
@@ -438,7 +448,9 @@ cram Mozart [auto]:
       allow_failure: true
 
 cram Valyrian [auto]:
-  needs: ["build test airoha_an7581 prpl security"]
+  needs:
+    - build test airoha_an7581 prpl security
+    - {job: "cram QEMU x86-64 [auto]", artifacts: false, optional: true}
   extends:
     - .nokia-valyrian testbed
     - .cram_component_auto
@@ -673,21 +685,27 @@ cram QEMU x86-64 [smoke]:
 
 cram QEMU x86-64 [prplmesh]:
   allow_failure: true
-  needs: ["build test x86_64 prpl security"]
+  needs:
+    - build test x86_64 prpl security
+    - cram QEMU x86-64 [smoke]
   extends: .qemu-x86-64 testbed
   variables:
     COMPONENT: prplmesh
 
 cram QEMU x86-64 [lcm]:
   allow_failure: true
-  needs: ["build test x86_64 prpl security"]
+  needs:
+    - build test x86_64 prpl security
+    - cram QEMU x86-64 [smoke]
   extends: .qemu-x86-64 testbed
   variables:
     COMPONENT: lcm
 
 cram QEMU x86-64 [prplos]:
   allow_failure: true
-  needs: ["build test x86_64 prpl security"]
+  needs:
+    - build test x86_64 prpl security
+    - cram QEMU x86-64 [smoke]
   extends: .qemu-x86-64 testbed
   variables:
     COMPONENT: prplos
