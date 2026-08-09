@@ -17,6 +17,7 @@ from cram_component_bucketing import (
     BucketingError,
     discover_tests,
     expand_manifest,
+    is_board_test,
     load_manifest,
     path_matches_glob,
     partition_tests,
@@ -337,7 +338,11 @@ def main(argv: Sequence[str] | None = None) -> int:
 
         remainder = _relative_paths(buckets["prplos"], args.test_root)
         newly_remainder = (
-            sorted((current - base) & remainder) if base is not None else []
+            sorted(
+                path for path in (current - base) & remainder if not is_board_test(path)
+            )
+            if base is not None
+            else []
         )
         broken_symlinks = _tracked_broken_symlinks(args.test_root, tests)
     except BucketingError as error:

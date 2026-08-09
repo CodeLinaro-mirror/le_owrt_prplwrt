@@ -7,45 +7,47 @@ matrix:
   - {glob: profiles/qca_ipq95xx.yml, path: profiles/qca_ipq95xx.yml, expected: {wnc-freedom: full}}
   - {glob: profiles/mxl_x86_osp_tb341_v2.yml, path: profiles/mxl_x86_osp_tb341_v2.yml, expected: {mxl25641-hdk-6: full}}
   - {glob: profiles/mxl_wlan_hostap_ng_wav700.yml, path: profiles/mxl_wlan_hostap_ng_wav700.yml, expected: {mxl25641-hdk-6: full}}
-  - {glob: profiles/secure_boot_emmc.yml, path: profiles/secure_boot_emmc.yml, expected: {wnc-freedom: full, mxl25641-hdk-6: full}}
-  - {glob: profiles/feed_amx.yml, path: profiles/feed_amx.yml, expected: {wnc-freedom: full, mxl25641-hdk-6: full}}
-  - {glob: profiles/feed_prplmesh.yml, path: profiles/feed_prplmesh.yml, expected: {wnc-freedom: prplmesh, mxl25641-hdk-6: prplmesh}}
-  - {glob: profiles/feed_prplos.yml, path: profiles/feed_prplos.yml, expected: {wnc-freedom: prplos, mxl25641-hdk-6: prplos}}
-  - {glob: profiles/lcm.yml, path: profiles/lcm.yml, expected: {wnc-freedom: lcm, mxl25641-hdk-6: lcm}}
-  - {glob: profiles/prpl_core.yml, path: profiles/prpl_core.yml, expected: {wnc-freedom: full, mxl25641-hdk-6: full}}
-  - {glob: profiles/prpl.yml, path: profiles/prpl.yml, expected: {wnc-freedom: full, mxl25641-hdk-6: full}}
-  - {glob: profiles/mgmt.yml, path: profiles/mgmt.yml, expected: {wnc-freedom: prplos, mxl25641-hdk-6: prplos}}
-  - {glob: profiles/security.yml, path: profiles/security.yml, expected: {wnc-freedom: full, mxl25641-hdk-6: full}}
-  - {glob: profiles/cellular.yml, path: profiles/cellular.yml, expected: {wnc-freedom: prplos, mxl25641-hdk-6: prplos}}
-  - {glob: profiles/thread.yml, path: profiles/thread.yml, expected: {wnc-freedom: prplos, mxl25641-hdk-6: prplos}}
-  - {glob: .gitlab/tests/cram/generic/**, path: .gitlab/tests/cram/generic/busybox.t, expected: {wnc-freedom: prplos, mxl25641-hdk-6: prplos}}
-  - {glob: .gitlab/tests/cram/post/**, path: .gitlab/tests/cram/post/generic/post.t, expected: {wnc-freedom: prplos, mxl25641-hdk-6: prplos}}
-  - {glob: .gitlab/testbed.yml, path: .gitlab/testbed.yml, expected: {wnc-freedom: prplos, mxl25641-hdk-6: prplos}}
-  - {glob: package/**, path: package/kernel/example.c, expected: {wnc-freedom: full, mxl25641-hdk-6: full}}
-  - {glob: target/**, path: target/linux/example, expected: {wnc-freedom: full, mxl25641-hdk-6: full}}
-  - {glob: toolchain/**, path: toolchain/example, expected: {wnc-freedom: full, mxl25641-hdk-6: full}}
-  - {glob: include/**, path: include/example.mk, expected: {wnc-freedom: full, mxl25641-hdk-6: full}}
-  - {glob: config/**, path: config/example, expected: {wnc-freedom: full, mxl25641-hdk-6: full}}
-  - {glob: tools/**, path: tools/example, expected: {wnc-freedom: full, mxl25641-hdk-6: full}}
-  - {glob: feeds.conf.default, path: feeds.conf.default, expected: {wnc-freedom: full, mxl25641-hdk-6: full}}
-  - {glob: Makefile, path: Makefile, expected: {wnc-freedom: full, mxl25641-hdk-6: full}}
-  - {glob: rules.mk, path: rules.mk, expected: {wnc-freedom: full, mxl25641-hdk-6: full}}
+  - {glob: profiles/secure_boot_emmc.yml, path: profiles/secure_boot_emmc.yml, expected: {wnc-freedom: full, mxl25641-hdk-6: full, qemu-x86-64: full}}
+  - {glob: profiles/feed_amx.yml, path: profiles/feed_amx.yml, expected: {wnc-freedom: full, mxl25641-hdk-6: full, qemu-x86-64: full}}
+  - {glob: profiles/feed_prplmesh.yml, path: profiles/feed_prplmesh.yml, expected: {wnc-freedom: prplmesh, mxl25641-hdk-6: prplmesh, qemu-x86-64: prplmesh}}
+  - {glob: profiles/feed_prplos.yml, path: profiles/feed_prplos.yml, expected: {wnc-freedom: prplos, mxl25641-hdk-6: prplos, qemu-x86-64: prplos}}
+  - {glob: profiles/lcm.yml, path: profiles/lcm.yml, expected: {wnc-freedom: lcm, mxl25641-hdk-6: lcm, qemu-x86-64: lcm}}
+  - {glob: profiles/prpl_core.yml, path: profiles/prpl_core.yml, expected: {wnc-freedom: full, mxl25641-hdk-6: full, qemu-x86-64: full}}
+  - {glob: profiles/prpl.yml, path: profiles/prpl.yml, expected: {wnc-freedom: full, mxl25641-hdk-6: full, qemu-x86-64: full}}
+  - {glob: profiles/mgmt.yml, path: profiles/mgmt.yml, expected: {wnc-freedom: prplos, mxl25641-hdk-6: prplos, qemu-x86-64: prplos}}
+  - {glob: profiles/security.yml, path: profiles/security.yml, expected: {wnc-freedom: full, mxl25641-hdk-6: full, qemu-x86-64: full}}
+  - {glob: profiles/cellular.yml, path: profiles/cellular.yml, expected: {wnc-freedom: prplos, mxl25641-hdk-6: prplos, qemu-x86-64: prplos}}
+  - {glob: profiles/thread.yml, path: profiles/thread.yml, expected: {wnc-freedom: prplos, mxl25641-hdk-6: prplos, qemu-x86-64: prplos}}
+  - {glob: .gitlab/tests/cram/generic/**, path: .gitlab/tests/cram/generic/busybox.t, expected: {wnc-freedom: prplos, mxl25641-hdk-6: prplos, qemu-x86-64: prplos}}
+  - {glob: .gitlab/tests/cram/post/**, path: .gitlab/tests/cram/post/generic/post.t, expected: {wnc-freedom: prplos, mxl25641-hdk-6: prplos, qemu-x86-64: prplos}}
+  - {glob: .gitlab/testbed.yml, path: .gitlab/testbed.yml, expected: {wnc-freedom: prplos, mxl25641-hdk-6: prplos, qemu-x86-64: prplos}}
+  - {glob: package/**, path: package/kernel/example.c, expected: {wnc-freedom: full, mxl25641-hdk-6: full, qemu-x86-64: full}}
+  - {glob: target/**, path: target/linux/example, expected: {wnc-freedom: full, mxl25641-hdk-6: full, qemu-x86-64: full}}
+  - {glob: toolchain/**, path: toolchain/example, expected: {wnc-freedom: full, mxl25641-hdk-6: full, qemu-x86-64: full}}
+  - {glob: include/**, path: include/example.mk, expected: {wnc-freedom: full, mxl25641-hdk-6: full, qemu-x86-64: full}}
+  - {glob: config/**, path: config/example, expected: {wnc-freedom: full, mxl25641-hdk-6: full, qemu-x86-64: full}}
+  - {glob: tools/**, path: tools/example, expected: {wnc-freedom: full, mxl25641-hdk-6: full, qemu-x86-64: full}}
+  - {glob: feeds.conf.default, path: feeds.conf.default, expected: {wnc-freedom: full, mxl25641-hdk-6: full, qemu-x86-64: full}}
+  - {glob: Makefile, path: Makefile, expected: {wnc-freedom: full, mxl25641-hdk-6: full, qemu-x86-64: full}}
+  - {glob: rules.mk, path: rules.mk, expected: {wnc-freedom: full, mxl25641-hdk-6: full, qemu-x86-64: full}}
   - {glob: .gitlab/tests/cram/turris-omnia/**, path: .gitlab/tests/cram/turris-omnia/example.t, expected: {turris-omnia: prplos}}
   - {glob: .gitlab/tests/cram/prpl-haze/**, path: .gitlab/tests/cram/prpl-haze/example.t, expected: {prpl-haze: prplos}}
   - {glob: .gitlab/tests/cram/arcadyan-mozart/**, path: .gitlab/tests/cram/arcadyan-mozart/example.t, expected: {arcadyan-mozart: prplos}}
   - {glob: .gitlab/tests/cram/nokia-valyrian/**, path: .gitlab/tests/cram/nokia-valyrian/example.t, expected: {nokia-valyrian: prplos}}
   - {glob: .gitlab/tests/cram/wnc-freedom/**, path: .gitlab/tests/cram/wnc-freedom/example.t, expected: {wnc-freedom: prplos}}
   - {glob: .gitlab/tests/cram/mxl25641-hdk-6/**, path: .gitlab/tests/cram/mxl25641-hdk-6/example.t, expected: {mxl25641-hdk-6: prplos}}
+  - {glob: .gitlab/tests/cram/qemu-x86-64/**, path: .gitlab/tests/cram/qemu-x86-64/example.t, expected: {qemu-x86-64: prplos}}
   - {glob: .gitlab/testbed/turris-omnia.yml, path: .gitlab/testbed/turris-omnia.yml, expected: {turris-omnia: prplos}}
   - {glob: .gitlab/testbed/prpl-haze.yml, path: .gitlab/testbed/prpl-haze.yml, expected: {prpl-haze: prplos}}
   - {glob: .gitlab/testbed/arcadyan-mozart.yml, path: .gitlab/testbed/arcadyan-mozart.yml, expected: {arcadyan-mozart: prplos}}
   - {glob: .gitlab/testbed/nokia-valyrian.yml, path: .gitlab/testbed/nokia-valyrian.yml, expected: {nokia-valyrian: prplos}}
   - {glob: .gitlab/testbed/wnc-freedom.yml, path: .gitlab/testbed/wnc-freedom.yml, expected: {wnc-freedom: prplos}}
   - {glob: .gitlab/testbed/mxl25641-hdk-6.yml, path: .gitlab/testbed/mxl25641-hdk-6.yml, expected: {mxl25641-hdk-6: prplos}}
+  - {glob: .gitlab/testbed/qemu-x86-64.yml, path: .gitlab/testbed/qemu-x86-64.yml, expected: {qemu-x86-64: prplos}}
   - {glob: profiles/debug.yml, path: profiles/debug.yml, expected: {}}
   - {glob: profiles/extender_full.yml, path: profiles/extender_full.yml, expected: {}}
   - {glob: profiles/extender_minimal.yml, path: profiles/extender_minimal.yml, expected: {}}
-  - {glob: profiles/x86_64.yml, path: profiles/x86_64.yml, expected: {}}
+  - {glob: profiles/x86_64.yml, path: profiles/x86_64.yml, expected: {qemu-x86-64: full}}
   - {glob: profiles/ipq40xx.yml, path: profiles/ipq40xx.yml, expected: {}}
   - {glob: profiles/mxl_x86.yml, path: profiles/mxl_x86.yml, expected: {}}
   - {glob: profiles/mxl_x86_sec.yml, path: profiles/mxl_x86_sec.yml, expected: {}}
@@ -62,3 +64,4 @@ by_test:
   - {path: .gitlab/tests/cram/generic/005-build-config.t, board: wnc-freedom, expected: prplos}
   - {path: .gitlab/tests/cram/post/generic/example-wifi.t, board: mxl25641-hdk-6, expected: prplos}
   - {path: .gitlab/tests/cram/turris-omnia/example-wifi.t, board: turris-omnia, expected: prplmesh}
+  - {path: .gitlab/tests/cram/qemu-x86-64/connectivity.t, board: qemu-x86-64, expected: prplos}
