@@ -91,6 +91,36 @@ variables:
         - .gitlab/tests/cram/nokia-valyrian/**
         - .gitlab/testbed/nokia-valyrian.yml
 
+.cram changes qemu-x86-64:
+  rules:
+    - changes: &cram_changes_qemu_x86_64
+        - profiles/secure_boot_emmc.yml
+        - profiles/feed_amx.yml
+        - profiles/feed_prplmesh.yml
+        - profiles/feed_prplos.yml
+        - profiles/lcm.yml
+        - profiles/prpl_core.yml
+        - profiles/prpl.yml
+        - profiles/mgmt.yml
+        - profiles/security.yml
+        - profiles/cellular.yml
+        - profiles/thread.yml
+        - .gitlab/tests/cram/generic/**
+        - .gitlab/tests/cram/post/**
+        - .gitlab/testbed.yml
+        - package/**
+        - target/**
+        - toolchain/**
+        - include/**
+        - config/**
+        - tools/**
+        - feeds.conf.default
+        - Makefile
+        - rules.mk
+        - .gitlab/tests/cram/qemu-x86-64/**
+        - .gitlab/testbed/qemu-x86-64.yml
+        - profiles/x86_64.yml
+
 include:
   - local: .gitlab/build.yml
   - local: .gitlab/blackduck.yml
@@ -184,6 +214,21 @@ build test mvebu prpl security:
 
 build test x86_64 prpl security:
   extends: .build test config
+  allow_failure: true
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == $CI_DESIGNATED_BRANCH'
+    - if: '$CI_COMMIT_TAG =~ /^prplware-v[0-9]+\.[0-9]+\.[0-9]+.*$/'
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CRAM_COMPONENTS != null'
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_LABELS =~ /(^|,)cram::skip($|,)/'
+      when: manual
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_LABELS =~ /(^|,)cram::(full|prplmesh|lcm|prplos)($|,)/'
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      changes: *cram_changes_qemu_x86_64
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      when: manual
+    - when: manual
 
 build test ipq807x prpl security:
   extends: .build test config
@@ -411,6 +456,31 @@ cram Valyrian [auto]:
     - when: manual
       allow_failure: true
 
+cram QEMU x86-64 [auto]:
+  allow_failure: true
+  needs: ["build test x86_64 prpl security"]
+  extends:
+    - .qemu-x86-64 testbed
+    - .cram_component_auto_selection
+  before_script:
+    - !reference [.qemu-x86-64 testbed, before_script]
+    - !reference [.cram_component_auto_selection, before_script]
+  after_script:
+    - !reference [.cram_component_auto_selection, after_script]
+  rules:
+    - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
+      when: never
+    - if: '$CRAM_COMPONENTS != null'
+      when: never
+    - if: '$CI_MERGE_REQUEST_LABELS =~ /(^|,)cram::skip($|,)/'
+      when: manual
+      allow_failure: true
+    - if: '$CI_MERGE_REQUEST_LABELS =~ /(^|,)cram::(full|prplmesh|lcm|prplos)($|,)/'
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      changes: *cram_changes_qemu_x86_64
+    - when: manual
+      allow_failure: true
+
 report cram selection:
   extends: .report_cram_selection
   needs: []
@@ -591,5 +661,33 @@ cram Valyrian [prplos]:
     - job: build test airoha_an7581 prpl security
       optional: true
   extends: .nokia-valyrian testbed
+  variables:
+    COMPONENT: prplos
+
+cram QEMU x86-64 [smoke]:
+  allow_failure: true
+  needs: ["build test x86_64 prpl security"]
+  extends: .qemu-x86-64 testbed
+  variables:
+    COMPONENT: smoke
+
+cram QEMU x86-64 [prplmesh]:
+  allow_failure: true
+  needs: ["build test x86_64 prpl security"]
+  extends: .qemu-x86-64 testbed
+  variables:
+    COMPONENT: prplmesh
+
+cram QEMU x86-64 [lcm]:
+  allow_failure: true
+  needs: ["build test x86_64 prpl security"]
+  extends: .qemu-x86-64 testbed
+  variables:
+    COMPONENT: lcm
+
+cram QEMU x86-64 [prplos]:
+  allow_failure: true
+  needs: ["build test x86_64 prpl security"]
+  extends: .qemu-x86-64 testbed
   variables:
     COMPONENT: prplos

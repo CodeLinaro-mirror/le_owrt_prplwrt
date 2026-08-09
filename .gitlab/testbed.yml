@@ -254,7 +254,7 @@
       export CRAM_TEST_SUITE
     - !reference [.testbed, script]
 
-.cram_component_auto:
+.cram_component_auto_selection:
   variables:
     COMPONENT: null
   before_script:
@@ -296,7 +296,7 @@
         --test-root .gitlab/tests/cram \
         --manifest components.yml \
         --base-ref "$base_ref" \
-        --board "$DUT_BOARD" \
+        --board "${CRAM_SELECTION_BOARD:-$DUT_BOARD}" \
         --labels "$runtime_labels"
       if [ "${CRAM_COMPONENTS+x}" = x ]; then
         set -- "$@" --cram-components "$CRAM_COMPONENTS"
@@ -310,13 +310,20 @@
       fi
       export COMPONENT
       touch .cram-auto-selected
-    - !reference [.testbed, before_script]
   after_script:
     - |
       if [ ! -f .cram-auto-selected ]; then
         echo "Skipping DUT cleanup: automatic selection was empty"
         exit 0
       fi
+
+.cram_component_auto:
+  extends: .cram_component_auto_selection
+  before_script:
+    - !reference [.cram_component_auto_selection, before_script]
+    - !reference [.testbed, before_script]
+  after_script:
+    - !reference [.cram_component_auto_selection, after_script]
     - !reference [.testbed, after_script]
 
 lint cram component manifest:

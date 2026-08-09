@@ -18,10 +18,12 @@ MANIFEST_PATH = TEST_ROOT / "components.yml"
 FIXTURE_PATH = SCRIPT_DIR / "fixtures/selection-cases.yml"
 RESOLVER = SCRIPT_DIR / "resolve-changed-components.py"
 AUTO_VARIABLES_GUARD = SCRIPT_DIR / "check-auto-job-variables.py"
+COMPONENT_RESOLVER = SCRIPT_DIR / "resolve-component-tests.py"
 
 sys.path.insert(0, str(SCRIPT_DIR))
 from cram_component_bucketing import (  # noqa: E402
     BucketingError,
+    expand_manifest,
     load_manifest,
     select_changed_components,
 )
@@ -295,8 +297,37 @@ def main() -> int:
             raise AssertionError("uncategorized profile passed lint")
 
     print("10 lint fixture: PASS (uncategorized profile rejected)")
+
+    expanded = expand_manifest(TEST_ROOT, manifest)
+    for component in ("smoke", "lcm", "prplos", "prplmesh", "full"):
+        result = run(
+            [
+                str(COMPONENT_RESOLVER),
+                "--test-root",
+                str(TEST_ROOT),
+                "--manifest",
+                str(MANIFEST_PATH),
+                "--board",
+                "qemu-x86-64",
+                "--component",
+                component,
+            ],
+            stdout=subprocess.PIPE,
+        )
+        selected = {
+            Path(line).relative_to(TEST_ROOT).as_posix()
+            for line in result.stdout.splitlines()
+        }
+        check(
+            not selected & expanded.hw_only_matches,
+            f"QEMU {component} selection contains hw_only tests",
+        )
+        if component == "smoke":
+            check(selected == expanded.smoke_matches, "QEMU smoke selection")
+    print("11 QEMU buckets: PASS (smoke exact; hw_only excluded from all suites)")
+
     run([str(AUTO_VARIABLES_GUARD), "--repository", str(REPOSITORY)])
-    print("11 auto variables: PASS (seven auto/full pairs match)")
+    print("12 auto variables: PASS (seven auto/reference pairs match)")
     return 0
 
 

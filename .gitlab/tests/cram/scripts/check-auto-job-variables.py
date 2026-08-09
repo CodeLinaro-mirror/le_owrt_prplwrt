@@ -147,7 +147,8 @@ def check_repository(repository: Path) -> None:
     failures = []
     for alias in BOARDS:
         auto_name = f"cram {alias} [auto]"
-        full_name = f"cram {alias} [full]"
+        reference_component = "smoke" if alias == "QEMU x86-64" else "full"
+        full_name = f"cram {alias} [{reference_component}]"
         auto = _resolve(definitions, auto_name, cache)
         full = _resolve(definitions, full_name, cache)
         actual = _variables(auto, auto_name)
@@ -196,7 +197,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     except ValueError as error:
         print(f"error: {error}", file=sys.stderr)
         return 1
-    print("auto job variables: all six boards match their full bucket")
+    print("auto job variables: all seven boards match their reference bucket")
     return 0
 
 

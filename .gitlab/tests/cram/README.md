@@ -50,10 +50,10 @@ three buckets. The `full` selection keeps the legacy suite byte-for-byte, and
 tests under `post/` continue to run separately after every selected main
 suite.
 
-The `smoke` and `hw_only` sets are reserved for the upcoming QEMU testbed lane
-(CI-5): `smoke` is the fast QEMU pre-gate set, while `hw_only` contains tests
-excluded from the QEMU candidate set. The lint validates both sets; hardware
-jobs do not use them.
+The `smoke` set is the fast QEMU pre-gate suite. Tests in `hw_only` are removed
+from every QEMU component selection because they require hardware or firmware
+capabilities that the virtual board does not provide. Hardware jobs do not use
+either set.
 
 ## Feed pin layout
 
@@ -79,28 +79,30 @@ module. Executable scripts follow the repository's hyphenated CLI convention.
 ## Diff-based selection
 
 Merge request pipelines map changed paths to component lists for six hardware
-boards. Board-specific paths select their owning board. Cross-cutting paths
-select only the two priority boards, Freedom and OSPv2; the other four boards
-remain available for manual runs and weekly full coverage.
+boards and QEMU x86-64. Board-specific paths select their owning board.
+Cross-cutting paths select the three priority boards: Freedom, OSPv2, and QEMU
+x86-64. The other four boards remain available for manual runs and weekly full
+coverage.
 
 | Changed path | Board scope | Selection |
 |---|---|---|
 | `profiles/mvebu.yml`, `ipq807x.yml`, `mtk_filogic.yml`, or `airoha_an7581.yml` | Omnia, Haze, Mozart, or Valyrian respectively | `full` |
 | `profiles/qca_ipq95xx.yml` | Freedom | `full` |
 | `profiles/mxl_x86_osp_tb341_v2.yml` or `mxl_wlan_hostap_ng_wav700.yml` | OSPv2 | `full` |
-| `profiles/secure_boot_emmc.yml` | Freedom + OSPv2 | `full` |
-| `profiles/feed_amx.yml` | Freedom + OSPv2 | `full` |
-| `profiles/feed_prplmesh.yml` | Freedom + OSPv2 | `prplmesh` |
-| `profiles/feed_prplos.yml` | Freedom + OSPv2 | `prplos` |
-| `profiles/lcm.yml` | Freedom + OSPv2 | `lcm` |
-| `profiles/prpl_core.yml`, `prpl.yml`, or `security.yml` | Freedom + OSPv2 | `full` |
-| `profiles/mgmt.yml`, `cellular.yml`, or `thread.yml` | Freedom + OSPv2 | `prplos` |
+| `profiles/secure_boot_emmc.yml` | Freedom + OSPv2 + QEMU x86-64 | `full` |
+| `profiles/feed_amx.yml` | Freedom + OSPv2 + QEMU x86-64 | `full` |
+| `profiles/feed_prplmesh.yml` | Freedom + OSPv2 + QEMU x86-64 | `prplmesh` |
+| `profiles/feed_prplos.yml` | Freedom + OSPv2 + QEMU x86-64 | `prplos` |
+| `profiles/lcm.yml` | Freedom + OSPv2 + QEMU x86-64 | `lcm` |
+| `profiles/prpl_core.yml`, `prpl.yml`, or `security.yml` | Freedom + OSPv2 + QEMU x86-64 | `full` |
+| `profiles/mgmt.yml`, `cellular.yml`, or `thread.yml` | Freedom + OSPv2 + QEMU x86-64 | `prplos` |
 | `.gitlab/tests/cram/<board>/**` | owning board | touched test's bucket |
-| `.gitlab/tests/cram/generic/**` | Freedom + OSPv2 | touched test's bucket |
-| `.gitlab/tests/cram/post/**` or a sanity-listed test | Freedom + OSPv2 | `prplos` |
+| `.gitlab/tests/cram/generic/**` | Freedom + OSPv2 + QEMU x86-64 | touched test's bucket |
+| `.gitlab/tests/cram/post/**` or a sanity-listed test | Freedom + OSPv2 + QEMU x86-64 | `prplos` |
 | `.gitlab/testbed/<board>.yml` | owning board | `prplos` |
-| `.gitlab/testbed.yml` | Freedom + OSPv2 | `prplos` |
-| `package/**`, `target/**`, `toolchain/**`, `include/**`, `config/**`, `tools/**`, `feeds.conf.default`, `Makefile`, or `rules.mk` | Freedom + OSPv2 | `full` |
+| `.gitlab/testbed.yml` | Freedom + OSPv2 + QEMU x86-64 | `prplos` |
+| `package/**`, `target/**`, `toolchain/**`, `include/**`, `config/**`, `tools/**`, `feeds.conf.default`, `Makefile`, or `rules.mk` | Freedom + OSPv2 + QEMU x86-64 | `full` |
+| `profiles/x86_64.yml` | QEMU x86-64 | `full` |
 
 A `by-test` row asks the manifest which bucket owns each touched test. Multiple
 matches form an ordered component union; a `full` match or all three split
@@ -135,34 +137,45 @@ Labels are checked both when GitLab creates the pipeline and again when the
 job starts. A label added after pipeline creation but before the build is
 played therefore still controls the tests that run.
 
-### QEMU end-state
+### QEMU jobs
 
-CI-5 will add QEMU as a selection board without changing the resolver or job
-template. `test:qemu:smoke` remains an unfiltered MR pre-gate,
-`test:qemu:full` remains an always-full non-blocking equivalence run, and a
-future `cram qemu [auto]` receives cross-cutting selections. At that point
-`profiles/x86_64.yml`, currently an explicit no-op reserved for CI-5, maps to
-QEMU `full`.
+QEMU x86-64 is the third priority selection board. Its x86_64 build and
+`cram QEMU x86-64 [auto]` job use the same merge-request changes and
+`cram::*` labels, so an armed QEMU run does not require a separate build-play
+step. The focused jobs are:
+
+- `cram QEMU x86-64 [smoke]`
+- `cram QEMU x86-64 [lcm]`
+- `cram QEMU x86-64 [prplos]`
+- `cram QEMU x86-64 [prplmesh]`
+- `cram QEMU x86-64 [auto]`
+
+There is no QEMU `[full]` job. A `full` automatic selection runs the union of
+the three component buckets after `hw_only` tests are removed. Changes to
+`profiles/x86_64.yml` select that full QEMU component set.
 
 ## Selecting pipeline jobs
 
 Merge request pipelines contain one `cram <Board> [auto]` job for every
-hardware board, alongside the four existing component jobs per board. An
+selection board. Each hardware board also has four component jobs; QEMU has
+the smoke job and three component jobs listed above. An
 `[auto]` job resolves the MR diff, labels, and variables when it starts, then
 runs the resulting component union in one DUT boot.
 
 The non-DUT `report cram selection` job is a manual, non-gating preview. Play
-it before starting a build to print all six board selections and their reasons;
+it before starting a build to print all seven board selections and their reasons;
 it reserves no hardware. The `lint cram component manifest` job and the four
 named component jobs also remain manual and non-gating. Play a named component
 job directly when an explicit bucket is more useful than the computed result.
 
 ### Build consent and job states
 
-Automatic selection never starts a build. Playing a board's manual build is
-the consent action; after a successful build, an armed `[auto]` job starts
-without another click. Cross-cutting changes arm only Freedom and OSPv2, while
-a board-specific change can arm its owning non-priority board.
+For hardware boards, automatic selection never starts a build. Playing the
+manual build is the consent action; after it succeeds, an armed `[auto]` job
+starts without another click. QEMU x86-64 is the exception: an applicable
+change or `cram::*` selection label starts its advisory build and `[auto]` job.
+Cross-cutting changes arm Freedom, OSPv2, and QEMU x86-64, while a
+board-specific change can arm its owning non-priority board.
 
 The dependency on the manual build affects the state GitLab displays:
 

@@ -15,6 +15,7 @@
       allow_failure: true
   variables:
     COMPONENT: prplos
+    CRAM_SELECTION_BOARD: qemu-x86-64
     DUT_BOARD: qemu-standard-pc-q35-ich9-2009
     TARGET_LAN_IP: 192.168.1.1
     TESTBED_QEMU_ACCEL: kvm
