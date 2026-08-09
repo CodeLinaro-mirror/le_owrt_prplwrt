@@ -18,3 +18,6 @@ boards:
   nokia-valyrian:
     count: 3
     sha256: 9ff51313b927a7dee7aeb338f2f5a21bc93fe55cd2ddcd21a2059bf919dcb9d4
+  qemu-x86-64:
+    count: 26
+    sha256: 75b76e408b54e933a3771685c9a78f4efcdca76230fea4c6de5480e7d81136ac

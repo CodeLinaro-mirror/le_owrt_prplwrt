@@ -50,6 +50,26 @@ def main(argv: Sequence[str] | None = None) -> int:
         manifest = load_manifest(manifest_path)
         expanded = expand_manifest(args.test_root, manifest)
         full = collect_board_tests(args.test_root, args.board)
+        if args.board == "qemu-x86-64":
+            full = [
+                path
+                for path in full
+                if path.relative_to(args.test_root).as_posix()
+                not in expanded.hw_only_matches
+            ]
+        if args.component == "smoke":
+            if args.board != "qemu-x86-64":
+                raise BucketingError("smoke is only available for qemu-x86-64")
+            selected = [
+                path
+                for path in full
+                if path.relative_to(args.test_root).as_posix()
+                in expanded.smoke_matches
+            ]
+            if not selected:
+                raise BucketingError("QEMU smoke selection is empty")
+            sys.stdout.write(render_test_paths(selected))
+            return 0
         buckets = partition_tests(full, args.test_root, expanded)
         components = args.component.split(",")
         if any(not component for component in components):
