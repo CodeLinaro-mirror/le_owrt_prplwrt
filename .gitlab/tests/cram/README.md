@@ -50,10 +50,13 @@ three buckets. The `full` selection keeps the legacy suite byte-for-byte, and
 tests under `post/` continue to run separately after every selected main
 suite.
 
-The `smoke` and `hw_only` sets are reserved for the upcoming QEMU testbed lane
-(CI-5): `smoke` is the fast QEMU pre-gate set, while `hw_only` contains tests
-excluded from the QEMU candidate set. The lint validates both sets; hardware
-jobs do not use them.
+The `smoke` set is the focused QEMU connectivity and basic-command suite. Tests
+in `hw_only` are removed from every QEMU component selection because they
+require hardware or firmware capabilities that the virtual board does not
+provide. Hardware jobs do not use either set. Whole-test exclusions also have a
+static QEMU guard before their first command. Tests with only a
+hardware-specific tail keep a guard before that section and remain outside
+`hw_only`.
 
 ## Feed pin layout
 
@@ -79,28 +82,30 @@ module. Executable scripts follow the repository's hyphenated CLI convention.
 ## Diff-based selection
 
 Merge request pipelines map changed paths to component lists for six hardware
-boards. Board-specific paths select their owning board. Cross-cutting paths
-select only the two priority boards, Freedom and OSPv2; the other four boards
-remain available for manual runs and weekly full coverage.
+boards and QEMU x86-64. Board-specific paths select their owning board.
+Cross-cutting paths select the three priority boards: Freedom, OSPv2, and QEMU
+x86-64. The other four boards remain available for manual runs and weekly full
+coverage.
 
 | Changed path | Board scope | Selection |
 |---|---|---|
 | `profiles/mvebu.yml`, `ipq807x.yml`, `mtk_filogic.yml`, or `airoha_an7581.yml` | Omnia, Haze, Mozart, or Valyrian respectively | `full` |
 | `profiles/qca_ipq95xx.yml` | Freedom | `full` |
 | `profiles/mxl_x86_osp_tb341_v2.yml` or `mxl_wlan_hostap_ng_wav700.yml` | OSPv2 | `full` |
-| `profiles/secure_boot_emmc.yml` | Freedom + OSPv2 | `full` |
-| `profiles/feed_amx.yml` | Freedom + OSPv2 | `full` |
-| `profiles/feed_prplmesh.yml` | Freedom + OSPv2 | `prplmesh` |
-| `profiles/feed_prplos.yml` | Freedom + OSPv2 | `prplos` |
-| `profiles/lcm.yml` | Freedom + OSPv2 | `lcm` |
-| `profiles/prpl_core.yml`, `prpl.yml`, or `security.yml` | Freedom + OSPv2 | `full` |
-| `profiles/mgmt.yml`, `cellular.yml`, or `thread.yml` | Freedom + OSPv2 | `prplos` |
+| `profiles/secure_boot_emmc.yml` | Freedom + OSPv2 + QEMU x86-64 | `full` |
+| `profiles/feed_amx.yml` | Freedom + OSPv2 + QEMU x86-64 | `full` |
+| `profiles/feed_prplmesh.yml` | Freedom + OSPv2 + QEMU x86-64 | `prplmesh` |
+| `profiles/feed_prplos.yml` | Freedom + OSPv2 + QEMU x86-64 | `prplos` |
+| `profiles/lcm.yml` | Freedom + OSPv2 + QEMU x86-64 | `lcm` |
+| `profiles/prpl_core.yml`, `prpl.yml`, or `security.yml` | Freedom + OSPv2 + QEMU x86-64 | `full` |
+| `profiles/mgmt.yml`, `cellular.yml`, or `thread.yml` | Freedom + OSPv2 + QEMU x86-64 | `prplos` |
 | `.gitlab/tests/cram/<board>/**` | owning board | touched test's bucket |
-| `.gitlab/tests/cram/generic/**` | Freedom + OSPv2 | touched test's bucket |
-| `.gitlab/tests/cram/post/**` or a sanity-listed test | Freedom + OSPv2 | `prplos` |
+| `.gitlab/tests/cram/generic/**` | Freedom + OSPv2 + QEMU x86-64 | touched test's bucket |
+| `.gitlab/tests/cram/post/**` or a sanity-listed test | Freedom + OSPv2 + QEMU x86-64 | `prplos` |
 | `.gitlab/testbed/<board>.yml` | owning board | `prplos` |
-| `.gitlab/testbed.yml` | Freedom + OSPv2 | `prplos` |
-| `package/**`, `target/**`, `toolchain/**`, `include/**`, `config/**`, `tools/**`, `feeds.conf.default`, `Makefile`, or `rules.mk` | Freedom + OSPv2 | `full` |
+| `.gitlab/testbed.yml` | Freedom + OSPv2 + QEMU x86-64 | `prplos` |
+| `package/**`, `target/**`, `toolchain/**`, `include/**`, `config/**`, `tools/**`, `feeds.conf.default`, `Makefile`, or `rules.mk` | Freedom + OSPv2 + QEMU x86-64 | `full` |
+| `profiles/x86_64.yml` | QEMU x86-64 | `full` |
 
 A `by-test` row asks the manifest which bucket owns each touched test. Multiple
 matches form an ordered component union; a `full` match or all three split
@@ -135,33 +140,43 @@ Labels are checked both when GitLab creates the pipeline and again when the
 job starts. A label added after pipeline creation but before the build is
 played therefore still controls the tests that run.
 
-### QEMU end-state
+### QEMU jobs
 
-CI-5 will add QEMU as a selection board without changing the resolver or job
-template. `test:qemu:smoke` remains an unfiltered MR pre-gate,
-`test:qemu:full` remains an always-full non-blocking equivalence run, and a
-future `cram qemu [auto]` receives cross-cutting selections. At that point
-`profiles/x86_64.yml`, currently an explicit no-op reserved for CI-5, maps to
-QEMU `full`.
+QEMU x86-64 is the third priority selection board. Play its manual x86_64
+build to release an armed `[auto]` job. All five QEMU jobs allow failure
+and depend only on that build. The jobs are:
+
+- `cram QEMU x86-64 [smoke]`
+- `cram QEMU x86-64 [lcm]`
+- `cram QEMU x86-64 [prplos]`
+- `cram QEMU x86-64 [prplmesh]`
+- `cram QEMU x86-64 [auto]`
+
+The smoke and three component jobs remain manual, including when
+`CRAM_COMPONENTS` is set. There is no QEMU `[full]` job. A `full` automatic
+selection runs the union of the three component buckets after `hw_only` tests
+are removed. Changes to `profiles/x86_64.yml` select that full QEMU component
+set.
 
 ## Selecting pipeline jobs
 
 Merge request pipelines contain one `cram <Board> [auto]` job for every
-hardware board, alongside the four existing component jobs per board. An
+selection board. Each hardware board also has four component jobs; QEMU has
+the smoke job and three component jobs listed above. An
 `[auto]` job resolves the MR diff, labels, and variables when it starts, then
 runs the resulting component union in one DUT boot.
 
-The non-DUT `report cram selection` job is a manual, non-gating preview. Play
-it before starting a build to print all six board selections and their reasons;
+The non-DUT `report cram selection` job is a manual, non-gating preview. Play it
+before starting a build to print all seven board selections and their reasons;
 it reserves no hardware. The `lint cram component manifest` job and the four
 named component jobs also remain manual and non-gating. Play a named component
 job directly when an explicit bucket is more useful than the computed result.
 
 ### Build consent and job states
 
-Automatic selection never starts a build. Playing a board's manual build is
-the consent action; after a successful build, an armed `[auto]` job starts
-without another click. Cross-cutting changes arm only Freedom and OSPv2, while
+Automatic selection never starts a build. Playing the manual build is the
+consent action; after it succeeds, an armed `[auto]` job starts without
+another click. Cross-cutting changes arm Freedom, OSPv2, and QEMU x86-64;
 a board-specific change can arm its owning non-priority board.
 
 The dependency on the manual build affects the state GitLab displays:
@@ -183,11 +198,10 @@ coarse/runtime drift case) also log their reason and exit before any DUT
 interaction; resolver or malformed-matrix errors remain failures.
 
 To start named component jobs automatically, set the pipeline-level
-`CRAM_COMPONENTS`
-variable to a comma-separated list containing one or more of `full`,
-`prplmesh`, `lcm`, and `prplos`. Do not add spaces around the commas. Listed
-buckets start as soon as their board's build succeeds; `[auto]` jobs stand
-down to avoid duplicate runs. The variable is unset by default.
+`CRAM_COMPONENTS` variable to a comma-separated list containing one or more of
+`full`, `prplmesh`, `lcm`, and `prplos`. Do not add spaces around the commas.
+Listed hardware buckets start as soon as their board's build succeeds; `[auto]`
+jobs stand down to avoid duplicate runs. The variable is unset by default.
 
 For example:
 
@@ -228,7 +242,8 @@ dependency match the job:
 ```
 
 The command prints the ordered test paths for cram. Valid component values are
-`full`, `sanity`, `prplmesh`, `lcm`, and `prplos`. A comma-separated value such
+`full`, `sanity`, `prplmesh`, `lcm`, and `prplos`, plus `smoke` for QEMU.
+A comma-separated value such
 as `prplmesh,lcm` resolves the ordered union: the sanity block is emitted once,
 then each selected bucket in manifest order, so the job still uses one boot.
 Repeated components and tests are de-duplicated. Selecting `full`, or selecting
@@ -264,6 +279,9 @@ revision. `--base-list <path>` accepts a newline-separated baseline instead;
 the two baseline options are mutually exclusive. The lint still succeeds when
 a newly added test enters the `prplos` remainder, but prints a warning so the
 assignment can be reviewed.
+Board-directory tests are excluded from this review prompt because their
+scope is fixed by the directory; `generic`, `post`, `prplmesh`, and `wifi`
+are shared/component directories, and all other test directories are boards.
 
 The lint is a manual, non-gating play button in every non-scheduled pipeline.
 When played in a merge request pipeline, it still receives the diff base
