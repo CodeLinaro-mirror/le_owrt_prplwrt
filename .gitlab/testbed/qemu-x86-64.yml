@@ -20,6 +20,10 @@
     TARGET_LAN_IP: 192.168.1.1
     TESTBED_QEMU_ACCEL: kvm
     TESTBED_QEMU_IMAGE: bin/targets/x86/64/prplos-x86-64-generic-squashfs-combined-efi.img
+  before_script:
+    - apt-get update
+    - apt-get install --yes --no-install-recommends git
+    - pip install --no-cache-dir PyYAML==6.0.2
   script:
     - |
       CRAM_TEST_SUITE="$(
