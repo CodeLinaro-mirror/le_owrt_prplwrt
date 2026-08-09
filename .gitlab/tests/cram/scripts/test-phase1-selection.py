@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import importlib.util
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -18,10 +19,13 @@ MANIFEST_PATH = TEST_ROOT / "components.yml"
 FIXTURE_PATH = SCRIPT_DIR / "fixtures/selection-cases.yml"
 RESOLVER = SCRIPT_DIR / "resolve-changed-components.py"
 AUTO_VARIABLES_GUARD = SCRIPT_DIR / "check-auto-job-variables.py"
+COMPONENT_RESOLVER = SCRIPT_DIR / "resolve-component-tests.py"
 
 sys.path.insert(0, str(SCRIPT_DIR))
 from cram_component_bucketing import (  # noqa: E402
     BucketingError,
+    discover_tests,
+    expand_manifest,
     load_manifest,
     select_changed_components,
 )
@@ -218,8 +222,8 @@ def main() -> int:
 
         report = invoke(repository, base, union_head, "--report")
         check(report.returncode == 0, "report mode failed")
-        check(len(report.stdout.splitlines()) == 6, "report must show six boards")
-        print("5 report mode: PASS (6 boards)")
+        check(len(report.stdout.splitlines()) == 7, "report must show seven boards")
+        print("5 report mode: PASS (7 boards)")
 
         unmapped = invoke(repository, base, union_head, "--board", "turris-omnia")
         drift_head = commit_paths(
@@ -295,8 +299,70 @@ def main() -> int:
             raise AssertionError("uncategorized profile passed lint")
 
     print("10 lint fixture: PASS (uncategorized profile rejected)")
+
+    with tempfile.TemporaryDirectory(prefix="ci9-coverage-") as temporary:
+        repository = Path(temporary)
+        test_root = repository / ".gitlab/tests/cram"
+        shutil.copytree(TEST_ROOT, test_root, symlinks=True)
+        shutil.copytree(REPOSITORY / "profiles", repository / "profiles")
+        shutil.copy2(REPOSITORY / ".gitlab-ci.yml", repository / ".gitlab-ci.yml")
+        git(repository, "init", "-q")
+        baseline = repository / "base.txt"
+        existing = discover_tests(test_root)
+        baseline.write_text(
+            "".join(f"{path.relative_to(test_root).as_posix()}\n" for path in existing),
+            encoding="utf-8",
+        )
+        for directory in ("generic", "prplmesh", "qemu-x86-64"):
+            (test_root / directory / "foo.t").write_text("  $ true\n", encoding="utf-8")
+        result = run(
+            [
+                str(SCRIPT_DIR / "check-component-coverage.py"),
+                "--test-root", str(test_root), "--manifest", "components.yml",
+                "--base-list", str(baseline),
+            ],
+            capture_output=True,
+        )
+        warning = result.stderr
+        check(
+            "warning: newly added tests fell into the prplos remainder:\n"
+            "  generic/foo.t\n"
+            "  prplmesh/foo.t\n" in warning,
+            "new generic and prplmesh tests must prompt component review",
+        )
+        check("qemu-x86-64/foo.t" not in warning, "board test prompted review")
+    print("10 lint remainder: PASS (new generic/prplmesh tests warned; board excluded)")
+
+    expanded = expand_manifest(TEST_ROOT, manifest)
+    for component in ("smoke", "lcm", "prplos", "prplmesh", "full"):
+        result = run(
+            [
+                str(COMPONENT_RESOLVER),
+                "--test-root",
+                str(TEST_ROOT),
+                "--manifest",
+                str(MANIFEST_PATH),
+                "--board",
+                "qemu-x86-64",
+                "--component",
+                component,
+            ],
+            stdout=subprocess.PIPE,
+        )
+        selected = {
+            Path(line).relative_to(TEST_ROOT).as_posix()
+            for line in result.stdout.splitlines()
+        }
+        check(
+            not selected & expanded.hw_only_matches,
+            f"QEMU {component} selection contains hw_only tests",
+        )
+        if component == "smoke":
+            check(selected == expanded.smoke_matches, "QEMU smoke selection")
+    print("11 QEMU buckets: PASS (smoke exact; hw_only excluded from all suites)")
+
     run([str(AUTO_VARIABLES_GUARD), "--repository", str(REPOSITORY)])
-    print("11 auto variables: PASS (six auto/full pairs match)")
+    print("12 auto variables: PASS (seven auto/reference pairs match)")
     return 0
 
 
