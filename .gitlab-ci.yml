@@ -97,10 +97,14 @@ run test Haze initramfs:
 
 run test MXL25641-HDK-6 with system on eMMC:
   needs: ["build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread"]
+  tags:
+    - dut-mxl25641-hdk-6-b-sfl-tb3
   extends: .mxl25641-hdk-6 testbed
 
 run test Freedom with system on eMMC:
   needs: ["build test qca_ipq95xx prpl cellular security thread"]
+  tags:
+    - dut-wnc-freedom-sfl-tb3
   extends: .wnc-freedom testbed
 
 run test Mozart initramfs:

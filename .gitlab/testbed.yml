@@ -1,6 +1,6 @@
 .testbed:
   stage: run
-  image: "registry.gitlab.com/prpl-foundation/prplos/ci/containers/testbed/testbed:v1.4.0"
+  image: "registry.gitlab.com/prpl-foundation/prplos/ci/containers/testbed/testbed:ynezz-labgrid-esp32-evb-relay-e25e6440"
   timeout: 87 minutes
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
