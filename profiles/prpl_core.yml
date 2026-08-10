@@ -19,6 +19,24 @@ additional_packages:
       - libnl-core
       - libnl-route
       - syslog-ng
+      - strongswan-default
+      - strongswan-mod-addrblock
+      - strongswan-mod-blowfish
+      - strongswan-mod-ccm
+      - strongswan-mod-cmac
+      - strongswan-mod-ctr
+      - strongswan-mod-curl
+      - strongswan-mod-drbg
+      - strongswan-mod-farp
+      - strongswan-mod-gcm
+      - strongswan-mod-gcrypt
+      - strongswan-mod-openssl
+      - strongswan-mod-pkcs11
+      - strongswan-mod-pkcs12
+      - strongswan-mod-pkcs7
+      - strongswan-mod-pkcs8
+      - strongswan-mod-stroke
+      - wireguard-tools
 
 packages:
   - acl-manager
@@ -36,6 +54,7 @@ packages:
   - libfwinterface
   - libfwrules
   - libnetmodel
+  - libwireguard
   - lua-amx
   - mod-amxb-ubus
   - mod-ba-cli
@@ -62,6 +81,10 @@ packages:
   - netmodel-ethernet
   - netmodel-ip
   - netmodel-iprouter
+  - netmodel-ipsec
+  - netmodel-gre
+  - netmodel-tuntap
+  - netmodel-wireguard
   - netmodel-logical
   - netmodel-netdev
   - netmodel-optical
@@ -104,6 +127,10 @@ packages:
   - wifi-sensing
   - mod-scheduler-amxp
   - tr181-schedules
+  - tr181-ipsec
+  - tr181-wireguard
+  - tr181-gre
+  - tr181-tuntap
 
 diffconfig: |
           CONFIG_DEVEL=y
