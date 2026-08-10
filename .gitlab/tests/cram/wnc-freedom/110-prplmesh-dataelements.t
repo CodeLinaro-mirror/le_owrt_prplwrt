@@ -60,9 +60,9 @@ Check all AccessPoint.SSIDReference+ instances are disabled
   Down
 
   $ get_ssid_ssid
-  backhaul_(AC:91:9B|58:E4:03):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
-  backhaul_(AC:91:9B|58:E4:03):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
-  backhaul_(AC:91:9B|58:E4:03):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
+  backhaul_(AC:91:9B|58:E4:03|10:E8:A7):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
+  backhaul_(AC:91:9B|58:E4:03|10:E8:A7):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
+  backhaul_(AC:91:9B|58:E4:03|10:E8:A7):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
   prplOS
   prplOS
   prplOS
@@ -162,9 +162,9 @@ Check that wireless is operating:
   Up
 
   $ get_ssid_ssid
-  backhaul_(AC:91:9B|58:E4:03):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
-  backhaul_(AC:91:9B|58:E4:03):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
-  backhaul_(AC:91:9B|58:E4:03):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
+  backhaul_(AC:91:9B|58:E4:03|10:E8:A7):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
+  backhaul_(AC:91:9B|58:E4:03|10:E8:A7):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
+  backhaul_(AC:91:9B|58:E4:03|10:E8:A7):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
   prplOSguest
   prplOSguest
   prplOSguest
@@ -188,7 +188,7 @@ Check that prplmesh is operational:
   $ R "/opt/prplmesh/bin/prplmesh_cli -c status -o pretty" | sed 's/\t/        /g'
   Mode: Agent+Controller
   Controller:
-          bridge MAC: (AC:91:9B|58:E4:03):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
+          bridge MAC: (AC:91:9B|58:E4:03|10:E8:A7):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
           [1-9]+ agent\(s\) connected (re)
   Agent:
           MAC address: [0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
@@ -293,9 +293,9 @@ Check that wireless is disabled:
 Check that SSIDs did not change:
 
   $ get_ssid_ssid
-  backhaul_(AC:91:9B|58:E4:03):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
-  backhaul_(AC:91:9B|58:E4:03):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
-  backhaul_(AC:91:9B|58:E4:03):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
+  backhaul_(AC:91:9B|58:E4:03|10:E8:A7):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
+  backhaul_(AC:91:9B|58:E4:03|10:E8:A7):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
+  backhaul_(AC:91:9B|58:E4:03|10:E8:A7):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
   prplOSguest
   prplOSguest
   prplOSguest

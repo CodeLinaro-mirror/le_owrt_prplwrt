@@ -41,7 +41,7 @@ Check iw interfaces and beaconing:
   Interface wlan2.1
   Interface wlan2.2
   Interface wlan2.3
-  ssid backhaul_(AC:91:9B|58:E4:03):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
+  ssid backhaul_(AC:91:9B|58:E4:03|10:E8:A7):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
   ssid prplOS
   ssid prplOS-guest
 

@@ -57,9 +57,9 @@ Check default SSID configuration of access points:
   AccessPoint.4.SSID="prplOS-guest"
   AccessPoint.5.SSID="prplOS"
   AccessPoint.6.SSID="prplOS-guest"
-  AccessPoint.7.SSID="backhaul_(AC:91:9B|58:E4:03):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}" (re)
-  AccessPoint.8.SSID="backhaul_(AC:91:9B|58:E4:03):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}" (re)
-  AccessPoint.9.SSID="backhaul_(AC:91:9B|58:E4:03):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}" (re)
+  AccessPoint.7.SSID="backhaul_(AC:91:9B|58:E4:03|10:E8:A7):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}" (re)
+  AccessPoint.8.SSID="backhaul_(AC:91:9B|58:E4:03|10:E8:A7):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}" (re)
+  AccessPoint.9.SSID="backhaul_(AC:91:9B|58:E4:03|10:E8:A7):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}" (re)
 
 Check that no hostapd instance is running:
 
