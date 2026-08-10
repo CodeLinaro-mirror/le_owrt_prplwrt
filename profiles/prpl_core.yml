@@ -61,6 +61,7 @@ packages:
   - mod-lua-amx
   - mod-network-selector
   - mod-qos-tc
+  - mod-routing-bird2
   - mod-sahtrace
   - mod-vlan-ioctl
   - multisettings
