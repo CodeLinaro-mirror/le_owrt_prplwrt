@@ -12,5 +12,6 @@
     TFTP_IMAGE_FILENAME_PATTERN: /.*prplos-airoha-an7581-nokia_valyrian-initramfs-kernel.bin/
     DUT_ARCH_PACKAGES_PATH: $PACKAGE_DIR/${DUT_ARCH}_${DUT_CPU_TYPE}
     CDROUTER_CONFIG_LAN_IFACE_ALIAS: LAN3
+    DUT_TAG: "dut-nokia-valyrian"
   tags:
-    - dut-nokia-valyrian
+    - $DUT_TAG
