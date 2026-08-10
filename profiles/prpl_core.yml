@@ -11,7 +11,7 @@ feeds:
 
   - name: feed_prplos
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplos.git
-    revision: main@7ad2df9de8280a0e547961646d7366195dd9589d
+    revision: fiset/revert-ethernet-manager-v1.38.1@41a217ccea0edad00ae353184bb09b4ec0a79075
 
 additional_packages:
   - feed: packages
