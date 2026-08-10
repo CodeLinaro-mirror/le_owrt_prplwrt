@@ -6,6 +6,9 @@
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
       when: never
     - when: manual
+  tags:
+    - $DUT_TAG
+    - cdrouter
   variables:
     CDROUTER_CONFIG_WIFI_BEACON_PHY: 'ax b g n'
     CDROUTER_CONFIG_WIFI_BEACON_RSN_CIPHER: 'CCMP-128'
