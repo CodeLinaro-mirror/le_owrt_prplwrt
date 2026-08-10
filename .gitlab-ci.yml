@@ -479,6 +479,8 @@ cram Haze [prplos]:
 
 cram OSPv2 [full]:
   needs: ["build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread"]
+  tags:
+    - dut-mxl25641-hdk-6-b-sfl-tb3
   extends: .mxl25641-hdk-6 testbed
   timeout: 85 minutes
   variables:
@@ -504,6 +506,8 @@ cram OSPv2 [prplos]:
 
 cram Freedom [full]:
   needs: ["build test qca_ipq95xx prpl cellular security thread"]
+  tags:
+    - dut-wnc-freedom-sfl-tb3
   extends: .wnc-freedom testbed
   timeout: 85 minutes
   variables:
