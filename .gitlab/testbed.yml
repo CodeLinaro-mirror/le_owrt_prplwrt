@@ -47,8 +47,11 @@
         export CDROUTER_API_TOKEN="$CDROUTER_API_TOKEN_TESTBED_02"
       fi
 
-    - .gitlab/scripts/testbed-cdrouter.py check_connectivity
-    - .gitlab/scripts/testbed-cdrouter.py package_stop
+    - |
+      if [ "${TESTBED_CDROUTER_ENABLED:-1}" = "1" ]; then
+        .gitlab/scripts/testbed-cdrouter.py check_connectivity
+        .gitlab/scripts/testbed-cdrouter.py package_stop
+      fi
 
     - section_end "cdrouter-cleanup"
     - section_start "testbed-setup" "Testbed Setup" "collapsed"
