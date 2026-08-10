@@ -3,7 +3,7 @@ description: A minimal set of prpl packages and configs (no WAN support, no LCM,
 feeds:
   - name: feed_amx
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_amx.git
-    revision: stable_v11@5aa16cb5f2d2da9c455656c524c5dc484a86e071
+    revision: stable_v11@40ac6e7283da75cf8c96e926355f00b64db49832
 
   - name: feed_prplmesh
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplmesh.git
@@ -123,7 +123,7 @@ diffconfig: |
           # CONFIG_PACKAGE_umdns is not set
           CONFIG_DROPBEAR_ECC=y
           CONFIG_SAH_LUA_AMX_LUA_VERSION_OVERRIDE=y
-          CONFIG_SAH_LUA_AMX_LUA_VERSION="5.3"
+          CONFIG_SAH_LUA_AMX_LUA_VERSION="5.1"
           CONFIG_PACKAGE_rpcd-mod-luci=y
           CONFIG_PACKAGE_ip-full=y
           CONFIG_PACKAGE_ip-bridge=y
