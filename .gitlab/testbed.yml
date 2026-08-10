@@ -76,6 +76,8 @@
     - >
       if echo "$CI_RUNNER_DESCRIPTION" | grep -q testbed-02; then
         export TB_CONFIG=".testbed/labgrid/testbed-02.yaml"
+      elif echo "$CI_RUNNER_DESCRIPTION" | grep -q testbed-03; then
+        export TB_CONFIG=".testbed/labgrid/testbed-03.yaml"
       fi
 
     - section_end "testbed-setup"
@@ -173,6 +175,8 @@
     - >
       if echo "$CI_RUNNER_DESCRIPTION" | grep -q testbed-02; then
         export TB_CONFIG=".testbed/labgrid/testbed-02.yaml"
+      elif echo "$CI_RUNNER_DESCRIPTION" | grep -q testbed-03; then
+        export TB_CONFIG=".testbed/labgrid/testbed-03.yaml"
       fi
 
     - >
