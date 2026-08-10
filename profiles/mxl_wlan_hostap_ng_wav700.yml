@@ -4,7 +4,7 @@ feeds:
   - name: wlan_6x
     uri: https://github.com/exludai/feed_wlan.git
     tracking_branch:  updk_9.2.10_patch
-    revision: a70d121d0cd45f61f6109e2b827bdc68e4ad0819
+    revision: 991e1fe194e9e45edb6c9cd55eab67919ed7c1a0
 
 packages:
   - dwpal_6x-uci-osp
