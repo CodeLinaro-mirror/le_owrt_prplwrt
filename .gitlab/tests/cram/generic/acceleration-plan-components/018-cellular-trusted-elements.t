@@ -1,3 +1,7 @@
+Skip when the DUT has no cellular modem fitted:
+
+  $ [ "${DUT_HAS_MODEM:-1}" = "1" ] || exit 80
+
 Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"

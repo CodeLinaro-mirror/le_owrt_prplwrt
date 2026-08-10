@@ -2,9 +2,9 @@ Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
-If test is running on a Valyrian, Valyrian, Mozart, Turris or Haze, lets skip the test as there is no cellular modem available:
+Skip when the DUT has no cellular modem fitted:
 
-  $ if echo "$CI_JOB_NAME" | grep -q -E "(Valyrian|Mozart|Turris|Haze|Valyrian)"; then exit 80; fi
+  $ [ "${DUT_HAS_MODEM:-1}" = "1" ] || exit 80
 
 Make sure Cellular is registered in the Datamodel:
 
