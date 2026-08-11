@@ -7,8 +7,8 @@ external_target: True
 description: Build image for prpl Foundation Freedom board
 feeds:
   - name: feed_qca
-    uri: https://gitlab.com/prpl-foundation/prplOS/feed-qca.git
-    revision: latest-24.10/ath13.1@b6e2c2b11456fe0bcc01515102a0636783ae63dd
+    uri: https://gitlab.com/ynezz/feed-qca.git
+    revision: pcf-2732-plus-wps@c7165914a2163db25bb96c6ea2bae74fdf4b3167
 
 include:
   - secure_boot_emmc
