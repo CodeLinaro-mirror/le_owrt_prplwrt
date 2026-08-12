@@ -186,6 +186,7 @@ Check that prplmesh is operational:
           fronthaul ifaces: wlan0,wlan2,wlan4
           current state: OPERATIONAL
           best state: OPERATIONAL
+          controller connected: true
           Fronthaul:
                   interface: wlan0
                   current state: OPERATIONAL
