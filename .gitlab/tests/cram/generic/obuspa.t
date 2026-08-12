@@ -3482,6 +3482,7 @@ Check that obuspa has expected datamodel available (minus the platform specific 
   Device.WiFi.AccessPoint.{i}.getLastAssocReq()                                                        proto::wld
   Device.WiFi.AccessPoint.{i}.getLastAssocReq() input:mac
   Device.WiFi.AccessPoint.{i}.getStationStats()                                                        proto::wld
+  Device.WiFi.AccessPoint.{i}.getStationStatsBrief()                                                   proto::wld
   Device.WiFi.AccessPoint.{i}.kickStation()                                                            proto::wld
   Device.WiFi.AccessPoint.{i}.kickStation() input:macaddress
   Device.WiFi.AccessPoint.{i}.kickStationReason()                                                      proto::wld
@@ -8126,6 +8127,7 @@ Check that obuspa provides the same datamodel again (minus the platform specific
   Device.WiFi.AccessPoint.{i}.getLastAssocReq()                                                        proto::wld
   Device.WiFi.AccessPoint.{i}.getLastAssocReq() input:mac
   Device.WiFi.AccessPoint.{i}.getStationStats()                                                        proto::wld
+  Device.WiFi.AccessPoint.{i}.getStationStatsBrief()                                                   proto::wld
   Device.WiFi.AccessPoint.{i}.kickStation()                                                            proto::wld
   Device.WiFi.AccessPoint.{i}.kickStation() input:macaddress
   Device.WiFi.AccessPoint.{i}.kickStationReason()                                                      proto::wld
