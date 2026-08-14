@@ -211,6 +211,8 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_base-files-prpl=y
   CONFIG_PACKAGE_bind-client=y
   CONFIG_PACKAGE_bind-libs=y
+  CONFIG_PACKAGE_bird2=y
+  CONFIG_PACKAGE_bird2c=y
   CONFIG_PACKAGE_blkid=y
   CONFIG_PACKAGE_block-mount=y
   CONFIG_PACKAGE_blockd=y
@@ -697,6 +699,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_mod-ppp-daemon=y
   CONFIG_PACKAGE_mod-qos-tc=y
   CONFIG_PACKAGE_mod-ra-radvd=y
+  CONFIG_PACKAGE_mod-routing-bird2=y
   CONFIG_PACKAGE_mod-routing-dhcp=y
   CONFIG_PACKAGE_mod-sahtrace=y
   CONFIG_PACKAGE_mod-scheduler-amxp=y
@@ -1200,6 +1203,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_SAH_AMX_TR181_QOS_DEVICE_BASED_CLASSIFICATION=y
   CONFIG_SAH_AMX_TR181_QOS_ORDER=49
   CONFIG_SAH_AMX_TR181_ROUTING=y
+  CONFIG_SAH_AMX_TR181_ROUTING_DYN_ROUTING_SUPPPORT=y
   CONFIG_SAH_AMX_TR181_ROUTING_RUN_AS_GROUP="tr181_app"
   CONFIG_SAH_AMX_TR181_ROUTING_RUN_AS_USER="tr181_app"
   CONFIG_SAH_AMX_TR181_ROUTING_START_ORDER=30
