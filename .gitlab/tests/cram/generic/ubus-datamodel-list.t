@@ -349,6 +349,19 @@ Check that ubus has expected datamodels available:
   Routing.RouteInformation
   Routing.RouteInformation.InterfaceSetting
   Routing.Router
+  Routing.X_PRPLWARE-COM_BGP
+  Routing.X_PRPLWARE-COM_BGP.Config
+  Routing.X_PRPLWARE-COM_OSPF
+  Routing.X_PRPLWARE-COM_OSPF.Config
+  Routing.X_PRPLWARE-COM_RouteFiltering
+  Routing.X_PRPLWARE-COM_RouteFiltering.DefinedSets
+  Routing.X_PRPLWARE-COM_RouteFiltering.DefinedSets.ExtCommunitySet
+  Routing.X_PRPLWARE-COM_RouteFiltering.DefinedSets.NeighborSet
+  Routing.X_PRPLWARE-COM_RouteFiltering.DefinedSets.NextHopSet
+  Routing.X_PRPLWARE-COM_RouteFiltering.DefinedSets.PrefixSet
+  Routing.X_PRPLWARE-COM_RouteFiltering.DefinedSets.StdCommunitySet
+  Routing.X_PRPLWARE-COM_RouteFiltering.DefinedSets.TagSet
+  Routing.X_PRPLWARE-COM_RouteFiltering.FilterDefinition
   SFPs
   SFPs.AllowedSFPs
   SFPs.AllowedSFPs.AllowedSFP
