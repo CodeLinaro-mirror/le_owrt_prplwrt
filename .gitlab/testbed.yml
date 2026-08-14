@@ -2,7 +2,7 @@
   extends: .dut-lifecycle
   stage: run
   image: "registry.gitlab.com/prpl-foundation/prplos/ci/containers/testbed/testbed:v1.5.0@sha256:8b96cfa48f676e48859642c4d5bdb124e668ffe568eaa16477da04320fda8b04"
-  timeout: 87 minutes
+  timeout: 91 minutes
   variables:
     DUT_WAN_INTERFACE: eth1
     TESTBED_MNG_INTERFACE: enp1s0
@@ -157,7 +157,7 @@
 
 .cram_component:
   extends: .testbed
-  timeout: 40 minutes
+  timeout: 44 minutes
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
       when: never
