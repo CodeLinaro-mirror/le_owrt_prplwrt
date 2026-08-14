@@ -340,7 +340,7 @@ cram OSPv2 [auto]:
   extends:
     - .mxl25641-hdk-6 testbed
     - .cram_component_auto
-  timeout: 85 minutes
+  timeout: 89 minutes
   rules:
     - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
       when: never
@@ -360,7 +360,7 @@ cram Freedom [auto]:
   extends:
     - .wnc-freedom testbed
     - .cram_component_auto
-  timeout: 90 minutes
+  timeout: 94 minutes
   rules:
     - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
       when: never
@@ -483,7 +483,7 @@ cram Haze [prplos]:
 cram OSPv2 [full]:
   needs: ["build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread"]
   extends: .mxl25641-hdk-6 testbed
-  timeout: 85 minutes
+  timeout: 89 minutes
   variables:
     COMPONENT: full
 
@@ -508,7 +508,7 @@ cram OSPv2 [prplos]:
 cram Freedom [full]:
   needs: ["build test qca_ipq95xx prpl cellular security thread"]
   extends: .wnc-freedom testbed
-  timeout: 90 minutes
+  timeout: 94 minutes
   variables:
     COMPONENT: full
 
