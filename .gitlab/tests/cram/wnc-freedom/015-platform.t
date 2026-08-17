@@ -5,7 +5,7 @@ Create R alias:
 Check that Quectel RM520N-GL is available on PCI bus and uses correct mhi-pci-generic kernel driver:
 
   $ R "lspci -v -d 17cb:0308" 2>/dev/null | grep -v Flags:
-  0000:01:00.0 Unassigned class [ff00]: Qualcomm Technologies, Inc Device 0308
+  0000:01:00.0 Unassigned class [ff00]: Qualcomm Technologies, Inc SDX61/SDX62/SDX65 [Snapdragon 5G X6X-series]
   \tSubsystem: Qualcomm Technologies, Inc Device 5201 (esc)
   \tMemory at 28300000 (64-bit, non-prefetchable) [size=4K] (esc)
   \tMemory at 28301000 (64-bit, non-prefetchable) [size=4K] (esc)
