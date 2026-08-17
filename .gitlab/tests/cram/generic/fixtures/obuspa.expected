@@ -463,8 +463,6 @@ Device.DNS.SD.Advertise.{i}.TextRecord.{i}.Key                                  
 Device.DNS.SD.Advertise.{i}.TextRecord.{i}.Value                                                     proto::tr181-dnssd
 Device.DNS.SD.Advertise.{i}.TextRecordNumberOfEntries                                                proto::tr181-dnssd
 Device.DNS.SD.Advertise.{i}.TransportProtocol                                                        proto::tr181-dnssd
-Device.DNS.SD.Advertise.{i}.service_stop_advertise()                                                 proto::tr181-dnssd
-Device.DNS.SD.Advertise.{i}.service_stop_advertise() input:instance_name
 Device.DNS.SD.AdvertiseNumberOfEntries                                                               proto::tr181-dnssd
 Device.DNS.SD.AdvertisedInterfaces                                                                   proto::tr181-dnssd
 Device.DNS.SD.Enable                                                                                 proto::tr181-dnssd
@@ -487,8 +485,6 @@ Device.DNS.SD.Service.{i}.TransportProtocol                                     
 Device.DNS.SD.Service.{i}.Weight                                                                     proto::tr181-dnssd
 Device.DNS.SD.ServiceNumberOfEntries                                                                 proto::tr181-dnssd
 Device.DNS.SD.Status                                                                                 proto::tr181-dnssd
-Device.DNS.SD.service_unsubscribe()                                                                  proto::tr181-dnssd
-Device.DNS.SD.service_unsubscribe() input:key
 Device.DNS.SupportedRecordTypes                                                                      proto::tr181-dns
 Device.DNS.X_PRPLWARE-COM_ForwardZoneNumberOfEntries                                                 proto::tr181-dns
 Device.DNS.X_PRPLWARE-COM_Host.{i}.                                                                  proto::tr181-dns
