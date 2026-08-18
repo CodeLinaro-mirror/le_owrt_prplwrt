@@ -23,6 +23,16 @@ Change Respawn timeout on tr181-led to allow testing with Amx ProcessMonitor:
   $ R "export respawn_timeout=60"
   $ R "/etc/init.d/tr181-led restart"
 
+Wait for the tr181-led instances to settle:
+
+  $ R '
+  > timeout=10
+  > while [ $timeout -gt 0 ] && [ "$(pgrep -cf "[t]r181-led")" -ne 1 ]; do
+  >   sleep 1
+  >   timeout=$((timeout - 1))
+  > done
+  > '
+
 Check that only one instance of tr181-led manager is running:
 
   $ R "pgrep -cf 'tr181-led'"
@@ -79,7 +89,16 @@ Check the LED manager check datamodel settings:
 Kill the LED manager service:
 
   $ R "kill \$(cat /var/run/tr181-led.pid)"
-  $ sleep 1
+
+Wait for the tr181-led instances to settle:
+
+  $ R '
+  > timeout=10
+  > while [ $timeout -gt 0 ] && [ "$(pgrep -cf "[t]r181-led")" -ne 0 ]; do
+  >   sleep 1
+  >   timeout=$((timeout - 1))
+  > done
+  > '
 
 Check that LED manager is not running:
 
@@ -94,6 +113,16 @@ Calculate a timeout with tr181-led current test interval:
 Check that ProcessMonitor have restarted the LED manager properly:
 
   $ R "ubus -t $reactivation_timeout wait_for LEDs"
+
+Wait for the tr181-led instances to settle:
+
+  $ R '
+  > timeout=10
+  > while [ $timeout -gt 0 ] && [ "$(pgrep -cf "[t]r181-led")" -ne 1 ]; do
+  >   sleep 1
+  >   timeout=$((timeout - 1))
+  > done
+  > '
 
 Check that one LED manager instance is running:
 
@@ -113,3 +142,13 @@ Revert back the respawn timeout on tr181-led:
 
   $ R "export respawn_timeout=5"
   $ R "/etc/init.d/tr181-led restart"
+
+Wait for the tr181-led instances to settle:
+
+  $ R '
+  > timeout=10
+  > while [ $timeout -gt 0 ] && [ "$(pgrep -cf "[t]r181-led")" -ne 1 ]; do
+  >   sleep 1
+  >   timeout=$((timeout - 1))
+  > done
+  > '
