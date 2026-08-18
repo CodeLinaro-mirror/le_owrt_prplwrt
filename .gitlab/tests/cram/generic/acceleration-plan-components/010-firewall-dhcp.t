@@ -25,8 +25,15 @@ Check that the firewall rule was actually removed:
 
 Check that client is unable to get new lease:
 
+  $ testbed_mac="$(cat /sys/class/net/$TESTBED_LAN_INTERFACE/address)"
+  $ sudo timeout 20 tcpdump -c 1 -l -n -i $TESTBED_LAN_INTERFACE "ether src $testbed_mac and udp port 67 and udp[36:4] = 0xdeadc0de and udp[40:2] = 0xcafe" > /tmp/tcpdump-dhcp-discover 2> /dev/null &
+  $ sleep 1
+
   $ sudo nmap --script broadcast-dhcp-discover -e $TESTBED_LAN_INTERFACE 2>&1 | egrep '(Server|Router|Subnet)'
   [1]
+
+  $ grep -c 'BOOTP/DHCP, Request from de:ad:c0:de:ca:fe' /tmp/tcpdump-dhcp-discover
+  1
 
 Add back firewall rule for cpe-dhcpv4s-lan access from LAN:
 
