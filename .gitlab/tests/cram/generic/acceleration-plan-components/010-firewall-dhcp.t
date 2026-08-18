@@ -2,6 +2,10 @@ Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
+Warm up the DHCP path, the first probe of a session goes unanswered:
+
+  $ sudo nmap --script broadcast-dhcp-discover --script-args broadcast-dhcp-discover.timeout=3 -e $TESTBED_LAN_INTERFACE > /dev/null 2>&1
+
 Check that client is able to get new lease:
 
   $ sudo nmap --script broadcast-dhcp-discover -e $TESTBED_LAN_INTERFACE 2>&1 | egrep '(Server|Router|Subnet)' | sort
