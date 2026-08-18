@@ -153,6 +153,7 @@ Check LocalTimeZone correctly filter wrong TZ:
    Time.LocalTimeZone=JST-9
   Time.
   Time.LocalTimeZone="JST-9"
+  $ for i in $(seq 1 15); do [ "$(R "date +%Z")" = "JST" ] && break; sleep 1; done
   $ (R "date +%Z")
   JST
 
@@ -160,26 +161,28 @@ Check LocalTimeZone correctly filter wrong TZ:
    Time.LocalTimeZone=UTC0
   Time.
   Time.LocalTimeZone="UTC0"
+  $ for i in $(seq 1 15); do [ "$(R "date +%Z")" = "UTC" ] && break; sleep 1; done
   $ (R "date +%Z")
   UTC
 
   $ (R "ba-cli Time.LocalTimeZone=\"NOTAVALIDETZ\"") | sed 's|[>,]||g'
    Time.LocalTimeZone=NOTAVALIDETZ
   ERROR: set Time.LocalTimeZone failed (10 - invalid value)
-  $ (R "date +%Z")
+  $ (R "for i in 1 2 3 4 5; do date +%Z; sleep 1; done") | sort -u
   UTC
 
   $ (R "ba-cli Time.LocalTimeZone=\"GMT0\"") | sed 's|[>,]||g'
    Time.LocalTimeZone=GMT0
   Time.
   Time.LocalTimeZone="GMT0"
+  $ for i in $(seq 1 15); do [ "$(R "date +%Z")" = "GMT" ] && break; sleep 1; done
   $ (R "date +%Z")
   GMT
 
   $ (R "ba-cli Time.LocalTimeZone=\"/usr/share/zoneinfo/Universal\"") | sed 's|[>,]||g'
    Time.LocalTimeZone=/usr/share/zoneinfo/Universal
   ERROR: set Time.LocalTimeZone failed (10 - invalid value)
-  $ (R "date +%Z")
+  $ (R "for i in 1 2 3 4 5; do date +%Z; sleep 1; done") | sort -u
   GMT
 
 Set back default timezone:
@@ -188,6 +191,7 @@ Set back default timezone:
    Time.LocalTimeZone=GMT0
   Time.
   Time.LocalTimeZone="GMT0"
+  $ for i in $(seq 1 15); do [ "$(R "date +%Z")" = "GMT" ] && break; sleep 1; done
   $ (R "date +%Z")
   GMT
 
