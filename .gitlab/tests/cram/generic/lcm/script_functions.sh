@@ -1274,3 +1274,23 @@ normalize_dump(){
     ## Cthulhu LocalPolicy spacific case
     sed -i -e "s/\(\.LocalPolicyManager\.Action\)\.[[:digit:]]/\1\.{i}/g" $1
 }
+
+cleanup_lpm_test(){
+
+    /etc/init.d/cthulhu stop
+    /etc/init.d/rlyeh stop
+    /etc/init.d/timingila stop
+
+    ## Wait for cthulhu to terminate all containers and itself, before clearing its data
+
+    COUNT=0; while [ -n "$(pidof cthulhu)" ]; do if [ "$COUNT" -ge 10 ]; then echo "Warning: cthulhu is still running after 10 checks. Exiting."; break; fi; sleep 1; COUNT=$((COUNT + 1)); done
+
+    rm -rf /usr/rlyeh/*
+    rm -rf /etc/amx/cthulhu/onboard/*
+    rm -rf /etc/config/cthulhu/odl/*
+
+    /etc/init.d/cthulhu start
+    /etc/init.d/rlyeh start
+    /etc/init.d/timingila start
+}
+
