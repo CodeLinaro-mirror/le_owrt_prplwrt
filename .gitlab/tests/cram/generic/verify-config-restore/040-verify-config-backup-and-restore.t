@@ -4,10 +4,6 @@ Create alias:
 
   $ R logger -t cram "Starting with Backup and restore config restore testcase"
 
-Stop Cthulhu service before tests, PPW-1647:
-
-  $ R "service cthulhu stop"
-
 Create configuration under DNS:
 
   $ DnsId1=$(R "ba-cli -l -j DNS.X_PRPLWARE-COM_Host+"\
@@ -278,10 +274,6 @@ Skip device-info manager until PPW-1787 and PPW-1715 is fixed:
 
 #  $ R "ba-cli -l -j DeviceInfo.MemoryStatus.MemoryMonitor.Enable=0 | sed '/^$/d'"
 #  [{"DeviceInfo.MemoryStatus.MemoryMonitor.":{"Enable":0}}]
-
-Start Cthulhu service after calling tests, PPW-1647:
-
-  $ R "service cthulhu start"
 
 Adding additional sleep for Deviceinfo manager to come fully functional:
 
