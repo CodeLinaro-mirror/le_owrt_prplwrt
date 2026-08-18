@@ -268,3 +268,9 @@ wait for cthulhu to terminate all containers and itself, before clear its data
   [
       ""
   ]
+
+
+### Cleanup LPM test env:
+
+  $ R "${S} && cleanup_lpm_test"
+  $ R "rm -f /tmp/script_functions.sh"
