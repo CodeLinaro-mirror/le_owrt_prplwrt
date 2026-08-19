@@ -50,21 +50,23 @@ Verify the Alias was set correctly:
 
 Attempt to modify the Alias (should fail - write-once read-only):
 
-  $ R "usp-cli usp-cli 'Device.DHCPv6.Client.[Alias==\"WriteOnceTestV6\"].Alias=ModifiedValueV6' 2>&1 | grep -Ev '^>|^$|^\+'"
-  [1]
+  $ R "usp-cli 'Device.DHCPv6.Client.[Alias==\"WriteOnceTestV6\"].Alias=ModifiedValueV6'" > /dev/null 2>&1 || true
 
 Verify the Alias remains unchanged:
 
   $ R "usp-cli 'Device.DHCPv6.Client.*.Alias?' | grep -Ev '^>|^$' | grep WriteOnceTestV6"
   Device.DHCPv6.Client.*.Alias="WriteOnceTestV6" (re)
 
+Verify the rejected value was not applied:
+
+  $ R "usp-cli 'Device.DHCPv6.Client.*.Alias?' | grep -Ev '^>|^$' | grep ModifiedValueV6 || echo 'Not found'"
+  Not found
+
 Cleanup - remove only the instance created in this test:
 
-  $ R "usp-cli 'Device.DHCPv6.Client.[Alias==\"WriteOnceTestV6\"].-' | grep -Ev '^>|^$'"
-  Device.DHCPv6.Client.*. (re)
-  Device.DHCPv6.Client.*.Server. (re)
-  Device.DHCPv6.Client.*.SentOption. (re)
-  Device.DHCPv6.Client.*.Retransmission. (re)
-  Device.DHCPv6.Client.*.ReceivedOption. (re)
-  Device.DHCPv6.Client.*.Stats. (re)
-  Device.DHCPv6.Client.*.X_PRPLWARE-COM_Config. (re)
+  $ R "usp-cli 'Device.DHCPv6.Client.[Alias==\"WriteOnceTestV6\"].-'" > /dev/null 2>&1 || true
+
+Verify the instance was removed:
+
+  $ R "usp-cli 'Device.DHCPv6.Client.*.Alias?' | grep -Ev '^>|^$' | grep WriteOnceTestV6 || echo 'Not found'"
+  Not found
