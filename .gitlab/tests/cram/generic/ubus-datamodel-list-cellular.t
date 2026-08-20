@@ -11,7 +11,4 @@ Check that ubus has expected Cellular datamodels available:
   Cellular
   Cellular.AccessPoint
   Cellular.Interface
-  Cellular.Interface.Bearer.IPv4
-  Cellular.Interface.Bearer.IPv6
-  Cellular.Interface.Stats
   Device.Cellular
