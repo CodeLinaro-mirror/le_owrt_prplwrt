@@ -3373,6 +3373,7 @@ Device.SoftwareModules.DeploymentUnit.{i}.Update() input:AllocatedDiskSpace
 Device.SoftwareModules.DeploymentUnit.{i}.Update() input:AllocatedMemory
 Device.SoftwareModules.DeploymentUnit.{i}.Update() input:ApplicationData
 Device.SoftwareModules.DeploymentUnit.{i}.Update() input:Data
+Device.SoftwareModules.DeploymentUnit.{i}.Update() input:EnableHostCapabilities
 Device.SoftwareModules.DeploymentUnit.{i}.Update() input:EnvVariable
 Device.SoftwareModules.DeploymentUnit.{i}.Update() input:HostObject
 Device.SoftwareModules.DeploymentUnit.{i}.Update() input:ModuleVersion
@@ -3471,6 +3472,7 @@ Device.SoftwareModules.ExecutionUnit.{i}.CreationTime                           
 Device.SoftwareModules.ExecutionUnit.{i}.Description                                                 proto::timingila
 Device.SoftwareModules.ExecutionUnit.{i}.DiskSpaceInUse                                              proto::timingila
 Device.SoftwareModules.ExecutionUnit.{i}.EUID                                                        proto::timingila
+Device.SoftwareModules.ExecutionUnit.{i}.EnableHostCapabilities                                      proto::timingila
 Device.SoftwareModules.ExecutionUnit.{i}.EnvVariable.{i}.                                            proto::timingila
 Device.SoftwareModules.ExecutionUnit.{i}.EnvVariable.{i}.Alias                                       proto::timingila
 Device.SoftwareModules.ExecutionUnit.{i}.EnvVariable.{i}.Key                                         proto::timingila
@@ -3500,6 +3502,7 @@ Device.SoftwareModules.ExecutionUnit.{i}.NetworkConfig.PortForwarding.{i}.Interf
 Device.SoftwareModules.ExecutionUnit.{i}.NetworkConfig.PortForwarding.{i}.InternalPort               proto::timingila
 Device.SoftwareModules.ExecutionUnit.{i}.NetworkConfig.PortForwarding.{i}.Protocol                   proto::timingila
 Device.SoftwareModules.ExecutionUnit.{i}.NetworkConfig.X_PRPLWARE-COM_DNSSDRefList                   proto::timingila
+Device.SoftwareModules.ExecutionUnit.{i}.Privileged                                                  proto::timingila
 Device.SoftwareModules.ExecutionUnit.{i}.References                                                  proto::timingila
 Device.SoftwareModules.ExecutionUnit.{i}.RegisterTrustPaths                                          proto::timingila
 Device.SoftwareModules.ExecutionUnit.{i}.RequiredUserRoles                                           proto::timingila
@@ -3522,6 +3525,7 @@ Device.SoftwareModules.InstallDU() input:ApplicationData
 Device.SoftwareModules.InstallDU() input:AutoRestart
 Device.SoftwareModules.InstallDU() input:AutoStart
 Device.SoftwareModules.InstallDU() input:Data
+Device.SoftwareModules.InstallDU() input:EnableHostCapabilities
 Device.SoftwareModules.InstallDU() input:EnvVariable
 Device.SoftwareModules.InstallDU() input:ExecutionEnvRef
 Device.SoftwareModules.InstallDU() input:HostObject
