@@ -183,3 +183,14 @@ prplOS-Network-Test-Plan-Candidate-v1.2.0 Freedom initramfs:
     <<: *wnc_freedom_certification_variables
     CDROUTER_CONFIG_USP_CONTROLLER_MTP: websocket
     CDROUTER_DUT_INIT_USP_MTP_SCRIPT: .gitlab/scripts/dut-init/cdrouter-dut-configure-usp-ws.sh
+
+CDRouter-Passthrough Freedom initramfs:
+  <<: *wnc_freedom
+  stage: smoke tests
+  timeout: 30 minutes
+  when: manual
+  variables:
+    DUT_INIT_SCRIPTS: |
+      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
+      .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
+      .gitlab/scripts/dut-init/cdrouter-dut-enable-passthrough.sh

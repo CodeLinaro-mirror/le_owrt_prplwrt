@@ -1,0 +1,9 @@
+name: CDRouter-Passthrough
+description: NAT, firewall, and ICMP with Passthrough enabled on the DUT
+tests:
+- cdrouter_nat_1
+- cdrouter_nat_2
+- cdrouter_firewall_1
+- cdrouter_firewall_2
+- cdrouter_icmp_1
+- cdrouter_icmp_2
