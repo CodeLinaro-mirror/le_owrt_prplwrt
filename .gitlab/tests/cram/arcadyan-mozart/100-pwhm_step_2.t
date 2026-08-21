@@ -8,6 +8,11 @@ If test is running on a Valyrian, skip the test due to PCF-2669:
 
   $ R "logger -t cram 'Starting PWHM test (step 2) ...'"
 
+Save hostap pid, it's needed as part of script split (PCF-2222):
+
+  $ hostap_pid=$(R pgrep -f 'hostapd')
+  $ R logger -t cram "hostap PID : $hostap_pid"
+
 Check that hostapd is operating as expected:
 
   $ R logger -t cram "Check that hostapd is operating"
@@ -290,6 +295,11 @@ Check wpacltrl socket file:
   $ ls_hapd_sockets
   wlan2.1
   wlan2.1_link0
+
+Before deactivating last AP (ie stopping hostpad), check if hostap pid has changed or not:
+
+  $ if [ "$(R pgrep -f 'hostapd')" = "$hostap_pid" ]; then echo "true"; else echo "hostap restarted during the test !"; fi
+  true
 
 Test deactivation of access point 1:
 
