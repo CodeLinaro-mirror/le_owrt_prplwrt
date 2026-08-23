@@ -43,11 +43,16 @@ Check iw interfaces and beaconing:
   ssid prplOS
   ssid prplOS-guest
 
+Deactivations use an explicit 30 s timeout (PPM-3943): disabling a
+non-primary MLD link makes pwhm remove and re-add the primary link first
+(s_tryRemovePrimLinkFirst), and on a loaded system that sequence can exceed
+enable_ap_sync's 15 s default (observed on AccessPoint.4 / wlan1.2).
+
 Test deactivation of access point 9:
 
   $ R logger -t cram "Test AccessPoint 9 deactivation \"$(get_ssid_ref 9)\""
 
-  $ enable_ap_sync 9 0
+  $ enable_ap_sync 9 0 30
   AccessPoint.9.Enable=0
 
   $ wifi_dm "AccessPoint.*.Status?0"
@@ -83,7 +88,7 @@ Test deactivation of access point 8:
 
   $ R logger -t cram "Test AccessPoint 8 deactivation \"$(get_ssid_ref 8)\""
 
-  $ enable_ap_sync 8 0
+  $ enable_ap_sync 8 0 30
   AccessPoint.8.Enable=0
 
   $ wifi_dm "AccessPoint.*.Status?0"
@@ -118,7 +123,7 @@ Test deactivation of access point 7:
 
   $ R logger -t cram "Test AccessPoint 7 deactivation \"$(get_ssid_ref 7)\""
 
-  $ enable_ap_sync 7 0
+  $ enable_ap_sync 7 0 30
   AccessPoint.7.Enable=0
 
   $ wifi_dm "AccessPoint.*.Status?0"
@@ -151,7 +156,7 @@ Test deactivation of access point 6:
 
   $ R logger -t cram "Test AccessPoint 6 deactivation \"$(get_ssid_ref 6)\""
 
-  $ enable_ap_sync 6 0
+  $ enable_ap_sync 6 0 30
   AccessPoint.6.Enable=0
 
   $ wifi_dm "AccessPoint.*.Status?0"
@@ -183,7 +188,7 @@ Test deactivation of access point 5:
 
   $ R logger -t cram "Test AccessPoint 5 deactivation \"$(get_ssid_ref 5)\""
 
-  $ enable_ap_sync 5 0
+  $ enable_ap_sync 5 0 30
   AccessPoint.5.Enable=0
 
   $ wifi_dm "AccessPoint.*.Status?0"
@@ -214,7 +219,7 @@ Test deactivation of access point 4:
 
   $ R logger -t cram "Test AccessPoint 4 deactivation \"$(get_ssid_ref 4)\""
 
-  $ enable_ap_sync 4 0
+  $ enable_ap_sync 4 0 30
   AccessPoint.4.Enable=0
 
   $ wifi_dm "AccessPoint.*.Status?0"
@@ -244,7 +249,7 @@ Test deactivation of access point 3:
 
   $ R logger -t cram "Test AccessPoint 3 deactivation \"$(get_ssid_ref 3)\""
 
-  $ enable_ap_sync 3 0
+  $ enable_ap_sync 3 0 30
   AccessPoint.3.Enable=0
 
   $ wifi_dm "AccessPoint.*.Status?0"
@@ -273,7 +278,7 @@ Test deactivation of access point 2:
 
   $ R logger -t cram "Test AccessPoint 2 deactivation \"$(get_ssid_ref 2)\""
 
-  $ enable_ap_sync 2 0
+  $ enable_ap_sync 2 0 30
   AccessPoint.2.Enable=0
 
   $ wifi_dm "AccessPoint.*.Status?0"
@@ -305,7 +310,7 @@ Test deactivation of access point 1:
 
   $ R logger -t cram "Test AccessPoint 1 deactivation \"$(get_ssid_ref 1)\""
 
-  $ enable_ap_sync 1 0
+  $ enable_ap_sync 1 0 30
   AccessPoint.1.Enable=0
 
   $ wifi_dm "AccessPoint.*.Status?0"
