@@ -332,6 +332,12 @@ Check if hostapd process is stopped:
   $ R "pgrep -f 'hostapd'"
   [1]
 
+Restore the MBSSID advertisement mode disabled by step 1 (PPM-4273), so the
+setting does not leak into whatever runs next:
+
+  $ wifi_dm_radio_band 6 "IEEE80211ax.MBSSIDAdvertisementMode=Auto" "WiFi." "ba-cli"
+  WiFi.Radio.[0-9]+.IEEE80211ax.MBSSIDAdvertisementMode="Auto" (re)
+
 Resume prplMesh:
 
   $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=1" | tr -d '\n'

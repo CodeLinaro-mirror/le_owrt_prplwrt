@@ -31,6 +31,17 @@ Set channel to a non DFS one:
   $ wifi_dm "Radio.2.Channel=36"
   Device.WiFi.Radio.2.Channel=36 (re)
 
+PROVISORY (PPM-4273) - remove once the firmware supports it.
+MediaTek hostapd patch 0232 refuses to remove an MLO link from an MBSSID
+group, because the firmware cannot count down the Reconfiguration ML element
+in an MBSSID non-transmitted profile. pwhm turns MBSSID on for 6 GHz radios
+only, see wld_rad_getMbssidAdsMode(), so the teardown in step 2 fails on the
+6 GHz radio alone. Disable MBSSID there for the duration of the test.
+The parameter is not exposed in the TR-181 tree, hence WiFi./ba-cli:
+
+  $ wifi_dm_radio_band 6 "IEEE80211ax.MBSSIDAdvertisementMode=Off" "WiFi." "ba-cli"
+  WiFi.Radio.[0-9]+.IEEE80211ax.MBSSIDAdvertisementMode="Off" (re)
+
 Check default SSID status:
 
   $ get_ap_status
