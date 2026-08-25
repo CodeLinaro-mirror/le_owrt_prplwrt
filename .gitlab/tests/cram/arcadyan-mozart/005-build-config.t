@@ -145,6 +145,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_iptables-zz-legacy=y
   CONFIG_PACKAGE_iputils-ping=y
   CONFIG_PACKAGE_ivykis=y
+  # CONFIG_PACKAGE_iw is not set
   CONFIG_PACKAGE_iw-full=y
   # CONFIG_PACKAGE_jansson is not set
   CONFIG_PACKAGE_kmod-asn1-decoder=y
@@ -184,6 +185,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-ipt-nfqueue=y
   CONFIG_PACKAGE_kmod-ipt-raw=y
   CONFIG_PACKAGE_kmod-ipt-raw6=y
+  CONFIG_PACKAGE_kmod-iptunnel=y
   CONFIG_PACKAGE_kmod-iptunnel4=y
   CONFIG_PACKAGE_kmod-iptunnel6=y
   CONFIG_PACKAGE_kmod-lib-crc16=y
