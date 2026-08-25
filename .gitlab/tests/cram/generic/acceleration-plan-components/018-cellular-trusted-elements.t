@@ -6,6 +6,10 @@ Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
+Skip on testbeds without a cellular modem, same list as 50-cellular-offline.t:
+
+  $ if echo "$CI_JOB_NAME" | grep -q -E "(Valyrian|Mozart|Turris|Haze)"; then exit 80; fi
+
   $ R logger -t cram "Starting with CellularManager setup 018-cellular-trusted-elements.t"
 
 Read the IMSI value using mmcli:
