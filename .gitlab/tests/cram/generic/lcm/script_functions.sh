@@ -130,6 +130,7 @@ get_true_arch_name() {
 	case "${board_name}" in
 	"haze" | \
 		"freedom" | \
+		"mozart" | \
 		"valyrian")
 		echo arm64v8
 		;;
