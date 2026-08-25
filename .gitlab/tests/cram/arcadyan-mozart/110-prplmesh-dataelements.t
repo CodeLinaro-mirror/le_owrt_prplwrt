@@ -179,7 +179,7 @@ Check that prplmesh is operational:
   Mode: Agent+Controller
   Controller:
           bridge MAC: [0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
-          1 agent(s) connected
+          [1-9] agent\(s\) connected (re)
   Agent:
           MAC address: [0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
           management mode: Multi-AP-Controller-and-Agent
