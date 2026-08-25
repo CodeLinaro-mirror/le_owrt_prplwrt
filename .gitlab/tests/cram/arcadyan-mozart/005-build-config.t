@@ -161,6 +161,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-ebtables-ipv4=y
   CONFIG_PACKAGE_kmod-ebtables-ipv6=y
   CONFIG_PACKAGE_kmod-fs-ext4=y
+  CONFIG_PACKAGE_kmod-gre=y
   CONFIG_PACKAGE_kmod-ifb=y
   CONFIG_PACKAGE_kmod-input-core=y
   CONFIG_PACKAGE_kmod-input-evdev=y
@@ -209,6 +210,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-sched-flower=y
   CONFIG_PACKAGE_kmod-sched-prio=y
   CONFIG_PACKAGE_kmod-slhc=y
+  CONFIG_PACKAGE_kmod-tun=y
   CONFIG_PACKAGE_kmod-udptunnel4=y
   CONFIG_PACKAGE_kmod-udptunnel6=y
   CONFIG_PACKAGE_kmod-veth=y
@@ -551,6 +553,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_strongswan-mod-xcbc=y
   CONFIG_PACKAGE_strongswan-swanctl=y
   CONFIG_PACKAGE_syslog-ng=y
+  CONFIG_PACKAGE_sysupgrade-prpl=y
   CONFIG_PACKAGE_tc-tiny=y
   CONFIG_PACKAGE_terminfo=y
   CONFIG_PACKAGE_time-manager=y
