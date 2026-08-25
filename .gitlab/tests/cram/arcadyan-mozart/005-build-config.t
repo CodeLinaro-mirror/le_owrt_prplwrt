@@ -128,6 +128,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_gmap-mod-upnp=y
   CONFIG_PACKAGE_gmap-server=y
   CONFIG_PACKAGE_hostapd-openssl=y
+  CONFIG_PACKAGE_hostapd-utils=y
   CONFIG_PACKAGE_hosts-manager=y
   CONFIG_PACKAGE_image-authentication=y
   CONFIG_PACKAGE_ip-bridge=y
@@ -144,6 +145,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_iptables-zz-legacy=y
   CONFIG_PACKAGE_iputils-ping=y
   CONFIG_PACKAGE_ivykis=y
+  CONFIG_PACKAGE_iw-full=y
   # CONFIG_PACKAGE_jansson is not set
   CONFIG_PACKAGE_kmod-asn1-decoder=y
   CONFIG_PACKAGE_kmod-crypto-acompress=y
