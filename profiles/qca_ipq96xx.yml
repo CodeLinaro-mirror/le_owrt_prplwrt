@@ -1,0 +1,22 @@
+---
+profiles:
+  - qcom_rdp488
+  - qcom_rdp489
+target: ipq96xx
+subtarget: generic
+external_target: True
+description: Build image for the Qualcomm Juhu WiFi-8 (ipq96xx) reference platforms
+  This profile is not yet an officially supported prplOS board profile and is
+  provided as an early preview for community evaluation purposes
+For platform status, support information, and issue reporting, see:
+  https://gitlab.com/prpl-foundation/prplos/prplos/-/wikis/Qualcomm-Juhu
+feeds:
+  - name: feed_qca
+    uri: https://gitlab.com/prpl-foundation/prplOS/feed-qca.git
+    revision: latest-24.10/ath14.0-base@51bfd20fbdb078ff64699e1c61c551459adfe5ac
+
+packages:
+  - ipq96xx
+  - wireless-freedom
+  - wifi-scripts
+  - wifi-helper-scripts
