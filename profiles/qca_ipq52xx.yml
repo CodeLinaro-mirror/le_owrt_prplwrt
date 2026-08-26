@@ -1,0 +1,34 @@
+---
+profiles:
+  - qcom_rdp502
+  - qcom_rdp503
+  - qcom_rdp504
+target: ipq52xx
+subtarget: generic
+external_target: True
+description: Build image for the Qualcomm Hermosa WiFi-8 (ipq52xx) reference platforms
+  This profile is not yet an officially supported prplOS board profile and is
+  provided as an early preview for community evaluation purposes
+For platform status, support information, and issue reporting, see:
+  https://gitlab.com/prpl-foundation/prplos/prplos/-/wikis/Qualcomm-Hermosa
+feeds:
+  - name: feed_qca
+    uri: https://gitlab.com/prpl-foundation/prplOS/feed-qca.git
+    revision: latest-24.10/ath14.0-base@64348f0823a877c95103060c9cdfc6248db6ea66
+
+packages:
+  - ipq52xx
+  - wireless-freedom
+  - wifi-scripts
+  - wifi-helper-scripts
+  - wireless-regdb
+  - hostapd-utils
+  - wpa-cli
+  - qca-ssdk-shell
+  - wpad-mesh-openssl
+  - nss-tcp-st-cli
+  - nss-udp-st
+  - ethtool
+  - kmod-qca-debug-uio
+  - wififw_mount_script
+  - qca-wifi-scripts
