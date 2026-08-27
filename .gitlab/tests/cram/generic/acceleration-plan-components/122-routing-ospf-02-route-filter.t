@@ -15,7 +15,7 @@ Setup the test configuration:
 OSPF Route Redistribution Import Filtering for IPv4:
 
   $ R "ba-cli ${RF_DM}DefinedSets.PrefixSet+ {Alias=prefix4, IPVersion=4}" >/dev/null
-  $ R "ba-cli ${RF_DM}DefinedSets.PrefixSet.prefix4.Prefix+ { IPPrefix='11.22.44.0/24', MaskLengthLower=24, MaskLengthUpper=32 }" >/dev/null
+  $ R "ba-cli ${RF_DM}DefinedSets.PrefixSet.prefix4.Prefix+ { Enable=1, IPPrefix='11.22.44.0/24', MaskLengthLower=24, MaskLengthUpper=32 }" >/dev/null
   $ R "ba-cli ${RF_DM}DefinedSets.PrefixSet.prefix4.Enable=1" >/dev/null
   $ PREFIX_SET_4=$(R "ba-cli -l resolve ${RF_DM}DefinedSets.PrefixSet.prefix4." | awk '{sub(/\.$/, "")} 1')
   $ R "ba-cli ${RF_DM}FilterDefinition+ {Alias=filter4}" >/dev/null
@@ -57,7 +57,7 @@ OSPF Route Redistribution Import Filtering for IPv4:
 OSPF Route Redistribution Import Filtering for IPv6:
 
   $ R "ba-cli ${RF_DM}DefinedSets.PrefixSet+ {Alias=prefix6, IPVersion=6}" >/dev/null
-  $ R "ba-cli ${RF_DM}DefinedSets.PrefixSet.prefix6.Prefix+ { IPPrefix='2001:db8:4444::/48', MaskLengthLower=48, MaskLengthUpper=64 }" >/dev/null
+  $ R "ba-cli ${RF_DM}DefinedSets.PrefixSet.prefix6.Prefix+ { Enable=1, IPPrefix='2001:db8:4444::/48', MaskLengthLower=48, MaskLengthUpper=64 }" >/dev/null
   $ R "ba-cli ${RF_DM}DefinedSets.PrefixSet.prefix6.Enable=1" >/dev/null
   $ PREFIX_SET_6=$(R "ba-cli -l resolve ${RF_DM}DefinedSets.PrefixSet.prefix6." | awk '{sub(/\.$/, "")} 1')
   $ R "ba-cli ${RF_DM}FilterDefinition+ {Alias=filter6}" >/dev/null
@@ -95,4 +95,3 @@ OSPF Route Redistribution Import Filtering for IPv6:
   0
   $ R "ip -6 route" | grep "2001:db8:5555::/48" | sed "s/$TESTBED_IP6_LLA/MATCHED/"
   2001:db8:5555::/48 via MATCHED dev br-lan proto bird metric 32 pref medium
-
