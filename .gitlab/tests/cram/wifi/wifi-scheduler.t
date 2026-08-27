@@ -99,7 +99,7 @@ Disable access point:
   $ R "ba-cli -j -l 'X_PRPLWARE-COM_WiFiController.Network.Enable=0'" | sed '/^$/d'
   [{"X_PRPLWARE-COM_WiFiController.Network.":{"Enable":0}}]
 
-  $ sleep 15
+  $ wait_access_points_disabled
 
 Check access points status:
 

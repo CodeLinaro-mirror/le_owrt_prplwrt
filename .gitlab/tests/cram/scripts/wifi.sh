@@ -117,6 +117,41 @@ enable_ap() {
   R "usp-cli -j -l Device.WiFi.AccessPoint.${1}.Enable=1 | grep -q Enable && echo 'Device.WiFi.AccessPoint.${1} enabled'"
 }
 
+# Poll until an instance added by _add answers _get.
+wait_object_created() {
+  local path="$1"
+  local timeout=20
+  local elapsed=0
+
+  while [ "$elapsed" -lt "$timeout" ]; do
+    if R "ubus -S call ${path} _get" >/dev/null 2>&1; then
+      return 0
+    fi
+    sleep 1
+    elapsed=$((elapsed + 1))
+  done
+  return 1
+}
+
+# Poll until every AccessPoint Status is Disabled.
+wait_access_points_disabled() {
+  local timeout=50
+  local elapsed=0
+  local status
+
+  while [ "$elapsed" -lt "$timeout" ]; do
+    status=$(R "usp-cli 'Device.WiFi.AccessPoint.*.Status?'" 2>/dev/null || true)
+    if [ -n "$status" ] \
+        && printf '%s\n' "$status" | grep -q 'Status=' \
+        && ! printf '%s\n' "$status" | grep 'Status=' | grep -vq 'Status="Disabled"'; then
+      return 0
+    fi
+    sleep 1
+    elapsed=$((elapsed + 1))
+  done
+  return 1
+}
+
 # Disable AccessPoints
 # In : AccessPoint object index, statut (0/1) (Optional)
 # Out : AccessPoint.X.Enable=0,1 if success
@@ -592,7 +627,7 @@ prplmesh_start() {
     X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=1
   R "amx_poll_object ubus X_PRPLWARE-COM_WiFiController.Network.Device.1. 60"
   # protection delay. The DM availabilty can't ensure that prplmesh is yet in stable state
-  sleep 5
+  sleep 30
 }
 
 #

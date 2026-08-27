@@ -61,6 +61,8 @@ Create instances of Network.AccessPoint and push them to the agent:
   {}
   {"amxd-error-code":0}
 
+  $ wait_object_created X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1
+
 Since no persistent storage of NbAPI Network subsection, always index:1 after controller restart:
 
   $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1 _set '{\"parameters\":{\"Band2_4G\":1,\"Band5GH\":1,\"Band5GL\":1,\"Band6G\":1}}'"
@@ -96,6 +98,9 @@ Create second instance of Network.AccessPoint for guest VAPs:
   {"object":"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.","index":2,"name":"2","parameters":{},"path":"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2."}
   {}
   {"amxd-error-code":0}
+
+  $ wait_object_created X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2
+
   $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2 _set '{\"parameters\":{\"Band2_4G\":1,\"Band5GH\":1,\"Band5GL\":1,\"Band6G\":1}}'"
   {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.":{"Band5GH":true,"Band6G":true,"Band2_4G":true,"Band5GL":true}}
   {}
