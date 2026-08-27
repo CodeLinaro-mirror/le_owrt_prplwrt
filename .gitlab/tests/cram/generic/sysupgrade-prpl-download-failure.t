@@ -1,4 +1,9 @@
 
+Skip on platforms without the swupdate firmware controller - without it
+Download() has no downloader and BootFailureLog is never populated:
+
+  $ if echo "$CI_JOB_NAME" | grep -q -E "(Valyrian|Mozart|Turris|Haze|HDK-3)"; then exit 80; fi
+
 Create R alias and find the host IP:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
