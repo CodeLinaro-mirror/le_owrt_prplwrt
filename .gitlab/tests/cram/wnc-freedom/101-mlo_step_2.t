@@ -3,7 +3,7 @@ Create R alias:
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
   $ . "${TESTDIR}/../scripts/wifi.sh"
 
-  $ R logger -t cram "Starting MLO test 2/2 ..."
+  $ R logger -t cram "Starting $TESTFILE"
 
 Save hostap pid:
 
@@ -197,43 +197,11 @@ Check if hostapd process is stopped:
 
 Restore defautlt MLDUnit values:
 
-  $ R logger -t cram "Restore default MLD configuration"
-
-  $ R 'ba-cli -l Device.WiFi.AccessPoint.1.SSIDReference+.MLDUnit=0' | sed '/^$/d'
-  0
-
-  $ R 'ba-cli -l Device.WiFi.AccessPoint.2.SSIDReference+.MLDUnit=1' | sed '/^$/d'
-  1
-
-  $ R 'ba-cli -l Device.WiFi.AccessPoint.3.SSIDReference+.MLDUnit=0' | sed '/^$/d'
-  0
-
-  $ R 'ba-cli -l Device.WiFi.AccessPoint.4.SSIDReference+.MLDUnit=1' | sed '/^$/d'
-  1
-
-  $ R 'ba-cli -l Device.WiFi.AccessPoint.5.SSIDReference+.MLDUnit=0' | sed '/^$/d'
-  0
-
-  $ R 'ba-cli -l Device.WiFi.AccessPoint.6.SSIDReference+.MLDUnit=1' | sed '/^$/d'
-  1
-
-  $ R 'ba-cli -l Device.WiFi.AccessPoint.7.SSIDReference+.MLDUnit=2' | sed '/^$/d'
-  2
-
-  $ R 'ba-cli -l Device.WiFi.AccessPoint.8.SSIDReference+.MLDUnit=2' | sed '/^$/d'
-  2
-
-  $ R 'ba-cli -l Device.WiFi.AccessPoint.9.SSIDReference+.MLDUnit=2' | sed '/^$/d'
-  2
+  $ set_default_ap_mldunit
+  $ sleep 5
 
 Resume prplMesh:
 
-  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=1" | tr -d '\n'
-  1 (no-eol)
+  $ prplmesh_start
 
-  $ R logger -t cram "Stopping MLO test .."
-
-Wait 20s before leaving the test:
-
-  $ sleep 20
-  $ R logger -t cram "MLO test 2/2 finished !"
+  $ R logger -t cram "$TESTFILE finished!"

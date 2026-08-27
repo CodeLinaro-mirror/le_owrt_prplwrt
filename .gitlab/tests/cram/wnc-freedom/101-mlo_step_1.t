@@ -3,81 +3,15 @@ Create R alias:
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
   $ . "${TESTDIR}/../scripts/wifi.sh"
 
-  $ R logger -t cram "Starting MLO test 1/2 ..."
+  $ R logger -t cram "Starting $TESTFILE"
 
-Wait for Device.WiFi. datamodel availability:
+  $ check_wifi_defaults
+  $ testbed_set_wifi_defaults
 
-  $ R "amx_wait_for Device.WiFi."
-
-  $ sleep 10
-
-Stop prplMesh:
-
-  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=0" | tr -d '\n'
-  0 (no-eol)
-
-  $ sleep 2
-
-Set AutoChannelEnable=0 on all WiFi.Radio. interfaces:
-
-  $ R "ba-cli -j -l WiFi.Radio.*.AutoChannelEnable=0 | sed '/^$/d'"
-  [{"WiFi.Radio.1.":{"AutoChannelEnable":0},"WiFi.Radio.2.":{"AutoChannelEnable":0},"WiFi.Radio.3.":{"AutoChannelEnable":0}}]
-
-Set channel to a non DFS one:
-
-  $ R "ba-cli -j -l Device.WiFi.Radio.2.Channel=36 | sed '/^$/d'"
-  [{"Device.WiFi.Radio.2.":{"Channel":36}}]
-
-  $ sleep 5
-
-Check default SSID status:
-
-  $ get_ssid_status
-  Down
-  Down
-  Down
-  Down
-  Down
-  Down
-  Down
-  Down
-  Down
-
-Check default SSID configuration of access points:
-
-  $ R "ba-cli -j -l Device.WiFi.SSID.?0 | jsonfilter -e @[0]'[@.Alias != \"ep2g0\" && @.Alias != \"ep5g0\" && @.Alias != \"ep6g0\"].SSID'" | LC_ALL=C sort
-  backhaul_(AC:91:9B|58:E4:03|10:E8:A7):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
-  backhaul_(AC:91:9B|58:E4:03|10:E8:A7):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
-  backhaul_(AC:91:9B|58:E4:03|10:E8:A7):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
-  prplOS
-  prplOS
-  prplOS
-  prplOS-guest
-  prplOS-guest
-  prplOS-guest
-
-Check that no hostapd instance is running:
-
-  $ R "pgrep -f 'hostapd'"
-  [1]
-
-Check default MLDUnit configuration:
-
-  $ R "ba-cli -j -l Device.WiFi.SSID.?0 | jsonfilter -e @[0]'[*].MLDUnit'" | LC_ALL=C sort
-  -1
-  -1
-  -1
-  0
-  0
-  0
-  1
-  1
-  1
-  2
-  2
-  2
+  $ prplmesh_stop
 
 Disable MLO on private and guest vaps:
+
   $ R logger -t cram "Disable MLO for all interfaces"
 
   $ R "ba-cli -j -l Device.WiFi.SSID.*.MLDUnit=-1 | jsonfilter -e @[0]'[*].MLDUnit'"
@@ -320,4 +254,4 @@ Check if hostap pid has changed or not:
   $ if [ "$(R pgrep -f 'hostapd')" = "$hostap_pid" ]; then echo "true"; else echo "hostap restarted during the test !"; fi
   true
 
-  $ R logger -t cram "MLO test 1/2 finished !"
+  $ R logger -t cram "$TESTFILE finished!"

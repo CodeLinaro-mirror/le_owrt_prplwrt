@@ -3,23 +3,10 @@ Create R alias:
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
   $ . "${TESTDIR}/../scripts/wifi.sh"
 
-  $ R logger -t cram "Starting wifi-scheduler test ..."
+  $ R logger -t cram "Starting $TESTFILE"
 
-Wait for Device.WiFi. datamodel availability:
-
-  $ R "amx_wait_for "Device.WiFi." "
-
-Set AutoChannelEnable=0 on all Device.WiFi.Radio. interfaces:
-
-  $ wifi_dm "Radio.*.AutoChannelEnable=0"
-  Device.WiFi.Radio.1.AutoChannelEnable=0
-  Device.WiFi.Radio.2.AutoChannelEnable=0
-  Device.WiFi.Radio.3.AutoChannelEnable=0
-
-Set channel to a non DFS one:
-
-  $ wifi_dm "Radio.2.Channel=36"
-  Device.WiFi.Radio.2.Channel=36 (re)
+  $ check_wifi_defaults
+  $ testbed_set_wifi_defaults
 
 Check default WiFiScheduler configuration:
 
@@ -49,18 +36,9 @@ Configure controller:
 
   $ R logger -t cram "Configuring prplmesh and create a ptivate access point"
 
-  $ R logger -t cram "Stop prplmesh"
-
-  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=0" | tr -d '\n'
-  0 (no-eol)
-
-  $ sleep 2
+  $ prplmesh_stop
   $ R "sed -i 's/use_dataelements_vap_configs=0/use_dataelements_vap_configs=1/g' /opt/prplmesh/config/beerocks_controller.conf"
-  $ R "ba-cli X_PRPLWARE-COM_ProcessManager.PrplMesh.ManagementMode=Multi-AP-Controller-and-Agent"  > /dev/null
-  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=1" | tr -d '\n'
-  1 (no-eol)
-
-  $ R "ubus -t 60 wait_for X_PRPLWARE-COM_WiFiController.Network.Device.1"
+  $ prplmesh_start
 
 First call of AccessPointCommit, controller should push empty config to agents:
 
@@ -223,8 +201,16 @@ Restore Security.ModeEnabled for AccessPoints used in the test
 
 Reset wifi-scehdule:
 
-  $ R "( rm -rf /etc/config/wifi-scheduler/ ; /etc/init.d/wifi-scheduler restart ) > /dev/null 2>&1"
+Force restoring pwhm default MLDUnit:
 
+  $ prplmesh_stop
+
+  $ set_default_ap_mldunit
   $ sleep 5
 
-  $ R logger -t cram "Test finished!"
+  $ prplmesh_start
+
+  $ R "( rm -rf /etc/config/wifi-scheduler/ ; /etc/init.d/wifi-scheduler restart ) > /dev/null 2>&1"
+  $ sleep 5
+
+  $ R logger -t cram "$TESTFILE finished!"

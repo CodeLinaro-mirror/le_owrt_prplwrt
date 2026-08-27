@@ -3,21 +3,12 @@ Create R alias:
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
   $ . "${TESTDIR}/../scripts/wifi.sh"
 
-  $ R logger -t cram "Starting PWHM AFC test ..."
+  $ R logger -t cram "Starting $TESTFILE"
 
-Stop prplMesh:
+  $ check_wifi_defaults
+  $ testbed_set_wifi_defaults
 
-  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=0" | tr -d '\n'
-  0 (no-eol)
-
-  $ sleep 2
-
-  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Status?" | tr -d '\n'
-  Idle (no-eol)
-
-Wait for Device.WiFi. datamodel availability:
-
-  $ R 'amx_wait_for "Device.WiFi." '
+  $ prplmesh_stop
 
 Activate 6GHz vaps:
 
@@ -182,13 +173,7 @@ Check if hostapd process is stopped:
 
 Resume prplMesh:
 
-  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=1" | tr -d '\n'
-  1 (no-eol)
-
-  $ sleep 2
-
-  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Status?" | tr -d '\n'
-  Active (no-eol)
+  $ prplmesh_start
 
   $ R logger -t cram "Stopping PWHM AFC test .."
 
@@ -196,5 +181,5 @@ Wait 5s before leaving the test:
 
   $ sleep 5
 
-  $ R logger -t cram "Test finished!"
+  $ R logger -t cram "$TESTFILE finished!"
 

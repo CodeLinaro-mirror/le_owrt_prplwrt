@@ -3,25 +3,12 @@ Create R alias:
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
   $ . "${TESTDIR}/../scripts/wifi.sh"
 
-  $ R logger -t cram "Starting PWHM test for custom arguments..."
+  $ R logger -t cram "Starting $TESTFILE"
 
-Wait for Device.WiFi. datamodel availability:
+  $ check_wifi_defaults
+  $ testbed_set_wifi_defaults
 
-  $ R "amx_wait_for 'Device.WiFi.AccessPoint.'"
-
-  $ sleep 10
-
-Stop prplMesh:
-
-  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=0" | tr -d '\n'
-  0 (no-eol)
-
-  $ sleep 2
-
-Check that pwhm is running:
-
-  $ R "ba-cli X_PRPLWARE-COM_ProcessManager.PWHM.Status? | sed '1d' | awk 'NF'"
-  X_PRPLWARE-COM_ProcessManager.PWHM.Status="Active"
+  $ prplmesh_stop
 
 Enabling few accesspoints to check hostapd:
 
@@ -182,13 +169,6 @@ Setting the custom arguments back to default value:
 
 Resume prplMesh:
 
-  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=1" | tr -d '\n'
-  1 (no-eol)
+  $ prplmesh_start
 
-  $ R logger -t cram "Stopping PWHM test for custom arguments.."
-
-Wait 20s before leaving the test:
-
-  $ sleep 20
-
-  $ R logger -t cram "Test finished!"
+  $ R logger -t cram "$TESTFILE finished!"

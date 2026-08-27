@@ -3,7 +3,7 @@ Create R alias:
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
   $ . "${TESTDIR}/../scripts/wifi.sh"
 
-  $ R "logger -t cram 'Starting PWHM test (step 2) ...'"
+  $ R logger -t cram "Starting $TESTFILE"
 
 Save hostap pid, it's needed as part of script split (PCF-2222):
 
@@ -485,8 +485,7 @@ Check if hostapd process is stopped:
 
 Resume prplMesh:
 
-  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=1" | tr -d '\n'
-  1 (no-eol)
+  $ prplmesh_start
 
   $ R logger -t cram "Stopping PWHM test .."
 
@@ -494,4 +493,4 @@ Wait for prplMesh before leaving the test:
 
   $ sleep 5
 
-  $ R logger -t cram "Test finished!"
+  $ R logger -t cram "$TESTFILE finished!"

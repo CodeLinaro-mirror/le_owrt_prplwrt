@@ -3,37 +3,18 @@ Create R alias:
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
   $ . "${TESTDIR}/../scripts/wifi.sh"
 
-Set AutoChannelEnable=0 on all Device.WiFi.Radio. interfaces:
+  $ R logger -t cram "Starting $TESTFILE"
 
-  $ R "ba-cli -j -l WiFi.Radio.*.AutoChannelEnable=0 | sed '/^$/d'"
-  [{"WiFi.Radio.1.":{"AutoChannelEnable":0},"WiFi.Radio.2.":{"AutoChannelEnable":0},"WiFi.Radio.3.":{"AutoChannelEnable":0}}]
+  $ check_wifi_defaults
+  $ testbed_set_wifi_defaults
 
-Set channel to a non DFS one:
+  $ prplmesh_stop
 
-  $ R "usp-cli -j -l Device.WiFi.Radio.2.Channel=36 | sed '/^$/d'"
-  [{"Device.WiFi.Radio.2.":{"Channel":36}}]
-
-  $ sleep 5
-
-Configure controller, requires PPM-3022 to work:
-
-  $ R logger -t cram "Stop prplmesh"
-
-  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=0" | tr -d '\n'
-  0 (no-eol)
-
-  $ sleep 2
   $ R "sed -i 's/use_dataelements_vap_configs=0/use_dataelements_vap_configs=1/g' /opt/prplmesh/config/beerocks_controller.conf"
 
 Restart prplmesh:
 
-  $ R logger -t cram "Restart prplmesh"
-
-  $ R "ba-cli X_PRPLWARE-COM_ProcessManager.PrplMesh.ManagementMode=Multi-AP-Controller-and-Agent"  > /dev/null
-  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=1" | tr -d '\n'
-  1 (no-eol)
-
-  $ R "ubus -t 60 wait_for X_PRPLWARE-COM_WiFiController.Network.Device.1"
+  $ prplmesh_start
 
 First call of AccessPointCommit, controller should push empty config to agents:
 
@@ -103,6 +84,7 @@ Since no persistent storage of NbAPI Network subsection, always index:1 after co
   {"amxd-error-code":0}
 
 In case the controller does not yet have this parameter, catch error here isof later during teardown test:
+
   $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1 _set '{\"parameters\":{\"Enable\":1}}'"
   {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.":{"Enable":true}}
   {}
@@ -135,6 +117,7 @@ Create second instance of Network.AccessPoint for guest VAPs:
   {"amxd-error-code":0}
 
 In case the controller does not yet have this parameter, catch error here isof later during teardown test:
+
   $ R "ubus -S call X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2 _set '{\"parameters\":{\"Enable\":1}}'"
   {"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.":{"Enable":true}}
   {}
@@ -240,7 +223,25 @@ pwhm usp socket : check if there is at least one connected client (should be bee
   $ R "netstat -ap 2>/dev/null | grep 'CONNECTED.*pwhm_usp.sock'| wc -l"
   [1-9]$ (re)
 
-To disable wireless, disable instances of Network.AccessPoint{i} and call AccessPointCommit():
+Restore SSIDs:
+
+  $ R logger -t cram "Restore SSIDs"
+
+  $ R "ba-cli -l \"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.SSID=\"prplOS\"\"" | sed '/^$/d'
+  prplOS
+
+  $ R "ba-cli -l \"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.SSID=\"prplOS-guest\"\"" | sed '/^$/d'
+  prplOS-guest
+
+  $ R "ba-cli \"X_PRPLWARE-COM_WiFiController.Network.AccessPointCommit()\"" | grep -Ev '^(>|$)'
+  X_PRPLWARE-COM_WiFiController.Network.AccessPointCommit() returned
+  [
+      ""
+  ]
+
+  $ sleep 10
+
+Disable wireless:
 
   $ R logger -t cram "Stop wireless"
 
@@ -278,6 +279,10 @@ Restore Security.ModeEnabled for AccessPoints used in the test
   WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal" (re)
   WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal" (re)
 
+Check that SSIDs are restored:
+
+  $ check_default_ap_ssid
+
 Check that wireless is disabled:
 
   $ get_ssid_status
@@ -291,18 +296,14 @@ Check that wireless is disabled:
   Down
   Down
 
-Check that SSIDs did not change:
+Force restoring pwhm default MLDUnit:
 
-  $ get_ssid_ssid
-  backhaul_(AC:91:9B|58:E4:03|10:E8:A7):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
-  backhaul_(AC:91:9B|58:E4:03|10:E8:A7):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
-  backhaul_(AC:91:9B|58:E4:03|10:E8:A7):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
-  prplOSguest
-  prplOSguest
-  prplOSguest
-  prplOSpriv
-  prplOSpriv
-  prplOSpriv
+  $ prplmesh_stop
+
+  $ set_default_ap_mldunit
+  $ sleep 10
+
+  $ prplmesh_start
 
 Check the default ChipsetVendor param configurations:
 
@@ -311,3 +312,5 @@ Check the default ChipsetVendor param configurations:
   Qualcomm
   Qualcomm
   Qualcomm
+
+  $ R logger -t cram "$TESTFILE finished!"

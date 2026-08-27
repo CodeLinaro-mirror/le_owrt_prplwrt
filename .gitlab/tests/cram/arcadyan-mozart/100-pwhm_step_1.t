@@ -58,15 +58,15 @@ Check default SSID status:
 Check default SSID configuration of access points:
 
   $ get_ap_ssid
-  AccessPoint.1.SSID="prplOS"
-  AccessPoint.2.SSID="prplOS-guest"
-  AccessPoint.3.SSID="prplOS"
-  AccessPoint.4.SSID="prplOS-guest"
-  AccessPoint.5.SSID="prplOS"
-  AccessPoint.6.SSID="prplOS-guest"
-  AccessPoint.7.SSID="backhaul_(1C:F4:3F|20:37:F0):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}" (re)
-  AccessPoint.8.SSID="backhaul_(1C:F4:3F|20:37:F0):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}" (re)
-  AccessPoint.9.SSID="backhaul_(1C:F4:3F|20:37:F0):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}" (re)
+  Device.WiFi.SSID.1.SSID="prplOS"
+  Device.WiFi.SSID.3.SSID="prplOS-guest"
+  Device.WiFi.SSID.4.SSID="prplOS"
+  Device.WiFi.SSID.6.SSID="prplOS-guest"
+  Device.WiFi.SSID.7.SSID="prplOS"
+  Device.WiFi.SSID.9.SSID="prplOS-guest"
+  Device.WiFi.SSID.16.SSID="backhaul_(1C:F4:3F|20:37:F0):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}" (re)
+  Device.WiFi.SSID.17.SSID="backhaul_(1C:F4:3F|20:37:F0):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}" (re)
+  Device.WiFi.SSID.18.SSID="backhaul_(1C:F4:3F|20:37:F0):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}" (re)
 
 Check that no hostapd instance is running:
 

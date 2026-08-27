@@ -3,7 +3,7 @@ Create R alias:
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
   $ . "${TESTDIR}/../scripts/wifi.sh"
 
-  $ R "logger -t cram 'Starting EHT Operations test (step 2) ...'"
+  $ R logger -t cram "Starting $TESTFILE"
 
 #########################################
 #    test 6GHz getEHTOperations         #
@@ -167,8 +167,6 @@ Disable vaps:
 
   $ R logger -t cram "Restart prplmesh"
 
-  $ R "ba-cli X_PRPLWARE-COM_ProcessManager.PrplMesh.ManagementMode=Multi-AP-Controller-and-Agent"  > /dev/null
-  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=1" | tr -d '\n'
-  1 (no-eol)
+  $ prplmesh_start
 
-  $ R logger -t cram "Test finished!"
+  $ R logger -t cram "$TESTFILE finished!"

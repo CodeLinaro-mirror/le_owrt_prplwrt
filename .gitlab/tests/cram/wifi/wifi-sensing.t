@@ -2,7 +2,7 @@ Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
-  $ R logger -t cram "Starting WiFi Sensing test ..."
+  $ R logger -t cram "Starting $TESTFILE"
 
 Check default WiFi Sensing configuration:
 
@@ -69,4 +69,4 @@ Check that socket is deleted and sessions number is zero:
   $ R "usp-cli -j -l Device.WiFi.X_PRPLWARE-COM_WiFiSensing.?  | jsonfilter -e @[0]'[*].SessionNumberOfEntries'" 
   0
 
-  $ R logger -t cram "Test finished!"
+  $ R logger -t cram "$TESTFILE finished!"
