@@ -2,7 +2,7 @@ Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
-  $ R logger -t cram "Starting with Flashwear monitoring tests"
+  $ R logger -t cram "Starting $TESTFILE"
 
 Enable Flashwear monitoring:
 
@@ -54,4 +54,4 @@ Disable Flashwear monitoring:
   $ R "ba-cli -l Device.Hardware.X_PRPLWARE-COM_FlashDevice.1.Health.Enabled=0" | sed '/^$/d'
   0
 
-  $ R logger -t cram "Flashwear monitoring test finished"
+  $ R logger -t cram "$TESTFILE finished!"

@@ -2,6 +2,8 @@ Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
+  $ R logger -t cram "Starting $TESTFILE"
+
 Check the services are enabled by default:
 
   $ R "{ ba-cli -l X_PRPLWARE-COM_ProcessManager.Sensing.Enable? ; ba-cli -l X_PRPLWARE-COM_ProcessManager.PWHM.Enable? ; ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable? ; }" | tr -d '\n'
@@ -55,3 +57,5 @@ Check Sensing datamodel again:
   X_PRPLWARE-COM_ProcessManager.Sensing.Enable=1
   X_PRPLWARE-COM_ProcessManager.Sensing.FaultCode="NoFault"
   X_PRPLWARE-COM_ProcessManager.Sensing.Status="Active"
+
+  $ R logger -t cram "$TESTFILE finished!"

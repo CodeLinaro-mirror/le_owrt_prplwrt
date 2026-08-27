@@ -3,7 +3,7 @@ Create R alias:
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
   $ . "${TESTDIR}/../scripts/wifi.sh"
 
-  $ R logger -t cram "Starting APMLD test 2/2..."
+  $ R logger -t cram "Starting $TESTFILE"
 
 Save hostap pid:
 
@@ -522,10 +522,5 @@ Check if private apmld is cleared:
   Device.WiFi.APMLD.1.TIDLinkMapConfig.AdvertisedMapSwitchTime=100
   Device.WiFi.APMLD.1.TIDLinkMapConfig.Mode="Advertised"
 
-Resume prplMesh:
-
-  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=1" | tr -d '\n'
-  1 (no-eol)
-
-  $ sleep 10
-  $ R logger -t cram "Test finished!"
+  $ prplmesh_start
+  $ R logger -t cram "$TESTFILE finished!"

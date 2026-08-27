@@ -3,7 +3,7 @@ Create R alias:
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
   $ . "${TESTDIR}/../scripts/wifi.sh"
 
-  $ R "logger -t cram 'Starting PWHM test (step 2) ...'"
+  $ R logger -t cram "Starting $TESTFILE"
 
 Check that hostapd is operating as expected:
 
@@ -257,13 +257,6 @@ Check if hostapd process is stopped:
 
 Resume prplMesh:
 
-  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=1" | tr -d '\n'
-  1 (no-eol)
+  $ prplmesh_start
 
-  $ R logger -t cram "Stopping PWHM test .."
-
-Wait 20s before leaving the test:
-
-  $ sleep 20
-
-  $ R logger -t cram "Test finished!"
+  $ R logger -t cram "$TESTFILE finished!"

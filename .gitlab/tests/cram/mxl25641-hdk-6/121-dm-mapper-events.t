@@ -5,7 +5,7 @@ Create R alias:
   $ C ${TESTDIR}/../scripts/target/usp-events.lua root@${TARGET_LAN_IP}:/tmp/usp-event.lua 2>/dev/null
   $ C ${TESTDIR}/../scripts/target/ubus-events.lua root@${TARGET_LAN_IP}:/tmp/ubus-event.lua 2>/dev/null
 
-  $ R logger -t cram "Starting DM Mapper events test ..."
+  $ R logger -t cram "Starting $TESTFILE"
 
 Register some data Change event from USP:
 
@@ -64,5 +64,4 @@ Register some data Change event from UBUS:
 
   $ R "ba-cli WiFi.AccessPoint.1.Enable=0" > /dev/null 2>&1
 
-  $ R logger -t cram "Finished DM Mapper events test."
-
+  $ R logger -t cram "$TESTFILE finished!"

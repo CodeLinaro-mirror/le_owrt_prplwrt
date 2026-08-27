@@ -3,18 +3,14 @@ Create R alias:
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
   $ . "${TESTDIR}/../scripts/wifi.sh"
 
-  $ R logger -t cram "Starting APMLD test 1/2..."
+  $ R logger -t cram "Starting $TESTFILE"
 
-Stop prplMesh:
+  $ check_wifi_defaults
+  $ testbed_set_wifi_defaults
 
-  $ R logger -t cram "Stop prplmesh"
+  $ prplmesh_stop
 
-  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=0" | tr -d '\n'
-  0 (no-eol)
-
-  $ sleep 2
-
-Check default configuration:
+Check APMLD default configuration:
 
   $ R logger -t cram "Check default configuration"
   $ wifi_dm "APMLDMaxLinks?"
@@ -254,21 +250,6 @@ Check default configuration:
 Configure radio and enable all AccessPoints:
 
   $ R logger -t cram "Enable all vaps"
-
-  $ wifi_dm "Radio.*.AutoChannelEnable=0"
-  Device.WiFi.Radio.1.AutoChannelEnable=0
-  Device.WiFi.Radio.2.AutoChannelEnable=0
-  Device.WiFi.Radio.3.AutoChannelEnable=0
-
-  $ wifi_dm "Radio.[OperatingFrequencyBand==\"2.4GHz\"].Channel=1"
-  Device.WiFi.Radio.\d+.Channel=1 (re)
-
-  $ wifi_dm "Radio.[OperatingFrequencyBand==\"5GHz\"].Channel=36"
-  Device.WiFi.Radio.\d+.Channel=36 (re)
-
-  $ wifi_dm "Radio.[OperatingFrequencyBand==\"6GHz\"].Channel=37"
-  Device.WiFi.Radio.\d+.Channel=37 (re)
-
   $ wifi_dm "AccessPoint.*.Enable=1"
   Device.WiFi.AccessPoint.1.Enable=1
   Device.WiFi.AccessPoint.2.Enable=1
@@ -555,5 +536,5 @@ Before leaving the test, check if hostap pid has changed or not:
   $ if [ "$(R pgrep -f 'hostapd')" = "$hostap_pid" ]; then echo "true"; else echo "hostap restarted during the test !"; fi
   true
 
-  $ R logger -t cram "Test finished!"
+  $ R logger -t cram "$TESTFILE finished!"
 

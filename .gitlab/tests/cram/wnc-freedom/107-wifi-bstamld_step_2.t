@@ -3,7 +3,7 @@ Create R alias:
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
   $ . "${TESTDIR}/../scripts/wifi.sh"
 
-  $ R logger -t cram "Starting bSTAMLD test 2/2 ..."
+  $ R logger -t cram "Starting $TESTFILE"
 
 #########################################
 # Test MLO with shared profile disabled #
@@ -180,7 +180,6 @@ Check bSTAMLD DM after unsetting MLDUnit:
   Device.WiFi.bSTAMLD.2.bSTAMLDConfig.STREnabled=0
   Device.WiFi.bSTAMLD.2.bSTAMLDConfig.UseNeighborProfile=1
 
-  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=1" | tr -d '\n'
-  1 (no-eol)
+  $ prplmesh_start
 
-  $ R logger -t cram "bSTAMLD test 2/2 finished!"
+  $ R logger -t cram "$TESTFILE finished!"

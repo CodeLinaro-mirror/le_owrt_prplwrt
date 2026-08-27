@@ -32,19 +32,19 @@ wifi_dm() {
 
   # remove any trailing '?' from next grep
   obj_name=${obj_name%%\?*}
-  R logger -t cram "set_wifi_dm: command ${base_path}${path} object ${obj_name}"
+  R logger -t cram "wifi_dm: command ${base_path}${path} object ${obj_name}"
 
   # run the command
   res=$(R "${tool} '${cli_pre_cmd}${base_path}${path}'" | grep -v '>')
 
   if ! echo "$res" | grep -q "${obj_name}="; then
     if echo "$res" | grep -q "No data found"; then
-      R logger -t cram "set_wifi_dm: ${base_path}${path} failed : No data found"
+      R logger -t cram "wifi_dm: ${base_path}${path} failed : No data found"
       echo "No data found"
       return 0
     fi
-    R logger -t cram "set_wifi_dm: ${base_path}${path} failed."
-    echo "set_wifi_dm: ${base_path}${path} failed. Result:"
+    R logger -t cram "wifi_dm: ${base_path}${path} failed."
+    echo "wifi_dm: ${base_path}${path} failed. Result:"
     echo "$res"
     return 1
   else
@@ -190,12 +190,17 @@ get_ap_status() {
 
 # Print APs status
 get_ap_ssid() {
-  ap_num=$(R "usp-cli -l \"Device.WiFi.AccessPointNumberOfEntries?\"" | sed '/^$/d')
-  local i=1
-  while [ "$i" -le "$ap_num" ]; do
-    wifi_dm "AccessPoint.$i.SSIDReference+.SSID?" | sed "s/Device.WiFi.SSID.[0-9]*/AccessPoint.$i/g"
-    i=$((i + 1))
-  done
+
+  R "usp-cli 'Device.WiFi.SSID.[Alias != \"ep2g0\" && Alias != \"ep5g0\" && Alias != \"ep6g0\"].SSID?0'" \
+      | sed '/^>/d;/^$/d' \
+      | LC_ALL=C sort -t. -k4,4n
+}
+
+# Print APs MLDUnit
+get_ap_mldunit() {
+  R "usp-cli 'Device.WiFi.SSID.[Alias != \"ep2g0\" && Alias != \"ep5g0\" && Alias != \"ep6g0\"].MLDUnit?0'" \
+      | sed '/^>/d;/^$/d' \
+      | LC_ALL=C sort -t. -k4,4n
 }
 
 # list wpacltrl socket file of a specific AP
@@ -430,7 +435,7 @@ get_ifindex () {
 # In : no input
 # Out : list of hostapd sockets inodes and paths
 read_hostapd_inodes(){
-  ilist=$(R "ls -li /var/run/hostapd/wlan* 2>/dev/null" | awk '{print $1, $NF}' | sort)
+  ilist=$(R "ls -li /var/run/hostapd/wlan* 2>/dev/null" | awk '{print $1, $NF}' | sort -n)
   echo "$ilist"
 }
 
@@ -560,4 +565,293 @@ dm_radio_regulatory_domain_get() {
 dm_radio_regulatory_domain_set() {
   local country="${1:?Usage: dm_radio_regulatory_domain_set <country_code>}"
   R "ba-cli -j -l Device.WiFi.Radio.*.RegulatoryDomain=${country} | jsonfilter -e @[0]'[*].RegulatoryDomain'" | sed '/^$/d'
+}
+
+#
+# Start prplMesh
+#
+prplmesh_start() {
+  R logger -t cram "Start prplMesh"
+  local ret=$(R "ba-cli X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=1 | grep -v '>' | grep 'Enable='")
+  check_output  echo $ret -- \
+    X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=1
+  R "amx_poll_object ubus X_PRPLWARE-COM_WiFiController.Network.Device.1. 60"
+  # protection delay. The DM availabilty can't ensure that prplmesh is yet in stable state
+  sleep 5
+}
+
+#
+# Stop prplMesh
+#
+prplmesh_stop() {
+  R logger -t cram "Stop prplMesh"
+  local ret=$(R "ba-cli X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=0 | grep -v '>' | grep 'Enable='")
+  check_output  echo $ret -- \
+    X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=0
+  # protection delay
+  sleep 5
+}
+
+#
+################ Testbed configuration helpers ##################
+#
+
+# Check command output against expected lines
+# In  : command, followed by "--", then expected output regex lines
+# Out : line-by-line differences for unexpected output
+check_output() {
+    cmd_args=""
+    expected_args=""
+    is_expected=0
+
+    for arg in "$@"; do
+        if [ "$arg" = "--" ]; then
+            is_expected=1
+            continue
+        fi
+
+        if [ "$is_expected" -eq 0 ]; then
+            if [ -z "$cmd_args" ]; then
+                cmd_args="$arg"
+            else
+                cmd_args="$cmd_args '$arg'"
+            fi
+        else
+            if [ -z "$expected_args" ]; then
+                expected_args="$arg"
+            else
+                expected_args="$expected_args
+$arg"
+            fi
+        fi
+    done
+
+    if [ -z "$expected_args" ] && type "$cmd_args" >/dev/null 2>&1; then
+        "$cmd_args"
+        return $?
+    fi
+
+    # Strip carriage returns and normalize actual output
+    actual=$(eval "$cmd_args" | tr -d '\r')
+
+    diff_output=""
+    i=1
+    
+    actual_count=$(printf '%s\n' "$actual" | grep -c '^')
+    expected_count=$(printf '%s\n' "$expected_args" | grep -c '^')
+    max=$(( actual_count > expected_count ? actual_count : expected_count ))
+
+    while [ "$i" -le "$max" ]; do
+        exp_line=$(printf '%s\n' "$expected_args" | sed -n "${i}p")
+        act_line=$(printf '%s\n' "$actual" | sed -n "${i}p")
+        
+        [ -z "$exp_line" ] && exp_line="(no expected line)"
+        [ -z "$act_line" ] && act_line="(no actual line)"
+
+        # Clean trailing $ if used as a regex anchor in Cram blocks
+        clean_exp_line=$(printf '%s' "$exp_line" | sed 's/\$*$//')
+
+        if ! printf '%s\n' "$act_line" | grep -qE "^${clean_exp_line}$"; then
+            diff_output="${diff_output}
+- ${exp_line}
++ ${act_line}"
+        fi
+        i=$((i + 1))
+    done
+
+    if [ -n "$diff_output" ]; then
+        echo ""
+        echo "[!] Not expected: $cmd_args"
+        echo "$diff_output"
+        echo ""
+        return 1
+    fi
+}
+
+# Check default vaps status
+#
+check_default_ap_status() {
+    # If check_output fails, print the wrapper context before returning 1
+    check_output get_ap_status -- \
+        'Device.WiFi.AccessPoint.1.Status="Disabled"' \
+        'Device.WiFi.AccessPoint.2.Status="Disabled"' \
+        'Device.WiFi.AccessPoint.3.Status="Disabled"' \
+        'Device.WiFi.AccessPoint.4.Status="Disabled"' \
+        'Device.WiFi.AccessPoint.5.Status="Disabled"' \
+        'Device.WiFi.AccessPoint.6.Status="Disabled"' \
+        'Device.WiFi.AccessPoint.7.Status="Disabled"' \
+        'Device.WiFi.AccessPoint.8.Status="Disabled"' \
+        'Device.WiFi.AccessPoint.9.Status="Disabled"'
+}
+
+# Check default SSIDs
+#
+check_default_ap_ssid() {
+    local vendor_output
+    vendor_output=$(wifi_dm "Radio.1.ChipsetVendor?" "WiFi." "ba-cli")
+
+    if echo "$vendor_output" | grep -q "Qualcomm"; then
+        check_output get_ap_ssid -- \
+            'Device.WiFi.SSID.1.SSID="prplOS"' \
+            'Device.WiFi.SSID.3.SSID="prplOS-guest"' \
+            'Device.WiFi.SSID.4.SSID="prplOS"' \
+            'Device.WiFi.SSID.6.SSID="prplOS-guest"' \
+            'Device.WiFi.SSID.7.SSID="prplOS"' \
+            'Device.WiFi.SSID.9.SSID="prplOS-guest"' \
+            'Device.WiFi.SSID.16.SSID="backhaul_(AC:91:9B|58:E4:03|10:E8:A7):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}"' \
+            'Device.WiFi.SSID.17.SSID="backhaul_(AC:91:9B|58:E4:03|10:E8:A7):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}"' \
+            'Device.WiFi.SSID.18.SSID="backhaul_(AC:91:9B|58:E4:03|10:E8:A7):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}"'
+    elif echo "$vendor_output" | grep -qE "MaxLinear"; then
+        check_output get_ap_ssid -- \
+            'Device.WiFi.SSID.1.SSID="prplOS"' \
+            'Device.WiFi.SSID.3.SSID="prplOS"' \
+            'Device.WiFi.SSID.5.SSID="prplOS"' \
+            'Device.WiFi.SSID.7.SSID="prplOS-guest"' \
+            'Device.WiFi.SSID.8.SSID="prplOS-guest"' \
+            'Device.WiFi.SSID.9.SSID="prplOS-guest"' \
+            'Device.WiFi.SSID.17.SSID="backhaul_(4C:BA:7D|A8:C2:46|AC:9A:96):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}"' \
+            'Device.WiFi.SSID.18.SSID="backhaul_(4C:BA:7D|A8:C2:46|AC:9A:96):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}"' \
+            'Device.WiFi.SSID.19.SSID="backhaul_(4C:BA:7D|A8:C2:46|AC:9A:96):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}"'
+    else
+        echo "check_default_ap_ssid: unknown platform"
+        R logger -t cram "check_default_ap_ssid: unknown platform ${vendor_output}"
+    fi
+}
+
+# Check default vaps MLDUnits
+# Out : empty if success
+check_default_ap_mldunit() {
+    local vendor_output
+    vendor_output=$(wifi_dm "Radio.1.ChipsetVendor?" "WiFi." "ba-cli")
+
+    if echo "$vendor_output" | grep -q "Qualcomm"; then
+      check_output get_ap_mldunit -- \
+        'Device.WiFi.SSID.[0-9]+.MLDUnit=0' \
+        'Device.WiFi.SSID.[0-9]+.MLDUnit=1' \
+        'Device.WiFi.SSID.[0-9]+.MLDUnit=0' \
+        'Device.WiFi.SSID.[0-9]+.MLDUnit=1' \
+        'Device.WiFi.SSID.[0-9]+.MLDUnit=0' \
+        'Device.WiFi.SSID.[0-9]+.MLDUnit=1' \
+        'Device.WiFi.SSID.[0-9]+.MLDUnit=2' \
+        'Device.WiFi.SSID.[0-9]+.MLDUnit=2' \
+        'Device.WiFi.SSID.[0-9]+.MLDUnit=2'
+    elif echo "$vendor_output" | grep -qE "MaxLinear"; then
+      # Actually MLDUnits are not set on OSPv2
+      check_output get_ap_mldunit -- \
+        'Device.WiFi.SSID.[0-9]+.MLDUnit=-1' \
+        'Device.WiFi.SSID.[0-9]+.MLDUnit=-1' \
+        'Device.WiFi.SSID.[0-9]+.MLDUnit=-1' \
+        'Device.WiFi.SSID.[0-9]+.MLDUnit=-1' \
+        'Device.WiFi.SSID.[0-9]+.MLDUnit=-1' \
+        'Device.WiFi.SSID.[0-9]+.MLDUnit=-1' \
+        'Device.WiFi.SSID.[0-9]+.MLDUnit=-1' \
+        'Device.WiFi.SSID.[0-9]+.MLDUnit=-1' \
+        'Device.WiFi.SSID.[0-9]+.MLDUnit=-1'
+    else
+        echo "check_default_ap_mldunit: unknown platform"
+        R logger -t cram "check_default_ap_mldunit: unknown platform ${vendor_output}"
+    fi
+}
+
+# Set default vaps MLDUnits
+# Out : empty if success
+set_default_ap_mldunit() {
+
+  R logger -t cram "set_default_ap_mldunit: Restore default MLD configuration"
+
+  local vendor_output
+  vendor_output=$(wifi_dm "Radio.1.ChipsetVendor?" "WiFi." "ba-cli")
+
+  R logger -t cram "set_default_ap_mldunit: platform ${vendor_output}"
+
+  if echo "$vendor_output" | grep -q "Qualcomm"; then
+    check_output R 'ba-cli -l Device.WiFi.AccessPoint.1.SSIDReference+.MLDUnit=0  | sed '/^$/d'' -- \
+      '0'
+    check_output R 'ba-cli -l Device.WiFi.AccessPoint.2.SSIDReference+.MLDUnit=1  | sed '/^$/d'' -- \
+      '1'
+    check_output R 'ba-cli -l Device.WiFi.AccessPoint.3.SSIDReference+.MLDUnit=0  | sed '/^$/d'' -- \
+      '0'
+    check_output R 'ba-cli -l Device.WiFi.AccessPoint.4.SSIDReference+.MLDUnit=1  | sed '/^$/d'' -- \
+      '1'
+    check_output R 'ba-cli -l Device.WiFi.AccessPoint.5.SSIDReference+.MLDUnit=0  | sed '/^$/d'' -- \
+      '0'
+    check_output R 'ba-cli -l Device.WiFi.AccessPoint.6.SSIDReference+.MLDUnit=1  | sed '/^$/d'' -- \
+      '1'
+    check_output R 'ba-cli -l Device.WiFi.AccessPoint.7.SSIDReference+.MLDUnit=2  | sed '/^$/d'' -- \
+      '2'
+    check_output R 'ba-cli -l Device.WiFi.AccessPoint.8.SSIDReference+.MLDUnit=2  | sed '/^$/d'' -- \
+      '2'
+    check_output R 'ba-cli -l Device.WiFi.AccessPoint.9.SSIDReference+.MLDUnit=2  | sed '/^$/d'' -- \
+      '2'
+  elif echo "$vendor_output" | grep -qE "MaxLinear"; then
+    # Actually MLDUnits are not set on OSPv2
+    R logger -t cram "set_default_ap_mldunit: MLDUnits are not set on OSPv2"
+  else
+      echo "set_default_ap_mldunit: unknown platform ${vendor_output}"
+      R logger -t cram "set_default_ap_mldunit: unknown platform ${vendor_output}"
+  fi
+}
+
+# check default wifi configuration
+# Out : empty if success
+check_wifi_defaults() {
+  # Wait for Device.WiFi. datamodel availability:
+  R "amx_poll_object usp Device.WiFi. 60"
+
+  #########################################
+  #  Check default configuration
+  #########################################
+
+  local failed=0
+
+  # Check default vaps status
+  check_default_ap_status || { echo "ERROR: check_default_ap_status failed"; failed=1; }
+
+  # Check default ssid status
+  check_default_ap_ssid || { echo "ERROR: check_default_ap_ssid failed"; failed=1; }
+
+  # Check default MLDUnits
+  check_default_ap_mldunit || { echo "ERROR: check_default_ap_mldunit failed"; failed=1; }
+
+  # Check that no hostapd instance is running:
+  check_output R "pgrep -f '[h]ostapd' || echo 'not running'" -- \
+    'not running' || { echo "ERROR: hostapd check failed"; failed=1; }
+
+  # Check that prplmesh is running in gateway mode
+  check_output R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.ManagementMode?  | sed '/^$/d'"  -- \
+    'Multi-AP-Controller-and-Agent' || { echo "ERROR: prplmesh management mode check failed"; failed=1; }
+
+  if [ "$failed" -ne 0 ]; then
+      R logger -t cram "check_wifi_defaults: failed"
+      echo " "
+      echo "#"
+      echo "# WARNING: check_wifi_defaults failed !"
+      echo "#"
+  fi
+}
+
+# set default testbed configuration
+# Out : empty if success
+testbed_set_wifi_defaults() {
+
+  # Wait for Device.WiFi. datamodel availability:
+  R "amx_poll_object usp Device.WiFi. 60"
+
+  # Set AutoChannelEnable=0 on all Device.WiFi.Radio. interfaces:
+  check_output wifi_dm "Radio.*.AutoChannelEnable=0" -- \
+    'Device.WiFi.Radio.1.AutoChannelEnable=0' \
+    'Device.WiFi.Radio.2.AutoChannelEnable=0' \
+    'Device.WiFi.Radio.3.AutoChannelEnable=0'
+
+  # Set 2.4GHz radio channel to 1
+  check_output wifi_dm "Radio.[OperatingFrequencyBand==\"2.4GHz\"].Channel=1" -- \
+    'Device.WiFi.Radio.1.Channel=1'
+
+  # Set 5GHz radio channel to 36 (non DFS)
+  check_output wifi_dm "Radio.[OperatingFrequencyBand==\"5GHz\"].Channel=36" -- \
+    'Device.WiFi.Radio.2.Channel=36'
+
+  # Set 6GHz radio channel to 37
+  check_output wifi_dm "Radio.[OperatingFrequencyBand==\"6GHz\"].Channel=37" -- \
+    'Device.WiFi.Radio.3.Channel=37'
 }

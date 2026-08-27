@@ -3,16 +3,14 @@ Create R alias:
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
   $ . "${TESTDIR}/../scripts/wifi.sh"
 
-  $ R logger -t cram "Starting bSTAMLD test 1/2 ..."
+  $ R logger -t cram "Starting $TESTFILE"
 
 Stop prplMesh:
 
-  $ R logger -t cram "Stop prplmesh"
+  $ check_wifi_defaults
+  $ testbed_set_wifi_defaults
 
-  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=0" | tr -d '\n'
-  0 (no-eol)
-
-  $ sleep 2
+  $ prplmesh_stop
 
 Check default configuration:
 
@@ -316,4 +314,4 @@ Check bSTAMLD DM:
   Device.WiFi.bSTAMLD.2.bSTAMLDConfig.STREnabled=0
   Device.WiFi.bSTAMLD.2.bSTAMLDConfig.UseNeighborProfile=1
 
-  $ R logger -t cram "bSTAMLD test 1/2 finished!"
+  $ R logger -t cram "$TESTFILE finished!"

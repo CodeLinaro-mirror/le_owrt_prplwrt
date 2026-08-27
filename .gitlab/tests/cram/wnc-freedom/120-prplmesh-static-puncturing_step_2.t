@@ -3,7 +3,7 @@ Create R alias:
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
   $ . "${TESTDIR}/../scripts/wifi.sh"
 
-  $ R "logger -t cram 'Starting prplMesh static puncturing test 2/2 ...'"
+  $ R logger -t cram "Starting $TESTFILE"
 
 Push 0b0000 0d00 - clear Radio.StaticPuncturing.DisabledSubChannels list:
 
@@ -43,12 +43,7 @@ Restore defaults:
 
   $ sleep 10
 
-  $ R logger -t cram "Stop prplmesh"
-
-  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=0" | tr -d '\n'
-  0 (no-eol)
-
-  $ sleep 2
+  $ prplmesh_stop
   $ R "sed -i 's/use_dataelements_vap_configs=1/use_dataelements_vap_configs=0/g' /opt/prplmesh/config/beerocks_controller.conf"
 
 Disable all AP:
@@ -80,13 +75,13 @@ Check AccessPoints status:
   Device.WiFi.AccessPoint.8.Status="Disabled"
   Device.WiFi.AccessPoint.9.Status="Disabled"
 
+Restore default MLDUnits:
+
+  $ set_default_ap_mldunit
+  $ sleep 5
+
 Restart prplmesh:
 
-  $ R logger -t cram "Restart prplmesh"
-  $ R "ba-cli X_PRPLWARE-COM_ProcessManager.PrplMesh.ManagementMode=Multi-AP-Controller-and-Agent"  > /dev/null
-  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=1" | tr -d '\n'
-  1 (no-eol)
+  $ prplmesh_start
 
-  $ R "amx_poll_object usp Device.WiFi.DataElements.Network.Device.1. 20"
-
-  $ R logger -t cram "Test finished!"
+  $ R logger -t cram "$TESTFILE finished!"

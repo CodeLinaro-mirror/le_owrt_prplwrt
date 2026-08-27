@@ -3,32 +3,12 @@ Create R alias:
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
   $ . "${TESTDIR}/../scripts/wifi.sh"
 
-  $ R logger -t cram "Starting PWHM WPA3-CM test ..."
+  $ R logger -t cram "Starting $TESTFILE"
 
-Wait for PWHM and add timeout for it to connect to mapper:
-  $ R "amx_wait_for WiFi.Radio."
-  $ sleep 5
+  $ check_wifi_defaults
+  $ testbed_set_wifi_defaults
 
-Set AutoChannelEnable=0 on all Device.WiFi.Radio. interfaces:
-
-  $ R "ba-cli -j -l WiFi.Radio.*.AutoChannelEnable=0 | sed '/^$/d'"
-  [{"WiFi.Radio.1.":{"AutoChannelEnable":0},"WiFi.Radio.2.":{"AutoChannelEnable":0},"WiFi.Radio.3.":{"AutoChannelEnable":0}}]
-
-Set channel to a non DFS one:
-
-  $ R "usp-cli -j -l Device.WiFi.Radio.2.Channel=36 | sed '/^$/d'"
-  [{"Device.WiFi.Radio.2.":{"Channel":36}}]
-
-  $ sleep 5
-
-Stop prplmesh:
-
-  $ R logger -t cram "Stop prplmesh"
-
-  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=0" | tr -d '\n'
-  0 (no-eol)
-
-  $ sleep 2
+  $ prplmesh_stop
 
 Silently disable MLO:
 
@@ -216,15 +196,6 @@ Restore default controller config:
 
   $ R logger -t cram "Restart prplmesh"
 
-  $ R "ba-cli X_PRPLWARE-COM_ProcessManager.PrplMesh.ManagementMode=Multi-AP-Controller-and-Agent"  > /dev/null
-  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=1" | tr -d '\n'
-  1 (no-eol)
+  $ prplmesh_start
 
-  $ R "ubus -t 60 wait_for X_PRPLWARE-COM_WiFiController.Network.Device.1"
-
-Check that prplmesh is running:
-
-  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Status?" | tr -d '\n'
-  Active (no-eol)
-
-  $ R logger -t cram "Finishing PWHM WPA3-CM test ..."
+  $ R logger -t cram "$TESTFILE finished!"
