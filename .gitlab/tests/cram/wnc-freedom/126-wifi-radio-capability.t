@@ -3,6 +3,8 @@ WiFi.Radio.*.Capabilities same as DataElements Device.1.Radio.*.Capabilities
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
   $ . "${TESTDIR}/../scripts/prplmesh_ap_mld.sh"
 
+  $ R logger -t cram "Starting $TESTFILE"
+
 Check Controller, Agent,FrontHaul process are Running:
 
   $ prplmesh_enable_mlo
@@ -124,4 +126,4 @@ Compare: same => OK, else MISMATCH and show both:
 
 Final log:
 
-  $ R logger -t cram "Radio Capability Test Completed!"
+  $ R logger -t cram "$TESTFILE finished!"

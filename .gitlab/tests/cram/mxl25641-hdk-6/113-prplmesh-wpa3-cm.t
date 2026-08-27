@@ -3,21 +3,10 @@ Create R alias:
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
   $ . "${TESTDIR}/../scripts/wifi.sh"
 
-  $ R logger -t cram "Starting prplMesh WPA3-CM test ..."
+  $ R logger -t cram "Starting $TESTFILE"
 
-  $ R "amx_wait_for Device.WiFi"
-
-Set AutoChannelEnable=0 on all WiFi.Radio. interfaces:
-
-  $ wifi_dm "Radio.*.AutoChannelEnable=0"
-  Device.WiFi.Radio.1.AutoChannelEnable=0
-  Device.WiFi.Radio.2.AutoChannelEnable=0
-  Device.WiFi.Radio.3.AutoChannelEnable=0
-
-Set channel to a non DFS one:
-
-  $ wifi_dm "Radio.2.Channel=36"
-  Device.WiFi.Radio.2.Channel=36 (re)
+  $ check_wifi_defaults
+  $ testbed_set_wifi_defaults
 
 Check default SecMode:
 
@@ -44,22 +33,10 @@ Check if private/guest VAPs contain WPA3-Personal-Compatibility in the Security.
 
 Configure controller for NBAPI configuration:
 
-  $ R logger -t cram "Stop prplmesh"
-
-  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=0" | tr -d '\n'
-  0 (no-eol)
-
-  $ sleep 2
+  $ prplmesh_stop
   $ R "sed -i 's/use_dataelements_vap_configs=0/use_dataelements_vap_configs=1/g' /opt/prplmesh/config/beerocks_controller.conf"
-  $ R logger -t cram "Restart prplmesh"
-  $ R "ba-cli X_PRPLWARE-COM_ProcessManager.PrplMesh.ManagementMode=Multi-AP-Controller-and-Agent"  > /dev/null
-  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=1" | tr -d '\n'
-  1 (no-eol)
-  $ sleep 15
+  $ prplmesh_start
 
-  $ R "ubus -t 60 wait_for X_PRPLWARE-COM_WiFiController.Network.Device.1"
-
-  $ sleep 10
 
 Set WPA3-Personal-Compatibility and check that : 1. Controller reads it correctly, 2. triggers reconfiguration, and 3. agent applies the correct value:
 
@@ -227,12 +204,7 @@ Restore security modes in two steps: WPA3 Transition to 2.4GHz/5GHz and then WPA
 
   $ sleep 5
 
-  $ R logger -t cram "Stop prplmesh"
-
-  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=0" | tr -d '\n'
-  0 (no-eol)
-
-  $ sleep 2
+  $ prplmesh_stop
   $ R "sed -i 's/use_dataelements_vap_configs=1/use_dataelements_vap_configs=0/g' /opt/prplmesh/config/beerocks_controller.conf"
 
 Disable private vaps:
@@ -256,13 +228,13 @@ Disable private vaps:
   $ check_ap_ref_ssid 1 Down
   Device.WiFi.AccessPoint.1 SSID Reference is Down
 
+Force restoring pwhm default MLDUnit:
+
+  $ set_default_ap_mldunit
+  $ sleep 10
+
 Restart prplmesh:
 
-  $ R logger -t cram "Restart prplmesh"
-  $ R "ba-cli X_PRPLWARE-COM_ProcessManager.PrplMesh.ManagementMode=Multi-AP-Controller-and-Agent"  > /dev/null
-  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=1" | tr -d '\n'
-  1 (no-eol)
+  $ prplmesh_start
 
-  $ R "amx_wait_for X_PRPLWARE-COM_WiFiController.Network.Device.1"
-
-  $ R logger -t cram "Test finished!"
+  $ R logger -t cram "$TESTFILE finished!"

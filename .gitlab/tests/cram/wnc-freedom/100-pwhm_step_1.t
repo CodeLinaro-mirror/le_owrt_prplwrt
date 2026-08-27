@@ -5,66 +5,12 @@ Create R alias:
   $ alias C="${CRAM_REMOTE_COPY:-}"
   $ C ${TESTDIR}/../scripts/target/usp-events.lua root@${TARGET_LAN_IP}:/tmp/usp-event.lua 2>/dev/null
 
+  $ R logger -t cram "Starting $TESTFILE"
 
-Set MLDUnitSetting='Required' for all radios
-  $ R "ba-cli -l -a \"protected; WiFi.Radio.*.IEEE80211be.MLDUnitSetting='Required'\" | grep Required | wc -l"
-  3
+  $ check_wifi_defaults
+  $ testbed_set_wifi_defaults
 
-  $ R "logger -t cram 'Starting PWHM test (step 1) ...'"
-
-Wait for Device.WiFi. datamodel availability:
-
-  $ R "amx_wait_for Device.WiFi."
-
-Stop prplMesh:
-
-  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=0" | tr -d '\n'
-  0 (no-eol)
-
-  $ sleep 2
-
-Set AutoChannelEnable=0 on all Device.WiFi.Radio. interfaces:
-
-  $ wifi_dm "Radio.*.AutoChannelEnable=0"
-  Device.WiFi.Radio.1.AutoChannelEnable=0
-  Device.WiFi.Radio.2.AutoChannelEnable=0
-  Device.WiFi.Radio.3.AutoChannelEnable=0
-
-Set channel to a non DFS one:
-
-  $ wifi_dm "Radio.2.Channel=36"
-  Device.WiFi.Radio.2.Channel=36 (re)
-
-Check default SSID status:
-
-  $ get_ap_status
-  Device.WiFi.AccessPoint.1.Status="Disabled"
-  Device.WiFi.AccessPoint.2.Status="Disabled"
-  Device.WiFi.AccessPoint.3.Status="Disabled"
-  Device.WiFi.AccessPoint.4.Status="Disabled"
-  Device.WiFi.AccessPoint.5.Status="Disabled"
-  Device.WiFi.AccessPoint.6.Status="Disabled"
-  Device.WiFi.AccessPoint.7.Status="Disabled"
-  Device.WiFi.AccessPoint.8.Status="Disabled"
-  Device.WiFi.AccessPoint.9.Status="Disabled"
-
-Check default SSID configuration of access points:
-
-  $ get_ap_ssid
-  AccessPoint.1.SSID="prplOS"
-  AccessPoint.2.SSID="prplOS-guest"
-  AccessPoint.3.SSID="prplOS"
-  AccessPoint.4.SSID="prplOS-guest"
-  AccessPoint.5.SSID="prplOS"
-  AccessPoint.6.SSID="prplOS-guest"
-  AccessPoint.7.SSID="backhaul_(AC:91:9B|58:E4:03|10:E8:A7):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}" (re)
-  AccessPoint.8.SSID="backhaul_(AC:91:9B|58:E4:03|10:E8:A7):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}" (re)
-  AccessPoint.9.SSID="backhaul_(AC:91:9B|58:E4:03|10:E8:A7):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}" (re)
-
-Check that no hostapd instance is running:
-
-  $ R "pgrep -f 'hostapd'"
-  [1]
+  $ prplmesh_stop
 
 #####################################
 # Test activation of access point 1 #
@@ -521,3 +467,4 @@ Check if hostap pid has changed or not:
   $ if [ "$(R pgrep -f 'hostapd')" = "$hostap_pid" ]; then echo "true"; else echo "hostap restarted during the test !"; fi
   true
 
+  $ R logger -t cram "$TESTFILE finished!"

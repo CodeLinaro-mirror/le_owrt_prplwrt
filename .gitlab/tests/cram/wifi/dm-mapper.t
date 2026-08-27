@@ -2,7 +2,7 @@ Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
-  $ R logger -t cram "Starting DM Mapper test ..."
+  $ R logger -t cram "Starting $TESTFILE"
 
 Check Ubus DM and DataModelMapper USP DM shows same values
 
@@ -13,7 +13,7 @@ Check Ubus DM and DataModelMapper USP DM shows same values
   $ [ "$WIFI_SSID_1" = "$MAPPED_WIFI_SSID_1" ]
   $ [ "$USP_WIFI_SSID_1" = "$MAPPED_WIFI_SSID_1" ]
 
-Change a DM from Ubus and Check Again:
+Change a DM from Ubus and Check Again (2.4GHz private vap SSID):
 
   $ R "ba-cli -j -l WiFi.SSID.1.SSID=\"prplOSnew\" | sed '/^$/d'"
   [{"WiFi.SSID.1.":{"SSID":"prplOSnew"}}]
@@ -27,7 +27,7 @@ Change a DM from Ubus and Check Again:
   $ [ "$WIFI_SSID_1" = "$MAPPED_WIFI_SSID_1" ]
   $ [ "$USP_WIFI_SSID_1" = "$MAPPED_WIFI_SSID_1" ]
  
-Change a DM from Mapper and Check Again:
+Change a DM from Mapper and Check Again (2.4GHz endpoint SSID):
 
   $ R "obuspa -f /etc/obuspa.db -c set Device.WiFi.SSID.2.SSID \"prplOSnew2\""
   Device.WiFi.SSID.2.SSID => prplOSnew2
@@ -64,5 +64,11 @@ Write to non-existent parameter must fail:
   $ R "usp-cli -j -l Device.WiFi.AccessPoint.1.NotExist=param 2>&1 | sed '/^$/d' | sed 's/ failed.*/ failed is OK/'"
   ERROR: set Device.WiFi.AccessPoint.1.NotExist failed is OK
 
+Restore 2.4GHz private vap SSID:
+
+  $ R "ba-cli -j -l WiFi.SSID.1.SSID=\"prplOS\" | sed '/^$/d'"
+  [{"WiFi.SSID.1.":{"SSID":"prplOS"}}]
+
   $ R logger -t cram "Finished DM Mapper test."
 
+  $ R logger -t cram "$TESTFILE finished!"

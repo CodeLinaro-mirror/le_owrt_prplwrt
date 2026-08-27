@@ -3,21 +3,12 @@ Create R alias:
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
   $ . "${TESTDIR}/../scripts/wifi.sh"
 
-  $ R "logger -t cram 'Starting EHT Operations test (step 1) ...'"
+  $ R logger -t cram "Starting $TESTFILE"
 
-Stop prplMesh:
+  $ check_wifi_defaults
+  $ testbed_set_wifi_defaults
 
-  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=0" | tr -d '\n'
-  0 (no-eol)
-
-  $ sleep 2
-
-Set AutoChannelEnable=0 on all WiFi.Radio. interfaces:
-
-  $ wifi_dm "Radio.*.AutoChannelEnable=0"
-  Device.WiFi.Radio.1.AutoChannelEnable=0
-  Device.WiFi.Radio.2.AutoChannelEnable=0
-  Device.WiFi.Radio.3.AutoChannelEnable=0
+  $ prplmesh_stop
 
 Configure radio:
 
@@ -275,3 +266,5 @@ Check that all radios and private vaps are still up:
 
   $ wifi_dm "AccessPoint.5.Status?0"
   Device.WiFi.AccessPoint.5.Status="Enabled"
+
+  $ R logger -t cram "$TESTFILE finished!"

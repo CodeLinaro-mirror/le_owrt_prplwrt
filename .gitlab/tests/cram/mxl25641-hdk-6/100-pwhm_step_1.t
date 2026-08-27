@@ -5,63 +5,12 @@ Create R alias:
   $ alias C="${CRAM_REMOTE_COPY:-}"
   $ C ${TESTDIR}/../scripts/target/usp-events.lua root@${TARGET_LAN_IP}:/tmp/usp-event.lua 2>/dev/null
 
-  $ R "logger -t cram 'Starting PWHM test (step 1) ...'"
+  $ R logger -t cram "Starting $TESTFILE"
 
-Wait for Device.WiFi. datamodel availability:
+  $ check_wifi_defaults
+  $ testbed_set_wifi_defaults
 
-  $ R "amx_wait_for 'Device.WiFi.Radio.'"
-
-  $ sleep 10
-
-Stop prplMesh:
-
-  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=0" | tr -d '\n'
-  0 (no-eol)
-
-  $ sleep 2
-
-Set AutoChannelEnable=0 on all Device.WiFi.Radio. interfaces:
-
-  $ R "ba-cli -j -l WiFi.Radio.*.AutoChannelEnable=0 | sed '/^$/d'"
-  [{"WiFi.Radio.1.":{"AutoChannelEnable":0},"WiFi.Radio.2.":{"AutoChannelEnable":0},"WiFi.Radio.3.":{"AutoChannelEnable":0}}]
-
-Set channel to a non DFS one:
-
-  $ R "usp-cli -j -l Device.WiFi.Radio.2.Channel=36 | sed '/^$/d'"
-  [{"Device.WiFi.Radio.2.":{"Channel":36}}]
-
-  $ sleep 5
-
-Check default SSID status:
-
-  $ get_ssid_status
-  Down
-  Down
-  Down
-  Down
-  Down
-  Down
-  Down
-  Down
-  Down
-
-Check default SSID configuration of access points:
-
-  $ R "usp-cli -j -l Device.WiFi.SSID.?0 | jsonfilter -e @[0]'[@.Alias != \"ep2g0\" && @.Alias != \"ep5g0\" && @.Alias != \"ep6g0\"].SSID'" | LC_ALL=C sort
-  backhaul_(4C:BA:7D|A8:C2:46|AC:9A:96):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
-  backhaul_(4C:BA:7D|A8:C2:46|AC:9A:96):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
-  backhaul_(4C:BA:7D|A8:C2:46|AC:9A:96):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
-  prplOS
-  prplOS
-  prplOS
-  prplOS-guest
-  prplOS-guest
-  prplOS-guest
-
-Check that no hostapd instance is running:
-
-  $ R "pgrep -f 'hostapd -ddt'"
-  [1]
+  $ prplmesh_stop
 
 USP events: Before enabling the first vap, let's start testing usp events.
 Check pwhm usp socket:
@@ -295,3 +244,5 @@ Test activation of access point 9:
   Up
   Up
   Up
+
+  $ R logger -t cram "$TESTFILE finished!"

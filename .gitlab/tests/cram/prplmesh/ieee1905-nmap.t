@@ -2,6 +2,8 @@ Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
+  $ R logger -t cram "Starting $TESTFILE"
+
 This test runs after the other prplMesh tests because changing the management mode restarts prplMesh.
 On multi-device testbeds, rediscovering a remote AL after restoring Controller+Agent mode can take over 60 seconds.
 
@@ -58,3 +60,5 @@ Restore Controller+Agent mode:
 
   $ R ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Status? | tr -d '\n'
   Active (no-eol)
+
+  $ R logger -t cram "$TESTFILE finished!"

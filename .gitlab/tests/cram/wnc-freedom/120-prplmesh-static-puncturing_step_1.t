@@ -3,40 +3,16 @@ Create R alias:
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
   $ . "${TESTDIR}/../scripts/wifi.sh"
 
-  $ R "logger -t cram 'Starting prplMesh static puncturing test 1/2 ...'"
+  $ R logger -t cram "Starting $TESTFILE"
 
-Set AutoChannelEnable=0 on all WiFi.Radio. interfaces:
+  $ check_wifi_defaults
+  $ testbed_set_wifi_defaults
 
-  $ wifi_dm "Radio.*.AutoChannelEnable=0"
-  Device.WiFi.Radio.1.AutoChannelEnable=0
-  Device.WiFi.Radio.2.AutoChannelEnable=0
-  Device.WiFi.Radio.3.AutoChannelEnable=0
+Configure controller:
 
-Set channel to a non DFS one:
-
-  $ wifi_dm "Radio.[OperatingFrequencyBand==\"5GHz\"].Channel=36"
-  Device.WiFi.Radio.\d+.Channel=36 (re)
-
-  $ sleep 5
-
-Configure controller, requires PPM-3022 to work:
-
-  $ R logger -t cram "Stop prplmesh"
-
-  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=0" | tr -d '\n'
-  0 (no-eol)
-
-  $ sleep 2
+  $ prplmesh_stop
   $ R "sed -i 's/use_dataelements_vap_configs=0/use_dataelements_vap_configs=1/g' /opt/prplmesh/config/beerocks_controller.conf"
-
-Restart prplmesh:
-
-  $ R logger -t cram "Restart prplmesh"
-  $ R "ba-cli X_PRPLWARE-COM_ProcessManager.PrplMesh.ManagementMode=Multi-AP-Controller-and-Agent"  > /dev/null
-  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=1" | tr -d '\n'
-  1 (no-eol)
-
-  $ R "amx_wait_for X_PRPLWARE-COM_WiFiController.Network.Device.1"
+  $ prplmesh_start
 
 Disable all AP:
 
@@ -149,4 +125,4 @@ Check hostapd configuration:
   $ R "cat /tmp/wlan1_hapd.conf | grep punct"
   punct_bitmap=2
 
-  $ R logger -t cram "prplMesh static puncturing test 1/2 finished !"
+  $ R logger -t cram "$TESTFILE finished!"

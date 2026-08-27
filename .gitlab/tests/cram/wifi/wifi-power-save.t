@@ -3,7 +3,12 @@ Create R alias:
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
   $ . "${TESTDIR}/../scripts/wifi.sh"
 
-  $ R logger -t cram "Starting PWHM power save test ..."
+  $ R logger -t cram "Starting $TESTFILE"
+
+  $ check_wifi_defaults
+  $ testbed_set_wifi_defaults
+
+  $ prplmesh_stop
 
 Check RadioPowerSave configuration defaults:
 
@@ -20,14 +25,6 @@ Check RadioPowerSave configuration defaults:
   Device.WiFi.Radio.3.X_PRPLWARE-COM_RadioPowerSave.SteerBandPrio="Lowest"
   Device.WiFi.Radio.3.X_PRPLWARE-COM_RadioPowerSave.SteerPeriod=1000
   Device.WiFi.Radio.3.X_PRPLWARE-COM_RadioPowerSave.SteerRetries=1
-
-Stop prplMesh:
-
-  $ R logger -t cram "Stop prplMesh"
-  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=0" | tr -d '\n'
-  0 (no-eol)
-
-  $ sleep 5
 
 Enable all AccessPoints:
 
@@ -160,9 +157,6 @@ Check radio status:
 
 Resume prplMesh:
 
-  $ R logger -t cram "Resume prplMesh"
-  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=1" | tr -d '\n'
-  1 (no-eol)
+  $ prplmesh_start
 
-  $ sleep 10
-  $ R logger -t cram "Test finished!"
+  $ R logger -t cram "$TESTFILE finished!"

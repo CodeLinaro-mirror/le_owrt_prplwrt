@@ -2,6 +2,8 @@ Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
+  $ R logger -t cram "Starting $TESTFILE"
+
 Select the number of prplMesh devices in the testbed:
 
   $ if echo "$CI_RUNNER_DESCRIPTION" | grep -q testbed-02; then expected_devices=2; else expected_devices=1; fi
@@ -52,3 +54,5 @@ Check that disabling and enabling the IEEE1905 model works:
   $ ieee1905_count="$(R ba-cli -l IEEE1905.Network.ALNumberOfEntries? | tr -d '\n')"
   $ test "$ieee1905_count" = "$expected_devices" && echo ok || { echo "IEEE1905 device count mismatch after enabling: actual=$ieee1905_count expected=$expected_devices"; false; }
   ok
+
+  $ R logger -t cram "$TESTFILE finished!"
