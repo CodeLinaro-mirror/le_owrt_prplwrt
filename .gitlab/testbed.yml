@@ -20,7 +20,7 @@
     DUT_TR181_LAN_INTERFACE: Device.Ethernet.Link.3.
     DUT_OBUSPA_VERBOSE_LEVEL: ''
     DUT_OBUSPA_PROTOCOL_TRACE: ''
-    TEST_SETUP_TEARDOWN_DURATION: 360
+    TEST_TEARDOWN_RESERVE: 180
     CRAM_REMOTE_COMMAND: ssh -n root@$TARGET_LAN_IP
     CRAM_REMOTE_COPY: scp -O -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
     CRAM_TEST_SUITE: |
@@ -114,8 +114,10 @@
     - section_start "test-execution" "Test Execution${COMPONENT:+ [$COMPONENT]}" "expanded"
 
     - |
-      TEST_CUTOFF_TIMEOUT=$((CI_JOB_TIMEOUT - DUT_SLEEP_AFTER_BOOT - TEST_SETUP_TEARDOWN_DURATION))
-      echo "Job timeout: $CI_JOB_TIMEOUT seconds, test cutoff timeout: $TEST_CUTOFF_TIMEOUT seconds"
+      JOB_ELAPSED=$(( $(date +%s) - $(date -d "$CI_JOB_STARTED_AT" +%s) ))
+      TEST_CUTOFF_TIMEOUT=$((CI_JOB_TIMEOUT - JOB_ELAPSED - TEST_TEARDOWN_RESERVE))
+      if [ "$TEST_CUTOFF_TIMEOUT" -lt 60 ]; then TEST_CUTOFF_TIMEOUT=60; fi
+      echo "Job timeout: $CI_JOB_TIMEOUT seconds, elapsed: $JOB_ELAPSED seconds, test cutoff timeout: $TEST_CUTOFF_TIMEOUT seconds"
 
     - |
       rm -fr .run_check_failed
