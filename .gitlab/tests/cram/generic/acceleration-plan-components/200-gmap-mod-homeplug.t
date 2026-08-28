@@ -1,6 +1,7 @@
-Create R alias:
+Create R alias and wait for gmap to sync:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
+  $ sleep 3
 
 Verification of main parameters:
 
