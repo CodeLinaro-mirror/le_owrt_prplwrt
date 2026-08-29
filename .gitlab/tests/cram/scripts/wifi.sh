@@ -854,4 +854,10 @@ testbed_set_wifi_defaults() {
   # Set 6GHz radio channel to 37
   check_output wifi_dm "Radio.[OperatingFrequencyBand==\"6GHz\"].Channel=37" -- \
     'Device.WiFi.Radio.3.Channel=37'
+
+  # Set default MLDUnitSetting
+  check_output wifi_dm "Radio.*.IEEE80211be.MLDUnitSetting='Required'" "WiFi." "ba-cli" "protected" -- \
+    'WiFi.Radio.1.IEEE80211be.MLDUnitSetting="Required"' \
+    'WiFi.Radio.2.IEEE80211be.MLDUnitSetting="Required"' \
+    'WiFi.Radio.3.IEEE80211be.MLDUnitSetting="Required"'
 }
