@@ -301,9 +301,10 @@ Force restoring pwhm default MLDUnit:
   $ prplmesh_stop
 
   $ set_default_ap_mldunit
-  $ sleep 10
+  $ sleep 5
 
   $ prplmesh_start
+  $ sleep 10
 
 Check the default ChipsetVendor param configurations:
 
