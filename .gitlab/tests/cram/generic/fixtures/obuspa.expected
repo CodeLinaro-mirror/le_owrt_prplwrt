@@ -607,6 +607,11 @@ Device.DeviceInfo.KernelFaults.PreviousBootCount                                
 Device.DeviceInfo.KernelFaults.RemoveAllKernelFaults()                                               proto::oopsmonitor
 Device.DeviceInfo.KernelFaults.StoragePath                                                           proto::oopsmonitor
 Device.DeviceInfo.Location.{i}.                                                                      proto::deviceinfo-manager
+Device.DeviceInfo.Location.{i}.AcquiredTime                                                          proto::deviceinfo-manager
+Device.DeviceInfo.Location.{i}.DataObject                                                            proto::deviceinfo-manager
+Device.DeviceInfo.Location.{i}.ExternalProtocol                                                      proto::deviceinfo-manager
+Device.DeviceInfo.Location.{i}.ExternalSource                                                        proto::deviceinfo-manager
+Device.DeviceInfo.Location.{i}.Source                                                                proto::deviceinfo-manager
 Device.DeviceInfo.LocationNumberOfEntries                                                            proto::deviceinfo-manager
 Device.DeviceInfo.LogRotate.{i}.                                                                     proto::deviceinfo-manager
 Device.DeviceInfo.LogRotate.{i}.Alias                                                                proto::deviceinfo-manager
