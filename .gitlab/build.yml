@@ -131,11 +131,6 @@
           make package/install V=s 2>&1 | tee --append logs/build.log
           grep -C5 'Collected errors:' logs/build.log
         }
-        echo '[!] ERROR: build failed'
-        exit 1
-      " ERR
-    - >
-      trap "
         grep -qz 'ERROR: target/linux failed to build' logs/build.log && {
           echo '[!] ERROR: target/linux seems to fail, enabling verbose output'
           make target/install -j $(nproc) V=s 2>&1 | tee --append logs/build.log
