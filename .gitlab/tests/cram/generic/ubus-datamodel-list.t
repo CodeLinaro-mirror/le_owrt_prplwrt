@@ -601,4 +601,3 @@ Check that ubus has expected datamodels available:
   X_PRPLWARE-COM_WiFiMapped.WiFi.X_PRPLWARE-COM_WiFiSensing
   X_PRPLWARE-COM_WiFiSensing
   X_PRPLWARE-COM_WiFiSensing.Session
-  X_PRPLWARE-COM_WiFiSensing.Session.Exchange
