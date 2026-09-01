@@ -20,7 +20,7 @@
     DUT_TR181_LAN_INTERFACE: Device.Ethernet.Link.3.
     DUT_OBUSPA_VERBOSE_LEVEL: ''
     DUT_OBUSPA_PROTOCOL_TRACE: ''
-    TEST_TEARDOWN_RESERVE: 180
+    TEST_TEARDOWN_RESERVE: 4620
     CRAM_REMOTE_COMMAND: ssh -n root@$TARGET_LAN_IP
     CRAM_REMOTE_COPY: scp -O -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
     CRAM_TEST_SUITE: |
