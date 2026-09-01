@@ -4,13 +4,14 @@ Create R alias:
 
 Start udpst server:
 
-  $ R "udpst -x -T"
+  $ R "udpst -x -T -p 25000 -B 10000"
 
 Set the test parameters:
 
   $ R "ba-cli 'IPDiagnostics.IPLayerCapacityMetrics.ServerList=127.0.0.1:25000'" >/dev/null
   $ R "ba-cli 'IPDiagnostics.IPLayerCapacityMetrics.Interface=Device.IP.Interface.1.'" >/dev/null
   $ R "ba-cli 'IPDiagnostics.IPLayerCapacityMetrics.NumberTestSubIntervals=5'" >/dev/null
+  $ R "ba-cli 'IPDiagnostics.IPLayerCapacityMetrics.MaximumTestBandwidth=1000'" >/dev/null
 
 Test 1. Initiate diagnostic test and verify DiagnosticsState transitions:
 
@@ -199,7 +200,7 @@ Modify writable parameter via CWMP DataModel:
 
 Start test via USP command:
 
-  $ R "ubus call IPDiagnostics IPLayerCapacity '{\"Role\":\"Sender\", \"ServerList\":\"127.0.0.1:25000\"}'" | jq -s '.[2]["amxd-error-code"]'
+  $ R "ubus call IPDiagnostics IPLayerCapacity '{\"Role\":\"Sender\", \"ServerList\":\"127.0.0.1:25000\", \"MaximumTestBandwidth\":1000}'" | jq -s '.[2]["amxd-error-code"]'
   0
 
 Verify DiagnosticsState is Complete after test completion:
@@ -234,7 +235,7 @@ Start test via CWMP command:
   $ R "ba-cli 'IPDiagnostics.IPLayerCapacityMetrics.NumberFirstModeTestSubIntervals=1'" >/dev/null
   $ R "ba-cli 'IPDiagnostics.IPLayerCapacityMetrics.DiagnosticsState=Requested'" >/dev/null
   $ sleep 2
-  $ R "ubus call IPDiagnostics IPLayerCapacity '{\"Role\":\"Sender\", \"ServerList\":\"127.0.0.1:25000\"}'" | jq -s '.[2]["amxd-error-code"]'
+  $ R "ubus call IPDiagnostics IPLayerCapacity '{\"Role\":\"Sender\", \"ServerList\":\"127.0.0.1:25000\", \"MaximumTestBandwidth\":1000}'" | jq -s '.[2]["amxd-error-code"]'
   0
 
 Verify DiagnosticsState is Complete after test completion:
@@ -266,7 +267,7 @@ Test 8. USP to CWMP; nearest command (CWMP) should execute:
 
 Start test via USP command:
 
-  $ R "ubus call IPDiagnostics IPLayerCapacity '{\"Role\":\"Sender\", \"ServerList\":\"127.0.0.1:25000\"}'&"
+  $ R "ubus call IPDiagnostics IPLayerCapacity '{\"Role\":\"Sender\", \"ServerList\":\"127.0.0.1:25000\", \"MaximumTestBandwidth\":1000}'&"
   $ sleep 2
 
 Start test via CWMP DataModel:
@@ -305,6 +306,7 @@ Restore original parameter:
 
   $ R "ba-cli 'IPDiagnostics.IPLayerCapacityMetrics.NumberFirstModeTestSubIntervals=0'" >/dev/null
   $ R "ba-cli 'IPDiagnostics.IPLayerCapacityMetrics.NumberTestSubIntervals=10'" >/dev/null
+  $ R "ba-cli 'IPDiagnostics.IPLayerCapacityMetrics.MaximumTestBandwidth=0'" >/dev/null
   $ R "ba-cli 'IPDiagnostics.IPLayerCapacityMetrics.Interface=Device.IP.Interface.2.'" >/dev/null
 
 Stop udpst server:
