@@ -4,13 +4,14 @@ Create R alias:
 
 Start udpst server:
 
-  $ R "udpst -x -T"
+  $ R "udpst -x -T -p 25000 -B 10000"
 
 Set the test parameters:
 
   $ R "ba-cli 'IPDiagnostics.IPLayerCapacityMetrics.ServerList=127.0.0.1:25000'" >/dev/null
   $ R "ba-cli 'IPDiagnostics.IPLayerCapacityMetrics.Interface=Device.IP.Interface.1.'" >/dev/null
   $ R "ba-cli 'IPDiagnostics.IPLayerCapacityMetrics.NumberTestSubIntervals=5'" >/dev/null
+  $ R "ba-cli 'IPDiagnostics.IPLayerCapacityMetrics.MaximumTestBandwidth=1000'" >/dev/null
 
 Test 1. Initiate diagnostic test and verify DiagnosticsState transitions:
 
@@ -305,6 +306,7 @@ Restore original parameter:
 
   $ R "ba-cli 'IPDiagnostics.IPLayerCapacityMetrics.NumberFirstModeTestSubIntervals=0'" >/dev/null
   $ R "ba-cli 'IPDiagnostics.IPLayerCapacityMetrics.NumberTestSubIntervals=10'" >/dev/null
+  $ R "ba-cli 'IPDiagnostics.IPLayerCapacityMetrics.MaximumTestBandwidth=0'" >/dev/null
   $ R "ba-cli 'IPDiagnostics.IPLayerCapacityMetrics.Interface=Device.IP.Interface.2.'" >/dev/null
 
 Stop udpst server:
