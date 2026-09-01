@@ -1372,6 +1372,22 @@ Device.IP.Diagnostics.DownloadDiagnostics() input:ProtocolVersion
 Device.IP.Diagnostics.DownloadDiagnostics() input:TimeBasedTestDuration
 Device.IP.Diagnostics.DownloadDiagnostics() input:TimeBasedTestMeasurementInterval
 Device.IP.Diagnostics.DownloadDiagnostics() input:TimeBasedTestMeasurementOffset
+Device.IP.Diagnostics.DownloadDiagnostics() output:Status                                            proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.DownloadDiagnostics() output:IPAddressUsed                                     proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.DownloadDiagnostics() output:ROMTime                                           proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.DownloadDiagnostics() output:BOMTime                                           proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.DownloadDiagnostics() output:EOMTime                                           proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.DownloadDiagnostics() output:TestBytesReceived                                 proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.DownloadDiagnostics() output:TotalBytesReceived                                proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.DownloadDiagnostics() output:TotalBytesSent                                    proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.DownloadDiagnostics() output:TestBytesReceivedUnderFullLoading                 proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.DownloadDiagnostics() output:TotalBytesReceivedUnderFullLoading                proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.DownloadDiagnostics() output:TotalBytesSentUnderFullLoading                    proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.DownloadDiagnostics() output:PeriodOfFullLoading                               proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.DownloadDiagnostics() output:TCPOpenRequestTime                                proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.DownloadDiagnostics() output:TCPOpenResponseTime                               proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.DownloadDiagnostics() output:PerConnectionResult                               proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.DownloadDiagnostics() output:IncrementalResult                                 proto::tr181-ipdiagnostics
 Device.IP.Diagnostics.DownloadDiagnostics.                                                           proto::tr181-ipdiagnostics
 Device.IP.Diagnostics.DownloadDiagnostics.BOMTime                                                    proto::tr181-ipdiagnostics
 Device.IP.Diagnostics.DownloadDiagnostics.DSCP                                                       proto::tr181-ipdiagnostics
@@ -1467,6 +1483,43 @@ Device.IP.Diagnostics.IPLayerCapacity() input:UDPPayloadContent
 Device.IP.Diagnostics.IPLayerCapacity() input:UDPPayloadMax
 Device.IP.Diagnostics.IPLayerCapacity() input:UDPPayloadMin
 Device.IP.Diagnostics.IPLayerCapacity() input:UpperThresh
+Device.IP.Diagnostics.IPLayerCapacity() output:Status                                                proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.IPLayerCapacity() output:StatusCode                                            proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.IPLayerCapacity() output:StatusMessage                                         proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.IPLayerCapacity() output:BOMTime                                               proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.IPLayerCapacity() output:EOMTime                                               proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.IPLayerCapacity() output:TmaxUsed                                              proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.IPLayerCapacity() output:TestInterval                                          proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.IPLayerCapacity() output:MaxIPLayerCapacity                                    proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.IPLayerCapacity() output:TimeOfMax                                             proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.IPLayerCapacity() output:MaxETHCapacityNoFCS                                   proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.IPLayerCapacity() output:MaxETHCapacityWithFCS                                 proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.IPLayerCapacity() output:MaxETHCapacityWithFCSVLAN                             proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.IPLayerCapacity() output:LossRatioAtMax                                        proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.IPLayerCapacity() output:RTTRangeAtMax                                         proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.IPLayerCapacity() output:PDVRangeAtMax                                         proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.IPLayerCapacity() output:MinOnewayDelayAtMax                                   proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.IPLayerCapacity() output:ReorderedRatioAtMax                                   proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.IPLayerCapacity() output:ReplicatedRatioAtMax                                  proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.IPLayerCapacity() output:RTTMinAtMax                                           proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.IPLayerCapacity() output:RTTMaxAtMax                                           proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.IPLayerCapacity() output:InterfaceEthMbpsAtMax                                 proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.IPLayerCapacity() output:IPLayerCapacitySummary                                proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.IPLayerCapacity() output:LossRatioSummary                                      proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.IPLayerCapacity() output:RTTRangeSummary                                       proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.IPLayerCapacity() output:PDVRangeSummary                                       proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.IPLayerCapacity() output:MinOnewayDelaySummary                                 proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.IPLayerCapacity() output:MinRTTSummary                                         proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.IPLayerCapacity() output:ReorderedRatioSummary                                 proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.IPLayerCapacity() output:ReplicatedRatioSummary                                proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.IPLayerCapacity() output:InterfaceEthMbpsSummary                               proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.IPLayerCapacity() output:ActiveFlows                                           proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.IPLayerCapacity() output:IncrementalResultNumberOfEntries                      proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.IPLayerCapacity() output:ModalResultNumberOfEntries                            proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.IPLayerCapacity() output:TmaxRTTUsed                                           proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.IPLayerCapacity() output:TimestampResolutionUsed                               proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.IPLayerCapacity() output:ModalResult                                           proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.IPLayerCapacity() output:IncrementalResult                                     proto::tr181-ipdiagnostics
 Device.IP.Diagnostics.IPLayerCapacityMetrics.                                                        proto::tr181-ipdiagnostics
 Device.IP.Diagnostics.IPLayerCapacityMetrics.ActiveFlows                                             proto::tr181-ipdiagnostics
 Device.IP.Diagnostics.IPLayerCapacityMetrics.AuthenticationAlias                                     proto::tr181-ipdiagnostics
@@ -1592,6 +1645,16 @@ Device.IP.Diagnostics.IPPing() input:Interface
 Device.IP.Diagnostics.IPPing() input:NumberOfRepetitions
 Device.IP.Diagnostics.IPPing() input:ProtocolVersion
 Device.IP.Diagnostics.IPPing() input:Timeout
+Device.IP.Diagnostics.IPPing() output:Status                                                         proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.IPPing() output:IPAddressUsed                                                  proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.IPPing() output:SuccessCount                                                   proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.IPPing() output:FailureCount                                                   proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.IPPing() output:AverageResponseTime                                            proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.IPPing() output:MinimumResponseTime                                            proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.IPPing() output:MaximumResponseTime                                            proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.IPPing() output:AverageResponseTimeDetailed                                    proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.IPPing() output:MinimumResponseTimeDetailed                                    proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.IPPing() output:MaximumResponseTimeDetailed                                    proto::tr181-ipdiagnostics
 Device.IP.Diagnostics.IPPing.                                                                        proto::tr181-ipdiagnostics
 Device.IP.Diagnostics.IPPing.AverageResponseTime                                                     proto::tr181-ipdiagnostics
 Device.IP.Diagnostics.IPPing.AverageResponseTimeDetailed                                             proto::tr181-ipdiagnostics
@@ -1634,6 +1697,11 @@ Device.IP.Diagnostics.TraceRoute() input:MaxHopCount
 Device.IP.Diagnostics.TraceRoute() input:NumberOfTries
 Device.IP.Diagnostics.TraceRoute() input:ProtocolVersion
 Device.IP.Diagnostics.TraceRoute() input:Timeout
+Device.IP.Diagnostics.TraceRoute() output:Status                                                     proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.TraceRoute() output:IPAddressUsed                                              proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.TraceRoute() output:ResponseTime                                               proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.TraceRoute() output:RouteHopsNumberOfEntries                                   proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.TraceRoute() output:RouteHops                                                  proto::tr181-ipdiagnostics
 Device.IP.Diagnostics.TraceRoute.                                                                    proto::tr181-ipdiagnostics
 Device.IP.Diagnostics.TraceRoute.Controller                                                          proto::tr181-ipdiagnostics
 Device.IP.Diagnostics.TraceRoute.DSCP                                                                proto::tr181-ipdiagnostics
@@ -1665,6 +1733,22 @@ Device.IP.Diagnostics.UploadDiagnostics() input:TimeBasedTestDuration
 Device.IP.Diagnostics.UploadDiagnostics() input:TimeBasedTestMeasurementInterval
 Device.IP.Diagnostics.UploadDiagnostics() input:TimeBasedTestMeasurementOffset
 Device.IP.Diagnostics.UploadDiagnostics() input:UploadURL
+Device.IP.Diagnostics.UploadDiagnostics() output:Status                                              proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.UploadDiagnostics() output:IPAddressUsed                                       proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.UploadDiagnostics() output:ROMTime                                             proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.UploadDiagnostics() output:BOMTime                                             proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.UploadDiagnostics() output:EOMTime                                             proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.UploadDiagnostics() output:TestBytesSent                                       proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.UploadDiagnostics() output:TotalBytesReceived                                  proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.UploadDiagnostics() output:TotalBytesSent                                      proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.UploadDiagnostics() output:TestBytesSentUnderFullLoading                       proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.UploadDiagnostics() output:TotalBytesReceivedUnderFullLoading                  proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.UploadDiagnostics() output:TotalBytesSentUnderFullLoading                      proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.UploadDiagnostics() output:PeriodOfFullLoading                                 proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.UploadDiagnostics() output:TCPOpenRequestTime                                  proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.UploadDiagnostics() output:TCPOpenResponseTime                                 proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.UploadDiagnostics() output:PerConnectionResult                                 proto::tr181-ipdiagnostics
+Device.IP.Diagnostics.UploadDiagnostics() output:IncrementalResult                                   proto::tr181-ipdiagnostics
 Device.IP.Diagnostics.UploadDiagnostics.                                                             proto::tr181-ipdiagnostics
 Device.IP.Diagnostics.UploadDiagnostics.BOMTime                                                      proto::tr181-ipdiagnostics
 Device.IP.Diagnostics.UploadDiagnostics.DSCP                                                         proto::tr181-ipdiagnostics
