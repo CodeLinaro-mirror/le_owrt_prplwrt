@@ -17,11 +17,11 @@ feeds:
   - name: intel_x86
     uri: https://github.com/maxlinear/feed_target_x86.git
     tracking_branch: updk_9.2.10
-    revision: 22ebd469ca63aef102e571a4445b642f960a4cba
+    revision: 91fb64e412c49727879ebdc58d55e422b75ad65c
   - name: rootfs
     uri: https://github.com/maxlinear/rootfs.git
     tracking_branch: updk_9.2.10
-    revision: 35946d87e4efd5a1502aa518976e507ce06267f9
+    revision: 062e1e5f21ca26c0d4cdfa4454c7ad22e13ce1cb
   - name: eip
     uri: https://github.com/maxlinear/feed_eip.git
     tracking_branch: updk_9.2.10
@@ -41,7 +41,7 @@ feeds:
   - name: gwdpa_dpm
     uri: https://github.com/maxlinear/feed_gwdpa-dpm.git
     tracking_branch: updk_9.2.10
-    revision: 47f03464e686ebe65540a40d08ccac65f52a19e6
+    revision: eef47b0bea90b10dd4e46a0ca0ff9228301a539f
   - name: misc
     uri: https://github.com/maxlinear/feed_common.git
     tracking_branch: updk_9.2.10
@@ -57,11 +57,11 @@ feeds:
   - name: pon
     uri: https://github.com/maxlinear/feed_pon.git
     tracking_branch: updk_9.2.10
-    revision: 136e5e78cd80e65d9e5c03177ade78448f3bc93c
+    revision: 86e2eacac41ad0c2e0a6df60cdd810c5325ae788
   - name: ppa
     uri: https://github.com/maxlinear/feed_ppa.git
     tracking_branch: updk_9.2.10
-    revision: e6c1dfe640583c81a3895828363c89044b511d71
+    revision: 29c70f038966f2ffc95f0450ee2c9478e4e04620
   - name: pp_net_adapter
     uri: https://github.com/maxlinear/feed_pp_net_adapter.git
     tracking_branch: updk_9.2.10
@@ -77,11 +77,11 @@ feeds:
   - name: utils
     uri: https://github.com/maxlinear/feed_mxl_utils.git
     tracking_branch:  updk_9.2.10
-    revision: 166bd48504edbf890119a3a04e4c78da54c5c102
+    revision: d9b733353984614ab7551b1fcbe04c26e42358f2
   - name: bootloader
     uri: https://github.com/maxlinear/feed_uboot.git
     tracking_branch:  updk_9.2.10
-    revision: 25b7d6a82a456d5debe9a5b035defd46a03a19f8
+    revision: b639a1e7e2ec6f2323406d2279dba95178a5e2ba
   - name: dpl
     uri: https://github.com/maxlinear/feed_dpl.git
     tracking_branch:  updk_9.2.10
@@ -97,7 +97,7 @@ feeds:
   - name: system_service
     uri: https://github.com/maxlinear/feed_system_service.git
     tracking_branch:  updk_9.2.10
-    revision: 2e40274d9d1114c5ac5c287d66ada0c2ffabc163
+    revision: 5ee7c63c21bbb84551874d60e39fd833a87c33f9
 
 packages:
   - efr32-boot-config
@@ -186,7 +186,7 @@ diffconfig: |
   CONFIG_DEVEL=y
   CONFIG_EXTRA_OPTIMIZATION="-fno-caller-saves -fno-plt -Wno-error=deprecated-declarations -Wno-error=address"
   CONFIG_KERNEL_GIT_CLONE_URI="https://github.com/maxlinear/linux.git"
-  CONFIG_KERNEL_GIT_REF="UPDK_9.2.10-ER"
+  CONFIG_KERNEL_GIT_REF="UPDK_9.2.10"
   CONFIG_GPON_OMCI_ONU_UBUS_INTERFACE=y
   CONFIG_TARGET_MULTI_PROFILE=y
   CONFIG_TARGET_PER_DEVICE_ROOTFS=y
