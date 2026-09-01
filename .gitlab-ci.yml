@@ -17,6 +17,7 @@ variables:
         - profiles/security.yml
         - profiles/cellular.yml
         - profiles/thread.yml
+        - profiles/ci.yml
         - .gitlab/tests/cram/generic/**
         - .gitlab/tests/cram/post/**
         - .gitlab/testbed.yml
@@ -48,6 +49,7 @@ variables:
         - profiles/security.yml
         - profiles/cellular.yml
         - profiles/thread.yml
+        - profiles/ci.yml
         - .gitlab/tests/cram/generic/**
         - .gitlab/tests/cram/post/**
         - .gitlab/testbed.yml
@@ -135,9 +137,6 @@ stages:
   - blackduck
 
 build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread ci:
-  extends: .build test config
-
-build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread:
   extends: .build test config
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
@@ -255,9 +254,6 @@ build test airoha_an7581 prpl security:
 
 build test qca_ipq95xx prpl cellular security thread ci:
   extends: .build test config
-
-build test qca_ipq95xx prpl cellular security thread:
-  extends: .build test config
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
       when: never
@@ -284,13 +280,7 @@ build test qca_ipq95xx prpl cellular security thread:
 build test qca_ipq95xx extender_minimal cellular security thread ci:
   extends: .build test config
 
-build test qca_ipq95xx extender_minimal cellular security thread:
-  extends: .build test config
-
 build test qca_ipq95xx extender_full cellular security thread ci:
-  extends: .build test config
-
-build test qca_ipq95xx extender_full cellular security thread:
   extends: .build test config
 
 coverity scan qca_ipq95xx prpl extender_full cellular thread:
@@ -345,7 +335,7 @@ cram Haze [auto]:
       allow_failure: true
 
 cram OSPv2 [auto]:
-  needs: ["build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread"]
+  needs: ["build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread ci"]
   extends:
     - .mxl25641-hdk-6 testbed
     - .cram_component_auto
@@ -365,7 +355,7 @@ cram OSPv2 [auto]:
       allow_failure: true
 
 cram Freedom [auto]:
-  needs: ["build test qca_ipq95xx prpl cellular security thread"]
+  needs: ["build test qca_ipq95xx prpl cellular security thread ci"]
   extends:
     - .wnc-freedom testbed
     - .cram_component_auto
@@ -497,19 +487,19 @@ cram OSPv2 [full]:
     COMPONENT: full
 
 cram OSPv2 [prplmesh]:
-  needs: ["build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread"]
+  needs: ["build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread ci"]
   extends: .mxl25641-hdk-6 testbed
   variables:
     COMPONENT: prplmesh
 
 cram OSPv2 [lcm]:
-  needs: ["build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread"]
+  needs: ["build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread ci"]
   extends: .mxl25641-hdk-6 testbed
   variables:
     COMPONENT: lcm
 
 cram OSPv2 [prplos]:
-  needs: ["build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread"]
+  needs: ["build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread ci"]
   extends: .mxl25641-hdk-6 testbed
   variables:
     COMPONENT: prplos
@@ -522,19 +512,19 @@ cram Freedom [full]:
     COMPONENT: full
 
 cram Freedom [prplmesh]:
-  needs: ["build test qca_ipq95xx prpl cellular security thread"]
+  needs: ["build test qca_ipq95xx prpl cellular security thread ci"]
   extends: .wnc-freedom testbed
   variables:
     COMPONENT: prplmesh
 
 cram Freedom [lcm]:
-  needs: ["build test qca_ipq95xx prpl cellular security thread"]
+  needs: ["build test qca_ipq95xx prpl cellular security thread ci"]
   extends: .wnc-freedom testbed
   variables:
     COMPONENT: lcm
 
 cram Freedom [prplos]:
-  needs: ["build test qca_ipq95xx prpl cellular security thread"]
+  needs: ["build test qca_ipq95xx prpl cellular security thread ci"]
   extends: .wnc-freedom testbed
   variables:
     COMPONENT: prplos
