@@ -2210,6 +2210,17 @@ Device.LocalAgent.Subscription.{i}.TimeToLive
 Device.LocalAgent.SubscriptionNumberOfEntries
 Device.LocalAgent.SupportedFingerprintAlgorithms
 Device.LocalAgent.SupportedProtocols
+Device.LocalAgent.TransferComplete!                                                                  proto::deviceinfo-manager
+Device.LocalAgent.TransferComplete! event_arg:Affected
+Device.LocalAgent.TransferComplete! event_arg:Command
+Device.LocalAgent.TransferComplete! event_arg:CommandKey
+Device.LocalAgent.TransferComplete! event_arg:CompleteTime
+Device.LocalAgent.TransferComplete! event_arg:FaultCode
+Device.LocalAgent.TransferComplete! event_arg:FaultString
+Device.LocalAgent.TransferComplete! event_arg:Requestor
+Device.LocalAgent.TransferComplete! event_arg:StartTime
+Device.LocalAgent.TransferComplete! event_arg:TransferType
+Device.LocalAgent.TransferComplete! event_arg:TransferURL
 Device.LocalAgent.UpTime
 Device.LocalAgent.X_VANTIVA-COM_PreConnectTimeout
 Device.Logical.
