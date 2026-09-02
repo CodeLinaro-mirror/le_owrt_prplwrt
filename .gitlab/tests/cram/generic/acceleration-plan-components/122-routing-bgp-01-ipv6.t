@@ -34,7 +34,7 @@ Configure BGP on CPE for ipv6 session.
   $ R "usp-cli 'Device.Routing.X_PRPLWARE-COM_BGP.Config.[Alias == \"cram-config1\"].Neighbor.+{Alias=\"cram-nb1\"}'" > /dev/null 2>&1
   $ R "usp-cli 'Device.Routing.X_PRPLWARE-COM_BGP.Config.[Alias == \"cram-config1\"].Neighbor.[Alias == \"cram-nb1\"].RemoteAddress='${TESTBED_IP6_A}''" > /dev/null 2>&1
   $ R "usp-cli 'Device.Routing.X_PRPLWARE-COM_BGP.Config.[Alias == \"cram-config1\"].Neighbor.[Alias == \"cram-nb1\"].RemoteAS=65001'" > /dev/null 2>&1
-  $ R "usp-cli 'Device.Routing.X_PRPLWARE-COM_BGP.Config.[Alias == \"cram-config1\"].Neighbor.[Alias == \"cram-nb1\"].AFISAFI.+{Alias=\"cram-afisafi1\",Name=\"IPv6Unicast\"}'" > /dev/null 2>&1
+  $ R "usp-cli 'Device.Routing.X_PRPLWARE-COM_BGP.Config.[Alias == \"cram-config1\"].Neighbor.[Alias == \"cram-nb1\"].AFISAFI.+{Alias=\"cram-afisafi1\",Type=\"IPv6Unicast\"}'" > /dev/null 2>&1
   $ R "usp-cli 'Device.Routing.X_PRPLWARE-COM_BGP.Config.[Alias == \"cram-config1\"].Neighbor.[Alias == \"cram-nb1\"].AFISAFI.[Alias == \"cram-afisafi1\"].Enable=true'" > /dev/null 2>&1
   $ R "usp-cli 'Device.Routing.X_PRPLWARE-COM_BGP.Config.[Alias == \"cram-config1\"].Neighbor.[Alias == \"cram-nb1\"].ApplyFilters.DefaultExportDisposition=AcceptRoute'" > /dev/null 2>&1
   $ R "usp-cli 'Device.Routing.X_PRPLWARE-COM_BGP.Config.[Alias == \"cram-config1\"].Neighbor.[Alias == \"cram-nb1\"].ApplyFilters.DefaultImportDisposition=AcceptRoute'" > /dev/null 2>&1

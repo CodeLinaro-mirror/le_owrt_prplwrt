@@ -29,25 +29,25 @@ Verify interface state priority for IPv4 OSPF:
 
 Verify the data of elected DR and BDR is populated for IPv4 OSPF:
 
-  $ R "ba-cli ${OSPF_DM}Config.ospf4.Area.1.Interface.1.DRRouterID?" | grep -Ev '^(>|$)'
-  Routing.X_PRPLWARE-COM_OSPF.Config.\d+.Area.1.Interface.1.DRRouterID="1.1.1.1" (re)
-  $ R "ba-cli ${OSPF_DM}Config.ospf4.Area.1.Interface.1.DRIPAddress?" | grep -Ev '^(>|$)' | sed "s/$LLA_LAN/MATCHED/"
-  Routing.X_PRPLWARE-COM_OSPF.Config.\d+.Area.1.Interface.1.DRIPAddress="MATCHED" (re)
-  $ R "ba-cli ${OSPF_DM}Config.ospf4.Area.1.Interface.1.BDRRouterID?" | grep -Ev '^(>|$)'
-  Routing.X_PRPLWARE-COM_OSPF.Config.\d+.Area.1.Interface.1.BDRRouterID="2.2.2.2" (re)
-  $ R "ba-cli ${OSPF_DM}Config.ospf4.Area.1.Interface.1.BDRIPAddress?" | grep -Ev '^(>|$)' | sed "s/$TESTBED_IP6_LLA/MATCHED/"
-  Routing.X_PRPLWARE-COM_OSPF.Config.\d+.Area.1.Interface.1.BDRIPAddress="MATCHED" (re)
+  $ R "ba-cli ${OSPF_DM}Config.ospf4.Area.1.Interface.1.DesignatedRouterID?" | grep -Ev '^(>|$)'
+  Routing.X_PRPLWARE-COM_OSPF.Config.\d+.Area.1.Interface.1.DesignatedRouterID="1.1.1.1" (re)
+  $ R "ba-cli ${OSPF_DM}Config.ospf4.Area.1.Interface.1.DesignatedRouterIPAddress?" | grep -Ev '^(>|$)' | sed "s/$LLA_LAN/MATCHED/"
+  Routing.X_PRPLWARE-COM_OSPF.Config.\d+.Area.1.Interface.1.DesignatedRouterIPAddress="MATCHED" (re)
+  $ R "ba-cli ${OSPF_DM}Config.ospf4.Area.1.Interface.1.BackupDesignatedRouterID?" | grep -Ev '^(>|$)'
+  Routing.X_PRPLWARE-COM_OSPF.Config.\d+.Area.1.Interface.1.BackupDesignatedRouterID="2.2.2.2" (re)
+  $ R "ba-cli ${OSPF_DM}Config.ospf4.Area.1.Interface.1.BackupDesignatedRouterIPAddress?" | grep -Ev '^(>|$)' | sed "s/$TESTBED_IP6_LLA/MATCHED/"
+  Routing.X_PRPLWARE-COM_OSPF.Config.\d+.Area.1.Interface.1.BackupDesignatedRouterIPAddress="MATCHED" (re)
 
 Verify the data of elected DR and BDR is populated for IPv6 OSPF:
 
-  $ R "ba-cli ${OSPF_DM}Config.ospf6.Area.1.Interface.1.DRRouterID?" | grep -Ev '^(>|$)'
-  Routing.X_PRPLWARE-COM_OSPF.Config.\d+.Area.1.Interface.1.DRRouterID="1.1.1.1" (re)
-  $ R "ba-cli ${OSPF_DM}Config.ospf6.Area.1.Interface.1.DRIPAddress?" | grep -Ev '^(>|$)' | sed "s/$LLA_LAN/MATCHED/"
-  Routing.X_PRPLWARE-COM_OSPF.Config.\d+.Area.1.Interface.1.DRIPAddress="MATCHED" (re)
-  $ R "ba-cli ${OSPF_DM}Config.ospf6.Area.1.Interface.1.BDRRouterID?" | grep -Ev '^(>|$)'
-  Routing.X_PRPLWARE-COM_OSPF.Config.\d+.Area.1.Interface.1.BDRRouterID="2.2.2.2" (re)
-  $ R "ba-cli ${OSPF_DM}Config.ospf6.Area.1.Interface.1.BDRIPAddress?" | grep -Ev '^(>|$)' | sed "s/$TESTBED_IP6_LLA/MATCHED/"
-  Routing.X_PRPLWARE-COM_OSPF.Config.\d+.Area.1.Interface.1.BDRIPAddress="MATCHED" (re)
+  $ R "ba-cli ${OSPF_DM}Config.ospf6.Area.1.Interface.1.DesignatedRouterID?" | grep -Ev '^(>|$)'
+  Routing.X_PRPLWARE-COM_OSPF.Config.\d+.Area.1.Interface.1.DesignatedRouterID="1.1.1.1" (re)
+  $ R "ba-cli ${OSPF_DM}Config.ospf6.Area.1.Interface.1.DesignatedRouterIPAddress?" | grep -Ev '^(>|$)' | sed "s/$LLA_LAN/MATCHED/"
+  Routing.X_PRPLWARE-COM_OSPF.Config.\d+.Area.1.Interface.1.DesignatedRouterIPAddress="MATCHED" (re)
+  $ R "ba-cli ${OSPF_DM}Config.ospf6.Area.1.Interface.1.BackupDesignatedRouterID?" | grep -Ev '^(>|$)'
+  Routing.X_PRPLWARE-COM_OSPF.Config.\d+.Area.1.Interface.1.BackupDesignatedRouterID="2.2.2.2" (re)
+  $ R "ba-cli ${OSPF_DM}Config.ospf6.Area.1.Interface.1.BackupDesignatedRouterIPAddress?" | grep -Ev '^(>|$)' | sed "s/$TESTBED_IP6_LLA/MATCHED/"
+  Routing.X_PRPLWARE-COM_OSPF.Config.\d+.Area.1.Interface.1.BackupDesignatedRouterIPAddress="MATCHED" (re)
 
 Verify that the discovered neighbor and its adjacency for IPv4 OSPF:
 
