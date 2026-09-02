@@ -3092,8 +3092,8 @@ Device.Routing.X_PRPLWARE-COM_BGP.Config.{i}.Neighbor.{i}.                      
 Device.Routing.X_PRPLWARE-COM_BGP.Config.{i}.Neighbor.{i}.AFISAFI.{i}.                               proto::routing-manager
 Device.Routing.X_PRPLWARE-COM_BGP.Config.{i}.Neighbor.{i}.AFISAFI.{i}.Alias                          proto::routing-manager
 Device.Routing.X_PRPLWARE-COM_BGP.Config.{i}.Neighbor.{i}.AFISAFI.{i}.Enable                         proto::routing-manager
-Device.Routing.X_PRPLWARE-COM_BGP.Config.{i}.Neighbor.{i}.AFISAFI.{i}.Name                           proto::routing-manager
 Device.Routing.X_PRPLWARE-COM_BGP.Config.{i}.Neighbor.{i}.AFISAFI.{i}.Status                         proto::routing-manager
+Device.Routing.X_PRPLWARE-COM_BGP.Config.{i}.Neighbor.{i}.AFISAFI.{i}.Type                           proto::routing-manager
 Device.Routing.X_PRPLWARE-COM_BGP.Config.{i}.Neighbor.{i}.AFISAFINumberOfEntries                     proto::routing-manager
 Device.Routing.X_PRPLWARE-COM_BGP.Config.{i}.Neighbor.{i}.AdjRIBIn.                                  proto::routing-manager
 Device.Routing.X_PRPLWARE-COM_BGP.Config.{i}.Neighbor.{i}.AdjRIBIn.IPv4.                             proto::routing-manager
@@ -3210,12 +3210,12 @@ Device.Routing.X_PRPLWARE-COM_OSPF.Config.{i}.Area.{i}.Interface.{i}.Authenticat
 Device.Routing.X_PRPLWARE-COM_OSPF.Config.{i}.Area.{i}.Interface.{i}.Authentication.Trailer.Enable   proto::routing-manager
 Device.Routing.X_PRPLWARE-COM_OSPF.Config.{i}.Area.{i}.Interface.{i}.Authentication.Trailer.ID       proto::routing-manager
 Device.Routing.X_PRPLWARE-COM_OSPF.Config.{i}.Area.{i}.Interface.{i}.Authentication.Trailer.Key      proto::routing-manager
-Device.Routing.X_PRPLWARE-COM_OSPF.Config.{i}.Area.{i}.Interface.{i}.BDRIPAddress                    proto::routing-manager
-Device.Routing.X_PRPLWARE-COM_OSPF.Config.{i}.Area.{i}.Interface.{i}.BDRRouterID                     proto::routing-manager
+Device.Routing.X_PRPLWARE-COM_OSPF.Config.{i}.Area.{i}.Interface.{i}.BackupDesignatedRouterID        proto::routing-manager
+Device.Routing.X_PRPLWARE-COM_OSPF.Config.{i}.Area.{i}.Interface.{i}.BackupDesignatedRouterIPAddress proto::routing-manager
 Device.Routing.X_PRPLWARE-COM_OSPF.Config.{i}.Area.{i}.Interface.{i}.Cost                            proto::routing-manager
-Device.Routing.X_PRPLWARE-COM_OSPF.Config.{i}.Area.{i}.Interface.{i}.DRIPAddress                     proto::routing-manager
-Device.Routing.X_PRPLWARE-COM_OSPF.Config.{i}.Area.{i}.Interface.{i}.DRRouterID                      proto::routing-manager
 Device.Routing.X_PRPLWARE-COM_OSPF.Config.{i}.Area.{i}.Interface.{i}.DeadInterval                    proto::routing-manager
+Device.Routing.X_PRPLWARE-COM_OSPF.Config.{i}.Area.{i}.Interface.{i}.DesignatedRouterID              proto::routing-manager
+Device.Routing.X_PRPLWARE-COM_OSPF.Config.{i}.Area.{i}.Interface.{i}.DesignatedRouterIPAddress       proto::routing-manager
 Device.Routing.X_PRPLWARE-COM_OSPF.Config.{i}.Area.{i}.Interface.{i}.Enable                          proto::routing-manager
 Device.Routing.X_PRPLWARE-COM_OSPF.Config.{i}.Area.{i}.Interface.{i}.HelloInterval                   proto::routing-manager
 Device.Routing.X_PRPLWARE-COM_OSPF.Config.{i}.Area.{i}.Interface.{i}.Interface                       proto::routing-manager
