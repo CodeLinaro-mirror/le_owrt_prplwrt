@@ -18,12 +18,12 @@ Restart routing manager:
 Verify the connection is reestablished for IPv4 OSPF:
 
   $ R "ba-cli ${OSPF_DM}Config.ospf4.Area.1.Interface.1.State?" | grep -Ev '^(>|$)'
-  Routing.X_PRPLWARE-COM_OSPF.Config.\d+.Area.1.Interface.1.State="BDR" (re)
+  Routing.X_PRPLWARE-COM_OSPF.Config.\d+.Area.1.Interface.1.State="BackupDesignatedRouter" (re)
 
 Verify the connection is reestablished for IPv6 OSPF:
 
   $ R "ba-cli ${OSPF_DM}Config.ospf6.Area.1.Interface.1.State?" | grep -Ev '^(>|$)'
-  Routing.X_PRPLWARE-COM_OSPF.Config.\d+.Area.1.Interface.1.State="BDR" (re)
+  Routing.X_PRPLWARE-COM_OSPF.Config.\d+.Area.1.Interface.1.State="BackupDesignatedRouter" (re)
 
 Verify that the discovered neighbor and its adjacency for IPv4 OSPF:
 

@@ -14,8 +14,8 @@ Setup the test configuration:
 Wait for establishing connection and neighbors:
 
   $ . ${TESTDIR}/script_functions_routing.sh
-  $ wait_ospf_state ospf4 1 1 DR
-  $ wait_ospf_state ospf6 1 1 DR
+  $ wait_ospf_state ospf4 1 1 DesignatedRouter
+  $ wait_ospf_state ospf6 1 1 DesignatedRouter
   $ wait_ospf_neighbors ospf4 1 1
   $ wait_ospf_neighbors ospf6 1 1
   $ sleep 1 # wait for route redistribution
@@ -23,7 +23,7 @@ Wait for establishing connection and neighbors:
 Verify interface state priority for IPv4 OSPF:
 
   $ R "ba-cli ${OSPF_DM}Config.ospf4.Area.1.Interface.1.State?" | grep -Ev '^(>|$)'
-  Routing.X_PRPLWARE-COM_OSPF.Config.\d+.Area.1.Interface.1.State="DR" (re)
+  Routing.X_PRPLWARE-COM_OSPF.Config.\d+.Area.1.Interface.1.State="DesignatedRouter" (re)
   $ R "ba-cli ${OSPF_DM}Config.ospf4.Area.1.Interface.1.Priority?" | grep -Ev '^(>|$)'
   Routing.X_PRPLWARE-COM_OSPF.Config.\d+.Area.1.Interface.1.Priority=100 (re)
 
@@ -92,7 +92,7 @@ Verify Local RIB for IPv4 OSPF:
   Routing\.X_PRPLWARE-COM_OSPF\.Config\.\d+\.LocalRIB\.1\.RouteType="External-2" (re)
   Routing\.X_PRPLWARE-COM_OSPF\.Config\.\d+\.LocalRIB\.1\.NextHop\.1\. (re)
   Routing\.X_PRPLWARE-COM_OSPF\.Config\.\d+\.LocalRIB\.1\.NextHop\.1\.NextHop="MATCHED" (re)
-  Routing\.X_PRPLWARE-COM_OSPF\.Config\.\d+\.LocalRIB\.1\.NextHop\.1\.OutgoingInterface="Device.IP.Interface.3." (re)
+  Routing\.X_PRPLWARE-COM_OSPF\.Config\.\d+\.LocalRIB\.1\.NextHop\.1\.OutgoingInterface="Device.IP.Interface.3" (re)
   Routing\.X_PRPLWARE-COM_OSPF\.Config\.\d+\.LocalRIB\.2\. (re)
   Routing\.X_PRPLWARE-COM_OSPF\.Config\.\d+\.LocalRIB\.2\.Metric=10 (re)
   Routing\.X_PRPLWARE-COM_OSPF\.Config\.\d+\.LocalRIB\.2\.NextHopNumberOfEntries=1 (re)
@@ -100,7 +100,7 @@ Verify Local RIB for IPv4 OSPF:
   Routing\.X_PRPLWARE-COM_OSPF\.Config\.\d+\.LocalRIB\.2\.RouteType="IntraArea" (re)
   Routing\.X_PRPLWARE-COM_OSPF\.Config\.\d+\.LocalRIB\.2\.NextHop\.1\. (re)
   Routing\.X_PRPLWARE-COM_OSPF\.Config\.\d+\.LocalRIB\.2\.NextHop\.1\.NextHop="" (re)
-  Routing\.X_PRPLWARE-COM_OSPF\.Config\.\d+\.LocalRIB\.2\.NextHop\.1\.OutgoingInterface="Device.IP.Interface.3." (re)
+  Routing\.X_PRPLWARE-COM_OSPF\.Config\.\d+\.LocalRIB\.2\.NextHop\.1\.OutgoingInterface="Device.IP.Interface.3" (re)
 
 Verify Local RIB for IPv6 OSPF:
 
@@ -114,7 +114,7 @@ Verify Local RIB for IPv6 OSPF:
 #  Routing\.X_PRPLWARE-COM_OSPF\.Config\.\d+\.LocalRIB\.\d+\.RouteType="IntraArea" (re)
 #  Routing\.X_PRPLWARE-COM_OSPF\.Config\.\d+\.LocalRIB\.\d+\.NextHop\.1\. (re)
 #  Routing\.X_PRPLWARE-COM_OSPF\.Config\.\d+\.LocalRIB\.\d+\.NextHop\.1\.NextHop="" (re)
-#  Routing\.X_PRPLWARE-COM_OSPF\.Config\.\d+\.LocalRIB\.\d+\.NextHop\.1\.OutgoingInterface="Device.IP.Interface.3." (re)
+#  Routing\.X_PRPLWARE-COM_OSPF\.Config\.\d+\.LocalRIB\.\d+\.NextHop\.1\.OutgoingInterface="Device.IP.Interface.3" (re)
   $ R "ba-cli '${OSPF_DM}Config.ospf6.LocalRIB.[Prefix == \"2001:db8:1234::/48\"].?'" | grep -Ev '^(>|$)' | sed "s/$TESTBED_IP6_LLA/MATCHED/"
   Routing\.X_PRPLWARE-COM_OSPF\.Config\.\d+\.LocalRIB\.\d+\. (re)
   Routing\.X_PRPLWARE-COM_OSPF\.Config\.\d+\.LocalRIB\.\d+\.Metric=10 (re)
@@ -123,7 +123,7 @@ Verify Local RIB for IPv6 OSPF:
   Routing\.X_PRPLWARE-COM_OSPF\.Config\.\d+\.LocalRIB\.\d+\.RouteType="External-2" (re)
   Routing\.X_PRPLWARE-COM_OSPF\.Config\.\d+\.LocalRIB\.\d+\.NextHop\.1\. (re)
   Routing\.X_PRPLWARE-COM_OSPF\.Config\.\d+\.LocalRIB\.\d+\.NextHop\.1\.NextHop="MATCHED" (re)
-  Routing\.X_PRPLWARE-COM_OSPF\.Config\.\d+\.LocalRIB\.\d+\.NextHop\.1\.OutgoingInterface="Device.IP.Interface.3." (re)
+  Routing\.X_PRPLWARE-COM_OSPF\.Config\.\d+\.LocalRIB\.\d+\.NextHop\.1\.OutgoingInterface="Device.IP.Interface.3" (re)
 
 Verify Link-State Database for IPv4 OSPF
 
@@ -155,7 +155,7 @@ Verify Router-LSAs (LSA type = 0x2001 or 8193):
   Routing\.X_PRPLWARE-COM_OSPF\.Config\.\d+\.Area\.1\.LSDB\.RouterLSA\.\d+\.Link\.1\.Metric=10 (re)
   Routing\.X_PRPLWARE-COM_OSPF\.Config\.\d+\.Area\.1\.LSDB\.RouterLSA\.\d+\.Link\.1\.NeighborInterfaceID=\d+ (re)
   Routing\.X_PRPLWARE-COM_OSPF\.Config\.\d+\.Area\.1\.LSDB\.RouterLSA\.\d+\.Link\.1\.NeighborRouterID="1.1.1.1" (re)
-  Routing\.X_PRPLWARE-COM_OSPF\.Config\.\d+\.Area\.1\.LSDB\.RouterLSA\.\d+\.Link\.1\.Type="Transit Network Link" (re)
+  Routing\.X_PRPLWARE-COM_OSPF\.Config\.\d+\.Area\.1\.LSDB\.RouterLSA\.\d+\.Link\.1\.Type="TransitNetwork" (re)
   $ R "ba-cli 'Routing.X_PRPLWARE-COM_OSPF.Config.ospf4.Area.1.LSDB.RouterLSA.[AdvRouter==\"2.2.2.2\"].?'" | grep -Ev '^(>|$)'
   Routing\.X_PRPLWARE-COM_OSPF\.Config\.\d+\.Area\.1\.LSDB\.RouterLSA\.\d+\. (re)
   Routing\.X_PRPLWARE-COM_OSPF\.Config\.\d+\.Area\.1\.LSDB\.RouterLSA\.\d+\.AdvRouter="2.2.2.2" (re)
@@ -164,7 +164,7 @@ Verify Router-LSAs (LSA type = 0x2001 or 8193):
   Routing\.X_PRPLWARE-COM_OSPF\.Config\.\d+\.Area\.1\.LSDB\.RouterLSA\.\d+\.Link\.1\.Metric=10 (re)
   Routing\.X_PRPLWARE-COM_OSPF\.Config\.\d+\.Area\.1\.LSDB\.RouterLSA\.\d+\.Link\.1\.NeighborInterfaceID=\d+ (re)
   Routing\.X_PRPLWARE-COM_OSPF\.Config\.\d+\.Area\.1\.LSDB\.RouterLSA\.\d+\.Link\.1\.NeighborRouterID="1.1.1.1" (re)
-  Routing\.X_PRPLWARE-COM_OSPF\.Config\.\d+\.Area\.1\.LSDB\.RouterLSA\.\d+\.Link\.1\.Type="Transit Network Link" (re)
+  Routing\.X_PRPLWARE-COM_OSPF\.Config\.\d+\.Area\.1\.LSDB\.RouterLSA\.\d+\.Link\.1\.Type="TransitNetwork" (re)
 
 Verify Network-LSAs (LSA type = 0x2002 or 8194):
 
@@ -249,7 +249,7 @@ Verify Router-LSAs (LSA type = 0x2001 or 8193):
   Routing\.X_PRPLWARE-COM_OSPF\.Config\.\d+\.Area\.1\.LSDB\.RouterLSA\.\d+\.Link\.1\.Metric=10 (re)
   Routing\.X_PRPLWARE-COM_OSPF\.Config\.\d+\.Area\.1\.LSDB\.RouterLSA\.\d+\.Link\.1\.NeighborInterfaceID=\d+ (re)
   Routing\.X_PRPLWARE-COM_OSPF\.Config\.\d+\.Area\.1\.LSDB\.RouterLSA\.\d+\.Link\.1\.NeighborRouterID="1.1.1.1" (re)
-  Routing\.X_PRPLWARE-COM_OSPF\.Config\.\d+\.Area\.1\.LSDB\.RouterLSA\.\d+\.Link\.1\.Type="Transit Network Link" (re)
+  Routing\.X_PRPLWARE-COM_OSPF\.Config\.\d+\.Area\.1\.LSDB\.RouterLSA\.\d+\.Link\.1\.Type="TransitNetwork" (re)
   $ R "ba-cli 'Routing.X_PRPLWARE-COM_OSPF.Config.ospf6.Area.1.LSDB.RouterLSA.[AdvRouter==\"2.2.2.2\"].?'" | grep -Ev '^(>|$)'
   Routing\.X_PRPLWARE-COM_OSPF\.Config\.\d+\.Area\.1\.LSDB\.RouterLSA\.\d+\. (re)
   Routing\.X_PRPLWARE-COM_OSPF\.Config\.\d+\.Area\.1\.LSDB\.RouterLSA\.\d+\.AdvRouter="2.2.2.2" (re)
@@ -258,7 +258,7 @@ Verify Router-LSAs (LSA type = 0x2001 or 8193):
   Routing\.X_PRPLWARE-COM_OSPF\.Config\.\d+\.Area\.1\.LSDB\.RouterLSA\.\d+\.Link\.1\.Metric=10 (re)
   Routing\.X_PRPLWARE-COM_OSPF\.Config\.\d+\.Area\.1\.LSDB\.RouterLSA\.\d+\.Link\.1\.NeighborInterfaceID=\d+ (re)
   Routing\.X_PRPLWARE-COM_OSPF\.Config\.\d+\.Area\.1\.LSDB\.RouterLSA\.\d+\.Link\.1\.NeighborRouterID="1.1.1.1" (re)
-  Routing\.X_PRPLWARE-COM_OSPF\.Config\.\d+\.Area\.1\.LSDB\.RouterLSA\.\d+\.Link\.1\.Type="Transit Network Link" (re)
+  Routing\.X_PRPLWARE-COM_OSPF\.Config\.\d+\.Area\.1\.LSDB\.RouterLSA\.\d+\.Link\.1\.Type="TransitNetwork" (re)
 
 Verify Network-LSAs (LSA type = 0x2002 or 8194):
 

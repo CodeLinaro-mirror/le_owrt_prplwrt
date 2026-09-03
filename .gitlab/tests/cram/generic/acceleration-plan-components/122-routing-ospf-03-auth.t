@@ -20,7 +20,7 @@ Setup bird for authentication:
 Verify the neighbor disappeared because of the new authentication:
 
   $ R "ba-cli ${OSPF_DM}Config.ospf4.Area.1.Interface.1.State?" | grep -Ev '^(>|$)'
-  Routing.X_PRPLWARE-COM_OSPF.Config.\d+.Area.1.Interface.1.State="DR" (re)
+  Routing.X_PRPLWARE-COM_OSPF.Config.\d+.Area.1.Interface.1.State="DesignatedRouter" (re)
   $ R "ba-cli ${OSPF_DM}Config.ospf4.Area.1.Interface.1.NeighborNumberOfEntries?" | grep -Ev '^(>|$)'
   Routing\.X_PRPLWARE-COM_OSPF\.Config\.\d+\.Area\.1\.Interface\.1\.NeighborNumberOfEntries=0 (re)
 
@@ -36,7 +36,7 @@ Setup the authentication for IPv4 OSPF:
 Verify the connection is established for IPv4 OSPF with authentication (MD5):
 
   $ R "ba-cli ${OSPF_DM}Config.ospf4.Area.1.Interface.1.State?" | grep -Ev '^(>|$)'
-  Routing.X_PRPLWARE-COM_OSPF.Config.\d+.Area.1.Interface.1.State="DR" (re)
+  Routing.X_PRPLWARE-COM_OSPF.Config.\d+.Area.1.Interface.1.State="DesignatedRouter" (re)
   $ R "ba-cli ${OSPF_DM}Config.ospf4.Area.1.Interface.1.Neighbor.1.NeighborRouterID?" | grep -Ev '^(>|$)'
   Routing.X_PRPLWARE-COM_OSPF.Config.\d+.Area.1.Interface.1.Neighbor.1.NeighborRouterID="2.2.2.2" (re)
   $ R "ba-cli ${OSPF_DM}Config.ospf4.Area.1.Interface.1.Neighbor.1.Address?" | grep -Ev '^(>|$)' | sed "s/$TESTBED_IP6_LLA/MATCHED/"
