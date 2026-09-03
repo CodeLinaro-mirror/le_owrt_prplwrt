@@ -472,11 +472,8 @@ Check that ubus has expected datamodels available:
   X_PRPLWARE-COM_ProcessManager.Sensing
   X_PRPLWARE-COM_WiFiController
   X_PRPLWARE-COM_WiFiController.AssociationEvent
-  X_PRPLWARE-COM_WiFiController.AssociationEvent.AssociationEventData
   X_PRPLWARE-COM_WiFiController.DisassociationEvent
-  X_PRPLWARE-COM_WiFiController.DisassociationEvent.DisassociationEventData
   X_PRPLWARE-COM_WiFiController.FailedConnectionEvent
-  X_PRPLWARE-COM_WiFiController.FailedConnectionEvent.FailedConnectionEventData
   X_PRPLWARE-COM_WiFiController.Network
   X_PRPLWARE-COM_WiFiController.Network.AccessPoint
   X_PRPLWARE-COM_WiFiController.Network.Device
