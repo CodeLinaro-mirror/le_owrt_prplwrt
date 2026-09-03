@@ -43,8 +43,7 @@ Change a DM from Mapper and Check Again:
 
 Restart WiFiSensing mapper service and verify DM disappears/returns:
  
-  $ R "amx_wait_for Device.WiFi.X_PRPLWARE-COM_WiFiSensing."
-
+  $ R "amx_poll_object usp Device.WiFi.X_PRPLWARE-COM_WiFiSensing. 15"
   $ R "service wifi-sensing stop"
 
   $ sleep 3
@@ -52,7 +51,7 @@ Restart WiFiSensing mapper service and verify DM disappears/returns:
   $ R "service wifi-sensing start"
   root: pre-service hook wifi-sensing
 
-  $ R "amx_wait_for Device.WiFi.X_PRPLWARE-COM_WiFiSensing."
+  $ R "amx_poll_object usp Device.WiFi.X_PRPLWARE-COM_WiFiSensing. 15"
   $ sleep 10
 
 Write invalid value to Device.WiFi.AccessPoint.1.Enable and expect error:
