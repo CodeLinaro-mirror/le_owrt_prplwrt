@@ -2,4 +2,4 @@
 feeds:
   - name: feed_prplos
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplos.git
-    revision: dev_forward_port_qos_optimizations_main@b4377c0523ac70e1146a67071e2f2814b754aee3
+    revision: dev_PCF-2758_netmodel_ram_optimizations@bf580ff08729933e5b95d422d97070ab7c2b88a6
