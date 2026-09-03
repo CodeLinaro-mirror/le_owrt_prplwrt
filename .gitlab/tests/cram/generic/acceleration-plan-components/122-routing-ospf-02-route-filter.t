@@ -48,7 +48,7 @@ OSPF Route Redistribution Import Filtering for IPv4:
   Routing\.X_PRPLWARE-COM_OSPF\.Config\.\d+\.LocalRIB\.\d+\.RouteType="External-2" (re)
   Routing\.X_PRPLWARE-COM_OSPF\.Config\.\d+\.LocalRIB\.\d+\.NextHop\.1\. (re)
   Routing\.X_PRPLWARE-COM_OSPF\.Config\.\d+\.LocalRIB\.\d+\.NextHop\.1\.NextHop="MATCHED" (re)
-  Routing\.X_PRPLWARE-COM_OSPF\.Config\.\d+\.LocalRIB\.\d+\.NextHop\.1\.OutgoingInterface="Device.IP.Interface.3." (re)
+  Routing\.X_PRPLWARE-COM_OSPF\.Config\.\d+\.LocalRIB\.\d+\.NextHop\.1\.OutgoingInterface="Device.IP.Interface.3" (re)
   $ R "ip -4 route" | grep "11.22.44.0/24" | wc -l
   0
   $ R "ip -4 route" | grep "11.22.45.0/24" | sed "s/$TESTBED_IP4/MATCHED/"
@@ -90,7 +90,7 @@ OSPF Route Redistribution Import Filtering for IPv6:
   Routing\.X_PRPLWARE-COM_OSPF\.Config\.\d+\.LocalRIB\.\d+\.RouteType="External-2" (re)
   Routing\.X_PRPLWARE-COM_OSPF\.Config\.\d+\.LocalRIB\.\d+\.NextHop\.1\. (re)
   Routing\.X_PRPLWARE-COM_OSPF\.Config\.\d+\.LocalRIB\.\d+\.NextHop\.1\.NextHop="MATCHED" (re)
-  Routing\.X_PRPLWARE-COM_OSPF\.Config\.\d+\.LocalRIB\.\d+\.NextHop\.1\.OutgoingInterface="Device.IP.Interface.3." (re)
+  Routing\.X_PRPLWARE-COM_OSPF\.Config\.\d+\.LocalRIB\.\d+\.NextHop\.1\.OutgoingInterface="Device.IP.Interface.3" (re)
   $ R "ip -6 route" | grep "2001:db8:4444::/48" | wc -l
   0
   $ R "ip -6 route" | grep "2001:db8:5555::/48" | sed "s/$TESTBED_IP6_LLA/MATCHED/"
