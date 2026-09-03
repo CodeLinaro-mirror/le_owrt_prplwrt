@@ -42,7 +42,7 @@ Check that managing WiFi Sensing works:
   $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.Sensing.Enable=1" | tr -d '\n'
   1 (no-eol)
 
-  $ R "amx_wait_for "X_PRPLWARE-COM_WiFiSensing." "
+  $ R "amx_poll_object usp Device.WiFi.X_PRPLWARE-COM_WiFiSensing. 15"
   $ R "pgrep -cf '/usr/bin/wifi-sensing'"
   1
   $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.Sensing.Status?" | tr -d '\n'
