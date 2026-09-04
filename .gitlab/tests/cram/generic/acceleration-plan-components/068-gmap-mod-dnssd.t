@@ -85,7 +85,7 @@ Verify new entry appears in TR-181 datamodel:
 
 Wait for the advertisement to reach the gmap datamodel:
 
-  $ for i in $(seq 1 30); do gmap_mdns | grep -q 'CramTestService1' && break; sleep 2; done
+  $ for i in $(seq 1 30); do gmap_mdns | grep -q '"Name": "CramTestService1"' && break; sleep 2; done
 
 Verify entry appears in gmap datamodel:
 
@@ -125,11 +125,12 @@ Verify entry is removed from TR-181:
 
 Wait for the removal to clear the gmap datamodel:
 
-  $ for i in $(seq 1 $remove_tries); do gmap_mdns | grep -q 'CramTestService1' || break; sleep 2; done
+  $ for i in $(seq 1 $remove_tries); do gmap_mdns | grep -q '"Name": "CramTestService1"' || break; sleep 2; done
 
 Verify entry is removed from gmap datamodel:
 
-  $ gmap_mdns | grep -q 'CramTestService1' && echo "still present" || echo "removed"
+  $ gmap_reply="$(gmap_mdns)"
+  $ case "$gmap_reply" in "{}"|*"object not found"*) echo "removed";; *) printf '%s\n' "$gmap_reply";; esac
   removed
 
 Cleanup and restore default DNSSD settings:
