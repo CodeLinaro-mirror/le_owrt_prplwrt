@@ -1,0 +1,25 @@
+diff --git a/src/ap/ieee802_11.c b/src/ap/ieee802_11.c
+index 10b59348f..5aca2f529 100644
+--- a/src/ap/ieee802_11.c
++++ b/src/ap/ieee802_11.c
+@@ -3248,6 +3248,20 @@ static void handle_auth(struct hostapd_data *hapd,
+ 	    !(sta->added_unassoc) && auth_alg != WLAN_AUTH_PASN) {
+ 		if (ap_sta_re_add(hapd, sta) < 0) {
+ 			resp = WLAN_STATUS_AP_UNABLE_TO_HANDLE_NEW_STA;
++			/*
++			 * Driver rejected the STA add, likely because the
++			 * previous session's teardown (key deletion, nl80211
++			 * STA removal) has not completed yet.  Keeping this
++			 * STA entry in the hash table would cause every
++			 * subsequent Auth-1 retry from the same client to
++			 * hit the same failure path silently — no Auth-2 is
++			 * ever sent — until the driver finishes tearing down
++			 * the old session (up to 28 s on DEAUTH_TX_STATUS
++			 * drivers).  Free the entry now so the next Auth-1
++			 * gets a clean ap_sta_add() + ap_sta_re_add() cycle.
++			 */
++			ap_free_sta(hapd, sta);
++			sta = NULL;
+ 			goto fail;
+ 		}
+ 	}
