@@ -21,7 +21,7 @@ DEFAULT_ENVVAR='[{Key="ENVVAR_KEY1", Value="ENVVAR_VALUE1"}, {Key="ENVVAR_KEY2",
 DEFAULT_SIGNATURE_PASSWORD="secret"
 DEFAULT_SIGNATURE_USERNAME="admin"
 DEFAULT_PRIVILEGED="false"
-DEFAULT_ENABLEHOSTCAPABILITIES="false"
+DEFAULT_ENABLEHOSTNSCAPABILITIES="false"
 
 CLI_JSON="cli_cmd -l -j"
 CLI="cli_cmd"
@@ -424,9 +424,9 @@ install_update_ctr_with_params() {
 			elif [ "${key}" = "signature_user" ]; then
 				value=$(value_or_default "${value_missing}" "${DEFAULT_SIGNATURE_USERNAME}" "${value}")
 				str_params=$(concat_comma_string "${str_params}" "SignatureUsername = \"${value}\"")
-			elif [ "${key}" = "enablehostcapabilities" ]; then
-				value=$(value_or_default "${value_missing}" "${enablehostcapabilities}" "${value}")
-				str_params=$(concat_comma_string "${str_params}" "EnableHostCapabilities = ${value}")
+			elif [ "${key}" = "enablehostnscapabilities" ]; then
+				value=$(value_or_default "${value_missing}" "${enablehostnscapabilities}" "${value}")
+				str_params=$(concat_comma_string "${str_params}" "EnableHostNSCapabilities = ${value}")
 			elif [ "${key}" = "debugargs" ]; then
 				debugargs=$(value_or_default "${value_missing}" "1" "${value}")
 			else
