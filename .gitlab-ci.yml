@@ -1,6 +1,7 @@
 variables:
   CI_DESIGNATED_BRANCH: prpl/nightly
   CI_DESIGNATED_BRANCH_SLUG: prpl-nightly
+  FF_TIMESTAMPS: 1
 
 .cram changes wnc-freedom:
   rules:
