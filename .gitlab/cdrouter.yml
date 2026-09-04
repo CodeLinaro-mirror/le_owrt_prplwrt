@@ -206,7 +206,7 @@
         script --quiet --command "ssh -t root@$TARGET_LAN_IP /bin/getDebugInformation --all"
         scp -O -r root@${TARGET_LAN_IP}:/tmp/debug-*_all.tar.gz . > /dev/null
         scp -O -r root@${TARGET_LAN_IP}:/etc etc > /dev/null
-        scp -O -r root@${TARGET_LAN_IP}:/tmp/beerocks/logs prplmesh_beerocks_logs > /dev/null
+        scp -O -r root@${TARGET_LAN_IP}:/var/log/prplmesh prplmesh_beerocks_logs > /dev/null
       } || true
 
     - .gitlab/scripts/testbed-device.py --target $LABGRID_TARGET power off
