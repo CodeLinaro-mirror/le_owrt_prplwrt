@@ -19,8 +19,8 @@ Add user role to the ExecutionEnvironment
   SoftwareModules.ExecEnv.1.ModifyAvailableRoles() returned
   ["",{"err_code":0,"err_msg":""}]
 
-Test running a container with EnableHostCapabilities=false
-  $ R "${S} && install_ctr --url ${SERVICE_URL} --waittime 20 --ee --uuid --privileged false --enablehostcapabilities false --userroles ${USERROLE}" > /dev/null
+Test running a container with EnableHostNSCapabilities=false
+  $ R "${S} && install_ctr --url ${SERVICE_URL} --waittime 20 --ee --uuid --privileged false --enablehostnscapabilities false --userroles ${USERROLE}" > /dev/null
   $ R "${S} && get_container_info --uuid"
   3.16
   Active
@@ -38,8 +38,8 @@ Uninstall the container
   $ R "${S} && uninstall_ctr_and_check --uuid"
   [1]
 
-C-2 Test running a container with EnableHostCapabilities=true
-  $ R "${S} && install_ctr --url ${SERVICE_URL} --waittime 20 --ee --uuid --privileged false --enablehostcapabilities true --userroles ${USERROLE}" > /dev/null
+C-2 Test running a container with EnableHostNSCapabilities=true
+  $ R "${S} && install_ctr --url ${SERVICE_URL} --waittime 20 --ee --uuid --privileged false --enablehostnscapabilities true --userroles ${USERROLE}" > /dev/null
   $ R "${S} && get_container_info --uuid"
   3.16
   Active
