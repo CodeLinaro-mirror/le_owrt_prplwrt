@@ -8,18 +8,24 @@ Create R alias:
 Check Bulkdata syslog messages:
 
   $ check_bulkdata_success() {
-  >   local no_sync="$1"
-  >   success=true
-  >   if [ -z "$no_sync" ]; then
-  >     result=$(R "grep 'bulkdata' /var/log/messages | grep 'http request sent successfully for profile' | tail -n 1 | sed 's/.*tr181-bulkdata: //'")
-  >     transfer_failed=$(R "grep 'bulkdata' /var/log/messages | grep 'transfer failed' | tail -n 1 | sed 's/.*tr181-bulkdata: //'")
-  >     if [ -z "$result" -a -z "$transfer_failed" ]; then
-  >       success=false
+  >   local first_line="$1"
+  >   local timeout="$2"
+  >   local success_pattern="$3"
+  >   local attempt logs
+  >   for attempt in $(seq 1 "$timeout"); do
+  >     logs=$(R "tail -n +$first_line /var/log/messages | grep bulkdata" || true)
+  >     if echo "$logs" | grep -Fq 'transfer failed'; then
+  >       echo "$logs" >&2
+  >       return 1
   >     fi
-  >   fi
-  >   if [ "$success" = true ]; then
-  >     echo "Test Successful"
-  >   fi
+  >     if echo "$logs" | grep -Fiq "$success_pattern"; then
+  >       echo "Test Successful"
+  >       return 0
+  >     fi
+  >     sleep 1
+  >   done
+  >   echo "$logs" >&2
+  >   return 1
   > }
 
 Check time synchronization to start BulkData module:
@@ -74,18 +80,19 @@ Check to update JSON object:
 
 Check adding a parameter to be sent in the report:
 
-  $ R "ba-cli 'BulkData.Profile.http-json.Parameter.+{Name="Contacts", Reference="Phonebook.Contact."}' | grep -Ev '^(>|$)' | grep '.'"
+  $ R "ba-cli 'BulkData.Profile.http-json.Parameter.+{Name="SerialNumber", Reference="DeviceInfo.SerialNumber"}' | grep -Ev '^(>|$)' | grep '.'"
   BulkData.Profile.[0-9]+.Parameter.[0-9]+. (re)
 
 Check after enabling the configured profile:
 
   $ sleep 5 # wait for object creation
+  $ log_start=$(R "wc -l < /var/log/messages"); log_start=$((log_start + 1))
   $ R "ba-cli 'BulkData.Profile.http-json.Enable="true"' | grep -Ev '^(>|$)' | grep '='"
   BulkData.Profile.[0-9]+.Enable=1 (re)
 
 Check traces:
 
-  $ check_bulkdata_success "$no_sync"
+  $ check_bulkdata_success "$log_start" 40 "HTTP request sent successfully for profile 'BulkData.Profile.http-json'"
   Test Successful
 
 2-HTTP Profile to send CSV report
@@ -124,22 +131,23 @@ Check to update HTTP object:
 
 Check adding a parameter to be sent in the report:
 
-  $ R "ba-cli 'BulkData.Profile.http-csv.Parameter.+{Name="Contacts", Reference="Phonebook.Contact."}' | grep -Ev '^(>|$)' | grep '.'"
+  $ R "ba-cli 'BulkData.Profile.http-csv.Parameter.+{Name="SerialNumber", Reference="DeviceInfo.SerialNumber"}' | grep -Ev '^(>|$)' | grep '.'"
   BulkData.Profile.[0-9]+.Parameter.[0-9]+. (re)
 
 Check after enabling the configured profile:
 
   $ sleep 5 # wait for object creation
+  $ log_start=$(R "wc -l < /var/log/messages"); log_start=$((log_start + 1))
   $ R "ba-cli 'BulkData.Profile.http-csv.Enable="true"' | grep -Ev '^(>|$)' | grep '='"
   BulkData.Profile.[0-9]+.Enable=1 (re)
 
 Check traces:
 
-  $ check_bulkdata_success "$no_sync"
+  $ check_bulkdata_success "$log_start" 40 "HTTP request sent successfully for profile 'BulkData.Profile.http-csv'"
   Test Successful
 
-3-MQTT Profile
-Check adding an object with MQTT profile:
+3-USP event notification profile
+Check adding an object with USP event notification profile:
 
   $ R "ba-cli 'BulkData.Profile.*.-'" > /dev/null
 
@@ -156,19 +164,21 @@ Check to update JSON object:
 
 Check adding a parameter to be sent in the report:
 
-  $ R "ba-cli 'BulkData.Profile.mqtt-json.Parameter.+{Name="Contacts", Reference="Phonebook.Contact."}' | grep -Ev '^(>|$)' | grep '.'"
+  $ R "ba-cli 'BulkData.Profile.mqtt-json.Parameter.+{Name="SerialNumber", Reference="DeviceInfo.SerialNumber"}' | grep -Ev '^(>|$)' | grep '.'"
   BulkData.Profile.[0-9]+.Parameter.[0-9]+. (re)
 
 Check after enabling the configured profile:
 
   $ sleep 5 # wait for object creation
+  $ serial_number=$(R "ba-cli -lj DeviceInfo.SerialNumber?" | jq -er '.[] | .[] | .SerialNumber')
   $ R "ba-cli 'BulkData.Profile.mqtt-json.Enable="true"' | grep -Ev '^(>|$)' | grep '='"
   BulkData.Profile.[0-9]+.Enable=1 (re)
 
 Check traces:
 
-  $ check_bulkdata_success "$no_sync"
-  Test Successful
+  $ R "ubus -t 15 subscribe BulkData.Profile" > notifications.json
+  $ jq -es --arg serial "$serial_number" '[.[] | .["Push!"].data | select(.Data != null) | .Data | fromjson | .Report[] | select(.SerialNumber == $serial)] | length > 0' notifications.json
+  true
 
 Restore default settings:
   $ if [ "$time_sync" = true -a -n "$no_sync" ]; then
