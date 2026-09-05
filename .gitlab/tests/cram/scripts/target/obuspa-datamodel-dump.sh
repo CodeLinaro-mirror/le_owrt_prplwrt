@@ -4,6 +4,7 @@ case "${1:-generic}" in
     generic)
         obuspa -f /etc/obuspa.db -c dump datamodel | grep '^Device.' | grep -v \
             -e 'proto::cellular-manager' \
+            -e 'Device.IEEE1905.' \
             -e 'Device.WiFi.AccessPoint.{i}.Vendor.' \
             -e 'Device.WiFi.EndPoint.{i}.Vendor.' \
             -e 'Device.WiFi.Radio.{i}.Vendor.' \
