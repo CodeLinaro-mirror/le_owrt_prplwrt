@@ -1,9 +1,10 @@
 .build test config:
   stage: build
   timeout: 2 hours
-  image: "$CI_REGISTRY_IMAGE/$CI_DESIGNATED_BRANCH_SLUG/builder:latest"
+  image: "$BUILD_RUNNER_IMAGE"
   tags:
-    - firmware-builder
+    - $BUILD_RUNNER_TAG
+  resource_group: "build-$CI_MERGE_REQUEST_IID-$CI_COMMIT_REF_SLUG-$CI_JOB_NAME_SLUG"
   variables:
     CI_BUILD_CONFIG: >
       +DEVEL +BUILD_LOG +SDK +INCLUDE_CONFIG +IB +IB_STANDALONE
@@ -12,12 +13,25 @@
       when: never
     - if: '$CI_COMMIT_BRANCH == $CI_DESIGNATED_BRANCH'
     - if: '$CI_COMMIT_TAG =~ /^prplware-v[0-9]+\.[0-9]+\.[0-9]+.*$/'
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      when: manual
+      variables:
+        GIT_DEPTH: "0"
     - when: manual
   before_script:
     - touch .build_failed
     - export CI_BUILD_PROFILE="$(echo $CI_JOB_NAME | sed 's/build test \(.*\)/\1/')"
 
   script:
+    - |
+      if [ "${BUILD_PERSISTENT:-0}" = 1 ] && [ -f /build/.slot-id ] && [ -S /run/prplos-persist/broker.sock ]; then
+        bash "$CI_PROJECT_DIR/.gitlab/scripts/persistent-build.sh"
+        exit $?
+      fi
+      if [ "${BUILD_PERSISTENT:-0}" = 1 ]; then
+        echo "Persistent build runner mounts are missing" >&2
+        exit 1
+      fi
     - source .gitlab/scripts/helpers.sh
 
     - section_start "build-setup" "Build Setup" "collapsed"

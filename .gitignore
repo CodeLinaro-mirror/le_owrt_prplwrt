@@ -37,3 +37,5 @@ git-src
 .vscode*
 __pycache__/
 /.genconfig-state/
+/.build_failed
+/rootfs-debug.tar.xz

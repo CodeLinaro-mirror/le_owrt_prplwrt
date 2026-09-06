@@ -1,4 +1,29 @@
+workflow:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $PRPLOS_PERSISTENT_ROUTING != "0" && $CI_MERGE_REQUEST_LABELS =~ /(^|,)build::clean(,|$)/'
+      variables:
+        BUILD_RUNNER_TAG: "prplos-builder-persistent"
+        BUILD_PERSISTENT: "1"
+        BUILD_RUNNER_IMAGE: "registry.gitlab.com/prpl-foundation/prplos/prplos/prpl-nightly/builder@sha256:d7237c0417589ed27832a2b133086dd126374727590d81c0fe69a81469773808"
+        BUILD_CLEAN_LABEL: "1"
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $PRPLOS_PERSISTENT_ROUTING != "0"'
+      variables:
+        BUILD_RUNNER_TAG: "prplos-builder-persistent"
+        BUILD_PERSISTENT: "1"
+        BUILD_RUNNER_IMAGE: "registry.gitlab.com/prpl-foundation/prplos/prplos/prpl-nightly/builder@sha256:d7237c0417589ed27832a2b133086dd126374727590d81c0fe69a81469773808"
+        BUILD_CLEAN_LABEL: "0"
+    - when: always
+      variables:
+        BUILD_RUNNER_TAG: "firmware-builder"
+
 variables:
+  PRPLOS_PERSISTENT_ROUTING: "1"
+  BUILD_INCREMENTAL_GENERATOR: "1"
+  BUILD_CCACHE: "1"
+  # PRPLOS_BUILDER_IMAGE and _DIGEST are project variables for identity checks.
+  BUILD_RUNNER_IMAGE: "$CI_REGISTRY_IMAGE/$CI_DESIGNATED_BRANCH_SLUG/builder:latest"
+  BUILD_PERSISTENT: "0"
+  BUILD_CLEAN_LABEL: "0"
   CI_DESIGNATED_BRANCH: prpl/nightly
   CI_DESIGNATED_BRANCH_SLUG: prpl-nightly
 
@@ -142,19 +167,29 @@ build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security
     - if: '$CI_COMMIT_BRANCH == $CI_DESIGNATED_BRANCH'
     - if: '$CI_COMMIT_TAG =~ /^prplware-v[0-9]+\.[0-9]+\.[0-9]+.*$/'
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CRAM_COMPONENTS != null'
+      variables:
+        GIT_DEPTH: "0"
       when: manual
       allow_failure: true
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_LABELS =~ /(^|,)cram::skip($|,)/'
+      variables:
+        GIT_DEPTH: "0"
       when: manual
       allow_failure: true
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_LABELS =~ /(^|,)cram::(full|prplmesh|lcm|prplos)($|,)/'
+      variables:
+        GIT_DEPTH: "0"
       when: manual
       allow_failure: false
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      variables:
+        GIT_DEPTH: "0"
       changes: *cram_changes_mxl25641_hdk_6
       when: manual
       allow_failure: false
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      variables:
+        GIT_DEPTH: "0"
       when: manual
       allow_failure: true
     - when: manual
@@ -167,16 +202,24 @@ build test mvebu prpl security:
     - if: '$CI_COMMIT_BRANCH == $CI_DESIGNATED_BRANCH'
     - if: '$CI_COMMIT_TAG =~ /^prplware-v[0-9]+\.[0-9]+\.[0-9]+.*$/'
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CRAM_COMPONENTS != null'
+      variables:
+        GIT_DEPTH: "0"
       when: manual
       allow_failure: true
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_LABELS =~ /(^|,)cram::skip($|,)/'
+      variables:
+        GIT_DEPTH: "0"
       when: manual
       allow_failure: true
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      variables:
+        GIT_DEPTH: "0"
       changes: *cram_changes_turris_omnia
       when: manual
       allow_failure: false
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      variables:
+        GIT_DEPTH: "0"
       when: manual
       allow_failure: true
     - when: manual
@@ -192,16 +235,24 @@ build test ipq807x prpl security:
     - if: '$CI_COMMIT_BRANCH == $CI_DESIGNATED_BRANCH'
     - if: '$CI_COMMIT_TAG =~ /^prplware-v[0-9]+\.[0-9]+\.[0-9]+.*$/'
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CRAM_COMPONENTS != null'
+      variables:
+        GIT_DEPTH: "0"
       when: manual
       allow_failure: true
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_LABELS =~ /(^|,)cram::skip($|,)/'
+      variables:
+        GIT_DEPTH: "0"
       when: manual
       allow_failure: true
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      variables:
+        GIT_DEPTH: "0"
       changes: *cram_changes_prpl_haze
       when: manual
       allow_failure: false
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      variables:
+        GIT_DEPTH: "0"
       when: manual
       allow_failure: true
     - when: manual
@@ -214,16 +265,24 @@ build test mtk_filogic prpl security:
     - if: '$CI_COMMIT_BRANCH == $CI_DESIGNATED_BRANCH'
     - if: '$CI_COMMIT_TAG =~ /^prplware-v[0-9]+\.[0-9]+\.[0-9]+.*$/'
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CRAM_COMPONENTS != null'
+      variables:
+        GIT_DEPTH: "0"
       when: manual
       allow_failure: true
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_LABELS =~ /(^|,)cram::skip($|,)/'
+      variables:
+        GIT_DEPTH: "0"
       when: manual
       allow_failure: true
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      variables:
+        GIT_DEPTH: "0"
       changes: *cram_changes_arcadyan_mozart
       when: manual
       allow_failure: false
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      variables:
+        GIT_DEPTH: "0"
       when: manual
       allow_failure: true
     - when: manual
@@ -236,16 +295,24 @@ build test airoha_an7581 prpl security:
     - if: '$CI_COMMIT_BRANCH == $CI_DESIGNATED_BRANCH'
     - if: '$CI_COMMIT_TAG =~ /^prplware-v[0-9]+\.[0-9]+\.[0-9]+.*$/'
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CRAM_COMPONENTS != null'
+      variables:
+        GIT_DEPTH: "0"
       when: manual
       allow_failure: true
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_LABELS =~ /(^|,)cram::skip($|,)/'
+      variables:
+        GIT_DEPTH: "0"
       when: manual
       allow_failure: true
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      variables:
+        GIT_DEPTH: "0"
       changes: *cram_changes_nokia_valyrian
       when: manual
       allow_failure: false
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      variables:
+        GIT_DEPTH: "0"
       when: manual
       allow_failure: true
     - when: manual
@@ -258,19 +325,29 @@ build test qca_ipq95xx prpl cellular security thread:
     - if: '$CI_COMMIT_BRANCH == $CI_DESIGNATED_BRANCH'
     - if: '$CI_COMMIT_TAG =~ /^prplware-v[0-9]+\.[0-9]+\.[0-9]+.*$/'
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CRAM_COMPONENTS != null'
+      variables:
+        GIT_DEPTH: "0"
       when: manual
       allow_failure: true
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_LABELS =~ /(^|,)cram::skip($|,)/'
+      variables:
+        GIT_DEPTH: "0"
       when: manual
       allow_failure: true
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_LABELS =~ /(^|,)cram::(full|prplmesh|lcm|prplos)($|,)/'
+      variables:
+        GIT_DEPTH: "0"
       when: manual
       allow_failure: false
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      variables:
+        GIT_DEPTH: "0"
       changes: *cram_changes_wnc_freedom
       when: manual
       allow_failure: false
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      variables:
+        GIT_DEPTH: "0"
       when: manual
       allow_failure: true
     - when: manual

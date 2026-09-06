@@ -1,0 +1,98 @@
+#!/usr/bin/env bash
+set -euo pipefail
+die() { echo "persistent: $*" >&2; exit 1; }
+(( $# > 0 )) || die "Missing build command"
+[[ ${CI_PROJECT_ID:?} =~ ^[0-9]+$ && ${CI_MERGE_REQUEST_IID:?} =~ ^[0-9]+$ ]] || die "Expected numeric project and merge request IDs"
+[[ ${PRPLOS_BUILDER_IMAGE_DIGEST:?} =~ ^sha256:[a-f0-9]{64}$ ]] || die "Missing or invalid immutable builder digest"
+[[ ${CI_JOB_IMAGE:?} == "${PRPLOS_BUILDER_IMAGE:?}" ]] || die "Job image differs from configured builder image"
+for flag in "${CLEAN_BUILD:-0}" "${BUILD_CLEAN_LABEL:-0}" "${CLEAN_NO_CCACHE:-0}"; do
+    [[ $flag == 0 || $flag == 1 ]] || die "Clean controls must be 0 or 1"
+done
+slot=$(cat /build/.slot-id)
+[[ $slot == 0 || $slot == 1 ]] || die "Slot identifier must be 0 or 1"
+export BUILD_JOBS=${BUILD_JOBS:-12}
+[[ $BUILD_JOBS =~ ^[1-9][0-9]*$ ]] || die "BUILD_JOBS must be positive"
+generation=$(printf '%s\n' "${CI_JOB_NAME:?}" "$PRPLOS_BUILDER_IMAGE_DIGEST" policy-v3 | sha256sum)
+export BUILD_TREE_KEY="p${CI_PROJECT_ID}-mr${CI_MERGE_REQUEST_IID}-${generation%% *}"
+export BUILD_CLEAN=$(( ${CLEAN_BUILD:-0} || ${BUILD_CLEAN_LABEL:-0} )) BUILD_DL_DIR=/dl
+# BEGIN GENERATED PROTOCOL
+declare -A broker_timeouts=([ATTACH]=960 [DETACH]=660 [PUBLISH-DL]=660)
+cancel_grace=20
+# END GENERATED PROTOCOL
+broker() {
+    local rc
+    if python3 - "${broker_timeouts[$1]}" "$@" <<'PY'
+import socket,sys
+try:
+    with socket.socket(socket.AF_UNIX,socket.SOCK_STREAM) as conn:
+        conn.settimeout(int(sys.argv[1]));sys.argv.pop(1)
+        conn.connect('/run/prplos-persist/broker.sock')
+        conn.sendall((' '.join(sys.argv[1:])+'\n').encode('ascii'))
+        response=conn.makefile('rb').readline(4097)
+        if len(response)>4096 or not response.endswith(b'\n'):
+            raise ValueError('invalid broker response')
+        text=response.decode('ascii').strip()
+        if text != 'OK' and not text.startswith('OK '):
+            raise ValueError(text)
+        print(text)
+except TimeoutError:
+    print('persistent: broker timed out; exiting for liveness recovery',file=sys.stderr)
+    sys.exit(124)
+except (OSError,ValueError,UnicodeError) as exc:
+    print(f'persistent: broker request failed: {exc}',file=sys.stderr)
+    sys.exit(1)
+PY
+    then return 0
+    else
+        rc=$?
+        if (( rc == 124 )); then trap - EXIT INT TERM; exit 124; fi
+        return "$rc"
+    fi
+}
+interrupted=0
+build_pid=
+cancel() {
+    interrupted=1
+    if [[ -n $build_pid ]]; then
+        kill -TERM -- "-$build_pid" 2>/dev/null || :
+        local deadline=$((SECONDS + cancel_grace))
+        while kill -0 -- "-$build_pid" 2>/dev/null && (( SECONDS < deadline )); do sleep 0.1; done
+        kill -KILL -- "-$build_pid" 2>/dev/null || :
+        wait "$build_pid" 2>/dev/null || :
+    fi
+    exit "$1"
+}
+finish() {
+    status=$?; trap - EXIT INT TERM; set +e; cd /
+    if (( status == 0 && interrupted == 0 )); then
+        broker PUBLISH-DL "$slot" || status=1
+    fi
+    # The broker handles absent/already-returned trees. Never guess their location.
+    if ! broker DETACH "$slot" "$status" "$interrupted"; then
+        echo 'persistent: DETACH failed; broker reconciliation required; tree location is unknown' >&2
+        status=1
+    fi
+    exit "$status"
+}
+printf 'section_start:%s:tree-attach\r\033[0K\n' "$(date +%s)"
+# Invoke Python from the lasting wrapper, not a command-substitution subshell:
+# SO_PEERCRED -> PPid must identify this shell throughout the build.
+reply_file=$(mktemp)
+broker ATTACH "$BUILD_TREE_KEY" "$slot" "$BUILD_CLEAN" "$PRPLOS_BUILDER_IMAGE_DIGEST" > "$reply_file"
+trap finish EXIT
+trap 'cancel 130' INT
+trap 'cancel 143' TERM
+reply=$(cat "$reply_file"); rm -f "$reply_file"
+[[ $reply =~ ^OK\ reused=([01])\ parent_sha=([a-f0-9]{40,64}|-)\ state=(clean|cold|warm)$ ]] || die "Invalid ATTACH metadata"
+export BUILD_TREE_REUSED=${BASH_REMATCH[1]} BUILD_PARENT_SHA=${BASH_REMATCH[2]}
+[[ $BUILD_PARENT_SHA != - ]] || BUILD_PARENT_SHA=
+if [[ ${BASH_REMATCH[3]} != warm ]]; then export BUILD_CLEAN=1 BUILD_CLEAN_REASON=broker-cold; fi
+export BUILD_ATTACH_SECONDS=$SECONDS
+printf 'section_end:%s:tree-attach\r\033[0K\n' "$(date +%s)"
+cd /build/prplos
+[[ $(pwd -P) == /build/prplos ]] || die "Expected fixed build mount path"
+# Keep job control OFF: set -m makes setsid fork and $! is no longer the build PGID.
+# setsid gives the entire build a separate process group. Bash wait is signalable.
+setsid "$@" &
+build_pid=$!
+wait "$build_pid"
