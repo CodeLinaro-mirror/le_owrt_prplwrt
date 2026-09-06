@@ -46,7 +46,7 @@ cli_cmd() {
 	esac
 }
 
-MAX_WAIT_CTR_UP=60
+MAX_WAIT_CTR_UP=180
 
 ## Return default container name based on target.
 ## Default is Cortex-A53 based ARM 64-bit container
@@ -246,16 +246,21 @@ wait_ctr_up() {
 			return
 		fi
 		i=0
-		while [ $i -le ${MAX_WAIT_CTR_UP} ]; do
+		while :; do
 			status=$(cli_json_safe "SoftwareModules.ExecutionUnit.[ EUID == \"${duid}\" ].Status?" -e @[*].*.Status)
-			if [ "${status}" != "Active" ]; then
-				i=$((i + 2))
-				sleep 2
-			else
+			if [ "${status}" = "Active" ]; then
+				return 0
+			fi
+			if [ "$i" -ge "$waittime" ]; then
 				break
 			fi
-			# timeout
+			delay=$((waittime - i))
+			[ "$delay" -le 2 ] || delay=2
+			sleep "$delay"
+			i=$((i + delay))
 		done
+		echo "Container with UUID=${uuid} did not become Active after ${waittime}s (status: ${status:-unknown})" >&2
+		return 1
 	fi
 }
 
