@@ -37,7 +37,8 @@ def usage(code: int = 0):
         f"""Usage: {sys.argv[0]} <profile> [options...]
 
     clean           Cleanup feeds related parts in the tree and exit.
-    list            List available profiles"""
+    list            List available profiles
+    --incremental   Retain clean feeds and emit logs/incremental-plan.json"""
     )
     quit(code)
 
@@ -148,6 +149,13 @@ def handle_feed_revision(profile_feed: dict, feeds: list):
     feeds.append(f)
 
 
+incremental = "--incremental" in sys.argv
+if incremental:
+    sys.argv = [arg for arg in sys.argv if arg != "--incremental"]
+    sys.excepthook = lambda kind, error, trace: print(f"Incremental setup failed: {error}", file=sys.stderr)
+    if "clean" in sys.argv:
+        die("--incremental cannot be combined with clean")
+
 if "list" in sys.argv:
     for folder in profile_folders.split(':')[::-1]:
         print(f"Profiles in {folder}")
@@ -161,14 +169,19 @@ if "help" in sys.argv:
 if len(sys.argv) < 2:
     usage(1)
 
-rmtree("./tmp", ignore_errors=True)
-rmtree("./package/feeds/", ignore_errors=True)
-rmtree("./feeds", ignore_errors=True)
-rmtree("./tmp", ignore_errors=True)
-if Path("./feeds.conf").is_file():
-    Path("./feeds.conf").unlink()
-if Path("./.config").is_file():
-    Path("./.config").unlink()
+if incremental:
+    from gen_config_incremental import IncrementalSetup
+    setup = IncrementalSetup()
+else:
+    rmtree("./.genconfig-state", ignore_errors=True)
+    rmtree("./tmp", ignore_errors=True)
+    rmtree("./package/feeds/", ignore_errors=True)
+    rmtree("./feeds", ignore_errors=True)
+    rmtree("./tmp", ignore_errors=True)
+    if Path("./feeds.conf").is_file():
+        Path("./feeds.conf").unlink()
+    if Path("./.config").is_file():
+        Path("./.config").unlink()
 
 if "clean" in sys.argv:
     print("Tree is now clean")
@@ -216,7 +229,9 @@ with open("feeds.conf.default", "r") as default_feeds:
 if run_cmd(["./scripts/feeds", "setup", *feeds]).returncode:
     die(f"Error setting up feeds")
 
-if run_cmd(["./scripts/feeds", "update"]).returncode:
+if incremental:
+    setup.update()
+elif run_cmd(["./scripts/feeds", "update"]).returncode:
     die(f"Error updating feeds")
 
 for p in profile.get("feeds", []):
@@ -271,7 +286,14 @@ print("Configuration written to .config")
 if getenv("GENCONFIG_VERBOSE"):
     print(config_output)
 
-rmtree("./tmp", ignore_errors=True)
+if incremental:
+    from gen_config_incremental import refresh_metadata
+    refresh_metadata()
+else:
+    rmtree("./tmp", ignore_errors=True)
 print("Running make defconfig")
 if run_cmd(["make", "defconfig"]).returncode:
     die(f"Error running make defconfig")
+
+if incremental:
+    setup.finish()
