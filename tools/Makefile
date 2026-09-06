@@ -147,6 +147,8 @@ else
 endif
 
 ifneq ($(CONFIG_CCACHE)$(CONFIG_SDK),)
+# liblzo can be built only as a dependency of lzop.
+$(curdir)/liblzo/compile += $(curdir)/ccache/compile
 $(foreach tool, $(filter-out zstd zlib xz pkgconf patch ninja meson libressl expat cmake,$(tools-y)), $(eval $(curdir)/$(tool)/compile += $(curdir)/ccache/compile))
 tools-y += ccache
 $(curdir)/ccache/compile := $(curdir)/cmake/compile
