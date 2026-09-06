@@ -161,6 +161,7 @@ my %update_method = (
 		'update'	=> "",
 		'revision'	=> "echo -n 'dummy'"},
 	'src-git' => {
+		'incremental_depth' => ['--depth', '1'],
 		'init'          => "git clone --depth 1 '%s' '%s'",
 		'init_branch'   => "git clone --depth 1 --branch '%s' '%s' '%s'",
 		'init_commit'   => "git clone --depth 1 '%s' '%s' && cd '%s' && git fetch --depth=1 origin '%s' && git -c advice.detachedHead=false checkout '%s' && cd -",
@@ -172,6 +173,7 @@ my %update_method = (
 		'controldir'	=> ".git",
 		'revision'	=> "git rev-parse HEAD | tr -d '\n'"},
 	'src-git-full' => {
+		'incremental_depth' => [],
 		'init'          => "git clone '%s' '%s'",
 		'init_branch'   => "git clone --branch '%s' '%s' '%s'",
 		'init_commit'   => "git clone '%s' '%s' && cd '%s' && git checkout -b '%s' '%s' && cd -",
@@ -839,6 +841,106 @@ sub update_feed($$$$$$)
 	return $rv;
 }
 
+# Read Git output without shell interpolation. Keep read-only probes from
+# refreshing the index, so an unchanged pinned feed needs no filesystem writes.
+sub incremental_git {
+	my ($path, @args) = @_;
+	my $optional = $args[0] eq '--optional' && shift @args;
+	local $ENV{GIT_OPTIONAL_LOCKS} = 0;
+	open my $fh, '-|', 'git', '-C', $path, @args or die "Cannot run git: $!\n";
+	local $/;
+	my $out = <$fh> // '';
+	if (!close $fh) { return undef if $optional; die "Git probe failed for $path (@args)\n"; }
+	$out =~ s/\n$//;
+	return $out;
+}
+
+sub incremental_write {
+	my ($path, $value) = @_;
+	if (open my $fh, '<', $path) {
+		local $/;
+		return if (<$fh> // '') eq "$value\n";
+	}
+	open my $fh, '>', "$path.new" or die "Cannot write $path: $!\n";
+	print $fh "$value\n";
+	close $fh or die "Cannot close $path: $!\n";
+	rename "$path.new", $path or die "Cannot replace $path: $!\n";
+}
+
+# Returns whether the feed needs reindexing. Never changes the legacy updater.
+sub update_feed_incremental {
+	my ($type, $name, $sources) = @_;
+	my $path = "./feeds/$name";
+	my $method_file = "./feeds/$name.tmp/incremental-method";
+	my $reset_file = "./feeds/$name.tmp/incremental-reset";
+	unlink $reset_file or die "Cannot clear $reset_file: $!\n" if -e $reset_file;
+	my $old_method = '';
+	if (open my $fh, '<', $method_file) { chomp($old_method = <$fh> // ''); }
+	my $git = exists $update_method{$type} && exists $update_method{$type}{'incremental_depth'};
+	my ($url, $separator, $ref) = $sources->[0] =~ /^(.*?)(?:([;^])([^;^]+))?$/;
+	my $existing = -d "$path/.git" && !-l $path;
+	my $old = $existing ? incremental_git($path, '--optional', 'rev-parse', '--verify', 'HEAD') : undef;
+	my $reuse = defined($old) && $git && @$sources == 1 && $existing && $old_method eq $type
+		&& (incremental_git($path, '--optional', 'remote', 'get-url', 'origin') // '') eq $url;
+	my $changed = 1;
+	if (!$reuse) {
+		warn "Incremental feed $name: legacy replacement (new feed, method/URL change or unsupported method)\n";
+		# A method change is not represented by the legacy location file.
+		# Remove only this feed; never follow a src-link into an external tree.
+		if (-l $path) { unlink $path or die "Cannot unlink $path: $!\n"; }
+		elsif (-e $path) { system('rm', '-rf', '--', $path) == 0 or die "Cannot remove $path\n"; }
+		update_feed($type, $name, $sources, 0, 0, 0) == 0 or die "Cannot initialize $name\n";
+	} else {
+		if (incremental_git($path, 'status', '--porcelain', '--untracked-files=all') ne '') {
+			warn "Incremental feed $name: dirty worktree, replacing copy\n";
+			system('rm', '-rf', '--', $path) == 0 or die "Cannot replace $path\n";
+			update_feed($type, $name, $sources, 0, 0, 0) == 0 or die "Cannot initialize $name\n";
+			incremental_write($method_file, $type);
+			incremental_write($reset_file, 'dirty-feed');
+			return 1;
+		}
+		my $new;
+		if (($separator // '') eq '^') {
+			$ref =~ /^[0-9a-f]{40}$/ or die "Incremental pin must be a full SHA: $name\n";
+			$new = $ref;
+		} else {
+			my $remote_ref = defined($ref) ? "refs/heads/$ref" : 'HEAD';
+			my $remote = incremental_git($path, 'ls-remote', '--exit-code', 'origin', $remote_ref);
+			($new) = $remote =~ /^([0-9a-f]{40})\s/;
+			defined($new) or die "Cannot resolve branch for $name\n";
+		}
+		$changed = $old ne $new;
+		if ($changed) {
+			system('git', '-C', $path, 'update-ref', "refs/genconfig/prev/$name", $old) == 0 or die "Cannot pin old revision\n";
+			my @depth = @{$update_method{$type}{'incremental_depth'}};
+			system('git', '-C', $path, '-c', 'gc.auto=0', 'fetch', @depth, 'origin', $new) == 0 or die "Fetch failed: $name\n";
+			my $raw = incremental_git($path, 'diff', '--raw', '--no-renames', $old, $new, '--');
+			if ($raw =~ /^:(?:160000 |[0-9]+ 160000 )/m) {
+				warn "Incremental feed $name: replacing copy for changed submodule topology/pin\n";
+				system('rm', '-rf', '--', $path) == 0 or die "Cannot replace $path\n";
+				update_feed($type, $name, $sources, 0, 0, 0) == 0 or die "Cannot initialize $name\n";
+				incremental_write($method_file, $type);
+				return 1;
+			}
+			# Branch feeds stay detached; use -k again or fresh legacy setup before plain update.
+			system('git', '-C', $path, '-c', 'advice.detachedHead=false', 'checkout', '--detach', $new) == 0
+				or die "Checkout failed: $name\n";
+		}
+		my $submodules = incremental_git($path, 'submodule', 'status', '--recursive');
+		if ($changed || $submodules =~ /^[+\-U]/m) {
+			$changed = 1;
+			system('git', '-C', $path, 'submodule', 'sync', '--recursive') == 0 or die "Submodule sync failed\n";
+			my @depth = @{$update_method{$type}{'incremental_depth'}};
+			system('git', '-C', $path, 'submodule', 'update', '--init', '--recursive', @depth) == 0
+				or die "Submodule update failed\n";
+		}
+		# Publish location only after checkout and submodules succeeded.
+		incremental_write("./feeds/$name.tmp/location", "@$sources");
+	}
+	incremental_write($method_file, $type);
+	return $changed || !-e "./feeds/$name.index" || !-e "./feeds/$name.targetindex";
+}
+
 sub update {
 	my %opts;
 	my %argv_feeds;
@@ -847,12 +949,16 @@ sub update {
 	$ENV{SCAN_COOKIE} = $$;
 	$ENV{OPENWRT_VERBOSE} = 's';
 
-	getopts('ahifrs', \%opts);
+	getopts('ahifrsk', \%opts);
 	%argv_feeds = map { $_ => 1 } @ARGV;
 
 	if ($opts{h}) {
 		usage();
 		return 0;
+	}
+
+	if ($opts{k} && ($opts{i} || $opts{f} || $opts{r} || $opts{s})) {
+		die "update -k cannot be combined with -i/-f/-r/-s\n";
 	}
 
 	if ($opts{f} && ($opts{r} || $opts{s})) {
@@ -868,6 +974,14 @@ sub update {
 	foreach my $feed (@feeds) {
 		my ($type, $name, $src) = @$feed;
 		next unless $#ARGV == -1 or $opts{a} or $argv_feeds{$name};
+		if ($opts{k}) {
+			my $ok = eval {
+				push @index_feeds, $name if update_feed_incremental($type, $name, $src);
+				1;
+			};
+			if (!$ok) { warn "Incremental feed $name failed: $@"; $failed = 1; }
+			next;
+		}
 		if (not $opts{i}) {
 			update_feed($type, $name, $src, $opts{f}, $opts{r}, $opts{s}) == 0 or $failed=1;
 		}
@@ -882,7 +996,10 @@ sub update {
 	}
 
 	refresh_config();
-
+	if ($opts{k} && $failed) {
+		mkdir '.genconfig-state' unless -d '.genconfig-state';
+		incremental_write('.genconfig-state/incremental-plan.failed', 'Incomplete feed update; fresh tree required');
+	}
 	return $failed;
 }
 
@@ -977,6 +1094,7 @@ Commands:
 	    -a :           Update all feeds listed within feeds.conf. Otherwise the specified feeds will be updated.
 	    -r :           Update by rebase. (git only. Useful if local commits exist)
 	    -s :           Update by rebase and autostash. (git only. Useful if local commits and uncommited changes exist)
+	    -k :           Keep clean Git feed worktrees; fetch changed pins in place.
 	    -i :           Recreate the index only. No feed update from repository is performed.
 	    -f :           Force updating feeds even if there are changed, uncommitted files.
 
