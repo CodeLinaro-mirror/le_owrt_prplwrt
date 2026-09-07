@@ -118,6 +118,7 @@
     - sleep 5
 
     - python3 -m cram --verbose .gitlab/tests/cram/post/generic/50-check-for-crashes.t || cram_exit_code=$?
+    - ssh root@$TARGET_LAN_IP 'logger -t CI -p local0.info "Testing finished, $(uptime -p)"' || true
 
     - >
       if test -n "$cdrouter_exit_code"; then
@@ -139,7 +140,6 @@
       .gitlab/scripts/cdrouter-pretty-failures.awk cdrouter-results/*.txt
 
     - !reference [.dut-lifecycle.recover-ssh, script]
-    - ssh root@$TARGET_LAN_IP 'logger -t CI -p local0.info "Testing finished, $(uptime -p)"' || true
     - !reference [.dut-lifecycle.collect-logs, script]
     - mv console_$LABGRID_TARGET console_$LABGRID_TARGET.txt || true
     - !reference [.dut-lifecycle.extract-debug, script]
