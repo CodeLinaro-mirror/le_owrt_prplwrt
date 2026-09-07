@@ -154,6 +154,7 @@
     expire_in: 1 month
     when: always
     paths:
+      - memory-footprint/
       - cdrouter-results
       - etc
       - prplmesh_beerocks_logs

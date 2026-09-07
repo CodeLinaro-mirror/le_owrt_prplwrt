@@ -138,6 +138,7 @@
     expire_in: 1 month
     when: always
     paths:
+      - memory-footprint/
       - .gitlab/tests/cram/**/*.t.err
       - .gitlab/tests/cram/**/*.actual
       - .gitlab/tests/cram/**/*.diff
