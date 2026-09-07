@@ -63,6 +63,7 @@
     - ssh root@$TARGET_LAN_IP 'logger -t CI -p local0.info "System accessible over SSH, $(uptime -p)"' || true
     - ssh root@$TARGET_LAN_IP "cat /var/log/messages" > syslog-$LABGRID_TARGET.txt 2> /dev/null || true
     - ssh root@$TARGET_LAN_IP "ubus call system board" | tee system-$LABGRID_TARGET.json
+    - .gitlab/scripts/memory-footprint.sh boot || true
 
 .dut-lifecycle.recover-ssh:
   script:
@@ -86,6 +87,7 @@
 
 .dut-lifecycle.collect-logs:
   script:
+    - .gitlab/scripts/memory-footprint.sh final || true
     - >
       ssh root@$TARGET_LAN_IP exit && {
         ssh root@$TARGET_LAN_IP ps > processes-$LABGRID_TARGET.txt
