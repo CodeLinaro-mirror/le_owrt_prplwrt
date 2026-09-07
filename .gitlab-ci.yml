@@ -92,6 +92,7 @@ variables:
         - .gitlab/testbed/nokia-valyrian.yml
 
 include:
+  - local: .gitlab/dut-lifecycle.yml
   - local: .gitlab/build.yml
   - local: .gitlab/blackduck.yml
   - local: .gitlab/release.yml
