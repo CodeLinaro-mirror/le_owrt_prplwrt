@@ -4,7 +4,6 @@
 # SPDX-FileCopyrightText: Copyright (c) 2025 SoftAtHome
 #
 
-TMP_FOLDER="initramfs.tmp"
 MODES="help show-extension build"
 
 
@@ -35,11 +34,15 @@ function build {
 	OUT_FILE="$1"
 	IN_FOLDER="$2"
 	ROOTFS_FOLDER="$3"
-	[ -e `dirname $OUT_FILE` ] && [ -e "$IN_FOLDER" ] && [ -e "$ROOTFS_FOLDER" ] && [ -n "$UNSTRIPPED_FOLDER" ] && [ -n "$BINARIES_PATH" ] || usage 1
+	[ -d "$(dirname "$OUT_FILE")" ] && [ -e "$IN_FOLDER" ] && [ -e "$ROOTFS_FOLDER" ] && [ -n "$UNSTRIPPED_FOLDER" ] && [ -n "$BINARIES_PATH" ] || usage 1
 	INITRAMFS_BINARIES_SEARCH_PATH="$BINARIES_PATH:/lib:/lib64:/usr/lib:/usr/lib64"
 
-	rm -rf "$TMP_FOLDER"
-	mkdir "$TMP_FOLDER"
+	# The recipe may run inside a feed source tree. Stage beside the output.
+	OUT_FILE="$(realpath -m -- "$OUT_FILE")" || return 1
+	TMP_FOLDER=$(mktemp -d "$(dirname "$OUT_FILE")/initramfs.tmp.XXXXXXXX") || return 1
+	trap 'rm -rf -- "$TMP_FOLDER"' EXIT
+	trap 'exit 130' INT
+	trap 'exit 143' TERM
 
 	import_files_tree
 	import_files_list
@@ -86,7 +89,7 @@ function parse_compression {
 }
 
 function import_files_tree {
-	cp -r $IN_FOLDER/initramfs-files/* $TMP_FOLDER/
+	cp -r "$IN_FOLDER"/initramfs-files/* "$TMP_FOLDER/"
 }
 
 # $1 is the file to find, it should be a binary/lib to search in path
@@ -104,7 +107,7 @@ function find_binary {
 
 
 function import_file_symlink {
-	mkdir -p `dirname $TMP_FOLDER$1`
+	mkdir -p "$(dirname "$TMP_FOLDER$1")"
 	target=`readlink "$ROOTFS_FOLDER$1"`
 	if [[ "$target" == /* ]] ; then
 		# Create a relative symlink
@@ -127,7 +130,7 @@ function import_file_binary {
 }
 
 function import_file_other {
-	mkdir -p `dirname $TMP_FOLDER$1`
+	mkdir -p "$(dirname "$TMP_FOLDER$1")"
 	cp -pPTr "$ROOTFS_FOLDER$1" "$TMP_FOLDER$1"
 }
 
@@ -200,7 +203,7 @@ function import_files_list {
 }
 
 function package_final_file {
-	cd $TMP_FOLDER
+	cd "$TMP_FOLDER" || return 1
 	find . | cpio -o --quiet -H newc --owner "+0:+0" | $COMPRESSOR > "$OUT_FILE"
 	cd - > /dev/null
 }
@@ -212,4 +215,4 @@ shift
 parse_compression "$1"
 shift
 
-$mode $@
+$mode "$@"
