@@ -1,4 +1,5 @@
 .testbed:
+  extends: .dut-lifecycle
   stage: run
   image: "registry.gitlab.com/prpl-foundation/prplos/ci/containers/testbed/testbed:v1.5.0@sha256:8b96cfa48f676e48859642c4d5bdb124e668ffe568eaa16477da04320fda8b04"
   timeout: 87 minutes
@@ -13,7 +14,6 @@
     DUT_ARCH_PACKAGES_PATH: $PACKAGE_DIR/${DUT_ARCH}_${DUT_CPU_TYPE}_${DUT_CPU_SUBTYPE}
     TARGET_LAN_IP: 192.168.1.1
     TARGET_LAN_TEST_HOST: 192.168.1.2
-    DUT_SLEEP_AFTER_BOOT: 90
     DUT_SSH_CONNECT_TIMEOUT: 30
     DUT_SSH_CONNECT_ATTEMPTS: 3
     DUT_TR181_WAN_INTERFACE: Device.Ethernet.Link.2.
@@ -54,58 +54,10 @@
 
     - touch .run_failed
 
-    - sudo ip link set $TESTBED_LAN_INTERFACE up 2> /dev/null
-    - sudo ip link set $TESTBED_WAN_INTERFACE up 2> /dev/null
-    - sleep 10
+    - !reference [.dut-lifecycle.setup, script]
 
-    - mkdir -p ~/.ssh
-    - chmod 700 ~/.ssh
-
-    - |
-      for f in ${TFTP_IMAGE_FILENAMES:-$TFTP_IMAGE_FILENAME}; do
-        echo "Using firmware image $TFTP_IMAGE_PATH/$f"
-        cp "$TFTP_IMAGE_PATH/$f" "$TESTBED_TFTP_PATH"
-      done
-
-      if [ -n "$TFTP_IMAGE_UNPACK_COMMAND" ]; then
-        echo "Running $TFTP_IMAGE_UNPACK_COMMAND"
-        eval "$TFTP_IMAGE_UNPACK_COMMAND"
-      fi
-
-    - >
-      if echo "$CI_RUNNER_DESCRIPTION" | grep -q testbed-02; then
-        export TB_CONFIG=".testbed/labgrid/testbed-02.yaml"
-      elif echo "$CI_RUNNER_DESCRIPTION" | grep -q testbed-03; then
-        export TB_CONFIG=".testbed/labgrid/testbed-03.yaml"
-      fi
-
-    - section_end "testbed-setup"
-    - section_start "dut-bringup" "DUT Bringup" "collapsed"
-
-    - .gitlab/scripts/testbed-device.py --target $LABGRID_TARGET boot_into shell
-    - >
-      .gitlab/scripts/testbed-device.py
-      --target $LABGRID_TARGET check_network
-      --network lan
-      --remote-host $TARGET_LAN_TEST_HOST
-
-    - sleep $DUT_SLEEP_AFTER_BOOT
-
-    - section_end "dut-bringup"
-    - section_start "dut-system-info" "DUT System Information" "collapsed"
-
-    - echo "Waiting for SSH connection availability with ${DUT_SSH_CONNECT_TIMEOUT}sec timeout, with $DUT_SSH_CONNECT_ATTEMPTS attempts..."
-    - time ssh -o BatchMode=yes -o StrictHostKeyChecking=no -o ConnectionAttempts=$DUT_SSH_CONNECT_ATTEMPTS -o ConnectTimeout=$DUT_SSH_CONNECT_TIMEOUT root@$TARGET_LAN_IP 'exit 0'
-
-    - ssh-keyscan $TARGET_LAN_IP >> ~/.ssh/known_hosts 2> /dev/null
-    - >
-      if [ -n "${DUT_OBUSPA_VERBOSE_LEVEL:-}" ] ||
-         [ -n "${DUT_OBUSPA_PROTOCOL_TRACE:-}" ]; then
-        .gitlab/scripts/dut-init/dut-configure-obuspa-logging.sh;
-      fi
-    - ssh root@$TARGET_LAN_IP 'logger -t CI -p local0.info "System accessible over SSH, $(uptime -p)"' || true
-    - ssh root@$TARGET_LAN_IP "cat /var/log/messages" > syslog-$LABGRID_TARGET.txt 2> /dev/null || true
-    - ssh root@$TARGET_LAN_IP "ubus call system board" | tee system-$LABGRID_TARGET.json
+    - !reference [.dut-lifecycle.boot, script]
+    - !reference [.dut-lifecycle.ready, script]
 
     - >
       for dut_init_script in $DUT_INIT_SCRIPTS;
@@ -177,40 +129,9 @@
         true
       }
 
-    - mkdir -p ~/.ssh
-    - chmod 700 ~/.ssh
-
-    - >
-      if echo "$CI_RUNNER_DESCRIPTION" | grep -q testbed-02; then
-        export TB_CONFIG=".testbed/labgrid/testbed-02.yaml"
-      elif echo "$CI_RUNNER_DESCRIPTION" | grep -q testbed-03; then
-        export TB_CONFIG=".testbed/labgrid/testbed-03.yaml"
-      fi
-
-    - >
-      ssh -o BatchMode=yes -o StrictHostKeyChecking=no -o ConnectTimeout=15 root@$TARGET_LAN_IP 'exit 0' || {
-        .gitlab/scripts/testbed-device.py --target $LABGRID_TARGET console_dump_system_state
-        .gitlab/scripts/testbed-device.py --target $LABGRID_TARGET console_recover_ssh_access
-      } || true
-
-    - ssh-keyscan $TARGET_LAN_IP >> ~/.ssh/known_hosts 2> /dev/null
-    - >
-      ssh root@$TARGET_LAN_IP exit && {
-        ssh root@$TARGET_LAN_IP ps > processes-$LABGRID_TARGET.txt
-        ssh root@$TARGET_LAN_IP dmesg > dmesg-$LABGRID_TARGET.txt
-        ssh root@$TARGET_LAN_IP "cat /var/log/messages" > syslog-$LABGRID_TARGET.txt
-        ssh root@$TARGET_LAN_IP opkg list > opkg_list-$LABGRID_TARGET.txt
-        script --quiet --command "ssh -t root@$TARGET_LAN_IP /bin/getDebugInformation --all"
-        scp -O -r root@${TARGET_LAN_IP}:/tmp/debug-*_all.tar.gz . > /dev/null
-        scp -O -r root@${TARGET_LAN_IP}:/etc etc > /dev/null
-        scp -O -r root@${TARGET_LAN_IP}:/var/log/prplmesh prplmesh_beerocks_logs > /dev/null
-      } || true
-
-    - .gitlab/scripts/testbed-device.py --target $LABGRID_TARGET power off
-    - tar xzf debug-*_all.tar.gz || true
-    - mv debug-*.txt debug-information-$LABGRID_TARGET.txt || true
-    - ( [ $(tar -tf coredumps_all.tar.gz | wc -l) -eq 0 ] && rm coredumps_all.tar.gz || true ) 2>/dev/null
-    - mv coredumps_all.tar.gz coredumps-$LABGRID_TARGET.tar.gz 2> /dev/null || true
+    - !reference [.dut-lifecycle.recover-ssh, script]
+    - !reference [.dut-lifecycle.collect-logs, script]
+    - !reference [.dut-lifecycle.extract-debug, script]
     - mv console_$LABGRID_TARGET console_$LABGRID_TARGET.txt || true
 
   artifacts:
