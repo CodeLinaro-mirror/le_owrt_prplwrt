@@ -2,7 +2,7 @@
   extends: .dut-lifecycle
   stage: cdrouter
   timeout: 40 minutes
-  image: "registry.gitlab.com/prpl-foundation/prplos/ci/containers/testbed/testbed:v1.3.0@sha256:7f50dde2279c201542569b7f31e965d43a308e245a4ec973df52d581560b0c28"
+  image: "registry.gitlab.com/prpl-foundation/prplos/ci/containers/testbed/testbed:ci23-memory-footprint-9e7bea0e@sha256:785bbdac423123aa127fe839d36954e72bebefbc4c669654c29ac0fae5c2cc28"
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
       when: never
