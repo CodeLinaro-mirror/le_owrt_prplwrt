@@ -30,6 +30,7 @@ additional_packages:
       - strongswan-mod-pkcs8
       - strongswan-mod-stroke
       - wireguard-tools
+      - keepalived
 
 packages:
   - acl-manager
@@ -118,6 +119,7 @@ packages:
   - tr181-syslog
   - tr181-temperature
   - tr181-usermanagement
+  - tr181-vrrp
   - wifi-sensing
   - mod-scheduler-amxp
   - tr181-schedules
