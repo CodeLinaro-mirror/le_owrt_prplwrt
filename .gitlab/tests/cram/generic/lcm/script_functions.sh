@@ -1318,14 +1318,14 @@ install_basic_container_no_wait() {
 
 normalize_dump(){
     ## Generic substitution of any instantionated subtree
-    sed -i -e "s/\(\.Instances\)\.[[:digit:]]/\1\.{i}/g" $1
+    sed -i -e "s/\(\.Instances\)\.[[:digit:]][[:digit:]]*/\1\.{i}/g" $1
 
     ## Softwware modules specific cases
-    sed -i -e "s/\(SoftwareModules\.ExecEnv\)\.[[:digit:]]/\1\.{i}/g" $1
-    sed -i -e "s/\(SoftwareModules\.ExecutionUnit\)\.[[:digit:]]/\1\.{i}/g" $1
+    sed -i -e "s/\(SoftwareModules\.ExecEnv\)\.[[:digit:]][[:digit:]]*/\1\.{i}/g" $1
+    sed -i -e "s/\(SoftwareModules\.ExecutionUnit\)\.[[:digit:]][[:digit:]]*/\1\.{i}/g" $1
 
     ## Cthulhu LocalPolicy spacific case
-    sed -i -e "s/\(\.LocalPolicyManager\.Action\)\.[[:digit:]]/\1\.{i}/g" $1
+    sed -i -e "s/\(\.LocalPolicyManager\.Action\)\.[[:digit:]][[:digit:]]*/\1\.{i}/g" $1
 }
 
 cleanup_lpm_test(){
