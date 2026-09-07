@@ -1320,6 +1320,9 @@ normalize_dump(){
     ## Generic substitution of any instantionated subtree
     sed -i -e "s/\(\.Instances\)\.[[:digit:]][[:digit:]]*/\1\.{i}/g" $1
 
+    ## Container interfaces are renumbered across the simulated upgrade
+    sed -i -e "s/\(\.Interfaces\)\.[[:digit:]][[:digit:]]*/\1\.{i}/g" $1
+
     ## Softwware modules specific cases
     sed -i -e "s/\(SoftwareModules\.ExecEnv\)\.[[:digit:]][[:digit:]]*/\1\.{i}/g" $1
     sed -i -e "s/\(SoftwareModules\.ExecutionUnit\)\.[[:digit:]][[:digit:]]*/\1\.{i}/g" $1
