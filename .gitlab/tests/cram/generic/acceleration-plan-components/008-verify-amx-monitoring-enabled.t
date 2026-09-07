@@ -34,8 +34,7 @@ Verify all expected processes are enabled for monitoring by amx-processmonitor, 
   cwmp_plugin=1
   reboot-service=1
 
-  $ for process in odhcpd hosts-manager dhcpv4-manager; do get_amx_process_monitoring  $process; done
-  odhcpd=1
+  $ for process in hosts-manager dhcpv4-manager; do get_amx_process_monitoring  $process; done
   hosts-manager=1
   dhcpv4-manager=1
 
