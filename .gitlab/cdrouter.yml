@@ -132,6 +132,7 @@
       fi
 
   after_script:
+    - .gitlab/scripts/memory-footprint.sh final || true
     - >
       test -f *-logdir.tgz &&
       mkdir -p cdrouter-results &&
@@ -154,6 +155,7 @@
     expire_in: 1 month
     when: always
     paths:
+      - memory-footprint/
       - cdrouter-results
       - etc
       - prplmesh_beerocks_logs

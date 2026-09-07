@@ -112,6 +112,7 @@
       rm .run_failed
 
   after_script:
+    - .gitlab/scripts/memory-footprint.sh final || true
     - >-
       curl --fail \
         --output .gitlab/scripts/cram-xunit-merger.py \
@@ -138,6 +139,7 @@
     expire_in: 1 month
     when: always
     paths:
+      - memory-footprint/
       - .gitlab/tests/cram/**/*.t.err
       - .gitlab/tests/cram/**/*.actual
       - .gitlab/tests/cram/**/*.diff
