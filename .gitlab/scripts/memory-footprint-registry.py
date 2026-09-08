@@ -115,16 +115,40 @@ def push(output, board, suite):
         registry.request(path, '--upload-file', str(output / filename))
 
 
+def cleanup():
+    package = weekly_package()
+    if package is None:
+        return
+    registry = Registry(os.environ['CI_PROJECT_ID'],
+                        os.environ.get('MEMORY_FOOTPRINT_API_TOKEN'), 'PRIVATE-TOKEN')
+    # Fetch every page before deleting: deletion shifts offset pagination.
+    entries = registry.packages(package)
+    versions = sorted({str(item['version']) for item in entries}, key=int, reverse=True)
+    retained = set(versions[:12])
+    for item in entries:
+        if str(item['version']) not in retained:
+            package_id = str(item['id'])
+            if not package_id.isdecimal():
+                raise ValueError('invalid package ID')
+            registry.request('/' + package_id, '--request', 'DELETE')
+            print(f"Removed {package}/{item['version']} (package {package_id})")
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('action', choices=['push', 'fetch'])
-    parser.add_argument('output', type=Path)
-    parser.add_argument('board')
-    parser.add_argument('suite')
+    parser.add_argument('action', choices=['push', 'fetch', 'cleanup'])
+    parser.add_argument('output', type=Path, nargs='?')
+    parser.add_argument('board', nargs='?')
+    parser.add_argument('suite', nargs='?')
     args = parser.parse_args()
     try:
-        {'push': push, 'fetch': fetch}[args.action](args.output, args.board, args.suite)
-    except (OSError, ValueError, KeyError, RuntimeError) as error:
+        if args.action == 'cleanup':
+            cleanup()
+        elif args.output is None or not args.board or not args.suite:
+            raise ValueError('push/fetch require output, board and suite')
+        else:
+            {'push': push, 'fetch': fetch}[args.action](args.output, args.board, args.suite)
+    except (OSError, EOFError, ValueError, KeyError, RuntimeError) as error:
         warning(str(error))
         return 1
     return 0

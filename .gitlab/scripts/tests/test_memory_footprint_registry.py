@@ -87,6 +87,28 @@ class RegistryTests(unittest.TestCase):
             self.assertEqual(len(client.packages(entry['name'])), 100)
             self.assertIn('page=2', request.call_args.args[0])
 
+    def test_cleanup_keeps_twelve_distinct_numeric_versions(self):
+        entries = [{'id': version, 'version': str(version)} for version in range(1, 15)]
+        entries.append({'id': 99, 'version': '14'})
+        env = {**ENV, 'MEMORY_FOOTPRINT_API_TOKEN': 'cleanup-token'}
+        with patch.dict(os.environ, env, clear=True), \
+             patch.object(registry.Registry, 'packages', return_value=entries), \
+             patch.object(registry.Registry, 'request') as request:
+            registry.cleanup()
+            self.assertEqual([call.args for call in request.call_args_list],
+                             [('/1', '--request', 'DELETE'), ('/2', '--request', 'DELETE')])
+            request.reset_mock()
+            os.environ['CI_COMMIT_BRANCH'] = 'latest-24.10'
+            registry.cleanup()
+            request.assert_not_called()
+
+    def test_cleanup_without_token_never_deletes(self):
+        with patch.dict(os.environ, ENV, clear=True), \
+             patch.object(registry.Registry, 'request') as request:
+            with self.assertRaisesRegex(ValueError, 'credential'):
+                registry.cleanup()
+            request.assert_not_called()
+
 
 if __name__ == '__main__':
     unittest.main()
