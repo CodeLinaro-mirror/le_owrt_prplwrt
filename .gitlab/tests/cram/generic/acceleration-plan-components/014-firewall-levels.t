@@ -14,8 +14,11 @@ Check that it is set properly:
   $ R "iptables -L FORWARD_Firewall -nv | grep High | grep $DUT_WAN_INTERFACE"
       0     0 FORWARD_L_High  0    -- * br-lan * 0.0.0.0/0 * 0.0.0.0/0 * (glob)
       0     0 FORWARD_L_High_Out  0    -- * br-lan * 0.0.0.0/0 * 0.0.0.0/0 * (glob)
-      0     0 FORWARD_L_High  0    -- * br-guest * 0.0.0.0/0 * 0.0.0.0/0 * (glob)
-      0     0 FORWARD_L_High_Out  0    -- * br-guest * 0.0.0.0/0 * 0.0.0.0/0 * (glob)
+
+The guest network is not governed by the firewall level, it always uses the Medium chain:
+
+  $ R "iptables -L FORWARD_Firewall -nv | grep Medium | grep $DUT_WAN_INTERFACE"
+      0     0 FORWARD_L_Medium  0    -- * br-guest * 0.0.0.0/0 * 0.0.0.0/0 * (glob)
 
 Set firewall level to Low:
 
@@ -25,8 +28,10 @@ Check that it is set properly:
 
   $ R "iptables -L FORWARD_Firewall -nv | grep Low | grep $DUT_WAN_INTERFACE"
       0     0 FORWARD_L_Low  0    -- * br-lan * 0.0.0.0/0 * 0.0.0.0/0 * (glob)
-      0     0 FORWARD_L_Low  0    -- * br-guest * 0.0.0.0/0 * 0.0.0.0/0 * (glob)
       0     0 FORWARD_L_Low  0    -- * br-lcm * 0.0.0.0/0 * 0.0.0.0/0 * (glob)
 
   $ R "iptables -L FORWARD_Firewall -nv | grep High | grep $DUT_WAN_INTERFACE"
   [1]
+
+  $ R "iptables -L FORWARD_Firewall -nv | grep Medium | grep $DUT_WAN_INTERFACE"
+      0     0 FORWARD_L_Medium  0    -- * br-guest * 0.0.0.0/0 * 0.0.0.0/0 * (glob)
