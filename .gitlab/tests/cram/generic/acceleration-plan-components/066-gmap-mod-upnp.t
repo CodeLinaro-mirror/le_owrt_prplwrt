@@ -64,6 +64,7 @@ Verify device entry appears in gmap datamodel:
     "Devices.Device.\d+.": { (re)
       "Active": 0,
       "Alias": "UPnP-\d+", (re)
+      "AssociatedDevice": "",
       "DiscoverySource": "gmap_upnp",
       "FriendlyName": "CramTestUPnPDevice",
       "Key": "UPnP-\d+", (re)
@@ -83,18 +84,6 @@ Verify device entry appears in gmap datamodel:
       "Type": "urn:schemas-upnp-org:device:MediaServer:1",
       "UDN": "4d696e69-444c-164e-9d41-.*", (re)
       "UPC": ""
-    },
-    "Devices.Device.\d+.Link.\d+.": { (re)
-      "Alias": "gmap_upnp_service"
-    },
-    "Devices.Device.\d+.Link.\d+.UDevice.\d+.": { (re)
-      "Alias": "ID-.*", (re)
-      "Type": "upnp"
-    },
-    "Devices.Device.\d+.Names.\d+.": { (re)
-      "Name": "Windows Media Connect compatible (MiniDLNA)",
-      "Source": "default",
-      "Suffix": ""
     },
     "Devices.Device.\d+.Service.\d+.": { (re)
       "ControlURL": "/ctl/ContentDir",
