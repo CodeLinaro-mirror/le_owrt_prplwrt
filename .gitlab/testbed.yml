@@ -339,7 +339,7 @@ lint cram component manifest:
 # protected for the job to receive it. No token is needed by MR pipelines.
 cleanup memory footprint baselines:
   stage: .post
-  image: "registry.gitlab.com/prpl-foundation/prplos/ci/containers/testbed/testbed:ci23-memory-footprint-4c7fa1c6@sha256:ad2fd50efa6bf6386bce542780ed63dd110018c602c5c0f6f3f69e7d0ef99e85"
+  image: "registry.gitlab.com/prpl-foundation/prplos/ci/containers/testbed/testbed:ci23-memory-footprint-50c00a8b@sha256:849f108d7b798d09561b452898b4e34a08feeef59409d5fde8d91471d04da06d"
   timeout: 5 minutes
   dependencies: []
   resource_group: memory-footprint-cleanup
