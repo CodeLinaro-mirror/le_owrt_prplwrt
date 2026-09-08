@@ -17,6 +17,7 @@ PPW-1729, PPW-1731 and PPW-1786:
   /etc/amx/cthulhu/extensions/plugin-networking/plugin-networking-definition.odl
   /etc/amx/cthulhu/extensions/plugin-pcm/plugin-pcm-definition.odl
   /etc/amx/cthulhu/extensions/plugin-usp/plugin-usp-definition.odl
+  /etc/amx/dhcpv6s-manager/server/dhcpv6s-manager-server-pool.odl
   /etc/amx/ethernet-manager/ethernet-manager_interface.odl
   /etc/amx/gmap-server/mibs/dhcp.odl
   /etc/amx/prplmesh-process-manager/prplmesh-process-manager_definition.odl
