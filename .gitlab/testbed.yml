@@ -156,7 +156,7 @@
       - coredumps-$LABGRID_TARGET.tar.gz
     reports:
       junit: cram-result-$LABGRID_TARGET.junit.xml
-      metrics: memory-footprint/*/metrics.prom
+      metrics: memory-footprint/*/widget.prom
 
 .cram_component:
   extends: .testbed

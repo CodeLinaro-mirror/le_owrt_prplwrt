@@ -168,4 +168,4 @@
       - opkg_list-$LABGRID_TARGET.txt
       - coredumps-$LABGRID_TARGET.tar.gz
     reports:
-      metrics: memory-footprint/*/metrics.prom
+      metrics: memory-footprint/*/widget.prom
