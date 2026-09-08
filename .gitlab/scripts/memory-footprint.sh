@@ -61,9 +61,18 @@ main() {
 		log_warning "$phase: could not create $output"
 		return 0
 	fi
+	# after_script uses a new shell: retain runtime TEST_PACKAGE/COMPONENT.
+	if [ "$phase" = boot ]; then
+		suite=${TEST_PACKAGE:-${COMPONENT:-auto}}
+		printf '%s\n' "$suite" > "$output/suite" ||
+			log_warning 'could not save suite identity'
+	elif ! suite=$(cat "$output/suite" 2>/dev/null); then
+		log_warning 'final: missing boot suite identity; suite label and registry operations skipped'
+		suite=''
+	fi
 	# Clear previous output if this phase is retried in the same workspace.
 	if ! rm -f "$output/$phase.txt.gz" "$output/report.html" \
-		"$output/metrics.prom" "$output/summary.json"; then
+		"$output/metrics.prom" "$output/widget.prom" "$output/summary.json"; then
 		log_warning "$phase: could not clear previous output"
 		return 0
 	fi
@@ -81,9 +90,23 @@ main() {
 				log_warning 'final: could not decompress snapshots for comparison'
 				return 0
 			fi
-			mem-report "$work/boot.txt" "$work/final.txt" \
+			set -- "$work/boot.txt" "$work/final.txt" \
 				--mode cmp --labels boot final -o "$output/report.html" \
-				--metrics "$output/metrics.prom" --summary "$output/summary.json" ||
+				--metrics "$output/metrics.prom" --summary "$output/summary.json"
+			report_help=$(mem-report --help 2>/dev/null)
+			if [ -n "$suite" ]; then
+				if printf '%s\n' "$report_help" | grep -q -- '--metrics-label'; then
+					set -- "$@" --metrics-label "suite=$suite"
+				else
+					log_warning 'mem-report lacks --metrics-label; upgrade the container'
+				fi
+			fi
+			if printf '%s\n' "$report_help" | grep -q -- '--widget-metrics'; then
+				set -- "$@" --widget-metrics "$output/widget.prom"
+			else
+				log_warning 'mem-report lacks --widget-metrics; widget unavailable'
+			fi
+			mem-report "$@" ||
 				log_warning 'final: mem-report failed'
 		else
 			log_warning 'final: comparison skipped; boot or final snapshot is missing'
