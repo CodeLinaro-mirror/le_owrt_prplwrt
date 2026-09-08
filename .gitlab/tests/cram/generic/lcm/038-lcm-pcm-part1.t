@@ -31,7 +31,7 @@ Create a user role with capabilities:
 
 Install the container in privileged mode with extra LCM features and check its status and type:
 
-  $ R "${S} && install_ctr --version prplos-v1 --ee --uuid --privileged true --network --hostobject --envvar --appdata --usprequired \"Full Access\" --userroles full_caps --uspregisterpaths \"Device.LCMSampleApp.\" --uspautomountipc \"USP_UDS_Authenticated\"" > /dev/null
+  $ R "${S} && install_ctr --version prplos-v1 --ee --uuid --privileged true --network --hostobject --envvar --appdata --usprequired \"Full Access\" --userroles full_caps --uspregisterpaths \"Device.LCMSampleApp.\" --uspautomountipc \"USP_UDS_Authenticated\" --enablehostnscapabilities true" > /dev/null
   $ R "${S} && get_container_info --uuid"
   Active
   prplos-v1
@@ -48,6 +48,8 @@ Perform the backup process:
   $ R "ba-cli 'PersistentConfiguration.Backup()'" > /dev/null
   $ R "ls /cfg/pcm/cthulhu_Cthulhu.json"
   /cfg/pcm/cthulhu_Cthulhu.json
+
+  $ R "cat /cfg/pcm/cthulhu_Cthulhu.json" > /tmp/lcm-pcm/cthulhu_Cthulhu.json
 
 Save the data model before simulated firmware upgrade:
 

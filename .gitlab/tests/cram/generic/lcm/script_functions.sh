@@ -1250,7 +1250,7 @@ cleanup_pcm_test() {
 	remove_user_role --rolename full_caps > /dev/null
 	set_ee_roles > /dev/null
 	result=$(check_available_user_roles)
-	if [ "${result}" != "" ]; then 
+	if [ "${result}" != "" ]; then
 		echo "error"
 	fi
 	cleanup_hostobjects

@@ -32,6 +32,9 @@ C-1 Run a service on port 90 (system port) and check that it is not allowed:
   nc: bind: Permission denied
   [1]
 
+Check that the EnableHostNSCapabilities parameter is false
+  $ R "${S} && get_container_parameter --uuid --param EnableHostNSCapabilities"
+  0
 
 Uninstall the container
 
@@ -66,7 +69,61 @@ Check the permissions (CAP_KILL is filtered out by the blacklist, only CAP_NET_R
   CapBnd:\t0000000000002400 (esc)
   CapAmb:\t0000000000002400 (esc)
 
+Check the NoNewPriv setting
+  $ R "grep NoNewPriv /proc/${PID}/status"
+  NoNewPrivs:\t1 (esc)
+
+Check that the user namespace is the same as the host
+  $ NS_HOST=$(R "readlink /proc/1/ns/user")
+  $ NS_CTR=$(R "readlink /proc/${PID}/ns/user")
+  $ if [ "${NS_HOST}" = "${NS_CTR}" ]; then echo "equal"; else echo "not equal"; fi
+  equal
+
+Check that the EnableHostNSCapabilities parameter is true
+  $ R "${S} && get_container_parameter --uuid --param EnableHostNSCapabilities"
+  1
+
 ## CLEANUP
+
+Uninstall the container
+
+  $ R "${S} && uninstall_ctr_and_check --uuid"
+  [1]
+
+C-3 Test a container with Privileged=true and EnableHostNSCapabilities=true
+  $ R "${S} && install_ctr --url ${SERVICE_URL} --waittime 20 --ee --uuid --privileged true --enablehostnscapabilities true --userroles ${USERROLE}" > /dev/null
+  $ R "${S} && get_container_info --uuid"
+  3.16
+  Active
+  prpl-foundation/prplos/prplos/*/alpine (glob)
+
+Check that process runs as root
+  $ CTR_ID=$(R "${S} && get_container_parameter --uuid --param EUID")
+  $ PID=$(R "lxc-info ${CTR_ID} |  awk '/^PID:/ {print \$2}'")
+  $ UID_CTR=$(R "grep Uid /proc/${PID}/status | awk '{print \$2}'")
+  $ if [ "${UID_CTR}" = "0" ]; then echo "root"; else echo "not root"; fi
+  root
+
+CHeck the log message
+  $ R "grep -F 'Settings [EnableHostNSCapabilities] and [Privileged] are both set. [EnableHostNSCapabilities] will be ignored.' /var/log/messages /var/log/messages.1 2>/dev/null | tail -1"
+  *Settings [EnableHostNSCapabilities] and [Privileged] are both set. [EnableHostNSCapabilities] will be ignored.* (glob)
+## CLEANUP
+
+Uninstall the container
+
+  $ R "${S} && uninstall_ctr_and_check --uuid"
+  [1]
+
+C-4 Test a container without EnableHostNSCapabilities parameter. The setting should be false.
+  $ R "${S} && install_ctr --url ${SERVICE_URL} --waittime 20 --ee --uuid --privileged false --userroles ${USERROLE}" > /dev/null
+  $ R "${S} && get_container_info --uuid"
+  3.16
+  Active
+  prpl-foundation/prplos/prplos/*/alpine (glob)
+
+Check that the EnableHostNSCapabilities parameter is false
+  $ R "${S} && get_container_parameter --uuid --param EnableHostNSCapabilities"
+  0
 
 Uninstall the container
 
