@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
 """Best-effort weekly memory baseline storage in GitLab's generic registry."""
 import argparse
+import gzip
+import json
 import os
 from pathlib import Path
 import re
 import subprocess
 import sys
-from urllib.parse import quote
+from urllib.parse import quote, urlencode
 
 
 def warning(message):
@@ -56,6 +58,45 @@ class Registry:
                                      for value in (package, version, filename))
 
 
+    def packages(self, package):
+        # GitLab's package_name filter is fuzzy; filter exact names locally.
+        entries = []
+        page = 1
+        while True:
+            query = urlencode({'package_type': 'generic', 'package_name': package,
+                               'status': 'default', 'per_page': 100, 'page': page})
+            batch = json.loads(self.request('?' + query))
+            if not isinstance(batch, list):
+                raise ValueError('invalid package list')
+            entries.extend(item for item in batch if item['name'] == package and
+                           item['package_type'] == 'generic' and
+                           str(item['version']).isdecimal())
+            if len(batch) < 100:
+                return entries
+            page += 1
+
+
+def fetch(output, board, suite):
+    if os.environ.get('CI_PIPELINE_SOURCE') != 'merge_request_event':
+        return
+    package = 'memory-footprint-' + key(os.environ['CI_MERGE_REQUEST_TARGET_BRANCH_NAME'])
+    project = os.environ.get('CI_MERGE_REQUEST_TARGET_PROJECT_ID') or os.environ['CI_PROJECT_ID']
+    registry = Registry(project, os.environ.get('CI_JOB_TOKEN'))
+    entries = registry.packages(package)
+    if not entries:
+        raise ValueError(f'no baseline versions for {package}')
+    # Pipeline IDs sort numerically, unlike version strings (99 versus 100).
+    version = str(max(entries, key=lambda item: int(item['version']))['version'])
+    snapshots = {}
+    for phase in ('boot', 'final'):
+        path = registry.file_path(package, version, f'{key(board)}-{key(suite)}-{phase}.txt.gz')
+        snapshots[phase] = gzip.decompress(registry.request(path))
+    # Publish neither file until both downloads and gzip checks succeed.
+    for phase, snapshot in snapshots.items():
+        (output / f'baseline-{phase}.txt').write_bytes(snapshot)
+    print(f'Memory baseline: {package}/{version}, board={board}, suite={suite}')
+
+
 def push(output, board, suite):
     package = weekly_package()
     if package is None:
@@ -76,13 +117,13 @@ def push(output, board, suite):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('action', choices=['push'])
+    parser.add_argument('action', choices=['push', 'fetch'])
     parser.add_argument('output', type=Path)
     parser.add_argument('board')
     parser.add_argument('suite')
     args = parser.parse_args()
     try:
-        push(args.output, args.board, args.suite)
+        {'push': push, 'fetch': fetch}[args.action](args.output, args.board, args.suite)
     except (OSError, ValueError, KeyError, RuntimeError) as error:
         warning(str(error))
         return 1

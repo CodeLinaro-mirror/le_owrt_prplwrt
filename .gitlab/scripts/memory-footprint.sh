@@ -106,6 +106,20 @@ main() {
 			else
 				log_warning 'mem-report lacks --widget-metrics; widget unavailable'
 			fi
+			if [ -n "$suite" ] && [ "${CI_PIPELINE_SOURCE:-}" = merge_request_event ]; then
+				if printf '%s\n' "$report_help" | grep -q -- '--baseline-boot' &&
+					printf '%s\n' "$report_help" | grep -q -- '--baseline-final'; then
+					if timeout 120 python3 .gitlab/scripts/memory-footprint-registry.py \
+						fetch "$work" "$board" "$suite"; then
+						set -- "$@" --baseline-boot "$work/baseline-boot.txt" \
+							--baseline-final "$work/baseline-final.txt"
+					else
+						log_warning 'final: baseline unavailable; reporting absolute metrics'
+					fi
+				else
+					log_warning 'mem-report lacks baseline options; upgrade the container'
+				fi
+			fi
 			if ! mem-report "$@"; then
 				log_warning 'final: mem-report failed; weekly upload skipped'
 				return 0

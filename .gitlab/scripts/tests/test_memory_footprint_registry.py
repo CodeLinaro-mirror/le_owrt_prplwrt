@@ -1,4 +1,6 @@
 """Registry tests use mocked HTTP commands; never contact GitLab."""
+import gzip
+import json
 import importlib.util
 import os
 from pathlib import Path
@@ -44,6 +46,46 @@ class RegistryTests(unittest.TestCase):
                 os.environ['CI_COMMIT_BRANCH'] = 'latest-24.10'
                 registry.push(output, 'board', 'full')
                 request.assert_not_called()
+
+    def test_fetch_latest_numeric_version_from_target_project(self):
+        env = {**ENV, 'CI_PIPELINE_SOURCE': 'merge_request_event',
+               'CI_MERGE_REQUEST_TARGET_BRANCH_NAME': 'latest-24.10',
+               'CI_MERGE_REQUEST_TARGET_PROJECT_ID': '99'}
+        entries = [{'name': 'memory-footprint-latest-24.10', 'package_type': 'generic',
+                    'version': version} for version in ('99', '100')]
+        entries.append({**entries[0], 'name': 'memory-footprint-latest-24.10-extra',
+                        'version': '999'})
+        with tempfile.TemporaryDirectory() as tmp, patch.dict(os.environ, env, clear=True):
+            replies = [json.dumps(entries).encode(), gzip.compress(b'boot'), gzip.compress(b'final')]
+            urls = []
+            def request(client, path, *args):
+                urls.append(client.url + path)
+                return replies.pop(0)
+            with patch.object(registry.Registry, 'request', request):
+                registry.fetch(Path(tmp), 'board', 'full')
+            self.assertTrue(all('/projects/99/' in url for url in urls))
+            self.assertIn('/100/board-full-boot.txt.gz', urls[1])
+            self.assertEqual((Path(tmp) / 'baseline-final.txt').read_bytes(), b'final')
+
+    def test_missing_or_corrupt_pair_publishes_neither_file(self):
+        env = {**ENV, 'CI_PIPELINE_SOURCE': 'merge_request_event',
+               'CI_MERGE_REQUEST_TARGET_BRANCH_NAME': 'latest-24.10'}
+        for final in (b'corrupt', RuntimeError('404')):
+            with tempfile.TemporaryDirectory() as tmp, patch.dict(os.environ, env, clear=True):
+                with patch.object(registry.Registry, 'packages', return_value=[{'version': '1'}]), \
+                     patch.object(registry.Registry, 'request', side_effect=[gzip.compress(b'boot'), final]):
+                    with self.assertRaises((OSError, RuntimeError)):
+                        registry.fetch(Path(tmp), 'board', 'full')
+                self.assertEqual(list(Path(tmp).iterdir()), [])
+
+    def test_package_pagination(self):
+        entry = {'name': 'memory-footprint-main', 'package_type': 'generic', 'version': '1'}
+        with patch.dict(os.environ, ENV, clear=True), \
+             patch.object(registry.Registry, 'request', side_effect=[
+                 json.dumps([entry] * 100).encode(), b'[]']) as request:
+            client = registry.Registry('42', 'token')
+            self.assertEqual(len(client.packages(entry['name'])), 100)
+            self.assertIn('page=2', request.call_args.args[0])
 
 
 if __name__ == '__main__':

@@ -78,7 +78,7 @@ else:
                     self.assertFalse((root / 'memory-footprint/board/boot.txt.gz').exists())
 
     def test_registry_pipeline_paths_and_failures(self):
-        for mode in ('weekly', 'upload-error', 'report-error', 'push', 'weekly-no-suite'):
+        for mode in ('mr', 'missing', 'weekly', 'upload-error', 'report-error', 'push', 'mr-no-suite', 'weekly-no-suite'):
             with self.subTest(mode=mode), tempfile.TemporaryDirectory() as tmp:
                 root = Path(tmp)
                 binary = root / 'bin'
