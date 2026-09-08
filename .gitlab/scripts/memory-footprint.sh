@@ -106,8 +106,18 @@ main() {
 			else
 				log_warning 'mem-report lacks --widget-metrics; widget unavailable'
 			fi
-			mem-report "$@" ||
-				log_warning 'final: mem-report failed'
+			if ! mem-report "$@"; then
+				log_warning 'final: mem-report failed; weekly upload skipped'
+				return 0
+			fi
+			if [ -n "$suite" ]; then
+				case "${CI_COMMIT_BRANCH:-}" in
+					ci-weekly/*)
+						timeout 120 python3 .gitlab/scripts/memory-footprint-registry.py \
+							push "$output" "$board" "$suite" ||
+							log_warning 'final: weekly baseline upload failed' ;;
+				esac
+			fi
 		else
 			log_warning 'final: comparison skipped; boot or final snapshot is missing'
 		fi
