@@ -167,3 +167,5 @@
       - console_$LABGRID_TARGET.txt
       - opkg_list-$LABGRID_TARGET.txt
       - coredumps-$LABGRID_TARGET.tar.gz
+    reports:
+      metrics: memory-footprint/*/metrics.prom
