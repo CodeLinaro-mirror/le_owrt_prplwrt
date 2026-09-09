@@ -2,4 +2,4 @@
 feeds:
   - name: feed_prplos
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplos.git
-    revision: dev_PCF-2757_dyndns_ram_optimizations@8e55d164b150e6d81466a52726682f131bb5cbad
+    revision: dev_PCF-2757_dyndns_ram_optimizations@75441750a0be0e0ac0ffbdc44905c33394dfbc7f
