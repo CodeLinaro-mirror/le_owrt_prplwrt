@@ -29,7 +29,6 @@ PPW-1729, PPW-1731 and PPW-1786:
   /etc/amx/tr181-ipsec/tr181-ipsec_profile.odl
   /etc/amx/tr181-ipsec/tr181-ipsec_secret.odl
   /etc/amx/tr181-ipsec/tr181-ipsec_tunnel.odl
-  /etc/amx/tr181-mqtt/tr181-mqtt_definition.odl
   /etc/amx/tr181-usb/tr181-usb_port.odl
   /etc/amx/tr181-wireguard/tr181-wireguard_definition.odl
 
