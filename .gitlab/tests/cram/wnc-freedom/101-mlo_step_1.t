@@ -94,217 +94,190 @@ Disable MLO on private and guest vaps:
   -1
   -1
 
-Test activation of access point 1:
+#####################################
+# Test activation of access point 1 #
+#####################################
 
-  $ R logger -t cram "Enable AP 1 \"$(get_ssid_ref 1)\""
+  $ R logger -t cram "Test AccessPoint 1 activation \"$(get_ssid_ref 1)\""
 
-  $ enable_ap 1
-  Device.WiFi.AccessPoint.1 enabled
+  $ enable_ap_sync 1 1
+  AccessPoint.\d+.Enable=1 (re)
 
-  $ check_ap_ref_ssid 1 Up
-  Device.WiFi.AccessPoint.1 SSID Reference is Up
-
-  $ sleep 10
-
-  $ get_ssid_status
-  Down
-  Down
-  Down
-  Down
-  Down
-  Down
-  Down
-  Down
-  Up
+  $ wifi_dm "AccessPoint.*.Status?0"
+  Device.WiFi.AccessPoint.1.Status="Enabled"
+  Device.WiFi.AccessPoint.2.Status="Disabled"
+  Device.WiFi.AccessPoint.3.Status="Disabled"
+  Device.WiFi.AccessPoint.4.Status="Disabled"
+  Device.WiFi.AccessPoint.5.Status="Disabled"
+  Device.WiFi.AccessPoint.6.Status="Disabled"
+  Device.WiFi.AccessPoint.7.Status="Disabled"
+  Device.WiFi.AccessPoint.8.Status="Disabled"
+  Device.WiFi.AccessPoint.9.Status="Disabled"
 
 Save hostap pid:
 
   $ hostap_pid=$(R pgrep -f 'hostapd')
   $ R logger -t cram "hostap PID : $hostap_pid"
 
-Test activation of access point 2:
+#####################################
+# Test activation of access point 2 #
+#####################################
 
-  $ R logger -t cram "Enable AP 2 \"$(get_ssid_ref 2)\""
+  $ R logger -t cram "Test AccessPoint 2 activation \"$(get_ssid_ref 2)\""
 
-  $ enable_ap 2
-  Device.WiFi.AccessPoint.2 enabled
+  $ enable_ap_sync 2 1
+  AccessPoint.2.Enable=1
 
-  $ check_ap_ref_ssid 2 Up
-  Device.WiFi.AccessPoint.2 SSID Reference is Up
+  $ wifi_dm "AccessPoint.*.Status?0"
+  Device.WiFi.AccessPoint.1.Status="Enabled"
+  Device.WiFi.AccessPoint.2.Status="Enabled"
+  Device.WiFi.AccessPoint.3.Status="Disabled"
+  Device.WiFi.AccessPoint.4.Status="Disabled"
+  Device.WiFi.AccessPoint.5.Status="Disabled"
+  Device.WiFi.AccessPoint.6.Status="Disabled"
+  Device.WiFi.AccessPoint.7.Status="Disabled"
+  Device.WiFi.AccessPoint.8.Status="Disabled"
+  Device.WiFi.AccessPoint.9.Status="Disabled"
 
-  $ sleep 10
+#####################################
+# Test activation of access point 3 #
+#####################################
 
-  $ get_ssid_status
-  Down
-  Down
-  Down
-  Down
-  Down
-  Down
-  Down
-  Up
-  Up
+  $ R logger -t cram "Test AccessPoint 3 activation \"$(get_ssid_ref 3)\""
 
-Test activation of access point 3:
+  $ enable_ap_sync 3 1
+  AccessPoint.3.Enable=1
 
-  $ R logger -t cram "Enable AP 3 \"$(get_ssid_ref 3)\""
+  $ wifi_dm "AccessPoint.*.Status?0"
+  Device.WiFi.AccessPoint.1.Status="Enabled"
+  Device.WiFi.AccessPoint.2.Status="Enabled"
+  Device.WiFi.AccessPoint.3.Status="Enabled"
+  Device.WiFi.AccessPoint.4.Status="Disabled"
+  Device.WiFi.AccessPoint.5.Status="Disabled"
+  Device.WiFi.AccessPoint.6.Status="Disabled"
+  Device.WiFi.AccessPoint.7.Status="Disabled"
+  Device.WiFi.AccessPoint.8.Status="Disabled"
+  Device.WiFi.AccessPoint.9.Status="Disabled"
 
-  $ enable_ap 3
-  Device.WiFi.AccessPoint.3 enabled
+#####################################
+# Test activation of access point 4 #
+#####################################
 
-  $ check_ap_ref_ssid 3 Up
-  Device.WiFi.AccessPoint.3 SSID Reference is Up
+  $ R logger -t cram "Test AccessPoint 4 activation \"$(get_ssid_ref 4)\""
 
-  $ sleep 10
+  $ enable_ap_sync 4 1
+  AccessPoint.4.Enable=1
 
-  $ get_ssid_status
-  Down
-  Down
-  Down
-  Down
-  Down
-  Down
-  Up
-  Up
-  Up
+  $ wifi_dm "AccessPoint.*.Status?0"
+  Device.WiFi.AccessPoint.1.Status="Enabled"
+  Device.WiFi.AccessPoint.2.Status="Enabled"
+  Device.WiFi.AccessPoint.3.Status="Enabled"
+  Device.WiFi.AccessPoint.4.Status="Enabled"
+  Device.WiFi.AccessPoint.5.Status="Disabled"
+  Device.WiFi.AccessPoint.6.Status="Disabled"
+  Device.WiFi.AccessPoint.7.Status="Disabled"
+  Device.WiFi.AccessPoint.8.Status="Disabled"
+  Device.WiFi.AccessPoint.9.Status="Disabled"
 
-Test activation of access point 4:
+#####################################
+# Test activation of access point 5 #
+#####################################
 
-  $ R logger -t cram "Enable AP 4 \"$(get_ssid_ref 4)\""
+  $ R logger -t cram "Test AccessPoint 5 activation \"$(get_ssid_ref 5)\""
 
-  $ enable_ap 4
-  Device.WiFi.AccessPoint.4 enabled
+  $ enable_ap_sync 5 1
+  AccessPoint.5.Enable=1
 
-  $ check_ap_ref_ssid 4 Up
-  Device.WiFi.AccessPoint.4 SSID Reference is Up
+  $ wifi_dm "AccessPoint.*.Status?0"
+  Device.WiFi.AccessPoint.1.Status="Enabled"
+  Device.WiFi.AccessPoint.2.Status="Enabled"
+  Device.WiFi.AccessPoint.3.Status="Enabled"
+  Device.WiFi.AccessPoint.4.Status="Enabled"
+  Device.WiFi.AccessPoint.5.Status="Enabled"
+  Device.WiFi.AccessPoint.6.Status="Disabled"
+  Device.WiFi.AccessPoint.7.Status="Disabled"
+  Device.WiFi.AccessPoint.8.Status="Disabled"
+  Device.WiFi.AccessPoint.9.Status="Disabled"
 
-  $ sleep 10
+#####################################
+# Test activation of access point 6 #
+#####################################
 
-  $ get_ssid_status
-  Down
-  Down
-  Down
-  Down
-  Down
-  Up
-  Up
-  Up
-  Up
+  $ R logger -t cram "Test AccessPoint 6 activation \"$(get_ssid_ref 6)\""
 
-Test activation of access point 5:
+  $ enable_ap_sync 6 1
+  AccessPoint.6.Enable=1
 
-  $ R logger -t cram "Enable AP 5 \"$(get_ssid_ref 5)\""
+  $ wifi_dm "AccessPoint.*.Status?0"
+  Device.WiFi.AccessPoint.1.Status="Enabled"
+  Device.WiFi.AccessPoint.2.Status="Enabled"
+  Device.WiFi.AccessPoint.3.Status="Enabled"
+  Device.WiFi.AccessPoint.4.Status="Enabled"
+  Device.WiFi.AccessPoint.5.Status="Enabled"
+  Device.WiFi.AccessPoint.6.Status="Enabled"
+  Device.WiFi.AccessPoint.7.Status="Disabled"
+  Device.WiFi.AccessPoint.8.Status="Disabled"
+  Device.WiFi.AccessPoint.9.Status="Disabled"
 
-  $ enable_ap 5
-  Device.WiFi.AccessPoint.5 enabled
+#####################################
+# Test activation of access point 7 #
+#####################################
 
-  $ check_ap_ref_ssid 5 Up
-  Device.WiFi.AccessPoint.5 SSID Reference is Up
+  $ R logger -t cram "Test AccessPoint 7 activation \"$(get_ssid_ref 7)\""
 
-  $ sleep 10
+  $ enable_ap_sync 7 1
+  AccessPoint.7.Enable=1
 
-  $ get_ssid_status
-  Down
-  Down
-  Down
-  Down
-  Up
-  Up
-  Up
-  Up
-  Up
+  $ wifi_dm "AccessPoint.*.Status?0"
+  Device.WiFi.AccessPoint.1.Status="Enabled"
+  Device.WiFi.AccessPoint.2.Status="Enabled"
+  Device.WiFi.AccessPoint.3.Status="Enabled"
+  Device.WiFi.AccessPoint.4.Status="Enabled"
+  Device.WiFi.AccessPoint.5.Status="Enabled"
+  Device.WiFi.AccessPoint.6.Status="Enabled"
+  Device.WiFi.AccessPoint.7.Status="Enabled"
+  Device.WiFi.AccessPoint.8.Status="Disabled"
+  Device.WiFi.AccessPoint.9.Status="Disabled"
 
-Test activation of access point 6:
+#####################################
+# Test activation of access point 8 #
+#####################################
 
-  $ R logger -t cram "Enable AP 6 \"$(get_ssid_ref 6)\""
+  $ R logger -t cram "Test AccessPoint 8 activation \"$(get_ssid_ref 8)\""
 
-  $ enable_ap 6
-  Device.WiFi.AccessPoint.6 enabled
+  $ enable_ap_sync 8 1
+  AccessPoint.8.Enable=1
 
-  $ check_ap_ref_ssid 6 Up
-  Device.WiFi.AccessPoint.6 SSID Reference is Up
+  $ wifi_dm "AccessPoint.*.Status?0"
+  Device.WiFi.AccessPoint.1.Status="Enabled"
+  Device.WiFi.AccessPoint.2.Status="Enabled"
+  Device.WiFi.AccessPoint.3.Status="Enabled"
+  Device.WiFi.AccessPoint.4.Status="Enabled"
+  Device.WiFi.AccessPoint.5.Status="Enabled"
+  Device.WiFi.AccessPoint.6.Status="Enabled"
+  Device.WiFi.AccessPoint.7.Status="Enabled"
+  Device.WiFi.AccessPoint.8.Status="Enabled"
+  Device.WiFi.AccessPoint.9.Status="Disabled"
 
-  $ sleep 10
+#####################################
+# Test activation of access point 9 #
+#####################################
 
-  $ get_ssid_status
-  Down
-  Down
-  Down
-  Up
-  Up
-  Up
-  Up
-  Up
-  Up
+  $ R logger -t cram "Test AccessPoint 9 activation \"$(get_ssid_ref 9)\""
 
-Test activation of access point 7:
+  $ enable_ap_sync 9 1
+  AccessPoint.9.Enable=1
 
-  $ R logger -t cram "Enable AP 7 \"$(get_ssid_ref 7)\""
-
-  $ enable_ap 7
-  Device.WiFi.AccessPoint.7 enabled
-
-  $ check_ap_ref_ssid 7 Up
-  Device.WiFi.AccessPoint.7 SSID Reference is Up
-
-  $ sleep 10
-
-  $ get_ssid_status
-  Down
-  Down
-  Up
-  Up
-  Up
-  Up
-  Up
-  Up
-  Up
-
-Test activation of access point 8:
-
-  $ R logger -t cram "Enable AP 8 \"$(get_ssid_ref 8)\""
-
-  $ enable_ap 8
-  Device.WiFi.AccessPoint.8 enabled
-
-  $ check_ap_ref_ssid 8 Up
-  Device.WiFi.AccessPoint.8 SSID Reference is Up
-
-  $ sleep 10
-
-  $ get_ssid_status
-  Down
-  Up
-  Up
-  Up
-  Up
-  Up
-  Up
-  Up
-  Up
-
-Test activation of access point 9:
-
-  $ R logger -t cram "Enable AP 9 \"$(get_ssid_ref 9)\""
-
-  $ enable_ap 9
-  Device.WiFi.AccessPoint.9 enabled
-
-  $ check_ap_ref_ssid 9 Up
-  Device.WiFi.AccessPoint.9 SSID Reference is Up
-
-  $ sleep 10
-
-  $ get_ssid_status
-  Up
-  Up
-  Up
-  Up
-  Up
-  Up
-  Up
-  Up
-  Up
+  $ wifi_dm "AccessPoint.*.Status?0"
+  Device.WiFi.AccessPoint.1.Status="Enabled"
+  Device.WiFi.AccessPoint.2.Status="Enabled"
+  Device.WiFi.AccessPoint.3.Status="Enabled"
+  Device.WiFi.AccessPoint.4.Status="Enabled"
+  Device.WiFi.AccessPoint.5.Status="Enabled"
+  Device.WiFi.AccessPoint.6.Status="Enabled"
+  Device.WiFi.AccessPoint.7.Status="Enabled"
+  Device.WiFi.AccessPoint.8.Status="Enabled"
+  Device.WiFi.AccessPoint.9.Status="Enabled"
 
 Check that hostapd is operating as expected:
 
