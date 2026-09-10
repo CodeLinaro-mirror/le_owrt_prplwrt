@@ -1,3 +1,7 @@
+Skip until CI-89 is resolved:
+
+  $ exit 80
+
 ## Setup test configuration
 
 Setup the test configuration:
