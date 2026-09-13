@@ -10,8 +10,10 @@
     - when: manual
       allow_failure: true
   variables:
+    CRAM_REQUIRE_PACKAGES: "1"
     COMPONENT: prplos
     DUT_BOARD: qemu-x86-64
+    DUT_ARCH_PACKAGES_PATH: bin/packages/x86_64
     TARGET_LAN_IP: 192.168.1.1
     # testbed-qemu colours progress only on a terminal unless forced; GitLab renders colours in the job log.
     CLICOLOR_FORCE: "1"
