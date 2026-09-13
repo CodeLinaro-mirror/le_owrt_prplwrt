@@ -468,6 +468,7 @@ cram Valyrian [auto]:
 
 cram QEMU x86-64 [auto]:
   allow_failure: true
+  timeout: 60 minutes
   needs: ["build test x86_64 prpl security"]
   extends:
     - .qemu-x86-64 testbed
@@ -668,6 +669,14 @@ cram Valyrian [prplos]:
   extends: .nokia-valyrian testbed
   variables:
     COMPONENT: prplos
+
+cram QEMU x86-64 [full]:
+  allow_failure: true
+  timeout: 60 minutes
+  needs: ["build test x86_64 prpl security"]
+  extends: .qemu-x86-64 testbed
+  variables:
+    COMPONENT: full
 
 cram QEMU x86-64 [smoke]:
   allow_failure: true
