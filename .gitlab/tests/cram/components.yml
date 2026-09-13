@@ -77,10 +77,8 @@ hw_only:
     - "generic/cellular-manager/130-sms-message-attributes.t"
     - "generic/deviceinfo-firmware-download-failures.t"
     - "generic/obuspa-cellular.t"
-    - "generic/obuspa.t"
     - "generic/sysupgrade-prpl-download-failure.t"
     - "generic/ubus-datamodel-list-cellular.t"
-    - "generic/ubus-datamodel-list.t"
 
 # post/** is invoked separately for every component job and is not bucketed.
 
