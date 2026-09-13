@@ -49,8 +49,6 @@ smoke:
 hw_only:
   include:
     - "generic/acceleration-plan-components/003-amx-pre-test-verify-fail-action.t"
-    - "generic/acceleration-plan-components/010-firewall-dhcp.t"
-    - "generic/acceleration-plan-components/010-firewall-dhcp_toggle.t"
     - "generic/acceleration-plan-components/018-cellular-trusted-elements.t"
     - "generic/acceleration-plan-components/040-usb-filter.t"
     - "generic/acceleration-plan-components/060-xpon-mock.t"
@@ -68,7 +66,6 @@ hw_only:
     - "generic/acceleration-plan-components/133-ipsec-e2e.t"
     - "generic/acceleration-plan-components/133-tr181-ipsec.t"
     - "generic/acceleration-plan-components/50-cellular-offline.t"
-    - "generic/acceleration-plan-components/dhcpv4-client-options/018-dhcpv4-client-options.t"
     - "generic/cellular-manager/010-verify-sim-selection.t"
     - "generic/cellular-manager/020-verify-usim-data-elements.t"
     - "generic/cellular-manager/045-verify-roaming-upstream-status.t"
