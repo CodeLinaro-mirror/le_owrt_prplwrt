@@ -1,7 +1,5 @@
 Create R alias:
 
-  $ if [ "$DUT_BOARD" = "qemu-x86-64" ]; then exit 80; fi
-
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
 Warm up the DHCP path, the first probe of a session goes unanswered:
