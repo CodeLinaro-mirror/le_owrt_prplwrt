@@ -1,0 +1,19 @@
+{
+  "Reboot.": {
+    "BootCount": 1,
+    "ColdBootCount": 0,
+    "CurrentBootCycle": "Warm",
+    "CurrentVersionBootCount": 1,
+    "MaxRebootEntries": 10,
+    "RebootNumberOfEntries": 1,
+    "WarmBootCount": 1,
+    "WatchdogBootCount": 0
+  },
+  "Reboot.Reboot.1.": {
+    "Alias": "cpe-Reboot-1",
+    "Cause": "LocalFactoryReset",
+    "FirmwareUpdated": 0,
+    "Reason": "Initiated by Unknown",
+    "TimeStamp": "<timestamp>"
+  }
+}
