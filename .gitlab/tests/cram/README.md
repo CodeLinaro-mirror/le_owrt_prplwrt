@@ -287,3 +287,14 @@ The lint is a manual, non-gating play button in every non-scheduled pipeline.
 When played in a merge request pipeline, it still receives the diff base
 automatically. Other pipeline types run the same manifest checks without a
 comparison baseline; scheduled pipelines skip the job.
+
+### Optional packages
+
+A few tests install a package on the DUT first (for example the XPON
+mock and the data model mapper). They look for the ipk under
+`${CI_PROJECT_DIR}/${DUT_ARCH_PACKAGES_PATH}/feed_prplos/`, which in CI
+is the `bin/` artifact of the build job. When the package is missing the
+test skips, so a run against a downloaded image stays green but covers
+less. Download the build job's `bin/` artifact next to your checkout, or
+build the image yourself, to run them. CI sets `CRAM_REQUIRE_PACKAGES=1`
+so a missing package fails there instead of skipping.
