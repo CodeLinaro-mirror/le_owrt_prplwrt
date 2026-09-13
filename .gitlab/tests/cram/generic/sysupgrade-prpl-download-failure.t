@@ -6,8 +6,6 @@ Download() has no downloader and BootFailureLog is never populated:
 
 Create R alias and find the host IP:
 
-  $ if [ "$DUT_BOARD" = "qemu-x86-64" ]; then exit 80; fi
-
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
   $ export SERVER_IP="`ip route | grep "192.168.1.0/24" | grep -o "src [0-9.]*" | cut -d' ' -f2 | head -1`"
 
