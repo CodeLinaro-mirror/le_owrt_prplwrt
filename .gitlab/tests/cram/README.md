@@ -143,20 +143,21 @@ played therefore still controls the tests that run.
 ### QEMU jobs
 
 QEMU x86-64 is the third priority selection board. Play its manual x86_64
-build to release an armed `[auto]` job. All five QEMU jobs allow failure
+build to release an armed `[auto]` job. All six QEMU jobs allow failure
 and depend only on that build. The jobs are:
 
 - `cram QEMU x86-64 [smoke]`
+- `cram QEMU x86-64 [full]`
 - `cram QEMU x86-64 [lcm]`
 - `cram QEMU x86-64 [prplos]`
 - `cram QEMU x86-64 [prplmesh]`
 - `cram QEMU x86-64 [auto]`
 
-The smoke and three component jobs remain manual, including when
-`CRAM_COMPONENTS` is set. There is no QEMU `[full]` job. A `full` automatic
-selection runs the union of the three component buckets after `hw_only` tests
-are removed. Changes to `profiles/x86_64.yml` select that full QEMU component
-set.
+The smoke, full and three component jobs remain manual, including when
+`CRAM_COMPONENTS` is set. The `[full]` job runs the union of the three
+component buckets after `hw_only` tests are removed, as does an automatic
+`full` selection. Changes to `profiles/x86_64.yml` select that full QEMU
+component set.
 
 ## Selecting pipeline jobs
 
