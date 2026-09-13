@@ -1,6 +1,6 @@
 .qemu-x86-64 testbed:
   stage: run
-  image: "registry.gitlab.com/prpl-foundation/prplos/ci/containers/testbed-qemu@sha256:8c00d17ac1dde961fb5f8d47e10754081f0e135445a10e10bb4ffd229dbafdcc"
+  image: "registry.gitlab.com/prpl-foundation/prplos/ci/containers/testbed-qemu@sha256:32aa24ccfdd16b244e10e68d4b49e781bc855fbe2d3fbd3e67e8313bc98fe987"
   tags: [qemu-amd64, kvm]
   timeout: 40 minutes
   rules:
@@ -37,6 +37,7 @@
       --image "$CI_PROJECT_DIR/$TESTBED_QEMU_IMAGE"
       --artifacts "$CI_PROJECT_DIR/artifacts"
       --accel "$TESTBED_QEMU_ACCEL"
+      --debug-information always
       -- testbed-qemu-cram $CRAM_TEST_SUITE
     - section_end "test-execution"
   artifacts:
