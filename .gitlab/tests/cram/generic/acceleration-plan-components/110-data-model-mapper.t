@@ -1,9 +1,9 @@
 Setup the test configuration:
 
-  $ if [ "$DUT_BOARD" = "qemu-x86-64" ]; then exit 80; fi
-
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
   $ S=". /tmp/script_functions.sh"
+# The package comes from the x86_64 build's bin/ artifact (DUT_ARCH_PACKAGES_PATH); without it the test skips unless CRAM_REQUIRE_PACKAGES=1 makes the gap fatal, as CI does.
+  $ set -- "${CI_PROJECT_DIR}/${DUT_ARCH_PACKAGES_PATH}"/feed_prplos/data-model-mapper*.ipk; if [ ! -f "$1" ]; then [ "${CRAM_REQUIRE_PACKAGES:-}" = "1" ] || exit 80; printf 'missing %s\n' "$1"; false; fi
   $ scp -O ${TESTDIR}/../lcm/script_functions.sh root@${TARGET_LAN_IP}:/tmp/script_functions.sh
   $ scp -O ${CI_PROJECT_DIR}/${DUT_ARCH_PACKAGES_PATH}/feed_prplos/data-model-mapper*.ipk "root@${TARGET_LAN_IP}:/tmp/"
   $ R "opkg install -V0 --force-reinstall /tmp/data-model-mapper*.ipk;echo $?"
