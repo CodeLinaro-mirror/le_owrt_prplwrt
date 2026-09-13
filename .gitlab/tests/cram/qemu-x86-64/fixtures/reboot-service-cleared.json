@@ -1,0 +1,12 @@
+{
+  "Reboot.": {
+    "BootCount": 1,
+    "ColdBootCount": 0,
+    "CurrentBootCycle": "Warm",
+    "CurrentVersionBootCount": 1,
+    "MaxRebootEntries": 10,
+    "RebootNumberOfEntries": 0,
+    "WarmBootCount": 1,
+    "WatchdogBootCount": 0
+  }
+}
