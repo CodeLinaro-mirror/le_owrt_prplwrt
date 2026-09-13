@@ -48,7 +48,7 @@ smoke:
 # Tests requiring hardware or firmware capabilities unavailable on QEMU.
 hw_only:
   include:
-    - "generic/acceleration-plan-components/003-amx-pre-test-verify-fail-action.t"
+    - "generic/acceleration-plan-components/003-amx-pre-test-verify-fail-action-restart.t"
     - "generic/acceleration-plan-components/018-cellular-trusted-elements.t"
     - "generic/acceleration-plan-components/040-usb-filter.t"
     - "generic/acceleration-plan-components/060-xpon-mock.t"

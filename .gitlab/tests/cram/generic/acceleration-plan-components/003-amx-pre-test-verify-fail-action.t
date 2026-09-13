@@ -1,16 +1,8 @@
 Create R alias:
 
-  $ if [ "$DUT_BOARD" = "qemu-x86-64" ]; then exit 80; fi
-
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
   $ R logger -t cram "Starting with amx-processmonitoring pre-checks"
-
-Ensure ProcessMonitor.Test.i.FailAction does not have REBOOT action:
-
-  $ R "ba-cli -l ProcessMonitor.Test.*.FailAction\? | "\
-  > "grep -vE '(RESTART|NONE)' | sed '/^$/d'"
-
 
 Initialize the ProcessMonitor.Test.i Id for required processes:
 
