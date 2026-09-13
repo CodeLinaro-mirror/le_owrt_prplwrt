@@ -1,7 +1,5 @@
 Create R alias:
 
-  $ if [ "$DUT_BOARD" = "qemu-x86-64" ]; then exit 80; fi
-
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
 Check the Device.Logical.TUN datamodel starts empty:
@@ -37,6 +35,8 @@ Create TUN interface:
   ]
 
 Ensure TUN device is created:
+
+qdisc is the board's kernel default (fq_codel on in-tree targets), not under test
 
   $ R "ip link show | grep -E \"tun[0-9]+:\" | sed 's/^[0-9]*: //'"
   tun[0-9]+: <POINTOPOINT,MULTICAST,NOARP,UP,LOWER_UP> mtu 1500 qdisc (pfifo_fast|noqueue|fq_codel) state UNKNOWN mode DEFAULT group default qlen 500 (re)
