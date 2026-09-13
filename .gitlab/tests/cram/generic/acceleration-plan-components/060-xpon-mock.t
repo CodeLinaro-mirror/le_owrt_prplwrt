@@ -1,7 +1,5 @@
 Create R alias:
 
-  $ if [ "$DUT_BOARD" = "qemu-x86-64" ]; then exit 80; fi
-
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
 Skip test on urx851-b0-dk-pon as it has real PON and thus mocking is not needed:
@@ -11,6 +9,8 @@ Skip test on urx851-b0-dk-pon as it has real PON and thus mocking is not needed:
 
 Install mod-xpon-prpl-mock package:
 
+# The package comes from the x86_64 build's bin/ artifact (DUT_ARCH_PACKAGES_PATH); without it the test skips unless CRAM_REQUIRE_PACKAGES=1 makes the gap fatal, as CI does.
+  $ set -- "${CI_PROJECT_DIR}/${DUT_ARCH_PACKAGES_PATH}"/feed_prplos/mod-xpon-prpl-mock*.ipk; if [ ! -f "$1" ]; then [ "${CRAM_REQUIRE_PACKAGES:-}" = "1" ] || exit 80; printf 'missing %s\n' "$1"; false; fi
   $ scp -O ${CI_PROJECT_DIR}/${DUT_ARCH_PACKAGES_PATH}/feed_prplos/mod-xpon-prpl-mock*.ipk "root@${TARGET_LAN_IP}:/tmp/"
   $ R "opkg install --force-reinstall /tmp/mod-xpon-prpl-mock*.ipk"
   No packages removed.

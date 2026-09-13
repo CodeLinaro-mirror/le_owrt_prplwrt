@@ -1,6 +1,7 @@
 .arcadyan-mozart testbed:
   extends: .testbed true.cz
   variables:
+    CRAM_REQUIRE_PACKAGES: "1"
     DUT_ARCH: aarch64
     DUT_TARGET: mediatek
     DUT_SUBTARGET: filogic

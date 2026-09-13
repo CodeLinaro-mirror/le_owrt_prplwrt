@@ -1,6 +1,7 @@
 .wnc-freedom testbed:
   extends: .testbed true.cz
   variables:
+    CRAM_REQUIRE_PACKAGES: "1"
     DUT_ARCH: aarch64
     DUT_TARGET: ipq95xx
     DUT_SUBTARGET: generic
