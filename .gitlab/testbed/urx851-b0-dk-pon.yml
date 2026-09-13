@@ -1,6 +1,7 @@
 .urx851-b0-dk-pon testbed:
   extends: .testbed true.cz
   variables:
+    CRAM_REQUIRE_PACKAGES: "1"
     DUT_ARCH: x86_64
     DUT_TARGET: intel_x86
     DUT_SUBTARGET: lgm
