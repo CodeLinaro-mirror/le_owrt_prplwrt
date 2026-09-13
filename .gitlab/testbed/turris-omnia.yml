@@ -1,6 +1,7 @@
 .turris-omnia testbed:
   extends: .testbed true.cz
   variables:
+    CRAM_REQUIRE_PACKAGES: "1"
     DUT_ARCH: arm
     DUT_TARGET: mvebu
     DUT_SUBTARGET: cortexa9
