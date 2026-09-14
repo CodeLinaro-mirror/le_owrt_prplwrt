@@ -7,7 +7,7 @@ lua_bin=lua
 
 print_help() {
 cat << EOF
-Usage: $(basename $0) [-l|list] [-t|tree] [-h] [lua*] [<remote command>]
+Usage: $(basename $0) [-l|list] [-t|tree] [-h] [lua*]
 
 Print the running processes and their privileges:
 - Process name
@@ -21,7 +21,11 @@ Options:
     -t, tree            Print the all processes in a hierarchical tree. (default)
                         With all processes in the same branch alphabetically ordered.
     lua*                To specify the lua binary to use to run the lua script. (default="lua", e.g. lua5.3)
-    <remote command>    The command to use to execute commands on the remote hgw. (default="ssh root@192.168.1.1")
+
+Environment:
+    CRAM_REMOTE_COMMAND The command to use to execute commands on the remote hgw. (default="ssh root@192.168.1.1")
+    CRAM_REMOTE_COPY    The command to use to copy files to the remote hgw. (default="scp")
+    TARGET_LAN_IP       The remote hgw address, when it cannot be derived from CRAM_REMOTE_COMMAND
 EOF
 }
 
@@ -42,21 +46,13 @@ while [ $# -gt 0 ]; do case "$1" in
 lua*)
     lua_bin="$1"
     ;;
-"")
-    :
-    ;;
 *)
-    if [ -z "${remote_command}" ]; then
-        remote_command="$1"
-    else
-        break
-    fi
+    print_help >&2
+    exit 2
     ;;
 esac; shift; done
 
-if [ -z "${remote_command}" ]; then
-    remote_command="${CRAM_REMOTE_COMMAND:-ssh root@192.168.1.1}"
-fi
+remote_command="${CRAM_REMOTE_COMMAND:-ssh root@192.168.1.1}"
 
 R() { ${remote_command} "$@"; }
 C() { ${CRAM_REMOTE_COPY:-scp} "$@"; }
