@@ -2,4 +2,4 @@
 feeds:
   - name: feed_prplmesh
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplmesh.git
-    revision: main@245c4f6614a88f053e1dc80d7ab5298334c7a1bf
+    revision: main@003c5bfa1bec14c9c03018371c394a1dc380f9e6
