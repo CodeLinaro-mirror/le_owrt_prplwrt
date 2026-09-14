@@ -95,7 +95,7 @@ Create one instances of Network.AccessPoint and push it to the agent:
       }
   ]
 
-  $ sleep 10
+  $ sleep 20
 
 Check access points status:
 
