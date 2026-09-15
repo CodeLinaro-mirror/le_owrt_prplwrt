@@ -15,12 +15,14 @@ Switch prplMesh to NMAP mode:
   $ R ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.ManagementMode="Not-Multi-AP" | tr -d '\n'
   Not-Multi-AP (no-eol)
 
-  $ sleep 5
+Wait for local AL discovery after the restart, then check that the IEEE1905 model is populated:
 
-Check that the local AL is present in the IEEE1905 model:
-
-  $ ieee1905_count="$(R ba-cli -l IEEE1905.Network.ALNumberOfEntries? | tr -d '\n')"
-  $ test "$ieee1905_count" -ge 1 && echo ok || { echo "IEEE1905 model is empty: ALNumberOfEntries=$ieee1905_count"; false; }
+  $ for i in $(seq 1 20); do
+  >     sleep 1
+  >     ieee1905_count="$(R ba-cli -l IEEE1905.Network.ALNumberOfEntries? | tr -d '\n')"
+  >     test "$ieee1905_count" -ge 1 2>/dev/null && break
+  > done
+  $ test "$ieee1905_count" -ge 1 2>/dev/null && echo ok || { echo "IEEE1905 model is empty: ALNumberOfEntries=$ieee1905_count"; false; }
   ok
 
 Remote ALs are not checked because they appear only after the corresponding device sends its periodic Topology Discovery.
