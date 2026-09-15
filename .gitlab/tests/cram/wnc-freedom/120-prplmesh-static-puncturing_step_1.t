@@ -94,6 +94,13 @@ Create one instances of Network.AccessPoint and push it to the agent:
 
   $ sleep 10
 
+Force 5GHz channel to 36 as hostapd may internally change the primary channel after enabling the radio (PPW-2258):
+
+  $ R "ba-cli -j -l Device.WiFi.Radio.2.Channel=36 | sed '/^$/d'"
+  [{"Device.WiFi.Radio.2.":{"Channel":36}}]
+
+  $ sleep 5
+
 Check that 5GHz private vap status:
 
   $ wifi_dm "AccessPoint.3.SSIDReference+.Status?"
