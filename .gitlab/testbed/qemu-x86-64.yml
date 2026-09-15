@@ -1,6 +1,6 @@
 .qemu-x86-64 testbed:
   stage: run
-  image: "registry.gitlab.com/prpl-foundation/prplos/ci/containers/testbed-qemu@sha256:4a54f48f7f13ab228ee99836b6d49ee73defff4c9a4baed5eb5dc4faab01491a"
+  image: "registry.gitlab.com/prpl-foundation/prplos/ci/containers/testbed-qemu@sha256:c8704a596298ba6e08663509ed5b282fad9bfb6478f9ab9baddc71df3eaab885"
   tags: [qemu-amd64, kvm]
   timeout: 40 minutes
   rules:
