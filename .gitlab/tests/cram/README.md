@@ -50,10 +50,11 @@ three buckets. The `full` selection keeps the legacy suite byte-for-byte, and
 tests under `post/` continue to run separately after every selected main
 suite.
 
-The `smoke` set is the focused QEMU connectivity and basic-command suite. Tests
-in `hw_only` are removed from every QEMU component selection because they
-require hardware or firmware capabilities that the virtual board does not
-provide. Hardware jobs do not use either set. Whole-test exclusions also have a
+The `smoke` set is the focused QEMU connectivity and basic-command suite; it
+also snapshots the build configuration. Tests in `hw_only` are removed from
+every QEMU component selection because they require hardware or firmware
+capabilities that the virtual board does not provide. Hardware jobs do not use
+either set. Whole-test exclusions also have a
 static QEMU guard before their first command. Tests with only a
 hardware-specific tail keep a guard before that section and remain outside
 `hw_only`.
