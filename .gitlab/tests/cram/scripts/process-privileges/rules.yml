@@ -22,8 +22,8 @@
     id: lighttpd:acl
     caps: none
   - cmd: amx-processmonitor
-    id: root:root
-    caps: full
+    id: tr181_app:tr181_app
+    caps: dac_override,dac_read_search,kill,sys_ptrace
   - cmd: "amxrt:wifi-scheduler"
     id: root:root
     caps: full
