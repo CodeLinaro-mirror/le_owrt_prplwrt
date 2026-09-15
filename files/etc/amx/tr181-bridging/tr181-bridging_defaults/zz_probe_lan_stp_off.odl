@@ -1,0 +1,7 @@
+%populate {
+    object "Bridging.Bridge.lan" {
+        object "STP" {
+            parameter Enable = false;
+        }
+    }
+}
