@@ -526,6 +526,8 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_ucode-mod-uloop=y
   CONFIG_PACKAGE_umdns-prpl=y
   CONFIG_PACKAGE_unbound-daemon-prpl=y
+  CONFIG_PACKAGE_unbound-plugins-prpl=y
+  CONFIG_PACKAGE_unbound-plugins-prpl-strictorder=y
   CONFIG_PACKAGE_uriparser=y
   CONFIG_PACKAGE_usbids=y
   CONFIG_PACKAGE_usbutils=y

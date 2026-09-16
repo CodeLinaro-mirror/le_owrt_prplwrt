@@ -133,6 +133,8 @@ diffconfig: |
           CONFIG_KERNEL_PROC_PAGE_MONITOR=y
           CONFIG_JSON_CYCLONEDX_SBOM=y
           CONFIG_PACKAGE_unbound-daemon-prpl=y
+          CONFIG_PACKAGE_unbound-plugins-prpl=y
+          CONFIG_PACKAGE_unbound-plugins-prpl-strictorder=y
           CONFIG_PACKAGE_dnsmasq-prpl=y
           CONFIG_PACKAGE_chrony-prpl=y
           CONFIG_PACKAGE_umdns-prpl=y

@@ -436,9 +436,14 @@ Device.DNS.Relay.Config.{i}.Alias                                               
 Device.DNS.Relay.Config.{i}.CacheMaxTTL                                                              proto::tr181-dns
 Device.DNS.Relay.Config.{i}.CacheMinTTL                                                              proto::tr181-dns
 Device.DNS.Relay.Config.{i}.CacheSize                                                                proto::tr181-dns
+Device.DNS.Relay.Config.{i}.FailbackMaxTimer                                                         proto::tr181-dns
+Device.DNS.Relay.Config.{i}.FailbackMinTimer                                                         proto::tr181-dns
 Device.DNS.Relay.Config.{i}.FlushCache()                                                             proto::tr181-dns
 Device.DNS.Relay.Config.{i}.Forwarders                                                               proto::tr181-dns
+Device.DNS.Relay.Config.{i}.ForwardingMode                                                           proto::tr181-dns
 Device.DNS.Relay.Config.{i}.Interface                                                                proto::tr181-dns
+Device.DNS.Relay.Config.{i}.MaxRetries                                                               proto::tr181-dns
+Device.DNS.Relay.Config.{i}.ResponseTimeout                                                          proto::tr181-dns
 Device.DNS.Relay.ConfigNumberOfEntries                                                               proto::tr181-dns
 Device.DNS.Relay.Enable                                                                              proto::tr181-dns
 Device.DNS.Relay.ForwardNumberOfEntries                                                              proto::tr181-dns
