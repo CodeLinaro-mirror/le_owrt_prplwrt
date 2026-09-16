@@ -12,9 +12,17 @@ save() {
     echo "Seed saved ($1)"
 }
 
-SEED="$(uci -q get system.@system[0].urandom_seed || true)"
-[ "${SEED:0:1}" = "/" ] && save "$SEED"
+get_real_path() {
+    exec 2>/dev/null
+    if [ -L "$1" ]; then
+        realpath "$1" || readlink "$1" && return
+    fi
+    echo "$1"
+}
 
-SEED=/etc/urandom.seed
+SEED="$(uci -q get system.@system[0].urandom_seed || true)"
+[ "${SEED:0:1}" = "/" ] && SEED=$(get_real_path "$SEED") && save "$SEED"
+
+SEED=$(get_real_path /etc/urandom.seed)
 [ ! -f $SEED ] && save "$SEED"
 true

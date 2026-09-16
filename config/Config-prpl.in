@@ -1,0 +1,9 @@
+menu "prpl Foundation build settings"
+
+	config PRPL_ALLOW_OVERLAYFS_ON_ROOTFS
+	bool "Allow mounting overlayfs on rootfs"
+	default n
+	help
+	    For security reasons, executables must not be modifiable on the target.
+
+endmenu
