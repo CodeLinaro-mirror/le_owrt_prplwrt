@@ -8,11 +8,22 @@ uci_apply_defaults() {
 	. /lib/functions/system.sh
 
 	cd /etc/uci-defaults || return 0
-	files="$(ls)"
-	[ -z "$files" ] && return 0
+	failed_uci_defaults="/cfg/failed-uci-defaults"
+	overlay_upperdir=$(mount | sed -n -e 's|^overlayfs:/.* on / .*,upperdir=\(.*\),workdir=.*|\1|p')
+	if [ -f "$failed_uci_defaults" ] && [ -z "$overlay_upperdir" -o -n "$(ls $overlay_upperdir)" ]; then
+		[ -s "$failed_uci_defaults" ] || return 0
+		files=$(cat "$failed_uci_defaults" | sort -u)
+	else
+		files="$(ls)"
+	fi
+	failed_scripts=
 	for file in $files; do
-		( . "./$(basename $file)" ) && rm -f "$file"
+		[ -f "$file" ] || continue
+		if ! ( . "./$(basename $file)" ) ; then
+			failed_scripts="$failed_scripts $file"
+		fi
 	done
+	for file in $failed_scripts; do echo $file; done > "$failed_uci_defaults"
 	uci commit
 }
 

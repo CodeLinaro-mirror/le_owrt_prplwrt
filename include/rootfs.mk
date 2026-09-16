@@ -69,6 +69,34 @@ ifdef CONFIG_CLEAN_IPKG
   endef
 endif
 
+ifndef CONFIG_PRPL_ALLOW_OVERLAYFS_ON_ROOTFS
+  define disable_overlayfs_on_rootfs
+	@( \
+		cd $(1) || exit 1; \
+		mkdir -p -m 0755 ./cfg ./perm; \
+		echo /cfg > ./etc/writable_locations; \
+		echo "Run /etc/uci-defaults scripts that use \$$IPKG_INSTROOT"; \
+		export SHELL=$$(command -v bash) PATH=$(TARGET_PATH_PKG); \
+		for script in ./etc/uci-defaults/* ; do \
+		  if grep -q IPKG_INSTROOT "$$script"; then \
+			echo "Run $$script"; \
+			if IPKG_INSTROOT=$(1) "$$SHELL" "$$script" ; then \
+			  rm "$$script" || exit 1; \
+			else \
+			  echo "$$script returned non-zero code $$?, it will not be removed from rootfs image"; \
+			fi; \
+		  fi; \
+		done; \
+		echo "... done"; \
+		echo "Disabling mount_root..."; \
+		echo '#!/bin/sh' > ./sbin/mount_root || exit 1; \
+		chmod a+x ./sbin/mount_root || exit 1; \
+		rm -rf ./overlay ./sbin/jffs2reset ./sbin/jffs2mark; \
+		echo "... done"; \
+	)
+  endef
+endif
+
 define prepare_rootfs
 	$(if $(2),@if [ -d '$(2)' ]; then \
 		$(call file_copy,$(2)/.,$(1)); \
@@ -121,6 +149,7 @@ define prepare_rootfs
 		$(1)/usr/lib/opkg/lists/* \
 		$(1)/var/lock/*.lock
 	$(call clean_ipkg,$(1))
+	$(call disable_overlayfs_on_rootfs,$(1))
 	$(call mklibs,$(1))
 	$(if $(SOURCE_DATE_EPOCH),find $(1)/ -mindepth 1 -execdir touch -hcd "@$(SOURCE_DATE_EPOCH)" "{}" +)
 endef

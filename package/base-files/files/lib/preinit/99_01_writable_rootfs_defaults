@@ -1,0 +1,39 @@
+#!/bin/sh
+
+do_writable_rootfs_defaults() {
+	if [ -f "/etc/writable_locations" ]; then
+		if ! mount | grep -q " on /rom "; then
+			mount -o rebind / /rom || return
+		fi
+
+		if cd "/rom/tmp"; then
+			for path in *; do
+				cp -rp "$path" /tmp
+			done
+		fi
+
+		if [ ! -f /cfg/failed-uci-defaults ]; then
+			echo "Reset writable locations to factory default" > /dev/console
+			locations=$(cat "/etc/writable_locations")
+			for dir in $locations; do
+				cd "/rom$dir" || continue
+				mkdir -p "$dir"
+				for path in *; do
+					rm -rf "$dir/$path"
+					cp -rp "$path" "$dir"
+				done
+			done
+		fi
+	elif [ -f "/cfg/failed-uci-defaults" ]; then
+		# Remove uci-defaults state when overlayfs is mounted in RAM or
+		# no /etc/amx file has been modified yet
+		overlay_upperdir="$(mount | sed -n -e 's|^overlayfs:/.* on / .*,upperdir=\(.*\),workdir=.*|\1|p')"
+		[ -n "$overlay_upperdir" ] || return
+		if [ "${overlay_upperdir:0:5}" == "/tmp/" -o -z "$(ls $overlay_upperdir/etc/amx 2>/dev/null)" ]; then
+			echo "Reset uci-defaults state by 98_writable_rootfs_default" > /dev/console
+			rm /cfg/failed-uci-defaults
+		fi
+	fi
+}
+
+boot_hook_add preinit_main do_writable_rootfs_defaults
