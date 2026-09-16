@@ -83,9 +83,14 @@
     id: tr181_app:tr181_app
     caps: dac_override,kill,net_admin,net_bind_service,net_raw,setfcap
     child:
-    - cmd: dnsmasq
-      id: tr181_app:tr181_app
-      caps: dac_override,kill,net_admin,net_bind_service,net_raw,setfcap
+    - cmd: sudo
+      id: tr181_app/root:root
+      caps: full
+      child:
+      - cmd: dnsmasq
+        id: dnsmasq:dnsmasq
+        caps: net_admin,net_raw
+        ignore_child: true
   - cmd: dhcpv6s-manager
     id: tr181_app:tr181_app
     caps: dac_override
