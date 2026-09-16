@@ -62,6 +62,13 @@ Enable private vaps radios:
 
   $ sleep 10
 
+Force 5GHz channel to 36 as hostapd may internally change the primary channel after enabling the radio (PPW-2259):
+
+  $ R "ba-cli -j -l Device.WiFi.Radio.2.Channel=36 | sed '/^$/d'"
+  [{"Device.WiFi.Radio.2.":{"Channel":36}}]
+
+  $ sleep 5
+
   $ wifi_dm "AccessPoint.1.Status?0"
   Device.WiFi.AccessPoint.1.Status="Enabled"
 
