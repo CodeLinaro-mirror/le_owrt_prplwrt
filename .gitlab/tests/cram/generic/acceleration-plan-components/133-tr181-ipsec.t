@@ -2,6 +2,45 @@ Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
+The plugin runs as tr181_app and re-escalates through the NOPASSWD rule in
+/etc/sudoers.d/tr181-ipsec to start the charon daemon as root. IPsec.Enable
+defaults to true, so charon is already started from app:start at boot. Boards
+that do not build strongswan-charon have no daemon and skip its assertions:
+
+  $ R "test -x /usr/lib/ipsec/charon" >/dev/null 2>&1 && HASCHARON=1 || HASCHARON=0
+
+The sudo grant is installed for the group the plugin actually runs as:
+
+  $ R "grep -c '^%tr181_app ALL=NOPASSWD:/usr/lib/ipsec/charon$' /etc/sudoers.d/tr181-ipsec"
+  1
+
+The plugin itself is not root:
+
+  $ R "pgrep -x --count -u tr181_app tr181-ipsec"
+  1
+
+The plugin reports Enabled only once it has connected to the vici socket of the
+daemon it started, so poll for it:
+
+  $ if [ "$HASCHARON" = 1 ]; then \
+  >     R "i=0; \
+  >        while [ \$i -lt 30 ] && \
+  >              ! ba-cli 'IPsec.Status?' 2>/dev/null | grep -qF 'Status=\"Enabled\"'; \
+  >        do i=\$((i+1)); sleep 1; done; \
+  >        ba-cli 'IPsec.Status?' 2>/dev/null | grep -cF 'Status=\"Enabled\"'"; \
+  > else echo 1; fi
+  1
+
+The escalation end to end: exactly one charon, running as root, child of a sudo
+that is itself a child of the tr181_app plugin:
+
+  $ if [ "$HASCHARON" = 1 ]; then \
+  >     R "ipsecpid=\$(pgrep -x -u tr181_app tr181-ipsec); \
+  >        sudopid=\$(pgrep -x -P \$ipsecpid sudo); \
+  >        pgrep -x --count -u root -P \$sudopid charon"; \
+  > else echo 1; fi
+  1
+
 Check the IPsec datamodel starts empty:
 
   $ R ba-cli 'IPsec.Filter.*.-\;IPsec.Profile.*.-' >/dev/null 2>&1; true
