@@ -158,6 +158,14 @@ Skip device-info manager until PPW-1787 and PPW-1715 is fixed:
 
 Verify configuration restore by deleting the plugin configs:
 
+Record the storage-path ownership before the reset, so the re-check after it
+compares against a known-good baseline:
+
+  $ R "ls -ld /etc/config/tr181-dns/odl /etc/config/routing-manager/odl /etc/config/tr181-usermanagement/odl" | awk '{print $1, $3, $4}'
+  drwxr-xr-x tr181_app tr181_app
+  drwxr-xr-x tr181_app tr181_app
+  drwxr-xr-x tr181_app tr181_app
+
 Set the PersistentConfiguration ImportStatus to None to trigger config apply:
 
   $ R "ba-cli PersistentConfiguration.Service.*.ImportStatus=None > /dev/null"
@@ -186,6 +194,15 @@ Skip device-info manager until PPW-1787 and PPW-1715 is fixed:
 Wait few seconds for the configuration restore:
 
   $ sleep 7
+
+The reset removed the storage-path contents. amxrt must recreate the odl
+directory owned by the service account; if it comes back owned by root the
+service silently loses persistence on its next write:
+
+  $ R "ls -ld /etc/config/tr181-dns/odl /etc/config/routing-manager/odl /etc/config/tr181-usermanagement/odl" | awk '{print $1, $3, $4}'
+  drwxr-xr-x tr181_app tr181_app
+  drwxr-xr-x tr181_app tr181_app
+  drwxr-xr-x tr181_app tr181_app
 
 Get the new Instance Ids for the configuration after restore:
 
