@@ -55,10 +55,14 @@ wait_till_dm_ready() {
 # Check ProcessMonitor.Test.i.FailAction for all process and if set as REBOOT
 # change it to RESTART CI cram and CDRouter tests
 change_fail_action_to_restart() {
-	process_monitor_null_check=$(ba_cli_json "ProcessMonitor.Test.?" \
-		| jq -r '.[0] | keys[]' | sed 's/\.$//')
+	if ! process_monitor_null_check=$(ba_cli_json "ProcessMonitor.Test.?" \
+		| jq -r '(.[0] // {}) | keys[]' | sed 's/\.$//'); then
+		log_error "Failed to query ProcessMonitor.Test data model"
+		return 1
+	fi
 	if [ -z "$process_monitor_null_check" ]; then
 		log_error "ProcessMonitor.Test Data Model is null"
+		return 1
 	fi
 		
 	for id in $(ba_cli 'ProcessMonitor.Test.[FailAction == "REBOOT"].?' | \
