@@ -154,6 +154,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-ebtables-ipv6=y
   CONFIG_PACKAGE_kmod-fs-ext4=y
   CONFIG_PACKAGE_kmod-gre=y
+  CONFIG_PACKAGE_kmod-gre6=y
   CONFIG_PACKAGE_kmod-ifb=y
   CONFIG_PACKAGE_kmod-input-core=y
   CONFIG_PACKAGE_kmod-input-evdev=y
