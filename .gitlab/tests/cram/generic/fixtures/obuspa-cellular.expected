@@ -54,6 +54,7 @@ Device.Cellular.Interface.{i}.SMS.Storage.{i}.Capacity                          
 Device.Cellular.Interface.{i}.SMS.Storage.{i}.Location                                               proto::cellular-manager
 Device.Cellular.Interface.{i}.SMS.Storage.{i}.StorageAvailable                                       proto::cellular-manager
 Device.Cellular.Interface.{i}.SMS.StorageNumberOfEntries                                             proto::cellular-manager
+Device.Cellular.Interface.{i}.ScanNetwork()                                                          proto::cellular-manager
 Device.Cellular.Interface.{i}.Stats.                                                                 proto::cellular-manager
 Device.Cellular.Interface.{i}.Stats.BroadcastPacketsReceived                                         proto::cellular-manager
 Device.Cellular.Interface.{i}.Stats.BroadcastPacketsSent                                             proto::cellular-manager
