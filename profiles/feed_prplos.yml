@@ -2,4 +2,4 @@
 feeds:
   - name: feed_prplos
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplos.git
-    revision: main@cd8a9eb45612c2bdf8e195edce7ea2f9a44e38b5
+    revision: ynezz/ci-103-lan-stp-build-option@dff4f7a725bce574ab117d509a5d7ecccdf1a09a
