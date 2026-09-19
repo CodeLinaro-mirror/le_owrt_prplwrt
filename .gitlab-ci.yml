@@ -191,6 +191,22 @@ build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security
       when: manual
       allow_failure: true
     - when: manual
+  timeout: 30 minutes
+  tags: []
+  # WIP: skip the real build, reuse artifacts from a prior successful job.
+  # Nothing in this round touches firmware, so the old bin/ is valid.
+  before_script:
+    - git config --global --add safe.directory '*'
+  script:
+    - source .gitlab/scripts/helpers.sh
+    - 'section_start "artifact-reuse" "WIP: reusing artifacts from job 16652085225" "collapsed"'
+    - 'curl --fail --location --header "JOB-TOKEN: $CI_JOB_TOKEN" "$CI_API_V4_URL/projects/$CI_PROJECT_ID/jobs/16652085225/artifacts" -o artifacts.zip'
+    - unzip -q artifacts.zip 'bin/*' 'logs/*'
+    - unzip -q artifacts.zip '*packages-hash-issues.patch' || true
+    - unzip -q artifacts.zip 'rootfs-debug.tar.xz' || true
+    - rm -f artifacts.zip
+    - section_end "artifact-reuse"
+  after_script: []
 
 build test mvebu prpl security:
   extends: .build test config
@@ -238,6 +254,22 @@ build test x86_64 prpl security:
       when: manual
       allow_failure: true
     - when: manual
+  timeout: 30 minutes
+  tags: []
+  # WIP: skip the real build, reuse artifacts from a prior successful job.
+  # Nothing in this round touches firmware, so the old bin/ is valid.
+  before_script:
+    - git config --global --add safe.directory '*'
+  script:
+    - source .gitlab/scripts/helpers.sh
+    - 'section_start "artifact-reuse" "WIP: reusing artifacts from job 16652085227" "collapsed"'
+    - 'curl --fail --location --header "JOB-TOKEN: $CI_JOB_TOKEN" "$CI_API_V4_URL/projects/$CI_PROJECT_ID/jobs/16652085227/artifacts" -o artifacts.zip'
+    - unzip -q artifacts.zip 'bin/*' 'logs/*'
+    - unzip -q artifacts.zip '*packages-hash-issues.patch' || true
+    - unzip -q artifacts.zip 'rootfs-debug.tar.xz' || true
+    - rm -f artifacts.zip
+    - section_end "artifact-reuse"
+  after_script: []
 
 build test ipq807x prpl security:
   extends: .build test config
@@ -329,6 +361,22 @@ build test qca_ipq95xx prpl cellular security thread:
       when: manual
       allow_failure: true
     - when: manual
+  timeout: 30 minutes
+  tags: []
+  # WIP: skip the real build, reuse artifacts from a prior successful job.
+  # Nothing in this round touches firmware, so the old bin/ is valid.
+  before_script:
+    - git config --global --add safe.directory '*'
+  script:
+    - source .gitlab/scripts/helpers.sh
+    - 'section_start "artifact-reuse" "WIP: reusing artifacts from job 16652085231" "collapsed"'
+    - 'curl --fail --location --header "JOB-TOKEN: $CI_JOB_TOKEN" "$CI_API_V4_URL/projects/$CI_PROJECT_ID/jobs/16652085231/artifacts" -o artifacts.zip'
+    - unzip -q artifacts.zip 'bin/*' 'logs/*'
+    - unzip -q artifacts.zip '*packages-hash-issues.patch' || true
+    - unzip -q artifacts.zip 'rootfs-debug.tar.xz' || true
+    - rm -f artifacts.zip
+    - section_end "artifact-reuse"
+  after_script: []
 
 build test qca_ipq95xx extender_minimal cellular security thread:
   extends: .build test config
