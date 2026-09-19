@@ -3,7 +3,7 @@ Create R alias:
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
 Skip when the firmware has no cellular support:
-  $ [ "${DUT_HAS_CELLULAR:-1}" = "1" ] || exit 80
+  $ [ "${DUT_HAS_MODEM:-1}" = "1" ] || exit 80
 
 Check that ubus has expected Cellular datamodels available:
 
