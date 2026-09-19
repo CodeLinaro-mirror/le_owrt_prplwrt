@@ -177,7 +177,7 @@ Verify odhcpd process:
   odhcpd true
   odhcpd \d+ (re)
 
-  $ [ "${DUT_HAS_CELLULAR:-1}" = "1" ] || exit 80
+  $ [ "${DUT_HAS_MODEM:-1}" = "1" ] || exit 80
 
   $ get_status_and_pid cellular-manager
   cellular-manager true
