@@ -44,3 +44,23 @@ Reenable WAN:
 Cleanup:
 
   $ R "ba-cli 'CaptivePortal.Enable=0'" >/dev/null
+
+Wait until captive portal cleanup is complete and WAN HTTPS access works:
+
+  $ R " \
+  > i=0; \
+  > while [ \$i -lt 60 ]; do \
+  >     if ba-cli 'CaptivePortal.Status?' 2>/dev/null | grep -q '\.Status=\"Disabled\"$' && \
+  >         ba-cli 'Device.IP.Interface.[Alias==\"wan\"].Status?' 2>/dev/null | grep -q '\.Status=\"Up\"$' && \
+  >         curl --silent --show-error --connect-timeout 5 --max-time 5 https://registry.gitlab.com >/dev/null 2>&1; then \
+  >         echo 'Captive portal is disabled and WAN HTTPS works'; \
+  >         exit 0; \
+  >     fi; \
+  >     sleep 1; \
+  >     i=\$((i + 1)); \
+  > done; \
+  > echo 'WAN HTTPS did not recover after 60 attempts' >&2; \
+  > exit 1 \
+  > "
+  Captive portal is disabled and WAN HTTPS works
+
