@@ -4,7 +4,7 @@ Create obuspa cellular datamodel helpers:
   $ EXPECTED_OBUSPA_CELLULAR_DATAMODEL="${TESTDIR}/fixtures/obuspa-cellular.expected"
 
 Skip when the firmware has no cellular support:
-  $ [ "${DUT_HAS_CELLULAR:-1}" = "1" ] || exit 80
+  $ [ "${DUT_HAS_MODEM:-1}" = "1" ] || exit 80
 
 Check that obuspa keeps the expected cellular datamodel across restart:
 
