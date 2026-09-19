@@ -106,6 +106,10 @@
   - cmd: gmap-server
     id: tr181_app:tr181_app
     caps: none
+  - cmd: gpsd
+    id: nobody:dialout
+    caps: none
+    optional: true
   - cmd: hosts-manager
     id: tr181_app:tr181_app
     caps: dac_override
@@ -274,6 +278,10 @@
   - cmd: tr181-gnimanager
     id: tr181_app:tr181_app
     caps: none
+  - cmd: tr181-gps
+    id: tr181_app:tr181_app
+    caps: none
+    optional: true
   - cmd: tr181-gre
     id: tr181_app:tr181_app
     caps: dac_override,dac_read_search,net_admin
