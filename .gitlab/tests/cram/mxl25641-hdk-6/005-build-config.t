@@ -16,6 +16,19 @@ Assure expected build configuration (PCF-1413):
   CONFIG_TOOLCHAINOPTS=y
   CONFIG_BUSYBOX_CUSTOM=y
   CONFIG_TARGET_PER_DEVICE_ROOTFS=y
+  CONFIG_AMX_TR181_BAROMETER=y
+  CONFIG_AMX_TR181_BAROMETER_IIO_PATH=""
+  CONFIG_AMX_TR181_BAROMETER_ORDER=20
+  CONFIG_AMX_TR181_BAROMETER_PRESSURE_ACCURACY_PA=""
+  CONFIG_AMX_TR181_BAROMETER_RUN_AS_GROUP="tr181_app"
+  CONFIG_AMX_TR181_BAROMETER_RUN_AS_USER="tr181_app"
+  CONFIG_AMX_TR181_BAROMETER_VERTICAL_UNCERTAINTY=""
+  CONFIG_AMX_TR181_GPS=y
+  CONFIG_AMX_TR181_GPS_BAUDRATE="921600"
+  CONFIG_AMX_TR181_GPS_DEVICE="/dev/ttyLTQ1"
+  CONFIG_AMX_TR181_GPS_ORDER=52
+  CONFIG_AMX_TR181_GPS_RUN_AS_GROUP="tr181_app"
+  CONFIG_AMX_TR181_GPS_RUN_AS_USER="tr181_app"
   CONFIG_AMX_TR181_USB=y
   CONFIG_AMX_TR181_USB_ORDER=81
   CONFIG_AMX_TR181_USB_RUN_AS_GROUP="tr181_app"
@@ -275,6 +288,8 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_gmap-server=y
   CONFIG_PACKAGE_gpon-libs=y
   CONFIG_PACKAGE_gpon-omci-onu-binary=y
+  CONFIG_PACKAGE_gpsd=y
+  CONFIG_PACKAGE_gpsd-clients=y
   CONFIG_PACKAGE_hosts-manager=y
   CONFIG_PACKAGE_ifxos=y
   CONFIG_PACKAGE_image-authentication=y
@@ -533,6 +548,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_libgmap-ext=y
   CONFIG_PACKAGE_libgmp=y
   CONFIG_PACKAGE_libgpg-error=y
+  CONFIG_PACKAGE_libgps=y
   CONFIG_PACKAGE_libhelper=y
   CONFIG_PACKAGE_libimtp=y
   CONFIG_PACKAGE_libip4tc=y
@@ -914,6 +930,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_timingila-rlyeh-security=y
   CONFIG_PACKAGE_tr069-manager=y
   CONFIG_PACKAGE_tr143diagtool=y
+  CONFIG_PACKAGE_tr181-barometer=y
   CONFIG_PACKAGE_tr181-bgp-ospf=y
   CONFIG_PACKAGE_tr181-bootstatus=y
   CONFIG_PACKAGE_tr181-bridging=y
@@ -933,6 +950,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_tr181-firewall=y
   CONFIG_PACKAGE_tr181-flashmonitor=y
   CONFIG_PACKAGE_tr181-gnimanager=y
+  CONFIG_PACKAGE_tr181-gps=y
   CONFIG_PACKAGE_tr181-gre=y
   CONFIG_PACKAGE_tr181-homeplug=y
   CONFIG_PACKAGE_tr181-httpaccess=y

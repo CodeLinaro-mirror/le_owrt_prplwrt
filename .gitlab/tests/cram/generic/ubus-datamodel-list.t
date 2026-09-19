@@ -154,9 +154,11 @@ Check that ubus has expected datamodels available:
   Device.WiFi
   Device.WireGuard
   Device.XPON
+  Device.X_PRPLWARE-COM_Barometer
   Device.X_PRPLWARE-COM_Buttons
   Device.X_PRPLWARE-COM_ConMon
   Device.X_PRPLWARE-COM_ConnectionTrackingQuery
+  Device.X_PRPLWARE-COM_GPS
   Device.X_PRPLWARE-COM_GenericNetworkInterface
   Device.X_PRPLWARE-COM_MCASTD
   Device.X_PRPLWARE-COM_MultiSettings
@@ -452,6 +454,10 @@ Check that ubus has expected datamodels available:
   WANManager
   WANManager.WAN
   WiFi
+  WiFi.AFC
+  WiFi.AFC.Descriptor
+  WiFi.AFC.Location
+  WiFi.AFC.Stats
   WiFi.APMLD
   WiFi.AccessPoint
   WiFi.AutoCommitMgr
@@ -486,6 +492,7 @@ Check that ubus has expected datamodels available:
   X_PRPLWARE-COM_Controller.Configuration.QoS
   X_PRPLWARE-COM_Controller.Configuration.TrafficSeparation
   X_PRPLWARE-COM_Controller.SteerEvent
+  X_PRPLWARE-COM_GPS
   X_PRPLWARE-COM_ProcessManager
   X_PRPLWARE-COM_ProcessManager.PWHM
   X_PRPLWARE-COM_ProcessManager.PrplMesh
