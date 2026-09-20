@@ -1,3 +1,7 @@
+Skip for now, the reboot wipes the DUT syslog before CI collects it (CI-105):
+
+  $ exit 80
+
 Create a remote-command alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
