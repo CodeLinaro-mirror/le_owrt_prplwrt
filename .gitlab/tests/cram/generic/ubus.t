@@ -34,7 +34,7 @@ Check that we've correct DHCP pool settings:
   \t\t"WINSServers": "", (esc)
   \t\t"WINSServers": "", (esc)
 
-  $ R "ubus call DHCPv6Server.Pool _get \"{'rel_path':''}\" | grep -E '(Alias|Enable|Status)' | sort"
+  $ R "ubus call DHCPv6Server.Pool _get \"{'rel_path':''}\" | grep -E '\"(Alias|Enable|IANAEnable|IAPDEnable)\":' | sort"
   \t\t"Alias": "guest", (esc)
   \t\t"Alias": "lan", (esc)
   \t\t"Alias": "lcm", (esc)
@@ -47,9 +47,13 @@ Check that we've correct DHCP pool settings:
   \t\t"IAPDEnable": false, (esc)
   \t\t"IAPDEnable": false, (esc)
   \t\t"IAPDEnable": false, (esc)
-  \t\t"Status": "Enabled", (esc)
-  \t\t"Status": "Enabled", (esc)
-  \t\t"Status": "Enabled", (esc)
+
+Check the status of the DHCPv6 pools on the wired bridges by name. The guest
+pool needs working Wi-Fi and is checked in ubus-dhcpv6-guest-pool.t:
+
+  $ R "ubus call DHCPv6Server.Pool _get \"{'rel_path':''}\"" | jq -r '.[] | objects | select(has("Alias") and .Alias != "guest") | "\(.Alias) \(.Status)"' | sort
+  lan Enabled
+  lcm Enabled
 
 Check that aclmanager has expected setup:
 
