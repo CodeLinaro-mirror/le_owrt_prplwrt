@@ -58,6 +58,10 @@ cli_cmd() {
 
 MAX_WAIT_CTR_UP=180
 
+## Seconds to wait for the DU, EU and image entries to go away after Uninstall.
+## Uninstall replies before timingila removes the DeploymentUnit instance.
+MAX_WAIT_CTR_GONE=${MAX_WAIT_CTR_GONE:-60}
+
 ## Return default container name based on target.
 ## Default is Cortex-A53 based ARM 64-bit container
 get_container_name() {
@@ -286,6 +290,34 @@ wait_ctr_down() {
 	shutdowndelay=$((shutdowndelay + 3))
 
 	sleep ${shutdowndelay}
+}
+
+## Print the DeploymentUnit, ExecutionUnit and image entries a DUID still holds
+ctr_leftovers() {
+	${CLI_JSON} "SoftwareModules.DeploymentUnit.[ DUID == \"$1\" ].?0" | jsonfilter -e @[*].*.UUID -e @[*].*.Status | sed 's/^/DeploymentUnit /'
+	${CLI_JSON} "SoftwareModules.ExecutionUnit.[ EUID == \"$1\" ].?0" | jsonfilter -e @[*].*.EUID | sed 's/^/ExecutionUnit /'
+	${CLI_JSON} "Rlyeh.Images.[ DUID == \"$1\" ].?0" | jsonfilter -e @[*].*.DUID | sed 's/^/Rlyeh.Images /'
+}
+
+## waits until the DU, EU and image entries of a DUID are gone or timeout
+wait_ctr_gone() {
+	_gone_duid="$1"
+	_gone_i=0
+	while :; do
+		_gone_left=$(ctr_leftovers "${_gone_duid}")
+		if [ -z "${_gone_left}" ]; then
+			logger -t lcm-cram "DU ${_gone_duid} gone ${_gone_i} s after Uninstall"
+			return 0
+		fi
+		if [ "${_gone_i}" -ge "${MAX_WAIT_CTR_GONE}" ]; then
+			break
+		fi
+		sleep 2
+		_gone_i=$((_gone_i + 2))
+	done
+	echo "Still present ${MAX_WAIT_CTR_GONE} s after Uninstall of ${_gone_duid}:"
+	echo "${_gone_left}"
+	return 1
 }
 
 ## Return default value if no value is given
@@ -580,13 +612,15 @@ uninstall_ctr_and_check() {
 		echo "Missing UUID parameter. Cannot uninstall ctr"
 	else
 		duid=$(cli_json_safe "SoftwareModules.DeploymentUnit.[ UUID == \"${uuid}\" ].DUID?" -e @[*].*.DUID)
-		# uninstall the container and then check that both the DU and EU instances are gone
+		# uninstall the container and then wait until the DU, EU and image entries are gone
 		# shellcheck disable=SC2086
 		uninstall_ctr ${save_params} >>/dev/null
+		# callers expect [1] and no output once everything is gone
+		[ -n "$duid" ] || return 1
+		# cthulhu frees the container's roles a moment after the entries are gone
+		# and the data model does not show it, so the fixed sleep stays
 		wait_ctr_down
-		${CLI_JSON} "SoftwareModules.DeploymentUnit.[ DUID == \"$duid\" ].?0" | jsonfilter -e @[*].*.UUID &&
-			${CLI_JSON} "SoftwareModules.ExecutionUnit.[ EUID == \"$duid\" ].?0" | jsonfilter -e @[*].*.EUID &&
-			${CLI_JSON} "Rlyeh.Images.[ DUID == \"$duid\" ].?0" | jsonfilter -e @[*].*.DUID
+		! wait_ctr_gone "$duid"
 	fi
 }
 
