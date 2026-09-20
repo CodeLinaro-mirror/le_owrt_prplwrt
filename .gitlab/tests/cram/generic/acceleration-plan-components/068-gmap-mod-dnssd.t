@@ -26,13 +26,23 @@ Check the removal timeout took effect and derive the removal wait from it:
   .*"RemoveServiceTimeout":5000.* (re)
   $ remove_tries=$(( (remove_timeout / 1000 + 25) / 2 ))
 
+Concurrent jobs on one runner share the executor's docker bridge, and the
+container's avahi-daemon announces on that interface as well, so two jobs
+publishing the same service name at the same time collide.  avahi renames the
+loser ("CramTestService1 #2") instead of failing, and every query below
+filters on the exact name, so give each run a name of its own:
+
+  $ SVC="CramTest-$(head -c4 /dev/urandom | od -An -tx1 | tr -d ' \n')"
+  $ echo "$SVC" | grep -Eq '^CramTest-[0-9a-f]{8}$' && echo "service name ok"
+  service name ok
+
 Query the gmap datamodel for the test service.  ba-cli answers a missing object
 with a plain "ERROR:" line, which is not JSON, so feed jq only when the reply
 parses and otherwise print what the DUT actually said -- piping the reply
 straight into jq turns every distinct product error into the same unreadable
 "Invalid numeric literal" message:
 
-  $ gmap_mdns() { reply="$(R "ba-cli --json 'Devices.Device.*.mDNSService.[Name==\"CramTestService1\"].?' | sed -n '2p'")"; \
+  $ gmap_mdns() { reply="$(R "ba-cli --json 'Devices.Device.*.mDNSService.[Name==\"$SVC\"].?' | sed -n '2p'")"; \
   > printf '%s' "$reply" | jq --sort-keys '.[0]' 2>/dev/null || printf '%s\n' "${reply:-<empty reply>}"; }
 
 Devices.Device.*.mDNSService. is a gmap MIB, attached only to a device tagged
@@ -51,23 +61,29 @@ anything -- polling afterwards cannot recover a service already dropped:
 
 Test 1: Service Advertisement (mDNS announcement):
 
-  $ avahi-publish-service CramTestService1 _http._tcp 8080 "path=/test1" >/dev/null 2>&1 &
+  $ avahi-publish-service "$SVC" _http._tcp 8080 "path=/test1" >/dev/null 2>"$CRAMTMP/avahi-publish.log" &
   $ AVAHI_PID1=$!
 
 Wait for the advertisement to reach the TR-181 datamodel:
 
-  $ for i in $(seq 1 15); do R "ba-cli --json 'Device.DNS.SD.Service.[InstanceName==\"CramTestService1\"].?' | sed -n '2p'" | grep -q 'CramTestService1' && break; sleep 2; done
+  $ for i in $(seq 1 15); do R "ba-cli --json 'Device.DNS.SD.Service.[InstanceName==\"$SVC\"].?' | sed -n '2p'" | grep -q "$SVC" && break; sleep 2; done
   $ kill -0 $AVAHI_PID1
+
+Check that avahi kept the requested name; a renamed service means another
+publisher on the same bridge got there first:
+
+  $ grep -o "Established under name '[^']*'" "$CRAMTMP/avahi-publish.log"
+  Established under name 'CramTest-[0-9a-f]{8}' (re)
 
 Verify new entry appears in TR-181 datamodel:
 
-  $ R "ba-cli --json 'Device.DNS.SD.Service.[InstanceName==\"CramTestService1\"].?' | sed -n '2p'" | jq --sort-keys '.[0]' | grep -v -E '(LastUpdate)'
+  $ R "ba-cli --json 'Device.DNS.SD.Service.[InstanceName==\"$SVC\"].?' | sed -n '2p'" | jq --sort-keys '.[0]' | grep -v -E '(LastUpdate)'
   {
     "Device.DNS.SD.Service.\d+.": { (re)
       "ApplicationProtocol": "http",
       "Domain": "",
       "Host": "Device.Hosts.Host.\d+", (re)
-      "InstanceName": "CramTestService1",
+      "InstanceName": "CramTest-[0-9a-f]{8}", (re)
       "Port": 8080,
       "Priority": 0,
       "Status": "LeaseActive",
@@ -85,7 +101,7 @@ Verify new entry appears in TR-181 datamodel:
 
 Wait for the advertisement to reach the gmap datamodel:
 
-  $ for i in $(seq 1 30); do gmap_mdns | grep -q '"Name": "CramTestService1"' && break; sleep 2; done
+  $ for i in $(seq 1 30); do gmap_mdns | grep -q "\"Name\": \"$SVC\"" && break; sleep 2; done
 
 Verify entry appears in gmap datamodel:
 
@@ -94,7 +110,7 @@ Verify entry appears in gmap datamodel:
     "Devices.Device.\d+.mDNSService.\d+.": { (re)
       "Alias": "_http__tcp",
       "Domain": "local",
-      "Name": "CramTestService1",
+      "Name": "CramTest-[0-9a-f]{8}", (re)
       "Port": 8080,
       "ServiceName": "_http._tcp"
     },
@@ -111,7 +127,7 @@ Test 2: Explicit Departure (Graceful shutdown):
 
 Wait for the removal to clear the TR-181 datamodel:
 
-  $ for i in $(seq 1 $remove_tries); do R "ba-cli --json 'Device.DNS.SD.Service.[InstanceName==\"CramTestService1\"].?' | sed -n '2p'" | grep -q 'CramTestService1' || break; sleep 2; done
+  $ for i in $(seq 1 $remove_tries); do R "ba-cli --json 'Device.DNS.SD.Service.[InstanceName==\"$SVC\"].?' | sed -n '2p'" | grep -q "$SVC" || break; sleep 2; done
 
 Verify the DNSSD service is still answering:
 
@@ -120,12 +136,12 @@ Verify the DNSSD service is still answering:
 
 Verify entry is removed from TR-181:
 
-  $ R "ba-cli --json 'Device.DNS.SD.Service.[InstanceName==\"CramTestService1\"].?' | sed -n '2p'" | jq --sort-keys '.[0]'
+  $ R "ba-cli --json 'Device.DNS.SD.Service.[InstanceName==\"$SVC\"].?' | sed -n '2p'" | jq --sort-keys '.[0]'
   {}
 
 Wait for the removal to clear the gmap datamodel:
 
-  $ for i in $(seq 1 $remove_tries); do gmap_mdns | grep -q '"Name": "CramTestService1"' || break; sleep 2; done
+  $ for i in $(seq 1 $remove_tries); do gmap_mdns | grep -q "\"Name\": \"$SVC\"" || break; sleep 2; done
 
 Verify entry is removed from gmap datamodel:
 
