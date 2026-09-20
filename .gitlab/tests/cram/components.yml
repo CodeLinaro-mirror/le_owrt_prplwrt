@@ -69,6 +69,7 @@ hw_only:
     - "generic/cellular-manager/130-sms-message-attributes.t"
     - "generic/obuspa-cellular.t"
     - "generic/ubus-datamodel-list-cellular.t"
+    - "generic/ubus-dhcpv6-guest-pool.t"
 
 # post/** is invoked separately for every component job and is not bucketed.
 
