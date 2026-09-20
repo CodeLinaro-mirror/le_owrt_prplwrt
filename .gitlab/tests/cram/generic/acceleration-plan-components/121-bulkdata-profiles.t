@@ -5,6 +5,13 @@ Create R alias:
   $ R "ba-cli 'BulkData.Profile.*.-'" > /dev/null
   $ R "ba-cli 'BulkData.set_trace_zone(zone=http, level=500)'" > /dev/null
 
+Point at the testbed when the DUT cannot reach the HTTP collector:
+
+  $ warn_if_collector_unreachable() {
+  >   R "curl -m 10 -s -o /dev/null https://postman-echo.com/post/" ||
+  >     echo "WARNING: unable to reach postman-echo.com from the DUT" >&2
+  > }
+
 Check Bulkdata syslog messages:
 
   $ check_bulkdata_success() {
@@ -16,6 +23,7 @@ Check Bulkdata syslog messages:
   >     logs=$(R "tail -n +$first_line /var/log/messages | grep bulkdata" || true)
   >     if echo "$logs" | grep -Fq 'transfer failed'; then
   >       echo "$logs" >&2
+  >       warn_if_collector_unreachable
   >       return 1
   >     fi
   >     if echo "$logs" | grep -Fiq "$success_pattern"; then
@@ -25,6 +33,7 @@ Check Bulkdata syslog messages:
   >     sleep 1
   >   done
   >   echo "$logs" >&2
+  >   warn_if_collector_unreachable
   >   return 1
   > }
 
