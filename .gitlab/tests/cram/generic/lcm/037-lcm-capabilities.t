@@ -79,10 +79,9 @@ Install a container with user role that is not available. this should fail
 
   $ R "${S} && install_ctr --waittime 0 --version prplos-v1 --ee --uuid --privileged true --userroles norole"
   
-  ERROR: call (null) failed with status 1 - unknown error
+  ERROR: call SoftwareModules.InstallDU() failed with status 1
   SoftwareModules.InstallDU() returned
-  ["",{"err_code":7037,"err_msg":"Sandbox [generic] does not have the required role [norole]"}]
-  DUStateChange! * FaultCode=7037 * (glob)
+  DUStateChange! ERROR: operation=Install state=Failed FaultCode=7037 FaultString=Sandbox [generic] does not have the required role [norole]
 
 Install a container with user role that is available. this should succeed
 

@@ -19,7 +19,7 @@ Prepare the test setup
 
 Install test container:
 
-  $ R "${S} && install_ctr --name alpine --ee --uuid --privileged true --network '{PortForwarding = [{Interface = Lan, ExternalPort = 22222, InternalPort = 11111, Protocol = TCP}]}' --userroles full_caps" > /dev/null
+  $ R "${S} && install_ctr --name alpine --ee --uuid --privileged true --network '{\"PortForwarding\":[{\"Interface\":\"Lan\",\"ExternalPort\":22222,\"InternalPort\":11111,\"Protocol\":\"TCP\"}]}' --userroles full_caps" > /dev/null
   $ R "${S} && get_container_info --uuid"
   Active
   latest

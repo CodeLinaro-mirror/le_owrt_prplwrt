@@ -1,12 +1,14 @@
 #!/bin/sh
 
 ### Default parameters config when value is not provided
+## Composite values (--network, --hostobject, --appdata, --envvar) are JSON:
+## the calls go through lamx.bus.call(), not through ba-cli's table syntax.
 DEFAULT_UUID="00000000-0000-5000-b000-000000000001"
-DEFAULT_HOSTOBJECT='[{Source="/tmp/testdir", Destination="/testdir", Options="type=mount,bind"}, {Source="/tmp/testfile", Destination="/testfile", Options="type=mount,bind"}, {Source="", Destination="/dev/host_serial", Options="type=device,devicetype=c,major=5,minor=1,access=rwm,create=1"}]'
-#DEFAULT_NETWORK='{ShareParentNetwork = "true"}''
-DEFAULT_NETWORK='{AccessInterfaces = [{Reference = "Lan"}]}'
+DEFAULT_HOSTOBJECT='[{"Source":"/tmp/testdir","Destination":"/testdir","Options":"type=mount,bind"},{"Source":"/tmp/testfile","Destination":"/testfile","Options":"type=mount,bind"},{"Source":"","Destination":"/dev/host_serial","Options":"type=device,devicetype=c,major=5,minor=1,access=rwm,create=1"}]'
+#DEFAULT_NETWORK='{"ShareParentNetwork":"true"}'
+DEFAULT_NETWORK='{"AccessInterfaces":[{"Reference":"Lan"}]}'
 DEFAULT_EE="generic"
-DEFAULT_APPDATA='[{Name = "Volume1", Capacity = 1, Retain = "UntilStopped", AccessPath = "/volume1"}, {Name = "Volume2", Capacity = 1, Retain = "Forever", AccessPath = "/volume2"}]'
+DEFAULT_APPDATA='[{"Name":"Volume1","Capacity":1,"Retain":"UntilStopped","AccessPath":"/volume1"},{"Name":"Volume2","Capacity":1,"Retain":"Forever","AccessPath":"/volume2"}]'
 DEFAULT_URL="docker://registry.gitlab.com/prpl-foundation/prplos/prplos"
 DEFAULT_URL_HTTPS="https://registry.gitlab.com/prpl-foundation/prplos/prplos"
 DEFAULT_USPROLES="Full Access"
@@ -17,7 +19,7 @@ DEFAULT_USPAUTOMOUNTIPC="USP_UDS_Unauthenticated"
 DEFAULT_USERNAME=""
 DEFAULT_PASSWORD=""
 DEFAULT_RETAINDATA="false"
-DEFAULT_ENVVAR='[{Key="ENVVAR_KEY1", Value="ENVVAR_VALUE1"}, {Key="ENVVAR_KEY2", Value="ENVVAR_VALUE2"}]'
+DEFAULT_ENVVAR='[{"Key":"ENVVAR_KEY1","Value":"ENVVAR_VALUE1"},{"Key":"ENVVAR_KEY2","Value":"ENVVAR_VALUE2"}]'
 DEFAULT_SIGNATURE_PASSWORD="secret"
 DEFAULT_SIGNATURE_USERNAME="admin"
 DEFAULT_PRIVILEGED="false"
@@ -25,6 +27,14 @@ DEFAULT_ENABLEHOSTCAPABILITIES="false"
 
 CLI_JSON="cli_cmd -l -j"
 CLI="cli_cmd"
+## Bus call timeout (seconds) for the asynchronous SoftwareModules methods
+## (InstallDU, Update, Uninstall). Image pulls are bounded by the rlyeh transfer policy,
+## not by the caller: connect-timeout, low-speed-time and up to three retries
+## with back-off add up to a few minutes for one stalled blob. ba-cli hard-codes
+## a 30 s call timeout, so these methods go through lcm_call.lua instead.
+## Uninstall is included because its image removal queues behind a running
+## pull on rlyeh's single worker.
+LCM_CALL_TIMEOUT=${LCM_CALL_TIMEOUT:-300}
 
 ## Wrapper around ba-cli that returns error if second output line starts with 'ERROR:'
 ## Uses a temp file to preserve ba-cli output exactly (including trailing newlines).
@@ -293,6 +303,32 @@ value_or_default() {
 }
 
 
+## Quote a string as a JSON string literal.
+json_string() {
+	printf '"%s"' "$(printf '%s' "$1" | sed 's/\\/\\\\/g; s/"/\\"/g')"
+}
+
+## Call a data model method through lcm_call.lua with LCM_CALL_TIMEOUT instead
+## of ba-cli's fixed 30 s. Prints the reply in the same shape as `ba-cli -l -j`
+## and, like cli_cmd, routes it to stderr and returns 1 when the call failed.
+## Usage: cli_call_async <object path> <method> <json arguments>
+cli_call_async() {
+	_cli_tmpfile=$(mktemp /tmp/cli_call_XXXXXX)
+	lua /tmp/lcm_call.lua "$1" "$2" "$3" "${LCM_CALL_TIMEOUT}" >"${_cli_tmpfile}" 2>&1
+	_cli_rc=$?
+	_cli_second=$(sed -n '2p' "${_cli_tmpfile}")
+	case "${_cli_second}" in
+		ERROR:*)
+			cat "${_cli_tmpfile}" >&2
+			rm -f "${_cli_tmpfile}"
+			return 1 ;;
+		*)
+			cat "${_cli_tmpfile}"
+			rm -f "${_cli_tmpfile}"
+			return ${_cli_rc} ;;
+	esac
+}
+
 ## Start background subscription to DUStateChange! for a given UUID.
 ## Usage: start_du_state_change_sub <uuid> <lua_script_path>
 ## Stores PID in _DU_SUB_PID
@@ -333,7 +369,7 @@ install_update_ctr_with_params() {
 
 	shift
 	shift
-	str_params=""
+	json_params=""
 	uuid=""
 	debugargs=0
 
@@ -354,84 +390,84 @@ install_update_ctr_with_params() {
 
 			if [ "${key}" = "url" ]; then
 				#value=$(value_or_default "${value_missing}" "$(get_container_url)" "${value}")
-				str_params=$(concat_comma_string "${str_params}" "URL = \"${value}\"")
+				json_params=$(concat_comma_string "${json_params}" "\"URL\":$(json_string "${value}")")
 			elif [ "${key}" = "name" ]; then
 				ctr_name=$(get_container_by_name ${value})
 				ctr_version=$(get_container_version_by_name ${value})
-				str_params=$(concat_comma_string "${str_params}" "URL = \"${DEFAULT_URL}/${ctr_name}:${ctr_version}\"")
+				json_params=$(concat_comma_string "${json_params}" "\"URL\":$(json_string "${DEFAULT_URL}/${ctr_name}:${ctr_version}")")
 			elif [ "${key}" = "url_arch" ]; then
 				ctr_arch=$(get_arch_name)
-				str_params=$(concat_comma_string "${str_params}" "URL = \"${DEFAULT_URL}/lcm_tests/${ctr_arch}_${value}\"")
+				json_params=$(concat_comma_string "${json_params}" "\"URL\":$(json_string "${DEFAULT_URL}/lcm_tests/${ctr_arch}_${value}")")
 			elif [ "${key}" = "version" ]; then
 				ctr_name=$(get_container_name)
 				ctr_version="${value}"
-				str_params=$(concat_comma_string "${str_params}" "URL = \"${DEFAULT_URL}/prplos/${ctr_name}:${ctr_version}\"")
+				json_params=$(concat_comma_string "${json_params}" "\"URL\":$(json_string "${DEFAULT_URL}/prplos/${ctr_name}:${ctr_version}")")
 			elif [ "${key}" = "httpsversion" ]; then
 				ctr_name=$(get_container_name)
 				ctr_version="${value}"
-				str_params=$(concat_comma_string "${str_params}" "URL = \"${DEFAULT_URL_HTTPS}/prplos/${ctr_name}:${ctr_version}\"")
+				json_params=$(concat_comma_string "${json_params}" "\"URL\":$(json_string "${DEFAULT_URL_HTTPS}/prplos/${ctr_name}:${ctr_version}")")
 			elif [ "${key}" = "uuid" ]; then
 				value=$(value_or_default "${value_missing}" "${DEFAULT_UUID}" "${value}")
-				str_params=$(concat_comma_string "${str_params}" "UUID = ${value}")
+				json_params=$(concat_comma_string "${json_params}" "\"UUID\":$(json_string "${value}")")
 				uuid=${value}
 			elif [ "${key}" = "ee" ]; then
 				value=$(value_or_default "${value_missing}" "${DEFAULT_EE}" "${value}")
-				str_params=$(concat_comma_string "${str_params}" "ExecutionEnvRef = \"${value}\"")
+				json_params=$(concat_comma_string "${json_params}" "\"ExecutionEnvRef\":$(json_string "${value}")")
 			elif [ "${key}" = "network" ]; then
 				value=$(value_or_default "${value_missing}" "${DEFAULT_NETWORK}" "${value}")
-				str_params=$(concat_comma_string "${str_params}" "NetworkConfig = ${value}")
+				json_params=$(concat_comma_string "${json_params}" "\"NetworkConfig\":${value}")
 			elif [ "${key}" = "hostobject" ]; then
 				value=$(value_or_default "${value_missing}" "${DEFAULT_HOSTOBJECT}" "${value}")
-				str_params=$(concat_comma_string "${str_params}" "HostObject = ${value}")
+				json_params=$(concat_comma_string "${json_params}" "\"HostObject\":${value}")
 			elif [ "${key}" = "appdata" ]; then
 				value=$(value_or_default "${value_missing}" "${DEFAULT_APPDATA}" "${value}")
-				str_params=$(concat_comma_string "${str_params}" "ApplicationData = ${value}")
+				json_params=$(concat_comma_string "${json_params}" "\"ApplicationData\":${value}")
 			elif [ "${key}" = "usprequired" ]; then
 				value=$(value_or_default "${value_missing}" "${DEFAULT_USPREQUIRED}" "${value}")
-				str_params=$(concat_comma_string "${str_params}" "RequiredRoles = \"${value}\"")
+				json_params=$(concat_comma_string "${json_params}" "\"RequiredRoles\":$(json_string "${value}")")
 			elif [ "${key}" = "uspeoptional" ]; then
 				value=$(value_or_default "${value_missing}" "${DEFAULT_USPOPTIONAL}" "${value}")
-				str_params=$(concat_comma_string "${str_params}" "OptionalRoles = \"${value}\"")
+				json_params=$(concat_comma_string "${json_params}" "\"OptionalRoles\":$(json_string "${value}")")
 			elif [ "${key}" = "uspregisterpaths" ]; then
 				value=$(value_or_default "${value_missing}" "${DEFAULT_USPREGISTERPATHS}" "${value}")
-				str_params=$(concat_comma_string "${str_params}" "RegisterTrustPaths = \"${value}\"")
+				json_params=$(concat_comma_string "${json_params}" "\"RegisterTrustPaths\":$(json_string "${value}")")
 			elif [ "${key}" = "uspautomountipc" ]; then
 				value=$(value_or_default "${value_missing}" "${DEFAULT_USPAUTOMOUNTIPC}" "${value}")
-				str_params=$(concat_comma_string "${str_params}" "X_PRPLWARE-COM_AutoMountIPC = \"${value}\"")
+				json_params=$(concat_comma_string "${json_params}" "\"X_PRPLWARE-COM_AutoMountIPC\":$(json_string "${value}")")
 			elif [ "${key}" = "username" ]; then
 				value=$(value_or_default "${value_missing}" "${DEFAULT_USERNAME}" "${value}")
-				str_params=$(concat_comma_string "${str_params}" "Username = \"${value}\"")
+				json_params=$(concat_comma_string "${json_params}" "\"Username\":$(json_string "${value}")")
 			elif [ "${key}" = "password" ]; then
 				value=$(value_or_default "${value_missing}" "${DEFAULT_PASSWORD}" "${value}")
-				str_params=$(concat_comma_string "${str_params}" "Password = \"${value}\"")
+				json_params=$(concat_comma_string "${json_params}" "\"Password\":$(json_string "${value}")")
 			elif [ "${key}" = "privileged" ]; then
 				value=$(value_or_default "${value_missing}" "${DEFAULT_PRIVILEGED}" "${value}")
-				str_params=$(concat_comma_string "${str_params}" "Privileged = ${value}")
+				json_params=$(concat_comma_string "${json_params}" "\"Privileged\":${value}")
 				if [ "${value}" = "false" ]; then
-					str_params=$(concat_comma_string "${str_params}" "NumRequiredUIDs = 10")
+					json_params=$(concat_comma_string "${json_params}" "\"NumRequiredUIDs\":10")
 				fi
 			elif [ "${key}" = "retaindata" ]; then
 				retaindata=$(value_or_default "${value_missing}" "${DEFAULT_RETAINDATA}" "${value}")
-				str_params=$(concat_comma_string "${str_params}" "RetainData = $retaindata")
+				json_params=$(concat_comma_string "${json_params}" "\"RetainData\":$retaindata")
 			elif [ "${key}" = "envvar" ]; then
 				value=$(value_or_default "${value_missing}" "${DEFAULT_ENVVAR}" "${value}")
-				str_params=$(concat_comma_string "${str_params}" "EnvVariable = ${value}")
+				json_params=$(concat_comma_string "${json_params}" "\"EnvVariable\":${value}")
 			elif [ "${key}" = "userroles" ]; then
 				value=$(value_or_default "${value_missing}" "" "${value}")
-				str_params=$(concat_comma_string "${str_params}" "RequiredUserRoles = \"${value}\"")
+				json_params=$(concat_comma_string "${json_params}" "\"RequiredUserRoles\":$(json_string "${value}")")
 			elif [ "${key}" = "moduleversion" ]; then
-				str_params=$(concat_comma_string "${str_params}" "ModuleVersion = \"${value}\"")
+				json_params=$(concat_comma_string "${json_params}" "\"ModuleVersion\":$(json_string "${value}")")
 			elif [ "${key}" = "signature" ]; then
-				str_params=$(concat_comma_string "${str_params}" "Signature = \"${value}_${ctr_name}_${ctr_version}\"")
+				json_params=$(concat_comma_string "${json_params}" "\"Signature\":$(json_string "${value}_${ctr_name}_${ctr_version}")")
 			elif [ "${key}" = "signature_pwd" ]; then
 				value=$(value_or_default "${value_missing}" "${DEFAULT_SIGNATURE_PASSWORD}" "${value}")
-				str_params=$(concat_comma_string "${str_params}" "SignaturePassword = \"${value}\"")
+				json_params=$(concat_comma_string "${json_params}" "\"SignaturePassword\":$(json_string "${value}")")
 			elif [ "${key}" = "signature_user" ]; then
 				value=$(value_or_default "${value_missing}" "${DEFAULT_SIGNATURE_USERNAME}" "${value}")
-				str_params=$(concat_comma_string "${str_params}" "SignatureUsername = \"${value}\"")
+				json_params=$(concat_comma_string "${json_params}" "\"SignatureUsername\":$(json_string "${value}")")
 			elif [ "${key}" = "enablehostcapabilities" ]; then
 				value=$(value_or_default "${value_missing}" "${enablehostcapabilities}" "${value}")
-				str_params=$(concat_comma_string "${str_params}" "EnableHostCapabilities = ${value}")
+				json_params=$(concat_comma_string "${json_params}" "\"EnableHostCapabilities\":${value}")
 			elif [ "${key}" = "debugargs" ]; then
 				debugargs=$(value_or_default "${value_missing}" "1" "${value}")
 			else
@@ -451,11 +487,11 @@ install_update_ctr_with_params() {
 
 	if [ "${operation}" = "install" ]; then
 		start_du_state_change_sub "${uuid}"
-		${CLI_JSON} "SoftwareModules.InstallDU($str_params)"
+		cli_call_async "SoftwareModules." "InstallDU" "{${json_params}}"
 		wait_du_state_change_sub
 	elif [ "${operation}" = "update" ]; then
 		start_du_state_change_sub "${uuid}"
-		${CLI_JSON} "SoftwareModules.DeploymentUnit.[ UUID == \"${uuid}\" ].Update($str_params)"
+		cli_call_async "SoftwareModules.DeploymentUnit.[ UUID == \"${uuid}\" ]." "Update" "{${json_params}}"
 		wait_du_state_change_sub
 		wait_ctr_down
 	fi
@@ -501,7 +537,7 @@ uninstall_ctr() {
 		echo "Missing UUID paramter: Uninstall not possible"
 	else
 		start_du_state_change_sub "${uuid}"
-		${CLI_JSON} "SoftwareModules.DeploymentUnit.[ UUID == \"${uuid}\" ].Uninstall(RetainData = ${retaindata})"
+		cli_call_async "SoftwareModules.DeploymentUnit.[ UUID == \"${uuid}\" ]." "Uninstall" "{\"RetainData\":${retaindata:-false}}"
 		wait_du_state_change_sub
 	fi
 
@@ -1372,6 +1408,95 @@ cli_json_safe() {
     echo "${_filtered}"
     return ${_cli_rc}
 }
+
+## Write lcm_call.lua to /tmp/ when this script is sourced.
+## Usage: lua /tmp/lcm_call.lua <object path> <method> <json arguments> <timeout>
+## Output mirrors `ba-cli -l -j "<path><method>(...)"`: an empty line, then
+## "<path><method>() returned", then the reply as JSON with sorted keys.
+cat > /tmp/lcm_call.lua << 'LUAEOF'
+#!/usr/bin/lua
+
+local path, method, json_args, timeout = arg[1], arg[2], arg[3], tonumber(arg[4] or "300")
+local lamx = require 'lamx'
+
+lamx.backend.load("/usr/bin/mods/amxb/mod-amxb-ubus.so")
+lamx.bus.open("ubus:/var/run/ubus/ubus.sock")
+
+local function is_array(t)
+    local n = 0
+    for _ in pairs(t) do n = n + 1 end
+    return n == #t
+end
+
+local function encode(v)
+    local t = type(v)
+    if t == "table" then
+        local parts = {}
+        if is_array(v) and #v > 0 then
+            for i = 1, #v do parts[#parts + 1] = encode(v[i]) end
+            return "[" .. table.concat(parts, ",") .. "]"
+        end
+        local keys = {}
+        for k in pairs(v) do keys[#keys + 1] = tostring(k) end
+        table.sort(keys)
+        for _, k in ipairs(keys) do
+            parts[#parts + 1] = encode(k) .. ":" .. encode(v[k])
+        end
+        return "{" .. table.concat(parts, ",") .. "}"
+    elseif t == "string" then
+        local s = v:gsub('[%c"\\]', function(c)
+            if c == '"' then return '\\"' end
+            if c == "\\" then return "\\\\" end
+            if c == "\n" then return "\\n" end
+            if c == "\r" then return "\\r" end
+            if c == "\t" then return "\\t" end
+            return string.format("\\u%04x", c:byte())
+        end)
+        return '"' .. s .. '"'
+    elseif t == "number" then
+        if v == math.floor(v) then return string.format("%d", v) end
+        return tostring(v)
+    elseif t == "boolean" then
+        return tostring(v)
+    end
+    return "null"
+end
+
+-- Resolve a search path to the concrete object path, as ba-cli does.
+if path:find("[", 1, true) then
+    local resolved = lamx.bus.get(path, 0, timeout)
+    local first
+    for k in pairs(resolved or {}) do first = k; break end
+    if first == nil then
+        print("")
+        print("ERROR: No objects found " .. path)
+        os.exit(1)
+    end
+    path = first
+end
+
+local args = {}
+if json_args ~= nil and json_args ~= "" and json_args ~= "{}" then
+    local parsed_ok, parsed = pcall(lamx.json.parse, json_args)
+    if not parsed_ok or type(parsed) ~= "table" then
+        print("")
+        print("ERROR: arguments are not valid JSON: " .. json_args)
+        os.exit(1)
+    end
+    args = parsed
+end
+
+local ok, result = pcall(lamx.bus.call, path, method, args, timeout)
+print("")
+if not ok then
+    local status = tostring(result):match("rv = (%-?%d+)") or "-1"
+    print("ERROR: call " .. path .. method .. "() failed with status " .. status)
+    print(path .. method .. "() returned")
+    os.exit(1)
+end
+print(path .. method .. "() returned")
+print(encode(result))
+LUAEOF
 
 ## Write du_state_change.lua to /tmp/ when this script is sourced
 cat > /tmp/du_state_change.lua << 'LUAEOF'

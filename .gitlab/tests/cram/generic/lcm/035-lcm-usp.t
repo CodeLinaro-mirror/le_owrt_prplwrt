@@ -59,10 +59,9 @@ Remove the role foo from the EE and check it cannot be used to install a contain
 
   $ R "${S} && install_ctr --version prplos-v1 --ee --uuid --privileged true --usprequired \"foo\""
   
-  ERROR: call (null) failed with status 1 - unknown error
+  ERROR: call SoftwareModules.InstallDU() failed with status 1
   SoftwareModules.InstallDU() returned
-  ["",{"err_code":7032,"err_msg":"Role not found in 'Device.LocalAgent.ControllerTrust.Role.' or in the 'AvailableRoles': 'foo'"}]
-  DUStateChange! * FaultCode=7032 * (glob)
+  DUStateChange! ERROR: operation=Install state=Failed FaultCode=7032 FaultString=Role not found in 'Device.LocalAgent.ControllerTrust.Role.' or in the 'AvailableRoles': 'foo'
   Container with UUID=00000000-0000-5000-b000-000000000001 is not found
 
 

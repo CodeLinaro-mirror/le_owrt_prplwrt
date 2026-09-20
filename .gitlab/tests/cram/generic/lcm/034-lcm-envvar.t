@@ -40,7 +40,7 @@ Update the container without EnvVariables and check its running the previous lis
 
 Update the container with a new list of EnvVariables and check its running and the variables updated:
 
-  $ R "${S} && update_ctr --version prplos-v1 --ee --uuid --privileged true --envvar '[{Key=\"ENVVAR_KEY3\", Value=\"ENVVAR_VALUE3\"}]'" > /dev/null
+  $ R "${S} && update_ctr --version prplos-v1 --ee --uuid --privileged true --envvar '[{\"Key\":\"ENVVAR_KEY3\",\"Value\":\"ENVVAR_VALUE3\"}]'" > /dev/null
   $ R "${S} && get_container_info --uuid"
   Active
   prplos-v1

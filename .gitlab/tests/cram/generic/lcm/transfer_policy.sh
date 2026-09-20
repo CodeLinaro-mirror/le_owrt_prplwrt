@@ -168,19 +168,15 @@ policy_fault() (
 
     install_result=$(install_ctr_no_wait --url "$url" --ee --uuid "$POLICY_UUID" 2>&1)
 
-    install_json=$(printf '%s\n' "$install_result" | sed -n '/^\[/p')
-    fault_code=$(printf '%s\n' "$install_json" | jsonfilter -e '@[1].err_code')
-    fault_string=$(printf '%s\n' "$install_json" | jsonfilter -e '@[1].err_msg')
+    # The fault comes back on the DUStateChange! event; the InstallDU call
+    # itself fails and its return arguments are not printed on failure.
+    fault_line=$(printf '%s\n' "$install_result" |
+        sed -n 's/^DUStateChange! ERROR: operation=Install state=Failed //p')
+    fault_code=$(printf '%s\n' "$fault_line" | sed -n 's/^FaultCode=\([0-9]*\) FaultString=.*/\1/p')
+    fault_string=$(printf '%s\n' "$fault_line" | sed -n 's/^FaultCode=[0-9]* FaultString=//p')
     if [ "$fault_code" != "7002" ] || [ -z "$fault_string" ]; then
         printf '%s\n' "$install_result"
         echo 'InstallDU did not return the expected transfer fault'
-        exit 1
-    fi
-
-    if ! printf '%s\n' "$install_result" |
-        grep -q '^DUStateChange! ERROR: operation=Install state=Failed FaultCode=7002 '; then
-        printf '%s\n' "$install_result"
-        echo 'no matching DUStateChange event'
         exit 1
     fi
 

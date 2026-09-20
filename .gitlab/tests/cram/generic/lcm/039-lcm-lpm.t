@@ -90,7 +90,7 @@ wait for cthulhu to terminate all containers and itself, before clear its data
   
   SoftwareModules.InstallDU() returned
   ["",{"err_code":0,"err_msg":""}]
-  $ R "${S} && install_ctr --url_arch 3_14_alpine --ee --uuid \"00000000-0000-5000-b000-000000000002\" --privileged true --moduleversion 1.0.0 --envvar '[{Key = \"EnvVar1\", Value = \"VarValue1\"}, {Key = \"EnvVar2\" , Value = \"VarValue2\"}]' "
+  $ R "${S} && install_ctr --url_arch 3_14_alpine --ee --uuid \"00000000-0000-5000-b000-000000000002\" --privileged true --moduleversion 1.0.0 --envvar '[{\"Key\":\"EnvVar1\",\"Value\":\"VarValue1\"},{\"Key\":\"EnvVar2\",\"Value\":\"VarValue2\"}]' "
   
   SoftwareModules.InstallDU() returned
   ["",{"err_code":0,"err_msg":""}]
