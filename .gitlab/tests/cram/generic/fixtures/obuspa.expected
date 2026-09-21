@@ -3037,6 +3037,7 @@ Device.Routing.RouteInformation.InterfaceSetting.{i}.HomeAgent                  
 Device.Routing.RouteInformation.InterfaceSetting.{i}.Interface                                       proto::routing-manager
 Device.Routing.RouteInformation.InterfaceSetting.{i}.ManagedAddressConfiguration                     proto::routing-manager
 Device.Routing.RouteInformation.InterfaceSetting.{i}.Option.{i}.                                     proto::routing-manager
+Device.Routing.RouteInformation.InterfaceSetting.{i}.Option.{i}.Alias                                proto::routing-manager
 Device.Routing.RouteInformation.InterfaceSetting.{i}.Option.{i}.Tag                                  proto::routing-manager
 Device.Routing.RouteInformation.InterfaceSetting.{i}.Option.{i}.Value                                proto::routing-manager
 Device.Routing.RouteInformation.InterfaceSetting.{i}.OptionNumberOfEntries                           proto::routing-manager
