@@ -191,6 +191,17 @@ build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security
       when: manual
       allow_failure: true
     - when: manual
+  timeout: 30 minutes
+  tags: []
+  before_script:
+    - git config --global --add safe.directory '*'
+  script:
+    - 'echo "Reusing baseline firmware artifacts from job 16618822278"'
+    - 'curl --fail --location --retry 3 --header "JOB-TOKEN: $CI_JOB_TOKEN" "$CI_API_V4_URL/projects/$CI_PROJECT_ID/jobs/16618822278/artifacts" -o artifacts.zip'
+    - unzip -q artifacts.zip 'bin/*' 'logs/*'
+    - rm -f artifacts.zip
+    - find bin/targets -type f -name 'sha256sums' -print -exec cat {} \;
+  after_script: []
 
 build test mvebu prpl security:
   extends: .build test config
@@ -329,6 +340,17 @@ build test qca_ipq95xx prpl cellular security thread:
       when: manual
       allow_failure: true
     - when: manual
+  timeout: 30 minutes
+  tags: []
+  before_script:
+    - git config --global --add safe.directory '*'
+  script:
+    - 'echo "Reusing baseline firmware artifacts from job 16618822284"'
+    - 'curl --fail --location --retry 3 --header "JOB-TOKEN: $CI_JOB_TOKEN" "$CI_API_V4_URL/projects/$CI_PROJECT_ID/jobs/16618822284/artifacts" -o artifacts.zip'
+    - unzip -q artifacts.zip 'bin/*' 'logs/*'
+    - rm -f artifacts.zip
+    - find bin/targets -type f -name 'sha256sums' -print -exec cat {} \;
+  after_script: []
 
 build test qca_ipq95xx extender_minimal cellular security thread:
   extends: .build test config
