@@ -62,6 +62,9 @@ MAX_WAIT_CTR_UP=180
 ## Uninstall replies before timingila removes the DeploymentUnit instance.
 MAX_WAIT_CTR_GONE=${MAX_WAIT_CTR_GONE:-60}
 
+## Syslog lines to print when the entries are still there after MAX_WAIT_CTR_GONE.
+MAX_UNINSTALL_SYSLOG_LINES=25
+
 ## Return default container name based on target.
 ## Default is Cortex-A53 based ARM 64-bit container
 get_container_name() {
@@ -299,6 +302,25 @@ ctr_leftovers() {
 	${CLI_JSON} "Rlyeh.Images.[ DUID == \"$1\" ].?0" | jsonfilter -e @[*].*.DUID | sed 's/^/Rlyeh.Images /'
 }
 
+## Print what timingila and cthulhu logged since the last Uninstall marker of a DUID
+ctr_uninstall_syslog() {
+	# the poll alone logs enough to rotate the syslog, so read the rotated files too
+	for _syslog_file in /var/log/messages.2.gz /var/log/messages.1 /var/log/messages; do
+		[ -r "${_syslog_file}" ] || continue
+		case "${_syslog_file}" in
+		*.gz) zcat "${_syslog_file}" ;;
+		*) cat "${_syslog_file}" ;;
+		esac
+	done | awk -v marker="lcm-cram: Uninstall of $1" '
+		index($0, marker) { n = 0; seen = 1 }
+		seen { line[n++] = $0 }
+		END { for (i = 0; i < n; i++) print line[i] }' |
+		grep -E ' (timingila|lxc\[[0-9]+\]): ' |
+		grep -E 'RPC: |request is done|Emitting signal|faulttype|STATE changed|not stopped yet|Container does not exist' |
+		sed -e 's/^[0-9]* [A-Za-z]* [0-9]* //' -e 's/ - ([^()]*)$//' |
+		head -n "${MAX_UNINSTALL_SYSLOG_LINES}"
+}
+
 ## waits until the DU, EU and image entries of a DUID are gone or timeout
 wait_ctr_gone() {
 	_gone_duid="$1"
@@ -317,6 +339,8 @@ wait_ctr_gone() {
 	done
 	echo "Still present ${MAX_WAIT_CTR_GONE} s after Uninstall of ${_gone_duid}:"
 	echo "${_gone_left}"
+	echo "DUT syslog since the Uninstall:"
+	ctr_uninstall_syslog "${_gone_duid}"
 	return 1
 }
 
@@ -613,6 +637,8 @@ uninstall_ctr_and_check() {
 	else
 		duid=$(cli_json_safe "SoftwareModules.DeploymentUnit.[ UUID == \"${uuid}\" ].DUID?" -e @[*].*.DUID)
 		# uninstall the container and then wait until the DU, EU and image entries are gone
+		# wait_ctr_gone prints the syslog from this marker on when it times out
+		[ -n "$duid" ] && logger -t lcm-cram "Uninstall of ${duid}"
 		# shellcheck disable=SC2086
 		uninstall_ctr ${save_params} >>/dev/null
 		# callers expect [1] and no output once everything is gone
