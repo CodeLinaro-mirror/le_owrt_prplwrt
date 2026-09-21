@@ -369,7 +369,7 @@ json_string() {
 ## and, like cli_cmd, routes it to stderr and returns 1 when the call failed.
 ## Usage: cli_call_async <object path> <method> <json arguments>
 cli_call_async() {
-	_cli_tmpfile=$(mktemp /tmp/cli_call_XXXXXX)
+	_cli_tmpfile=$(mktemp "${_DU_SUB_DIR:-/tmp}/cli_call_XXXXXX") || return 1
 	lua /tmp/lcm_call.lua "$1" "$2" "$3" "${LCM_CALL_TIMEOUT}" >"${_cli_tmpfile}" 2>&1
 	_cli_rc=$?
 	_cli_second=$(sed -n '2p' "${_cli_tmpfile}")
@@ -385,34 +385,76 @@ cli_call_async() {
 	esac
 }
 
-## Start background subscription to DUStateChange! for a given UUID.
-## Usage: start_du_state_change_sub <uuid> <lua_script_path>
-## Stores PID in _DU_SUB_PID
-start_du_state_change_sub() {
-	_du_sub_uuid="$1"
-	_du_sub_script="/tmp/du_state_change.lua"
-	if [ -f "${_du_sub_script}" ]; then
-		rm -f /tmp/du_state_change_out.txt
-		lua "${_du_sub_script}" "${_du_sub_uuid}" > /tmp/du_state_change_out.txt 2>&1 &
-		_DU_SUB_PID=$!
-	else
+## These helpers run inside cli_call_with_du_state_change's subshell so its
+## traps do not replace traps in the caller. Each call owns its capture files.
+cleanup_du_state_change_sub() {
+	if [ -n "${_DU_SUB_PID}" ]; then
+		kill -KILL "${_DU_SUB_PID}" 2>/dev/null || :
+		wait "${_DU_SUB_PID}" 2>/dev/null || :
 		_DU_SUB_PID=""
+	fi
+	[ -z "${_DU_SUB_DIR}" ] || rm -rf "${_DU_SUB_DIR}"
+}
+
+## /proc/uptime gives a monotonic deadline without requiring timeout(1),
+## which is not installed on every DUT. Linux reports hundredths of a second.
+du_state_change_ticks() {
+	read -r _du_uptime _du_idle < /proc/uptime
+	_du_ticks=$((${_du_uptime%.*} * 100 + 1${_du_uptime#*.} - 100))
+}
+
+## Wait up to 10 seconds for a flushed marker, or an early subscriber exit.
+wait_du_state_change_marker() {
+	du_state_change_ticks
+	_du_deadline=$((_du_ticks + 1000))
+	while [ ! -s "${_DU_SUB_DIR}/$1" ]; do
+		kill -0 "${_DU_SUB_PID}" 2>/dev/null || break
+		du_state_change_ticks
+		[ "${_du_ticks}" -lt "${_du_deadline}" ] || break
+		sleep 0.1
+	done
+	# The subscriber can publish the marker and exit between the checks.
+	[ -s "${_DU_SUB_DIR}/$1" ]
+}
+
+## Do not issue the RPC until subscribe() has returned successfully.
+start_du_state_change_sub() {
+	lua /tmp/du_state_change.lua "$1" "$2" "${_DU_SUB_DIR}" >"${_DU_SUB_DIR}/output" 2>&1 &
+	_DU_SUB_PID=$!
+	if ! wait_du_state_change_marker ready; then
+		echo "DUStateChange! subscriber failed to become ready within 10 s: UUID=$1 operation=$2" >&2
+		cat "${_DU_SUB_DIR}/output" >&2
+		return 1
 	fi
 }
 
-## Wait for background DUStateChange! subscription to finish and print any fault output.
-## Call after the CLI operation completes.
+## Call after the RPC returns. A matching fault is completion too: preserve
+## its exact text and the existing caller's handling of expected RPC faults.
 wait_du_state_change_sub() {
-	_du_sub_timeout="${1:-1}"
-	if [ -n "${_DU_SUB_PID}" ]; then
-		timeout "${_du_sub_timeout}" tail --pid="${_DU_SUB_PID}" -f /dev/null 2>/dev/null; kill "${_DU_SUB_PID}" 2>/dev/null; wait "${_DU_SUB_PID}" 2>/dev/null
-		if [ -s /tmp/du_state_change_out.txt ]; then
-			cat /tmp/du_state_change_out.txt >&2
+	if ! wait_du_state_change_marker done; then
+		if kill -0 "${_DU_SUB_PID}" 2>/dev/null; then
+			echo "DUStateChange! completion missing after 10 s: UUID=$1 operation=$2" >&2
+		else
+			echo "DUStateChange! subscriber exited without completion: UUID=$1 operation=$2" >&2
 		fi
-		rm -f /tmp/du_state_change_out.txt
-		_DU_SUB_PID=""
+		cat "${_DU_SUB_DIR}/output" >&2
+		return 1
 	fi
+	cat "${_DU_SUB_DIR}/output" >&2
 }
+
+## Usage: cli_call_with_du_state_change <uuid> <operation> <path> <method> <args>
+cli_call_with_du_state_change() (
+	_DU_SUB_PID=""
+	_DU_SUB_DIR=""
+	trap 'cleanup_du_state_change_sub' EXIT
+	trap 'exit 1' HUP INT TERM
+	_DU_SUB_DIR=$(mktemp -d /tmp/du_state_change_XXXXXX) || return 1
+	start_du_state_change_sub "$1" "$2" || return 1
+	# A failed RPC may still carry the exact fault in DUStateChange!.
+	cli_call_async "$3" "$4" "$5" || :
+	wait_du_state_change_sub "$1" "$2"
+)
 
 install_update_ctr_with_params() {
 	params=$@
@@ -542,13 +584,9 @@ install_update_ctr_with_params() {
 	done
 
 	if [ "${operation}" = "install" ]; then
-		start_du_state_change_sub "${uuid}"
-		cli_call_async "SoftwareModules." "InstallDU" "{${json_params}}"
-		wait_du_state_change_sub
+		cli_call_with_du_state_change "${uuid}" Install "SoftwareModules." "InstallDU" "{${json_params}}" || return 1
 	elif [ "${operation}" = "update" ]; then
-		start_du_state_change_sub "${uuid}"
-		cli_call_async "SoftwareModules.DeploymentUnit.[ UUID == \"${uuid}\" ]." "Update" "{${json_params}}"
-		wait_du_state_change_sub
+		cli_call_with_du_state_change "${uuid}" Update "SoftwareModules.DeploymentUnit.[ UUID == \"${uuid}\" ]." "Update" "{${json_params}}" || return 1
 		wait_ctr_down
 	fi
 
@@ -592,9 +630,7 @@ uninstall_ctr() {
 	if [ -z "${uuid}" ]; then
 		echo "Missing UUID paramter: Uninstall not possible"
 	else
-		start_du_state_change_sub "${uuid}"
-		cli_call_async "SoftwareModules.DeploymentUnit.[ UUID == \"${uuid}\" ]." "Uninstall" "{\"RetainData\":${retaindata:-false}}"
-		wait_du_state_change_sub
+		cli_call_with_du_state_change "${uuid}" Uninstall "SoftwareModules.DeploymentUnit.[ UUID == \"${uuid}\" ]." "Uninstall" "{\"RetainData\":${retaindata:-false}}"
 	fi
 
 }
@@ -1562,7 +1598,14 @@ LUAEOF
 cat > /tmp/du_state_change.lua << 'LUAEOF'
 #!/usr/bin/lua
 
-local req_uuid = arg[1]
+local req_uuid, req_operation, capture_dir = arg[1], arg[2], arg[3]
+-- Flush the fault before publishing completion, including if cleanup kills us.
+io.stdout:setvbuf("no")
+local function mark(name)
+    local f = assert(io.open(capture_dir .. "/" .. name, "w"))
+    assert(f:write("1\n"))
+    assert(f:close())
+end
 local lamx = require 'lamx'
 
 lamx.backend.load("/usr/bin/mods/amxb/mod-amxb-ubus.so")
@@ -1573,7 +1616,8 @@ local el = lamx.eventloop.new()
 local print_event = function(event, data)
     if event == "DUStateChange!" then
         local d = data and data.data
-        if d and (req_uuid == "" or req_uuid == nil or d.UUID == req_uuid) then
+        if d and (req_uuid == "" or d.UUID == req_uuid)
+            and d.OperationPerformed == req_operation then
             local fault_code = d.Fault and d.Fault.FaultCode or 0
             local fault_str  = d.Fault and d.Fault.FaultString or ""
             local op         = d.OperationPerformed or "Unknown"
@@ -1584,12 +1628,15 @@ local print_event = function(event, data)
                     .. " FaultCode=" .. tostring(fault_code)
                     .. " FaultString=" .. fault_str)
             end
+            io.stdout:flush()
+            mark("done")
             el:stop()
         end
     end
 end
 
-local sub = lamx.bus.subscribe("SoftwareModules.", print_event)
+local sub = assert(lamx.bus.subscribe("SoftwareModules.", print_event))
+mark("ready")
 
 el:start()
 LUAEOF

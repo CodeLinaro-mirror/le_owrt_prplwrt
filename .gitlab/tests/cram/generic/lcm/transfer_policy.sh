@@ -1,7 +1,7 @@
 #!/bin/sh
 
-# Source after script_functions.sh. These event-subscription overrides and
-# configuration changes are specific to the transfer-policy test.
+# Source after script_functions.sh. These configuration changes are specific
+# to the transfer-policy test; event capture uses the shared helpers.
 
 POLICY_UUID="00000000-0000-5000-b000-000000000044"
 POLICY_CONFIG=/etc/amx/rlyeh/rlyeh.odl
@@ -124,46 +124,8 @@ policy_restore() {
     fi
 }
 
-start_du_state_change_sub() {
-    _du_sub_uuid="$1"
-    _du_sub_script="/tmp/du_state_change.lua"
-
-    if [ -f "${_du_sub_script}" ]; then
-        rm -f /tmp/du_state_change_out.txt
-        lua "${_du_sub_script}" "${_du_sub_uuid}" > /tmp/du_state_change_out.txt 2>&1 &
-        _DU_SUB_PID=$!
-
-        # Give the subscriber time to register before issuing InstallDU.
-        sleep 1
-    else
-        _DU_SUB_PID=""
-    fi
-}
-
-wait_du_state_change_sub() {
-    if [ -n "${_DU_SUB_PID}" ]; then
-        event_wait=0
-        while [ ! -s /tmp/du_state_change_out.txt ] &&
-            [ "$event_wait" -lt "${POLICY_EVENT_WAIT:-1}" ]; do
-            sleep 1
-            event_wait=$((event_wait + 1))
-        done
-
-        kill "${_DU_SUB_PID}" 2>/dev/null
-        wait "${_DU_SUB_PID}" 2>/dev/null
-
-        if [ -s /tmp/du_state_change_out.txt ]; then
-            cat /tmp/du_state_change_out.txt >&2
-        fi
-
-        rm -f /tmp/du_state_change_out.txt
-        _DU_SUB_PID=""
-    fi
-}
-
-# Keep the longer event wait and assertion variables local to this fault check.
+# Keep the assertion variables local to this fault check.
 policy_fault() (
-    POLICY_EVENT_WAIT=15
     url="$1"
 
     install_result=$(install_ctr_no_wait --url "$url" --ee --uuid "$POLICY_UUID" 2>&1)
@@ -194,7 +156,7 @@ policy_cleanup() {
 
     uninstall_ctr --uuid "$POLICY_UUID" --retaindata false >/dev/null 2>&1
     rm -f "$POLICY_BACKUP" "$POLICY_START" "$POLICY_LOG" \
-        /tmp/du_state_change.lua /tmp/du_state_change_out.txt \
+        /tmp/du_state_change.lua \
         /tmp/transfer_policy.sh /tmp/script_functions.sh
 }
 
