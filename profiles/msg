@@ -1,9 +1,0 @@
-Integrating: tr181-deviceinfo: add firmware update status detection and API
-
-Introduce early boot firmware version detection to determine firmware
-update status and expose the result through a reusable shell API.
-
-Implements:PCF-2790
-https://prplfoundationcloud.atlassian.net/browse/PCF-2790
-
-Signed-off-by: Anjalee Gupta <anjalee.jayprakash-gupta@capgemini.com>
