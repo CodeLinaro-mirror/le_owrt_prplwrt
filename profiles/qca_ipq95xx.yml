@@ -8,7 +8,7 @@ description: Build image for prpl Foundation Freedom board
 feeds:
   - name: feed_qca
     uri: https://gitlab.com/prpl-foundation/prplOS/feed-qca.git
-    revision: latest-24.10/ath14.0@664980270e1cdae9a4caeed176f953ae6b46f96e
+    revision: auto-renew-freedom@2f47f2a86becfc4cf78534f2c42fae0f06649cdc
 
 include:
   - secure_boot_emmc
@@ -69,3 +69,4 @@ diffconfig: |
   CONFIG_SAH_LIB_MFG_RO_PART_FILE="/dev/mmcblk0p30"
   CONFIG_SWUPDATE_TARGET_HW_VERSION="freedom:1.0"
   CONFIG_FWI_FLASH_PARTITIONS="u-boot,kernel,rootfs"
+  CONFIG_KERNEL_DYNAMIC_DEBUG=y
