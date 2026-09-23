@@ -221,6 +221,7 @@
       - .gitlab/tests/cram/**/*.actual
       - .gitlab/tests/cram/**/*.diff
       - etc
+      - dns.pcap
       - prplmesh_beerocks_logs
       - debug-information-$LABGRID_TARGET.txt
       - processes-$LABGRID_TARGET.txt
