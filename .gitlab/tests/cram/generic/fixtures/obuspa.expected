@@ -4134,6 +4134,7 @@ Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_delNeighbourAP() input:BSSID
 Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_disassocStation()                                         proto::prplmesh-dm-mapper
 Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_disassocStation() input:mac
 Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_disassocStation() input:reason
+Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_getStationStats()                                         proto::prplmesh-dm-mapper
 Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_kickStation()                                             proto::prplmesh-dm-mapper
 Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_kickStation() input:macaddress
 Device.WiFi.AccessPoint.{i}.X_PRPLWARE-COM_kickStationReason()                                       proto::prplmesh-dm-mapper
