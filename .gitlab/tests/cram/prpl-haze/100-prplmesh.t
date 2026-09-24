@@ -216,19 +216,16 @@ Check that prplmesh is operational:
 Check that prplmesh is in operational state:
 
   $ R logger -t cram "Check that prplmesh is in operational state"
-  $ R "/opt/prplmesh/bin/beerocks_cli -c bml_conn_map" | egrep '(wlan|OK)' | sed -E "s/.*: (wlan[0-9.]+) .*/\1/" | LC_ALL=C sort
-  bml_connect: return value is: BML_RET_OK, Success status
-  bml_disconnect: return value is: BML_RET_OK, Success status
-  bml_nw_map_query: return value is: BML_RET_OK, Success status
+  $ R "/opt/prplmesh/bin/prplmesh_cli -c conn_map" | sed -nE 's/^ *RADIO: (wlan[0-9.]+) mac:.*/\1/p; s/^ *(wlan[0-9.]+) \((f|b)VAP.*/\1/p' | LC_ALL=C sort
   wlan0
-  wlan0.0
   wlan0.1
+  wlan0.2
   wlan1
-  wlan1.0
   wlan1.1
+  wlan1.2
   wlan2
-  wlan2.0
   wlan2.1
+  wlan2.2
 
 Disable wireless:
 

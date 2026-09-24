@@ -191,19 +191,16 @@ Check that controller received correct info about wifi subsystem:
 
   $ R logger -t cram "Check controller info about network"
 
-  $ R "/opt/prplmesh/bin/beerocks_cli -c bml_conn_map" | egrep '(wlan|OK)' | sed -E "s/.*: (wlan[0-9.]+) .*/\1/" | LC_ALL=C sort
-  bml_connect: return value is: BML_RET_OK, Success status
-  bml_disconnect: return value is: BML_RET_OK, Success status
-  bml_nw_map_query: return value is: BML_RET_OK, Success status
+  $ R "/opt/prplmesh/bin/prplmesh_cli -c conn_map" | sed -nE 's/^ *RADIO: (wlan[0-9.]+) mac:.*/\1/p; s/^ *(wlan[0-9.]+) \((f|b)VAP.*/\1/p' | LC_ALL=C sort
   wlan0
-  wlan0.0
   wlan0.1
+  wlan0.2
   wlan2
-  wlan2.0
   wlan2.1
+  wlan2.2
   wlan4
-  wlan4.0
   wlan4.1
+  wlan4.2
 
 pwhm usp socket : check if there is at least one connected client (should be beerocks processes):
 
