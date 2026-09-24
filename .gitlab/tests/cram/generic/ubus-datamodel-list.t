@@ -141,6 +141,7 @@ Check that ubus has expected datamodels available:
   Device.X_PRPLWARE-COM_MCASTD
   Device.X_PRPLWARE-COM_MultiSettings
   Device.X_PRPLWARE-COM_PersistentConfiguration
+  Device.X_PRPLWARE-COM_ProcMonWatcher
   Device.X_PRPLWARE-COM_WANManager
   Device.X_PRPLWARE-COM_WiFiScheduler
   DeviceInfo
@@ -478,6 +479,8 @@ Check that ubus has expected datamodels available:
   X_PRPLWARE-COM_Controller.Configuration.QoS
   X_PRPLWARE-COM_Controller.Configuration.TrafficSeparation
   X_PRPLWARE-COM_Controller.SteerEvent
+  X_PRPLWARE-COM_ProcMonWatcher
+  X_PRPLWARE-COM_ProcMonWatcher.SWWatchdog
   X_PRPLWARE-COM_ProcessManager
   X_PRPLWARE-COM_ProcessManager.PWHM
   X_PRPLWARE-COM_ProcessManager.PrplMesh

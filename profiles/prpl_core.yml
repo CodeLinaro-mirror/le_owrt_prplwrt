@@ -35,6 +35,7 @@ packages:
   - amx-cli
   - amx-faultmonitor
   - amx-processmonitor
+  - amx-processmonitor-watcher
   - debug-information
   - deviceinfo-manager
   - ethernet-manager
