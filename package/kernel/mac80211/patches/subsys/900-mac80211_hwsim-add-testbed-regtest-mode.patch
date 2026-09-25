@@ -26,7 +26,7 @@ this: an automated testbed that needs a regdomain immune to whatever
 hint an AP stack pushes at runtime, with 5 GHz channels up to 160 MHz
 and 6 GHz channels up to 320 MHz available for EHT link tests.
 
-The new hwsim_world_regdom_testbed regdomain (alpha2 "99") covers:
+The new hwsim_world_regdom_testbed regdomain (alpha2 "US") covers:
  - 2.4 GHz, 2402-2482 MHz, 40 MHz max, same as the existing tables;
  - 5 GHz, 5170-5925 MHz, 160 MHz max, no DFS, no NO_IR;
  - 6 GHz, 5945-7125 MHz, 320 MHz max, no NO_IR (this part is
@@ -42,6 +42,21 @@ UNII-1/2A/2C split - not needed here since nothing splits the band).
 The 5 GHz and 6 GHz rules deliberately touch at 5935 MHz rather than
 overlap, so hwsim's whole 5 GHz channel table up to 5925 MHz (chan
 185) stays covered.
+
+Report alpha2 "US" to match country_code=US in the QEMU testbed's
+pWHM-generated hostapd configuration. With "99", hostapd reads a
+mismatching country through GET_REG with NL80211_ATTR_WIPHY and arms
+its five-second COUNTRY_UPDATE timeout on every interface (re)add.
+This extends the same-radio outage during VAP changes, so tests
+sample sibling APs before they return to Enabled. Matching "US" skips
+that wait; hostapd still sends its normal country hint. A configuration
+using another country can still incur the wait.
+
+This is a testbed identity, not the wireless-regdb US rule set. Keep the
+three permissive rules unchanged: self-management, not alpha2 "99",
+protects them from core and user hints. Installing this per-wiphy table
+does not set the global regdomain; userspace hints may change the global
+domain independently.
 
 To make the mode immune to later hints, the radio is registered as
 REGULATORY_WIPHY_SELF_MANAGED instead of REGULATORY_CUSTOM_REG:
@@ -86,8 +101,9 @@ which only ever applies a regdomain the CUSTOM_REG way. Reusing the
 same table there would make it just as overridable by a later USER
 hint as custom_03 already is, defeating the point.
 
-Compile-checked out-of-tree: this patch was applied on top of a
-backports-6.12.61 tree already built and linked against a prplOS
+The original mode, before the alpha2 revision, was compile-checked
+out-of-tree: this patch was applied on top of a backports-6.12.61 tree
+already built and linked against a prplOS
 x86_64 6.6.119 kernel configuration, and drivers/net/wireless/virtual/
 mac80211_hwsim.c was recompiled with the exact recorded cflags
 (-Werror, -std=gnu11, the kernel's regular defconfig) using
@@ -160,7 +176,7 @@ index a260c39989cb..47d1d5f628d7 100644
 + */
 +static const struct ieee80211_regdomain hwsim_world_regdom_testbed = {
 +	.n_reg_rules = 3,
-+	.alpha2 = "99",
++	.alpha2 = "US",
 +	.reg_rules = {
 +		REG_RULE(2402 - 10, 2482 + 10, 40, 0, 20, 0),
 +		REG_RULE(5170 - 10, 5925 + 10, 160, 0, 30, 0),
