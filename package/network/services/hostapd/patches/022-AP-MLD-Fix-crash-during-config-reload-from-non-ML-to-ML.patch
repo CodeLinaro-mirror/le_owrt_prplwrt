@@ -1,0 +1,53 @@
+From 93f623f7454a687f7192a267fc114724bf77ca35 Mon Sep 17 00:00:00 2001
+From: Ajith C <quic_ajithc@quicinc.com>
+Date: Tue, 3 Sep 2024 10:39:05 +0530
+Subject: [PATCH] AP MLD: Fix crash during config reload from non-ML to ML
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+When an AP switches from a non-ML to an ML configuration, hostapd
+crashes. The crash occurs because the memory allocation for the 'mld'
+structure happens only during the AP’s startup if the 'mld_ap' option is
+enabled. Consequently, when hostapd transitions from a non-ML to an ML
+configuration, the MLD structure’s memory remains unallocated, leading
+to a crash when accessed.
+
+Fix this by initiating hostapd_init() whenever the AP transitions
+between ML and non-ML configurations to ensure proper memory allocation
+for the MLD structure.
+
+Signed-off-by: Ajith C <quic_ajithc@quicinc.com>
+(cherry picked from commit 93f623f7454a687f7192a267fc114724bf77ca35)
+[backport to 5ace39b0a4cd: applies with an offset only,
+hostapd_iface_conf_changed() is otherwise identical.
+On prplOS this is U39 crash 1 (hostapd+0x4620a =
+hostapd_ctrl_iface_status(), src/ap/ctrl_iface_ap.c:921-926,
+hapd->mld->num_links with hapd->mld == NULL): pWHM's
+MLDUnitSetting=Assumed rewrite flips a running VAP from mld_ap=0 to
+mld_ap=1 and pushes it through DISABLE / ENABLE / RELOAD_CONFIG
+(SIGHUP), so hostapd_reload_config() (src/ap/hostapd.c:274) swapped
+hapd->conf for one with mld_ap=1 while hapd->mld was never allocated.
+The interface setup then fails and the next STATUS on its socket
+dereferences the NULL mld. With this change the reload takes the
+remove + hostapd_init() + enable path and the MLD is allocated.]
+Signed-off-by: Petr Štetiar <petr.stetiar@prplfoundation.org>
+---
+ src/ap/hostapd.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/src/ap/hostapd.c b/src/ap/hostapd.c
+index dc50ad1bcc9a..b3eb60499186 100644
+--- a/src/ap/hostapd.c
++++ b/src/ap/hostapd.c
+@@ -242,6 +242,10 @@ static int hostapd_iface_conf_changed(struct hostapd_config *newconf,
+ 		if (os_strcmp(newconf->bss[i]->iface,
+ 			      oldconf->bss[i]->iface) != 0)
+ 			return 1;
++#ifdef CONFIG_IEEE80211BE
++		if (newconf->bss[i]->mld_ap != oldconf->bss[i]->mld_ap)
++			return 1;
++#endif /* CONFIG_IEEE80211BE */
+ 	}
+
+ 	return 0;
