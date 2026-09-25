@@ -1,0 +1,136 @@
+# Copyright (C) 2026 prpl Foundation
+#
+# QEMU-only mac80211_hwsim gate. package/kernel/mac80211/Makefile is left
+# untouched: kmod-mac80211-hwsim still ships its build-time
+# /etc/modules.d/mac80211-hwsim (bare "mac80211_hwsim", the driver's own
+# default radios=2, no regtest, no MLO) via AutoProbe. This x86-only hook
+# recomputes that same file's desired content every boot, before
+# kmodloader ever reads it: on QEMU (or a forced N>0) with the resolved
+# radio count, mlo=1 multi_radio=1 (see NOTES.md "MLO design" for why),
+# and the testbed regdomain; on real hardware, or N=0, with a
+# comment-only file, so kmodloader's glob over /etc/modules.d/* finds a
+# line that matches no module name and loads nothing (kmodloader.c
+# main_loader(): unresolvable module names are silently skipped, no
+# error). Real x86 hardware profiles keep carrying the
+# kmod-mac80211-hwsim package (decision 4), but from this file's rewrite
+# onward its autoload trigger is inert there. The file on disk is only
+# actually written when the computed content differs from what is
+# already there, so real hardware (always the disabled comment-only
+# content) never takes a second overlay write past the first boot.
+#
+# Runs on every boot, not just the first: mac80211_hwsim is a kernel
+# module, never persisted, and testbed-qemu's -smbios/-append radio count
+# can change between runs. We only ever *rewrite one file*, and only when
+# its content actually changes; kmodloader (run later, from
+# /etc/init.d/boot, before "wifi config") does the actual load, so its
+# dependency resolution (cfg80211, mac80211, rfkill, ...) applies - a bare
+# insmod here would not, and modules.d's own "<modname> [opts]" per-line
+# format is what carries the params through to it (see NOTES.md).
+#
+# Hooked to preinit_mount_root (not preinit_main): that is the first point
+# /etc is writable - do_mount_root (package/base-files' 80_mount_root) runs
+# `mount_root start` and only then, synchronously, `boot_run_hook
+# preinit_mount_root`.
+
+qemu_hwsim_modules_d="/etc/modules.d/mac80211-hwsim"
+qemu_hwsim_regtest=11	# HWSIM_REGTEST_TESTBED, see ../../../../patches/
+
+qemu_hwsim_is_int() {
+	case "$1" in
+	'' | *[!0-9]*) return 1 ;;
+	*) return 0 ;;
+	esac
+}
+
+# Sane range for a nonzero radio count: at least 1, capped at 16 - well
+# past any tri-band/MLO test need, but short of a value that could stall
+# boot or exhaust memory if a malformed cmdline/SMBIOS string slips
+# through. 0 (disable) is intentionally not "sane" by this check; callers
+# that accept 0 as a valid disable test for it separately.
+qemu_hwsim_is_sane_radios() {
+	qemu_hwsim_is_int "$1" && [ "$1" -ge 1 ] && [ "$1" -le 16 ]
+}
+
+# Precedence (decision 5): kernel cmdline > SMBIOS type 11 OEM string >
+# QEMU-vendor default of 1 (one tri-band mlo=1 multi_radio=1 wiphy - pWHM's
+# single-wiphy AP-MLD path needs exactly one wiphy, see NOTES.md "MLO
+# design"). An explicit 0 (from cmdline or SMBIOS) disables, even on QEMU.
+# A cmdline/SMBIOS value outside the 1..16 sane range is logged and
+# rejected, falling through to the next precedence tier rather than being
+# used as-is. N>1 (real multi-wiphy tri-band, not MLO) remains reachable
+# via cmdline/SMBIOS for experiments; it is no longer the QEMU default.
+qemu_hwsim_radios() {
+	local n cmdlinevar s
+
+	for cmdlinevar in $(cat /proc/cmdline 2>/dev/null); do
+		case "$cmdlinevar" in
+		prplos.hwsim=*)
+			n="${cmdlinevar#prplos.hwsim=}"
+			;;
+		esac
+	done
+	if qemu_hwsim_is_int "$n"; then
+		if [ "$n" = 0 ] || qemu_hwsim_is_sane_radios "$n"; then
+			echo "$n"
+			return
+		fi
+		logger -t hwsim "prplos.hwsim=$n on the kernel cmdline is out of range (1-16), ignoring"
+	fi
+
+	# SMBIOS type 11 (OEM strings): header is type(1)+len(1)+handle(2),
+	# then a set of NUL-terminated strings, closed by an extra NUL.
+	# `strings` on the raw binary table is enough to pull ASCII OEM
+	# string values back out without hand-parsing the offsets.
+	for s in /sys/firmware/dmi/entries/11-*/raw; do
+		[ -e "$s" ] || continue
+		n="$(strings "$s" 2>/dev/null | sed -n 's/^prplos\.hwsim=//p' | head -n1)"
+		if qemu_hwsim_is_int "$n"; then
+			if [ "$n" = 0 ] || qemu_hwsim_is_sane_radios "$n"; then
+				echo "$n"
+				return
+			fi
+			logger -t hwsim "prplos.hwsim=$n in SMBIOS type 11 is out of range (1-16), ignoring"
+		fi
+	done
+
+	if [ -r /sys/class/dmi/id/sys_vendor ] && \
+	   grep -qi '^QEMU' /sys/class/dmi/id/sys_vendor 2>/dev/null; then
+		echo 1
+		return
+	fi
+
+	echo 0
+}
+
+do_load_qemu_hwsim() {
+	local radios content current
+
+	# Defense in depth: even a crafted/forged cmdline or SMBIOS string
+	# only ever picks a radio count, never anything that reaches a
+	# command line or file path unescaped (see qemu_hwsim_is_int), and
+	# is range-capped by qemu_hwsim_radios()/qemu_hwsim_is_sane_radios.
+	radios="$(qemu_hwsim_radios)"
+
+	if qemu_hwsim_is_sane_radios "$radios"; then
+		content="mac80211_hwsim radios=$radios mlo=1 multi_radio=1 regtest=$qemu_hwsim_regtest"
+		logger -t hwsim "queued mac80211_hwsim radios=$radios mlo=1 multi_radio=1 regtest=$qemu_hwsim_regtest for kmodloader"
+	else
+		content="# prplOS: mac80211_hwsim autoload disabled here (not QEMU, or radios=0)
+# rewritten every boot by target/linux/x86/base-files/lib/preinit/78_load_qemu_hwsim"
+		logger -t hwsim "mac80211_hwsim autoload disabled (not QEMU or radios=0)"
+	fi
+
+	# Only touch the overlay when the content actually changes: this file
+	# is rewritten on every boot (real hardware included, per decision 4),
+	# so on real hardware - where the branch above is always the disabled
+	# comment-only content - this keeps every boot after the first a
+	# read-only no-op instead of an unconditional overlay write.
+	current=""
+	[ -f "$qemu_hwsim_modules_d" ] && current="$(cat "$qemu_hwsim_modules_d" 2>/dev/null)"
+	[ "$content" = "$current" ] && return
+
+	mkdir -p "$(dirname "$qemu_hwsim_modules_d")" 2>/dev/null
+	echo "$content" > "$qemu_hwsim_modules_d"
+}
+
+boot_hook_add preinit_mount_root do_load_qemu_hwsim
