@@ -1,0 +1,139 @@
+From 7c1e0b3a9d5f2e8c4b6a1d0f9e8c7b6a5d4c3b2a Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Petr=20=C5=A0tetiar?= <petr.stetiar@prplfoundation.org>
+Date: Thu, 25 Sep 2026 10:30:00 +0200
+Subject: [PATCH] AP MLD: Drop the borrowed driver context when a link add
+ fails
+
+A non-first link BSS of an AP MLD does not get a driver context of its
+own. hostapd_setup_bss() (src/ap/hostapd.c:1496-1498) and, for the
+first BSS of a later interface, hostapd_driver_init()
+(hostapd/main.c:178-180) copy hapd->drv_priv and hapd->interface_added
+from the first BSS of the MLD (hostapd_mld_get_first_bss()) and jump to
+setup_mld, where hostapd_drv_link_add() registers the new link with the
+driver and, only if that succeeds, hostapd_mld_add_link() puts the BSS
+on mld->links (hostapd.c:1542-1549, main.c:343-350).
+
+If hostapd_drv_link_add() fails, both functions return -1 with the
+borrowed pointers still in place. The BSS then looks like a fully
+initialized link to every later consumer, although the driver has no
+record of it and mld->links does not list it:
+
+ - The failed-BSS unwind in hostapd_setup_interface_complete_sync()
+   (hostapd.c:2680-2690) runs hostapd_bss_deinit_no_free() on it, which
+   flushes/deauthenticates through the sibling's i802_bss and, because
+   interface_added was copied too, calls hostapd_if_remove() ->
+   hostapd_if_link_remove() on the sibling's context with a link ID the
+   driver never accepted (hostapd.c:551-565, ap_drv_ops.c:616-629).
+   nl80211 rejects the unknown link (driver_nl80211.c:10941-10943),
+   so hapd->drv_priv is left as it was.
+
+ - When that setup ran asynchronously (channel list update, ACS, DFS),
+   the failing interface is not freed: it goes to HAPD_IFACE_DISABLED
+   (hostapd.c:2797-2827) and stays in interfaces->iface[] with the
+   failed BSS still pointing at the sibling's i802_bss.
+
+ - When the sibling is later torn down, its i802_bss is freed by
+   wpa_driver_nl80211_deinit() (driver->hapd_deinit(), reached from
+   hostapd_cleanup_driver(), hostapd.c:3506-3517) or by
+   wpa_driver_nl80211_if_remove() (last link removed,
+   driver_nl80211.c:10960-10970). The only invalidation of the
+   borrowers, hostapd_mld_interface_freed() (hostapd.c:5109-5117),
+   walks mld->links, so the failed BSS keeps a dangling pointer.
+
+ - On TERMINATE, hostapd_interface_deinit() of the disabled interface
+   calls hostapd_bss_deinit_no_free() -> hostapd_flush_old_stations()
+   -> hostapd_drv_sta_deauth() on that BSS. The existing
+   hapd->drv_priv == NULL guards (hostapd.c:842, ap_drv_ops.c:905) do
+   not help because the pointer is not NULL, just freed;
+   i802_sta_deauth() dereferences it (bss->drv, driver_nl80211.c:8389)
+   and crashes.
+
+Observed with a warm per-link ADD on a mac80211 AP MLD: the interface
+waited in COUNTRY_UPDATE, then "MLD: Failed to add link 3 in MLD
+wlan2.2" / "Interface initialization failed" / "wlan2.1: interface
+state COUNTRY_UPDATE->DISABLED"; ~15 s later the MLD's owning
+interface was removed ("nl80211: deinit ifname=wlan2.2") and the
+subsequent TERMINATE segfaulted in i802_sta_deauth()+0x21 with a heap
+fault address while deinitializing the disabled interface ("wlan2.1:
+interface state DISABLED->DISABLED").
+
+Fix it at the failure point: when hostapd_drv_link_add() fails for a
+BSS that borrowed its driver context, clear hapd->drv_priv and
+hapd->interface_added before returning. The failed BSS never owned or
+registered anything in the driver, so there is nothing to release; the
+existing NULL guards in hostapd_flush_old_stations(),
+hostapd_if_remove()/hostapd_if_link_remove() and the hostapd_drv_*()
+wrappers then make the unwind and any later deinit a no-op for it. A
+BSS that obtained its own context through hostapd_if_add() on this path
+is left untouched so that its context is still released by the regular
+cleanup.
+
+hostap.git HEAD 5401e02628f9 (2026-09-25) has the same bare "return -1"
+at both sites (src/ap/hostapd.c:1577-1583, hostapd/main.c:387-393) and
+the same mld->links-only hostapd_mld_interface_freed().
+
+Signed-off-by: Petr Štetiar <petr.stetiar@prplfoundation.org>
+---
+ hostapd/main.c   |  6 ++++++
+ src/ap/hostapd.c | 17 +++++++++++++++++
+ 2 files changed, 23 insertions(+)
+
+diff --git a/hostapd/main.c b/hostapd/main.c
+--- a/hostapd/main.c
++++ b/hostapd/main.c
+@@ -345,6 +345,12 @@ setup_mld:
+ 			wpa_printf(MSG_ERROR,
+ 				   "MLD: Failed to add link %d in MLD %s",
+ 				   hapd->mld_link_id, hapd->conf->iface);
++			/* Same as in hostapd_setup_bss(): drop a borrowed driver
++			 * context that this link never got registered with. */
++			if (h_hapd) {
++				hapd->drv_priv = NULL;
++				hapd->interface_added = 0;
++			}
+ 			return -1;
+ 		}
+ 		hostapd_mld_add_link(hapd);
+diff --git a/src/ap/hostapd.c b/src/ap/hostapd.c
+--- a/src/ap/hostapd.c
++++ b/src/ap/hostapd.c
+@@ -1442,6 +1442,9 @@ int hostapd_setup_bss(struct hostapd_dat
+ 	char force_ifname[IFNAMSIZ];
+ 	u8 if_addr[ETH_ALEN];
+ 	int flush_old_stations = 1;
++#ifdef CONFIG_IEEE80211BE
++	bool drv_priv_borrowed = false;
++#endif /* CONFIG_IEEE80211BE */
+ 
+ 	if (!hostapd_mld_is_first_bss(hapd))
+ 		wpa_printf(MSG_DEBUG,
+@@ -1496,6 +1499,7 @@ int hostapd_setup_bss(struct hostapd_dat
+ 			if (h_hapd) {
+ 				hapd->drv_priv = h_hapd->drv_priv;
+ 				hapd->interface_added = h_hapd->interface_added;
++				drv_priv_borrowed = true;
+ 				wpa_printf(MSG_DEBUG,
+ 					   "Setup of non first link (%d) BSS of MLD %s",
+ 					   hapd->mld_link_id, hapd->conf->iface);
+@@ -1544,6 +1548,19 @@ setup_mld:
+ 			wpa_printf(MSG_ERROR,
+ 				   "MLD: Failed to add link %d in MLD %s",
+ 				   hapd->mld_link_id, hapd->conf->iface);
++			/* The driver context was borrowed from the first BSS of
++			 * the AP MLD and this link was never added to it, so
++			 * the failed BSS neither owns nor references anything
++			 * in the driver. Drop the borrowed pointers so that
++			 * the cleanup does not deauthenticate/remove on behalf
++			 * of the sibling and, more importantly, so that no
++			 * stale pointer remains once the sibling frees its
++			 * context: hostapd_mld_interface_freed() can only
++			 * invalidate links that made it onto mld->links. */
++			if (drv_priv_borrowed) {
++				hapd->drv_priv = NULL;
++				hapd->interface_added = 0;
++			}
+ 			return -1;
+ 		}
+ 		hostapd_mld_add_link(hapd);
+-- 
+2.51.0
