@@ -16,6 +16,9 @@ packages:
   - wpad-basic
 
 diffconfig: |
+  # pWHM drives hostapd over the ctrl_iface only; the OpenWrt ucode glue
+  # (hostapd.uc, ubus hostapd.* objects) is unused on this board.
+  # CONFIG_HOSTAPD_UCODE is not set
   # The single-rootfs EFI image has no swappable firmware bank pair.
   # Negative download tests return before flash or partition activation.
   CONFIG_FWI_FLASH_PARTITIONS="rootfs"
