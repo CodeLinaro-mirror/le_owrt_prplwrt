@@ -1,0 +1,119 @@
+From 9b4f2c7d1e6a3805d2c4f1b7a9e0c6d3b8f5a2e1 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Petr=20=C5=A0tetiar?= <petr.stetiar@prplfoundation.org>
+Date: Thu, 25 Sep 2026 14:40:00 +0200
+Subject: [PATCH] ucode: do not touch the freed VM after hostapd_ucode_free()
+
+hostapd's main() (hostapd/main.c, "out:" label as patched by
+601-ucode_support.patch) tears the ucode VM down first and only then
+deinitializes the interfaces:
+
+  out:
+	hostapd_ucode_free();
+	hostapd_global_ctrl_iface_deinit(&interfaces);
+	for (i = 0; i < interfaces.count; i++)
+		hostapd_interface_deinit_free(interfaces.iface[i]);
+
+hostapd_ucode_free() (src/ap/ucode.c:880-885) runs the script's
+"shutdown" callback and then wpa_ucode_free_vm() (src/utils/ucode.c:493)
+-> uc_vm_free() -> ucv_freeall(), which frees every value the VM ever
+owned, including the bss_registry and iface_registry arrays created in
+hostapd_ucode_init() (:861-865). wpa_ucode_free_vm() only clears the
+utils-side "registry" pointer; the ap-side statics vm, global,
+bss_registry and iface_registry keep pointing at freed memory.
+
+That is fine for OpenWrt's own use, where every interface was added by
+hostapd.uc and the "shutdown" callback removes them all through
+hostapd.remove_iface() while the VM is still alive, so nothing is left
+for the loop below. It is not fine for interfaces that were added
+through the control interface or the command line (pWHM starts one
+global hostapd with the radio configs on the command line and ADDs the
+rest over /var/run/hostapd/global): hostapd.data.config knows nothing
+about them, "shutdown" leaves them alone, and the deinit loop then
+runs, for every BSS that is still started:
+
+  hostapd_interface_deinit_free() -> hostapd_interface_deinit()
+    -> hostapd_bss_deinit() -> hostapd_free_hapd_data() (hostapd.c:503)
+      -> hostapd_ucode_free_bss() (src/ap/ucode.c:908-926)
+        -> wpa_ucode_registry_remove(bss_registry, idx) (utils/ucode.c:465)
+          -> wpa_ucode_registry_get() -> ucv_array_get(bss_registry, ..)
+            -> ucv_type(bss_registry)        <- freed array
+
+and, via hostapd_interface_free() -> hostapd_cleanup_iface()
+(hostapd.c:770), hostapd_ucode_free_iface() on the freed iface_registry
+for every interface. Depending on what happened to the freed pages this
+is a plain read of freed memory, a SIGSEGV in libucode's ucv_type()
+when musl's mallocng already unmapped the group the array lived in, or
+heap corruption (ucv_array_set() on a recycled chunk) that surfaces
+later as a crash in free().
+
+Observed on a prplOS/pWHM build (hostapd 2024-09-15, ucode 2025-07-18,
+musl 1.2.5) whenever pWHM stops the last active radio: it sends
+TERMINATE over the global control socket while that radio's BSSes are
+still started, and 10-20 ms later hostapd dies with
+"segfault at 7f...490 ip ... in libucode.so.20230711" (ucv_type,
+"mov (%rdi),%al") or "segfault at 10 ... in libc.so" (mallocng
+get_meta() from free()). The faulting address sat at the same offset
+below libucode's mapping in three of four crashes, i.e. it was the same
+early allocation each time.
+
+OpenWrt main (601-ucode_support.patch, package/network/services/hostapd/
+src/src/ap/ucode.c as of 2026-09-25) has the same main() ordering and
+the same unguarded hooks, so this is reachable upstream with any
+non-script-managed interface too.
+
+Fix: after wpa_ucode_free_vm(), drop the stale ap-side pointers and
+make hostapd_ucode_free_bss()/hostapd_ucode_free_iface() no-ops once
+the VM is gone. The other hooks are already safe: hostapd_ucode_bss_cb()
+and the sta hooks go through wpa_ucode_call_prepare(), which bails out
+on the cleared utils registry before touching any value. The script's
+"shutdown" callback keeps running first, so OpenWrt's own teardown is
+unchanged; the BSSes it did not know about simply get no "bss_remove"
+event at exit, which nothing consumes at that point anyway.
+
+Signed-off-by: Petr Štetiar <petr.stetiar@prplfoundation.org>
+---
+ src/ap/ucode.c | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
+
+--- a/src/ap/ucode.c
++++ b/src/ap/ucode.c
+@@ -882,10 +882,25 @@
+ 	if (wpa_ucode_call_prepare("shutdown") == 0)
+ 		ucv_put(wpa_ucode_call(0));
+ 	wpa_ucode_free_vm();
++
++	/* The VM and every value it owned (bss_registry, iface_registry,
++	 * global) are gone now. hostapd's main() calls hostapd_ucode_free()
++	 * before it deinitializes the interfaces, so the per-BSS/per-iface
++	 * hooks below can still run after this point for any interface that
++	 * was not removed by the "shutdown" script callback. Drop the stale
++	 * pointers so those hooks become no-ops instead of touching freed
++	 * memory. */
++	vm = NULL;
++	global = NULL;
++	bss_registry = NULL;
++	iface_registry = NULL;
+ }
+ 
+ void hostapd_ucode_free_iface(struct hostapd_iface *iface)
+ {
++	if (!iface_registry)
++		return;
++
+ 	ucv_put(wpa_ucode_registry_remove(iface_registry, iface->ucode.idx));
+ }
+ 
+@@ -909,6 +924,11 @@
+ {
+ 	uc_value_t *val;
+ 
++	if (!bss_registry) {
++		hapd->ucode.idx = 0;
++		return;
++	}
++
+ 	val = wpa_ucode_registry_remove(bss_registry, hapd->ucode.idx);
+ 	if (!val)
+ 		return;
+-- 
+2.51.0
