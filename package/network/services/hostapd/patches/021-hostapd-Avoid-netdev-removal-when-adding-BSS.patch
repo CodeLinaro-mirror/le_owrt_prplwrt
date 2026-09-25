@@ -1,0 +1,41 @@
+From a3d1142638e8f6a87b6049eec67653bb29056f9a Mon Sep 17 00:00:00 2001
+From: Yuvarani V <yuvarani.v@oss.qualcomm.com>
+Date: Tue, 14 Apr 2026 16:12:33 +0530
+Subject: [PATCH] hostapd: Avoid netdev removal when adding BSS
+
+When adding a BSS, hostapd may remove and recreate the underlying
+netdev. This occurs because hostapd_if_add() is invoked with
+use_existing = 0, which triggers netdev teardown.
+
+This is unnecessary during multi-BSS bring-up and breaks deployments
+where network interfaces are created and managed externally.
+
+Fix this by always reusing the existing netdev when adding a BSS.
+
+Signed-off-by: Yuvarani V <yuvarani.v@oss.qualcomm.com>
+[backport to 5ace39b0a4cd: applies with an offset only.
+
+Fixes the loss of a pWHM-managed VAP netdev on prplOS: pWHM first
+ADDs a non-MLD BSS into an existing netdev (use_existing, hostapd
+does not own it), then re-adds the whole radio, where
+hostapd_setup_bss() removed and re-created the netdev and took
+ownership of it. The next global REMOVE then deleted wlan0.2 and
+nothing recreated it.]
+Signed-off-by: Petr Štetiar <petr.stetiar@prplfoundation.org>
+---
+ src/ap/hostapd.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/ap/hostapd.c b/src/ap/hostapd.c
+index b5eb79eb328c..572157c3f5fc 100644
+--- a/src/ap/hostapd.c
++++ b/src/ap/hostapd.c
+@@ -1498,7 +1498,7 @@ static int hostapd_setup_bss(struct hostapd_data *hapd, int first,
+ 				   conf->iface, addr, hapd,
+ 				   &hapd->drv_priv, force_ifname, if_addr,
+ 				   conf->bridge[0] ? conf->bridge : NULL,
+-				   first == -1)) {
++				   1)) {
+ 			wpa_printf(MSG_ERROR, "Failed to add BSS (BSSID="
+ 				   MACSTR ")", MAC2STR(hapd->own_addr));
+ 			hapd->interface_added = 0;
