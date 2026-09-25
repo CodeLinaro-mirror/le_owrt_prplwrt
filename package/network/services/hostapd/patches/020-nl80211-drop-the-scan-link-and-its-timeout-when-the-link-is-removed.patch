@@ -1,0 +1,63 @@
+From 5ce1d41803866782bbd96d575f53d43358a20a2e Mon Sep 17 00:00:00 2001
+From: Dhanavandhana Kannan <dhanavandhana.kannan@oss.qualcomm.com>
+Date: Fri, 22 Aug 2025 16:32:42 +0530
+Subject: [PATCH] nl80211: Fix crash by cancelling scan timeout before a BSS is
+ removed
+
+In wpa_driver_nl80211_deinit(), eloop_cancel_timeout() is called to
+cancel any pending scan timeouts. However, the scan is typically
+initiated using the first BSS context, while the timeout cancellation is
+attempted using the last BSS being removed. This mismatch causes the
+scan timeout to remain active.
+
+The crash occurs after deinit, when the pending scan_timeout callback is
+triggered and attempts to access the BSS context that has already been
+freed.
+
+Fix by ensuring that eloop_cancel_timeout() is called before any BSS
+links are removed, so the correct context is still valid during
+cancellation. Also, reset scan_link to NULL if the link being removed
+matches the one used for scanning, preventing access to freed memory.
+
+Signed-off-by: Dhanavandhana Kannan <dhanavandhana.kannan@oss.qualcomm.com>
+
+[backport to 5ace39b0a4cd: this tree has no nl80211_update_active_links()
+(2fe31050c248), so the hunk is placed around the existing
+"bss->valid_links &= ~BIT(link_id)" line of nl80211_remove_link().
+
+Fixes the hostapd SIGSEGV seen on a mac80211 AP MLD setup when a
+hostapd_iface holding a non-first MLD link BSS is removed over the global
+control interface ("REMOVE <iface>") while its HT40 coexistence scan
+(ieee80211n_check_scan) is still running: the scan was requested for
+that link, so bss->scan_link points at its i802_link and the link ctx is
+the removed hostapd_data. nl80211_remove_link() cleared the link's
+address and valid_links bit but left link->ctx and bss->scan_link, so
+the following NL80211_CMD_NEW_SCAN_RESULTS was delivered by
+send_scan_event() to the freed hostapd_data
+(hostapd_wpa_event() -> switch_link_scan() reading hapd->conf->mld_ap,
+drv_callbacks.c:1834). Same scan_timeout hazard as upstream describes.]
+Signed-off-by: Petr Štetiar <petr.stetiar@prplfoundation.org>
+---
+ src/drivers/driver_nl80211.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+--- a/src/drivers/driver_nl80211.c
++++ b/src/drivers/driver_nl80211.c
+@@ -9648,9 +9648,14 @@
+
+ 	os_memcpy(link_addr, link->addr, ETH_ALEN);
+ 	/* First remove the link locally */
+-	bss->valid_links &= ~BIT(link_id);
+ 	os_memset(link->addr, 0, ETH_ALEN);
+
++	eloop_cancel_timeout(wpa_driver_nl80211_scan_timeout, drv, bss->ctx);
++	bss->valid_links &= ~BIT(link_id);
++
++	if (bss->scan_link == link)
++		bss->scan_link = NULL;
++
+ 	/* Choose new deflink if we are removing that link */
+ 	if (bss->flink == link) {
+ 		for_each_link_default(bss->valid_links, i, 0) {
+--
+2.51.0
