@@ -1,0 +1,50 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Petr=20=C5=A0tetiar?= <petr.stetiar@prplfoundation.org>
+Date: Fri, 25 Sep 2026 19:46:18 +0200
+Subject: [PATCH] AP: Clear inherited driver context before adding a BSS
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+setup_interface() preloads secondary BSSes with the primary BSS's
+drv_priv and drv_owner_iface. If hostapd_if_add() fails before writing
+its output pointer, the secondary BSS retains that borrowed context.
+
+An observed failure during interface reuse reports:
+
+  Could not set interface wlan0.2 flags (UP): No error information
+  Failed to add BSS
+
+For an MLD secondary BSS, the unwind can then remove the primary's
+link through the inherited context and clear the primary's drv_priv.
+Driver cleanup skips the primary, leaving nl80211 event callbacks
+pointing at its freed hostapd_data.
+
+Clear the secondary's inherited pointers immediately before if_add.
+The primary remains the separate driver argument, and successful
+creation supplies the secondary context and restores its owner. Keep
+the existing-MLD borrowing branch ahead of this reset so that it still
+reaches setup_mld with its borrowed context. Do not clear the output
+after failure: the driver may already have published a new context.
+
+Signed-off-by: Petr Štetiar <petr.stetiar@prplfoundation.org>
+---
+ src/ap/hostapd.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/src/ap/hostapd.c b/src/ap/hostapd.c
+index 0ee85bc91d82..d4e66426e2f5 100644
+--- a/src/ap/hostapd.c
++++ b/src/ap/hostapd.c
+@@ -1524,6 +1524,9 @@ static int hostapd_setup_bss(struct hostapd_data *hapd, int first,
+ 		}
+ #endif /* CONFIG_IEEE80211BE */
+ 
++		/* if_add must supply this BSS's own driver context. */
++		hapd->drv_priv = NULL;
++		hapd->drv_owner_iface = NULL;
+ 		hapd->interface_added = 1;
+ 		if (hostapd_if_add(hapd->iface->bss[0], WPA_IF_AP_BSS,
+ 				   conf->iface, addr, hapd,
+-- 
+2.51.0
