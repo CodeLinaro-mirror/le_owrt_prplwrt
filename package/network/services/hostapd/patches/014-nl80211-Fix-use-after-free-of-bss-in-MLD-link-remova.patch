@@ -1,0 +1,37 @@
+From f0392e4bfea8cc64f3c09b865ca5ccadb50d56e3 Mon Sep 17 00:00:00 2001
+From: Benjamin Berg <benjamin.berg@intel.com>
+Date: Tue, 18 Mar 2025 11:19:55 +0100
+Subject: [PATCH] nl80211: Fix use after free of bss in MLD link removal
+
+This was reported by ASAN, the bss variable was just freed a bit
+earlier.
+
+Fixes: c6ff28cb63a5 ("AP MLD: Handle garbage pointer after MLD interface is deleted")
+Signed-off-by: Benjamin Berg <benjamin.berg@intel.com>
+(cherry picked from commit 3cb8d3013e24dec4128f640e2046d2514e43d612)
+---
+ src/drivers/driver_nl80211.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/src/drivers/driver_nl80211.c b/src/drivers/driver_nl80211.c
+index f69b5b8dc0ea..0cdb64aea04a 100644
+--- a/src/drivers/driver_nl80211.c
++++ b/src/drivers/driver_nl80211.c
+@@ -10903,6 +10903,8 @@ static int driver_nl80211_link_remove(void *priv, enum wpa_driver_if_type type,
+ 		drv->ctx = bss->ctx;
+ 
+ 	if (!bss->valid_links) {
++		void *ctx = bss->ctx;
++
+ 		wpa_printf(MSG_DEBUG,
+ 			   "nl80211: No more links remaining, so remove interface");
+ 		ret = wpa_driver_nl80211_if_remove(bss, type, ifname);
+@@ -10910,7 +10912,7 @@ static int driver_nl80211_link_remove(void *priv, enum wpa_driver_if_type type,
+ 			return ret;
+ 
+ 		/* Notify that the MLD interface is removed */
+-		wpa_supplicant_event(bss->ctx, EVENT_MLD_INTERFACE_FREED, NULL);
++		wpa_supplicant_event(ctx, EVENT_MLD_INTERFACE_FREED, NULL);
+ 	}
+ 
+ 	return 0;

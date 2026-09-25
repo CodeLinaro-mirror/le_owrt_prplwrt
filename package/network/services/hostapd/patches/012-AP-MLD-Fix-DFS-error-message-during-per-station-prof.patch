@@ -1,0 +1,35 @@
+From 9ca4682882ecadc3e5c2f9dbe6e8825ad705b313 Mon Sep 17 00:00:00 2001
+From: Aaradhana Sahu <quic_aarasahu@quicinc.com>
+Date: Fri, 21 Mar 2025 10:12:13 +0530
+Subject: [PATCH] AP MLD: Fix DFS error message during per station profile
+ generation
+
+When two or more radios are configured in automatic channel selection (ACS)
+mode, one radio completes ACS and starts generating per-station profiles
+for all links during the beacon frame set. However, the other radio is
+still in ACS mode, resulting in the following error messages in the
+hostapd log:
+
+Failed to check if DFS is required; ret=-1
+
+To address this, generate per-station profiles for the links that have
+already completed ACS.
+
+Signed-off-by: Aaradhana Sahu <quic_aarasahu@quicinc.com>
+---
+ src/ap/beacon.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/ap/beacon.c b/src/ap/beacon.c
+index a7d7ecd20686..13a482d60120 100644
+--- a/src/ap/beacon.c
++++ b/src/ap/beacon.c
+@@ -3110,7 +3110,7 @@ static void hostapd_gen_per_sta_profiles(struct hostapd_data *hapd)
+ 	struct hostapd_data *link_bss;
+ 	u8 link_id, *sta_profile;
+ 
+-	if (!hapd->conf->mld_ap)
++	if (!hapd->conf->mld_ap || !hapd->started)
+ 		return;
+ 
+ 	wpa_printf(MSG_DEBUG, "MLD: Generating per STA profiles for MLD %s",

@@ -1,0 +1,40 @@
+From 88142b806fbbac1bfa56996c47f232c6af2ca76b Mon Sep 17 00:00:00 2001
+From: Dhanavandhana Kannan <dhanavandhana.kannan@oss.qualcomm.com>
+Date: Tue, 26 Aug 2025 12:40:14 +0300
+Subject: [PATCH] nl80211: Fix crash by setting the drv->ctx properly
+
+Backport only the driver_nl80211_link_remove() drv->ctx hunk of
+ca266cc24d87. The active_links/nl80211_update_active_links() bitmap
+mechanism this fix otherwise depends on (introduced upstream by
+2fe31050c248, "nl80211: Use active_links to notify start/stop state
+of links") is not present in this tree's 5ace39b0a4cd base, so the
+nl80211_update_active_links() hunks are dropped; our
+nl80211_remove_link() already updates bss->flink via valid_links.
+
+(cherry picked from commit ca266cc24d8705eb1a2a0857ad326e48b1408b20)
+---
+ src/drivers/driver_nl80211.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
+
+diff --git a/src/drivers/driver_nl80211.c b/src/drivers/driver_nl80211.c
+index 0cdb64aea04a..1ab82b9ace40 100644
+--- a/src/drivers/driver_nl80211.c
++++ b/src/drivers/driver_nl80211.c
+@@ -10897,10 +10897,14 @@ static int driver_nl80211_link_remove(void *priv, enum wpa_driver_if_type type,
+ 
+ 	nl80211_remove_link(bss, link_id);
+ 
+-	bss->ctx = bss->flink->ctx;
+-
+-	if (drv->first_bss == bss && bss->valid_links)
++	if (drv->ctx == bss->ctx) {
++		eloop_cancel_timeout(wpa_driver_nl80211_send_rfkill,
++				     drv, drv->ctx);
++		bss->ctx = bss->flink->ctx;
+ 		drv->ctx = bss->ctx;
++	} else {
++		bss->ctx = bss->flink->ctx;
++	}
+ 
+ 	if (!bss->valid_links) {
+ 		void *ctx = bss->ctx;
