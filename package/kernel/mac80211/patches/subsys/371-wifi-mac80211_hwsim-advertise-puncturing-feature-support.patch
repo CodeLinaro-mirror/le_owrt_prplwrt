@@ -1,0 +1,49 @@
+From a3b16dfe79eecafea0e058b038bb506ed9bd2c89 Mon Sep 17 00:00:00 2001
+From: Aditya Kumar Singh <aditya.kumar.singh@oss.qualcomm.com>
+Date: Fri, 17 Oct 2025 09:32:41 +0530
+Subject: [PATCH] wifi: mac80211_hwsim: advertise puncturing feature support
+
+If userspace provides a puncturing bitmap via the NL80211_ATTR_PUNCT_BITMAP
+attribute, the kernel with mac80211_hwsim driver currently rejects the
+command with the error: "driver doesn't support puncturing", because the
+driver does not advertise support for this feature.
+
+At present, the following hwsim test cases utilize puncturing, but the
+bitmap is not sent to the kernel. Instead, the puncturing information is
+conveyed only through the beacon data:
+ * eht_5ghz_80mhz_puncturing_override_1
+ * eht_5ghz_80mhz_puncturing_override_2
+ * eht_5ghz_80mhz_puncturing_override_3
+
+A future change in hostapd will begin configuring the puncturing bitmap
+explicitly, which will cause these test cases to fail unless the driver
+advertises support.
+
+To address this, update mac80211_hwsim driver to advertise puncturing
+feature support.
+
+Signed-off-by: Aditya Kumar Singh <aditya.kumar.singh@oss.qualcomm.com>
+Link: https://patch.msgid.link/20251017-hwsim_set_punct_feature_bit-v1-1-3be1bb3450c0@oss.qualcomm.com
+Signed-off-by: Johannes Berg <johannes.berg@intel.com>
+[backport to backports-6.12.96, upstream in wireless-next-2025-10-30;
+context only: 6.12 still uses hrtimer_init() for the beacon timer.
+Needed so that hostapd's punctured START_AP and CHAN_SWITCH requests
+are accepted on the hwsim QEMU testbed (Freedom 106-pwhm-get-eht-caps
+and the static puncturing tests).]
+Signed-off-by: Petr Štetiar <petr.stetiar@prplfoundation.org>
+---
+ drivers/net/wireless/virtual/mac80211_hwsim.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/net/wireless/virtual/mac80211_hwsim.c b/drivers/net/wireless/virtual/mac80211_hwsim.c
+index 9f856042a67a..cd84dfd5b47e 100644
+--- a/drivers/net/wireless/virtual/mac80211_hwsim.c
++++ b/drivers/net/wireless/virtual/mac80211_hwsim.c
+@@ -5793,6 +5793,7 @@ static int mac80211_hwsim_new_radio(struct genl_info *info,
+ 		ieee80211_hw_set(hw, NO_AUTO_VIF);
+ 
+ 	wiphy_ext_feature_set(hw->wiphy, NL80211_EXT_FEATURE_CQM_RSSI_LIST);
++	wiphy_ext_feature_set(hw->wiphy, NL80211_EXT_FEATURE_PUNCT);
+ 
+ 	for (i = 0; i < ARRAY_SIZE(data->link_data); i++) {
+ 		hrtimer_init(&data->link_data[i].beacon_timer, CLOCK_MONOTONIC,
