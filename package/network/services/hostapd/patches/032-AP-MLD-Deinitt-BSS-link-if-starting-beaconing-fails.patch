@@ -1,0 +1,47 @@
+From c6a6a33799c441cc0de68b8fc327d4dde64581f4 Mon Sep 17 00:00:00 2001
+From: Ramasamy Kaliappan <ramasamy.kaliappan@oss.qualcomm.com>
+Date: Fri, 27 Jun 2025 18:54:08 +0530
+Subject: [PATCH] AP MLD: Deinitt BSS link if starting beaconing fails
+
+In the current implementation, when hostapd_start_beacon() fails during
+AP MLD setup, it flushes old station entries, deauthentcates all
+stations, and frees hapd data. However, it does not unlink the
+associated BSS from the AP MLD structure.
+
+While performing wifi stability testing during interface down/up, this
+retains a stale reference to the freed BSS. Subsequent attempts to
+access MLD links post-failure lead to a segmentation fault due to this
+use-after-free condition.
+
+Fix this by unlinking the BSS from the AP MLD on failure paths to
+prevent potential use-after-free scenarios.
+
+Signed-off-by: Ramasamy Kaliappan <ramasamy.kaliappan@oss.qualcomm.com>
+Signed-off-by: Petr Štetiar <petr.stetiar@prplfoundation.org>
+(cherry picked from commit c6a6a33799c441cc0de68b8fc327d4dde64581f4)
+---
+ src/ap/hostapd.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/src/ap/hostapd.c b/src/ap/hostapd.c
+index 5b72a8f34684..94ff2aae9b8f 100644
+--- a/src/ap/hostapd.c
++++ b/src/ap/hostapd.c
+@@ -2718,6 +2718,7 @@
+ 			for (;;) {
+ 				hapd = iface->bss[j];
+ 				hostapd_bss_deinit_no_free(hapd);
++				hostapd_bss_link_deinit(hapd);
+ 				hostapd_free_hapd_data(hapd);
+ 				if (j == 0)
+ 					break;
+@@ -2736,6 +2737,7 @@
+ 				for (;;) {
+ 					hapd = iface->bss[j];
+ 					hostapd_bss_deinit_no_free(hapd);
++					hostapd_bss_link_deinit(hapd);
+ 					hostapd_free_hapd_data(hapd);
+ 					if (j == 0)
+ 						break;
+-- 
+2.51.0
