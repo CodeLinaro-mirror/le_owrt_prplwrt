@@ -1,0 +1,37 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Petr=20=C5=A0tetiar?= <petr.stetiar@prplfoundation.org>
+Date: Fri, 25 Sep 2026 12:57:28 -0000
+Subject: [PATCH] AP: reject vendor commands without a driver context
+
+Removing an owner interface can disable a first-BSS borrower while
+retaining its control socket. Its drv_priv is then NULL, but the VENDOR
+command still reaches the nl80211 callback, which dereferences that
+private context. An explicit DISABLE exposes the same path.
+
+Reject vendor commands in hostapd_drv_vendor_cmd() when drv_priv is
+NULL, so VENDOR returns failure on the disabled BSS. Keep live-driver
+dispatch and its return value unchanged. This guards the shared wrapper
+used by this command; other disabled-BSS command paths need a separate
+audit.
+
+Signed-off-by: Petr Štetiar <petr.stetiar@prplfoundation.org>
+---
+ src/ap/ap_drv_ops.h | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/src/ap/ap_drv_ops.h b/src/ap/ap_drv_ops.h
+index 34f7fb77ce53..b7715930fef7 100644
+--- a/src/ap/ap_drv_ops.h
++++ b/src/ap/ap_drv_ops.h
+@@ -390,7 +390,8 @@ static inline int hostapd_drv_vendor_cmd(struct hostapd_data *hapd,
+ 					 enum nested_attr nested_attr_flag,
+ 					 struct wpabuf *buf)
+ {
+-	if (hapd->driver == NULL || hapd->driver->vendor_cmd == NULL)
++	if (hapd->driver == NULL || hapd->drv_priv == NULL ||
++	    hapd->driver->vendor_cmd == NULL)
+ 		return -1;
+ 	return hapd->driver->vendor_cmd(hapd->drv_priv, vendor_id, subcmd, data,
+ 					data_len, nested_attr_flag, buf);
+-- 
+2.51.0
