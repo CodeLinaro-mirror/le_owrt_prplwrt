@@ -1,0 +1,71 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Petr=20=C5=A0tetiar?= <petr.stetiar@prplfoundation.org>
+Date: Fri, 25 Sep 2026 20:11:04 +0200
+Subject: [PATCH] nl80211: roll back a BSS when AP setup fails
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+wpa_driver_nl80211_if_add() links a new AP BSS into the driver's BSS
+list and publishes its context before nl80211_setup_ap(). If management
+subscription or monitor setup fails, it returns without releasing that
+BSS. The caller clears interface_added, and an MLD context has no valid
+links yet, so neither interface nor link cleanup releases it.
+
+The leaked BSS keeps the driver shared and can become its first BSS when
+the primary is removed. Its callback context then points at the failed
+hostapd_data after the ADD error unwind frees it.
+
+Unlink this secondary BSS on AP setup failure, release its callback
+handles, undo bridge changes, and delete the netdev only if this call
+created it. Clear the published output after freeing the BSS. A reused
+netdev may be held by another live BSS, causing REGISTER_FRAME to fail
+with -EALREADY. Keep that netdev up and preserve its ifindex routing;
+this BSS has not reached add_ifidx() and has no links to remove.
+
+The primary BSS and successful setup path remain intact. This does not
+change the handling of failures before publication or later link-add
+failures.
+
+Fixes: 3dd1d8906df9 ("nl80211: Subscribe management frames for WPA_IF_AP_BSS types")
+Signed-off-by: Petr Štetiar <petr.stetiar@prplfoundation.org>
+---
+ src/drivers/driver_nl80211.c | 22 +++++++++++++++++++++-
+ 1 file changed, 21 insertions(+), 1 deletions(-)
+
+diff --git a/src/drivers/driver_nl80211.c b/src/drivers/driver_nl80211.c
+index 612e8aaf243b..7e965c878c17 100644
+--- a/src/drivers/driver_nl80211.c
++++ b/src/drivers/driver_nl80211.c
+@@ -9045,8 +9045,28 @@ static int wpa_driver_nl80211_if_add(void *priv, enum wpa_driver_if_type type,
+ 		nl80211_init_bss(new_bss);
+ 
+ 		/* Subscribe management frames for this WPA_IF_AP_BSS */
+-		if (nl80211_setup_ap(new_bss))
++		if (nl80211_setup_ap(new_bss)) {
++			/* No link or ifidx was added. A reused netdev may still
++			 * belong to another live BSS; leave it up and registered. */
++			drv->first_bss->next = new_bss->next;
++			nl80211_destroy_bss(new_bss);
++			if (new_bss->added_if_into_bridge &&
++			    linux_br_del_if(drv->global->ioctl_sock,
++					    new_bss->brname, ifname) < 0)
++				wpa_printf(MSG_INFO, "nl80211: Failed to remove interface %s from bridge %s: %s",
++					   ifname, new_bss->brname, strerror(errno));
++			if (new_bss->added_bridge &&
++			    linux_br_del(drv->global->ioctl_sock,
++					 new_bss->brname) < 0)
++				wpa_printf(MSG_INFO, "nl80211: Failed to remove bridge %s: %s",
++					   new_bss->brname, strerror(errno));
++			if (added)
++				nl80211_remove_iface(drv, ifidx);
++			os_free(new_bss);
++			if (drv_priv)
++				*drv_priv = NULL;
+ 			return -1;
++		}
+ 	}
+ 
+ 	if (drv->global)
+-- 
+2.51.0
