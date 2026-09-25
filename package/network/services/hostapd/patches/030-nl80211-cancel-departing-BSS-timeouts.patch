@@ -1,0 +1,39 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Petr=20=C5=A0tetiar?= <petr.stetiar@prplfoundation.org>
+Date: Fri, 25 Sep 2026 12:57:28 -0000
+Subject: [PATCH] nl80211: cancel departing BSS timeouts
+
+Removing an AP BSS can free its callback context or replace the driver's
+first BSS while scan and rfkill timeouts still refer to the old context.
+Those callbacks must not run after the BSS has been torn down.
+
+Cancel the departing BSS scan timeout in wpa_driver_nl80211_if_remove().
+Also cancel the driver-context rfkill timeout when drv->ctx belongs to
+that BSS, before first-BSS reassignment or BSS destruction. Leave a
+surviving BSS's rfkill timeout alone when its context differs.
+
+This carries the independent timeout cleanup from the alternative 027
+without changing 027's borrower-removal or driver-lifetime policy.
+
+Signed-off-by: Petr Štetiar <petr.stetiar@prplfoundation.org>
+---
+ src/drivers/driver_nl80211.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/src/drivers/driver_nl80211.c b/src/drivers/driver_nl80211.c
+index a1bd55de1ea4..612e8aaf243b 100644
+--- a/src/drivers/driver_nl80211.c
++++ b/src/drivers/driver_nl80211.c
+@@ -9105,6 +9105,10 @@ static int wpa_driver_nl80211_if_remove(struct i802_bss *bss,
+ 	}
+ 
+ 	bss->in_deinit = 1;
++	eloop_cancel_timeout(wpa_driver_nl80211_scan_timeout, drv, bss->ctx);
++	if (drv->ctx == bss->ctx)
++		eloop_cancel_timeout(wpa_driver_nl80211_send_rfkill, drv, drv->ctx);
++
+ 	if (bss != drv->first_bss) {
+ 		struct i802_bss *tbss;
+ 
+-- 
+2.51.0
