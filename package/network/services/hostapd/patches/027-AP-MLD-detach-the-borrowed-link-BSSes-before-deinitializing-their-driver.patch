@@ -1,0 +1,454 @@
+From 10d69c6141824cfaf2e21f37edb421941bf1105d Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Petr=20=C5=A0tetiar?= <petr.stetiar@prplfoundation.org>
+Date: Fri, 25 Sep 2026 16:30:00 +0200
+Subject: [PATCH] AP MLD: remove the borrowed link BSSes before deinitializing
+ their driver
+
+A non-first link BSS of an AP MLD has no driver context of its own.
+hostapd_setup_bss() (src/ap/hostapd.c:1542-1546) and
+hostapd_driver_init() (hostapd/main.c:175-180) copy hapd->drv_priv and
+hapd->interface_added from the first BSS of the MLD
+(hostapd_mld_get_first_bss()) and only add their own link to that
+context. The context itself, an nl80211 i802_bss, was created by the
+first BSS through hostapd_if_add() on the driver (struct
+wpa_driver_nl80211_data) of the first BSS's interface. In the pWHM
+configuration on prplOS every radio interface's bss[0] is a plain
+non-MLD VAP (wlanN.1) and the AP MLD links are secondary BSSes, so the
+MLD's first BSS and its partner links on the other radios all share an
+i802_bss that hangs off one radio's driver.
+
+When that radio's interface is removed, hostapd_interface_deinit()
+takes the MLD BSS down and removes only its own link from the shared
+i802_bss; the partner link keeps the context alive
+(driver_nl80211_link_remove(), src/drivers/driver_nl80211.c:10965).
+hostapd_cleanup_driver() (:3560) then decides what to do with the
+driver by looking at bss[0] alone: a non-MLD bss[0] means
+driver->hapd_deinit() unconditionally, and is_drv_shared() is never
+consulted. wpa_driver_nl80211_deinit() (:3153) frees drv->rtnl_sk,
+drv->first_bss and drv, and leaks every other i802_bss on the chain
+with bss->drv pointing at freed memory. Nothing tells the partner BSSes
+on the other interfaces: EVENT_MLD_INTERFACE_FREED is only sent when
+the last link of a context is removed, so their hapd->drv_priv keeps
+pointing at the leaked i802_bss and, through it, at the freed driver.
+
+The next teardown of a partner then runs the whole nl80211 link
+removal on that freed driver: send_and_recv_cmd() through drv->global,
+rtnl_neigh_delete_fdb_entry() on the freed drv->rtnl_sk,
+drv->ctx = bss->ctx written into the freed driver, and
+wpa_driver_nl80211_if_remove() walking the freed first_bss chain.
+
+Observed on prplOS with mac80211_hwsim (U40): pWHM's
+SetRadioPowerDown() plus Radio.Enable=1 leaves netdevs wlan1.2 and
+wlan1.3 in place (021), radio 1 re-adopts them ("Failed to create
+interface wlan1.3: -23", continue using the existing netdev) and comes
+up before radio 0, so the GUEST and backhaul MLDs' first BSSes live in
+interface wlan1 and radio 0's links borrow their contexts. The
+"disable all VAPs" step then sends REMOVE wlan1.1 followed one second
+later by REMOVE wlan0.1:
+
+  hostapd: Remove interface 'wlan1.1'
+  hostapd: nl80211: deinit ifname=wlan1.1 disabled_11b_rates=0
+  hostapd: Remove interface 'wlan0.1'
+  hostapd: wlan1.3: AP-DISABLED
+  hostapd: wlan1.3: CTRL-EVENT-TERMINATING
+  kernel: hostapd[16247]: segfault at 8 ip ... in hostapd[...+0x4fa92]
+
+A core of the reproduced crash (run-39b, pid 16026) has the backtrace
+
+  error_handler+0x23 (arg == NULL)
+  nl_wait_for_ack+71
+  rtnl_neigh_delete_fdb_entry
+  nl80211_remove_link
+  driver_nl80211_link_remove
+  hostapd_free_hapd_data
+  hostapd_interface_deinit_free
+  hostapd_remove_hapd_iface
+  hostapd_global_ctrl_iface_receive
+  eloop_run / main
+
+i.e. the radio 0 partner of wlan1.3 removing its link through the
+freed driver, with nl_wait_for_ack() running on the freed drv->rtnl_sk
+and dispatching to a stale struct nl_cb (the heap still holds a freed
+nl_cb with cb_err == error_handler). The instruction that faulted is
+the libnl callback reading its NULL private argument; the exact write
+that zeroed it was not identified, but every frame below it operates
+on the freed driver.
+
+Fix it in two steps:
+
+1. Before an interface deinitializes its driver, remove the BSSes of
+   the other interfaces that run on that driver.
+   hostapd_remove_drv_borrowers() runs from
+   hostapd_interface_deinit_free() and hostapd_disable_iface() ahead
+   of the per-BSS teardown, and only for an interface whose bss[0] is
+   not an AP MLD link, i.e. the case in which the driver is this
+   interface's own and is freed with it.
+
+   The borrowers are found through a new hapd->drv_owner_iface, the
+   interface whose hostapd_driver_init() created the driver behind
+   hapd->drv_priv. It is set at every hostapd site that assigns
+   drv_priv (to the interface itself after hapd_init(), copied from the
+   MLD's first BSS where a context is borrowed, copied from bss[0]
+   where a secondary BSS is created through hostapd_if_add() on
+   bss[0]'s driver or is pre-assigned bss[0]'s context), cleared at
+   every site that drops drv_priv, and cleared in the BSSes of other
+   interfaces when the interface is freed. The interface is a stable
+   identity for the driver: it survives the removal of the MLD's first
+   BSS and the replacement of the driver's first i802_bss, which the
+   context pointer itself does not. It is NULL for a driver hostapd
+   does not own (wpa_supplicant AP/mesh mode, the ucode pre-assignment
+   in src/ap/ucode.c) and is compared, never dereferenced.
+
+   A matching secondary BSS is removed with hostapd_remove_bss(), the
+   same path as a global REMOVE of that BSS: its link is removed from
+   the kernel and from the MLD while the driver is alive, AP-DISABLED
+   and CTRL-EVENT-TERMINATING are reported, its control interface is
+   closed, and its hostapd_data and configuration are freed. Keeping
+   the BSS alive without a driver was considered and rejected: its
+   control socket would stay reachable and several hostapd_drv_*()
+   wrappers pass a NULL drv_priv straight into the driver. A bss[0]
+   that runs on the departing driver takes its interface down with
+   hostapd_disable_iface() instead, which ENABLE reverses. Once the
+   partners are gone, the MLD's first BSS removes the last link of the
+   context, the driver frees the i802_bss, and hapd_deinit() runs on a
+   driver nobody else uses.
+
+   The walk over interfaces->iface[] skips NULL slots: the shutdown
+   loop in main() and hostapd_refresh_all_iface_beacons(), which the
+   nested hostapd_disable_iface() reaches, both see slots that were
+   already freed and set to NULL without count being decremented, so
+   the latter gets the same guard.
+
+2. Backport d0213ad1e443 ("AP MLD: Fix hostapd crash during interface
+   deinit with non-ML BSS", Aditya Kumar Singh, 2025-03-05) into
+   hostapd_cleanup_driver(): consult is_drv_shared() first, whether or
+   not bss[0] is an AP MLD link, and only deinitialize an unshared
+   driver. A shared driver behind a non-MLD bss[0] releases that BSS's
+   context through hostapd_if_remove() instead, as upstream does. With
+   step 1 in place this branch is a safety net for a context that step
+   1 did not find. It is not a complete fallback: the driver it keeps
+   alive is never freed on this tree and, once the last borrower link
+   is removed, keeps a drv->ctx that points at a freed hostapd_data,
+   so it trades a certain use-after-free for a latent one.
+
+Behaviour change: partner links on other radios are removed, with
+their configuration, when the radio hosting their driver context is
+removed or disabled, instead of continuing on a driver that hostapd no
+longer tracks. pWHM stops and starts hostapd per radio with global
+REMOVE/ADD and re-adds every radio in its power-down and disable-all
+flows, so the partner configuration is supplied again; a partner radio
+that stays up needs a REMOVE/ADD of its interface to get the link back.
+
+Not covered: an interface whose bss[0] is itself an AP MLD link keeps
+upstream's semantics (the driver stays alive for the partners and is
+leaked when the last partner link goes).
+
+Signed-off-by: Petr Štetiar <petr.stetiar@prplfoundation.org>
+---
+ hostapd/main.c   |   3 +
+ src/ap/hostapd.c | 140 ++++++++++++++++++++++++++++++++++++++++++++++++-------
+ src/ap/hostapd.h |   5 +
+ 3 files changed, 132 insertions(+), 16 deletions(-)
+
+diff --git a/hostapd/main.c b/hostapd/main.c
+--- a/hostapd/main.c
++++ b/hostapd/main.c
+@@ -176,6 +176,7 @@
+ 
+ 	if (h_hapd) {
+ 		hapd->drv_priv = h_hapd->drv_priv;
++		hapd->drv_owner_iface = h_hapd->drv_owner_iface;
+ 		hapd->interface_added = h_hapd->interface_added;
+ 
+ 		/*
+@@ -264,6 +265,7 @@
+ 		hapd->driver = NULL;
+ 		return -1;
+ 	}
++	hapd->drv_owner_iface = iface;
+ 
+ #ifdef CONFIG_IEEE80211BE
+ 	/*
+@@ -348,6 +350,7 @@
+ 			 * context that this link never got registered with. */
+ 			if (h_hapd) {
+ 				hapd->drv_priv = NULL;
++				hapd->drv_owner_iface = NULL;
+ 				hapd->interface_added = 0;
+ 			}
+ 			return -1;
+diff --git a/src/ap/hostapd.c b/src/ap/hostapd.c
+--- a/src/ap/hostapd.c
++++ b/src/ap/hostapd.c
+@@ -67,6 +67,7 @@
+ static int setup_interface2(struct hostapd_iface *iface);
+ static void channel_list_update_timeout(void *eloop_ctx, void *timeout_ctx);
+ static void hostapd_cleanup_unused_mlds(struct hapd_interfaces *interfaces);
++static int hostapd_remove_bss(struct hostapd_iface *iface, unsigned int idx);
+ static void hostapd_interface_setup_failure_handler(void *eloop_ctx,
+ 						    void *timeout_ctx);
+ #ifdef CONFIG_IEEE80211AX
+@@ -579,6 +580,7 @@
+ 			 * and hapd->drv_priv is not valid anymore.
+ 			 */
+ 			hapd->drv_priv = NULL;
++			hapd->drv_owner_iface = NULL;
+ 		}
+ 	}
+ 
+@@ -1511,6 +1513,7 @@
+ 			h_hapd = hostapd_mld_get_first_bss(hapd);
+ 			if (h_hapd) {
+ 				hapd->drv_priv = h_hapd->drv_priv;
++				hapd->drv_owner_iface = h_hapd->drv_owner_iface;
+ 				hapd->interface_added = h_hapd->interface_added;
+ 				drv_priv_borrowed = true;
+ 				wpa_printf(MSG_DEBUG,
+@@ -1532,6 +1535,7 @@
+ 			hapd->interface_added = 0;
+ 			return -1;
+ 		}
++		hapd->drv_owner_iface = hapd->iface->bss[0]->drv_owner_iface;
+ 
+ 		if (!addr)
+ 			os_memcpy(hapd->own_addr, if_addr, ETH_ALEN);
+@@ -1572,6 +1576,7 @@
+ 			 * invalidate links that made it onto mld->links. */
+ 			if (drv_priv_borrowed) {
+ 				hapd->drv_priv = NULL;
++				hapd->drv_owner_iface = NULL;
+ 				hapd->interface_added = 0;
+ 			}
+ 			return -1;
+@@ -2148,6 +2153,7 @@
+ 	for (i = 1; i < iface->num_bss; i++) {
+ 		iface->bss[i]->driver = hapd->driver;
+ 		iface->bss[i]->drv_priv = hapd->drv_priv;
++		iface->bss[i]->drv_owner_iface = hapd->drv_owner_iface;
+ 	}
+ 
+ 	if (hostapd_validate_bssid_configuration(iface))
+@@ -3114,6 +3120,24 @@
+ {
+ 	size_t j;
+ 	wpa_printf(MSG_DEBUG, "%s(%p)", __func__, iface);
++#ifdef CONFIG_IEEE80211BE
++	/* A BSS elsewhere that still names this interface as the owner of its
++	 * driver runs on a driver that was left alive by
++	 * hostapd_cleanup_driver(); nobody owns that driver any more. */
++	if (iface->interfaces) {
++		size_t i;
++
++		for (i = 0; i < iface->interfaces->count; i++) {
++			struct hostapd_iface *other = iface->interfaces->iface[i];
++
++			for (j = 0; other && other != iface && j < other->num_bss;
++			     j++) {
++				if (other->bss[j]->drv_owner_iface == iface)
++					other->bss[j]->drv_owner_iface = NULL;
++			}
++		}
++	}
++#endif /* CONFIG_IEEE80211BE */
+ 	for (j = 0; j < iface->num_bss; j++) {
+ 		if (!iface->bss)
+ 			break;
+@@ -3517,6 +3541,73 @@
+ }
+ 
+ 
++/**
++ * hostapd_remove_drv_borrowers - Remove the BSSes of other interfaces that
++ * run on this interface's driver
++ * @iface: Interface whose driver is about to be deinitialized
++ *
++ * A non-first link BSS of an AP MLD has no driver context of its own:
++ * hostapd_setup_bss() and hostapd_driver_init() copy drv_priv from the first
++ * BSS of the MLD, which created it on the driver of its own interface. When
++ * that interface's first BSS is not an AP MLD link, hostapd_cleanup_driver()
++ * deinitializes the whole driver and every such context goes away with it,
++ * but the BSSes of the other interfaces that share the context are not told
++ * about it and would keep using a freed pointer.
++ *
++ * Remove those BSSes first, while the driver is still alive, the same way a
++ * REMOVE of that BSS would: their link is removed from the kernel and from
++ * the MLD and their control interface is closed. A first BSS that shares such
++ * a context takes its whole interface down (DISABLE) instead. The BSSes are
++ * identified by drv_owner_iface, which does not depend on the first BSS of
++ * the MLD or the first BSS of the driver still being present.
++ */
++static void hostapd_remove_drv_borrowers(struct hostapd_iface *iface)
++{
++#ifdef CONFIG_IEEE80211BE
++	struct hapd_interfaces *interfaces = iface->interfaces;
++	size_t j, k;
++
++	if (!interfaces || !iface->num_bss || !iface->bss[0]->drv_priv ||
++	    iface->bss[0]->conf->mld_ap)
++		return;
++
++	for (j = 0; j < interfaces->count; j++) {
++		struct hostapd_iface *other = interfaces->iface[j];
++
++		/* Slots are set to NULL during process shutdown */
++		if (!other || other == iface || !other->num_bss)
++			continue;
++
++		if (other->bss[0]->drv_priv &&
++		    other->bss[0]->drv_owner_iface == iface) {
++			wpa_printf(MSG_INFO,
++				   "Disable interface %s: its first BSS uses the driver of %s that is being deinitialized",
++				   other->bss[0]->conf->iface,
++				   iface->bss[0]->conf->iface);
++			hostapd_disable_iface(other);
++			continue;
++		}
++
++		/* Walk backwards: hostapd_remove_bss() shifts the following
++		 * entries down. */
++		for (k = other->num_bss; k > 1; k--) {
++			struct hostapd_data *hapd = other->bss[k - 1];
++
++			if (!hapd->drv_priv || hapd->drv_owner_iface != iface)
++				continue;
++
++			wpa_printf(MSG_INFO,
++				   "Remove BSS %s (AP MLD link %d) of interface %s: it uses the driver of %s that is being deinitialized",
++				   hapd->conf->iface, hapd->mld_link_id,
++				   other->bss[0]->conf->iface,
++				   iface->bss[0]->conf->iface);
++			hostapd_remove_bss(other, k - 1);
++		}
++	}
++#endif /* CONFIG_IEEE80211BE */
++}
++
++
+ static void hostapd_cleanup_driver(const struct wpa_driver_ops *driver,
+ 				   void *drv_priv, struct hostapd_iface *iface)
+ {
+@@ -3524,22 +3615,29 @@
+ 		return;
+ 
+ #ifdef CONFIG_IEEE80211BE
+-	/* In case of non-ML operation, de-init. But if ML operation exist,
+-	 * even if that's the last BSS in the interface, the driver (drv) could
+-	 * be in use for a different AP MLD. Hence, need to check if drv is
+-	 * still being used by some other BSS before de-initiallizing. */
+-	if (!iface->bss[0]->conf->mld_ap) {
+-		driver->hapd_deinit(drv_priv);
+-	} else if (hostapd_mld_is_first_bss(iface->bss[0]) &&
+-		   driver->is_drv_shared &&
+-		   !driver->is_drv_shared(drv_priv,
+-					  iface->bss[0]->mld_link_id)) {
++	/* Even if that's the last BSS in the interface, the driver (drv) could
++	 * be in use for a different AP MLD, whether or not the first BSS of
++	 * this interface is an AP MLD link. Hence, need to check if drv is
++	 * still being used by some other BSS before de-initializing. */
++	if (!driver->is_drv_shared ||
++	    !driver->is_drv_shared(drv_priv, iface->bss[0]->mld_link_id)) {
+ 		driver->hapd_deinit(drv_priv);
+ 		hostapd_mld_interface_freed(iface->bss[0]);
+-	} else if (hostapd_if_link_remove(iface->bss[0],
+-					  WPA_IF_AP_BSS,
+-					  iface->bss[0]->conf->iface,
+-					  iface->bss[0]->mld_link_id)) {
++		iface->bss[0]->drv_priv = NULL;
++		iface->bss[0]->drv_owner_iface = NULL;
++		return;
++	}
++
++	if (iface->bss[0]->conf->mld_ap) {
++		if (hostapd_if_link_remove(iface->bss[0],
++					   WPA_IF_AP_BSS,
++					   iface->bss[0]->conf->iface,
++					   iface->bss[0]->mld_link_id))
++			wpa_printf(MSG_WARNING,
++				   "Failed to remove link BSS interface %s",
++				   iface->bss[0]->conf->iface);
++	} else if (hostapd_if_remove(iface->bss[0], WPA_IF_AP_BSS,
++				     iface->bss[0]->conf->iface)) {
+ 		wpa_printf(MSG_WARNING, "Failed to remove BSS interface %s",
+ 			   iface->bss[0]->conf->iface);
+ 	}
+@@ -3547,6 +3645,7 @@
+ 	driver->hapd_deinit(drv_priv);
+ #endif /* CONFIG_IEEE80211BE */
+ 	iface->bss[0]->drv_priv = NULL;
++	iface->bss[0]->drv_owner_iface = NULL;
+ }
+ 
+ 
+@@ -3558,6 +3657,7 @@
+ 	wpa_printf(MSG_DEBUG, "%s(%p)", __func__, iface);
+ 	if (iface == NULL)
+ 		return;
++	hostapd_remove_drv_borrowers(iface);
+ 	wpa_printf(MSG_DEBUG, "%s: num_bss=%u conf->num_bss=%u",
+ 		   __func__, (unsigned int) iface->num_bss,
+ 		   (unsigned int) iface->conf->num_bss);
+@@ -3589,6 +3689,7 @@
+ 				   hapd_iface->bss[j]->drv_priv);
+ 			if (hapd_iface->bss[j]->drv_priv == drv_priv) {
+ 				hapd_iface->bss[j]->drv_priv = NULL;
++				hapd_iface->bss[j]->drv_owner_iface = NULL;
+ 				hapd_iface->extended_capa = NULL;
+ 				hapd_iface->extended_capa_mask = NULL;
+ 				hapd_iface->extended_capa_len = 0;
+@@ -3606,7 +3707,8 @@
+ 		return;
+ 
+ 	for (j = 0; j < hapd_iface->interfaces->count; j++) {
+-		if (hapd_iface->interfaces->iface[j] == hapd_iface)
++		if (!hapd_iface->interfaces->iface[j] ||
++		    hapd_iface->interfaces->iface[j] == hapd_iface)
+ 			continue;
+ 
+ 		ieee802_11_update_beacons(hapd_iface->interfaces->iface[j]);
+@@ -3724,6 +3826,8 @@
+ 		hostapd_cleanup_cs_params(hapd_iface->bss[j]);
+ #endif /* NEED_AP_MLME */
+ 
++	hostapd_remove_drv_borrowers(hapd_iface);
++
+ 	/* same as hostapd_interface_deinit without deinitializing ctrl-iface */
+ 	for (j = 0; j < hapd_iface->num_bss; j++) {
+ 		struct hostapd_data *hapd = hapd_iface->bss[j];
+@@ -3919,6 +4023,8 @@
+ 			hapd = hapd_iface->bss[hapd_iface->num_bss - 1];
+ 			hapd->driver = hapd_iface->bss[0]->driver;
+ 			hapd->drv_priv = hapd_iface->bss[0]->drv_priv;
++			hapd->drv_owner_iface =
++				hapd_iface->bss[0]->drv_owner_iface;
+ 			os_memcpy(hapd->own_addr, hapd_iface->bss[0]->own_addr,
+ 				  ETH_ALEN);
+ 
+@@ -5109,8 +5215,10 @@
+ 	if (!hapd || !hapd->conf->mld_ap)
+ 		return;
+ 
+-	for_each_mld_link(link_bss, hapd)
++	for_each_mld_link(link_bss, hapd) {
+ 		link_bss->drv_priv = NULL;
++		link_bss->drv_owner_iface = NULL;
++	}
+ }
+ 
+ #endif /* CONFIG_IEEE80211BE */
+diff --git a/src/ap/hostapd.h b/src/ap/hostapd.h
+--- a/src/ap/hostapd.h
++++ b/src/ap/hostapd.h
+@@ -214,6 +214,11 @@
+ 
+ 	const struct wpa_driver_ops *driver;
+ 	void *drv_priv;
++	/* Interface whose driver_init() created the driver behind drv_priv
++	 * and whose driver cleanup frees it; NULL for a driver that hostapd
++	 * does not own (wpa_supplicant AP/mesh mode). Only meaningful while
++	 * drv_priv is set. */
++	struct hostapd_iface *drv_owner_iface;
+ 
+ 	void (*new_assoc_sta_cb)(struct hostapd_data *hapd,
+ 				 struct sta_info *sta, int reassoc);
+-- 
+2.51.0
