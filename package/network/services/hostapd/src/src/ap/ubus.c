@@ -1702,6 +1702,8 @@ void hostapd_ubus_free_bss(struct hostapd_data *hapd)
 	}
 
 	free(name);
+	obj->name = NULL;
+	obj->id = 0;
 }
 
 static void
