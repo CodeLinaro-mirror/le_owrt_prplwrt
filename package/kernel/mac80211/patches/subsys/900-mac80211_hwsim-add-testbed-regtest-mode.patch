@@ -1,0 +1,260 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Petr=20=C5=A0tetiar?= <petr.stetiar@prplfoundation.org>
+Date: Thu, 24 Sep 2026 10:00:00 +0200
+Subject: [PATCH] wifi: mac80211_hwsim: add self-managed testbed regtest mode
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+hwsim's existing custom-world regtest modes (regtest=5/6/10, the
+hwsim_world_regdom_custom_0{1..4} tables) apply their regdomain with
+REGULATORY_CUSTOM_REG + wiphy_apply_custom_regulatory(). That is not
+enough to keep a fixed regdomain on a hwsim radio: reg_get_regdomain()
+in net/wireless/reg.c only prefers a wiphy's own regd over the global
+one when the last regulatory request was not USER- or
+COUNTRY_IE-initiated, and ignore_reg_update() only skips CORE-initiated
+updates for REGULATORY_CUSTOM_REG wiphys. So a plain USER hint (e.g.
+hostapd or a management layer pushing "US" via
+NL80211_CMD_REQ_SET_REG) still makes the wiphy fall back to the global
+regdb. On an x86-64 QEMU testbed running Wi-Fi 7 tests with regtest=5
+and a USER hint of US, this silently re-applies the US regdb to every
+hwsim wiphy, which flags all 6 GHz channels NO_IR, and the 5 GHz rules
+in custom_03 are 40 MHz only, well short of what 802.11be (EHT) needs.
+
+Add HWSIM_REGTEST_TESTBED (regtest=11) as a new mode built for exactly
+this: an automated testbed that needs a regdomain immune to whatever
+hint an AP stack pushes at runtime, with 5 GHz channels up to 160 MHz
+and 6 GHz channels up to 320 MHz available for EHT link tests.
+
+The new hwsim_world_regdom_testbed regdomain (alpha2 "99") covers:
+ - 2.4 GHz, 2402-2482 MHz, 40 MHz max, same as the existing tables;
+ - 5 GHz, 5170-5925 MHz, 160 MHz max, no DFS, no NO_IR;
+ - 6 GHz, 5945-7125 MHz, 320 MHz max, no NO_IR (this part is
+   numerically identical to custom_03's 6 GHz rule, which was never
+   the problem - the problem was custom_03's wiphy still listening to
+   USER hints).
+hwsim has no real RF front end, so there is nothing to CAC/DFS for and
+nothing that needs NO_IR before it may transmit; each band is one wide
+rule at the target width rather than several DFS/non-DFS sub-band
+rules with NL80211_RRF_AUTO_BW (that flag lets cfg80211 derive a wider
+channel across adjacent narrower-declared rules, e.g. custom_04's
+UNII-1/2A/2C split - not needed here since nothing splits the band).
+The 5 GHz and 6 GHz rules deliberately touch at 5935 MHz rather than
+overlap, so hwsim's whole 5 GHz channel table up to 5925 MHz (chan
+185) stays covered.
+
+To make the mode immune to later hints, the radio is registered as
+REGULATORY_WIPHY_SELF_MANAGED instead of REGULATORY_CUSTOM_REG:
+ignore_reg_update() returns true unconditionally for a SELF_MANAGED
+wiphy, regardless of the hint's initiator. REGULATORY_WIPHY_SELF_MANAGED
+cannot be combined with REGULATORY_CUSTOM_REG (core.c, wiphy_register()
+WARN_ON()s and rejects that combination), so this mode skips
+wiphy_apply_custom_regulatory() entirely; the new
+hwsim_new_radio_params.selfmanaged_reg flag picks between the two at
+radio-creation time and leaves every existing regtest mode's
+CUSTOM_REG path untouched.
+
+For a SELF_MANAGED wiphy, the regdomain is installed after
+registration with regulatory_set_wiphy_regd_sync(), which per its own
+kerneldoc "requires the RTNL and the wiphy mutex to be held" and calls
+ASSERT_RTNL(). mac80211_hwsim_new_radio() does not hold either lock at
+that point: ieee80211_register_hw() just above it calls
+wiphy_register(), which itself does rtnl_lock()/rtnl_unlock() around
+its own body, and that could not succeed if the caller already held
+RTNL. So both locks are taken explicitly around the sync call,
+mirroring the same rtnl_lock()+wiphy_lock() pairing
+ath12k_regd_update() (drivers/net/wireless/ath/ath12k/reg.c) uses when
+it calls regulatory_set_wiphy_regd_sync() outside of an RTNL context.
+The sync variant is used instead of the async
+regulatory_set_wiphy_regd() so the regdomain and channel flags are
+final before mac80211_hwsim_new_radio() returns and before any
+netlink/hostapd/iw caller can observe the new radio - there is no
+"give the workqueue a chance to run" sleep to reason about, unlike the
+existing CUSTOM_REG path just above it.
+
+param->reg_alpha2 / regulatory_hint() is intentionally left unset for
+this mode: a SELF_MANAGED wiphy also ignores country IE and beacon
+hints (wiphy_regulatory_register() ORs in
+REGULATORY_DISABLE_BEACON_HINTS | REGULATORY_COUNTRY_IE_IGNORE for
+such wiphys), so a driver-hint alpha2 would be redundant with the
+regdomain already installed above.
+
+The hwsim_world_regdom_testbed table is intentionally not added to
+hwsim_world_regdom_custom[]: that array also backs
+HWSIM_ATTR_REG_CUSTOM_REG on the HWSIM_CMD_NEW_RADIO netlink command,
+which only ever applies a regdomain the CUSTOM_REG way. Reusing the
+same table there would make it just as overridable by a later USER
+hint as custom_03 already is, defeating the point.
+
+Compile-checked out-of-tree: this patch was applied on top of a
+backports-6.12.61 tree already built and linked against a prplOS
+x86_64 6.6.119 kernel configuration, and drivers/net/wireless/virtual/
+mac80211_hwsim.c was recompiled with the exact recorded cflags
+(-Werror, -std=gnu11, the kernel's regular defconfig) using
+x86_64-openwrt-linux-musl-gcc from that build's toolchain. It compiled
+without warnings or errors, and mac80211_hwsim.o's symbol table shows
+the new hwsim_world_regdom_testbed rodata plus undefined references to
+regulatory_set_wiphy_regd_sync()/rtnl_lock()/rtnl_unlock() as
+expected. It was not linked into a full backports-6.12.96 module or
+booted; see patches/README.md for DUT-side validation steps.
+
+Signed-off-by: Petr Štetiar <petr.stetiar@prplfoundation.org>
+---
+ drivers/net/wireless/virtual/mac80211_hwsim.c | 102 +++++++++++++++++-
+ 1 file changed, 98 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/net/wireless/virtual/mac80211_hwsim.c b/drivers/net/wireless/virtual/mac80211_hwsim.c
+index a260c39989cb..47d1d5f628d7 100644
+--- a/drivers/net/wireless/virtual/mac80211_hwsim.c
++++ b/drivers/net/wireless/virtual/mac80211_hwsim.c
+@@ -120,6 +120,15 @@ MODULE_PARM_DESC(multi_radio, "Support Multiple Radios per wiphy");
+  * 	    domain request
+  * 	6 and on - should follow the intersection of the 3rd, 4rth and 5th radio
+  * 	           regulatory requests.
++ * @HWSIM_REGTEST_TESTBED: Used for automated testbeds that need wide,
++ *	DFS-free 5 GHz (up to 160 MHz) and 6 GHz (up to 320 MHz) channels
++ *	that stay available regardless of any USER/COUNTRY_IE regulatory
++ *	hint an AP stack (e.g. hostapd) pushes at runtime. Unlike
++ *	%HWSIM_REGTEST_CUSTOM_WORLD, the radio is registered as
++ *	%REGULATORY_WIPHY_SELF_MANAGED, so cfg80211 core and user hints are
++ *	ignored for it (see ignore_reg_update() in net/wireless/reg.c) and
++ *	the regdomain below is applied directly with
++ *	regulatory_set_wiphy_regd_sync().
+  *
+  * These are the different values you can use for the regtest
+  * module parameter. This is useful to help test world roaming
+@@ -142,6 +151,7 @@ enum hwsim_regtest {
+ 	HWSIM_REGTEST_STRICT_ALL = 8,
+ 	HWSIM_REGTEST_STRICT_AND_DRIVER_REG = 9,
+ 	HWSIM_REGTEST_ALL = 10,
++	HWSIM_REGTEST_TESTBED = 11,
+ };
+ 
+ /* Set to one of the HWSIM_REGTEST_* values above */
+@@ -218,6 +228,39 @@ static const struct ieee80211_regdomain *hwsim_world_regdom_custom[] = {
+ 	&hwsim_world_regdom_custom_04,
+ };
+ 
++/*
++ * Self-managed regdomain for HWSIM_REGTEST_TESTBED. It is deliberately not
++ * part of hwsim_world_regdom_custom[]: that array is also reachable from
++ * userspace via HWSIM_ATTR_REG_CUSTOM_REG on HWSIM_CMD_NEW_RADIO, which only
++ * ever applies a regdomain the CUSTOM_REG way (wiphy_apply_custom_regulatory()).
++ * This regdomain must only ever be applied through the self-managed path in
++ * mac80211_hwsim_new_radio(), or it would be just as overridable by a later
++ * USER/COUNTRY_IE regulatory hint as hwsim_world_regdom_custom_03 already is.
++ *
++ * There is no DFS and no NO_IR here: hwsim has no real RF front-end, so
++ * there is nothing to detect radar on and nothing that needs a channel
++ * availability check before it may transmit. The 5 GHz and 6 GHz rules are
++ * each a single wide rule capped at the widest channel width mac80211_hwsim
++ * advertises (160 MHz / 320 MHz) rather than a set of sub-band rules with
++ * NL80211_RRF_AUTO_BW: that flag exists to let cfg80211 derive a wider
++ * channel across adjacent rules that individually declare a narrower
++ * max_bandwidth (e.g. custom_04's DFS/non-DFS UNII sub-bands); it is not
++ * needed when one rule already spans the whole band at the target width.
++ * The 5 GHz upper edge (5935 MHz margin) and the 6 GHz lower edge (also
++ * 5935) intentionally touch rather than overlap, so every hwsim 5 GHz
++ * channel up to 5925 MHz (chan 185) stays covered without abutting the
++ * 6 GHz rule.
++ */
++static const struct ieee80211_regdomain hwsim_world_regdom_testbed = {
++	.n_reg_rules = 3,
++	.alpha2 = "99",
++	.reg_rules = {
++		REG_RULE(2402 - 10, 2482 + 10, 40, 0, 20, 0),
++		REG_RULE(5170 - 10, 5925 + 10, 160, 0, 30, 0),
++		REG_RULE(5945 - 10, 7125 + 10, 320, 0, 33, 0),
++	}
++};
++
+ struct hwsim_vif_priv {
+ 	u32 magic;
+ 	u32 skip_beacons[IEEE80211_MLD_MAX_NUM_LINKS];
+@@ -4031,6 +4074,7 @@ struct hwsim_new_radio_params {
+ 	const char *reg_alpha2;
+ 	const struct ieee80211_regdomain *regd;
+ 	bool reg_strict;
++	bool selfmanaged_reg;
+ 	bool p2p_device;
+ 	bool use_chanctx;
+ 	bool multi_radio;
+@@ -5500,10 +5544,24 @@ static int mac80211_hwsim_new_radio(struct genl_info *info,
+ 		hw->wiphy->regulatory_flags |= REGULATORY_STRICT_REG;
+ 	if (param->regd) {
+ 		data->regd = param->regd;
+-		hw->wiphy->regulatory_flags |= REGULATORY_CUSTOM_REG;
+-		wiphy_apply_custom_regulatory(hw->wiphy, param->regd);
+-		/* give the regulatory workqueue a chance to run */
+-		schedule_timeout_interruptible(1);
++		if (param->selfmanaged_reg) {
++			/*
++			 * REGULATORY_WIPHY_SELF_MANAGED may not be combined
++			 * with REGULATORY_CUSTOM_REG (core.c, wiphy_register()
++			 * rejects that combination), and unlike CUSTOM_REG the
++			 * regdomain itself is not installed here: it is
++			 * applied below with regulatory_set_wiphy_regd_sync()
++			 * once the wiphy is registered, which is the only
++			 * place that call is valid.
++			 */
++			hw->wiphy->regulatory_flags |=
++				REGULATORY_WIPHY_SELF_MANAGED;
++		} else {
++			hw->wiphy->regulatory_flags |= REGULATORY_CUSTOM_REG;
++			wiphy_apply_custom_regulatory(hw->wiphy, param->regd);
++			/* give the regulatory workqueue a chance to run */
++			schedule_timeout_interruptible(1);
++		}
+ 	}
+ 
+ 	wiphy_ext_feature_set(hw->wiphy,
+@@ -5531,6 +5589,38 @@ static int mac80211_hwsim_new_radio(struct genl_info *info,
+ 
+ 	wiphy_dbg(hw->wiphy, "hwaddr %pM registered\n", hw->wiphy->perm_addr);
+ 
++	if (param->regd && param->selfmanaged_reg) {
++		int reg_err;
++
++		/*
++		 * hwsim_new_radio_nl() (netlink) and the regtest module
++		 * param loop in mac80211_hwsim_init() both call this
++		 * function without RTNL or the wiphy lock held: proven by
++		 * ieee80211_register_hw() -> wiphy_register() above, which
++		 * takes and releases rtnl_lock() itself and would deadlock
++		 * here otherwise. regulatory_set_wiphy_regd_sync() requires
++		 * RTNL (ASSERT_RTNL() in net/wireless/reg.c), so take it
++		 * explicitly, plus the wiphy lock, mirroring how e.g.
++		 * ath12k_regd_update() (drivers/net/wireless/ath/ath12k/reg.c)
++		 * calls the same function from outside an RTNL context.
++		 * The sync variant is used, not the async
++		 * regulatory_set_wiphy_regd(), so the regdomain and channel
++		 * flags are final by the time this function returns and
++		 * before any userspace tool (hostapd, iw) can observe the
++		 * new radio.
++		 */
++		rtnl_lock();
++		wiphy_lock(hw->wiphy);
++		reg_err = regulatory_set_wiphy_regd_sync(
++			hw->wiphy, (struct ieee80211_regdomain *)param->regd);
++		wiphy_unlock(hw->wiphy);
++		rtnl_unlock();
++		if (reg_err)
++			wiphy_err(hw->wiphy,
++				  "mac80211_hwsim: regulatory_set_wiphy_regd_sync failed: %d\n",
++				  reg_err);
++	}
++
+ 	if (param->reg_alpha2) {
+ 		data->alpha2[0] = param->reg_alpha2[0];
+ 		data->alpha2[1] = param->reg_alpha2[1];
+@@ -6880,6 +6970,10 @@ static int __init init_mac80211_hwsim(void)
+ 				break;
+ 			}
+ 			break;
++		case HWSIM_REGTEST_TESTBED:
++			param.regd = &hwsim_world_regdom_testbed;
++			param.selfmanaged_reg = true;
++			break;
+ 		default:
+ 			break;
+ 		}
