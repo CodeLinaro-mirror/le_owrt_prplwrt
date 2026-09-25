@@ -1,0 +1,81 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Petr=20=C5=A0tetiar?= <petr.stetiar@prplfoundation.org>
+Date: Fri, 25 Sep 2026 20:11:04 +0200
+Subject: [PATCH] AP MLD: honor the secondary BSS MLD interface address
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+When a secondary BSS establishes the first link of an MLD,
+hostapd_setup_bss() passes its link BSSID to hostapd_if_add() and
+copies it into the MLD address. This ignores the configured mld_addr,
+unlike hostapd_driver_init() for the first BSS of an interface.
+
+With pWHM, the selected MLD interface can belong to another radio.
+The first established guest link then overwrites wlan1.2's intended
+MLD address with wlan0.2's link BSSID. On a shared wiphy, bringing up
+the dormant wlan0.2 encounters the duplicate netdev address:
+
+  Could not set interface wlan0.2 flags (UP): No error information
+
+Use a nonzero configured MLD address for interface creation or reuse,
+while retaining the link BSSID in own_addr for hostapd_drv_link_add().
+Initialize the MLD address from the returned interface address. When
+bssid is omitted and use_driver_iface_addr is set, the configured MLD
+address replaces driver allocation. Allocate the link address separately
+by incrementing the inherited address and skipping configured BSSIDs,
+using the existing next-available-BSSID policy. Otherwise own_addr would
+retain the previous BSS's address when addr becomes non-NULL.
+
+Leave the existing address selection in place when mld_addr is unset,
+and keep the existing-MLD borrowing path ahead of the new selection.
+Limit the override to !first, where setup adds the first MLD link.
+The first == -1 single-BSS ADD path keeps the netdev address equal to
+the BSSID. Non-MLD and first-BSS initialization are unchanged.
+
+The nl80211 reuse path already sets the requested hardware address,
+including a down/set/up fallback, so it needs no additional MAC update.
+Keep the inherited driver-context reset immediately before if_add;
+the address selection does not depend on that context.
+
+Fixes: 3d0cc612fcbd ("AP MLD: Support cohosted ML BSS")
+Signed-off-by: Petr Štetiar <petr.stetiar@prplfoundation.org>
+---
+ src/ap/hostapd.c | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
+
+diff --git a/src/ap/hostapd.c b/src/ap/hostapd.c
+index 044b08df9bf9..af9b0fb7fc19 100644
+--- a/src/ap/hostapd.c
++++ b/src/ap/hostapd.c
+@@ -1527,6 +1527,18 @@ static int hostapd_setup_bss(struct hostapd_data *hapd, int first,
+ 					   hapd->mld_link_id, hapd->conf->iface);
+ 				goto setup_mld;
+ 			}
++
++			if (!first && !is_zero_ether_addr(conf->mld_addr)) {
++				/* The netdev no longer supplies an automatic link
++				 * address. Allocate it as for other BSSes. */
++				if (!addr) {
++					do {
++						inc_byte_array(hapd->own_addr, ETH_ALEN);
++					} while (mac_in_conf(hapd->iconf,
++							     hapd->own_addr));
++				}
++				addr = conf->mld_addr;
++			}
+ 		}
+ #endif /* CONFIG_IEEE80211BE */
+ 
+@@ -1554,8 +1566,7 @@ static int hostapd_setup_bss(struct hostapd_data *hapd, int first,
+ 			wpa_printf(MSG_DEBUG,
+ 				   "Setup of first link (%d) BSS of MLD %s",
+ 				   hapd->mld_link_id, hapd->conf->iface);
+-			os_memcpy(hapd->mld->mld_addr, hapd->own_addr,
+-				  ETH_ALEN);
++			os_memcpy(hapd->mld->mld_addr, if_addr, ETH_ALEN);
+ 		}
+ #endif /* CONFIG_IEEE80211BE */
+ 	}
+-- 
+2.51.0
