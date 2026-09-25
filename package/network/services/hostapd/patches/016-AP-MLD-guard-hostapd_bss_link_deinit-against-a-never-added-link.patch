@@ -1,0 +1,95 @@
+From 635054201592d5f881e4cbd216ba36f78fc1557e Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Petr=20=C5=A0tetiar?= <petr.stetiar@prplfoundation.org>
+Date: Thu, 24 Sep 2026 23:15:00 +0200
+Subject: [PATCH] AP MLD: guard hostapd_bss_link_deinit() against a never-added
+ link
+
+hostapd_setup_bss() (src/ap/hostapd.c:1425) adds a non-first MLD link
+in two steps: hostapd_drv_link_add() first asks the driver/kernel to
+create the link, and only if that call succeeds does it call
+hostapd_mld_add_link() (:1530-1538), which is what actually puts
+hapd->link on the mld->links dl_list and bumps mld->num_links. If
+hostapd_drv_link_add() fails, hostapd_setup_bss() returns -1 straight
+away and hapd->link stays exactly as os_zalloc() left it: a
+zero-filled dl_list node with next == prev == NULL, never linked into
+any list.
+
+The interface-teardown path does not know about this distinction.
+hostapd_bss_link_deinit() (:647-681) unconditionally calls
+hostapd_mld_remove_link() once its three existing guards pass
+(non-empty mld->links, hapd->started or bss[0], and
+bss[0]==hapd => drv_priv set) -- none of which detect "this bss was
+never linked". hostapd_mld_remove_link() then runs
+dl_list_del(&hapd->link) (:5029) on the zeroed node: dl_list_del()
+dereferences item->prev to fix up its ->next pointer, and with
+prev == NULL that is a NULL-plus-offsetof(next) write and a
+segfault.
+
+This is reachable whenever a later BSS of an MLD interface fails
+hostapd_drv_link_add() during hostapd_add_iface()'s per-BSS
+setup_interface2() loop (hostapd.c:2672-2683): the loop's own cleanup
+only calls hostapd_bss_deinit_no_free() + hostapd_free_hapd_data(),
+"goto fail" bubbles up through hostapd_setup_interface_complete_sync()
+and hostapd_add_iface() (:3878-3884), and the bottom of
+hostapd_interface_deinit() (:3985-4005) calls
+hostapd_bss_link_deinit() on every bss[], including the one whose
+link_add never landed. Observed in practice on a warm MLD-link re-add
+after an earlier hostapd_setup_interface_complete_sync() failure on
+the same radio left a driver-level link that a retry then collides
+with (hostapd_drv_link_add() -EALREADY): "MLD: Failed to add link %d
+in MLD %s" immediately followed by a segfault in dl_list_del(), fault
+address 8 (write), matching a NULL item->prev.
+
+Not fixed upstream: hostap.git HEAD (88142b806fbb, 2025-08-26) has a
+byte-identical hostapd_bss_link_deinit() / hostapd_mld_remove_link().
+The existing !mld->num_links guard (69deac87fbf6, 2024-04-30) covers
+only the case where no link of this MLD was ever added; it does not
+cover a specific bss whose own link add failed while sibling links
+did succeed.
+
+Fix: hapd->link.next stays NULL for a node that was never added to
+mld->links (dl_list_del() also NULLs both pointers again after a real
+removal, so the same check is double-delete safe). Return early from
+hostapd_bss_link_deinit() before hostapd_mld_remove_link() when it is
+NULL, instead of dereferencing a never-linked or already-removed
+node.
+
+The companion leak -- hostapd_drv_link_add() can itself succeed and
+then a later step inside hostapd_setup_bss() can still fail and
+return -1 without a matching hostapd_if_link_remove(), leaking the
+driver-level link that the next add then collides with -- is left
+alone here: hostapd_setup_bss() has dozens of unrelated "return -1;"
+sites after the link_add call, threading a driver-level unwind
+through all of them is not a small change, and this segfault guard
+already makes the crash chain go away regardless.
+
+Generic: not specific to this testbed. Any upstream-mac80211 hostapd
+build that warm-adds/removes MLD links through the control interface
+can hit this NULL dereference once a link add fails.
+---
+ src/ap/hostapd.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/src/ap/hostapd.c b/src/ap/hostapd.c
+index f6dfa9679045..098a224010c1 100644
+--- a/src/ap/hostapd.c
++++ b/src/ap/hostapd.c
+@@ -677,6 +677,18 @@ static void hostapd_bss_link_deinit(struct hostapd_data *hapd)
+ 	if (hapd->iface->bss[0] == hapd && !hapd->drv_priv)
+ 		return;
+ 
++	/* If hostapd_drv_link_add() in hostapd_setup_bss() never succeeded
++	 * (e.g. -EALREADY on a leaked kernel link left by an earlier failed
++	 * add), hapd->link was never added to mld->links: it is still the
++	 * zeroed dl_list node from hapd's allocation, with next == prev ==
++	 * NULL. Calling hostapd_mld_remove_link() -> dl_list_del() on it
++	 * dereferences that NULL prev pointer and crashes. dl_list_del()
++	 * also leaves both pointers NULL after a real removal, so this
++	 * check is double-delete safe too.
++	 */
++	if (!hapd->link.next)
++		return;
++
+ 	hostapd_mld_remove_link(hapd);
+ #endif /* CONFIG_IEEE80211BE */
+ }
