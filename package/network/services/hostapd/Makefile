@@ -25,6 +25,7 @@ PKG_CONFIG_DEPENDS:= \
 	CONFIG_PACKAGE_hostapd-basic \
 	CONFIG_PACKAGE_hostapd-mini \
 	CONFIG_WPA_RFKILL_SUPPORT \
+	CONFIG_HOSTAPD_UCODE \
 	CONFIG_DRIVER_11AC_SUPPORT \
 	CONFIG_DRIVER_11AX_SUPPORT \
 	CONFIG_DRIVER_11BE_SUPPORT \
@@ -85,10 +86,12 @@ ifneq ($(CONFIG_DRIVER_11BE_SUPPORT),)
 endif
 
 
-CORE_DEPENDS = +ucode +libucode \
-	+ucode-mod-fs +ucode-mod-nl80211 +ucode-mod-rtnl +ucode-mod-ubus +ucode-mod-uloop \
-	+libubus +libblobmsg-json \
-	+libudebug
+UCODE_DEPENDS = +HOSTAPD_UCODE:ucode +HOSTAPD_UCODE:libucode \
+	+HOSTAPD_UCODE:ucode-mod-fs +HOSTAPD_UCODE:ucode-mod-nl80211 \
+	+HOSTAPD_UCODE:ucode-mod-rtnl +HOSTAPD_UCODE:ucode-mod-ubus \
+	+HOSTAPD_UCODE:ucode-mod-uloop +HOSTAPD_UCODE:libudebug
+CORE_DEPENDS = $(UCODE_DEPENDS) \
+	+libubus +libblobmsg-json
 OPENSSL_DEPENDS = +PACKAGE_$(1):libopenssl +PACKAGE_$(1):libopenssl-legacy
 
 DRIVER_MAKEOPTS= \
@@ -97,7 +100,7 @@ DRIVER_MAKEOPTS= \
 	CONFIG_IEEE80211AX=$(HOSTAPD_IEEE80211AX) \
 	CONFIG_IEEE80211BE=$(HOSTAPD_IEEE80211BE) \
 	CONFIG_MBO=$(CONFIG_WPA_MBO_SUPPORT) \
-	CONFIG_UCODE=y CONFIG_APUP=y
+	CONFIG_UCODE=$(CONFIG_HOSTAPD_UCODE) CONFIG_APUP=y
 
 ifeq ($(SSL_VARIANT),openssl)
   DRIVER_MAKEOPTS += CONFIG_TLS=openssl CONFIG_SAE=y
@@ -595,7 +598,10 @@ TARGET_CPPFLAGS := \
 	-D_GNU_SOURCE \
 	$(if $(CONFIG_WPA_MSG_MIN_PRIORITY),-DCONFIG_MSG_MIN_PRIORITY=$(CONFIG_WPA_MSG_MIN_PRIORITY))
 
-TARGET_LDFLAGS += -lubox -lubus -lblobmsg_json -lucode -lm -lnl-tiny -ludebug
+TARGET_LDFLAGS += -lubox -lubus -lblobmsg_json -lm -lnl-tiny
+ifdef CONFIG_HOSTAPD_UCODE
+  TARGET_LDFLAGS += -lucode -ludebug
+endif
 
 ifdef CONFIG_WPA_ENABLE_WEP
     DRIVER_MAKEOPTS += CONFIG_WEP=y
@@ -710,13 +716,13 @@ endif
 
 define Install/hostapd
 	$(INSTALL_DIR) $(1)/usr/sbin $(1)/usr/share/hostap
-	$(INSTALL_DATA) ./files/hostapd.uc $(1)/usr/share/hostap/
+	$(if $(CONFIG_HOSTAPD_UCODE),$(INSTALL_DATA) ./files/hostapd.uc $(1)/usr/share/hostap/)
 	$(if $(findstring full,$(CONFIG_VARIANT)),$(Install/hostapd/full))
 endef
 
 define Install/supplicant
 	$(INSTALL_DIR) $(1)/usr/sbin $(1)/usr/share/hostap
-	$(INSTALL_DATA) ./files/wpa_supplicant.uc $(1)/usr/share/hostap/
+	$(if $(CONFIG_HOSTAPD_UCODE),$(INSTALL_DATA) ./files/wpa_supplicant.uc $(1)/usr/share/hostap/)
 endef
 
 define Package/hostapd-common/install

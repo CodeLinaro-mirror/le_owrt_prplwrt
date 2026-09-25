@@ -4,6 +4,19 @@ config WPA_RFKILL_SUPPORT
 	depends on PACKAGE_hostapd-common
 	default n
 
+config HOSTAPD_UCODE
+	bool "Build the ucode integration (hostapd.uc / wpa_supplicant.uc scripts)"
+	depends on PACKAGE_hostapd-common
+	default y
+	help
+	  Builds the OpenWrt ucode glue (src/ap/ucode.c, wpa_supplicant/ucode.c),
+	  installs the /usr/share/hostap/*.uc scripts and pulls in ucode, libucode,
+	  the ucode-mod-* modules and libudebug. It is what netifd's wifi-scripts
+	  talk to (ubus hostapd.* objects, config_set/config_add over ubus).
+	  Disable it on targets where a controller (e.g. pWHM) drives hostapd
+	  purely over the ctrl_iface; the scripts and the ubus objects are then
+	  not available.
+
 config WPA_MSG_MIN_PRIORITY
 	int "Minimum debug message priority"
 	depends on PACKAGE_hostapd-common
