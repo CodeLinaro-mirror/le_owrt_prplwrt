@@ -1,6 +1,6 @@
 From: Petr Štetiar <petr.stetiar@prplfoundation.org>
-Date: Thu, 25 Sep 2026 10:12:00 +0200
-Subject: [PATCH] wifi: cfg80211: keep the MLD SSID until the last AP link stops
+Date: Fri, 25 Sep 2026 10:12:00 +0200
+Subject: [PATCH v2] wifi: cfg80211: keep the MLD SSID until the last AP link stops
 
 An AP MLD has a single SSID which all of its links share: struct
 wireless_dev keeps it in wdev->u.ap.ssid, nl80211_start_ap() requires
@@ -20,46 +20,33 @@ GET_INTERFACE as the liveness indicator of each affiliated AP and reported
 all nine APs of the three MLDs as disabled while their 2.4 GHz and 5 GHz
 links were still up and beaconing.
 
-Only clear the SSID once no valid link of the interface is beaconing any
-more. A non-MLO interface, a stop of the whole interface (link_id -1) and
-the stop of the last link keep the current behaviour, since the stopped
-link's beacon_interval is reset before the check; a failed driver stop
-leaves the state untouched as before.
+Use cfg80211_beaconing_iface_active() to clear the SSID only when no
+valid link is still beaconing. The stopped link's beacon_interval is
+already reset at this point, so non-MLO and last-link stops still clear
+the SSID. A failed driver stop leaves the state untouched as before.
+
+Internal whole-interface teardown, such as cfg80211_leave() on netdev
+down, passes link_id -1 and stops each valid link in turn. Keep the SSID
+until the last beaconing link stops successfully. An MLD STOP_AP request
+without NL80211_ATTR_MLO_LINK_ID is rejected; it does not use that path.
 
 Fixes: 7b0a0e3c3a88 ("wifi: cfg80211: do some rework towards MLO link APIs")
 Signed-off-by: Petr Štetiar <petr.stetiar@prplfoundation.org>
 ---
- net/wireless/ap.c | 16 +++++++++++++++-
- 1 file changed, 15 insertions(+), 1 deletion(-)
+ net/wireless/ap.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
+diff --git a/net/wireless/ap.c b/net/wireless/ap.c
+index 9a9a870806f5..c935d2c31f3d 100644
 --- a/net/wireless/ap.c
 +++ b/net/wireless/ap.c
-@@ -11,6 +11,18 @@
- #include "rdev-ops.h"
-
-
-+static bool cfg80211_ap_links_beaconing(struct wireless_dev *wdev)
-+{
-+	unsigned int link_id;
-+
-+	for_each_valid_link(wdev, link_id) {
-+		if (wdev->links[link_id].ap.beacon_interval)
-+			return true;
-+	}
-+
-+	return false;
-+}
-+
- static int ___cfg80211_stop_ap(struct cfg80211_registered_device *rdev,
- 			       struct net_device *dev, unsigned int link_id,
- 			       bool notify)
-@@ -36,7 +48,9 @@
+@@ -36,7 +36,9 @@ static int ___cfg80211_stop_ap(struct cfg80211_registered_device *rdev,
  		wdev->links[link_id].ap.beacon_interval = 0;
  		memset(&wdev->links[link_id].ap.chandef, 0,
  		       sizeof(wdev->links[link_id].ap.chandef));
 -		wdev->u.ap.ssid_len = 0;
 +		/* the SSID is shared by all links of an AP MLD */
-+		if (!cfg80211_ap_links_beaconing(wdev))
++		if (!cfg80211_beaconing_iface_active(wdev))
 +			wdev->u.ap.ssid_len = 0;
  		rdev_set_qos_map(rdev, dev, NULL);
  		if (notify)
