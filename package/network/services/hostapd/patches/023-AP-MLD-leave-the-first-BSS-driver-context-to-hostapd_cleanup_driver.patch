@@ -1,0 +1,79 @@
+From 4b7d2e1c9a6f3058e2d1c7b9a4f6e8d0c3b5a7f1 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Petr=20=C5=A0tetiar?= <petr.stetiar@prplfoundation.org>
+Date: Thu, 25 Sep 2026 14:00:00 +0200
+Subject: [PATCH] AP MLD: leave the first BSS's driver context to
+ hostapd_cleanup_driver()
+
+Partially backport 00c2c20d74ee ("hostapd: Maintain single
+wpa_driver_nl80211_data (drv) object across interfaces", Aditya Kumar
+Singh): retain only the hostapd_free_hapd_data() hunk that leaves the
+first BSS's driver context to hostapd_cleanup_driver(). The broader
+one-driver-per-wiphy sharing changes and the separate cleanup hunk are
+not backported.
+
+On base 5ace39b0, bss[0] can already borrow drv_priv and interface_added
+from an MLD partner in hostapd_driver_init(). The partner can be a
+secondary BSS created through hostapd_if_add(), so a first BSS can have
+interface_added = 1 without the omitted upstream sharing rework.
+
+Before this change, hostapd_free_hapd_data() can remove that first BSS's
+registered driver link. If it is the last link on a non-first i802_bss,
+the removal frees that i802_bss and clears hapd->drv_priv. However,
+hostapd_interface_deinit_free() saved the pointer before per-BSS
+teardown and then passes it to hostapd_cleanup_driver(). The sharing
+check can therefore read a freed object.
+
+U39 crash 2 (run-37c 102-apmld_step_2) is consistent with this path:
+the guest MLD's last 2.4 GHz link is removed while the private MLD's
+links on three interfaces named wlan0.1 are still in COUNTRY_UPDATE.
+The log includes:
+
+  nl80211: deinit ifname=wlan2.2
+
+The subsequent HT scan fails with ENODEV, beacon setup fails, and the
+crash is in i802_sta_deauth() (segfault at 4, hostapd+0x5f9ac). The
+allocation/free chain below is a reconstruction from source and logs;
+it has not been established by tracing the pointer lifetimes.
+
+If the stale sharing check answers "not shared", hapd_deinit() can
+tear down wpa_driver_nl80211_data while other BSSes still use it.
+wpa_driver_nl80211_deinit() frees drv->first_bss and drv; it does not
+iterate over and free every chained i802_bss. A surviving secondary
+BSS can retain a dangling bss->drv. If the private MLD used the freed
+first BSS, its hapd->drv_priv can dangle, consistent with the later
+bss->flink access in the reconstructed U39 crash chain.
+
+Leave bss[0]'s context live until interface-level driver cleanup. In
+the borrowed-context case with other BSSes still on the driver,
+is_drv_shared() then sees the live membership and removes only the
+departing link/context. When no users remain, driver cleanup performs
+the final deinit. Secondary BSSes retain their existing early cleanup.
+This does not establish safety for mixed non-ML owners and MLD
+borrowers or repair all late setup-failure paths.
+
+After an asynchronous setup failure, the unwind can call
+hostapd_free_hapd_data() without interface-level driver cleanup. Such a
+bss[0] now retains drv_priv, so plain ENABLE reports "already enabled".
+DISABLE followed by ENABLE, REMOVE/ADD, or process restart can perform
+the missing cleanup and allow recovery.
+
+Signed-off-by: Petr Štetiar <petr.stetiar@prplfoundation.org>
+---
+ src/ap/hostapd.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/src/ap/hostapd.c b/src/ap/hostapd.c
+--- a/src/ap/hostapd.c
++++ b/src/ap/hostapd.c
+@@ -552,7 +552,10 @@ void hostapd_free_hapd_data(struct hostapd_data *hapd)
+
+ 	authsrv_deinit(hapd);
+
+-	if (hapd->interface_added) {
++	/* For single drv, first bss would have interface_added flag set.
++	 * Don't remove interface now. Driver deinit part will take care
++	 */
++	if (hapd->interface_added && hapd->iface->bss[0] != hapd) {
+ 		hapd->interface_added = 0;
+ 		if (hostapd_if_remove(hapd, WPA_IF_AP_BSS, hapd->conf->iface)) {
+ 			wpa_printf(MSG_WARNING,
