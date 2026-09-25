@@ -1,0 +1,21 @@
+profiles: feed_prplos.yml: feed_prplos: tr181-usb: bump to dev_PPW-2208
+
+Integrates following changes:
+- security: remove untrusted ACL for tr181-usb (f97959ca)
+
+References: PPW-2208, SEC-25
+Signed-off-by: prplbot <bot@prplfoundation.org>
+Signed-off-by: Khalil Bahri <khalil.bahri_ext@softathome.com>
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# Author:    prplbot <bot@prplfoundation.org>
+# Date:      Fri Sep 25 15:49:02 2026 +0000
+#
+# On branch dev_PPW-2208_latest-24.10
+# Your branch is up to date with 'origin/dev_PPW-2208_latest-24.10'.
+#
+# Changes to be committed:
+#	modified:   profiles/feed_prplos.yml
+#
