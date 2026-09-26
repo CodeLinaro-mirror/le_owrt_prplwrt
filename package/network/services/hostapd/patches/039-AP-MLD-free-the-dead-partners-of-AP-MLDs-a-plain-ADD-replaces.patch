@@ -1,0 +1,400 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Petr Štetiar <petr.stetiar@prplfoundation.org>
+Date: Sat, 26 Sep 2026 12:00:00 +0000
+Subject: [PATCH] AP MLD: free the dead partners of AP MLDs a plain ADD replaces
+
+When the owner interface of an AP MLD is removed, 035 disables the
+interfaces of the partner first BSSes on the other radios and keeps them
+for an automatic re-enable once the MLD has a first BSS again. If the
+owner radio comes back with a plain (non-MLD) BSS of the same name, that
+never happens, and the retained references keep the MLD alive with its
+control socket, which is the socket the plain BSS needs:
+
+  ctrl_iface exists and seems to be in use - cannot override it
+  Adding interface bss_config=wlan2 failed
+
+Before an "ADD bss_config=" configuration is used, free what blocks the
+names of its plain BSSes: an AP MLD nothing references any more (it is
+otherwise freed only at the next interface removal), and the retained
+partner interfaces of an AP MLD that is dead, i.e. has no link and no
+first BSS and is referenced only from partner interfaces that are down
+throughout: disabled by the owner removal, no BSS started or holding a
+driver context, no parked BSS of another recovery. A partner interface
+carries whatever its configuration file named, typically the first link
+BSS and the secondary links of the other AP MLDs of the same radios, so
+the whole interface is judged, and it is removed only when every AP MLD
+one of its BSSes is a link of is dead and replaced by a plain BSS of this
+very configuration. An interface that is also a link of an AP MLD the
+configuration keeps, or does not mention, stays: its owner may return as
+an AP MLD and hostapd_mld_reattach_partners() then re-enables it. All
+names are checked before anything changes; then the dead interfaces are
+removed the way a REMOVE would, recovery included, and
+hostapd_cleanup_unused_mlds() frees the MLDs and their sockets. Any other
+holder of a name fails the ADD with nothing changed. The interface
+selected for the phy is looked up again afterwards, the removal may have
+taken it. Ordinary MLD owner re-add, the partner recovery and the
+plain-owner path are unchanged.
+
+Limit: hostapd deletes only partners whose every AP MLD this plain ADD
+replaces, and it relies on the controller to supply those partner radios
+again; it has no way to check that and no rollback. In pWHM the plain
+rewrite of an owner comes from an AP MLD refresh that marks every link of
+the MLD, and in the three recorded cases (run-44a batch-03, run-45c
+batch-01-retry2 and batch-02-retry) the partner radios had their FSM
+commits queued before the owner's ADD. After the CTRL-EVENT-TERMINATING
+of the partner sockets pWHM itself only resets and rescans the
+connections; nothing beyond the observed behaviour is guaranteed.
+
+The MLD control socket deinit unlinks only the file the MLD bound
+(device and inode recorded at bind time): with a plain BSS, or a new
+MLD, of the same name the file at that path is somebody else's.
+
+Signed-off-by: Petr Štetiar <petr.stetiar@prplfoundation.org>
+---
+ hostapd/ctrl_iface.c |   24 ++++-
+ src/ap/hostapd.c     |  260 ++++++++++++++++++++++++++++++++++++++++++++++++++
+ src/ap/hostapd.h     |    2 
+ 3 files changed, 285 insertions(+), 1 deletion(-)
+
+diff --git a/hostapd/ctrl_iface.c b/hostapd/ctrl_iface.c
+index 8119a0ec5870..7cada490a6ba 100644
+--- a/hostapd/ctrl_iface.c
++++ b/hostapd/ctrl_iface.c
+@@ -4912,6 +4912,7 @@ int hostapd_mld_ctrl_iface_init(struct hostapd_mld *mld)
+ 	struct sockaddr_un addr;
+ 	int s = -1;
+ 	char *fname = NULL;
++	struct stat st;
+ 
+ 	if (!mld)
+ 		return -1;
+@@ -4999,6 +5000,15 @@ int hostapd_mld_ctrl_iface_init(struct hostapd_mld *mld)
+ 			   strerror(errno));
+ 		goto fail;
+ 	}
++	/* Remember which file we bound: hostapd_mld_ctrl_iface_deinit() must
++	 * not unlink a socket that took the name over in the meantime. */
++	if (lstat(fname, &st) < 0) {
++		wpa_printf(MSG_ERROR, "lstat[ctrl_interface/ifname]: %s",
++			   strerror(errno));
++		goto fail;
++	}
++	mld->ctrl_dev = st.st_dev;
++	mld->ctrl_ino = st.st_ino;
+ 	os_free(fname);
+ 
+ 	mld->ctrl_sock = s;
+@@ -5036,7 +5046,19 @@ void hostapd_mld_ctrl_iface_deinit(struct hostapd_mld *mld)
+ 
+ 		fname = hostapd_mld_ctrl_iface_path(mld);
+ 		if (fname) {
+-			unlink(fname);
++			struct stat st;
++
++			/* The name may have been reused since this socket
++			 * was bound, e.g. by a plain BSS of the same name;
++			 * unlink only the file that is ours. */
++			if (lstat(fname, &st) == 0 && S_ISSOCK(st.st_mode) &&
++			    st.st_dev == mld->ctrl_dev &&
++			    st.st_ino == mld->ctrl_ino)
++				unlink(fname);
++			else
++				wpa_printf(MSG_INFO,
++					   "AP MLD %s: control socket %s is not the one this MLD bound - leaving it",
++					   mld->name, fname);
+ 			os_free(fname);
+ 		}
+ 
+diff --git a/src/ap/hostapd.c b/src/ap/hostapd.c
+index ab20dba70d2a..b2b5f02bafcd 100644
+--- a/src/ap/hostapd.c
++++ b/src/ap/hostapd.c
+@@ -3494,6 +3494,252 @@ static int ifname_in_use(struct hapd_interfaces *interfaces, const char *ifname)
+ }
+ 
+ 
++#ifdef CONFIG_IEEE80211BE
++/* Whether iface is a partner interface hostapd_remove_drv_borrowers() took
++ * down whole and keeps for automatic recovery, with nothing on it that is
++ * running, holds a driver context, or is kept for another recovery (parked
++ * BSSes of some other AP MLD). Its BSSes are the ones its configuration
++ * file named: the first BSS, an AP MLD link that borrowed the departed
++ * driver, and any secondary BSS, AP MLD link or plain. */
++static bool hostapd_mld_retained_partner(struct hostapd_iface *iface)
++{
++	size_t j;
++
++	if (!iface || !iface->num_bss || !iface->mld_partner_disabled ||
++	    iface->state != HAPD_IFACE_DISABLED || iface->num_mld_parked_bss)
++		return false;
++	for (j = 0; j < iface->num_bss; j++) {
++		if (iface->bss[j]->started || iface->bss[j]->drv_priv)
++			return false;
++	}
++	return true;
++}
++
++
++/* Whether AP MLD mld is dead: it has no link and no first BSS, and every
++ * BSS referencing it sits on a retained partner interface (above). Such an
++ * MLD cannot come back through its partners: hostapd_mld_reattach_partners()
++ * waits for a first BSS of an AP MLD of that name with a driver. Any other
++ * reference makes the MLD live, or explicitly disabled by the controller,
++ * and it is left alone. */
++static bool hostapd_mld_is_dead(struct hapd_interfaces *interfaces,
++				struct hostapd_mld *mld)
++{
++	size_t i, j, refs = 0;
++
++	if (mld->num_links || !dl_list_empty(&mld->links) || mld->fbss ||
++	    !mld->refcount || mld->refcount == HOSTAPD_MLD_MAX_REF_COUNT)
++		return false;
++	for (i = 0; i < interfaces->count; i++) {
++		struct hostapd_iface *iface = interfaces->iface[i];
++
++		for (j = 0; iface && j < iface->num_bss; j++) {
++			if (iface->bss[j]->mld != mld)
++				continue;
++			if (!hostapd_mld_retained_partner(iface))
++				return false;
++			refs++;
++		}
++	}
++	return refs == mld->refcount;
++}
++
++
++/* Whether a plain BSS configured as bss would need the control socket of
++ * AP MLD mld: same name, same control directory */
++static bool hostapd_mld_plain_name_is(const struct hostapd_bss_config *bss,
++				      const struct hostapd_mld *mld)
++{
++	return !bss->mld_ap && bss->ctrl_interface && mld->ctrl_interface &&
++		os_strcmp(mld->name, bss->iface) == 0 &&
++		os_strcmp(mld->ctrl_interface, bss->ctrl_interface) == 0;
++}
++
++
++/* The AP MLD whose control socket a plain BSS configured as bss would need */
++static struct hostapd_mld *
++hostapd_mld_holding_plain_name(struct hapd_interfaces *interfaces,
++			       const struct hostapd_bss_config *bss)
++{
++	size_t j;
++
++	for (j = 0; j < interfaces->mld_count; j++) {
++		if (interfaces->mld[j] &&
++		    hostapd_mld_plain_name_is(bss, interfaces->mld[j]))
++			return interfaces->mld[j];
++	}
++	return NULL;
++}
++
++
++/* Whether a plain BSS of configuration conf takes the name of AP MLD mld */
++static bool hostapd_mld_replaced_by(const struct hostapd_config *conf,
++				    const struct hostapd_mld *mld)
++{
++	size_t i;
++
++	for (i = 0; i < conf->num_bss; i++) {
++		if (hostapd_mld_plain_name_is(conf->bss[i], mld))
++			return true;
++	}
++	return false;
++}
++
++
++/* Whether retained partner interface iface can go for configuration conf:
++ * every AP MLD one of its BSSes is a link of is dead, and is replaced by a
++ * plain BSS of conf. An AP MLD on it that conf does not replace may still
++ * get its owner back as an AP MLD, and then the interface is re-enabled by
++ * hostapd_mld_reattach_partners(); it is not for this ADD to take. A plain
++ * BSS on the interface holds nothing. */
++static bool hostapd_mld_partner_is_dead(struct hapd_interfaces *interfaces,
++					struct hostapd_iface *iface,
++					const struct hostapd_config *conf)
++{
++	size_t j;
++
++	if (!hostapd_mld_retained_partner(iface))
++		return false;
++	for (j = 0; j < iface->num_bss; j++) {
++		struct hostapd_mld *mld = iface->bss[j]->mld;
++
++		if (!mld)
++			continue;
++		if (!hostapd_mld_is_dead(interfaces, mld))
++			return false;
++		if (!hostapd_mld_replaced_by(conf, mld)) {
++			wpa_printf(MSG_INFO,
++				   "Interface %s: keep it, its BSS '%s' is a link of AP MLD %s that this configuration does not replace",
++				   iface->phy, iface->bss[j]->conf->iface,
++				   mld->name);
++			return false;
++		}
++	}
++	return true;
++}
++
++
++/* Whether the name of plain BSS configuration bss of conf is free, or can be
++ * freed by removing dead partner interfaces: no AP MLD holds it, or the one
++ * that does is dead and so is, for conf, every partner interface
++ * referencing it. */
++static bool hostapd_mld_plain_name_releasable(
++	struct hapd_interfaces *interfaces,
++	const struct hostapd_config *conf,
++	const struct hostapd_bss_config *bss)
++{
++	struct hostapd_mld *mld;
++	size_t i, j;
++
++	mld = hostapd_mld_holding_plain_name(interfaces, bss);
++	if (!mld)
++		return true;
++	if (!hostapd_mld_is_dead(interfaces, mld))
++		return false;
++	for (i = 0; i < interfaces->count; i++) {
++		struct hostapd_iface *iface = interfaces->iface[i];
++
++		for (j = 0; iface && j < iface->num_bss; j++) {
++			if (iface->bss[j]->mld == mld &&
++			    !hostapd_mld_partner_is_dead(interfaces, iface,
++							 conf))
++				return false;
++		}
++	}
++	return true;
++}
++
++
++/**
++ * hostapd_mld_release_plain_names - Free the dead AP MLDs whose names conf's
++ * plain BSSes take
++ * @interfaces: Pointer to interfaces data
++ * @conf: The validated configuration of an "ADD bss_config=" command
++ * Returns: 0 if the configuration may proceed, -1 if a name stays taken
++ *
++ * A plain (non-MLD) BSS uses the control socket <ctrl_interface>/<iface>,
++ * the name an AP MLD called <iface> holds for its own control socket. The
++ * MLD and its socket go away in hostapd_cleanup_unused_mlds() once nothing
++ * references the MLD; that is the case for an MLD whose BSSes were all
++ * removed but which is freed only at the next interface removal, and it is
++ * made the case here for a dead MLD (hostapd_mld_is_dead()) by removing the
++ * dead partner interfaces (hostapd_mld_partner_is_dead()) referencing it,
++ * the way a REMOVE of each would, pending recovery included. Only a partner
++ * interface whose every AP MLD conf replaces with a plain BSS is removed:
++ * nothing in hostapd could have started it again, every AP MLD it was made
++ * for is gone. Its configuration is lost with it, and hostapd relies on the
++ * controller to supply those partner radios again; it cannot check that.
++ * In pWHM the plain rewrite of an owner comes from an AP MLD refresh that
++ * marks every link of the MLD, and in the three recorded cases (run-44a
++ * batch-03, run-45c batch-01-retry2 and batch-02-retry) the partner radios
++ * had their FSM commits queued before the owner's ADD; there is no
++ * guarantee beyond that observed behaviour. An MLD that is in use, partly
++ * active, or disabled by the controller, and a partner interface that is
++ * not dead throughout, carries parked BSSes or is a link of an AP MLD conf
++ * does not replace, keep everything as it is and the ADD fails here,
++ * before anything changed, instead of in hostapd_ctrl_iface_init() later.
++ * All names are checked before any interface is removed. The caller must
++ * not keep pointers into interfaces->iface[] across this call.
++ */
++static int hostapd_mld_release_plain_names(struct hapd_interfaces *interfaces,
++					   struct hostapd_config *conf)
++{
++	size_t i, k;
++
++	hostapd_cleanup_unused_mlds(interfaces);
++
++	for (i = 0; i < conf->num_bss; i++) {
++		if (hostapd_mld_plain_name_releasable(interfaces, conf,
++						      conf->bss[i]))
++			continue;
++		wpa_printf(MSG_INFO,
++			   "Cannot add BSS '%s': AP MLD %s is still in use and keeps its control socket",
++			   conf->bss[i]->iface, conf->bss[i]->iface);
++		return -1;
++	}
++
++	for (i = 0; i < conf->num_bss; i++) {
++		struct hostapd_mld *mld;
++		unsigned int remaining;
++
++		/* Looked up again: a removal below may have freed it */
++		mld = hostapd_mld_holding_plain_name(interfaces, conf->bss[i]);
++		if (!mld)
++			continue;
++
++		/* Removing the last referencing interface frees mld and
++		 * compacts interfaces->iface[]: search again after each
++		 * removal and stop by the reference count, which every
++		 * BSS of a removed interface that is a link of mld lowers
++		 * by one, without touching mld afterwards. */
++		for (remaining = mld->refcount; remaining > 0; ) {
++			struct hostapd_iface *iface = NULL;
++			unsigned int refs = 0;
++			size_t j;
++
++			for (k = 0; k < interfaces->count && !refs; k++) {
++				iface = interfaces->iface[k];
++				for (j = 0; iface && j < iface->num_bss; j++) {
++					if (iface->bss[j]->mld == mld)
++						refs++;
++				}
++			}
++			if (!refs || refs > remaining)
++				return -1;
++			wpa_printf(MSG_INFO,
++				   "Remove interface %s: its AP MLD %s has no link left and a plain BSS takes its name",
++				   iface->bss[0]->conf->iface, mld->name);
++			if (hostapd_remove_hapd_iface(iface) < 0)
++				return -1;
++			remaining -= refs;
++		}
++	}
++
++	return 0;
++}
++#endif /* CONFIG_IEEE80211BE */
++
++
+ /**
+  * hostapd_interface_init_bss - Read configuration file and init BSS data
+  *
+@@ -3538,6 +3784,20 @@ hostapd_interface_init_bss(struct hapd_interfaces *interfaces, const char *phy,
+ 		return NULL;
+ 
+ #ifdef CONFIG_IEEE80211BE
++	if (hostapd_mld_release_plain_names(interfaces, conf) < 0) {
++		hostapd_config_free(conf);
++		return NULL;
++	}
++	/* The release may have removed interfaces, the one selected above
++	 * for this phy included: select again. */
++	iface = NULL;
++	for (i = 0; i < interfaces->count; i++) {
++		if (os_strcmp(interfaces->iface[i]->phy, phy) == 0) {
++			iface = interfaces->iface[i];
++			break;
++		}
++	}
++
+ 	/* AP MLD can be enabled with the same interface name, so even if we
+ 	 * get the interface, we still need to allocate a new hostapd_iface
+ 	 * structure. */
+diff --git a/src/ap/hostapd.h b/src/ap/hostapd.h
+index 49c377e81dff..cd2ffdfd3f43 100644
+--- a/src/ap/hostapd.h
++++ b/src/ap/hostapd.h
+@@ -581,6 +581,8 @@ struct hostapd_mld {
+ 	int ctrl_sock;
+ 	struct dl_list ctrl_dst;
+ 	char *ctrl_interface; /* Directory for UNIX domain sockets */
++	dev_t ctrl_dev; /* Identity of the socket file this MLD bound */
++	ino_t ctrl_ino;
+ };
+ 
+ #define HOSTAPD_MLD_MAX_REF_COUNT      0xFF
+-- 
+2.51.0
