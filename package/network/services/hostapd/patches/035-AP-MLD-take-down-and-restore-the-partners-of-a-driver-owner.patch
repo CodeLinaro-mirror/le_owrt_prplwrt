@@ -1,0 +1,925 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Petr=20=C5=A0tetiar?= <petr.stetiar@prplfoundation.org>
+Date: Sat, 26 Sep 2026 05:10:00 +0200
+Subject: [PATCH] AP MLD: take down and restore the partners of a driver owner
+ interface
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+027 removes the BSSes of other interfaces that run on the driver of an
+interface that is being removed or disabled, but only when that
+interface's first BSS is a plain BSS. An interface whose first BSS is
+itself an AP MLD link kept upstream's semantics: hostapd_cleanup_driver()
+sees the driver shared with the partner links, removes only the departing
+link and leaves the driver, its nl80211 context and the netdev to them.
+
+On prplOS with pWHM that is the common topology. The MLD netdev is the
+main VAP of the radio that came up first (wlan0.1), and the first BSSes
+or secondary BSSes of the other radios are links of it that borrow its
+context. When pWHM re-applies such a radio with a configuration in which
+that VAP is no longer an AP MLD link, it sends REMOVE for the owner
+interface and ADDs the new configuration, and the ADD initializes a new
+driver on the same netdev while the surviving context still holds the
+wdev's management frame registrations:
+
+  hostapd: Remove interface 'wlan0.1_link0'
+  hostapd: Configuration file: /tmp/wlan0_hapd.conf (phy wlan0) --> new PHY
+  hostapd: nl80211: kernel reports: Match already configured
+  hostapd: nl80211: Could not configure driver mode
+  hostapd: nl80211 driver initialization failed.
+  hostapd: Adding interface bss_config=wlan0 failed
+  wld: wlan0: warm apply failed to add iface conf => restart to recover
+
+cfg80211_mlme_register_mgmt() rejects a match that another socket has
+already registered on the wdev with -EALREADY, and pWHM recovers with a
+full hostapd restart. If instead the last partner link goes away later,
+the driver stays allocated with drv->ctx pointing at a freed
+hostapd_data and the next interface-down event on that netdev is
+delivered to it.
+
+Drop the AP MLD exclusion in hostapd_remove_drv_borrowers(): what
+matters is that the driver behind bss[0] was created by this interface,
+which hapd->drv_owner_iface records. The partners are taken down before
+the driver cleanup, so that hostapd_cleanup_driver() finds the driver
+unshared, deinitializes it and releases the netdev, and the ADD gets a
+fresh driver.
+
+The partners are not lost. A borrower is an AP MLD link by construction
+(only hostapd_setup_bss() and driver_init() borrow a context, both for
+an mld_ap BSS), and the owner may be an AP MLD link or a plain BSS whose
+interface hosts the first links of other AP MLDs, as wlan2.1 does for
+the guest and backhaul MLDs once it has left the private MLD. So the
+decision for a secondary partner is taken per partner, not per owner:
+
+- A partner that is the first BSS of its interface is disabled, keeping
+  its configuration and control sockets. For an AP MLD owner it is
+  also marked mld_partner_disabled.
+- A partner that is a secondary BSS of a running interface and an AP
+  MLD link is taken down like hostapd_remove_bss() does, but its
+  configuration is parked on that interface, together with the
+  identity the BSS had: its link ID (and so the control socket name
+  <mld>_link<N>), its link address, its AP MLD (conf->iface) and its
+  radio (the interface's phy). Whether the owner is an AP MLD link or
+  a plain BSS does not matter here.
+- A plain partner, should one exist, is removed as 027 does.
+
+When a later interface setup completes while such recovery is pending,
+hostapd_mld_reattach_partners() runs from the event loop and restores
+every partner whose own AP MLD has a running first BSS with a driver
+again: a marked interface is enabled, and driver_init() borrows the new
+context as before; a parked BSS is added back to its interface the way
+"ADD bss_config=" adds a BSS, with hostapd_setup_bss(first = 0) so that,
+unlike the -1 of that command, the link is added to the driver and to
+the AP MLD, and under its previous link ID when the AP MLD has not
+reused it. The re-add counts as done only once the link add and the BSS
+setup succeeded; otherwise the BSS stays parked. So a REMOVE/ADD of the
+owner alone, with the same AP MLD, restores all of its partners without
+any controller action, and moving one AP out of and back into an AP MLD
+leaves the other AP MLDs with all of their links (pWHM removes and
+re-adds the radio whose VAP changes; its guest and backhaul links on the
+other radios were lost before).
+
+A partner supplied again meanwhile is not duplicated: once an ADD is
+accepted for an interface on the same phy with a BSS of the same AP
+MLD, or with a BSS with the same link address on any phy, the parked
+copy is dropped, also when the controller gets a separate hostapd_iface
+for it because its configuration starts with an AP MLD link. A
+successful reload of an interface, from its configuration file
+(RELOAD_CONFIG) or in memory (RELOAD), accepts the complete set of
+BSSes the interface then has and drops the parked BSSes it omits or
+lists again; RELOAD_BSS is scoped to its BSS and drops only a parked
+copy of that one. A failed reload leaves the parked state alone.
+
+An explicit DISABLE of the interface, including one that is already
+down, or a REMOVE of the interface cancels its pending recovery. A
+parked BSS is addressed by the control socket name it had: "REMOVE
+<mld>_link<N>" drops exactly that one. A bare "REMOVE <mld>" that
+matches no live interface or BSS drops the parked BSS of that AP MLD if
+there is exactly one and fails otherwise, since the name shared by the
+links of an AP MLD does not say which radio is meant; the live
+interfaces and BSSes are searched first, as before, so a parked BSS
+never stands in for a live one or the other way round. The timer is
+cancelled once nothing is pending anywhere. The eviction itself uses an
+internal disable that does not cancel the recovery.
+
+If the owner comes back as a plain BSS, or with another AP MLD, the
+partners' configurations no longer describe a link that can exist: they
+stay down or parked until the controller re-applies them. pWHM does so
+in the flows that cause such a re-ADD, since the change of the primary
+link marks the configured neighbour links for an AP MLD configuration
+refresh; a REMOVE of the partner interface then drops its parked BSSes.
+
+For a plain owner the borrower selection, the teardown order, the
+first-BSS partner handling, hostapd_remove_bss() and
+hostapd_cleanup_driver() are unchanged; the configuration of a
+secondary AP MLD link partner is now retained and its recovery is
+pending instead of the partner being lost.
+
+Signed-off-by: Petr Štetiar <petr.stetiar@prplfoundation.org>
+---
+ src/ap/hostapd.c | 624 ++++++++++++++++++++++++++++++++++++++++++++++-
+ src/ap/hostapd.h |  30 +++
+ 2 files changed, 647 insertions(+), 7 deletions(-)
+
+diff --git a/src/ap/hostapd.c b/src/ap/hostapd.c
+index d4e66426e2f5..9c378fbcb4af 100644
+--- a/src/ap/hostapd.c
++++ b/src/ap/hostapd.c
+@@ -70,6 +70,17 @@ static void hostapd_cleanup_unused_mlds(struct hapd_interfaces *interfaces);
+ static int hostapd_remove_bss(struct hostapd_iface *iface, unsigned int idx);
+ static void hostapd_interface_setup_failure_handler(void *eloop_ctx,
+ 						    void *timeout_ctx);
++#ifdef CONFIG_IEEE80211BE
++static void hostapd_mld_reattach_partners(void *eloop_ctx, void *timeout_ctx);
++static bool hostapd_mld_recovery_pending(struct hapd_interfaces *interfaces);
++static void hostapd_mld_revoke_recovery(struct hostapd_iface *iface);
++static void hostapd_mld_drop_parked_bss(struct hostapd_iface *iface,
++					const char *reason);
++static void hostapd_mld_drop_resupplied_parked_bss(struct hostapd_iface *iface);
++static void hostapd_mld_reconcile_parked_bss(struct hostapd_iface *iface,
++					     const char *bss);
++#endif /* CONFIG_IEEE80211BE */
++static int hostapd_disable_iface_int(struct hostapd_iface *hapd_iface);
+ #ifdef CONFIG_IEEE80211AX
+ static void hostapd_switch_color_timeout_handler(void *eloop_data,
+ 						 void *user_ctx);
+@@ -297,6 +308,9 @@ int hostapd_reload_config(struct hostapd_iface *iface)
+ 		hostapd_clear_old(iface);
+ 		for (j = 0; j < iface->num_bss; j++)
+ 			hostapd_reload_bss(iface->bss[j]);
++#ifdef CONFIG_IEEE80211BE
++		hostapd_mld_reconcile_parked_bss(iface, NULL);
++#endif /* CONFIG_IEEE80211BE */
+ 		return 0;
+ 	}
+ 
+@@ -373,6 +387,10 @@ int hostapd_reload_config(struct hostapd_iface *iface)
+ 	}
+ 
+ 	hostapd_config_free(oldconf);
++#ifdef CONFIG_IEEE80211BE
++	/* The file is the complete accepted set of BSSes of this interface */
++	hostapd_mld_reconcile_parked_bss(iface, NULL);
++#endif /* CONFIG_IEEE80211BE */
+ 
+ 
+ 	return 0;
+@@ -2830,6 +2848,24 @@ dfs_offload:
+ 	if (iface->interfaces && iface->interfaces->count > 1)
+ 		ieee802_11_set_beacons(iface);
+ 
++#ifdef CONFIG_IEEE80211BE
++	if (iface->interfaces) {
++		/* A BSS this interface runs replaces a parked copy of it */
++		hostapd_mld_drop_resupplied_parked_bss(iface);
++		/* This interface may have given an AP MLD a first BSS with a
++		 * driver again; let the partners
++		 * hostapd_remove_drv_borrowers() took down borrow it. Do it
++		 * from the event loop, outside of this setup. */
++		if (hostapd_mld_recovery_pending(iface->interfaces)) {
++			eloop_cancel_timeout(hostapd_mld_reattach_partners,
++					     iface->interfaces, NULL);
++			eloop_register_timeout(0, 0,
++					       hostapd_mld_reattach_partners,
++					       iface->interfaces, NULL);
++		}
++	}
++#endif /* CONFIG_IEEE80211BE */
++
+ 	return 0;
+ 
+ fail:
+@@ -3126,6 +3162,7 @@ void hostapd_interface_free(struct hostapd_iface *iface)
+ 	size_t j;
+ 	wpa_printf(MSG_DEBUG, "%s(%p)", __func__, iface);
+ #ifdef CONFIG_IEEE80211BE
++	hostapd_mld_drop_parked_bss(iface, "interface freed");
+ 	/* A BSS elsewhere that still names this interface as the owner of its
+ 	 * driver runs on a driver that was left alive by
+ 	 * hostapd_cleanup_driver(); nobody owns that driver any more. */
+@@ -3546,6 +3583,518 @@ hostapd_interface_init_bss(struct hapd_interfaces *interfaces, const char *phy,
+ }
+ 
+ 
++#ifdef CONFIG_IEEE80211BE
++
++static bool hostapd_mld_recovery_pending(struct hapd_interfaces *interfaces)
++{
++	size_t i;
++
++	for (i = 0; i < interfaces->count; i++) {
++		struct hostapd_iface *iface = interfaces->iface[i];
++
++		if (iface && (iface->mld_partner_disabled ||
++			      iface->num_mld_parked_bss))
++			return true;
++	}
++
++	return false;
++}
++
++
++/* Release the parked array once it is empty, and the recovery timer once
++ * nothing is pending anywhere. */
++static void hostapd_mld_parked_bss_changed(struct hostapd_iface *iface)
++{
++	if (iface->num_mld_parked_bss)
++		return;
++	os_free(iface->mld_parked_bss);
++	iface->mld_parked_bss = NULL;
++	if (iface->interfaces &&
++	    !hostapd_mld_recovery_pending(iface->interfaces))
++		eloop_cancel_timeout(hostapd_mld_reattach_partners,
++				     iface->interfaces, NULL);
++}
++
++
++/* Forget parked BSS idx of iface and free its configuration. */
++static void hostapd_mld_drop_parked_bss_idx(struct hostapd_iface *iface,
++					    size_t idx, const char *reason)
++{
++	struct hostapd_mld_parked_bss *p = &iface->mld_parked_bss[idx];
++	size_t i;
++
++	wpa_printf(MSG_INFO,
++		   "Drop parked BSS '%s' (AP MLD link %u, BSSID " MACSTR
++		   ") of phy %s: %s",
++		   p->conf->iface, p->link_id, MAC2STR(p->bssid), iface->phy,
++		   reason);
++	hostapd_config_free_bss(p->conf);
++	iface->num_mld_parked_bss--;
++	for (i = idx; i < iface->num_mld_parked_bss; i++)
++		iface->mld_parked_bss[i] = iface->mld_parked_bss[i + 1];
++	hostapd_mld_parked_bss_changed(iface);
++}
++
++
++static void hostapd_mld_drop_parked_bss(struct hostapd_iface *iface,
++					const char *reason)
++{
++	while (iface->num_mld_parked_bss)
++		hostapd_mld_drop_parked_bss_idx(
++			iface, iface->num_mld_parked_bss - 1, reason);
++}
++
++
++/* Keep a parked BSS record on iface. Frees the configuration if the record
++ * cannot be stored. */
++static void hostapd_mld_park_record(struct hostapd_iface *iface,
++				    const struct hostapd_mld_parked_bss *p)
++{
++	struct hostapd_mld_parked_bss *tmp;
++
++	tmp = os_realloc_array(iface->mld_parked_bss,
++			       iface->num_mld_parked_bss + 1, sizeof(*tmp));
++	if (!tmp) {
++		wpa_printf(MSG_WARNING,
++			   "Cannot park BSS '%s' (AP MLD link %u): out of memory",
++			   p->conf->iface, p->link_id);
++		hostapd_config_free_bss(p->conf);
++		return;
++	}
++	iface->mld_parked_bss = tmp;
++	tmp[iface->num_mld_parked_bss++] = *p;
++}
++
++
++/* An explicit disable or removal of the interface cancels its pending
++ * automatic recovery: it stays down, and its parked BSSes are forgotten. */
++static void hostapd_mld_revoke_recovery(struct hostapd_iface *iface)
++{
++	if (!iface->mld_partner_disabled && !iface->num_mld_parked_bss)
++		return;
++
++	wpa_printf(MSG_INFO,
++		   "Interface %s: cancel pending AP MLD partner recovery (%u parked BSS)",
++		   iface->phy, (unsigned int) iface->num_mld_parked_bss);
++	iface->mld_partner_disabled = 0;
++	hostapd_mld_drop_parked_bss(iface, "recovery cancelled");
++	if (iface->interfaces &&
++	    !hostapd_mld_recovery_pending(iface->interfaces))
++		eloop_cancel_timeout(hostapd_mld_reattach_partners,
++				     iface->interfaces, NULL);
++}
++
++
++/* Take down secondary BSS idx of iface the way hostapd_remove_bss() does,
++ * but keep its configuration, with the identity the BSS had, for
++ * hostapd_mld_reattach_partners(). */
++static void hostapd_mld_park_bss(struct hostapd_iface *iface, unsigned int idx,
++				 struct hostapd_iface *owner)
++{
++	struct hostapd_data *hapd = iface->bss[idx];
++	struct hostapd_mld_parked_bss p;
++	size_t i;
++
++	os_memset(&p, 0, sizeof(p));
++	p.conf = hapd->conf;
++	p.link_id = hapd->mld_link_id;
++	os_memcpy(p.bssid, hapd->own_addr, ETH_ALEN);
++
++	wpa_printf(MSG_INFO,
++		   "Park BSS '%s' (AP MLD link %u, BSSID " MACSTR
++		   ") of interface %s: it uses the driver of %s that is being deinitialized",
++		   hapd->conf->iface, hapd->mld_link_id,
++		   MAC2STR(hapd->own_addr), iface->bss[0]->conf->iface,
++		   owner->bss[0]->conf->iface);
++
++	/* As hostapd_remove_bss(), without hostapd_config_free_bss() */
++	hostapd_bss_deinit(hapd);
++	hapd->conf = NULL;
++	hostapd_mld_ref_dec(hapd->mld);
++	os_free(hapd);
++
++	iface->num_bss--;
++	for (i = idx; i < iface->num_bss; i++)
++		iface->bss[i] = iface->bss[i + 1];
++	iface->conf->num_bss--;
++	for (i = idx; i < iface->conf->num_bss; i++)
++		iface->conf->bss[i] = iface->conf->bss[i + 1];
++
++	hostapd_mld_park_record(iface, &p);
++}
++
++
++static struct hostapd_data *
++hostapd_mld_running_first_bss(struct hapd_interfaces *interfaces,
++			      const char *mld_name)
++{
++	size_t i;
++
++	for (i = 0; i < interfaces->mld_count; i++) {
++		struct hostapd_mld *mld = interfaces->mld[i];
++
++		if (mld && os_strcmp(mld->name, mld_name) == 0 && mld->fbss &&
++		    mld->fbss->drv_priv &&
++		    mld->fbss->iface->state == HAPD_IFACE_ENABLED)
++			return mld->fbss;
++	}
++
++	return NULL;
++}
++
++
++static bool hostapd_mld_link_id_in_use(struct hapd_interfaces *interfaces,
++				       struct hostapd_mld *mld, u8 link_id)
++{
++	size_t i, j;
++
++	for (i = 0; i < interfaces->count; i++) {
++		struct hostapd_iface *iface = interfaces->iface[i];
++
++		for (j = 0; iface && j < iface->num_bss; j++) {
++			if (iface->bss[j]->mld == mld &&
++			    iface->bss[j]->mld_link_id == link_id)
++				return true;
++		}
++	}
++
++	return false;
++}
++
++
++/* Whether a live BSS describes the same link as parked BSS p of iface: the
++ * same AP MLD on the same phy, or the same link address. The controller may
++ * have supplied it again to any interface of the phy, including a separate
++ * interface it gets when its configuration starts with an AP MLD link. */
++static bool hostapd_mld_parked_bss_is_live(struct hapd_interfaces *interfaces,
++					   struct hostapd_iface *iface,
++					   const struct hostapd_mld_parked_bss *p)
++{
++	size_t i, j;
++
++	for (i = 0; i < interfaces->count; i++) {
++		struct hostapd_iface *other = interfaces->iface[i];
++
++		for (j = 0; other && j < other->num_bss; j++) {
++			struct hostapd_data *hapd = other->bss[j];
++
++			if (!hapd->conf->mld_ap)
++				continue;
++			if (os_strcmp(other->phy, iface->phy) == 0 &&
++			    os_strcmp(hapd->conf->iface, p->conf->iface) == 0)
++				return true;
++			if (!is_zero_ether_addr(p->bssid) &&
++			    (ether_addr_equal(hapd->own_addr, p->bssid) ||
++			     ether_addr_equal(hapd->conf->bssid, p->bssid)))
++				return true;
++		}
++	}
++
++	return false;
++}
++
++
++/* A BSS supplied again while its previous instance is parked replaces the
++ * parked copy. Called once an interface has set up its BSSes. */
++static void hostapd_mld_drop_resupplied_parked_bss(struct hostapd_iface *iface)
++{
++	struct hapd_interfaces *interfaces = iface->interfaces;
++	size_t i, k;
++
++	for (i = 0; i < interfaces->count; i++) {
++		struct hostapd_iface *other = interfaces->iface[i];
++
++		if (!other)
++			continue;
++		for (k = other->num_mld_parked_bss; k > 0; k--) {
++			if (hostapd_mld_parked_bss_is_live(
++				    interfaces, other,
++				    &other->mld_parked_bss[k - 1]))
++				hostapd_mld_drop_parked_bss_idx(
++					other, k - 1, "supplied again");
++		}
++	}
++}
++
++
++/* Reconcile the parked BSSes of iface after a successful reload. A reload of
++ * the whole interface (bss == NULL) accepts iface->conf as its complete set
++ * of BSSes: a parked BSS it lists is a duplicate of a live BSS, one it omits
++ * was deleted by the controller; both are dropped. A reload of one BSS is
++ * scoped to that BSS and drops only a parked copy of it. */
++static void hostapd_mld_reconcile_parked_bss(struct hostapd_iface *iface,
++					     const char *bss)
++{
++	size_t j, k;
++
++	for (k = iface->num_mld_parked_bss; k > 0; k--) {
++		struct hostapd_mld_parked_bss *p = &iface->mld_parked_bss[k - 1];
++		bool listed = false;
++
++		if (bss) {
++			if (os_strcmp(p->conf->iface, bss) == 0)
++				hostapd_mld_drop_parked_bss_idx(
++					iface, k - 1, "configured again");
++			continue;
++		}
++		for (j = 0; j < iface->conf->num_bss; j++) {
++			if (os_strcmp(iface->conf->bss[j]->iface,
++				      p->conf->iface) == 0)
++				listed = true;
++		}
++		hostapd_mld_drop_parked_bss_idx(
++			iface, k - 1, listed ? "configured again" :
++			"not in the reloaded configuration");
++	}
++}
++
++
++/* Parse "<mld>_link<N>" into <mld> and N; returns N, or -1 for a bare name. */
++static int hostapd_mld_parse_link_sock_name(const char *buf, char *name,
++					    size_t name_len)
++{
++	const char *pos = NULL, *q = buf;
++	char *end;
++	long id;
++
++	while ((q = os_strstr(q, "_" WPA_CTRL_IFACE_LINK_NAME)))
++		pos = q++;
++	if (!pos || pos == buf || (size_t) (pos - buf) >= name_len)
++		return -1;
++	q = pos + 1 + os_strlen(WPA_CTRL_IFACE_LINK_NAME);
++	if (*q < '0' || *q > '9')
++		return -1;
++	id = strtol(q, &end, 10);
++	if (*end || id < 0 || id >= MAX_NUM_MLD_LINKS)
++		return -1;
++	os_memcpy(name, buf, pos - buf);
++	name[pos - buf] = '\0';
++	return (int) id;
++}
++
++
++/* "REMOVE <mld>_link<N>", the control socket name the BSS had, drops exactly
++ * the parked BSS that was link N of AP MLD <mld>. A bare "REMOVE <mld>" that
++ * matched no live interface or BSS drops the parked BSS of that AP MLD if
++ * there is exactly one; with several it fails, since a name shared by the
++ * links of an AP MLD does not say which radio is meant. */
++static int hostapd_mld_remove_parked_bss(struct hapd_interfaces *interfaces,
++					 const char *buf)
++{
++	struct hostapd_iface *match_iface = NULL;
++	char name[IFNAMSIZ + 1];
++	int link_id, matches = 0;
++	size_t i, k, match_idx = 0;
++
++	link_id = hostapd_mld_parse_link_sock_name(buf, name, sizeof(name));
++
++	for (i = 0; i < interfaces->count; i++) {
++		struct hostapd_iface *iface = interfaces->iface[i];
++
++		if (!iface)
++			continue;
++		for (k = iface->num_mld_parked_bss; k > 0; k--) {
++			struct hostapd_mld_parked_bss *p =
++				&iface->mld_parked_bss[k - 1];
++
++			if (link_id >= 0 ? (p->link_id != link_id ||
++					    os_strcmp(p->conf->iface, name)) :
++			    os_strcmp(p->conf->iface, buf))
++				continue;
++			matches++;
++			match_iface = iface;
++			match_idx = k - 1;
++		}
++	}
++
++	if (matches != 1) {
++		if (matches)
++			wpa_printf(MSG_INFO,
++				   "Remove parked BSS '%s': ambiguous, %d parked links of that AP MLD; use REMOVE %s_%s<N>",
++				   buf, matches, buf, WPA_CTRL_IFACE_LINK_NAME);
++		return -1;
++	}
++
++	wpa_printf(MSG_INFO, "Remove parked BSS '%s'", buf);
++	hostapd_mld_drop_parked_bss_idx(match_iface, match_idx, "REMOVE");
++	return 0;
++}
++
++
++/* Add parked BSS p back to its running interface the way "ADD bss_config="
++ * adds a BSS to an existing interface, as a non-first link of its AP MLD
++ * whose running first BSS is fbss. Returns 0 once the link was added to the
++ * driver and the BSS set up; p->conf then belongs to iface. Otherwise the BSS
++ * is not added, p->conf is untouched and -1 is returned. */
++static int hostapd_mld_unpark_bss(struct hostapd_iface *iface,
++				  const struct hostapd_mld_parked_bss *p,
++				  struct hostapd_data *fbss)
++{
++	struct hostapd_bss_config *conf = p->conf;
++	struct hostapd_bss_config **tmp_conf;
++	struct hostapd_data **tmp_bss, *hapd;
++	struct hostapd_mld *mld;
++
++	tmp_conf = os_realloc_array(iface->conf->bss, iface->conf->num_bss + 1,
++				    sizeof(*tmp_conf));
++	if (tmp_conf)
++		iface->conf->bss = tmp_conf;
++	tmp_bss = os_realloc_array(iface->bss, iface->num_bss + 1,
++				   sizeof(*tmp_bss));
++	if (tmp_bss)
++		iface->bss = tmp_bss;
++	if (!tmp_conf || !tmp_bss)
++		return -1;
++
++	iface->conf->bss[iface->conf->num_bss++] = conf;
++	hapd = hostapd_alloc_bss_data(iface, iface->conf, conf);
++	if (!hapd) {
++		iface->conf->num_bss--;
++		return -1;
++	}
++	iface->bss[iface->num_bss++] = hapd;
++	hapd->msg_ctx = hapd;
++	hostapd_bss_setup_multi_link(hapd, iface->interfaces);
++	mld = hapd->mld;
++	if (!mld || hostapd_mld_get_first_bss(hapd) != fbss) {
++		wpa_printf(MSG_WARNING,
++			   "Cannot re-add BSS '%s': it did not join the AP MLD of %s",
++			   conf->iface, fbss->conf->iface);
++		goto fail;
++	}
++
++	/* Keep the link ID the BSS had, so that it comes back under its
++	 * previous control socket name, unless the AP MLD reused it. */
++	if (p->link_id < MAX_NUM_MLD_LINKS &&
++	    !hostapd_mld_link_id_in_use(iface->interfaces, mld, p->link_id)) {
++		if (mld->next_link_id == hapd->mld_link_id + 1)
++			mld->next_link_id--;
++		hapd->mld_link_id = p->link_id;
++		if (mld->next_link_id <= p->link_id)
++			mld->next_link_id = p->link_id + 1;
++	}
++
++	hapd->driver = iface->bss[0]->driver;
++	hapd->drv_priv = iface->bss[0]->drv_priv;
++	hapd->drv_owner_iface = iface->bss[0]->drv_owner_iface;
++	os_memcpy(hapd->own_addr, iface->bss[0]->own_addr, ETH_ALEN);
++
++	wpa_printf(MSG_INFO,
++		   "Re-add BSS '%s' (AP MLD link %u) to interface %s: its AP MLD has a first BSS with a driver again",
++		   conf->iface, hapd->mld_link_id, iface->bss[0]->conf->iface);
++	/* first = 0: a non-first BSS of the interface. hostapd_setup_bss()
++	 * makes it borrow the driver context of the first BSS of its AP MLD
++	 * and, unlike the -1 of "ADD bss_config=", adds the link to the driver
++	 * and to the AP MLD. */
++	if (start_ctrl_iface_bss(hapd) < 0 || hostapd_setup_bss(hapd, 0, true)) {
++		wpa_printf(MSG_WARNING,
++			   "Failed to re-add BSS '%s' (AP MLD link %u) to interface %s: it stays parked",
++			   conf->iface, hapd->mld_link_id,
++			   iface->bss[0]->conf->iface);
++		goto fail;
++	}
++	wpa_printf(MSG_INFO, "Re-added BSS '%s' as AP MLD link %u of interface %s",
++		   conf->iface, hapd->mld_link_id, iface->bss[0]->conf->iface);
++	hostapd_owe_update_trans(iface);
++	return 0;
++
++fail:
++	hostapd_bss_link_deinit(hapd);
++	hostapd_cleanup(hapd);
++	iface->bss[--iface->num_bss] = NULL;
++	iface->conf->num_bss--;
++	hapd->conf = NULL;
++	hostapd_mld_ref_dec(hapd->mld);
++	os_free(hapd);
++	return -1;
++}
++
++
++/**
++ * hostapd_mld_reattach_partners - Bring back the AP MLD partners taken down
++ * for a departed driver owner once their AP MLD has a first BSS again
++ * @eloop_ctx: struct hapd_interfaces *
++ * @timeout_ctx: Not used
++ *
++ * hostapd_remove_drv_borrowers() disables an interface whose first BSS is an
++ * AP MLD link borrowing the driver of an interface that goes away
++ * (mld_partner_disabled) and parks the configuration of every secondary AP
++ * MLD link BSS that borrows it (mld_parked_bss). Once a first BSS of the same
++ * AP MLD runs again with a driver of its own, these can borrow that context as
++ * they did before: enable the interface, which runs driver_init() and the
++ * interface setup on its unchanged configuration, and add each parked BSS
++ * back to its still running interface. A parked BSS whose re-add fails stays
++ * parked. An explicit disable or removal revokes both
++ * (hostapd_mld_revoke_recovery()).
++ */
++static void hostapd_mld_reattach_partners(void *eloop_ctx, void *timeout_ctx)
++{
++	struct hapd_interfaces *interfaces = eloop_ctx;
++	size_t i, k;
++
++	for (i = 0; i < interfaces->count; i++) {
++		struct hostapd_iface *iface = interfaces->iface[i];
++		struct hostapd_data *hapd;
++
++		if (!iface || !iface->num_bss)
++			continue;
++		hapd = iface->bss[0];
++
++		if (iface->mld_partner_disabled) {
++			if (iface->state != HAPD_IFACE_DISABLED ||
++			    hapd->drv_priv || !hapd->conf->mld_ap) {
++				/* Enabled meanwhile: nothing to do */
++				iface->mld_partner_disabled = 0;
++			} else if (hostapd_mld_running_first_bss(
++					   interfaces, hapd->conf->iface)) {
++				wpa_printf(MSG_INFO,
++					   "Re-enable interface %s: the AP MLD it borrows its driver from has a first BSS again",
++					   hapd->conf->iface);
++				iface->mld_partner_disabled = 0;
++				if (hostapd_enable_iface(iface))
++					wpa_printf(MSG_WARNING,
++						   "Failed to re-enable interface %s",
++						   hapd->conf->iface);
++			}
++		}
++
++		/* Parked secondaries need their own interface running */
++		if (!iface->num_mld_parked_bss || !hapd->drv_priv ||
++		    iface->state != HAPD_IFACE_ENABLED)
++			continue;
++
++		for (k = iface->num_mld_parked_bss; k > 0; k--) {
++			struct hostapd_mld_parked_bss p =
++				iface->mld_parked_bss[k - 1];
++			struct hostapd_data *fbss;
++			size_t m;
++
++			if (hostapd_mld_parked_bss_is_live(interfaces, iface,
++							   &p)) {
++				hostapd_mld_drop_parked_bss_idx(
++					iface, k - 1, "supplied again");
++				continue;
++			}
++			fbss = hostapd_mld_running_first_bss(interfaces,
++							     p.conf->iface);
++			if (!fbss)
++				continue;
++
++			/* Off the list while it is added; it goes back to the
++			 * end of the list if that fails. */
++			iface->num_mld_parked_bss--;
++			for (m = k - 1; m < iface->num_mld_parked_bss; m++)
++				iface->mld_parked_bss[m] =
++					iface->mld_parked_bss[m + 1];
++			if (hostapd_mld_unpark_bss(iface, &p, fbss))
++				hostapd_mld_park_record(iface, &p);
++		}
++		hostapd_mld_parked_bss_changed(iface);
++	}
++}
++#endif /* CONFIG_IEEE80211BE */
++
++
+ /**
+  * hostapd_remove_drv_borrowers - Remove the BSSes of other interfaces that
+  * run on this interface's driver
+@@ -3565,6 +4114,27 @@ hostapd_interface_init_bss(struct hapd_interfaces *interfaces, const char *phy,
+  * a context takes its whole interface down (DISABLE) instead. The BSSes are
+  * identified by drv_owner_iface, which does not depend on the first BSS of
+  * the MLD or the first BSS of the driver still being present.
++ *
++ * When the first BSS of the departing interface is itself an AP MLD link,
++ * the driver is shared with the partners, and upstream would leave it, its
++ * nl80211 context and its netdev to them. That keeps the netdev busy: the
++ * mgmt frame registrations of the surviving context stay on its wdev, a later
++ * ADD of that interface fails to initialize a new driver on it
++ * (NL80211_CMD_REGISTER_FRAME: -EALREADY, "Match already configured"), and
++ * once the last partner link is removed the driver survives with drv->ctx
++ * pointing at a freed hostapd_data. Take the partners down in this case too,
++ * so that hostapd_cleanup_driver() finds the driver unshared and frees it.
++ *
++ * What is needed to bring a partner back is kept: a first-BSS partner
++ * disabled for an AP MLD owner is marked mld_partner_disabled, and the
++ * configuration of a secondary partner that is an AP MLD link is parked with
++ * the identity the BSS had (hostapd_mld_park_bss()), whether the first BSS of
++ * the departing interface is an AP MLD link or a plain BSS whose interface
++ * hosts the first links of other AP MLDs. hostapd_mld_reattach_partners()
++ * restores both once their own AP MLD has a first BSS with a driver again. A
++ * borrower is an AP MLD link by construction (only hostapd_setup_bss() and
++ * driver_init() borrow, both for conf->mld_ap); a plain partner, should one
++ * exist, is removed as 027 does, since nothing could bring it back.
+  */
+ static void hostapd_remove_drv_borrowers(struct hostapd_iface *iface)
+ {
+@@ -3572,8 +4142,7 @@ static void hostapd_remove_drv_borrowers(struct hostapd_iface *iface)
+ 	struct hapd_interfaces *interfaces = iface->interfaces;
+ 	size_t j, k;
+ 
+-	if (!interfaces || !iface->num_bss || !iface->bss[0]->drv_priv ||
+-	    iface->bss[0]->conf->mld_ap)
++	if (!interfaces || !iface->num_bss || !iface->bss[0]->drv_priv)
+ 		return;
+ 
+ 	for (j = 0; j < interfaces->count; j++) {
+@@ -3589,7 +4158,10 @@ static void hostapd_remove_drv_borrowers(struct hostapd_iface *iface)
+ 				   "Disable interface %s: its first BSS uses the driver of %s that is being deinitialized",
+ 				   other->bss[0]->conf->iface,
+ 				   iface->bss[0]->conf->iface);
+-			hostapd_disable_iface(other);
++			if (hostapd_disable_iface_int(other) == 0 &&
++			    iface->bss[0]->conf->mld_ap &&
++			    other->bss[0]->conf->mld_ap)
++				other->mld_partner_disabled = 1;
+ 			continue;
+ 		}
+ 
+@@ -3601,10 +4173,13 @@ static void hostapd_remove_drv_borrowers(struct hostapd_iface *iface)
+ 			if (!hapd->drv_priv || hapd->drv_owner_iface != iface)
+ 				continue;
+ 
++			if (hapd->conf->mld_ap) {
++				hostapd_mld_park_bss(other, k - 1, iface);
++				continue;
++			}
+ 			wpa_printf(MSG_INFO,
+-				   "Remove BSS %s (AP MLD link %d) of interface %s: it uses the driver of %s that is being deinitialized",
+-				   hapd->conf->iface, hapd->mld_link_id,
+-				   other->bss[0]->conf->iface,
++				   "Remove BSS %s of interface %s: it uses the driver of %s that is being deinitialized",
++				   hapd->conf->iface, other->bss[0]->conf->iface,
+ 				   iface->bss[0]->conf->iface);
+ 			hostapd_remove_bss(other, k - 1);
+ 		}
+@@ -3662,6 +4237,9 @@ void hostapd_interface_deinit_free(struct hostapd_iface *iface)
+ 	wpa_printf(MSG_DEBUG, "%s(%p)", __func__, iface);
+ 	if (iface == NULL)
+ 		return;
++#ifdef CONFIG_IEEE80211BE
++	hostapd_mld_revoke_recovery(iface);
++#endif /* CONFIG_IEEE80211BE */
+ 	hostapd_remove_drv_borrowers(iface);
+ 	wpa_printf(MSG_DEBUG, "%s: num_bss=%u conf->num_bss=%u",
+ 		   __func__, (unsigned int) iface->num_bss,
+@@ -3780,6 +4358,9 @@ int hostapd_reload_iface(struct hostapd_iface *hapd_iface)
+ 	hostapd_clear_old(hapd_iface);
+ 	for (j = 0; j < hapd_iface->num_bss; j++)
+ 		hostapd_reload_bss(hapd_iface->bss[j]);
++#ifdef CONFIG_IEEE80211BE
++	hostapd_mld_reconcile_parked_bss(hapd_iface, NULL);
++#endif /* CONFIG_IEEE80211BE */
+ 
+ 	return 0;
+ }
+@@ -3796,11 +4377,14 @@ int hostapd_reload_bss_only(struct hostapd_data *bss)
+ 	}
+ 	hostapd_clear_old_bss(bss);
+ 	hostapd_reload_bss(bss);
++#ifdef CONFIG_IEEE80211BE
++	hostapd_mld_reconcile_parked_bss(bss->iface, bss->conf->iface);
++#endif /* CONFIG_IEEE80211BE */
+ 	return 0;
+ }
+ 
+ 
+-int hostapd_disable_iface(struct hostapd_iface *hapd_iface)
++static int hostapd_disable_iface_int(struct hostapd_iface *hapd_iface)
+ {
+ 	size_t j;
+ 	const struct wpa_driver_ops *driver;
+@@ -3856,6 +4440,18 @@ int hostapd_disable_iface(struct hostapd_iface *hapd_iface)
+ }
+ 
+ 
++int hostapd_disable_iface(struct hostapd_iface *hapd_iface)
++{
++#ifdef CONFIG_IEEE80211BE
++	/* Also when the interface is already down, e.g. taken down by
++	 * hostapd_remove_drv_borrowers(): it must stay down. */
++	if (hapd_iface)
++		hostapd_mld_revoke_recovery(hapd_iface);
++#endif /* CONFIG_IEEE80211BE */
++	return hostapd_disable_iface_int(hapd_iface);
++}
++
++
+ static struct hostapd_iface *
+ hostapd_iface_alloc(struct hapd_interfaces *interfaces)
+ {
+@@ -4025,6 +4621,11 @@ int hostapd_add_iface(struct hapd_interfaces *interfaces, char *buf)
+ 					hapd_iface);
+ 				goto fail;
+ 			}
++#ifdef CONFIG_IEEE80211BE
++			/* Accepted: its BSSes replace parked copies of them,
++			 * also when the setup completes later */
++			hostapd_mld_drop_resupplied_parked_bss(hapd_iface);
++#endif /* CONFIG_IEEE80211BE */
+ 		} else {
+ 			/* Assign new BSS with bss[0]'s driver info */
+ 			hapd = hapd_iface->bss[hapd_iface->num_bss - 1];
+@@ -4053,6 +4654,9 @@ int hostapd_add_iface(struct hapd_interfaces *interfaces, char *buf)
+ 				os_free(hapd);
+ 				return -1;
+ 			}
++#ifdef CONFIG_IEEE80211BE
++			hostapd_mld_drop_resupplied_parked_bss(hapd_iface);
++#endif /* CONFIG_IEEE80211BE */
+ 		}
+ 		hostapd_owe_update_trans(hapd_iface);
+ 		return 0;
+@@ -4221,7 +4825,13 @@ int hostapd_remove_iface(struct hapd_interfaces *interfaces, char *buf)
+ 			}
+ 		}
+ 	}
++#ifdef CONFIG_IEEE80211BE
++	/* No live interface or BSS: a parked BSS, by the control socket name
++	 * it had ("<mld>_link<N>"), or all parked BSSes of an AP MLD */
++	return hostapd_mld_remove_parked_bss(interfaces, buf);
++#else /* CONFIG_IEEE80211BE */
+ 	return -1;
++#endif /* CONFIG_IEEE80211BE */
+ }
+ 
+ 
+diff --git a/src/ap/hostapd.h b/src/ap/hostapd.h
+index 27674652600e..c9df4a3af236 100644
+--- a/src/ap/hostapd.h
++++ b/src/ap/hostapd.h
+@@ -555,6 +555,17 @@ struct hostapd_mld {
+ };
+ 
+ #define HOSTAPD_MLD_MAX_REF_COUNT      0xFF
++
++/**
++ * struct hostapd_mld_parked_bss - A secondary AP MLD link BSS taken down by
++ * hostapd_remove_drv_borrowers(), kept on its interface with the identity it
++ * had for hostapd_mld_reattach_partners()
++ */
++struct hostapd_mld_parked_bss {
++	struct hostapd_bss_config *conf; /* conf->iface names its AP MLD */
++	u8 link_id; /* its link ID; control socket <conf->iface>_link<link_id> */
++	u8 bssid[ETH_ALEN]; /* its link address */
++};
+ #endif /* CONFIG_IEEE80211BE */
+ 
+ /**
+@@ -598,6 +609,25 @@ struct hostapd_iface {
+ 	 */
+ 	unsigned int driver_ap_teardown:1;
+ 
++	/*
++	 * Pending AP MLD partner recovery, set by hostapd_remove_drv_borrowers()
++	 * when the interface that created the driver behind AP MLD links goes
++	 * away: mld_partner_disabled when this interface was disabled because
++	 * its first BSS borrowed that driver, mld_parked_bss for the secondary
++	 * AP MLD link BSSes of this interface that were taken down for the same
++	 * reason, with the identity each had (its interface is this one, its
++	 * radio is phy). hostapd_mld_reattach_partners() brings them back once
++	 * their own AP MLD has a first BSS with a driver again; an explicit
++	 * disable or removal of this interface drops them, "REMOVE
++	 * <mld>_link<N>" drops one parked BSS, and a BSS supplied again or
++	 * omitted from a reloaded configuration replaces its parked copy.
++	 */
++	unsigned int mld_partner_disabled:1;
++#ifdef CONFIG_IEEE80211BE
++	struct hostapd_mld_parked_bss *mld_parked_bss;
++	size_t num_mld_parked_bss;
++#endif /* CONFIG_IEEE80211BE */
++
+ 	/*
+ 	 * When set, indicates that this interface is part of list of
+ 	 * interfaces that need to be started together (synchronously).
