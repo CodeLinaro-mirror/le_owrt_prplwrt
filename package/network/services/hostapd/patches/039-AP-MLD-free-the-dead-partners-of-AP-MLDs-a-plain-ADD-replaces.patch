@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Petr Štetiar <petr.stetiar@prplfoundation.org>
-Date: Sat, 26 Sep 2026 12:00:00 +0000
+Date: Sun, 27 Sep 2026 12:00:00 +0000
 Subject: [PATCH] AP MLD: free the dead partners of AP MLDs a plain ADD replaces
 
 When the owner interface of an AP MLD is removed, 035 disables the
@@ -22,12 +22,18 @@ throughout: disabled by the owner removal, no BSS started or holding a
 driver context, no parked BSS of another recovery. A partner interface
 carries whatever its configuration file named, typically the first link
 BSS and the secondary links of the other AP MLDs of the same radios, so
-the whole interface is judged, and it is removed only when every AP MLD
-one of its BSSes is a link of is dead and replaced by a plain BSS of this
-very configuration. An interface that is also a link of an AP MLD the
-configuration keeps, or does not mention, stays: its owner may return as
-an AP MLD and hostapd_mld_reattach_partners() then re-enables it. All
-names are checked before anything changes; then the dead interfaces are
+the whole interface is judged: every AP MLD one of its BSSes is a link
+of must be dead, and the AP MLD of its first BSS must be replaced by a
+plain BSS of this very configuration. The first BSS decides because
+hostapd_mld_reattach_partners() re-enables a retained interface only for
+an AP MLD of that BSS's name with a first BSS again; once a plain BSS
+holds the name, nothing on the interface can come back on its own, so it
+goes, and the links of its other dead AP MLDs go with it, each logged.
+An interface whose first BSS is a link of an AP MLD the configuration
+keeps, or does not mention, stays: its owner may return as an AP MLD and
+hostapd_mld_reattach_partners() then re-enables it, also when the
+configuration replaces the AP MLD of one of its other BSSes. All names
+are checked before anything changes; then the dead interfaces are
 removed the way a REMOVE would, recovery included, and
 hostapd_cleanup_unused_mlds() frees the MLDs and their sockets. Any other
 holder of a name fails the ADD with nothing changed. The interface
@@ -35,15 +41,32 @@ selected for the phy is looked up again afterwards, the removal may have
 taken it. Ordinary MLD owner re-add, the partner recovery and the
 plain-owner path are unchanged.
 
-Limit: hostapd deletes only partners whose every AP MLD this plain ADD
-replaces, and it relies on the controller to supply those partner radios
-again; it has no way to check that and no rollback. In pWHM the plain
-rewrite of an owner comes from an AP MLD refresh that marks every link of
-the MLD, and in the three recorded cases (run-44a batch-03, run-45c
-batch-01-retry2 and batch-02-retry) the partner radios had their FSM
-commits queued before the owner's ADD. After the CTRL-EVENT-TERMINATING
-of the partner sockets pWHM itself only resets and rescans the
-connections; nothing beyond the observed behaviour is guaranteed.
+v3 required every AP MLD of the partner interface to be replaced. With
+pWHM the owner radio's rewrite is usually mixed: on the build-20 running
+power-down (run-47c batch-01 and batch-02) the private link left its AP
+MLD and wlan2.1 was written plain while the guest wlan2.2 stayed an AP
+MLD link, and the ADD was refused:
+
+  Interface phy0: keep it, its BSS 'wlan2.2' is a link of AP MLD wlan2.2 that this configuration does not replace
+  Cannot add BSS 'wlan2.1': AP MLD wlan2.1 is still in use and keeps its control socket
+
+The kept interface could not have been re-enabled, its first BSS is the
+wlan2.1 link, so the refusal only turned a warm apply into the hostapd
+restart pWHM falls back to. Judging by the first BSS keeps the v2 case
+closed (a secondary AP MLD replaced while the first one is kept still
+refuses) and frees the mixed case.
+
+Limit: hostapd deletes only partners whose first BSS's AP MLD this plain
+ADD replaces, and it relies on the controller to supply those partner
+radios again, links of the other AP MLDs included; it has no way to
+check that and no rollback. In pWHM the plain rewrite of an owner comes
+from an AP MLD refresh that marks every neighbour link of the changed
+MLD, the disabled partner radio's own dependency pass re-adds its
+configuration, and 0019 recovers an unexpected loss of a radio's
+configuration; in the recorded cases (run-44a batch-03, run-45c
+batch-01-retry2 and batch-02-retry, run-47c batch-01 and batch-02) the
+partner radios had their FSM commits queued before the owner's ADD.
+Nothing beyond the observed behaviour is guaranteed.
 
 The MLD control socket deinit unlinks only the file the MLD bound
 (device and inode recorded at bind time): with a plain BSS, or a new
@@ -51,16 +74,16 @@ MLD, of the same name the file at that path is somebody else's.
 
 Signed-off-by: Petr Štetiar <petr.stetiar@prplfoundation.org>
 ---
- hostapd/ctrl_iface.c |   24 ++++-
- src/ap/hostapd.c     |  260 ++++++++++++++++++++++++++++++++++++++++++++++++++
+ hostapd/ctrl_iface.c |   24 ++++
+ src/ap/hostapd.c     |  278 +++++++++++++++++++++++++++++++++++++++++++++++++++
  src/ap/hostapd.h     |    2 
- 3 files changed, 285 insertions(+), 1 deletion(-)
+ 3 files changed, 303 insertions(+), 1 deletion(-)
 
 diff --git a/hostapd/ctrl_iface.c b/hostapd/ctrl_iface.c
-index 8119a0ec5870..7cada490a6ba 100644
+index 1fcefb3550b6..b9c8eb0815f7 100644
 --- a/hostapd/ctrl_iface.c
 +++ b/hostapd/ctrl_iface.c
-@@ -4912,6 +4912,7 @@ int hostapd_mld_ctrl_iface_init(struct hostapd_mld *mld)
+@@ -4910,6 +4910,7 @@ int hostapd_mld_ctrl_iface_init(struct hostapd_mld *mld)
  	struct sockaddr_un addr;
  	int s = -1;
  	char *fname = NULL;
@@ -68,7 +91,7 @@ index 8119a0ec5870..7cada490a6ba 100644
  
  	if (!mld)
  		return -1;
-@@ -4999,6 +5000,15 @@ int hostapd_mld_ctrl_iface_init(struct hostapd_mld *mld)
+@@ -4997,6 +4998,15 @@ int hostapd_mld_ctrl_iface_init(struct hostapd_mld *mld)
  			   strerror(errno));
  		goto fail;
  	}
@@ -84,7 +107,7 @@ index 8119a0ec5870..7cada490a6ba 100644
  	os_free(fname);
  
  	mld->ctrl_sock = s;
-@@ -5036,7 +5046,19 @@ void hostapd_mld_ctrl_iface_deinit(struct hostapd_mld *mld)
+@@ -5034,7 +5044,19 @@ void hostapd_mld_ctrl_iface_deinit(struct hostapd_mld *mld)
  
  		fname = hostapd_mld_ctrl_iface_path(mld);
  		if (fname) {
@@ -106,10 +129,10 @@ index 8119a0ec5870..7cada490a6ba 100644
  		}
  
 diff --git a/src/ap/hostapd.c b/src/ap/hostapd.c
-index ab20dba70d2a..b2b5f02bafcd 100644
+index 604b0fb9c5e3..7355ff6dee54 100644
 --- a/src/ap/hostapd.c
 +++ b/src/ap/hostapd.c
-@@ -3494,6 +3494,252 @@ static int ifname_in_use(struct hapd_interfaces *interfaces, const char *ifname)
+@@ -3459,6 +3459,270 @@ static int ifname_in_use(struct hapd_interfaces *interfaces, const char *ifname)
  }
  
  
@@ -206,19 +229,27 @@ index ab20dba70d2a..b2b5f02bafcd 100644
 +
 +
 +/* Whether retained partner interface iface can go for configuration conf:
-+ * every AP MLD one of its BSSes is a link of is dead, and is replaced by a
-+ * plain BSS of conf. An AP MLD on it that conf does not replace may still
-+ * get its owner back as an AP MLD, and then the interface is re-enabled by
-+ * hostapd_mld_reattach_partners(); it is not for this ADD to take. A plain
-+ * BSS on the interface holds nothing. */
++ * every AP MLD one of its BSSes is a link of is dead, and the AP MLD its
++ * first BSS is a link of is replaced by a plain BSS of conf. The first BSS
++ * decides: hostapd_mld_reattach_partners() re-enables the interface only
++ * for an AP MLD of that BSS's name with a first BSS again, and once a plain
++ * BSS holds the name that never happens; nothing else on the interface can
++ * come back on its own then, whatever AP MLDs its other BSSes are links of,
++ * so the interface goes and the controller supplies the radio again. When
++ * the first BSS's AP MLD is kept, or not mentioned, by conf, its owner may
++ * return as an AP MLD and the interface stays for that re-enable, also when
++ * conf replaces the AP MLD of one of its other BSSes; that is not for this
++ * ADD to take. A plain BSS on the interface holds nothing. */
 +static bool hostapd_mld_partner_is_dead(struct hapd_interfaces *interfaces,
 +					struct hostapd_iface *iface,
 +					const struct hostapd_config *conf)
 +{
++	struct hostapd_mld *first;
 +	size_t j;
 +
 +	if (!hostapd_mld_retained_partner(iface))
 +		return false;
++	first = iface->bss[0]->mld;
 +	for (j = 0; j < iface->num_bss; j++) {
 +		struct hostapd_mld *mld = iface->bss[j]->mld;
 +
@@ -226,13 +257,19 @@ index ab20dba70d2a..b2b5f02bafcd 100644
 +			continue;
 +		if (!hostapd_mld_is_dead(interfaces, mld))
 +			return false;
-+		if (!hostapd_mld_replaced_by(conf, mld)) {
++		if (hostapd_mld_replaced_by(conf, mld))
++			continue;
++		if (j == 0 || !first) {
 +			wpa_printf(MSG_INFO,
 +				   "Interface %s: keep it, its BSS '%s' is a link of AP MLD %s that this configuration does not replace",
 +				   iface->phy, iface->bss[j]->conf->iface,
 +				   mld->name);
 +			return false;
 +		}
++		wpa_printf(MSG_INFO,
++			   "Interface %s: its BSS '%s', a link of dead AP MLD %s that this configuration does not replace, goes with the interface: a plain BSS takes the name of AP MLD %s of its first BSS, and the controller must supply this radio again",
++			   iface->phy, iface->bss[j]->conf->iface, mld->name,
++			   first->name);
 +	}
 +	return true;
 +}
@@ -284,9 +321,12 @@ index ab20dba70d2a..b2b5f02bafcd 100644
 + * made the case here for a dead MLD (hostapd_mld_is_dead()) by removing the
 + * dead partner interfaces (hostapd_mld_partner_is_dead()) referencing it,
 + * the way a REMOVE of each would, pending recovery included. Only a partner
-+ * interface whose every AP MLD conf replaces with a plain BSS is removed:
-+ * nothing in hostapd could have started it again, every AP MLD it was made
-+ * for is gone. Its configuration is lost with it, and hostapd relies on the
++ * interface whose AP MLDs are all dead and whose first BSS's AP MLD conf
++ * replaces with a plain BSS is removed: nothing in hostapd could have
++ * started it again, hostapd_mld_reattach_partners() waits for an AP MLD of
++ * the first BSS's name, and a plain BSS holds that name from now on; links
++ * of its other dead AP MLDs go with it and are logged. Its configuration
++ * is lost with it, and hostapd relies on the
 + * controller to supply those partner radios again; it cannot check that.
 + * In pWHM the plain rewrite of an owner comes from an AP MLD refresh that
 + * marks every link of the MLD, and in the three recorded cases (run-44a
@@ -295,7 +335,8 @@ index ab20dba70d2a..b2b5f02bafcd 100644
 + * guarantee beyond that observed behaviour. An MLD that is in use, partly
 + * active, or disabled by the controller, and a partner interface that is
 + * not dead throughout, carries parked BSSes or is a link of an AP MLD conf
-+ * does not replace, keep everything as it is and the ADD fails here,
++ * does not replace with its first BSS, keep everything as it is and the ADD
++ * fails here,
 + * before anything changed, instead of in hostapd_ctrl_iface_init() later.
 + * All names are checked before any interface is removed. The caller must
 + * not keep pointers into interfaces->iface[] across this call.
@@ -362,7 +403,7 @@ index ab20dba70d2a..b2b5f02bafcd 100644
  /**
   * hostapd_interface_init_bss - Read configuration file and init BSS data
   *
-@@ -3538,6 +3784,20 @@ hostapd_interface_init_bss(struct hapd_interfaces *interfaces, const char *phy,
+@@ -3498,6 +3762,20 @@ hostapd_interface_init_bss(struct hapd_interfaces *interfaces, const char *phy,
  		return NULL;
  
  #ifdef CONFIG_IEEE80211BE
@@ -384,10 +425,10 @@ index ab20dba70d2a..b2b5f02bafcd 100644
  	 * get the interface, we still need to allocate a new hostapd_iface
  	 * structure. */
 diff --git a/src/ap/hostapd.h b/src/ap/hostapd.h
-index 49c377e81dff..cd2ffdfd3f43 100644
+index 1c66e82350cb..1b6625fb735b 100644
 --- a/src/ap/hostapd.h
 +++ b/src/ap/hostapd.h
-@@ -581,6 +581,8 @@ struct hostapd_mld {
+@@ -555,6 +555,8 @@ struct hostapd_mld {
  	int ctrl_sock;
  	struct dl_list ctrl_dst;
  	char *ctrl_interface; /* Directory for UNIX domain sockets */
@@ -398,3 +439,4 @@ index 49c377e81dff..cd2ffdfd3f43 100644
  #define HOSTAPD_MLD_MAX_REF_COUNT      0xFF
 -- 
 2.51.0
+
