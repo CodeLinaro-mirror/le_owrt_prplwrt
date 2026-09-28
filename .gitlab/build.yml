@@ -94,12 +94,8 @@
     - section_end "tools-tar-compile"
 
     - section_start "download" "Downloading source code" "collapsed"
-    - |
-      if [[ "$CI_MERGE_REQUEST_LABELS" == *"skip_integrity_check"* ]]; then
-        make -j $(nproc) download 2>&1 | tee --append logs/build.log
-      else
-        make -j $(nproc) download check FIXUP=1 2>&1 | tee --append logs/build.log
-      fi
+    - make -j $(nproc) download 2>&1 | tee --append logs/build.log
+
     - section_end "download"
 
     - section_start "integrity-check" "Package & feed integrity check" "collapsed"

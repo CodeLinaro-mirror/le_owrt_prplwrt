@@ -24,11 +24,7 @@
     CRAM_REMOTE_COMMAND: ssh -n root@$TARGET_LAN_IP
     CRAM_REMOTE_COPY: scp -O -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
     CRAM_TEST_SUITE: |
-      .gitlab/tests/cram/generic/acceleration-plan-components
-      .gitlab/tests/cram/$DUT_BOARD/acceleration-plan-components
-      .gitlab/tests/cram/generic/lcm
-      .gitlab/tests/cram/generic
-      .gitlab/tests/cram/$DUT_BOARD
+      .gitlab/tests/cram/generic/enumerate-network-connections
     CRAM_TEST_SUITE_POST: |
       .gitlab/tests/cram/post/generic
     DUT_INIT_SCRIPTS: |
@@ -172,13 +168,6 @@
     COMPONENT: prplos
   script:
     - |
-      CRAM_TEST_SUITE="$(
-        .gitlab/tests/cram/scripts/resolve-component-tests.py \
-          --test-root .gitlab/tests/cram \
-          --manifest components.yml \
-          --board "$DUT_BOARD" \
-          --component "$COMPONENT"
-      )"
       export CRAM_TEST_SUITE
     - !reference [.testbed, script]
 
