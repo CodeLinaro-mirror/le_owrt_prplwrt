@@ -1201,10 +1201,8 @@ Device.GRE.Tunnel.{i}.Interface.{i}.Stats.BroadcastPacketsReceived              
 Device.GRE.Tunnel.{i}.Interface.{i}.Stats.BroadcastPacketsSent                                       proto::tr181-gre
 Device.GRE.Tunnel.{i}.Interface.{i}.Stats.BytesReceived                                              proto::tr181-gre
 Device.GRE.Tunnel.{i}.Interface.{i}.Stats.BytesSent                                                  proto::tr181-gre
-Device.GRE.Tunnel.{i}.Interface.{i}.Stats.DiscardChecksumReceived                                    proto::tr181-gre
 Device.GRE.Tunnel.{i}.Interface.{i}.Stats.DiscardPacketsReceived                                     proto::tr181-gre
 Device.GRE.Tunnel.{i}.Interface.{i}.Stats.DiscardPacketsSent                                         proto::tr181-gre
-Device.GRE.Tunnel.{i}.Interface.{i}.Stats.DiscardSequenceNumberReceived                              proto::tr181-gre
 Device.GRE.Tunnel.{i}.Interface.{i}.Stats.ErrorsReceived                                             proto::tr181-gre
 Device.GRE.Tunnel.{i}.Interface.{i}.Stats.ErrorsSent                                                 proto::tr181-gre
 Device.GRE.Tunnel.{i}.Interface.{i}.Stats.MulticastPacketsReceived                                   proto::tr181-gre
