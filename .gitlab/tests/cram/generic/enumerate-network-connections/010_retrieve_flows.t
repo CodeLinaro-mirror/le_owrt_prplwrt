@@ -22,9 +22,27 @@ Configure a query to track tcp flow destined to the device:
 
 Invoke instant RetrieveFlows query and verify current script execution connection is captured:
 
-  $ R "ba-cli -l -j 'ConnectionTrackingQuery.RetrieveFlows()'" | sed '/^$/d' | tail -n 1 | \
-  > grep  -Ec '\"DestIP\":\"$DeviceIP\"|\"DestPort\":\"22\"|\"Protocol\":\"6\"'
-  [1-9]+ (re)
+Invoke instant RetrieveFlows query and verify current script execution connection is captured:
+
+  $ Raw=$(R "ba-cli -l -j 'Device.X_PRPLWARE-COM_ConnectionTrackingQuery.RetrieveFlows()'")
+
+  $ echo "DEBUG DeviceIP    : $DeviceIP"
+  $ echo "DEBUG 1 raw output:"; echo "$Raw"
+
+  $ NoBlank=$(echo "$Raw" | sed '/^$/d')
+
+  $ echo "DEBUG 2 after sed (blank lines removed):"; echo "$NoBlank"
+  $ echo "DEBUG 2 line count: $(echo "$NoBlank" | wc -l)"
+
+  $ LastLine=$(echo "$NoBlank" | tail -n 1)
+
+  $ echo "DEBUG 3 after tail -n 1:"; echo "$LastLine"
+
+  $ echo "DEBUG 4 grep pattern: \"DestIP\":\"$DeviceIP\".*\"DestPort\":\"?22\"?.*\"Protocol\":\"?6\"?"
+  $ echo "DEBUG 4 grep match count:"; echo "$LastLine" | grep -Ec "\"DestIP\":\"$DeviceIP\".*\"DestPort\":\"?22\"?.*\"Protocol\":\"?6\"?"
+
+  $ echo "$LastLine" | grep -Ec "\"DestIP\":\"$DeviceIP\".*\"DestPort\":\"?22\"?.*\"Protocol\":\"?6\"?"
+  1
 
   $ R "ba-cli -l -j 'Device.X_PRPLWARE-COM_ConnectionTrackingQuery.RetrieveFlows()' | sed '/^$/d' | tail -n 1"
   \[{.*}\] (re)
