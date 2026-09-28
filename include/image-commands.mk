@@ -758,8 +758,8 @@ define Build/imagegenerator-init
 	$(eval IMG_GEN_DIR := $(wildcard $(BUILD_DIR_BASE)/hostpkg/imagegenerator-*))
 	rm -rf $(IMG_GEN_DIR)/build
 	mkdir -p $(IMG_GEN_DIR)/build
-	cp -r $(IMG_GEN_DIR)/scripts $(IMG_GEN_DIR)/build
-	cp -r $(IMG_GEN_DIR)/keys $(IMG_GEN_DIR)/build
+	cp -r $(IMG_GEN_DIR)/src/scripts $(IMG_GEN_DIR)/build
+	cp -r $(IMG_GEN_DIR)/src/keys $(IMG_GEN_DIR)/build
 	# Copy all files passed in argument in Imagegenerator build directory
 	$(foreach f,$(1), \
 		$(if $(findstring ./,$(f)), \
@@ -773,7 +773,7 @@ define Build/binman
 	$(eval device := $(DEVICE_NAME))
 	@echo "Running binman for $(device) using $(1)"
 	ln -sf $(1) $(IMG_GEN_DIR)/build/binman.dts
-	cd $(IMG_GEN_DIR) && ./scripts/gen_binman.sh
+	cd $(IMG_GEN_DIR) && ./build/scripts/gen_binman.sh
 	# FIXME: The destination image names are hardcoded but it could be nice to pass them somehow
 	for image in u-boot.itb kernel.itb rootfs.itb ; do \
 		if [ -f $(IMG_GEN_DIR)/build/$${image} ] ; then \
@@ -787,6 +787,6 @@ define Build/swugenerator
 	$(eval device := $(DEVICE_NAME))
 	@echo "Running SWUGenerator for $(device) using $(1)"
 	ln -sf $(1) $(IMG_GEN_DIR)/build/sw-description
-	cd $(IMG_GEN_DIR) && ./scripts/gen_swu.sh
+	cd $(IMG_GEN_DIR) && ./build/scripts/gen_swu.sh
 	cp $(IMG_GEN_DIR)/build/image.swu $(KDIR)/tmp/$(DEVICE_IMG_PREFIX)-image.swu
 endef
