@@ -93,7 +93,13 @@ Check that CABundle are presents:
 
   $ R "echo '%populate{object Security{object CABundle{instance add(){parameter Enable=1; parameter Name=cram; parameter CAFileURI=\"/tmp/server-cert.crt\";}}}}' > /etc/amx/tr181-security/defaults.d/01_cram_periodic_transfer.odl" ; sleep 1
   $ R '/etc/init.d/tr181-security restart'
-  $ R 'ba-cli Security.CABundleNumberOfEntries?' | grep -Ev '^(>|$)'
+  $ result=""
+  $ for i in $(seq 1 10); do
+  >   result="$(R 'ba-cli Security.CABundleNumberOfEntries?' | grep -Ev '^(>|$)' || true)"
+  >   [ "$result" = "Security.CABundleNumberOfEntries=1" ] && break
+  >   sleep 1
+  > done
+  $ echo "$result"
   Security.CABundleNumberOfEntries=1
 
 Check CABundle RPC:
