@@ -3,6 +3,22 @@ Create R alias:
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
   $ alias C="${CRAM_REMOTE_COPY:-}"
 
+Read certificates with retries while tr181-security starts:
+
+  $ get_certificates() {
+  >   local expected="$1" result attempt
+  >   for attempt in $(seq 1 10); do
+  >     result="$(R "ubus -S call Security.Certificate _get | jsonfilter -e @[*].Enable -e @[*].Subject -e @[*].SignatureAlgorithm -e @[*].NotBefore | LC_ALL=C sort" 2>&1 || true)"
+  >     if [ "$(printf '%s\n' "$result" | grep -c '^true$')" -eq "$expected" ]; then
+  >       printf '%s\n' "$result"
+  >       return 0
+  >     fi
+  >     sleep 1
+  >   done
+  >   printf '%s\n' "$result"
+  >   return 1
+  > }
+
 Backup the state of the system:
 
   $ R "mkdir -p /etc/config/autocert"
@@ -27,7 +43,7 @@ Restart tr181-security service:
 
 Check that certs are in place as expected:
 
-  $ R "ubus -S call Security.Certificate _get | jsonfilter -e @[*].Enable -e @[*].Subject -e @[*].SignatureAlgorithm -e @[*].NotBefore | LC_ALL=C sort"
+  $ get_certificates 2
   /C=US/O=PrplFoundation/OU=prplOS/CN=prplOS.lan
   /C=US/O=PrplFoundation/OU=prplOS/CN=prplOS.lan
   2023-12-04T17:41:08.* (re)
@@ -79,11 +95,11 @@ Remove first certificate from the system:
 
 Restart tr181-security service:
 
-  $ R "/etc/init.d/tr181-security restart" > /dev/null 2>&1 ; sleep .5
+  $ R "/etc/init.d/tr181-security restart" > /dev/null 2>&1
 
 Check that the first certificate is not present anymore:
 
-  $ R "ubus -S call Security.Certificate _get | jsonfilter -e @[*].Enable -e @[*].Subject -e @[*].SignatureAlgorithm -e @[*].NotBefore | LC_ALL=C sort"
+  $ get_certificates 1
   /C=US/O=PrplFoundation/OU=prplOS/CN=prplOS.lan
   2023-12-04T17:41:08.* (re)
   ecdsa-with-SHA512
@@ -93,7 +109,13 @@ Check that CABundle are presents:
 
   $ R "echo '%populate{object Security{object CABundle{instance add(){parameter Enable=1; parameter Name=cram; parameter CAFileURI=\"/tmp/server-cert.crt\";}}}}' > /etc/amx/tr181-security/defaults.d/01_cram_periodic_transfer.odl" ; sleep 1
   $ R '/etc/init.d/tr181-security restart'
-  $ R 'ba-cli Security.CABundleNumberOfEntries?' | grep -Ev '^(>|$)'
+  $ result=""
+  $ for i in $(seq 1 10); do
+  >   result="$(R 'ba-cli Security.CABundleNumberOfEntries?' | grep -Ev '^(>|$)' || true)"
+  >   [ "$result" = "Security.CABundleNumberOfEntries=1" ] && break
+  >   sleep 1
+  > done
+  $ echo "$result"
   Security.CABundleNumberOfEntries=1
 
 Check CABundle RPC:
