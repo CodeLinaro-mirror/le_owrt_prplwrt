@@ -18,6 +18,13 @@ Create R alias:
 
   $ sleep 5
 
+Check no wpa_supplicant process is running:
+
+  $ R "pgrep -f 'wpa_supplicant'"
+  [1]
+
+  $ ls_wpa_sockets
+
 Disable UseNeighborProfile:
 
   $ wifi_dm "bSTAMLD.1.bSTAMLDConfig.UseNeighborProfile=0" "Device.WiFi." "ba-cli" protected
@@ -96,6 +103,22 @@ Enable all EPs:
   $ R "pgrep wpa_supplicant"
   \d+ (re)
 
+  $ R "ps axw" | sed -nE 's/.*(wpa_supplicant .*)/\1/p' | head -1 | tr -s ' ' '\n' | LC_ALL=C sort
+  -Dnl80211
+  -c
+  -g
+  -i
+  -s
+  /tmp/wlan0_wpa_supplicant.conf
+  /var/run/wpa_supplicant/global\.0x.* (re)
+  wlan0
+  wpa_supplicant
+
+Check that exactly one wpactrl socket is created in /var/run/wpa_supplicant:
+
+  $ ls_wpa_sockets
+  wlan0
+
   $ wpa_conf_file=$(R "ps ax | grep '[w]pa_supplicant'" | sed -nE 's/.*-c[[:space:]]*([^[:space:]]+).*/\1/p' | sed '/^$/d')
   $ echo $wpa_conf_file
   /tmp/wlan\d_wpa_supplicant.conf (re)
@@ -157,6 +180,13 @@ Assume that the profile created during the test has index 1. Because of the test
   Device.WiFi.bSTAMLD.1.bSTAMLDConfig.UseNeighborProfile=1
 
   $ sleep 2
+
+Check no wpa_supplicant process is running:
+
+  $ R "pgrep -f 'wpa_supplicant'"
+  [1]
+
+  $ ls_wpa_sockets
 
 Check bSTAMLD DM after unsetting MLDUnit:
 

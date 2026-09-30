@@ -439,6 +439,21 @@ read_hostapd_inodes(){
   echo "$ilist"
 }
 
+# List all wpa_supplicant ctrl socket files in /var/run/wpa_supplicant
+# In : no input
+# Out : sorted list of wpa_supplicant socket names
+ls_wpa_sockets () {
+  R "ls /var/run/wpa_supplicant/ 2>/dev/null" | grep wlan | sort
+}
+
+# Print sorted list of wpa_supplicant socket inodes and paths
+# In : no input
+# Out : list of socket inodes and paths
+read_wpa_inodes () {
+  ilist=$(R "grep '/var/run/wpa_supplicant/wlan' /proc/net/unix" | awk '{print $7, $8}' | sort -n)
+  echo "$ilist"
+}
+
 # print lines difference (diff command equivalent)
 # In : old string, new string
 # Out : lines differences with A:/R: prefix (Added/Removed)
