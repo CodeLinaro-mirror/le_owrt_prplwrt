@@ -2,7 +2,7 @@ DHCPv6 Server - Lease Persistence with Same WAN Configuration (Requirement 1)
 
 Verify that after the DHCPv6 server restarts with the same WAN IPv6
 configuration, odhcpd correctly reloads its lease file and re-issues
-an IANA address and IAPD prefix that preserve the client's identity
+an IANA address and IAPD prefix that preserve the clients identity
 (same host portion and relative WAN-prefix offset) for the same LAN
 client (identified by DUID + IAID). If the upstream WAN prefix shifts
 uniformly after reboot, the relative position must still be identical.
@@ -13,7 +13,8 @@ Create R alias:
 
 Verify scapy is available on the test host:
 
-  $ python3 -c "import scapy.all" >/dev/null 2>&1
+  $ python3 -c "import scapy.all" >/dev/null 2>&1 && echo "scapy OK" || { sudo apt-get install --yes --no-install-recommends python3-scapy >/dev/null 2>&1 && echo "scapy OK" || echo "scapy FAIL"; }
+  scapy OK
 
 Set test constants - fixed DUID and IAID give the simulated client a
 deterministic identity across all simulator runs in this test:

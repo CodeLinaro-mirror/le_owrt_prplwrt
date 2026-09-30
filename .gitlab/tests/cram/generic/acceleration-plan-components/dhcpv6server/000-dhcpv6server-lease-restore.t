@@ -2,6 +2,11 @@ Create the remote alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
+Verify scapy is available on the test host:
+
+  $ python3 -c "import scapy.all" >/dev/null 2>&1 && echo "scapy OK" || { sudo apt-get install --yes --no-install-recommends python3-scapy >/dev/null 2>&1 && echo "scapy OK" || echo "scapy FAIL"; }
+  scapy OK
+
 Step 1 — Verify DHCPv6 server is enabled on the LAN interface
 
   $ R "pidof odhcpd >/dev/null && echo RUNNING"

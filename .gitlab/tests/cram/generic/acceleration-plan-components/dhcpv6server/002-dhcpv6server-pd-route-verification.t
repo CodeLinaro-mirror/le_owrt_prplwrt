@@ -10,7 +10,8 @@ Create R alias:
 
 Verify scapy is available on the test host:
 
-  $ python3 -c "import scapy.all" >/dev/null 2>&1
+  $ python3 -c "import scapy.all" >/dev/null 2>&1 && echo "scapy OK" || { sudo apt-get install --yes --no-install-recommends python3-scapy >/dev/null 2>&1 && echo "scapy OK" || echo "scapy FAIL"; }
+  scapy OK
 
 Set test constants:
 
