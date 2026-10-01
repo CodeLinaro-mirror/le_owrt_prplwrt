@@ -2,4 +2,4 @@
 feeds:
   - name: feed_prplos
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplos.git
-    revision: main@d59f97ac0a89e650799c06c3e6d4e79690f3d8fd
+    revision: PCF-2789-implementation-feed-prplos-bump-for-tr181-deviceinfo-and-tr181-bootstatus@f4ac8e86f14ad26ac89264815e9ca4a303f5560e
