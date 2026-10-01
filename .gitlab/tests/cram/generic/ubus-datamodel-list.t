@@ -7,6 +7,8 @@ Check that ubus has expected datamodels available:
   $ R "ubus list | grep '[[:upper:]]' | grep -v -e '\.[[:digit:]]' -e '^Cellular' -e 'Device.Cellular' -e 'Device.SessionManagement' -e 'Device.TrustedElements' -e '^SessionManagement' -e '^TrustedElements' -e 'Device.X_PRPLWARE-COM_SoftwareModules' -e 'WiFi.Vendor.Daemon' -e 'WiFi.Vendor.ModuleMode' -e '^WiFi.Vendor.MLO' -e '^Bridging.Bridge.[SV]' -e 'WiFi.Vendor.ReconfManager'"
   ACLManager
   ACLManager.Role
+  BootTiming
+  BootTiming.LastBootMilestone
   Bridging
   Bridging.Bridge
   BulkData
@@ -82,6 +84,7 @@ Check that ubus has expected datamodels available:
   Device.DNS.SD
   Device.DSLite
   Device.DeviceInfo
+  Device.DeviceInfo.BootTiming
   Device.DeviceInfo.KernelFaults
   Device.DeviceInfo.PowerStatus
   Device.DeviceInfo.ProcessFaults
