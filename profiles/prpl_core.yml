@@ -99,6 +99,7 @@ packages:
   - ssh-server
   - tc-tiny
   - time-manager
+  - tr181-bootstatus
   - tr181-bridging
   - tr181-button
   - tr181-cpu
