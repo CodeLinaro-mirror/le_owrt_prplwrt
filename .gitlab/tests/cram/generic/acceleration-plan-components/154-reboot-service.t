@@ -45,3 +45,15 @@ Check if counters are flushed:
       "WatchdogBootCount": 0
     }
   }
+
+Check DeviceInfo.LastRebootRef is cleared once the reboot record it names is
+removed. tr181-bootstatus clears it on the dm:instance-removed event, so poll for
+a few seconds:
+
+  $ for i in $(seq 1 10); do [ -z "$(R "ba-cli --json 'DeviceInfo.LastRebootRef?' | sed -n '2p'" | jq -r '.[0]["DeviceInfo."].LastRebootRef')" ] && break; sleep 1; done
+  $ R "ba-cli --json 'DeviceInfo.LastRebootRef?' | sed -n '2p'" | jq --sort-keys '.[0]'
+  {
+    "DeviceInfo.": {
+      "LastRebootRef": ""
+    }
+  }
