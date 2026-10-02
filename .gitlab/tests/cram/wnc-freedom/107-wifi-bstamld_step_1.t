@@ -50,6 +50,11 @@ Check default configuration:
 # Nominal use case: Test 3 bands MLO    #
 #########################################
 
+Check no wpa_supplicant process is running:
+
+  $ R "pgrep -f 'wpa_supplicant'"
+  [1]
+
 Configure an EP MLD with same MLD unit:
 
   $ R logger -t cram "Configure bSTAMLD"
@@ -113,8 +118,36 @@ Enable all EPs:
 
   $ sleep 5
 
+Check one wpa_supplicant instance is running:
+
   $ R "pgrep wpa_supplicant"
   \d+ (re)
+
+  $ wpa_pid=$(R "pgrep wpa_supplicant")
+  $ R logger -t cram "wpa_supplicant PID: $wpa_pid"
+
+  $ R "ps axw" | sed -nE 's/.*(wpa_supplicant .*)/\1/p' | head -1 | tr -s ' ' '\n' | LC_ALL=C sort
+  -Dnl80211
+  -c
+  -g
+  -i
+  -s
+  /tmp/wlan0_wpa_supplicant.conf
+  /var/run/wpa_supplicant/global\.0x.* (re)
+  wlan0
+  wpa_supplicant
+
+Check only one wpactrl socket is created under /var/run/wpa_supplicant:
+
+  $ ls_wpa_sockets
+  wlan0
+
+  $ ilist_wpa_old=
+  $ ilist_wpa_new=$(read_wpa_inodes)
+  $ compare_list "$ilist_wpa_old" "$ilist_wpa_new"
+  A: .* /var/run/wpa_supplicant/wlan0 (re)
+
+  $ ilist_wpa_old=$ilist_wpa_new
 
   $ wpa_conf_file=$(R "ps ax | grep '[w]pa_supplicant'" | sed -nE 's/.*-c[[:space:]]*([^[:space:]]+).*/\1/p' | sed '/^$/d')
   $ echo $wpa_conf_file
@@ -144,16 +177,32 @@ Check if 3 bands are used in frequencies list:
 
   $ sleep 5
 
+Check one wpa_supplicant instance is running, same pid as before:
+
   $ R "pgrep wpa_supplicant"
   \d+ (re)
-  \d+ (re)
+
+  $ if [ "$(R pgrep -f 'wpa_supplicant')" = "$wpa_pid" ]; then echo "true"; else echo "wpa_supplicant restarted !"; fi
+  true
+
+Check two wpactrl sockets exist in /var/run/wpa_supplicant:
+
+  $ ls_wpa_sockets
+  wlan0
+  wlan1
+
+  $ ilist_wpa_new=$(read_wpa_inodes)
+  $ compare_list "$ilist_wpa_old" "$ilist_wpa_new"
+  A: .* /var/run/wpa_supplicant/wlan1 (re)
+
+  $ ilist_wpa_old=$ilist_wpa_new
 
 The 6GHz EP related config file should have only 6GHz channels:
 In the bellow regex filter only wlan0_wpa_supplicant.conf (6GHz interface)
 
-  $ wpa_conf_file_6ghz=$(R "ps ax | grep wpa_supplicant" | sed -n '/wlan/ {/wlan0/s/.*-c //p}' | sed '/^$/d')
+  $ wpa_conf_file_6ghz=$(ls_wpa_sockets | grep '^wlan0$' | sed 's|.*|/tmp/&_wpa_supplicant.conf|')
   $ echo $wpa_conf_file_6ghz
-  /tmp/wlan0_wpa_supplicant.conf (re)
+  /tmp/wlan0_wpa_supplicant.conf
 
   $ freq_list=$(R "cat ${wpa_conf_file_6ghz}" | grep freq_list)
 
@@ -169,7 +218,7 @@ In the bellow regex filter only wlan0_wpa_supplicant.conf (6GHz interface)
 The other config file should use 2.4GHz and 5GHz frequencies:
 In the bellow regex filter only the file that doesn't match  wlan0_wpa_supplicant.conf (6GHz interface)
 
-  $ wpa_conf_file=$(R "ps ax | grep wpa_supplicant" | sed -n '/wlan/ {/wlan0/!s/.*-c //p}' | sed '/^$/d')
+  $ wpa_conf_file=$(ls_wpa_sockets | grep -v '^wlan0$' | sed 's|.*|/tmp/&_wpa_supplicant.conf|')
   $ echo $wpa_conf_file
   /tmp/wlan\d_wpa_supplicant.conf (re)
 
@@ -208,16 +257,32 @@ Check bSTAMLD (shouldn't change):
 
   $ sleep 5
 
+Check one wpa_supplicant instance is running, same pid as before:
+
   $ R "pgrep wpa_supplicant"
   \d+ (re)
-  \d+ (re)
-  \d+ (re)
+
+  $ if [ "$(R pgrep -f 'wpa_supplicant')" = "$wpa_pid" ]; then echo "true"; else echo "wpa_supplicant restarted !"; fi
+  true
+
+Check three wpactrl sockets exist in /var/run/wpa_supplicant:
+
+  $ ls_wpa_sockets
+  wlan0
+  wlan1
+  wlan2
+
+  $ ilist_wpa_new=$(read_wpa_inodes)
+  $ compare_list "$ilist_wpa_old" "$ilist_wpa_new"
+  A: .* /var/run/wpa_supplicant/wlan2 (re)
+
+  $ ilist_wpa_old=$ilist_wpa_new
 
 Check 6GHz (wlan0) frequencies:
 
-  $ wpa_conf_file_6ghz=$(R "ps ax | grep wpa_supplicant" | sed -n '/wlan/ {/wlan0/s/.*-c //p}' | sed '/^$/d')
+  $ wpa_conf_file_6ghz=$(ls_wpa_sockets | grep '^wlan0$' | sed 's|.*|/tmp/&_wpa_supplicant.conf|')
   $ echo $wpa_conf_file_6ghz
-  /tmp/wlan0_wpa_supplicant.conf (re)
+  /tmp/wlan0_wpa_supplicant.conf
 
   $ freq_list=$(R "cat ${wpa_conf_file_6ghz}" | grep freq_list)
 
@@ -232,9 +297,9 @@ Check 6GHz (wlan0) frequencies:
 
 Check 5GHz (wlan1) frequencies:
 
-  $ wpa_conf_file_5ghz=$(R "ps ax | grep wpa_supplicant" | sed -n '/wlan/ {/wlan1/s/.*-c //p}' | sed '/^$/d')
+  $ wpa_conf_file_5ghz=$(ls_wpa_sockets | grep '^wlan1$' | sed 's|.*|/tmp/&_wpa_supplicant.conf|')
   $ echo $wpa_conf_file_5ghz
-  /tmp/wlan1_wpa_supplicant.conf (re)
+  /tmp/wlan1_wpa_supplicant.conf
 
   $ freq_list=$(R "cat ${wpa_conf_file_5ghz}" | grep freq_list)
 
@@ -249,9 +314,9 @@ Check 5GHz (wlan1) frequencies:
 
 Check 2.4GHz (wlan2) frequencies:
 
-  $ wpa_conf_file_2ghz=$(R "ps ax | grep wpa_supplicant" | sed -n '/wlan/ {/wlan2/s/.*-c //p}' | sed '/^$/d')
+  $ wpa_conf_file_2ghz=$(ls_wpa_sockets | grep '^wlan2$' | sed 's|.*|/tmp/&_wpa_supplicant.conf|')
   $ echo $wpa_conf_file_2ghz
-  /tmp/wlan2_wpa_supplicant.conf (re)
+  /tmp/wlan2_wpa_supplicant.conf
 
   $ freq_list=$(R "cat ${wpa_conf_file_2ghz}" | grep freq_list)
 
@@ -313,5 +378,25 @@ Check bSTAMLD DM:
   Device.WiFi.bSTAMLD.2.bSTAMLDConfig.NSTREnabled=0
   Device.WiFi.bSTAMLD.2.bSTAMLDConfig.STREnabled=0
   Device.WiFi.bSTAMLD.2.bSTAMLDConfig.UseNeighborProfile=1
+
+  $ sleep 2
+
+Check one wpa_supplicant instance is running, same pid as before:
+
+  $ R "pgrep wpa_supplicant"
+  \d+ (re)
+
+  $ if [ "$(R pgrep -f 'wpa_supplicant')" = "$wpa_pid" ]; then echo "true"; else echo "wpa_supplicant restarted !"; fi
+  true
+
+Check that exactly one wpactrl socket is created in /var/run/wpa_supplicant after MLO re-grouping:
+
+  $ ls_wpa_sockets
+  wlan0
+
+  $ ilist_wpa_new=$(read_wpa_inodes)
+  $ compare_list "$ilist_wpa_old" "$ilist_wpa_new"
+  R: .* /var/run/wpa_supplicant/wlan1 (re)
+  R: .* /var/run/wpa_supplicant/wlan2 (re)
 
   $ R logger -t cram "$TESTFILE finished!"

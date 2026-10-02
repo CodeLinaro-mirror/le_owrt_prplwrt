@@ -435,7 +435,22 @@ get_ifindex () {
 # In : no input
 # Out : list of hostapd sockets inodes and paths
 read_hostapd_inodes(){
-  ilist=$(R "ls -li /var/run/hostapd/wlan* 2>/dev/null" | awk '{print $1, $NF}' | sort -n)
+  ilist=$(R "ls -li /var/run/hostapd/wlan* 2>/dev/null" | awk '{print $1, $NF}' | sort -k2) # sort by path not inode
+  echo "$ilist"
+}
+
+# List all wpa_supplicant ctrl socket files in /var/run/wpa_supplicant
+# In : no input
+# Out : sorted list of wpa_supplicant socket names
+ls_wpa_sockets () {
+  R "ls /var/run/wpa_supplicant/ 2>/dev/null" | grep wlan | sort
+}
+
+# Print sorted list of wpa_supplicant socket inodes and paths
+# In : no input
+# Out : list of socket inodes and paths
+read_wpa_inodes () {
+  ilist=$(R "grep '/var/run/wpa_supplicant/wlan' /proc/net/unix" | awk '{print $7, $8}' | sort -k2) # sort by path not inode
   echo "$ilist"
 }
 
