@@ -161,6 +161,22 @@ build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security
       when: manual
       allow_failure: true
     - when: manual
+  timeout: 30 minutes
+  tags: []
+  # WIP: skip the real build, reuse artifacts from a prior successful job.
+  # Job 16882345662 is the OSPv2 build of latest-24.10 @ 50261b6a3e0f.
+  before_script:
+    - git config --global --add safe.directory '*'
+  script:
+    - source .gitlab/scripts/helpers.sh
+    - 'section_start "artifact-reuse" "WIP: reusing artifacts from job 16882345662" "collapsed"'
+    - 'curl --fail --location --header "JOB-TOKEN: $CI_JOB_TOKEN" "$CI_API_V4_URL/projects/$CI_PROJECT_ID/jobs/16882345662/artifacts" -o artifacts.zip'
+    - unzip -q artifacts.zip 'bin/*' 'logs/*'
+    - unzip -q artifacts.zip '*packages-hash-issues.patch' || true
+    - unzip -q artifacts.zip 'rootfs-debug.tar.xz' || true
+    - rm -f artifacts.zip
+    - section_end "artifact-reuse"
+  after_script: []
 
 build test mvebu prpl security:
   extends: .build test config
@@ -277,6 +293,22 @@ build test qca_ipq95xx prpl cellular security thread:
       when: manual
       allow_failure: true
     - when: manual
+  timeout: 30 minutes
+  tags: []
+  # WIP: skip the real build, reuse artifacts from a prior successful job.
+  # Job 16882345668 is the Freedom build of latest-24.10 @ 50261b6a3e0f.
+  before_script:
+    - git config --global --add safe.directory '*'
+  script:
+    - source .gitlab/scripts/helpers.sh
+    - 'section_start "artifact-reuse" "WIP: reusing artifacts from job 16882345668" "collapsed"'
+    - 'curl --fail --location --header "JOB-TOKEN: $CI_JOB_TOKEN" "$CI_API_V4_URL/projects/$CI_PROJECT_ID/jobs/16882345668/artifacts" -o artifacts.zip'
+    - unzip -q artifacts.zip 'bin/*' 'logs/*'
+    - unzip -q artifacts.zip '*packages-hash-issues.patch' || true
+    - unzip -q artifacts.zip 'rootfs-debug.tar.xz' || true
+    - rm -f artifacts.zip
+    - section_end "artifact-reuse"
+  after_script: []
 
 build test qca_ipq95xx extender_minimal cellular security thread:
   extends: .build test config
@@ -341,17 +373,8 @@ cram OSPv2 [auto]:
     - .mxl25641-hdk-6 testbed
     - .cram_component_auto
   timeout: 89 minutes
+  # WIP: never auto-start on the production dut-mxl25641-hdk-6-b-sfl tag.
   rules:
-    - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
-      when: never
-    - if: '$CRAM_COMPONENTS != null'
-      when: never
-    - if: '$CI_MERGE_REQUEST_LABELS =~ /(^|,)cram::skip($|,)/'
-      when: manual
-      allow_failure: true
-    - if: '$CI_MERGE_REQUEST_LABELS =~ /(^|,)cram::(full|prplmesh|lcm|prplos)($|,)/'
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-      changes: *cram_changes_mxl25641_hdk_6
     - when: manual
       allow_failure: true
 
@@ -361,17 +384,8 @@ cram Freedom [auto]:
     - .wnc-freedom testbed
     - .cram_component_auto
   timeout: 94 minutes
+  # WIP: never auto-start on the production dut-wnc-freedom-sfl tag.
   rules:
-    - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
-      when: never
-    - if: '$CRAM_COMPONENTS != null'
-      when: never
-    - if: '$CI_MERGE_REQUEST_LABELS =~ /(^|,)cram::skip($|,)/'
-      when: manual
-      allow_failure: true
-    - if: '$CI_MERGE_REQUEST_LABELS =~ /(^|,)cram::(full|prplmesh|lcm|prplos)($|,)/'
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-      changes: *cram_changes_wnc_freedom
     - when: manual
       allow_failure: true
 
@@ -484,6 +498,8 @@ cram OSPv2 [full]:
   needs: ["build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread"]
   extends: .mxl25641-hdk-6 testbed
   timeout: 89 minutes
+  tags:
+    - dut-mxl25641-hdk-6-b-sfl-04
   variables:
     COMPONENT: full
 
@@ -496,12 +512,16 @@ cram OSPv2 [prplmesh]:
 cram OSPv2 [lcm]:
   needs: ["build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread"]
   extends: .mxl25641-hdk-6 testbed
+  tags:
+    - dut-mxl25641-hdk-6-b-sfl-04
   variables:
     COMPONENT: lcm
 
 cram OSPv2 [prplos]:
   needs: ["build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread"]
   extends: .mxl25641-hdk-6 testbed
+  tags:
+    - dut-mxl25641-hdk-6-b-sfl-04
   variables:
     COMPONENT: prplos
 
@@ -509,6 +529,8 @@ cram Freedom [full]:
   needs: ["build test qca_ipq95xx prpl cellular security thread"]
   extends: .wnc-freedom testbed
   timeout: 94 minutes
+  tags:
+    - dut-wnc-freedom-sfl-04
   variables:
     COMPONENT: full
 
@@ -527,6 +549,10 @@ cram Freedom [lcm]:
 cram Freedom [prplos]:
   needs: ["build test qca_ipq95xx prpl cellular security thread"]
   extends: .wnc-freedom testbed
+  # WIP: run on the testbed-04 Freedom via its dedicated tag instead of
+  # the shared production DUT tag. Temporary, do not merge.
+  tags:
+    - dut-wnc-freedom-sfl-04
   variables:
     COMPONENT: prplos
 

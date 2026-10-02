@@ -45,6 +45,10 @@ targets:
         - setenv loadaddr 0x8200000
         - tftpboot ${loadaddr} prplos-intel_x86-lgm-PRPL_OSP_v2-update_script.itb
         - source ${loadaddr}:update-script
+        # WIP (PCF-2784 / PPW-2145): the latest-24.10 update script still
+        # expects the layout without 'config'; override until MR 3245 lands.
+        - setenv expected_gpt_a 'name=tep-active,start=512k,size=2M;name=tep-inactive,size=2M;name=env_a,size=512k;name=env_b,size=512k;name=securestore_a,size=16M;name=securestore_b,size=16M;name=calibration_a,size=2M;name=calibration_b,size=2M;name=u-boot-active,size=1M;name=u-boot-inactive,size=1M;name=kernel-active,size=112M;name=kernel-inactive,size=112M;name=mfgdata,size=2M;name=config,size=16M;name=rootfs_data,size=32M;name=log_partition,size=32M;name=lcm_data,size=3G;'
+        - setenv expected_gpt_b 'name=tep-active,start=512k,size=2M;name=tep-inactive,size=2M;name=env_a,size=512k;name=env_b,size=512k;name=securestore_a,size=16M;name=securestore_b,size=16M;name=calibration_a,size=2M;name=calibration_b,size=2M;name=u-boot-inactive,size=1M;name=u-boot-active,size=1M;name=kernel-inactive,size=112M;name=kernel-active,size=112M;name=mfgdata,size=2M;name=config,size=16M;name=rootfs_data,size=32M;name=log_partition,size=32M;name=lcm_data,size=3G;'
         - setenv tftppath
         - setenv img_kernel prplos-intel_x86-lgm-PRPL_OSP_v2-wgrtd159be_b_wav700-ext4.img
         - setenv img_uboot
