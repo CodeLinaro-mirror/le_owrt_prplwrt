@@ -3,19 +3,19 @@ description: Add the prpl features
 feeds:
   - name: feed_amx
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_amx.git
-    revision: stable-4.0@4eac7bb357eb39432eab68b72e2dfdfc29366dc9
+    revision: prplware-v4.0.4@4eac7bb357eb39432eab68b72e2dfdfc29366dc9
 
   - name: feed_lcm
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed_lcm.git
-    revision: stable-4.0@c813d64e062702ee9f3988b221037cb4d1791180
+    revision: prplware-v4.0.4@c813d64e062702ee9f3988b221037cb4d1791180
   
   - name: feed_prplmesh
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplmesh.git
-    revision: stable-4.0@38f3da10144d509866ced04e2ffa92e4e19674b6
+    revision: prplware-v4.0.4@38f3da10144d509866ced04e2ffa92e4e19674b6
 
   - name: feed_prplos
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplos.git
-    revision: stable-4.0@34996e616a52d3104c9b04b0695648912523c2b6
+    revision: prplware-v4.0.4@34996e616a52d3104c9b04b0695648912523c2b6
 
 additional_packages:
   - feed: packages
