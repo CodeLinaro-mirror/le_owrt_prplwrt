@@ -28,6 +28,8 @@
         export TB_CONFIG=".testbed/labgrid/testbed-02.yaml"
       elif echo "$CI_RUNNER_DESCRIPTION" | grep -q testbed-03; then
         export TB_CONFIG=".testbed/labgrid/testbed-03.yaml"
+      elif echo "$CI_RUNNER_DESCRIPTION" | grep -q testbed-04; then
+        export TB_CONFIG=".testbed/labgrid/testbed-04.yaml"
       fi
 
     - section_end "testbed-setup"
@@ -75,6 +77,8 @@
         export TB_CONFIG=".testbed/labgrid/testbed-02.yaml"
       elif echo "$CI_RUNNER_DESCRIPTION" | grep -q testbed-03; then
         export TB_CONFIG=".testbed/labgrid/testbed-03.yaml"
+      elif echo "$CI_RUNNER_DESCRIPTION" | grep -q testbed-04; then
+        export TB_CONFIG=".testbed/labgrid/testbed-04.yaml"
       fi
 
     - >
