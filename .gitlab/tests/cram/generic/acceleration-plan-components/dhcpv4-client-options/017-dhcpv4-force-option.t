@@ -51,5 +51,15 @@ Force=false, tag 42 present in DHCPREQUEST PRL -> tag must be present in final D
 
 Cleanup:
 
+  $ OLD_PID=$(R "netstat -lunp | sed -n 's|.*:67 .* \([0-9]*\)/dnsmasq\$|\1|p' | tr '\n' ' '")
+
   $ R "ba-cli 'Device.DHCPv4.Server.Pool.lan.Option.cpe-force-opt.-'" | grep -Ev '^(>|$)'
   Device\.DHCPv4\.Server\.Pool\.1\.Option\.[0-9]+\. (re)
+
+Removing the option restarts dnsmasq again. If the next test probes while the
+old dnsmasq is still stopping, the DHCPOFFER and DHCPREQUEST end up on
+different processes and the lease is lost, so wait until the same new dnsmasq
+owns UDP port 67 on two polls in a row:
+
+  $ R "i=0; prev=; while [ \$i -lt 60 ]; do pid=\$(netstat -lunp | sed -n 's|.*:67 .* \([0-9]*\)/dnsmasq\$|\1|p' | tr '\n' ' '); [ -n \"\$pid\" ] && [ \"\$pid\" != \"$OLD_PID\" ] && [ \"\$pid\" = \"\$prev\" ] && break; prev=\$pid; i=\$((i+1)); sleep 1; done; [ \$i -lt 60 ] && echo restarted || echo 'dnsmasq did not restart within 60s'"
+  restarted
