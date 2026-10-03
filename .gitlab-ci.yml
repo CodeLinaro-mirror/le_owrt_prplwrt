@@ -359,6 +359,8 @@ cram OSPv2 [auto]:
     - .mxl25641-hdk-6 testbed
     - .cram_component_auto
   timeout: 89 minutes
+  tags:
+    - dut-mxl25641-hdk-6-b-sfl-04
   rules:
     - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
       when: never
@@ -502,24 +504,32 @@ cram OSPv2 [full]:
   needs: ["build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread"]
   extends: .mxl25641-hdk-6 testbed
   timeout: 89 minutes
+  tags:
+    - dut-mxl25641-hdk-6-b-sfl-04
   variables:
     COMPONENT: full
 
 cram OSPv2 [prplmesh]:
   needs: ["build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread"]
   extends: .mxl25641-hdk-6 testbed
+  tags:
+    - dut-mxl25641-hdk-6-b-sfl-04
   variables:
     COMPONENT: prplmesh
 
 cram OSPv2 [lcm]:
   needs: ["build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread"]
   extends: .mxl25641-hdk-6 testbed
+  tags:
+    - dut-mxl25641-hdk-6-b-sfl-04
   variables:
     COMPONENT: lcm
 
 cram OSPv2 [prplos]:
   needs: ["build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread"]
   extends: .mxl25641-hdk-6 testbed
+  tags:
+    - dut-mxl25641-hdk-6-b-sfl-04
   variables:
     COMPONENT: prplos
 
