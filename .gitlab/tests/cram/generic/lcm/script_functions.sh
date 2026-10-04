@@ -26,10 +26,23 @@ DEFAULT_ENABLEHOSTNSCAPABILITIES="false"
 CLI_JSON="cli_cmd -l -j"
 CLI="cli_cmd"
 
+## WIP testbed-04: log each LCM step and ba-cli call to the kernel log and
+## the ftrace marker, so link events can be matched to the exact step.
+echo on > /proc/sys/kernel/printk_devkmsg 2>/dev/null
+lcm_mark() {
+	_lcm_mark="LCM: $(printf '%s' "$*" | tr '\n' ' ' | cut -c1-200)"
+	echo "${_lcm_mark}" > /dev/kmsg 2>/dev/null
+	for _lcm_t in /sys/kernel/tracing /sys/kernel/debug/tracing; do
+		[ -w "${_lcm_t}/trace_marker" ] && echo "${_lcm_mark}" > "${_lcm_t}/trace_marker" 2>/dev/null && break
+	done
+	return 0
+}
+
 ## Wrapper around ba-cli that returns error if second output line starts with 'ERROR:'
 ## Uses a temp file to preserve ba-cli output exactly (including trailing newlines).
 ## On success: prints to stdout. On error (second line starts with ERROR:): prints to stderr.
 cli_cmd() {
+	lcm_mark "cli $*"
 	_cli_tmpfile=$(mktemp /tmp/cli_cmd_XXXXXX)
 	ba-cli "$@" >"${_cli_tmpfile}" 2>&1
 	_cli_rc=$?
@@ -73,6 +86,7 @@ get_container_name() {
 }
 
 get_container_by_name() {
+	lcm_mark "get_container_by_name $*"
         arg=$1
         ctr_name=$(echo $arg | cut -d ':' -f 1) ## strip the version if any
 
@@ -171,6 +185,7 @@ get_board_arch() {
 }
 
 get_container_version_by_name() {
+	lcm_mark "get_container_version_by_name $*"
         arg=$1
         version=$(echo $arg | cut -s -d ':' -f 2) ## Get version if any
 
@@ -197,6 +212,7 @@ concat_comma_string() {
 
 ## waits for a container to go up or timeout
 wait_ctr_up() {
+	lcm_mark "wait_ctr_up $*"
 	uuid=""
 	debugargs=0
 	waittime=${MAX_WAIT_CTR_UP}
@@ -261,6 +277,7 @@ wait_ctr_up() {
 
 ## waits for a container to go down or timeout
 wait_ctr_down() {
+	lcm_mark "wait_ctr_down $*"
 	# Read max shutdown delay
 	shutdowndelay=$(cli_json_safe "Cthulhu.Config.GracefulShutdownTimeoutSeconds?" -e @[*].*.GracefulShutdownTimeoutSeconds)
 	if [ -z "$shutdowndelay" ]; then
@@ -292,6 +309,7 @@ value_or_default() {
 ## Usage: start_du_state_change_sub <uuid> <lua_script_path>
 ## Stores PID in _DU_SUB_PID
 start_du_state_change_sub() {
+	lcm_mark "start_du_state_change_sub $*"
 	_du_sub_uuid="$1"
 	_du_sub_script="/tmp/du_state_change.lua"
 	if [ -f "${_du_sub_script}" ]; then
@@ -306,6 +324,7 @@ start_du_state_change_sub() {
 ## Wait for background DUStateChange! subscription to finish and print any fault output.
 ## Call after the CLI operation completes.
 wait_du_state_change_sub() {
+	lcm_mark "wait_du_state_change_sub $*"
 	_du_sub_timeout="${1:-1}"
 	if [ -n "${_DU_SUB_PID}" ]; then
 		timeout "${_du_sub_timeout}" tail --pid="${_DU_SUB_PID}" -f /dev/null 2>/dev/null; kill "${_DU_SUB_PID}" 2>/dev/null; wait "${_DU_SUB_PID}" 2>/dev/null
@@ -318,6 +337,7 @@ wait_du_state_change_sub() {
 }
 
 install_update_ctr_with_params() {
+	lcm_mark "install_update_ctr_with_params $*"
 	params=$@
 	operation=$1
 	no_wait=$2
@@ -461,6 +481,7 @@ install_update_ctr_with_params() {
 }
 
 uninstall_ctr() {
+	lcm_mark "uninstall_ctr $*"
 	uuid=""
 	while [ $# -gt 0 ]; do
 		key="$1"
@@ -503,6 +524,7 @@ uninstall_ctr() {
 }
 
 uninstall_ctr_and_check() {
+	lcm_mark "uninstall_ctr_and_check $*"
 	save_params="$*"
 	uuid=""
 	while [ $# -gt 0 ]; do
@@ -550,6 +572,7 @@ uninstall_ctr_and_check() {
 }
 
 ctr_set_requested_state() {
+	lcm_mark "ctr_set_requested_state $*"
 	uuid=""
 	requestedstate=""
 	debugargs=0
@@ -605,17 +628,20 @@ ctr_set_requested_state() {
 }
 
 stop_ctr() {
+	lcm_mark "stop_ctr $*"
 	ctr_set_requested_state $@ --requestedstate "Idle"
 	wait_ctr_down
 }
 
 start_ctr() {
+	lcm_mark "start_ctr $*"
 	ctr_set_requested_state $@ --requestedstate "Active"
 	wait_ctr_up $@
 }
 
 ## returns container status, version and name
 get_container_info() {
+	lcm_mark "get_container_info $*"
 	uuid=""
 	while [ $# -gt 0 ]; do
 		key="$1"
@@ -656,6 +682,7 @@ get_container_info() {
 
 #returns the parameter of a container
 get_container_parameter() {
+	lcm_mark "get_container_parameter $*"
 	uuid=""
 	param=""
 	while [ $# -gt 0 ]; do
@@ -698,6 +725,7 @@ get_container_parameter() {
 }
 
 set_ee_roles() {
+	lcm_mark "set_ee_roles $*"
 	roles=""
 	userroles=""
 	ee=${DEFAULT_EE}
@@ -739,6 +767,7 @@ set_ee_roles() {
 }
 
 check_available_roles() {
+	lcm_mark "check_available_roles $*"
 	roles=""
 	ee=${DEFAULT_EE}
 
@@ -779,6 +808,7 @@ check_available_roles() {
 }
 
 check_available_user_roles() {
+	lcm_mark "check_available_user_roles $*"
 	roles=""
 	ee=${DEFAULT_EE}
 
@@ -819,6 +849,7 @@ check_available_user_roles() {
 }
 
 execute_in_container() {
+	lcm_mark "execute_in_container $*"
 	uuid=""
 	cmd=""
 
@@ -862,6 +893,7 @@ execute_in_container() {
 }
 
 check_ee_status() {
+	lcm_mark "check_ee_status $*"
 	ee=""
 	while [ $# -gt 0 ]; do
 		key="$1"
@@ -900,10 +932,12 @@ check_ee_status() {
 }
 
 check_cthulhu_config() {
+	lcm_mark "check_cthulhu_config $*"
 	cli_json_safe "Cthulhu.Config.?0" -e @[*].*.UseOverlayFS -e @[*].*.DefaultBackend -e @[*].*.ImageLocation| sort
 }
 
 get_ctr_ip() {
+	lcm_mark "get_ctr_ip $*"
 	uuid=""
 	while [ $# -gt 0 ]; do
 		key="$1"
@@ -941,6 +975,7 @@ get_ctr_ip() {
 }
 
 get_ctr_type() {
+	lcm_mark "get_ctr_type $*"
 	uuid=""
 	while [ $# -gt 0 ]; do
 		key="$1"
@@ -988,19 +1023,23 @@ get_ctr_type() {
 }
 
 install_ctr_no_wait() {
+	lcm_mark "install_ctr_no_wait $*"
 	install_update_ctr_with_params install true "$@"
 }
 
 install_ctr() {
+	lcm_mark "install_ctr $*"
 	install_update_ctr_with_params install false "$@"
 }
 
 update_ctr() {
+	lcm_mark "update_ctr $*"
 	install_update_ctr_with_params update false "$@"
 }
 
 ## Create the host object resources used for the default HostObject config
 setup_hostobjects() {
+	lcm_mark "setup_hostobjects $*"
 	mkdir /tmp/testdir
 	echo 'test sharing a dir' >/tmp/testdir/testfile
 	echo 'test sharing file' >/tmp/testfile
@@ -1010,17 +1049,20 @@ setup_hostobjects() {
 }
 
 cleanup_hostobjects() {
+	lcm_mark "cleanup_hostobjects $*"
 	rm -rf /tmp/testdir
 	rm -f /tmp/testfile
 }
 
 get_hostobjects() {
+	lcm_mark "get_hostobjects $*"
 	execute_in_container --uuid --cmd "ls -R /testdir/"
 	execute_in_container --uuid --cmd "cat /testfile"
 	execute_in_container --uuid --cmd "ls /dev/host_serial"
 }
 
 add_user_role() {
+	lcm_mark "add_user_role $*"
 	rolename=""
 	capabilities=""
 	while [ $# -gt 0 ]; do
@@ -1064,6 +1106,7 @@ add_user_role() {
 }
 
 remove_user_role() {
+	lcm_mark "remove_user_role $*"
 	rolename=""
 	capabilities=""
 	while [ $# -gt 0 ]; do
@@ -1104,6 +1147,7 @@ remove_user_role() {
 ## It simulates a firmware upgrade by stopping and starting the LCM Agent, as
 ## well as manually removing critical configurations.
 fake_fw_upgrade() {
+	lcm_mark "fake_fw_upgrade $*"
     duid=$(cli_json_safe "SoftwareModules.DeploymentUnit.[ UUID == \"${DEFAULT_UUID}\" ].DUID?" -e @[*].*.DUID)
     uuid=$(cli_json_safe "SoftwareModules.DeploymentUnit.[ UUID == \"${DEFAULT_UUID}\" ].UUID?" -e @[*].*.UUID)
     ## Stop the active container to allow stopping cthulhu without any problem
@@ -1125,6 +1169,7 @@ fake_fw_upgrade() {
 }
 
 get_vendorlogfile_name() {
+	lcm_mark "get_vendorlogfile_name $*"
 	uuid=""
 	while [ $# -gt 0 ]; do
 		key="$1"
@@ -1163,6 +1208,7 @@ get_vendorlogfile_name() {
 }
 
 get_vendorlogfile_content() {
+	lcm_mark "get_vendorlogfile_content $*"
 	uuid=""
 	while [ $# -gt 0 ]; do
 		key="$1"
@@ -1204,6 +1250,7 @@ get_vendorlogfile_content() {
 }
 
 add_containers_descriptors() {
+	lcm_mark "add_containers_descriptors $*"
 	DEFAULT_PATH="/lcm/rlyeh/images/prpl-foundation/prplos/prplos"
 	ctr_name1="3_16_alpine_copy"
 	ctr_arch=$(get_arch_name)
@@ -1247,6 +1294,7 @@ add_containers_descriptors() {
 }
 
 cleanup_pcm_test() {
+	lcm_mark "cleanup_pcm_test $*"
 	remove_user_role --rolename full_caps > /dev/null
 	set_ee_roles > /dev/null
 	result=$(check_available_user_roles)
@@ -1258,6 +1306,7 @@ cleanup_pcm_test() {
 }
 
 cleanup_appdata() {
+	lcm_mark "cleanup_appdata $*"
 	umount /lcm/cthulhu/data/mounts/generic > /dev/null 2>&1
 	umount /lcm/cthulhu/data/mounts/generic/applicationdata/mounts/00000000-0000-5000-b000-000000000001/Volume1 > /dev/null 2>&1
 	umount /lcm/cthulhu/data/mounts/generic/applicationdata/mounts/00000000-0000-5000-b000-000000000001/Volume2 > /dev/null 2>&1
@@ -1290,6 +1339,7 @@ cleanup_appdata() {
 ##   install_basic_container --envvar --network '{ShareParentNetwork = "true"}'
 ##
 install_basic_container() {
+	lcm_mark "install_basic_container $*"
 	install_ctr --version prplos-v1 --ee --uuid --privileged true "$@" > /dev/null
 }
 
@@ -1313,6 +1363,7 @@ install_basic_container() {
 ##   install_basic_container_no_wait --envvar
 ##
 install_basic_container_no_wait() {
+	lcm_mark "install_basic_container_no_wait $*"
 	install_ctr_no_wait --version prplos-v1 --ee --uuid --privileged true "$@"
 }
 
@@ -1332,6 +1383,7 @@ normalize_dump(){
 }
 
 cleanup_lpm_test(){
+	lcm_mark "cleanup_lpm_test $*"
 
     /etc/init.d/cthulhu stop
     /etc/init.d/rlyeh stop
