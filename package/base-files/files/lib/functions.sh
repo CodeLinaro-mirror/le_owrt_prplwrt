@@ -453,9 +453,11 @@ group_add() {
 	local name="$1"
 	local gid="$2"
 	local rc
-	[ -f "${IPKG_INSTROOT}/etc/group" ] || return 1
+	local grp_file="${IPKG_INSTROOT}/etc/group"
+	[ -h "${grp_file}" ] && grp_file=$(realpath "${grp_file}" || readlink "${grp_file}" || echo "${grp_file}")
+	[ -f "${grp_file}" ] || return 1
 	[ -n "$IPKG_INSTROOT" ] || lock /var/lock/group
-	echo "${name}:x:${gid}:" >> ${IPKG_INSTROOT}/etc/group
+	echo "${name}:x:${gid}:" >> "${grp_file}"
 	[ -n "$IPKG_INSTROOT" ] || lock -u /var/lock/group
 }
 
@@ -485,7 +487,9 @@ group_add_user() {
 	echo "$grp" | cut -d: -f4 | grep -q $2 && return
 	echo "$grp" | grep -q ":$" && delim=""
 	[ -n "$IPKG_INSTROOT" ] || lock /var/lock/passwd
-	sed -i "s/$grp/$grp$delim$2/g" ${IPKG_INSTROOT}/etc/group
+	local grp_file="${IPKG_INSTROOT}/etc/group"
+	[ -h "${grp_file}" ] && grp_file=$(realpath "${grp_file}" || readlink "${grp_file}" || echo "${grp_file}")
+	sed -i "s/$grp/$grp$delim$2/g" "${grp_file}"
 	if [ -z "$IPKG_INSTROOT" ] && [ -x /usr/sbin/selinuxenabled ] && selinuxenabled; then
 		restorecon /etc/group
 	fi
@@ -508,10 +512,14 @@ user_add() {
 		done
 	}
 	[ -z "$gid" ] && gid=$uid
-	[ -f "${IPKG_INSTROOT}/etc/passwd" ] || return 1
+	local pwd_file="${IPKG_INSTROOT}/etc/passwd"
+	[ -h "${pwd_file}" ] && pwd_file=$(realpath "${pwd_file}" || readlink "${pwd_file}" || echo "${pwd_file}")
+	local shd_file="${IPKG_INSTROOT}/etc/shadow"
+	[ -h "${shd_file}" ] && shd_file=$(realpath "${shd_file}" || readlink "${shd_file}" || echo "${shd_file}")
+	[ -f "${pwd_file}" ] || return 1
 	[ -n "$IPKG_INSTROOT" ] || lock /var/lock/passwd
-	echo "${name}:x:${uid}:${gid}:${desc}:${home}:${shell}" >> ${IPKG_INSTROOT}/etc/passwd
-	echo "${name}:x:0:0:99999:7:::" >> ${IPKG_INSTROOT}/etc/shadow
+	echo "${name}:x:${uid}:${gid}:${desc}:${home}:${shell}" >> "${pwd_file}"
+	echo "${name}:x:0:0:99999:7:::" >> "${shd_file}"
 	[ -n "$IPKG_INSTROOT" ] || lock -u /var/lock/passwd
 }
 
