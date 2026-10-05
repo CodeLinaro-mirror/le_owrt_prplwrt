@@ -596,32 +596,34 @@ cram Valyrian [prplos]:
   variables:
     COMPONENT: prplos
 
+# DEBUG ONLY: all jobs below are turned off (was: on_success) in this debug branch.
+"lint cram component manifest": { rules: [{ when: never }] }
 ".build test config":
-  rules: [{ when: on_success }]
+  rules: [{ when: never }]
 "build test qca_ipq95xx prpl cellular security thread":
   extends: .build test config
-  rules: [{ when: on_success }]
+  rules: [{ when: never }]
 "build test airoha_an7581 prpl security":
   extends: .build test config
-  rules: [{ when: on_success }]
+  rules: [{ when: never }]
 "build test mtk_filogic prpl security":
   extends: .build test config
-  rules: [{ when: on_success }]
+  rules: [{ when: never }]
 "build test ipq807x prpl security":
   extends: .build test config
-  rules: [{ when: on_success }]
+  rules: [{ when: never }]
 "build test mvebu prpl security":
   extends: .build test config
-  rules: [{ when: on_success }]
+  rules: [{ when: never }]
 "build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread":
   extends: .build test config
-  rules: [{ when: on_success }]
+  rules: [{ when: never }]
 ".turris-omnia testbed":
   rules: [{ when: never }]
 ".prpl-haze testbed":
   rules: [{ when: never }]
 ".cram_component":
-  rules: [{ if: '$COMPONENT == "full"', when: on_success }, { when: never }]
+  rules: [{ if: '$COMPONENT == "full"', when: never }, { when: never }]
 ".cdrouter":
   rules: [{ when: never }]
 ".build Docker image":
@@ -640,47 +642,55 @@ cram Valyrian [prplos]:
   rules: [{ when: never }]
 ".deploy LCM container":
   rules: [{ when: never }]
-"CDRouter-Wireless Freedom eMMC": { rules: [{ when: on_success }] }
-"CDRouter-Wireless MXL25641-HDK-6 eMMC": { rules: [{ when: on_success }] }
-"CDRouter-Wireless Mozart initramfs": { rules: [{ when: on_success }] }
-"CDRouter-Wireless Valyrian initramfs": { rules: [{ when: on_success }] }
-"prplWare-Smoke-Test-Suite Freedom eMMC": { rules: [{ when: on_success }] }
-"prplWare-Smoke-Test-Suite MXL25641-HDK-6 eMMC": { rules: [{ when: on_success }] }
-"prplWare-Smoke-Test-Suite Mozart initramfs": { rules: [{ when: on_success }] }
-"prplWare-Smoke-Test-Suite Valyrian initramfs": { rules: [{ when: on_success }] }
-"EasyMesh-Smoke-test-R1-Freedom": { rules: [{ when: on_success }] }
-"CDRouter-IPv6-Top-100+mDNS Freedom VLAN WAN/LAN eMMC": { rules: [{ when: on_success }] }
-"CDRouter-IPv6-Top-100+mDNS Freedom eMMC": { rules: [{ when: on_success }] }
-"CDRouter-IPv6-Top-100+mDNS MXL25641-HDK-6 eMMC": { rules: [{ when: on_success }] }
-"CDRouter-IPv6-Top-100+mDNS MXL25641-HDK-6 VLAN WAN/LAN eMMC": { rules: [{ when: on_success }] }
-"CDRouter-IPv6-Top-100+mDNS Mozart initramfs": { rules: [{ when: on_success }] }
-"CDRouter-IPv6-Top-100+mDNS Mozart VLAN WAN/LAN initramfs": { rules: [{ when: on_success }] }
-"CDRouter-IPv6-Top-100+mDNS Valyrian initramfs": { rules: [{ when: on_success }] }
-"CDRouter-IPv6-Top-100+mDNS Valyrian VLAN WAN/LAN initramfs": { rules: [{ when: on_success }] }
-"CDRouter-TR-069 Freedom eMMC": { rules: [{ when: on_success }] }
-"CDRouter-TR-069 MXL25641-HDK-6 eMMC": { rules: [{ when: on_success }] }
-"CDRouter-TR-069 Mozart eMMC": { rules: [{ when: on_success }] }
-"CDRouter-TR-069 Valyrian eMMC": { rules: [{ when: on_success }] }
-"CDRouter-Top-100+mDNS Freedom PPPoE WAN eMMC": { rules: [{ when: on_success }] }
-"CDRouter-Top-100+mDNS Freedom VLAN WAN/LAN eMMC": { rules: [{ when: on_success }] }
-"CDRouter-Top-100+mDNS Freedom eMMC": { rules: [{ when: on_success }] }
-"CDRouter-Top-100+mDNS Mozart PPPoE WAN initramfs": { rules: [{ when: on_success }] }
-"CDRouter-Top-100+mDNS Mozart VLAN WAN/LAN initramfs": { rules: [{ when: on_success }] }
-"CDRouter-Top-100+mDNS Mozart initramfs": { rules: [{ when: on_success }] }
-"CDRouter-Top-100+mDNS-OSP MXL25641-HDK-6 PPPoE WAN eMMC": { rules: [{ when: on_success }] }
-"CDRouter-Top-100+mDNS-OSP MXL25641-HDK-6 VLAN WAN/LAN eMMC": { rules: [{ when: on_success }] }
-"CDRouter-Top-100+mDNS-OSP MXL25641-HDK-6 eMMC": { rules: [{ when: on_success }] }
-"CDRouter-Top-100+mDNS Valyrian PPPoE WAN initramfs": { rules: [{ when: on_success }] }
-"CDRouter-Top-100+mDNS Valyrian VLAN WAN/LAN initramfs": { rules: [{ when: on_success }] }
-"CDRouter-Top-100+mDNS Valyrian initramfs": { rules: [{ when: on_success }] }
-"CDRouter-UPnP-IPv46 Freedom eMMC": { rules: [{ when: on_success }] }
-"CDRouter-UPnP-IPv46 MXL25641-HDK-6 eMMC": { rules: [{ when: on_success }] }
-"CDRouter-UPnP-IPv46 Mozart initramfs": { rules: [{ when: on_success }] }
-"CDRouter-UPnP-IPv46 Valyrian initramfs": { rules: [{ when: on_success }] }
-"prplOS-Network-Test-Plan-Mandatory-v1.2.0 Freedom eMMC": { rules: [{ when: on_success }] }
-"prplOS-Network-Test-Plan-Mandatory-v1.2.0 MXL25641-HDK-6 eMMC": { rules: [{ when: on_success }] }
-"prplOS-Network-Test-Plan-Mandatory-v1.2.0 Mozart initramfs": { rules: [{ when: on_success }] }
-"prplOS-Network-Test-Plan-Mandatory-v1.2.0 Valyrian initramfs": { rules: [{ when: on_success }] }
+"CDRouter-Wireless Freedom eMMC": { rules: [{ when: never }] }
+"CDRouter-Wireless MXL25641-HDK-6 eMMC": { rules: [{ when: never }] }
+"CDRouter-Wireless Mozart initramfs": { rules: [{ when: never }] }
+"CDRouter-Wireless Valyrian initramfs": { rules: [{ when: never }] }
+# DEBUG ONLY (ynezz/debug-cert15-outage): everything above is switched off; run
+# only this job, with the 2026-10-03 weekly firmware (pipeline 2908313351, job
+# 16907997069), on the dedicated runner. Test list: see the package manifest.
+"prplWare-Smoke-Test-Suite Freedom eMMC":
+  needs: []
+  rules: [{ when: on_success }]
+  tags: [dut-wnc-freedom-sfl-fast]
+  variables:
+    PREBUILT_FIRMWARE_JOB_ID: "16907997069"
+"prplWare-Smoke-Test-Suite MXL25641-HDK-6 eMMC": { rules: [{ when: never }] }
+"prplWare-Smoke-Test-Suite Mozart initramfs": { rules: [{ when: never }] }
+"prplWare-Smoke-Test-Suite Valyrian initramfs": { rules: [{ when: never }] }
+"EasyMesh-Smoke-test-R1-Freedom": { rules: [{ when: never }] }
+"CDRouter-IPv6-Top-100+mDNS Freedom VLAN WAN/LAN eMMC": { rules: [{ when: never }] }
+"CDRouter-IPv6-Top-100+mDNS Freedom eMMC": { rules: [{ when: never }] }
+"CDRouter-IPv6-Top-100+mDNS MXL25641-HDK-6 eMMC": { rules: [{ when: never }] }
+"CDRouter-IPv6-Top-100+mDNS MXL25641-HDK-6 VLAN WAN/LAN eMMC": { rules: [{ when: never }] }
+"CDRouter-IPv6-Top-100+mDNS Mozart initramfs": { rules: [{ when: never }] }
+"CDRouter-IPv6-Top-100+mDNS Mozart VLAN WAN/LAN initramfs": { rules: [{ when: never }] }
+"CDRouter-IPv6-Top-100+mDNS Valyrian initramfs": { rules: [{ when: never }] }
+"CDRouter-IPv6-Top-100+mDNS Valyrian VLAN WAN/LAN initramfs": { rules: [{ when: never }] }
+"CDRouter-TR-069 Freedom eMMC": { rules: [{ when: never }] }
+"CDRouter-TR-069 MXL25641-HDK-6 eMMC": { rules: [{ when: never }] }
+"CDRouter-TR-069 Mozart eMMC": { rules: [{ when: never }] }
+"CDRouter-TR-069 Valyrian eMMC": { rules: [{ when: never }] }
+"CDRouter-Top-100+mDNS Freedom PPPoE WAN eMMC": { rules: [{ when: never }] }
+"CDRouter-Top-100+mDNS Freedom VLAN WAN/LAN eMMC": { rules: [{ when: never }] }
+"CDRouter-Top-100+mDNS Freedom eMMC": { rules: [{ when: never }] }
+"CDRouter-Top-100+mDNS Mozart PPPoE WAN initramfs": { rules: [{ when: never }] }
+"CDRouter-Top-100+mDNS Mozart VLAN WAN/LAN initramfs": { rules: [{ when: never }] }
+"CDRouter-Top-100+mDNS Mozart initramfs": { rules: [{ when: never }] }
+"CDRouter-Top-100+mDNS-OSP MXL25641-HDK-6 PPPoE WAN eMMC": { rules: [{ when: never }] }
+"CDRouter-Top-100+mDNS-OSP MXL25641-HDK-6 VLAN WAN/LAN eMMC": { rules: [{ when: never }] }
+"CDRouter-Top-100+mDNS-OSP MXL25641-HDK-6 eMMC": { rules: [{ when: never }] }
+"CDRouter-Top-100+mDNS Valyrian PPPoE WAN initramfs": { rules: [{ when: never }] }
+"CDRouter-Top-100+mDNS Valyrian VLAN WAN/LAN initramfs": { rules: [{ when: never }] }
+"CDRouter-Top-100+mDNS Valyrian initramfs": { rules: [{ when: never }] }
+"CDRouter-UPnP-IPv46 Freedom eMMC": { rules: [{ when: never }] }
+"CDRouter-UPnP-IPv46 MXL25641-HDK-6 eMMC": { rules: [{ when: never }] }
+"CDRouter-UPnP-IPv46 Mozart initramfs": { rules: [{ when: never }] }
+"CDRouter-UPnP-IPv46 Valyrian initramfs": { rules: [{ when: never }] }
+"prplOS-Network-Test-Plan-Mandatory-v1.2.0 Freedom eMMC": { rules: [{ when: never }] }
+"prplOS-Network-Test-Plan-Mandatory-v1.2.0 MXL25641-HDK-6 eMMC": { rules: [{ when: never }] }
+"prplOS-Network-Test-Plan-Mandatory-v1.2.0 Mozart initramfs": { rules: [{ when: never }] }
+"prplOS-Network-Test-Plan-Mandatory-v1.2.0 Valyrian initramfs": { rules: [{ when: never }] }
 "CDRouter-IPv6-Top-100+mDNS Haze initramfs": { rules: [{ when: never }] }
 "CDRouter-IPv6-Top-100+mDNS Haze VLAN WAN/LAN initramfs": { rules: [{ when: never }] }
 "CDRouter-IPv6-Top-100+mDNS Turris initramfs": { rules: [{ when: never }] }

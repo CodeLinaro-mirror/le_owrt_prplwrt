@@ -12,6 +12,16 @@
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
 
+    # DEBUG ONLY: fetch the images from an already built job instead of needs:
+    - |
+      if [ -n "${PREBUILT_FIRMWARE_JOB_ID:-}" ]; then
+        mkdir -p "$TFTP_IMAGE_PATH"
+        for f in ${TFTP_IMAGE_FILENAMES:-$TFTP_IMAGE_FILENAME}; do
+          curl -fsSL --header "JOB-TOKEN: $CI_JOB_TOKEN" -o "$TFTP_IMAGE_PATH/$f" \
+            "$CI_API_V4_URL/projects/$CI_PROJECT_ID/jobs/$PREBUILT_FIRMWARE_JOB_ID/artifacts/$TFTP_IMAGE_PATH/$f"
+        done
+      fi
+
     - |
       for f in ${TFTP_IMAGE_FILENAMES:-$TFTP_IMAGE_FILENAME}; do
         echo "Using firmware image $TFTP_IMAGE_PATH/$f"
