@@ -267,7 +267,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_libopenssl-legacy=y
   CONFIG_PACKAGE_libp11=y
   CONFIG_PACKAGE_libpacket-interception=y
-  CONFIG_PACKAGE_libpass=y
+  CONFIG_PACKAGE_libpassgen=y
   CONFIG_PACKAGE_libpci=y
   CONFIG_PACKAGE_libpcp=y
   CONFIG_PACKAGE_libpcre2=y
