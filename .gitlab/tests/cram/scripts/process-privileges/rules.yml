@@ -412,12 +412,3 @@
   - cmd: wld
     id: root:root
     caps: full
-    child:
-    - cmd: hostapd
-      id: root:root
-      caps: full
-      optional: true
-    - cmd: wpa_supplicant
-      id: root:root
-      caps: full
-      optional: true
