@@ -102,6 +102,7 @@ packages:
   - time-manager
   - tr181-bootstatus
   - tr181-bridging
+  - tr181-bgp-ospf
   - tr181-button
   - tr181-cpu
   - tr181-device
