@@ -228,15 +228,10 @@ tree matches, and otherwise one line per problem:
 | `x: expected id 'a', got 'b'` | wrong user or group |
 | `x: expected caps 'a', got 'b'` | wrong capabilities |
 
-Both transport variables come from the environment, as described in
-[`../README.md`](../README.md), and neither is a command line argument.
-`TARGET_LAN_IP` names the DUT when it cannot be derived from
-`CRAM_REMOTE_COMMAND`.
-
-[`collect.sh`](./collect.sh) copies the collector to the DUT and runs it there
-rather than feeding it on standard input, because a `CRAM_REMOTE_COMMAND`
-containing `ssh -n` redirects standard input from `/dev/null` and would deliver
-an empty script. This is the form CI uses.
+`CRAM_REMOTE_COMMAND` must be able to carry the collector on its standard
+input. A command containing `ssh -n` cannot, because `-n` redirects standard
+input from `/dev/null`; [`collect.sh`](./collect.sh) copies the collector to the
+DUT and runs it there for that reason.
 
 ## Checklist
 
