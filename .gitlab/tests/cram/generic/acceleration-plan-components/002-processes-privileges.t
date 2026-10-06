@@ -27,10 +27,6 @@ Verify that the tr181_app user has the expected sudo privileges
       Defaults!/usr/sbin/visudo env_keep+="SUDO_EDITOR EDITOR VISUAL"
   
   User tr181_app may run the following commands on prplOS:
-      (root) NOPASSWD: /etc/init.d/* start, /etc/init.d/* stop, /etc/init.d/* restart
-      (root) NOPASSWD: /usr/lib/processmonitor/scripts/*
-      (root) NOPASSWD: /sbin/reboot
-      (root) NOPASSWD: /bin/getDebugInformation
       (root) NOPASSWD: /usr/lib/amx/scripts/tmpfs_download_mount.sh
       (root) NOPASSWD: /usr/lib/amx/scripts/tmpfs_download_unmount.sh
       (root) NOPASSWD: /etc/init.d/* start, /etc/init.d/* stop, /etc/init.d/* restart
