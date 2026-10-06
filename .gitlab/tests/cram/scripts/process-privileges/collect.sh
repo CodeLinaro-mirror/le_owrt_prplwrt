@@ -58,31 +58,4 @@ if [ -z "${remote_command}" ]; then
     remote_command="${CRAM_REMOTE_COMMAND:-ssh root@192.168.1.1}"
 fi
 
-R() { ${remote_command} "$@"; }
-C() { ${CRAM_REMOTE_COPY:-scp} "$@"; }
-
-remote_host="${TARGET_LAN_IP:-}"
-if [ -z "${remote_host}" ]; then
-    remote_host=$(printf '%s\n' "${remote_command}" | sed -n 's/.*@\([^ ]*\).*/\1/p')
-fi
-
-if [ -z "${remote_host}" ]; then
-    printf '%s\n' "TARGET_LAN_IP or a remote command naming the host is required" >&2
-    exit 1
-fi
-
-local_script="${script_dir}/target/process-privileges.lua"
-remote_script=/tmp/process-privileges.lua
-
-cleanup() {
-    R "rm -f '${remote_script}'" >/dev/null 2>&1 || true
-}
-
-trap cleanup EXIT HUP INT TERM
-
-C "${local_script}" "root@${remote_host}:${remote_script}" >/dev/null 2>&1 || {
-    printf '%s\n' "Failed to copy ${local_script} to ${remote_host}" >&2
-    exit 1
-}
-
-R "${lua_bin}" "${remote_script}" "${collect_type}"
+${remote_command} "${lua_bin}" - "${collect_type}" < "${script_dir}/target/process-privileges.lua"
