@@ -141,6 +141,7 @@ Check that ubus has expected datamodels available:
   Device.X_PRPLWARE-COM_MCASTD
   Device.X_PRPLWARE-COM_MultiSettings
   Device.X_PRPLWARE-COM_PersistentConfiguration
+  Device.X_PRPLWARE-COM_ProcessMonitor
   Device.X_PRPLWARE-COM_WANManager
   Device.X_PRPLWARE-COM_WiFiScheduler
   DeviceInfo
