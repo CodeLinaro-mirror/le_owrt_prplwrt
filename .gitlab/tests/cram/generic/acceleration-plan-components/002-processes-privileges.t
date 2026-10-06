@@ -33,7 +33,6 @@ Verify that the tr181_app user has the expected sudo privileges
       (root) NOPASSWD: /bin/getDebugInformation
       (root) NOPASSWD: /usr/lib/amx/scripts/tmpfs_download_mount.sh
       (root) NOPASSWD: /usr/lib/amx/scripts/tmpfs_download_unmount.sh
-      (root) NOPASSWD: /usr/sbin/dnsmasq
       (root) NOPASSWD: /etc/init.d/* start, /etc/init.d/* stop, /etc/init.d/* restart
       (root) NOPASSWD: /usr/sbin/dropbear
       (root) NOPASSWD: /sbin/reboot
