@@ -11,10 +11,6 @@
   - cmd: acl-manager
     id: tr181_app:acl
     caps: chown,dac_override,dac_read_search
-  - cmd: afcd
-    id: root:root
-    caps: full
-    optional: true
   - cmd: amx-faultmonitor
     id: tr181_app:tr181_app
     caps: dac_override
@@ -43,10 +39,6 @@
   - cmd: beerocks_vendor_message
     id: root:root
     caps: full
-  - cmd: blockd
-    id: root:root
-    caps: full
-    optional: true
   - cmd: cellular-manager
     id: root:root
     caps: full
@@ -68,11 +60,6 @@
     - cmd: cwmpd
       id: tr181_app:tr181_app
       caps: dac_override
-  - cmd: dbus-daemon
-    id: root:root
-    caps: full
-    optional: true
-    ignore_child: true
   - cmd: deviceinfo-manager
     id: tr181_app:tr181_app
     caps: chown,dac_override,dac_read_search,sys_admin,sys_ptrace
@@ -89,14 +76,6 @@
   - cmd: dhcpv6s-manager
     id: tr181_app:tr181_app
     caps: dac_override
-  - cmd: dump_handler
-    id: root:root
-    caps: full
-    optional: true
-  - cmd: dwpal_daemon
-    id: root:root
-    caps: full
-    optional: true
   - cmd: ethernet-manager
     id: tr181_app:tr181_app
     caps: dac_override,net_admin,sys_rawio
@@ -118,10 +97,6 @@
   - cmd: "lua:amx_monitor_dm"
     id: root:root
     caps: full
-  - cmd: mbim-proxy
-    id: root:root
-    caps: full
-    optional: true
   - cmd: multisettings
     id: tr181_app:tr181_app
     caps: chown,dac_override,dac_read_search
@@ -149,20 +124,12 @@
   - cmd: pcm-manager
     id: tr181_app:tr181_app
     caps: chown,dac_override
-  - cmd: ppmd
-    id: root:root
-    caps: full
-    optional: true
   - cmd: prplmesh-dm-mapper
     id: root:root
     caps: full
   - cmd: prplmesh-process-manager
     id: root:root
     caps: full
-  - cmd: rcvry_monitor
-    id: root:root
-    caps: full
-    optional: true
   - cmd: reboot-service
     id: tr181_app:tr181_app
     caps: dac_override
@@ -175,14 +142,9 @@
   - cmd: rpcd
     id: root:root
     caps: full
-  - cmd: sh
-    id: root:root
-    caps: full
-    optional: true
-    ignore_child: true
   - cmd: ssh_server
     id: tr181_app:tr181_app
-    caps: chown,dac_override,dac_read_search,kill,sys_ptrace
+    caps: chown,dac_override,dac_read_search,sys_ptrace
     child:
     - cmd: sudo
       id: tr181_app/root:root
@@ -271,9 +233,6 @@
   - cmd: tr181-gnimanager
     id: tr181_app:tr181_app
     caps: none
-  - cmd: tr181-gre
-    id: tr181_app:tr181_app
-    caps: dac_override,dac_read_search,net_admin
   - cmd: tr181-homeplug
     id: tr181_app:tr181_app
     caps: dac_override,net_raw
@@ -287,19 +246,6 @@
   - cmd: tr181-ipdiagnostics
     id: tr181_app:tr181_app
     caps: dac_override,kill,net_raw,setgid,setuid
-  - cmd: tr181-ipsec
-    id: tr181_app:tr181_app
-    caps: dac_override,dac_read_search,net_admin
-    child:
-    - cmd: sudo
-      id: tr181_app/root:root
-      caps: full
-      optional: true
-      child:
-      - cmd: charon
-        id: root:root
-        caps: full
-        ignore_child: true
   - cmd: tr181-led
     id: tr181_app:tr181_app
     caps: dac_override
@@ -327,7 +273,7 @@
     caps: dac_override
   - cmd: tr181-periodicfileupload
     id: tr181_app:tr181_app
-    caps: dac_override,dac_read_search
+    caps: none
   - cmd: tr181-powerstatus
     id: tr181_app:tr181_app
     caps: dac_override
@@ -356,7 +302,7 @@
     caps: dac_override,dac_read_search
   - cmd: tr181-sfp
     id: tr181_app:tr181_app
-    caps: dac_override,net_admin
+    caps: dac_override
   - cmd: tr181-syslog
     id: tr181_app:syslog
     caps: chown,dac_override,dac_read_search,fowner,net_bind_service,net_broadcast,net_raw,syslog
@@ -367,9 +313,6 @@
   - cmd: tr181-temperature
     id: tr181_app:tr181_app
     caps: none
-  - cmd: tr181-tuntap
-    id: tr181_app:tr181_app
-    caps: dac_override,dac_read_search,net_admin
   - cmd: tr181-upnp
     id: tr181_app:tr181_app
     caps: dac_override,kill,net_admin,net_raw,setfcap
@@ -386,9 +329,6 @@
   - cmd: tr181-usermanagement
     id: tr181_app:tr181_app
     caps: chown,dac_override,dac_read_search
-  - cmd: tr181-wireguard
-    id: tr181_app:tr181_app
-    caps: dac_override,dac_read_search,net_admin
   - cmd: tr181-xpon
     id: tr181_app:tr181_app
     caps: dac_override,net_admin,sys_module
