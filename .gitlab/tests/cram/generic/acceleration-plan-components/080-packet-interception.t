@@ -50,18 +50,31 @@ Check that iptables rule are correct
   RETURN     all  --  anywhere             prplOS.lan          
   NFQUEUE    udp  --  anywhere             anywhere             connbytes 0:1 connbytes mode packets connbytes direction original udp dpt:domain NFQUEUE num 2
 
+Start a packet capture :
+
+  $ sudo tcpdump -l -i $TESTBED_WAN_INTERFACE port 53 -w dns.pcap > /dev/null 2>&1 &
+  $ TCPDUMP_PID=$!
+
 Send out one DNS packet
 
   $ R nslookup -type=A example.com. 8.8.8.8 | grep Server
   Server:		8.8.8.8
 
-Check that packet was intercepted using the Stats
+Read NFQUEUE packet counter from the kernel
 
-  $ R "ba-cli -l PacketInterception.PacketHandler.1.Stats.NrOfPacketsReceived?" | awk NF
-  1
+  $ NFQ_PKTS=$(R "iptables -t mangle -nvL INTERCEPT_Output" | awk '/NFQUEUE/ {print $1}')
 
-  $ R "ba-cli -l PacketInterception.PacketHandler.1.Stats.NrOfPacketsAccepted?" | awk NF
-  1
+Check that the packet was intercepted using the Stats, and that it matches the number on NFQUEUE:
+
+  $ RECEIVED=$(R "ba-cli -l PacketInterception.PacketHandler.1.Stats.NrOfPacketsReceived?" | awk NF)
+
+  $ ACCEPTED=$(R "ba-cli -l PacketInterception.PacketHandler.1.Stats.NrOfPacketsAccepted?" | awk NF)
+
+  $ [ "$NFQ_PKTS" = "$RECEIVED" ] && echo "MATCH: NFQUEUE pkts == NrOfPacketsReceived" || echo "MISMATCH: NFQUEUE pkts ($NFQ_PKTS) != NrOfPacketsReceived ($RECEIVED)"
+  MATCH: NFQUEUE pkts == NrOfPacketsReceived
+
+  $ [ "$NFQ_PKTS" = "$ACCEPTED" ] && echo "MATCH: NFQUEUE pkts == NrOfPacketsAccepted" || echo "MISMATCH: NFQUEUE pkts ($NFQ_PKTS) != NrOfPacketsAccepted ($ACCEPTED)"
+  MATCH: NFQUEUE pkts == NrOfPacketsAccepted
 
 Disable interception of packets:
 
@@ -73,3 +86,7 @@ Check that no interception is being configured:
   $ R "iptables -t mangle -L INTERCEPT_Output"
   Chain INTERCEPT_Output (0 references)
   target     prot opt source               destination         
+
+Cleanup
+
+  $ sudo kill -9 "$TCPDUMP_PID" >/dev/null 2>&1 || true
