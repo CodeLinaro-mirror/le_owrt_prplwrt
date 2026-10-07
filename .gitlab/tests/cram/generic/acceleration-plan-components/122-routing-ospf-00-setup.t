@@ -6,7 +6,7 @@ Setup the test configuration:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
   $ alias C="${CRAM_REMOTE_COPY:-}"
-  $ OSPF_DM="Routing.X_PRPLWARE-COM_OSPF."
+  $ OSPF_DM="Device.Routing.X_PRPLWARE-COM_OSPF."
 
 Prepare bird configuration file:
 
@@ -16,10 +16,10 @@ Prepare bird configuration file:
 Verify the initial state:
 
   $ R "ba-cli ${OSPF_DM}?" | grep -Ev '^(>|$)'
-  Routing.X_PRPLWARE-COM_OSPF.
-  Routing.X_PRPLWARE-COM_OSPF.ConfigNumberOfEntries=0
-  Routing.X_PRPLWARE-COM_OSPF.Enable=0
-  Routing\.X_PRPLWARE-COM_OSPF\.LastRefreshTime=".*" (re)
+  Device.Routing.X_PRPLWARE-COM_OSPF.
+  Device.Routing.X_PRPLWARE-COM_OSPF.ConfigNumberOfEntries=0
+  Device.Routing.X_PRPLWARE-COM_OSPF.Enable=0
+  Device\.Routing\.X_PRPLWARE-COM_OSPF\.LastRefreshTime=".*" (re)
 
 Configure the first IPv4 OSPF instance (address family extensions - RFC5838):
 

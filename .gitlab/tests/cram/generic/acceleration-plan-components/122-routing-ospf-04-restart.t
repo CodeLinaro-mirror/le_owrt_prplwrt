@@ -5,41 +5,41 @@ Setup the test configuration:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
   $ alias C="${CRAM_REMOTE_COPY:-}"
-  $ OSPF_DM="Routing.X_PRPLWARE-COM_OSPF."
+  $ OSPF_DM="Device.Routing.X_PRPLWARE-COM_OSPF."
   $ TESTBED_IP6_LLA=$(ip -6 --json addr show $TESTBED_LAN_INTERFACE | jq --raw-output '.[0].addr_info[] | select (.scope == "link") | .local')
 
 Restart routing manager:
 
-  $ R "service routing-manager stop"
+  $ R "service tr181-bgp-ospf stop"
   $ sleep 5
-  $ R "service routing-manager start"
+  $ R "service tr181-bgp-ospf start"
   $ sleep 7
 
 Verify the connection is reestablished for IPv4 OSPF:
 
   $ R "ba-cli ${OSPF_DM}Config.ospf4.Area.1.Interface.1.State?" | grep -Ev '^(>|$)'
-  Routing.X_PRPLWARE-COM_OSPF.Config.\d+.Area.1.Interface.1.State="BackupDesignatedRouter" (re)
+  Device.Routing.X_PRPLWARE-COM_OSPF.Config.\d+.Area.1.Interface.1.State="BackupDesignatedRouter" (re)
 
 Verify the connection is reestablished for IPv6 OSPF:
 
   $ R "ba-cli ${OSPF_DM}Config.ospf6.Area.1.Interface.1.State?" | grep -Ev '^(>|$)'
-  Routing.X_PRPLWARE-COM_OSPF.Config.\d+.Area.1.Interface.1.State="BackupDesignatedRouter" (re)
+  Device.Routing.X_PRPLWARE-COM_OSPF.Config.\d+.Area.1.Interface.1.State="BackupDesignatedRouter" (re)
 
 Verify that the discovered neighbor and its adjacency for IPv4 OSPF:
 
   $ R "ba-cli ${OSPF_DM}Config.ospf4.Area.1.Interface.1.Neighbor.1.NeighborRouterID?" | grep -Ev '^(>|$)'
-  Routing.X_PRPLWARE-COM_OSPF.Config.\d+.Area.1.Interface.1.Neighbor.1.NeighborRouterID="2.2.2.2" (re)
+  Device.Routing.X_PRPLWARE-COM_OSPF.Config.\d+.Area.1.Interface.1.Neighbor.1.NeighborRouterID="2.2.2.2" (re)
   $ R "ba-cli ${OSPF_DM}Config.ospf4.Area.1.Interface.1.Neighbor.1.Address?" | grep -Ev '^(>|$)' | sed "s/$TESTBED_IP6_LLA/MATCHED/"
-  Routing.X_PRPLWARE-COM_OSPF.Config.\d+.Area.1.Interface.1.Neighbor.1.Address="MATCHED" (re)
+  Device.Routing.X_PRPLWARE-COM_OSPF.Config.\d+.Area.1.Interface.1.Neighbor.1.Address="MATCHED" (re)
   $ R "ba-cli ${OSPF_DM}Config.ospf4.Area.1.Interface.1.Neighbor.1.State?" | grep -Ev '^(>|$)'
-  Routing.X_PRPLWARE-COM_OSPF.Config.\d+.Area.1.Interface.1.Neighbor.1.State="Full" (re)
+  Device.Routing.X_PRPLWARE-COM_OSPF.Config.\d+.Area.1.Interface.1.Neighbor.1.State="Full" (re)
 
 Verify that the discovered neighbor and its adjacency for IPv6 OSPF:
 
   $ R "ba-cli ${OSPF_DM}Config.ospf6.Area.1.Interface.1.Neighbor.1.NeighborRouterID?" | grep -Ev '^(>|$)'
-  Routing.X_PRPLWARE-COM_OSPF.Config.\d+.Area.1.Interface.1.Neighbor.1.NeighborRouterID="2.2.2.2" (re)
+  Device.Routing.X_PRPLWARE-COM_OSPF.Config.\d+.Area.1.Interface.1.Neighbor.1.NeighborRouterID="2.2.2.2" (re)
   $ R "ba-cli ${OSPF_DM}Config.ospf6.Area.1.Interface.1.Neighbor.1.Address?" | grep -Ev '^(>|$)' | sed "s/$TESTBED_IP6_LLA/MATCHED/"
-  Routing.X_PRPLWARE-COM_OSPF.Config.\d+.Area.1.Interface.1.Neighbor.1.Address="MATCHED" (re)
+  Device.Routing.X_PRPLWARE-COM_OSPF.Config.\d+.Area.1.Interface.1.Neighbor.1.Address="MATCHED" (re)
   $ R "ba-cli ${OSPF_DM}Config.ospf6.Area.1.Interface.1.Neighbor.1.State?" | grep -Ev '^(>|$)'
-  Routing.X_PRPLWARE-COM_OSPF.Config.\d+.Area.1.Interface.1.Neighbor.1.State="Full" (re)
+  Device.Routing.X_PRPLWARE-COM_OSPF.Config.\d+.Area.1.Interface.1.Neighbor.1.State="Full" (re)
 

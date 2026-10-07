@@ -7,6 +7,20 @@ Check that ubus has expected datamodels available:
   $ R "ubus list | grep '[[:upper:]]' | grep -v -e '\.[[:digit:]]' -e '^Cellular' -e 'Device.Cellular' -e 'Device.SessionManagement' -e 'Device.TrustedElements' -e '^SessionManagement' -e '^TrustedElements' -e 'Device.X_PRPLWARE-COM_SoftwareModules' -e 'WiFi.Vendor.Daemon' -e 'WiFi.Vendor.ModuleMode' -e '^WiFi.Vendor.MLO' -e '^Bridging.Bridge.[SV]' -e 'WiFi.Vendor.ReconfManager'"
   ACLManager
   ACLManager.Role
+  BGPOSPF
+  BGPOSPF.X_PRPLWARE-COM_BGP
+  BGPOSPF.X_PRPLWARE-COM_BGP.Config
+  BGPOSPF.X_PRPLWARE-COM_OSPF
+  BGPOSPF.X_PRPLWARE-COM_OSPF.Config
+  BGPOSPF.X_PRPLWARE-COM_RouteFiltering
+  BGPOSPF.X_PRPLWARE-COM_RouteFiltering.DefinedSets
+  BGPOSPF.X_PRPLWARE-COM_RouteFiltering.DefinedSets.ExtCommunitySet
+  BGPOSPF.X_PRPLWARE-COM_RouteFiltering.DefinedSets.NeighborSet
+  BGPOSPF.X_PRPLWARE-COM_RouteFiltering.DefinedSets.NextHopSet
+  BGPOSPF.X_PRPLWARE-COM_RouteFiltering.DefinedSets.PrefixSet
+  BGPOSPF.X_PRPLWARE-COM_RouteFiltering.DefinedSets.StdCommunitySet
+  BGPOSPF.X_PRPLWARE-COM_RouteFiltering.DefinedSets.TagSet
+  BGPOSPF.X_PRPLWARE-COM_RouteFiltering.FilterDefinition
   Bridging
   Bridging.Bridge
   BulkData
@@ -118,6 +132,9 @@ Check that ubus has expected datamodels available:
   Device.QoS
   Device.RouterAdvertisement
   Device.Routing
+  Device.Routing.X_PRPLWARE-COM_BGP
+  Device.Routing.X_PRPLWARE-COM_OSPF
+  Device.Routing.X_PRPLWARE-COM_RouteFiltering
   Device.SFPs
   Device.SSH
   Device.Schedules
@@ -348,19 +365,6 @@ Check that ubus has expected datamodels available:
   Routing.RouteInformation
   Routing.RouteInformation.InterfaceSetting
   Routing.Router
-  Routing.X_PRPLWARE-COM_BGP
-  Routing.X_PRPLWARE-COM_BGP.Config
-  Routing.X_PRPLWARE-COM_OSPF
-  Routing.X_PRPLWARE-COM_OSPF.Config
-  Routing.X_PRPLWARE-COM_RouteFiltering
-  Routing.X_PRPLWARE-COM_RouteFiltering.DefinedSets
-  Routing.X_PRPLWARE-COM_RouteFiltering.DefinedSets.ExtCommunitySet
-  Routing.X_PRPLWARE-COM_RouteFiltering.DefinedSets.NeighborSet
-  Routing.X_PRPLWARE-COM_RouteFiltering.DefinedSets.NextHopSet
-  Routing.X_PRPLWARE-COM_RouteFiltering.DefinedSets.PrefixSet
-  Routing.X_PRPLWARE-COM_RouteFiltering.DefinedSets.StdCommunitySet
-  Routing.X_PRPLWARE-COM_RouteFiltering.DefinedSets.TagSet
-  Routing.X_PRPLWARE-COM_RouteFiltering.FilterDefinition
   SFPs
   SFPs.AllowedSFPs
   SFPs.AllowedSFPs.AllowedSFP

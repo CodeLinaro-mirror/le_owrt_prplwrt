@@ -6,7 +6,7 @@ Setup the test configuration:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
   $ alias C="${CRAM_REMOTE_COPY:-}"
-  $ OSPF_DM="Routing.X_PRPLWARE-COM_OSPF."
+  $ OSPF_DM="Device.Routing.X_PRPLWARE-COM_OSPF."
   $ RF_DM="Device.Routing.X_PRPLWARE-COM_RouteFiltering."
 
 Perform teardown of IPv4 OSPF:

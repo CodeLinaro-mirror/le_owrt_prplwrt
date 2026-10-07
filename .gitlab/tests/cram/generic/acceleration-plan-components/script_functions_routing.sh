@@ -90,7 +90,7 @@ wait_bgp_session() {
 #   $3 - interface_index: OSPF interface instance index
 #   $4 - state: expected interface state
 wait_ospf_state() {
-	wait_param "Routing.X_PRPLWARE-COM_OSPF.Config.$1.Area.$2.Interface.$3.State" "$4"
+	wait_param "Device.Routing.X_PRPLWARE-COM_OSPF.Config.$1.Area.$2.Interface.$3.State" "$4"
 }
 
 # wait_ospf_neighbors - waits until an OSPF interface discovered its neighbors
@@ -100,5 +100,5 @@ wait_ospf_state() {
 #   $3 - interface_index: OSPF interface instance index
 #   $4 - count: minimum number of expected neighbors, defaults to 1
 wait_ospf_neighbors() {
-	wait_param_min "Routing.X_PRPLWARE-COM_OSPF.Config.$1.Area.$2.Interface.$3.NeighborNumberOfEntries" "${4:-1}"
+	wait_param_min "Device.Routing.X_PRPLWARE-COM_OSPF.Config.$1.Area.$2.Interface.$3.NeighborNumberOfEntries" "${4:-1}"
 }
