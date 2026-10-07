@@ -171,7 +171,7 @@
     caps: none
   - cmd: routing-manager
     id: tr181_app:tr181_app
-    caps: dac_override,net_admin,net_raw,net_bind_service
+    caps: dac_override,net_admin,net_raw
   - cmd: rpcd
     id: root:root
     caps: full
@@ -198,6 +198,9 @@
   - cmd: timingila
     id: root:root
     caps: none
+  - cmd: tr181-bgp-ospf
+    id: tr181_app:tr181_app
+    caps: dac_override,net_admin,net_bind_service,net_raw
   - cmd: tr181-bootstatus
     id: tr181_app:tr181_app
     caps: dac_override
