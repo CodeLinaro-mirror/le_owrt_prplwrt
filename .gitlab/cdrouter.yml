@@ -43,6 +43,24 @@
       else
         sudo etherwake -i $TESTBED_MNG_INTERFACE $CDROUTER_ETH0_MAC_ADDRESS_TESTBED_02 2> /dev/null
       fi
+
+    - >
+      if echo "$CI_RUNNER_DESCRIPTION" | grep -q testbed-02; then
+        export CDROUTER_API_TOKEN="$CDROUTER_API_TOKEN_TESTBED_02"
+        export CDROUTER_CONFIG_WIFI_LAN_CHANNEL=12
+        export CDROUTER_CONFIG_WIFI_LAN_SSID=prplOS-2g-12
+      else
+        export CDROUTER_CONFIG_WIFI_LAN_CHANNEL=6
+        export CDROUTER_CONFIG_WIFI_LAN_SSID=prplOS-2g-6
+      fi
+
+    # stop a package left running by a canceled job before the DUT boots,
+    # otherwise its DHCP server hands the DUT a WAN lease which outlives it
+    - .gitlab/scripts/testbed-cdrouter.py check_connectivity --timeout 300
+    - .gitlab/scripts/testbed-cdrouter.py package_stop
+    - .gitlab/scripts/testbed-cdrouter.py wait_for_netif $CDROUTER_LAN_INTERFACE
+    - .gitlab/scripts/testbed-cdrouter.py wait_for_netif $CDROUTER_WAN_INTERFACE
+
     - !reference [.dut-lifecycle.setup, script]
 
     - !reference [.dut-lifecycle.boot, script]
@@ -65,21 +83,6 @@
 
     - section_end "dut-init"
     - section_start "cdrouter-configuration" "CDRouter Configuration" "collapsed"
-
-    - >
-      if echo "$CI_RUNNER_DESCRIPTION" | grep -q testbed-02; then
-        export CDROUTER_API_TOKEN="$CDROUTER_API_TOKEN_TESTBED_02"
-        export CDROUTER_CONFIG_WIFI_LAN_CHANNEL=12
-        export CDROUTER_CONFIG_WIFI_LAN_SSID=prplOS-2g-12
-      else
-        export CDROUTER_CONFIG_WIFI_LAN_CHANNEL=6
-        export CDROUTER_CONFIG_WIFI_LAN_SSID=prplOS-2g-6
-      fi
-
-    - .gitlab/scripts/testbed-cdrouter.py check_connectivity
-    - .gitlab/scripts/testbed-cdrouter.py package_stop
-    - .gitlab/scripts/testbed-cdrouter.py wait_for_netif $CDROUTER_LAN_INTERFACE
-    - .gitlab/scripts/testbed-cdrouter.py wait_for_netif $CDROUTER_WAN_INTERFACE
 
   script:
     - source .gitlab/scripts/helpers.sh
