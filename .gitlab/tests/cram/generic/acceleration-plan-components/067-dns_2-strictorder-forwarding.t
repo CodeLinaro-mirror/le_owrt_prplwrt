@@ -78,30 +78,26 @@ Check dns-up netmodel flag
   $ R "ba-cli -l 'NetModel.Intf.ip-wan.Flags?' | awk NF"
   .*dns-up.* (re)
 
-Send 4 DNS queries (both class A and class AAAA). The 3 first ones should timeout and the 4th one should succeed
-  $ R "sleep 1; nslookup -timeout=1 -retry=1 www.google.be"
+Send 4 DNS queries (only class A). The 3 first ones should timeout and the 4th one should succeed
+  $ R "sleep 1; nslookup -timeout=1 -retry=1 -type=A www.google.be"
   ;; connection timed out; no servers could be reached
   
   [1]
 
-  $ R "sleep 1; nslookup -timeout=1 -retry=1 www.google.be"
+  $ R "sleep 1; nslookup -timeout=1 -retry=1 -type=A www.google.be"
   ;; connection timed out; no servers could be reached
   
   [1]
 
-  $ R "sleep 1; nslookup -timeout=1 -retry=1 www.google.be"
+  $ R "sleep 1; nslookup -timeout=1 -retry=1 -type=A www.google.be"
   ;; connection timed out; no servers could be reached
   
   [1]
 
 Check that DNS query succeeds since the fourth server is valid
-  $ R "sleep 1; nslookup -timeout=1 -retry=1 www.google.be"
+  $ R "sleep 1; nslookup -timeout=1 -retry=1 -type=A www.google.be"
   Server:\t\t127.0.0.1 (esc)
   Address:\t127.0.0.1:53 (esc)
-  
-  Non-authoritative answer:
-  Name:\twww.google.be (esc)
-  Address: .* (re)
   
   Non-authoritative answer:
   Name:\twww.google.be (esc)

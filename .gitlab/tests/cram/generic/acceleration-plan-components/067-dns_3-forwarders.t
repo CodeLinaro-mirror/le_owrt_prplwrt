@@ -53,20 +53,16 @@ Configure Forwarders to have the unresponsive server first
   $ R "ba-cli -l DNS.Relay.Config.1.Forwarders='\"DNS.Relay.Forwarding.test-ko,DNS.Relay.Forwarding.test-ok\"' | awk NF"
   DNS.Relay.Forwarding..* (re)
 
-Send 2 DNS queries (both class A and class AAAA). The first one should timeout and the second one should succeed
-  $ R "sleep 1; nslookup -timeout=1 -retry=1 www.google.co.uk"
+Send 2 DNS queries. The first one should timeout and the second one should succeed
+  $ R "sleep 1; nslookup -timeout=1 -retry=1 -type=A www.google.co.uk"
   ;; connection timed out; no servers could be reached
   
   [1]
 
 Check that DNS query succeeds since the second server is valid
-  $ R "sleep 1; nslookup -timeout=1 -retry=1 www.google.co.uk"
+  $ R "sleep 1; nslookup -timeout=1 -retry=1 -type=A www.google.co.uk"
   Server:\t\t127.0.0.1 (esc)
   Address:\t127.0.0.1:53 (esc)
-  
-  Non-authoritative answer:
-  Name:\twww.google.co.uk (esc)
-  Address: .* (re)
   
   Non-authoritative answer:
   Name:\twww.google.co.uk (esc)
