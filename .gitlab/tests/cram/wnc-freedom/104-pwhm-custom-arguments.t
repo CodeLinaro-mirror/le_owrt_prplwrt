@@ -100,10 +100,29 @@ Enable the end points for wpa_supplicant:
 
   $ R logger -t cram "Check that wpa_supplicant is operating"
 
-  $ R "ps axw" | sed -n '/[w]pa_supplicant/ { s/^.*\bwpa_supplicant[[:space:]]/wpa_supplicant /; p }' | head -3 | LC_ALL=C sort
-  wpa_supplicant -s -i wlan0 -Dnl80211 -c /tmp/wlan0_wpa_supplicant.conf
-  wpa_supplicant -s -i wlan1 -Dnl80211 -c /tmp/wlan1_wpa_supplicant.conf
-  wpa_supplicant -s -i wlan2 -Dnl80211 -c /tmp/wlan2_wpa_supplicant.conf
+  $ R "ps axw" | sed -nE 's/.*(wpa_supplicant .*)/\1/p' | head -1 | tr -s ' ' '\n'
+  wpa_supplicant
+  -s
+  -g
+  /var/run/wpa_supplicant/global\.0x.* (re)
+  -i
+  wlan0
+  -Dnl80211
+  -c
+  /tmp/wlan0_wpa_supplicant.conf
+  -N
+  -i
+  wlan1
+  -Dnl80211
+  -c
+  /tmp/wlan1_wpa_supplicant.conf
+  -N
+  -i
+  wlan2
+  -Dnl80211
+  -c
+  /tmp/wlan2_wpa_supplicant.conf
+
 
 Test the custom arguments for wpa_supplicant:
 
@@ -125,10 +144,28 @@ Test the custom arguments for wpa_supplicant:
   WiFi.EndPoint.2.Status="Enabled"
   WiFi.EndPoint.3.Status="Enabled"
 
-  $ R "ps axw" | sed -n '/[w]pa_supplicant/ { s/^.*\bwpa_supplicant[[:space:]]/wpa_supplicant /; p }' | head -3 | LC_ALL=C sort
-  wpa_supplicant -ds -i wlan0 -Dnl80211 -c /tmp/wlan0_wpa_supplicant.conf
-  wpa_supplicant -ds -i wlan1 -Dnl80211 -c /tmp/wlan1_wpa_supplicant.conf
-  wpa_supplicant -ds -i wlan2 -Dnl80211 -c /tmp/wlan2_wpa_supplicant.conf
+  $ R "ps axw" | sed -nE 's/.*(wpa_supplicant .*)/\1/p' | head -1 | tr -s ' ' '\n'
+  wpa_supplicant
+  -ds
+  -g
+  /var/run/wpa_supplicant/global\.0x.* (re)
+  -i
+  wlan0
+  -Dnl80211
+  -c
+  /tmp/wlan0_wpa_supplicant.conf
+  -N
+  -i
+  wlan1
+  -Dnl80211
+  -c
+  /tmp/wlan1_wpa_supplicant.conf
+  -N
+  -i
+  wlan2
+  -Dnl80211
+  -c
+  /tmp/wlan2_wpa_supplicant.conf
 
   $ R "ba-cli ProcessFaults.ProcessFault.? | grep -iE 'hostapd|wpa_supplicant'"
   [1]
@@ -151,10 +188,29 @@ Setting the custom arguments back to default value:
   WiFi.EndPoint.2.Status="Enabled"
   WiFi.EndPoint.3.Status="Enabled"
 
-  $ R "ps axw" | sed -n '/[w]pa_supplicant/ { s/^.*\bwpa_supplicant[[:space:]]/wpa_supplicant /; p }' | head -3 | LC_ALL=C sort
-  wpa_supplicant -s -i wlan0 -Dnl80211 -c /tmp/wlan0_wpa_supplicant.conf
-  wpa_supplicant -s -i wlan1 -Dnl80211 -c /tmp/wlan1_wpa_supplicant.conf
-  wpa_supplicant -s -i wlan2 -Dnl80211 -c /tmp/wlan2_wpa_supplicant.conf
+  $ R "ps axw" | sed -nE 's/.*(wpa_supplicant .*)/\1/p' | head -1 | tr -s ' ' '\n'
+  wpa_supplicant
+  -s
+  -g
+  /var/run/wpa_supplicant/global\.0x.* (re)
+  -i
+  wlan0
+  -Dnl80211
+  -c
+  /tmp/wlan0_wpa_supplicant.conf
+  -N
+  -i
+  wlan1
+  -Dnl80211
+  -c
+  /tmp/wlan1_wpa_supplicant.conf
+  -N
+  -i
+  wlan2
+  -Dnl80211
+  -c
+  /tmp/wlan2_wpa_supplicant.conf
+
 
   $ R "ba-cli ProcessFaults.ProcessFault.? | grep -iE 'hostapd|wpa_supplicant'"
   [1]
