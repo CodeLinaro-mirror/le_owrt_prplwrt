@@ -52,7 +52,7 @@ Check that iptables rule are correct
 
 Start a packet capture :
 
-  $ sudo tcpdump -l -i $TESTBED_WAN_INTERFACE port 53 -w dns.pcap > /dev/null 2>&1 &
+  $ sudo tcpdump -l -i $TESTBED_WAN_INTERFACE -w $TESTDIR/dns.pcap > /dev/null 2>&1 &
   $ TCPDUMP_PID=$!
 
 Send out one DNS packet
