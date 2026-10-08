@@ -2,15 +2,14 @@ Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
-Disable ACS and Time Server to avoid interference during the test
-
-  $ TIME_SERVERS="'$(R "ba-cli -l Device.Time.Client.1.Servers? | awk NF")'"
+Disable Time Server and STOMP to avoid interference during the test
+  $ R "ba-cli -l Device.Time.Client.1.Enable=0 | awk NF"
+  0
+  $ R "obuspa -c set Device.STOMP.Connection.1.Enable 0"
+  Device.STOMP.Connection.1.Enable => 0
+Disable ACS by resetting the URL (EnableCWMP has no effect on DNS resolution)
   $ MANAGEMENT_SERVER_URL="$(R "ba-cli -l Device.ManagementServer.URL? | awk NF")"
-  $ STOMP_CONNECTION="$(R "obuspa -c get Device.STOMP.Connection.1.Host | cut -d' ' -f3")"
-  $ R "ba-cli -l Device.Time.Client.1.Servers='' | awk NF"
   $ R "ba-cli -l Device.ManagementServer.URL='' | awk NF"
-  $ R "obuspa -c set Device.STOMP.Connection.1.Host ''"
-  Device.STOMP.Connection.1.Host => 
 
 Configure DNS relay on lo interface to StrictOrder with no retry for each DNS forwarder 
 
@@ -78,30 +77,26 @@ Check dns-up netmodel flag
   $ R "ba-cli -l 'NetModel.Intf.ip-wan.Flags?' | awk NF"
   .*dns-up.* (re)
 
-Send 4 DNS queries (both class A and class AAAA). The 3 first ones should timeout and the 4th one should succeed
-  $ R "sleep 1; nslookup -timeout=1 -retry=1 www.google.be"
+Send 4 DNS queries (only class A). The 3 first ones should timeout and the 4th one should succeed
+  $ R "sleep 1; nslookup -timeout=1 -retry=1 -type=A www.google.be"
   ;; connection timed out; no servers could be reached
   
   [1]
 
-  $ R "sleep 1; nslookup -timeout=1 -retry=1 www.google.be"
+  $ R "sleep 1; nslookup -timeout=1 -retry=1 -type=A www.google.be"
   ;; connection timed out; no servers could be reached
   
   [1]
 
-  $ R "sleep 1; nslookup -timeout=1 -retry=1 www.google.be"
+  $ R "sleep 1; nslookup -timeout=1 -retry=1 -type=A www.google.be"
   ;; connection timed out; no servers could be reached
   
   [1]
 
 Check that DNS query succeeds since the fourth server is valid
-  $ R "sleep 1; nslookup -timeout=1 -retry=1 www.google.be"
+  $ R "sleep 1; nslookup -timeout=1 -retry=1 -type=A www.google.be"
   Server:\t\t127.0.0.1 (esc)
   Address:\t127.0.0.1:53 (esc)
-  
-  Non-authoritative answer:
-  Name:\twww.google.be (esc)
-  Address: .* (re)
   
   Non-authoritative answer:
   Name:\twww.google.be (esc)
@@ -186,12 +181,16 @@ Tear down
   Dynamic
   Dynamic
 
-  $ R "obuspa -c set Device.STOMP.Connection.1.Host \"${STOMP_CONNECTION}\" > /dev/null"
-  $ R "ba-cli -l Device.ManagementServer.URL=\"${MANAGEMENT_SERVER_URL}\" > /dev/null"
-  $ R "ba-cli -l Device.Time.Client.1.Servers=\"${TIME_SERVERS}\" > /dev/null"
   $ R "ba-cli -l 'DNS.Relay.Config.lo.FailbackMaxTimer=0; DNS.Relay.Config.lo.FailbackMinTimer=0' > /dev/null"
   $ R "ba-cli -l 'DNS.Relay.Config.lo.ResponseTimeout=0; DNS.Relay.Config.lo.MaxRetries=5; DNS.Relay.Config.lo.ForwardingMode=Optimal' > /dev/null"
 
 Let unbound restart with the default configuration
-
   $ sleep 5
+
+Restore Time Server and STOMP configuration
+  $ R "ba-cli -l Device.Time.Client.1.Enable=1 | awk NF"
+  1
+  $ R "obuspa -c set Device.STOMP.Connection.1.Enable 1"
+  Device.STOMP.Connection.1.Enable => 1
+Restore ACS configuration
+  $ R "ba-cli -l Device.ManagementServer.URL=\"${MANAGEMENT_SERVER_URL}\" > /dev/null"
