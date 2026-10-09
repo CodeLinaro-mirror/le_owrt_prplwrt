@@ -607,7 +607,7 @@ define Build/RunMake
 		$(TARGET_CONFIGURE_OPTS) \
 		$(DRIVER_MAKEOPTS) \
 		LIBS="$(TARGET_LDFLAGS)" \
-		LIBS_c="$(TARGET_LDFLAGS_C)" \
+		LIBS_c="$(TARGET_LDFLAGS_C) $(filter -fsanitize%,$(TARGET_LDFLAGS))" \
 		AR="$(TARGET_CROSS)gcc-ar" \
 		BCHECK= \
 		$(if $(findstring s,$(OPENWRT_VERBOSE)),V=1) \
