@@ -10,17 +10,15 @@
 prplmesh_enable_mlo() {
   set -e
   R logger -t cram "Stop prplmesh"
-  R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=0" | tr -d '\n'
+  prplmesh_stop
   R logger -t cram "Enabling DataElements VAP config..."
   R "sed -i 's/use_dataelements_vap_configs=0/use_dataelements_vap_configs=1/g' /opt/prplmesh/config/beerocks_controller.conf"
   R logger -t cram "Disabling MLO for all SSIDs and restart prplmesh"
   R "ba-cli -j -l WiFi.SSID.*.MLDUnit=-1 | jsonfilter -e @[0]'[*].MLDUnit'" > /dev/null
   R "ba-cli X_PRPLWARE-COM_ProcessManager.PrplMesh.ManagementMode=Multi-AP-Controller-and-Agent"  > /dev/null
-  R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=1" | tr -d '\n'
-  R "amx_wait_for X_PRPLWARE-COM_WiFiController.Network.Device.1"
-  sleep 15
+  prplmesh_start
   R logger -t cram "Checking beerocks process."
-  R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Status?"
+  R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Status?" | sed '/^$/d'
   set +e
   echo "MLO_ENABLED"
 }
@@ -36,7 +34,6 @@ prplmesh_create_network_ap_mlo() {
   local ap="${4:-1}"
   local vaptype="${5:-home}"
   local base="X_PRPLWARE-COM_WiFiController.Network.AccessPoint.${ap}"
-
   R logger -t cram "create Network.AccessPoint.${ap} and push to agent"
   R "ba-cli -l 'X_PRPLWARE-COM_WiFiController.Network.AccessPoint.+'" | sed '/^$/d'
   R "ba-cli -l '${base}.Band2_4G=1'"  | sed '/^$/d'
@@ -120,25 +117,19 @@ get_dataelements_apmld_normalized() {
 # Out: echoes "MLO_DEFAULTS_RESTORED" when done.
 prplmesh_revert_mlo_to_defaults() {
   R logger -t cram "Restore default MLD configuration"
-  R "ba-cli -j -l WiFi.AccessPoint.1.SSIDReference+.MLDUnit=0" | sed '/^$/d'
-  R "ba-cli -j -l WiFi.AccessPoint.2.SSIDReference+.MLDUnit=1" | sed '/^$/d'
-  R "ba-cli -j -l WiFi.AccessPoint.3.SSIDReference+.MLDUnit=0" | sed '/^$/d'
-  R "ba-cli -j -l WiFi.AccessPoint.4.SSIDReference+.MLDUnit=1" | sed '/^$/d'
-  R "ba-cli -j -l WiFi.AccessPoint.5.SSIDReference+.MLDUnit=0" | sed '/^$/d'
-  R "ba-cli -j -l WiFi.AccessPoint.6.SSIDReference+.MLDUnit=1" | sed '/^$/d'
-  R "ba-cli -j -l WiFi.AccessPoint.7.SSIDReference+.MLDUnit=2" | sed '/^$/d'
-  R "ba-cli -j -l WiFi.AccessPoint.8.SSIDReference+.MLDUnit=2" | sed '/^$/d'
-  R "ba-cli -j -l WiFi.AccessPoint.9.SSIDReference+.MLDUnit=2" | sed '/^$/d'
-  R "sed -i 's/^use_dataelements_vap_configs=.*/use_dataelements_vap_configs=0/' /opt/prplmesh/config/beerocks_controller.conf"
+
+  prplmesh_stop
+
+  logger -t cram "Disable all vaps"
+  wifi_dm "AccessPoint.*.Enable=0"
   sleep 10
-  R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=0" | tr -d '\n'
+  set_default_ap_mldunit
 
   R logger -t cram "Restart prplmesh"
-
+  R "sed -i 's/^use_dataelements_vap_configs=.*/use_dataelements_vap_configs=0/' /opt/prplmesh/config/beerocks_controller.conf"
   R "ba-cli X_PRPLWARE-COM_ProcessManager.PrplMesh.ManagementMode=Multi-AP-Controller-and-Agent"  > /dev/null
-  R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=1" | tr -d '\n'
-  sleep 10
-  R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Status?"
+  prplmesh_start
+  R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Status?" | sed '/^$/d'
   echo "MLO_DEFAULTS_RESTORED"
 }
 
