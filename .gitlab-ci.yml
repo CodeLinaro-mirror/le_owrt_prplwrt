@@ -118,6 +118,11 @@ include:
   - local: .gitlab/testbed/wnc-freedom.yml
   - local: .gitlab/testbed/nokia-valyrian.yml
   - component: $CI_SERVER_FQDN/prpl-foundation/prplos/ci/components/git-commit-checker/static@v1.0.0
+  - project: prpl-foundation/prplos/ci/components/git-commit-checker
+    ref: v1.0.0
+    file: /templates/static/template.yml
+    inputs:
+      stage: check
 
 stages:
   - commit-check
