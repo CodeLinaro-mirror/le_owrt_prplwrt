@@ -24,7 +24,7 @@ PKG_JOBS?=$(if $(PKG_BUILD_PARALLEL),$(MAKE_J),-j1)
 endif
 
 PKG_BUILD_FLAGS?=
-__unknown_flags=$(filter-out no-iremap no-mips16 gc-sections no-gc-sections lto no-lto no-mold,$(PKG_BUILD_FLAGS))
+__unknown_flags=$(filter-out no-iremap no-mips16 gc-sections no-gc-sections lto no-lto no-mold no-sanitize,$(PKG_BUILD_FLAGS))
 ifneq ($(__unknown_flags),)
   $(error unknown PKG_BUILD_FLAGS: $(__unknown_flags))
 endif
@@ -55,6 +55,13 @@ ifeq ($(call pkg_build_flag,lto,$(if $(CONFIG_USE_LTO),1,0)),1)
   TARGET_CXXFLAGS+= -flto=auto -fno-fat-lto-objects
   TARGET_LDFLAGS+= -flto=auto -fuse-linker-plugin
 endif
+ifeq ($(call pkg_build_flag,sanitize,$(if $(CONFIG_SANITIZE),1,0)),1)
+  TARGET_CFLAGS += $(call qstrip,$(CONFIG_SANITIZE_FLAGS))
+  TARGET_LDFLAGS += $(call qstrip,$(CONFIG_SANITIZE_FLAGS))
+  TARGET_LDFLAGS += $(call qstrip,$(CONFIG_SANITIZE_LDFLAGS))
+endif
+# Rebuild the package when the sanitizer options change.
+PKG_CONFIG_DEPENDS += $(if $(filter no-sanitize,$(PKG_BUILD_FLAGS)),,CONFIG_SANITIZE CONFIG_SANITIZE_FLAGS CONFIG_SANITIZE_LDFLAGS)
 ifdef CONFIG_USE_MOLD
   ifeq ($(call pkg_build_flag,mold,1),1)
     TARGET_LINKER:=mold

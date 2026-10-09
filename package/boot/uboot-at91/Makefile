@@ -14,6 +14,7 @@ PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=https://github.com/linux4sam/u-boot-at91.git
 PKG_MIRROR_HASH:=82229503800d9a624bb8de5f8d7a84cb35fd512a1550c6f1d46958cd47d4807b
 PKG_SOURCE_VERSION:=7b59654a486d39dc8e0343e2554699b8a79c7a54
+PKG_BUILD_FLAGS:=no-sanitize
 
 include $(INCLUDE_DIR)/u-boot.mk
 include $(INCLUDE_DIR)/package.mk

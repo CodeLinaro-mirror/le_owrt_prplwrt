@@ -389,6 +389,32 @@ menu "Global build settings"
 			bool "Full"
 	endchoice
 
+	config SANITIZE
+		bool "Build packages with GCC sanitizers (ASan, UBSan)"
+		depends on USE_GLIBC
+		help
+		  Compile and link the target packages with SANITIZE_FLAGS.
+		  A package opts out with PKG_BUILD_FLAGS:=no-sanitize, set
+		  before including package.mk. Packages with freestanding
+		  code opt out: grub2, kexec-tools (purgatory) and
+		  uboot-at91. The toolchain and the kernel are not
+		  affected. GCC builds the sanitizer runtimes only for
+		  glibc.
+
+	config SANITIZE_FLAGS
+		string "Sanitizer flags"
+		depends on SANITIZE
+		default "-fsanitize=address,undefined -fsanitize-recover=address -fno-omit-frame-pointer"
+
+	config SANITIZE_LDFLAGS
+		string "Extra linker flags for sanitized builds"
+		depends on SANITIZE
+		default ""
+		help
+		  Added to TARGET_LDFLAGS of every package built with the
+		  sanitizers, for example "-Wl,--build-id" so that a report
+		  can be symbolized against the unstripped build files.
+
 	config TARGET_ROOTFS_SECURITY_LABELS
 		bool
 		select KERNEL_SQUASHFS_XATTR
