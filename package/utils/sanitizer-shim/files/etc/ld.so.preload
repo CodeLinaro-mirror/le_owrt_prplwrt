@@ -1,1 +1,2 @@
 /usr/lib/libsanitizer-shim.so
+/lib/libcrypt.so.1
