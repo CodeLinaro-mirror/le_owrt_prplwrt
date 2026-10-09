@@ -1,0 +1,9 @@
+// sanitize profile only: a sanitized image boots slowly, and process
+// monitor tests fail before the services are up. Never reboot for a
+// failed test (pm_execute_action_reboot: NumFailActions >= MaxReboots).
+// Remove this file to get the reboots back.
+%populate {
+    object ProcessMonitor {
+        parameter MaxReboots = 0;
+    }
+}

@@ -55,6 +55,8 @@ define Package/sanitizer-shim/description
   switch-off file for the leak check of a binary.
   For the sanitize profile only: it is no production package, and its
   world-writable report directories are meant for debug images.
+  It also sets ProcessMonitor.MaxReboots to 0: the slow sanitized boot
+  must not trigger reboots.
 endef
 
 define Package/sanitizer-shim/config
@@ -117,6 +119,8 @@ define Package/sanitizer-shim/install
 	$(INSTALL_DIR) $(1)$(call SHIM_STR,OFF_DIR_STATIC)
 	$(INSTALL_DATA) ./files/etc/sanitizer/off/busybox ./files/etc/sanitizer/off/dropbear \
 		$(1)$(call SHIM_STR,OFF_DIR_STATIC)/
+	$(INSTALL_DIR) $(1)/etc/amx/amx-processmonitor/defaults.d
+	$(INSTALL_DATA) ./files/etc/amx/amx-processmonitor/defaults.d/99-sanitize-no-reboot.odl $(1)/etc/amx/amx-processmonitor/defaults.d/
 endef
 
 $(eval $(call BuildPackage,sanitizer-shim))
