@@ -24,6 +24,13 @@ PKG_JOBS?=$(if $(PKG_BUILD_PARALLEL),$(MAKE_J),-j1)
 endif
 
 PKG_BUILD_FLAGS?=
+# Packages that do not build with SANITIZE_FLAGS, kept here so the
+# feeds stay untouched. xz: configure rejects -fsanitize; liburing: no libc
+# link (-nostdlib); swupdate: kbuild "ld -r" gets TARGET_LDFLAGS.
+SANITIZE_OPTOUT_PKGS:=liburing swupdate xz
+ifneq ($(filter $(PKG_NAME),$(SANITIZE_OPTOUT_PKGS)),)
+  PKG_BUILD_FLAGS+=no-sanitize
+endif
 __unknown_flags=$(filter-out no-iremap no-mips16 gc-sections no-gc-sections lto no-lto no-mold no-sanitize,$(PKG_BUILD_FLAGS))
 ifneq ($(__unknown_flags),)
   $(error unknown PKG_BUILD_FLAGS: $(__unknown_flags))
