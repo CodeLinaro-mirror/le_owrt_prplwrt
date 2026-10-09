@@ -8,7 +8,6 @@ WiFi.Radio.*.Capabilities same as DataElements Device.1.Radio.*.Capabilities
 Check Controller, Agent,FrontHaul process are Running:
 
   $ prplmesh_enable_mlo
-  01
   Active
   MLO_ENABLED
 
@@ -111,16 +110,15 @@ Compare: same => OK, else MISMATCH and show both:
   OK
 
   $ prplmesh_revert_mlo_to_defaults
-  [{"Device.WiFi.SSID.1.":{"MLDUnit":0}}]
-  [{"Device.WiFi.SSID.3.":{"MLDUnit":1}}]
-  [{"Device.WiFi.SSID.4.":{"MLDUnit":0}}]
-  [{"Device.WiFi.SSID.6.":{"MLDUnit":1}}]
-  [{"Device.WiFi.SSID.7.":{"MLDUnit":0}}]
-  [{"Device.WiFi.SSID.9.":{"MLDUnit":1}}]
-  [{"Device.WiFi.SSID.16.":{"MLDUnit":2}}]
-  [{"Device.WiFi.SSID.17.":{"MLDUnit":2}}]
-  [{"Device.WiFi.SSID.18.":{"MLDUnit":2}}]
-  01
+  Device.WiFi.AccessPoint.1.Enable=0
+  Device.WiFi.AccessPoint.2.Enable=0
+  Device.WiFi.AccessPoint.3.Enable=0
+  Device.WiFi.AccessPoint.4.Enable=0
+  Device.WiFi.AccessPoint.5.Enable=0
+  Device.WiFi.AccessPoint.6.Enable=0
+  Device.WiFi.AccessPoint.7.Enable=0
+  Device.WiFi.AccessPoint.8.Enable=0
+  Device.WiFi.AccessPoint.9.Enable=0
   Active
   MLO_DEFAULTS_RESTORED
 
