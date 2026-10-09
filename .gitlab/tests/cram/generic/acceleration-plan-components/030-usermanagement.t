@@ -26,7 +26,7 @@ Check that user and group exists:
 Check that we are able to login:
 
   $ sshpass -ppassword ssh testuser@$TARGET_LAN_IP id
-  uid=666(testuser) gid=999(testgroup) groups=999(testgroup),999(testgroup)
+  uid=666\(testuser\) gid=999\(testgroup\) groups=999\(testgroup\)(,999\(testgroup\))? (re)
 
 Change password to unsecure word:
 
@@ -39,7 +39,7 @@ Change password to unsecure word:
 Check that we are able to login with unsecure password:
 
   $ sshpass -punsecure ssh testuser@$TARGET_LAN_IP id
-  uid=666(testuser) gid=999(testgroup) groups=999(testgroup),999(testgroup)
+  uid=666\(testuser\) gid=999\(testgroup\) groups=999\(testgroup\)(,999\(testgroup\))? (re)
 
 Delete group and user:
 
