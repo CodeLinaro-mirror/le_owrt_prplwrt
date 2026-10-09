@@ -1,0 +1,111 @@
+menu "Configuration"
+	depends on PACKAGE_sanitizer-shim
+	comment "For the sanitize profile only, not for production images"
+
+	config SANITIZER_SHIM_LOG_PATH
+		string "log_path prefix for sanitizer reports"
+		default "/ext/sanitizer/report"
+		help
+		  Reports go to <prefix>.<exe>.<pid>. The directory is created
+		  at run time (mkdir -p) by the shim. Must start with '/'.
+		  No ':' and no quotes in the value. Use persistent storage:
+		  reports must not exist only in RAM. While the directory is
+		  not writable (preinit, before the overlay is mounted),
+		  reports go to stderr and are copied to /dev/console. Every
+		  report also writes one console line
+		  "SANREPORT <exe> <pid> <type> <file>". Keep it out of
+		  directories that other services manage: /ext/faults is the
+		  ProcessFaults storage, which RemoveAllProcessFaults() empties.
+
+	config SANITIZER_SHIM_HALT_ON_ERROR
+		bool "halt_on_error (ASan, UBSan)"
+		default n
+		help
+		  Off: report and continue (needs -fsanitize-recover=address).
+
+	config SANITIZER_SHIM_SYMBOLIZE
+		bool "Symbolize reports on the device"
+		default n
+		help
+		  Off: reports have module+offset only. Symbolize on the host.
+
+	config SANITIZER_SHIM_DETECT_LEAKS
+		bool "Report leaks at exit and on the leak-check signal"
+		default y
+
+	config SANITIZER_SHIM_UBSAN_PRINT_STACKTRACE
+		bool "UBSan: print a stack trace with each report"
+		default y
+
+	config SANITIZER_SHIM_UBSAN_LOG_SUFFIX
+		string "UBSan report file suffix"
+		default ".ubsan"
+		help
+		  UBSan writes <log_path>.<exe>.<pid><suffix>. Keep it
+		  non-empty: ASan and UBSan would overwrite each other's file.
+
+	config SANITIZER_SHIM_OPTS_INCLUDE
+		string "Per-binary options file (include_if_exists)"
+		default "/etc/sanitizer/%b.opts"
+		help
+		  %b is the binary basename, %p the pid, %d its directory.
+		  The file is read by the ASan, LSan and UBSan parsers. It must
+		  not contain "suppressions=".
+
+	config SANITIZER_SHIM_LSAN_SUPPRESSIONS
+		string "LSan suppression file"
+		default "/etc/sanitizer/lsan.supp"
+		help
+		  The flag is only passed if the file exists.
+
+	config SANITIZER_SHIM_OFF_DIR
+		string "Switch-off directory"
+		default "/var/run/sanitizer/off"
+		help
+		  touch <dir>/<exe basename> disables leak checks of that
+		  binary (exit and signal) without a restart. Use a tmpfs
+		  path so the switch is gone after a reboot.
+
+	config SANITIZER_SHIM_LEAK_SIGNAL_OFFSET
+		int "Leak check signal: SIGRTMIN + N"
+		range 1 8
+		default 3
+		help
+		  glibc: SIGRTMIN is 34, so 3 gives signal 37.
+
+	config SANITIZER_SHIM_PROFILE_TOP_PERCENT
+		int "Memory profile: top percent of the live heap"
+		range 1 100
+		default 95
+
+	config SANITIZER_SHIM_PROFILE_MAX_CONTEXTS
+		int "Memory profile: maximum number of stack traces"
+		range 1 1000
+		default 10
+
+	config SANITIZER_SHIM_FORK_CHILD_WORKER
+		bool "Start a new leak-check thread in fork() children"
+		default n
+		help
+		  Only needed for daemons that fork and keep running without
+		  exec; procd daemons run in the foreground, and the exit-time
+		  leak check still covers forked children. Costs one thread
+		  creation in every forked child, also in children that exec
+		  at once. libasan (GCC 13) has no fork handling, so a child can
+		  hang if another thread of the parent held an allocator lock at
+		  fork time; the start-up wait is bounded to 1 s.
+
+	config SANITIZER_SHIM_EXTRA_ASAN_OPTS
+		string "Extra ASAN_OPTIONS defaults"
+		default ""
+		help
+		  Colon separated, appended after the defaults above.
+
+	config SANITIZER_SHIM_EXTRA_LSAN_OPTS
+		string "Extra LSAN_OPTIONS defaults"
+		default ""
+
+	config SANITIZER_SHIM_EXTRA_UBSAN_OPTS
+		string "Extra UBSAN_OPTIONS defaults"
+		default ""
+endmenu

@@ -1,0 +1,9 @@
+# LeakSanitizer suppressions, read at the next start of a process.
+# One pattern per line, matched against module, function and file:
+#   leak:libfoo.so
+#   leak:some_function
+# Per-binary options: /etc/sanitizer/<binary>.opts (ASAN/LSAN/UBSAN flags,
+# colon or newline separated; no "suppressions=" in there).
+# Switch off leak checks of a running binary without a restart:
+#   mkdir -p /var/run/sanitizer/off; touch /var/run/sanitizer/off/<binary>
+# Leak check of all processes on demand: kill -37 <pid>   (SIGRTMIN+3)

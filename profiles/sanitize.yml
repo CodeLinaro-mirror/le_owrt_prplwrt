@@ -5,6 +5,7 @@ packages:
   - libasan
   - libubsan
   - libstdcpp
+  - sanitizer-shim
 
 diffconfig: |
   CONFIG_TOOLCHAINOPTS=y
