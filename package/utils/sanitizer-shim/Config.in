@@ -66,6 +66,28 @@ menu "Configuration"
 		  binary (exit and signal) without a restart. Use a tmpfs
 		  path so the switch is gone after a reboot.
 
+	config SANITIZER_SHIM_OFF_DIR_STATIC
+		string "Shipped switch-off directory"
+		default "/etc/sanitizer/off"
+		help
+		  Same as SANITIZER_SHIM_OFF_DIR, for files shipped in the
+		  image, so they also work in preinit. The package ships
+		  busybox here: its applets never free at exit, and their
+		  exit leak reports flood the report directory. It also
+		  ships dropbear: the exit leak check of every forked
+		  session process writes a report (a thread not suspended,
+		  or an LSan fatal error), one per SSH session. Remove a
+		  file to get its reports back.
+
+	config SANITIZER_SHIM_UBSAN_SUPPRESSIONS
+		string "UBSan suppression file"
+		default "/etc/sanitizer/ubsan.supp"
+		help
+		  Lines "<check>:<module|file|function>". Only passed to
+		  UBSan if the file exists. The package ships
+		  "pointer-overflow:busybox" (every busybox shell run reports
+		  a NULL plus offset). Empty the file for full reports.
+
 	config SANITIZER_SHIM_LEAK_SIGNAL_OFFSET
 		int "Leak check signal: SIGRTMIN + N"
 		range 1 8

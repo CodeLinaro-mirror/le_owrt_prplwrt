@@ -1,0 +1,2 @@
+# busybox sh does pointer arithmetic on NULL in a hot path; reported once per shell run.
+pointer-overflow:busybox

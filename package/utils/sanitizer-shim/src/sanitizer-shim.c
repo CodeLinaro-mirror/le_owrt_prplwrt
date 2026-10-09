@@ -23,7 +23,8 @@
  * 2. SIGRTMIN+SHIM_LEAK_SIGNAL_OFFSET triggers
  *    __lsan_do_recoverable_leak_check() and __sanitizer_print_memory_profile()
  *    in a helper thread. The handler only does sem_post() (async-signal-safe).
- * 3. __lsan_is_turned_off() returns 1 if SHIM_OFF_DIR/<exe basename> exists.
+ * 3. __lsan_is_turned_off() returns 1 if SHIM_OFF_DIR/<exe basename> (tmpfs,
+ *    runtime) or SHIM_OFF_DIR_STATIC/<exe basename> (shipped) exists.
  * 4. The directory of log_path is created (mkdir -p, leaf 1777) with raw
  *    syscalls from the default-options functions, which run before
  *    sanitizer_common sets up the report path. GCC 13 libsanitizer creates
@@ -79,6 +80,12 @@
 #endif
 #ifndef SHIM_LSAN_SUPPRESSIONS
 #define SHIM_LSAN_SUPPRESSIONS "/etc/sanitizer/lsan.supp"
+#endif
+#ifndef SHIM_OFF_DIR_STATIC
+#define SHIM_OFF_DIR_STATIC "/etc/sanitizer/off"
+#endif
+#ifndef SHIM_UBSAN_SUPPRESSIONS
+#define SHIM_UBSAN_SUPPRESSIONS "/etc/sanitizer/ubsan.supp"
 #endif
 #ifndef SHIM_OFF_DIR
 #define SHIM_OFF_DIR "/var/run/sanitizer/off"
@@ -163,6 +170,9 @@
 	STR(SHIM_UBSAN_PRINT_STACKTRACE) ":" COMMON_OPTS(path)              \
 	":print_summary=1:report_error_type=1"                              \
 	":log_suffix=" SHIM_UBSAN_LOG_SUFFIX ":" SHIM_EXTRA_UBSAN_OPTS ":include_if_exists=" SHIM_OPTS_INCLUDE
+
+/* UBSan reads "<check>:<module|file|function>" lines, e.g. pointer-overflow:busybox */
+#define UBSAN_SUPP_STR ":suppressions=" SHIM_UBSAN_SUPPRESSIONS
 
 /* ---- raw syscall helpers (no libc state, no malloc, no interceptors) -- */
 
@@ -290,8 +300,14 @@ EXPORT const char *__ubsan_default_options(void)
 		UBSAN_OPTS_STR(SHIM_LOG_PATH),
 		UBSAN_OPTS_STR("stderr"),
 	};
+	static const char *const opts_supp[] = {
+		UBSAN_OPTS_STR(SHIM_LOG_PATH) UBSAN_SUPP_STR,
+		UBSAN_OPTS_STR("stderr") UBSAN_SUPP_STR,
+	};
+	int choice = log_choice();
 
-	return opts[log_choice()];
+	/* like LSan, UBSan stops if the suppression file cannot be read */
+	return sys_readable(SHIM_UBSAN_SUPPRESSIONS) ? opts_supp[choice] : opts[choice];
 }
 
 /*
@@ -509,14 +525,35 @@ EXPORT void __sanitizer_on_print(const char *str)
 /* ---- switch-off file ------------------------------------------------ */
 
 /*
- * Called by LSan at every leak check (exit and recoverable). One access()
- * on SHIM_OFF_DIR/<basename of /proc/self/exe>, the same name %b expands to.
- * SHIM_OFF_DIR is on tmpfs on OpenWrt: the switch is gone after a reboot.
+ * 1 if dir/<name> exists. dir ends with '/'.
+ */
+static int off_file(const char *dir, size_t dlen, const char *name, size_t len)
+{
+	char path[512];
+	size_t i;
+
+	if (dlen + len >= sizeof(path))
+		return 0;
+	for (i = 0; i < dlen; i++)
+		path[i] = dir[i];
+	for (i = 0; i < len; i++)
+		path[dlen + i] = name[i];
+	path[dlen + len] = '\0';
+	return sys_access(path);
+}
+
+/*
+ * Called by LSan at every leak check (exit and recoverable). access() on
+ * SHIM_OFF_DIR/<basename of /proc/self/exe> (tmpfs on OpenWrt: gone after a
+ * reboot) and SHIM_OFF_DIR_STATIC/<same> (shipped files). This is the real
+ * executable, e.g. busybox for every applet; %b in an opts file name is the
+ * process name instead (sh, ls, ...).
  */
 EXPORT int __lsan_is_turned_off(void)
 {
 	static const char dir[] = SHIM_OFF_DIR "/";
-	char exe[256], path[sizeof(dir) + 256];
+	static const char sdir[] = SHIM_OFF_DIR_STATIC "/";
+	char exe[256];
 	long n;
 	size_t i, base = 0, len;
 	int saved = errno, ret;
@@ -541,12 +578,8 @@ EXPORT int __lsan_is_turned_off(void)
 		errno = saved;
 		return 0;
 	}
-	for (i = 0; i < sizeof(dir) - 1; i++)
-		path[i] = dir[i];
-	for (i = 0; i < len; i++)
-		path[sizeof(dir) - 1 + i] = exe[base + i];
-	path[sizeof(dir) - 1 + len] = '\0';
-	ret = sys_access(path);
+	ret = off_file(dir, sizeof(dir) - 1, exe + base, len) ||
+	      off_file(sdir, sizeof(sdir) - 1, exe + base, len);
 	errno = saved;
 	return ret;
 }

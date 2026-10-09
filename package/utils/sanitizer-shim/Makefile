@@ -27,6 +27,8 @@ PKG_CONFIG_DEPENDS:=\
 	CONFIG_SANITIZER_SHIM_OPTS_INCLUDE \
 	CONFIG_SANITIZER_SHIM_LSAN_SUPPRESSIONS \
 	CONFIG_SANITIZER_SHIM_OFF_DIR \
+	CONFIG_SANITIZER_SHIM_OFF_DIR_STATIC \
+	CONFIG_SANITIZER_SHIM_UBSAN_SUPPRESSIONS \
 	CONFIG_SANITIZER_SHIM_LEAK_SIGNAL_OFFSET \
 	CONFIG_SANITIZER_SHIM_PROFILE_TOP_PERCENT \
 	CONFIG_SANITIZER_SHIM_PROFILE_MAX_CONTEXTS \
@@ -61,6 +63,7 @@ endef
 
 define Package/sanitizer-shim/conffiles
 /etc/sanitizer/lsan.supp
+/etc/sanitizer/ubsan.supp
 endef
 
 SHIM_STR = $(call qstrip,$(CONFIG_SANITIZER_SHIM_$(1)))
@@ -78,6 +81,8 @@ define Build/Configure
 		printf '#define SHIM_OPTS_INCLUDE "%s"\n' '$(call SHIM_STR,OPTS_INCLUDE)'; \
 		printf '#define SHIM_LSAN_SUPPRESSIONS "%s"\n' '$(call SHIM_STR,LSAN_SUPPRESSIONS)'; \
 		printf '#define SHIM_OFF_DIR "%s"\n' '$(call SHIM_STR,OFF_DIR)'; \
+		printf '#define SHIM_OFF_DIR_STATIC "%s"\n' '$(call SHIM_STR,OFF_DIR_STATIC)'; \
+		printf '#define SHIM_UBSAN_SUPPRESSIONS "%s"\n' '$(call SHIM_STR,UBSAN_SUPPRESSIONS)'; \
 		printf '#define SHIM_EXTRA_ASAN_OPTS "%s"\n' '$(call SHIM_STR,EXTRA_ASAN_OPTS)'; \
 		printf '#define SHIM_EXTRA_LSAN_OPTS "%s"\n' '$(call SHIM_STR,EXTRA_LSAN_OPTS)'; \
 		printf '#define SHIM_EXTRA_UBSAN_OPTS "%s"\n' '$(call SHIM_STR,EXTRA_UBSAN_OPTS)'; \
@@ -108,6 +113,10 @@ define Package/sanitizer-shim/install
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/libsanitizer-shim.so $(1)/usr/lib/
 	$(INSTALL_DATA) ./files/etc/ld.so.preload $(1)/etc/
 	$(INSTALL_DATA) ./files/etc/sanitizer/lsan.supp $(1)/etc/sanitizer/
+	$(INSTALL_DATA) ./files/etc/sanitizer/ubsan.supp $(1)$(call SHIM_STR,UBSAN_SUPPRESSIONS)
+	$(INSTALL_DIR) $(1)$(call SHIM_STR,OFF_DIR_STATIC)
+	$(INSTALL_DATA) ./files/etc/sanitizer/off/busybox ./files/etc/sanitizer/off/dropbear \
+		$(1)$(call SHIM_STR,OFF_DIR_STATIC)/
 endef
 
 $(eval $(call BuildPackage,sanitizer-shim))
