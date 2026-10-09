@@ -2021,7 +2021,14 @@ Device.LEDs.BrightnessLimiter                                                   
 Device.LEDs.LED.{i}.                                                                                 proto::tr181-led
 Device.LEDs.LED.{i}.Alias                                                                            proto::tr181-led
 Device.LEDs.LED.{i}.CurrentCycleElement.                                                             proto::tr181-led
+Device.LEDs.LED.{i}.CurrentCycleElement.Alias                                                        proto::tr181-led
+Device.LEDs.LED.{i}.CurrentCycleElement.Brightness                                                   proto::tr181-led
+Device.LEDs.LED.{i}.CurrentCycleElement.Color                                                        proto::tr181-led
 Device.LEDs.LED.{i}.CurrentCycleElement.CycleElementReference                                        proto::tr181-led
+Device.LEDs.LED.{i}.CurrentCycleElement.Duration                                                     proto::tr181-led
+Device.LEDs.LED.{i}.CurrentCycleElement.Enable                                                       proto::tr181-led
+Device.LEDs.LED.{i}.CurrentCycleElement.FadeInterval                                                 proto::tr181-led
+Device.LEDs.LED.{i}.CurrentCycleElement.Order                                                        proto::tr181-led
 Device.LEDs.LED.{i}.CycleElement.{i}.                                                                proto::tr181-led
 Device.LEDs.LED.{i}.CycleElement.{i}.Alias                                                           proto::tr181-led
 Device.LEDs.LED.{i}.CycleElement.{i}.Brightness                                                      proto::tr181-led
