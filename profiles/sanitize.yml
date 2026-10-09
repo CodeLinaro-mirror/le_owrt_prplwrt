@@ -1,0 +1,22 @@
+---
+description: glibc build for sanitizer runs (ASan/UBSan/LSan)
+
+packages:
+  - libasan
+  - libubsan
+  - libstdcpp
+
+diffconfig: |
+  CONFIG_TOOLCHAINOPTS=y
+  CONFIG_LIBC_USE_GLIBC=y
+  # ASan and _FORTIFY_SOURCE conflict: the fortified wrappers hide the real caller
+  CONFIG_PKG_FORTIFY_SOURCE_NONE=y
+  CONFIG_TARGET_ROOTFS_PARTSIZE=1536
+  # testbed-qemu boots squashfs-combined-efi only
+  # CONFIG_TARGET_ROOTFS_INITRAMFS is not set
+  # CONFIG_TARGET_ROOTFS_EXT4FS is not set
+  # CONFIG_TARGET_ROOTFS_TARGZ is not set
+  # CONFIG_GRUB_IMAGES is not set
+  CONFIG_SANITIZE=y
+  # build-id lets the reports be symbolized against the unstripped files
+  CONFIG_SANITIZE_LDFLAGS="-Wl,--build-id"
