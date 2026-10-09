@@ -31,6 +31,11 @@ SANITIZE_OPTOUT_PKGS:=liburing swupdate xz
 ifneq ($(filter $(PKG_NAME),$(SANITIZE_OPTOUT_PKGS)),)
   PKG_BUILD_FLAGS+=no-sanitize
 endif
+# Per-package CMake options for sanitized builds. prplmesh odr-uses static
+# constexpr members (C++14), which only links when the constants are folded:
+# build it as C++17, where they are inline. CMake puts its own -std after
+# CMAKE_CXX_FLAGS, so the flag goes into the compile rule after <FLAGS>.
+SANITIZE_PKG_CMAKE_OPTIONS_prplmesh:=-DCMAKE_CXX_COMPILE_OBJECT="<CMAKE_CXX_COMPILER> <DEFINES> <INCLUDES> <FLAGS> -std=gnu++17 -o <OBJECT> -c <SOURCE>"
 __unknown_flags=$(filter-out no-iremap no-mips16 gc-sections no-gc-sections lto no-lto no-mold no-sanitize,$(PKG_BUILD_FLAGS))
 ifneq ($(__unknown_flags),)
   $(error unknown PKG_BUILD_FLAGS: $(__unknown_flags))
@@ -66,6 +71,7 @@ ifeq ($(call pkg_build_flag,sanitize,$(if $(CONFIG_SANITIZE),1,0)),1)
   TARGET_CFLAGS += $(call qstrip,$(CONFIG_SANITIZE_FLAGS))
   TARGET_LDFLAGS += $(call qstrip,$(CONFIG_SANITIZE_FLAGS))
   TARGET_LDFLAGS += $(call qstrip,$(CONFIG_SANITIZE_LDFLAGS))
+  CMAKE_OPTIONS += $(SANITIZE_PKG_CMAKE_OPTIONS_$(PKG_NAME))
 endif
 # Rebuild the package when the sanitizer options change.
 PKG_CONFIG_DEPENDS += $(if $(filter no-sanitize,$(PKG_BUILD_FLAGS)),,CONFIG_SANITIZE CONFIG_SANITIZE_FLAGS CONFIG_SANITIZE_LDFLAGS)
