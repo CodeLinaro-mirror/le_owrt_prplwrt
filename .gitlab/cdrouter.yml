@@ -139,8 +139,8 @@
       test -f *-logdir.tgz &&
       mkdir -p cdrouter-results &&
       tar xf *-logdir.tgz --strip-components=1 --directory=cdrouter-results &&
-      cat cdrouter-results/final.txt &&
-      .gitlab/scripts/cdrouter-pretty-failures.awk cdrouter-results/*.txt
+      (cdrouter-ci report cdrouter-results/ ||
+       echo "CDRouter report failed; continuing cleanup.")
 
     - !reference [.dut-lifecycle.recover-ssh, script]
     - !reference [.dut-lifecycle.collect-logs, script]
@@ -159,6 +159,10 @@
     paths:
       - memory-footprint/
       - cdrouter-results
+      - cdrouter-junit.xml
+      - failure-digest.md
+      - failure-digest.html
+      - failure-digest.json
       - etc
       - prplmesh_beerocks_logs
       - debug-information-$LABGRID_TARGET.txt
@@ -171,3 +175,4 @@
       - coredumps-$LABGRID_TARGET.tar.gz
     reports:
       metrics: memory-footprint/*/metrics.prom
+      junit: cdrouter-junit.xml
