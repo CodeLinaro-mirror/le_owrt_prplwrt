@@ -105,6 +105,42 @@ menu "Configuration"
 		range 1 1000
 		default 10
 
+	config SANITIZER_SHIM_QUARANTINE_HIGH_GB
+		int "Quarantine tier: guest RAM (GB) for the high size"
+		default 12
+		help
+		  The ASan quarantine (quarantine_size_mb) is chosen from the
+		  guest RAM (MemTotal) at process start: at least HIGH_GB gives
+		  HIGH_MB, at least MID_GB gives MID_MB, else LOW_MB. The ASan
+		  default is 256 MB per process, too much for dozens of
+		  daemons. /etc/sanitizer/<binary>.opts overrides it.
+
+	config SANITIZER_SHIM_QUARANTINE_HIGH_MB
+		int "Quarantine tier: high size (MB)"
+		default 64
+
+	config SANITIZER_SHIM_QUARANTINE_MID_GB
+		int "Quarantine tier: guest RAM (GB) for the middle size"
+		default 6
+
+	config SANITIZER_SHIM_QUARANTINE_MID_MB
+		int "Quarantine tier: middle size (MB)"
+		default 32
+
+	config SANITIZER_SHIM_QUARANTINE_LOW_MB
+		int "Quarantine tier: low size (MB)"
+		default 16
+
+	config SANITIZER_SHIM_SOFT_RSS_DIVISOR
+		int "soft_rss_limit_mb = guest RAM / N (0: no limit)"
+		default 8
+		help
+		  A process over the limit fails its next allocation with an
+		  out-of-memory report and its allocation stack. This is fatal
+		  for that process, also with halt_on_error off, but the OOM
+		  killer does not take a random process. ASan starts one
+		  background thread per process to watch the RSS.
+
 	config SANITIZER_SHIM_FORK_CHILD_WORKER
 		bool "Start a new leak-check thread in fork() children"
 		default n

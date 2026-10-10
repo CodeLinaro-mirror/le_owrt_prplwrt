@@ -45,6 +45,14 @@
  *    chunk) copies the reports to /dev/console while they go to stderr,
  *    unless stderr is a terminal already. The QEMU serial console thus
  *    keeps the reports and an index of them on the host.
+ * 6. The ASan quarantine is sized by the guest RAM (MemTotal, read with raw
+ *    syscalls: __asan_default_options() runs before the allocator), from
+ *    the Kconfig tier table, and soft_rss_limit_mb is MemTotal / divisor.
+ *    A process over the soft limit fails its next allocation with an
+ *    out-of-memory report and its allocation stack (fatal also with
+ *    halt_on_error=0), instead of the OOM killer taking a random process.
+ *    The quarantine size of a running process cannot be changed.
+ *    /etc/sanitizer/<binary>.opts still overrides both.
  *
  * This file must be built WITHOUT sanitizers and must not link libasan.
  */
@@ -126,6 +134,24 @@
 #ifndef SHIM_FORK_CHILD_WORKER
 #define SHIM_FORK_CHILD_WORKER 0
 #endif
+#ifndef SHIM_QUARANTINE_HIGH_GB
+#define SHIM_QUARANTINE_HIGH_GB 12
+#endif
+#ifndef SHIM_QUARANTINE_HIGH_MB
+#define SHIM_QUARANTINE_HIGH_MB 64
+#endif
+#ifndef SHIM_QUARANTINE_MID_GB
+#define SHIM_QUARANTINE_MID_GB 6
+#endif
+#ifndef SHIM_QUARANTINE_MID_MB
+#define SHIM_QUARANTINE_MID_MB 32
+#endif
+#ifndef SHIM_QUARANTINE_LOW_MB
+#define SHIM_QUARANTINE_LOW_MB 16
+#endif
+#ifndef SHIM_SOFT_RSS_DIVISOR
+#define SHIM_SOFT_RSS_DIVISOR 8
+#endif
 #ifndef SHIM_ASAN_SONAME
 #define SHIM_ASAN_SONAME "libasan.so.8"
 #endif
@@ -156,11 +182,14 @@
 	"symbolize=" STR(SHIM_SYMBOLIZE) ":log_path=" path                  \
 	":log_exe_name=1"
 
-#define ASAN_OPTS_STR(path)                                                 \
+/* The memory tier (item 6) goes between the head and the tail. */
+#define ASAN_OPTS_HEAD(path)                                                \
 	"halt_on_error=" STR(SHIM_HALT_ON_ERROR) ":"                        \
 	"verify_asan_link_order=0:" COMMON_OPTS(path)                       \
-	":detect_leaks=" STR(SHIM_DETECT_LEAKS) ":" SHIM_EXTRA_ASAN_OPTS    \
-	":include_if_exists=" SHIM_OPTS_INCLUDE
+	":detect_leaks=" STR(SHIM_DETECT_LEAKS)
+
+#define ASAN_OPTS_TAIL                                                      \
+	":" SHIM_EXTRA_ASAN_OPTS ":include_if_exists=" SHIM_OPTS_INCLUDE
 
 #define LSAN_TAIL_STR                                                       \
 	SHIM_EXTRA_LSAN_OPTS ":include_if_exists=" SHIM_OPTS_INCLUDE
@@ -284,14 +313,65 @@ static int log_choice(void)
 
 /* ---- default options ------------------------------------------------ */
 
+static size_t put_str(char *buf, size_t pos, size_t max, const char *s);
+static size_t put_num(char *buf, size_t pos, size_t max, unsigned long v);
+
+/* MemTotal in kB from /proc/meminfo (first line), 0 if unknown. */
+static unsigned long mem_total_kb(void)
+{
+	static const char key[] = "MemTotal:";
+	char buf[128];
+	unsigned long kb = 0;
+	long fd, n;
+	size_t i;
+
+	fd = syscall(SYS_openat, AT_FDCWD, "/proc/meminfo", O_RDONLY | O_CLOEXEC);
+	if (fd < 0)
+		return 0;
+	n = syscall(SYS_read, fd, buf, sizeof(buf) - 1);
+	syscall(SYS_close, fd);
+	if (n <= 0)
+		return 0;
+	buf[n] = '\0';
+	for (i = 0; key[i]; i++)
+		if (buf[i] != key[i])
+			return 0;
+	while (buf[i] == ' ')
+		i++;
+	for (; buf[i] >= '0' && buf[i] <= '9'; i++)
+		kb = kb * 10 + (buf[i] - '0');
+	return kb;
+}
+
 EXPORT const char *__asan_default_options(void)
 {
-	static const char *const opts[] = {
-		ASAN_OPTS_STR(SHIM_LOG_PATH),
-		ASAN_OPTS_STR("stderr"),
+	static const char *const head[] = {
+		ASAN_OPTS_HEAD(SHIM_LOG_PATH),
+		ASAN_OPTS_HEAD("stderr"),
 	};
+	static char opts[1024];
+	unsigned long mb = mem_total_kb() >> 10, q;
+	size_t pos = 0, max = sizeof(opts) - 1;
+	int saved = errno;
 
-	return opts[log_choice()];
+	if (mb >= SHIM_QUARANTINE_HIGH_GB * 1024UL)
+		q = SHIM_QUARANTINE_HIGH_MB;
+	else if (mb >= SHIM_QUARANTINE_MID_GB * 1024UL)
+		q = SHIM_QUARANTINE_MID_MB;
+	else
+		q = SHIM_QUARANTINE_LOW_MB;
+
+	pos = put_str(opts, pos, max, head[log_choice()]);
+	pos = put_str(opts, pos, max, ":quarantine_size_mb=");
+	pos = put_num(opts, pos, max, q);
+	if (SHIM_SOFT_RSS_DIVISOR && mb) {
+		pos = put_str(opts, pos, max, ":soft_rss_limit_mb=");
+		pos = put_num(opts, pos, max, mb / SHIM_SOFT_RSS_DIVISOR);
+	}
+	pos = put_str(opts, pos, max, ASAN_OPTS_TAIL);
+	opts[pos] = '\0';
+	errno = saved;
+	return opts;
 }
 
 EXPORT const char *__ubsan_default_options(void)
@@ -521,6 +601,7 @@ EXPORT void __sanitizer_on_print(const char *str)
 		console_write(str, slen(str));
 	errno = saved;
 }
+
 
 /* ---- switch-off file ------------------------------------------------ */
 
