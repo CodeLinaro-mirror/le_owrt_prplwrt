@@ -48,9 +48,13 @@ menu "Configuration"
 		string "Per-binary options file (include_if_exists)"
 		default "/etc/sanitizer/%b.opts"
 		help
-		  %b is the binary basename, %p the pid, %d its directory.
-		  The file is read by the ASan, LSan and UBSan parsers. It must
-		  not contain "suppressions=".
+		  %b is the process name (basename of argv[0], so the applet
+		  name for busybox, e.g. sleep), %p the pid. The file is read
+		  by the ASan, LSan and UBSan parsers. It must not contain
+		  "suppressions=". The package ships sleep.opts with
+		  handle_segv=0: the process faults test kills a sleep with
+		  SIGSEGV and expects a kernel core dump, not an ASan report.
+		  Other processes keep their ASan SEGV reports.
 
 	config SANITIZER_SHIM_LSAN_SUPPRESSIONS
 		string "LSan suppression file"

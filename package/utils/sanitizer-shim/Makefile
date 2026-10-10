@@ -129,6 +129,7 @@ define Package/sanitizer-shim/install
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/libsanitizer-shim.so $(1)/usr/lib/
 	$(INSTALL_DATA) ./files/etc/ld.so.preload $(1)/etc/
 	$(INSTALL_DATA) ./files/etc/sanitizer/lsan.supp $(1)/etc/sanitizer/
+	$(INSTALL_DATA) ./files/etc/sanitizer/sleep.opts $(1)/etc/sanitizer/
 	$(INSTALL_DATA) ./files/etc/sanitizer/ubsan.supp $(1)$(call SHIM_STR,UBSAN_SUPPRESSIONS)
 	$(INSTALL_DIR) $(1)$(call SHIM_STR,OFF_DIR_STATIC)
 	$(INSTALL_DATA) ./files/etc/sanitizer/off/busybox ./files/etc/sanitizer/off/dropbear \
