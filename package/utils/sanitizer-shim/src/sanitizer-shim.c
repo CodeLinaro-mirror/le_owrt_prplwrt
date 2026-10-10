@@ -25,6 +25,8 @@
  *    in a helper thread. The handler only does sem_post() (async-signal-safe).
  * 3. __lsan_is_turned_off() returns 1 if SHIM_OFF_DIR/<exe basename> (tmpfs,
  *    runtime) or SHIM_OFF_DIR_STATIC/<exe basename> (shipped) exists.
+ *    Otherwise it makes a process that dropped root dumpable again
+ *    (fs.suid_dumpable=2), so the leak check's tracer can attach.
  * 4. The directory of log_path is created (mkdir -p, leaf 1777) with raw
  *    syscalls from the default-options functions, which run before
  *    sanitizer_common sets up the report path. GCC 13 libsanitizer creates
@@ -83,6 +85,7 @@
 #include <stdint.h>
 #include <sys/stat.h>
 #include <sys/ioctl.h>
+#include <sys/prctl.h>
 #include <sys/syscall.h>
 #include <time.h>
 #include <unistd.h>
@@ -733,6 +736,17 @@ EXPORT int __lsan_is_turned_off(void)
 {
 	int saved = errno, ret = lsan_off_now();
 
+	/*
+	 * LSan calls this right before it stops the world for a leak check.
+	 * fs.suid_dumpable=2 (OpenWrt base-files default) leaves a process
+	 * that dropped root at SUID_DUMP_ROOT (2). libsanitizer makes the
+	 * process dumpable only if PR_GET_DUMPABLE returns 0, so its tracer
+	 * cannot attach and LSan dies with "fatal error". Make the process
+	 * dumpable for its user. It stays so (2 cannot be set back): its core
+	 * dumps then belong to its user, which a debug image can accept.
+	 */
+	if (!ret && syscall(SYS_prctl, PR_GET_DUMPABLE, 0, 0, 0, 0) == 2)
+		syscall(SYS_prctl, PR_SET_DUMPABLE, 1, 0, 0, 0);
 	errno = saved;
 	return ret;
 }

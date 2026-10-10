@@ -61,6 +61,8 @@ define Package/sanitizer-shim/description
   switch-off file for the leak check of a binary.
   For the sanitize profile only: it is no production package, and its
   world-writable report directories are meant for debug images.
+  It makes dropped-root processes dumpable (PR_SET_DUMPABLE) so that the
+  leak check can trace them.
   It also sets ProcessMonitor.MaxReboots to 0: the slow sanitized boot
   must not trigger reboots.
 endef
