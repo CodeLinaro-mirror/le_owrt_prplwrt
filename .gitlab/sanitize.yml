@@ -77,3 +77,70 @@ build test x86_64 prpl security sanitize:
       - sanitize-symbols.tar.xz
       - sanitize-symbols.tsv
       - ./*packages-hash-issues.patch
+
+# The [full] cram selection on the sanitize image, in a loop for 3 hours on one QEMU run. It uses the
+# template of the other QEMU jobs but not its script: run-loop.sh drives the tests, finish.sh judges the
+# artifacts afterwards.
+#
+# Network: the job has the network of the runner. testbed-qemu gives the DUT a WAN behind the container, and
+# the template does not restrict it. The tests that need the outside network (LCM InstallDU from
+# registry.gitlab.com, NTP, WAN DNS and HTTPS) run their real code path. The summary lists those tests apart.
+# Memory: 16G for the DUT. At 8G the ~115 instrumented processes need about 4 GB on top of the wld and
+# prplmesh daemons, and the kernel OOM-killed daemons within minutes, even with a 16 MB quarantine.
+# The shim sets the ASan quarantine from the RAM it finds: 64 MB at 16G.
+# Time: the loop starts a new iteration while it has run for less than 3 hours; the last iteration ends later.
+# The job timeout leaves room for that and for the boot and the checks afterwards. Only the job timeout is
+# raised, the tests are the same.
+cram QEMU x86-64 [sanitize]:
+  extends:
+    - .qemu-x86-64 testbed
+    - .sanitize rules
+  needs: ["build test x86_64 prpl security sanitize"]
+  timeout: 6 hours
+  variables:
+    SANITIZE_QEMU_MEMORY: "16G"
+    SANITIZE_LOOP_SECONDS: "10800"
+    # run-loop.sh stops when the guest has less MemTotal than this (15 GiB, in kB; the 16G guest shows about 16.3 GB):
+    # a testbed-qemu image that ignores --memory boots with its small default.
+    SANITIZE_MIN_MEM_KB: "15728640"
+    # wld registers its datamodel late on a sanitized image: wait until Device.WiFi. is there.
+    # The testbed-qemu image of the template (the digest in .gitlab/testbed/qemu-x86-64.yml) ignores these two
+    # variables. They take effect when the testbed-qemu MR that adds --datamodel-wait-for and
+    # --datamodel-timeout has landed and the digest there is bumped. Until then the job starts the tests when
+    # the default quiet window of the datamodel is over, and the first Wi-Fi tests may fail on a slow boot.
+    TESTBED_QEMU_DATAMODEL_WAIT_FOR: "Device.WiFi."
+    TESTBED_QEMU_DATAMODEL_TIMEOUT: "240"
+  script:
+    - source .gitlab/scripts/helpers.sh
+
+    - section_start "sanitize-loop" "[full] loop, ${SANITIZE_LOOP_SECONDS} s of wall time" "expanded"
+    - mkdir -p artifacts
+    - run_rc=0
+    # The Wi-Fi coverage is the Wi-Fi tests inside [full].
+    - >
+      PRPLOS_SOURCE_ROOT="$CI_PROJECT_DIR"
+      testbed-qemu run
+      --image "$CI_PROJECT_DIR/$TESTBED_QEMU_IMAGE"
+      --artifacts "$CI_PROJECT_DIR/artifacts"
+      --accel "$TESTBED_QEMU_ACCEL"
+      --memory "$SANITIZE_QEMU_MEMORY"
+      --debug-information always
+      -- .gitlab/scripts/sanitize/run-loop.sh
+      || run_rc=$?
+    - section_end "sanitize-loop"
+
+    - section_start "sanitize-judge" "Sanitizer results" "expanded"
+    - finish_rc=0
+    - .gitlab/scripts/sanitize/finish.sh artifacts --symbols sanitize-symbols.tar.xz --tree "$CI_PROJECT_DIR" || finish_rc=$?
+    - 'cat artifacts/san-summary.md || true'
+    - section_end "sanitize-judge"
+
+    # 88: the SANRSS metrics log is lost or has gaps, 89: a SANDEATH has no report, 1: sanitizer reports or a failed check.
+    - 'echo "testbed-qemu run: exit $run_rc, finish.sh: exit $finish_rc"'
+    - 'if [ "$finish_rc" -ne 0 ]; then exit "$finish_rc"; fi'
+    - 'exit "$run_rc"'
+  artifacts:
+    reports:
+      junit:
+        - artifacts/cram-merged.xml
+        - artifacts/san-junit.xml
