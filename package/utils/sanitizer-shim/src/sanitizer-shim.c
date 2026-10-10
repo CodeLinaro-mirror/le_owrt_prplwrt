@@ -732,9 +732,43 @@ static int lsan_off_now(void)
 	       off_file(sdir, sizeof(sdir) - 1, exe + base, len);
 }
 
+/*
+ * The switch-off state at start-up. At shutdown procd unmounts /proc, the
+ * live check above cannot read /proc/self/exe any more, and a switched-off
+ * binary (busybox) would run its exit leak check again. The runtime
+ * switch-off directory still works through the live check.
+ */
+static int g_lsan_off_init;
+
+static void skip_line(void)
+{
+	const char *exe = program_invocation_short_name;
+	char line[160];
+	size_t pos = 0, max = sizeof(line) - 1;
+
+	pos = put_str(line, pos, max, "SANSKIP ");
+	pos = put_str(line, pos, max, exe && *exe ? exe : "?");
+	pos = put_str(line, pos, max, " ");
+	pos = put_num(line, pos, max, syscall(SYS_getpid));
+	pos = put_str(line, pos, max, " leak-check no-proc\n");
+	console_write(line, pos);
+}
+
 EXPORT int __lsan_is_turned_off(void)
 {
-	int saved = errno, ret = lsan_off_now();
+	int saved = errno, ret = g_lsan_off_init || lsan_off_now();
+
+	/*
+	 * LSan cannot stop the world without /proc (it lists /proc/<pid>/task)
+	 * and terminates the process with "fatal error". Skip the check and
+	 * say so on the console instead.
+	 */
+	if (!ret && syscall(SYS_faccessat, AT_FDCWD, "/proc/self/task",
+			    R_OK) != 0) {
+		skip_line();
+		errno = saved;
+		return 1;
+	}
 
 	/*
 	 * LSan calls this right before it stops the world for a leak check.
@@ -793,7 +827,8 @@ static void death_line(void)
 	pos = put_str(line, pos, max, " logdir=");
 	pos = put_str(line, pos, max, logdir_state());
 	pos = put_str(line, pos, max, " lsan_off=");
-	pos = put_str(line, pos, max, lsan_off_now() ? "1" : "0");
+	pos = put_str(line, pos, max,
+		      g_lsan_off_init || lsan_off_now() ? "1" : "0");
 	line[pos++] = '\n';
 	fd = syscall(SYS_openat, AT_FDCWD, "/dev/console",
 		     O_WRONLY | O_NOCTTY | O_APPEND | O_CLOEXEC);
@@ -1040,6 +1075,7 @@ static void shim_init(void)
 {
 	int saved = errno;
 
+	g_lsan_off_init = lsan_off_now();
 	shim_start();
 	errno = saved;
 }
