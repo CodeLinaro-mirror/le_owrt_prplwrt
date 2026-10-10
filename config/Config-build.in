@@ -415,6 +415,19 @@ menu "Global build settings"
 		  sanitizers, for example "-Wl,--build-id" so that a report
 		  can be symbolized against the unstripped build files.
 
+	config SANITIZE_BUSYBOX
+		bool "Build busybox with the sanitizers too"
+		depends on SANITIZE
+		default n
+		help
+		  busybox runs in nearly every script, and its applets report
+		  on almost every run: UBSan in the shell and sleep, exit
+		  leaks of short-lived applets (no FEATURE_CLEAN_UP). Off:
+		  busybox is built without the sanitizers, like the packages
+		  in SANITIZE_OPTOUT_PKGS. The busybox switches of
+		  sanitizer-shim (leak check off, UBSan suppressions,
+		  sleep.opts) stay; they only act on a sanitized busybox.
+
 	config TARGET_ROOTFS_SECURITY_LABELS
 		bool
 		select KERNEL_SQUASHFS_XATTR

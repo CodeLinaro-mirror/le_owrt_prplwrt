@@ -27,9 +27,12 @@ PKG_BUILD_FLAGS?=
 # Packages that do not build with SANITIZE_FLAGS, kept here so the
 # feeds stay untouched. xz: configure rejects -fsanitize; liburing: no libc
 # link (-nostdlib); swupdate: kbuild "ld -r" gets TARGET_LDFLAGS.
-SANITIZE_OPTOUT_PKGS:=liburing swupdate xz
+SANITIZE_OPTOUT_PKGS:=liburing swupdate xz $(if $(CONFIG_SANITIZE_BUSYBOX),,busybox)
 ifneq ($(filter $(PKG_NAME),$(SANITIZE_OPTOUT_PKGS)),)
   PKG_BUILD_FLAGS+=no-sanitize
+endif
+ifeq ($(PKG_NAME),busybox)
+  PKG_CONFIG_DEPENDS+=CONFIG_SANITIZE_BUSYBOX
 endif
 # Per-package CMake options for sanitized builds. prplmesh odr-uses static
 # constexpr members (C++14), which only links when the constants are folded:
