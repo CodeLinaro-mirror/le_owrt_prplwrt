@@ -2,14 +2,13 @@ Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
-Check the root datamodel settings:
+Check the root datamodel settings, MaxReboots apart (below):
 
-  $ R "ba-cli --json ProcessMonitor.?0 | sed -n '2p'" | jq --sort-keys '.[0]'
+  $ R "ba-cli --json ProcessMonitor.?0 | sed -n '2p'" | jq --sort-keys '.[0] | del(.["ProcessMonitor."].MaxReboots)'
   {
     "ProcessMonitor.": {
       "CycleDuration": \d+, (re)
       "LastReboot": "0001-01-01T00:00:00Z",
-      "MaxReboots": 3,
       "NumberOfTest": \d+, (re)
       "RebootReason": "Unknown",
       "TestCustomTimeout": 5000,
@@ -17,6 +16,13 @@ Check the root datamodel settings:
       "TestPluginTimeout": 3000
     }
   }
+
+Check MaxReboots (CI-100): 3 by default, 0 in a sanitized build. The sanitizer-shim package
+(/etc/sanitizer) sets it to 0, because the slow sanitized boot made the process monitor reboot
+the DUT in a loop:
+
+  $ expected=$(R 'test -e /etc/sanitizer && echo 0 || echo 3')
+  $ test "$(R "ba-cli --json ProcessMonitor.?0 | sed -n '2p'" | jq '.[0]["ProcessMonitor."].MaxReboots')" = "$expected"
 
 Change Respawn timeout on tr181-led to allow testing with Amx ProcessMonitor:
 
