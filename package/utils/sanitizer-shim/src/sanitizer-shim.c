@@ -57,6 +57,9 @@
  *    report and writes "SANSTATS <exe> <pid> <freed_bytes> <uptime>" to the
  *    console. freed_bytes comes from the "Stats: <n>M freed" line, so it
  *    has MiB resolution.
+ * 8. A death callback in libasan and in libubsan (per runtime) writes
+ *    "SANDEATH <exe> <pid>" to the console with one write() before the
+ *    runtime terminates the process.
  *
  * This file must be built WITHOUT sanitizers and must not link libasan.
  */
@@ -155,6 +158,9 @@
 #endif
 #ifndef SHIM_SOFT_RSS_DIVISOR
 #define SHIM_SOFT_RSS_DIVISOR 8
+#endif
+#ifndef SHIM_UBSAN_SONAME
+#define SHIM_UBSAN_SONAME "libubsan.so.1"
 #endif
 #ifndef SHIM_ASAN_SONAME
 #define SHIM_ASAN_SONAME "libasan.so.8"
@@ -683,21 +689,18 @@ static int off_file(const char *dir, size_t dlen, const char *name, size_t len)
  * executable, e.g. busybox for every applet; %b in an opts file name is the
  * process name instead (sh, ls, ...).
  */
-EXPORT int __lsan_is_turned_off(void)
+static int lsan_off_now(void)
 {
 	static const char dir[] = SHIM_OFF_DIR "/";
 	static const char sdir[] = SHIM_OFF_DIR_STATIC "/";
 	char exe[256];
 	long n;
 	size_t i, base = 0, len;
-	int saved = errno, ret;
 
 	n = syscall(SYS_readlinkat, AT_FDCWD, "/proc/self/exe", exe,
 		    sizeof(exe) - 1);
-	if (n <= 0) {
-		errno = saved;
+	if (n <= 0)
 		return 0;
-	}
 	exe[n] = '\0';
 	/* "/path/prog (deleted)" after the binary was replaced */
 	if (n > 10 && exe[n - 10] == ' ' && exe[n - 9] == '(') {
@@ -708,14 +711,91 @@ EXPORT int __lsan_is_turned_off(void)
 		if (exe[i] == '/')
 			base = i + 1;
 	len = (size_t)n - base;
-	if (len == 0) {
-		errno = saved;
+	if (len == 0)
 		return 0;
-	}
-	ret = off_file(dir, sizeof(dir) - 1, exe + base, len) ||
-	      off_file(sdir, sizeof(sdir) - 1, exe + base, len);
+	return off_file(dir, sizeof(dir) - 1, exe + base, len) ||
+	       off_file(sdir, sizeof(sdir) - 1, exe + base, len);
+}
+
+EXPORT int __lsan_is_turned_off(void)
+{
+	int saved = errno, ret = lsan_off_now();
+
 	errno = saved;
 	return ret;
+}
+
+/* ---- death line ------------------------------------------------------ */
+
+/* State of the report directory now: "rw", "ro" or "missing". */
+static const char *logdir_state(void)
+{
+	char buf[256];
+	size_t n = slen(SHIM_LOG_PATH), i;
+
+	if (n >= sizeof(buf))
+		return "missing";
+	for (i = 0; i < n; i++)
+		buf[i] = SHIM_LOG_PATH[i];
+	while (n > 1 && buf[n - 1] != '/')
+		n--;
+	buf[--n] = '\0'; /* directory only */
+	if (syscall(SYS_faccessat, AT_FDCWD, buf, F_OK) != 0)
+		return "missing";
+	return dir_writable(buf, n) ? "rw" : "ro";
+}
+
+/*
+ * "SANDEATH <exe> <pid> logdir=<rw|ro|missing> lsan_off=<0|1>": the two
+ * fields say whether the report file could be opened now and whether the
+ * leak check was switched off, the usual reasons for a death without a
+ * report (the runtime writes its reason to stderr only).
+ */
+static void death_line(void)
+{
+	const char *exe = program_invocation_short_name;
+	char line[200];
+	size_t pos = 0, max = sizeof(line) - 1;
+	long fd;
+
+	pos = put_str(line, pos, max, "SANDEATH ");
+	pos = put_str(line, pos, max, exe && *exe ? exe : "?");
+	pos = put_str(line, pos, max, " ");
+	pos = put_num(line, pos, max, syscall(SYS_getpid));
+	pos = put_str(line, pos, max, " logdir=");
+	pos = put_str(line, pos, max, logdir_state());
+	pos = put_str(line, pos, max, " lsan_off=");
+	pos = put_str(line, pos, max, lsan_off_now() ? "1" : "0");
+	line[pos++] = '\n';
+	fd = syscall(SYS_openat, AT_FDCWD, "/dev/console",
+		     O_WRONLY | O_NOCTTY | O_APPEND | O_CLOEXEC);
+	if (fd < 0) {
+		if (g_console_fd >= 0)
+			syscall(SYS_write, g_console_fd, line, pos);
+		return;
+	}
+	syscall(SYS_write, fd, line, pos); /* one write: one line */
+	syscall(SYS_close, fd);
+}
+
+/* Per runtime: the death callback and report path live in each DSO. */
+static void runtimes_resolve(void)
+{
+	static const char *const so[2] = { SHIM_ASAN_SONAME, SHIM_UBSAN_SONAME };
+	void (*set_death)(void (*)(void));
+	void *h;
+	int i;
+
+	for (i = 0; i < 2; i++) {
+		h = dlopen(so[i], RTLD_LAZY | RTLD_NOLOAD);
+		if (!h)
+			continue;
+		set_death = (void (*)(void (*)(void)))dlsym(
+			h, "__sanitizer_set_death_callback");
+		if (set_death)
+			set_death(death_line);
+		dlclose(h);
+	}
 }
 
 /* ---- SIGRTMIN+N leak-check hook ------------------------------------- */
@@ -872,6 +952,7 @@ static void shim_start(void)
 
 	console_keep();
 	asan_summary_resolve();
+	runtimes_resolve();
 
 	/* asan_init is idempotent; the runtime must be up before our first
 	 * pthread_create goes through its interceptor. */
