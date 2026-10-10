@@ -138,5 +138,7 @@ selection:
     - {glob: profiles/mxl_wlan.yml, component: noop}
     - {glob: profiles/mxl_wlan_hostap_ng.yml, component: noop}
     - {glob: profiles/mxl_wlan_hostap_ng_gw.yml, component: noop}
+    # Only the scheduled sanitizer jobs build it (.gitlab/sanitize.yml); no merge request selects tests for it.
+    - {glob: profiles/sanitize.yml, component: noop}
     - {glob: .gitlab/tests/cram/components.yml, component: noop}
     - {glob: .gitlab/tests/cram/scripts/**, component: noop}

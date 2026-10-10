@@ -55,6 +55,7 @@ matrix:
   - {glob: profiles/mxl_wlan.yml, path: profiles/mxl_wlan.yml, expected: {}}
   - {glob: profiles/mxl_wlan_hostap_ng.yml, path: profiles/mxl_wlan_hostap_ng.yml, expected: {}}
   - {glob: profiles/mxl_wlan_hostap_ng_gw.yml, path: profiles/mxl_wlan_hostap_ng_gw.yml, expected: {}}
+  - {glob: profiles/sanitize.yml, path: profiles/sanitize.yml, expected: {}}
   - {glob: .gitlab/tests/cram/components.yml, path: .gitlab/tests/cram/components.yml, expected: {}}
   - {glob: .gitlab/tests/cram/scripts/**, path: .gitlab/tests/cram/scripts/example.py, expected: {}}
 by_test:
