@@ -409,10 +409,24 @@ EXPORT const char *__ubsan_default_options(void)
 		UBSAN_OPTS_STR(SHIM_LOG_PATH) UBSAN_SUPP_STR,
 		UBSAN_OPTS_STR("stderr") UBSAN_SUPP_STR,
 	};
+	static char noproc[1024];
 	int choice = log_choice();
+	const char *o;
+	size_t pos = 0;
 
 	/* like LSan, UBSan stops if the suppression file cannot be read */
-	return sys_readable(SHIM_UBSAN_SUPPRESSIONS) ? opts_supp[choice] : opts[choice];
+	o = sys_readable(SHIM_UBSAN_SUPPRESSIONS) ? opts_supp[choice] : opts[choice];
+	/*
+	 * Without /proc (shutdown, after procd unmounted it) the stack trace
+	 * of a report fails a CHECK in pthread_getattr_np() and UBSan
+	 * terminates the process. Report without the stack trace then.
+	 */
+	if (syscall(SYS_faccessat, AT_FDCWD, "/proc/self/maps", R_OK) == 0)
+		return o;
+	pos = put_str(noproc, pos, sizeof(noproc) - 1, o);
+	pos = put_str(noproc, pos, sizeof(noproc) - 1, ":print_stacktrace=0");
+	noproc[pos] = '\0';
+	return noproc;
 }
 
 /*
