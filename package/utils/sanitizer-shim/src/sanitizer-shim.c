@@ -53,6 +53,10 @@
  *    halt_on_error=0), instead of the OOM killer taking a random process.
  *    The quarantine size of a running process cannot be changed.
  *    /etc/sanitizer/<binary>.opts still overrides both.
+ * 7. The leak-check signal also prints ASan's accumulated stats into the
+ *    report and writes "SANSTATS <exe> <pid> <freed_bytes> <uptime>" to the
+ *    console. freed_bytes comes from the "Stats: <n>M freed" line, so it
+ *    has MiB resolution.
  *
  * This file must be built WITHOUT sanitizers and must not link libasan.
  */
@@ -592,16 +596,65 @@ EXPORT void __sanitizer_report_error_summary(const char *summary)
 	errno = saved;
 }
 
+/* "Stats: <n>M freed by" (not "really freed"), while the worker prints */
+static volatile int g_in_stats;
+static long g_freed_mb = -1;
+
+static void stats_parse(const char *str)
+{
+	static const char pre[] = "Stats: ", post[] = "M freed by ";
+	unsigned long v = 0;
+	size_t i, j;
+
+	for (i = 0; pre[i]; i++)
+		if (str[i] != pre[i])
+			return;
+	if (str[i] < '0' || str[i] > '9')
+		return;
+	for (; str[i] >= '0' && str[i] <= '9'; i++)
+		v = v * 10 + (str[i] - '0');
+	for (j = 0; post[j]; j++)
+		if (str[i + j] != post[j])
+			return;
+	g_freed_mb = v;
+}
+
 /* Called by the runtimes with their report lock held: syscalls only. */
 EXPORT void __sanitizer_on_print(const char *str)
 {
 	int saved = errno;
 
-	if (str && g_log_choice && !stderr_is_tty())
+	if (!str)
+		return;
+	if (g_log_choice && !stderr_is_tty())
 		console_write(str, slen(str));
+	if (g_in_stats)
+		stats_parse(str);
 	errno = saved;
 }
 
+static void stats_line(void)
+{
+	const char *exe = program_invocation_short_name;
+	struct timespec ts = { 0, 0 };
+	char line[256];
+	size_t pos = 0, max = sizeof(line) - 1;
+
+	syscall(SYS_clock_gettime, CLOCK_BOOTTIME, &ts);
+	pos = put_str(line, pos, max, "SANSTATS ");
+	pos = put_str(line, pos, max, exe && *exe ? exe : "?");
+	pos = put_str(line, pos, max, " ");
+	pos = put_num(line, pos, max, syscall(SYS_getpid));
+	pos = put_str(line, pos, max, " ");
+	if (g_freed_mb < 0)
+		pos = put_str(line, pos, max, "-1");
+	else
+		pos = put_num(line, pos, max, (unsigned long)g_freed_mb << 20);
+	pos = put_str(line, pos, max, " ");
+	pos = put_num(line, pos, max, ts.tv_sec);
+	line[pos++] = '\n';
+	console_write(line, pos);
+}
 
 /* ---- switch-off file ------------------------------------------------ */
 
@@ -672,6 +725,7 @@ static sem_t g_ready; /* worker is parked in sem_wait */
 static int (*g_leak_check)(void);
 static void (*g_mem_profile)(size_t, size_t);
 static void (*g_asan_init)(void);
+static void (*g_print_stats)(void);
 static int g_signo;
 static int g_active; /* libasan present, worker thread running */
 
@@ -708,6 +762,13 @@ static void *worker(void *arg)
 		if (g_mem_profile)
 			g_mem_profile(SHIM_PROFILE_TOP_PERCENT,
 				      SHIM_PROFILE_MAX_CONTEXTS);
+		if (g_print_stats) {
+			g_freed_mb = -1;
+			g_in_stats = 1;
+			g_print_stats();
+			g_in_stats = 0;
+			stats_line();
+		}
 	}
 	return NULL;
 }
@@ -787,6 +848,8 @@ static void shim_start(void)
 					    "__lsan_do_recoverable_leak_check");
 	g_mem_profile = (void (*)(size_t, size_t))dlsym(
 		RTLD_DEFAULT, "__sanitizer_print_memory_profile");
+	g_print_stats = (void (*)(void))dlsym(RTLD_DEFAULT,
+					      "__asan_print_accumulated_stats");
 	if (!g_leak_check && !g_mem_profile) {
 		/* libasan not loaded: swallow the signal, no thread */
 		sa.sa_handler = noop_signal;
