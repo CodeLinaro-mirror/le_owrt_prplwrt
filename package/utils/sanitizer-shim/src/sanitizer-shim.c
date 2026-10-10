@@ -743,7 +743,8 @@ static void *worker(void *arg)
 	sigset_t set;
 
 	(void)arg;
-	/* The only thread that takes the signal; see shim_start(). */
+	/* Started with all signals blocked (start_worker()); take only ours.
+	 * The only thread that takes the signal; see shim_start(). */
 	sigemptyset(&set);
 	sigaddset(&set, g_signo);
 	pthread_sigmask(SIG_UNBLOCK, &set, NULL);
@@ -790,6 +791,7 @@ static void wait_ready(void)
 static int start_worker(void)
 {
 	pthread_attr_t attr;
+	sigset_t all, old;
 	pthread_t tid;
 	int ret;
 
@@ -799,7 +801,18 @@ static int start_worker(void)
 		return -1;
 	pthread_attr_setstacksize(&attr, SHIM_WORKER_STACK_KB * 1024);
 	pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_DETACHED);
+	/*
+	 * Start the worker with every signal blocked, as libsanitizer does
+	 * with its own threads. The worker exists before main(): a program
+	 * that blocks a signal in its main thread and reads it through
+	 * signalfd() (libamxp: SIGCHLD, SIGALRM) would otherwise lose it to
+	 * the worker, where the default action drops it (SIGCHLD) or kills
+	 * the process (SIGALRM).
+	 */
+	sigfillset(&all);
+	pthread_sigmask(SIG_SETMASK, &all, &old);
 	ret = pthread_create(&tid, &attr, worker, NULL);
+	pthread_sigmask(SIG_SETMASK, &old, NULL);
 	pthread_attr_destroy(&attr);
 	/*
 	 * Wait until the worker is idle. libasan's allocator has no fork
