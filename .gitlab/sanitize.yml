@@ -1,0 +1,79 @@
+# Sanitizer jobs: a glibc image built with ASan, UBSan and LSan (profiles/sanitize.yml) and the [full] cram
+# selection run on it in QEMU. They find memory errors and leaks in the whole image and are not part of any
+# merge request or push pipeline.
+#
+# When they run
+#   Only in a scheduled pipeline that sets PRPLOS_SANITIZE=1, or when somebody starts a pipeline by hand
+#   (the "Run pipeline" button, the API or a trigger). A hand started pipeline with PRPLOS_SANITIZE=1 runs
+#   the jobs at once; without the variable the jobs wait for a click.
+#
+# Schedule
+#   The cron itself is a GitLab setting (CI/CD > Schedules), not a file. Create two schedules, both with
+#   the variable PRPLOS_SANITIZE=1:
+#     Sunday night     0 22 * * 0   the report is ready on Monday morning
+#     Wednesday night  0 22 * * 3   the report is ready on Thursday morning
+#   A run takes several hours (a build from scratch, then the tests), so the cron time may move. The time zone is
+#   a property of the schedule.
+#
+# Results
+#   Artifacts of the cram job: san-summary.md (one file with all verdicts), san-junit.xml, the symbolized
+#   reports, the /proc memory trend, serial.log, one directory per [full] iteration. The job fails when a
+#   sanitizer report exists, when the SANRSS metrics log is lost or has gaps, or when a sanitizer runtime
+#   killed a process without a report (SANDEATH).
+#
+# Rules for both jobs.
+.sanitize rules:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule" && $PRPLOS_SANITIZE == "1"'
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: never
+    - if: '$CI_PIPELINE_SOURCE =~ /^(web|api|trigger)$/ && $PRPLOS_SANITIZE == "1"'
+    - if: '$CI_PIPELINE_SOURCE =~ /^(web|api|trigger)$/'
+      when: manual
+      allow_failure: true
+    - when: never
+
+# The image always builds from scratch: no reuse of build_dir or staging_dir and no artifact reuse like the
+# WIP of "build test x86_64 prpl security". Switching SANITIZE changes only the .configured stamp of a
+# package, so a plain make package keeps objects of an earlier build.
+# Differences to .build test config: no SDK and no image builder (+SDK +IB +IB_STANDALONE would take a
+# long time and nothing uses them), a longer job time out (only the job time out is raised) and
+# its own artifacts: the image, the files to symbolize the reports with, and the results of the checks.
+build test x86_64 prpl security sanitize:
+  extends:
+    - .build test config
+    - .sanitize rules
+  timeout: 8 hours
+  variables:
+    CI_BUILD_CONFIG: >
+      +DEVEL +BUILD_LOG +INCLUDE_CONFIG
+    GIT_STRATEGY: clone
+    GIT_CLEAN_FLAGS: -ffdx
+  before_script:
+    - !reference [.build test config, before_script]
+    - |
+      for dir in build_dir staging_dir tmp bin; do
+        if [ -e "$dir" ]; then
+          echo "ERROR: $dir exists: the sanitize build must start from a clean checkout"
+          exit 1
+        fi
+      done
+    # shim-regress.sh runs the test programs in bwrap. Check that it works before a build of hours.
+    - sudo apt-get update && sudo apt-get install --yes --no-install-recommends bubblewrap
+    - .gitlab/scripts/sanitize/shim-regress.sh --preflight
+  script:
+    - !reference [.build test config, script]
+    # The build script above sets an ERR trap that reports a failed build; the checks have their own messages.
+    - trap - ERR
+    - .gitlab/scripts/sanitize/build-checks.sh
+  artifacts:
+    paths:
+      - bin/targets/x86/64/prplos-x86-64-generic-squashfs-combined-efi.img
+      - bin/targets/x86/64/*.manifest
+      - bin/targets/x86/64/*.buildinfo
+      - bin/targets/x86/64/sha256sums
+      - logs
+      - sanitize-build
+      - sanitize-symbols.tar.xz
+      - sanitize-symbols.tsv
+      - ./*packages-hash-issues.patch
