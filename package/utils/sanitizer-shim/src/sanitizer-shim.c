@@ -57,7 +57,16 @@
  *    report and writes "SANSTATS <exe> <pid> <freed_bytes> <uptime>" to the
  *    console. freed_bytes comes from the "Stats: <n>M freed" line, so it
  *    has MiB resolution.
- * 8. A death callback in libasan and in libubsan (per runtime) writes
+ * 8. About SHIM_EARLY_OPEN_S after start, the worker calls libasan's
+ *    __sanitizer_get_report_path(), which opens the report file now.
+ *    libsanitizer opens it at the first report otherwise and calls Die() if
+ *    that fails; once open, write errors are ignored, so a full disk or a
+ *    removed directory later costs report text, not the process. Empty
+ *    report files are expected. libubsan initializes its flags and report
+ *    path only at its first report (its path is empty before), so it cannot
+ *    be opened early; there __ubsan_default_options() runs the directory
+ *    probe (item 4) right before the open, which leaves no useful window.
+ * 9. A death callback in libasan and in libubsan (per runtime) writes
  *    "SANDEATH <exe> <pid>" to the console with one write() before the
  *    runtime terminates the process.
  *
@@ -158,6 +167,9 @@
 #endif
 #ifndef SHIM_SOFT_RSS_DIVISOR
 #define SHIM_SOFT_RSS_DIVISOR 8
+#endif
+#ifndef SHIM_EARLY_OPEN_S
+#define SHIM_EARLY_OPEN_S 10
 #endif
 #ifndef SHIM_UBSAN_SONAME
 #define SHIM_UBSAN_SONAME "libubsan.so.1"
@@ -725,7 +737,9 @@ EXPORT int __lsan_is_turned_off(void)
 	return ret;
 }
 
-/* ---- death line ------------------------------------------------------ */
+/* ---- early report file open, death line ----------------------------- */
+
+static const char *(*g_asan_get_path)(void);
 
 /* State of the report directory now: "rw", "ro" or "missing". */
 static const char *logdir_state(void)
@@ -790,12 +804,21 @@ static void runtimes_resolve(void)
 		h = dlopen(so[i], RTLD_LAZY | RTLD_NOLOAD);
 		if (!h)
 			continue;
+		if (i == 0) /* libubsan: see item 8 */
+			g_asan_get_path = (const char *(*)(void))dlsym(
+				h, "__sanitizer_get_report_path");
 		set_death = (void (*)(void (*)(void)))dlsym(
 			h, "__sanitizer_set_death_callback");
 		if (set_death)
 			set_death(death_line);
 		dlclose(h);
 	}
+}
+
+static void early_open(void)
+{
+	if (!g_log_choice && g_asan_get_path) /* not with reports on stderr */
+		g_asan_get_path();
 }
 
 /* ---- SIGRTMIN+N leak-check hook ------------------------------------- */
@@ -820,7 +843,9 @@ static void on_signal(int sig)
 
 static void *worker(void *arg)
 {
+	struct timespec ts;
 	sigset_t set;
+	int posted;
 
 	(void)arg;
 	/* Started with all signals blocked (start_worker()); take only ours.
@@ -830,9 +855,21 @@ static void *worker(void *arg)
 	pthread_sigmask(SIG_UNBLOCK, &set, NULL);
 	sem_post(&g_ready);
 
+	/* item 8: open the report files early, unless the signal comes first */
+	if (clock_gettime(CLOCK_REALTIME, &ts) == 0) {
+		ts.tv_sec += SHIM_EARLY_OPEN_S;
+		while ((posted = sem_timedwait(&g_sem, &ts) == 0) == 0 &&
+		       errno == EINTR)
+			;
+		early_open();
+		if (posted)
+			goto check; /* the signal came first */
+	}
+
 	for (;;) {
 		while (sem_wait(&g_sem) != 0 && errno == EINTR)
 			;
+check:
 		while (sem_trywait(&g_sem) == 0) /* coalesce bursts */
 			;
 		if (__lsan_is_turned_off())
