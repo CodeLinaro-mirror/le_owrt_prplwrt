@@ -1,0 +1,8 @@
+# sanitizer-opts provenance, written by .gitlab/scripts/sanitize/san-calibrate.py publish. Not installed into the image.
+# One line per <binary>.opts, TAB separated: binary, package, package version, system version.
+# The package version is the staleness key (san-calibrate.py drift). The system version string of the
+# calibrated image is provenance only. Neither is checked by the shim.
+# Values are absolute MB of quarantine_size_mb from freed-byte churn, not from the RAM budget.
+# heavy-mb: 64
+beerocks_controller	prplmesh	2026.09.15~9356fd0d-r1	prplOS 5.2.0-2257e578 r0+31733-2257e5781b02
+wld	pwhm	v7.29.20-r1	prplOS 5.2.0-2257e578 r0+31733-2257e5781b02

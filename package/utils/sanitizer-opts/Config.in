@@ -1,0 +1,39 @@
+menu "Configuration"
+	depends on PACKAGE_sanitizer-opts
+	comment "For the sanitize profile only, not for production images"
+
+	choice
+		prompt "Per-binary quarantine overrides"
+		default SANITIZER_OPTS_CALIBRATED
+
+		config SANITIZER_OPTS_NONE
+			bool "None (quarantine tier of sanitizer-shim only)"
+
+		config SANITIZER_OPTS_CALIBRATED
+			bool "Calibrated (committed files/opts)"
+			help
+			  The .opts files in the package, made with
+			  .gitlab/scripts/sanitize/san-calibrate.py publish from
+			  the calibration of a reference run. Only heavy allocators have a
+			  file. files/opts/PROVENANCE lists the package
+			  version each file was calibrated on;
+			  san-calibrate.py drift reports files whose package
+			  changed. The shim does not check this.
+
+		config SANITIZER_OPTS_LOCAL
+			bool "Local directory"
+			help
+			  Install the *.opts files of a directory, for example
+			  the calibration output of a run, for local trials.
+	endchoice
+
+	config SANITIZER_OPTS_DIR
+		string "Local directory with <binary>.opts files"
+		depends on SANITIZER_OPTS_LOCAL
+		default ""
+		help
+		  Absolute path, visible to the build. Only *.opts files
+		  are installed. sleep.opts is reserved for sanitizer-shim
+		  and fails the build. Values are absolute MB, for example
+		  quarantine_size_mb=128.
+endmenu

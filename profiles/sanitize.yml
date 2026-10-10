@@ -6,6 +6,7 @@ packages:
   - libubsan
   - libstdcpp
   - sanitizer-shim
+  - sanitizer-opts
 
 diffconfig: |
   CONFIG_TOOLCHAINOPTS=y
