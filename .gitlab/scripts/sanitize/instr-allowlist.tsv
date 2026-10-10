@@ -1,0 +1,22 @@
+# instr-scan allowlist: path-glob<TAB>reason. Globs use fnmatch on the absolute
+# path inside the rootfs ('*' also matches '/'). Comments start with '#'.
+# Toolchain/runtime libraries: built by the toolchain, not sanitizable by us.
+*/ld-linux*.so*	glibc dynamic loader (toolchain)
+*/libc.so*	glibc (toolchain)
+*/libm.so*	glibc libm (toolchain)
+*/libpthread.so*	glibc libpthread (toolchain)
+*/libdl.so*	glibc libdl (toolchain)
+*/librt.so*	glibc librt (toolchain)
+*/libresolv.so*	glibc libresolv (toolchain)
+*/libcrypt.so*	glibc libcrypt (toolchain)
+*/libutil.so*	glibc libutil (toolchain)
+*/libanl.so*	glibc libanl (toolchain)
+*/libnsl.so*	glibc libnsl (toolchain)
+*/libnss_*.so*	glibc NSS modules (toolchain)
+*/libgcc_s.so*	GCC runtime (toolchain)
+*/libstdc++.so*	GCC C++ runtime (toolchain)
+*/libatomic.so*	GCC runtime (toolchain)
+*/libasan.so*	ASan runtime itself, must not be instrumented
+*/libubsan.so*	UBSan runtime itself, must not be instrumented
+*/libsanitizer-shim.so*	sanitizer preload shim, must not be sanitized (PKG_BUILD_FLAGS:=no-sanitize)
+/usr/bin/conntrack_worker_*	tr181-conntrack-query: src/cq_agent/Makefile hard-sets CFLAGS/LDFLAGS, so the workers never get TARGET_CFLAGS; run uninstrumented
