@@ -4,6 +4,8 @@
 # build): test programs are cross-built with the target toolchain and run in bwrap on top of the target
 # rootfs, with the shim .so under test bound over /usr/lib/libsanitizer-shim.so. No QEMU, no make.
 # bwrap needs unprivileged user namespaces; "shim-regress.sh --preflight" checks that and exits.
+# The sandbox keeps the network namespace of the caller (--share-net): a CI container may not set up the
+# loopback of a new one, and no test case uses the network.
 #
 # Usage: shim-regress.sh [--prplos DIR] [--shim PATH] [--rootfs DIR] [--gcc PATH] [--only CASE[,CASE]]
 #                        [--keep] [--list] [--preflight]
@@ -92,7 +94,7 @@ newest() { # newest FILE among the glob matches
 
 command -v bwrap >/dev/null || die "bwrap not found"
 if ((preflight)); then
-    bwrap --unshare-all --ro-bind / / --dev /dev --proc /proc true 2>&1 || die "bwrap cannot create its namespaces here"
+    bwrap --unshare-all --share-net --ro-bind / / --dev /dev --proc /proc true 2>&1 || die "bwrap cannot set up its sandbox here (see its error above)"
     echo "shim-regress: bwrap works"
     exit 0
 fi
@@ -331,7 +333,7 @@ sb_run() {
     done
     [[ $mode == ro ]] && bindopt=--ro-bind
     : >"$cdir/console"
-    timeout "$case_timeout" bwrap --unshare-all --die-with-parent \
+    timeout "$case_timeout" bwrap --unshare-all --share-net --die-with-parent \
         --ro-bind "$rootfs" / "${procopt[@]}" --dev /dev --tmpfs /tmp \
         --bind "$cdir/console" /dev/console \
         --ro-bind "$shim" /usr/lib/libsanitizer-shim.so \
