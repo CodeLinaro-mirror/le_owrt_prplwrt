@@ -2,4 +2,4 @@
 feeds:
   - name: feed_prplos
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplos.git
-    revision: ynezz/sanitize-ci@18c8e101d8ba0c069beb926fee0e5c46a99398bd
+    revision: ynezz/sanitize-ci@7528968b88abcb88ef911fa783600003878f49dd
