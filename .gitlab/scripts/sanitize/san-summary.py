@@ -33,8 +33,9 @@ checks do.
 Output (-o OUT, default DIR): OUT/san-summary.md, OUT/san-junit.xml and OUT/cram-merged.xml (the cram and
 post results of all iterations, for the GitLab test report). JUnit testcases:
   suite sanitizer-findings   one per unique finding: failure = new or open
-  suite sanitizer-harness    metrics-log, SAN-DEATH, report-dir, plus symbolization, shim-regress and cram-classes
-                             when their inputs are given. A missing input file is a FAILURE, never a clean result.
+  suite sanitizer-harness    metrics-log, SAN-DEATH, shim-silent (fails on zero SANREPORT and zero SANSTATS
+                             lines), report-dir, plus symbolization, shim-regress and cram-classes when
+                             their inputs are given. A missing input file is a FAILURE, never a clean result.
   suite sanitizer-pm-reboots only when DIR/logread-prereboot.txt or DIR/logread-full.txt exists: one testcase
                              (class sanitizer.finding, failure type finding) per reboot that ProcessMonitor.MaxReboots
                              blocked, found by san-pmreboots.py; the markdown gets a section
@@ -350,6 +351,15 @@ def main():
             index["unmatched_n"], index["matched"], ", ".join("%s x%d" % kv for kv in by.most_common(5))), detail))
     else:
         hv.append(("SAN-DEATH", "pass", "%d SANDEATH, all with a SANREPORT before them" % index["deaths"], ""))
+    # A shim that is not loaded or prints nothing leaves a clean console: no report and no SANSTATS (the answer of
+    # each instrumented process to the leak-check broadcast).
+    if index is not None:
+        if index["reports"] is None or index["stats"] is None:
+            hv.append(("shim-silent", "fail", "san-console-index.txt has no SANREPORT or SANSTATS count", ""))
+        elif index["reports"] == 0 and index["stats"] == 0:
+            hv.append(("shim-silent", "fail", "no SANREPORT and no SANSTATS line in the run: is the shim loaded?", ""))
+        else:
+            hv.append(("shim-silent", "pass", "%d SANREPORT and %d SANSTATS lines" % (index["reports"], index["stats"]), ""))
     if a.shim_regress_log:
         lines = (read_text(a.shim_regress_log) or "").splitlines()
         skip = [ln for ln in lines if ln.startswith("shim-regress SKIPPED:")]
