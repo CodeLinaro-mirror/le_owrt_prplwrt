@@ -3,7 +3,8 @@
 # on the glibc image). Runs on the build host (the CI build job after the image
 # build): test programs are cross-built with the target toolchain and run in bwrap on top of the target
 # rootfs, with the shim .so under test bound over /usr/lib/libsanitizer-shim.so. No QEMU, no make.
-# bwrap needs unprivileged user namespaces; "shim-regress.sh --preflight" checks that and exits.
+# bwrap needs unprivileged user namespaces; "shim-regress.sh --preflight" checks that and exits: 0 when bwrap
+# works, 77 with one "shim-regress SKIPPED: ..." line when it does not (the CI job then skips the test).
 # The sandbox keeps the network namespace of the caller (--share-net): a CI container may not set up the
 # loopback of a new one, and no test case uses the network.
 #
@@ -94,7 +95,11 @@ newest() { # newest FILE among the glob matches
 
 command -v bwrap >/dev/null || die "bwrap not found"
 if ((preflight)); then
-    bwrap --unshare-all --share-net --ro-bind / / --dev /dev --proc /proc true 2>&1 || die "bwrap cannot set up its sandbox here (see its error above)"
+    if ! err=$(bwrap --unshare-all --share-net --ro-bind / / --dev /dev --proc /proc true 2>&1); then
+        reason=$(grep -m 1 . <<<"$err") || reason="no error text"
+        echo "shim-regress SKIPPED: bwrap unavailable on this runner ($reason)"
+        exit 77
+    fi
     echo "shim-regress: bwrap works"
     exit 0
 fi

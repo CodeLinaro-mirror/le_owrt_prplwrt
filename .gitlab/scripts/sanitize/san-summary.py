@@ -24,6 +24,8 @@ Optional:
                                c  fails now, passes in both baselines (new under the sanitizer)
                                d  passes now, failed in a baseline
   --symbolize-summary FILE   OUTDIR/symbolize-summary.tsv of san-symbolize.py (adds a symbolization row)
+  --shim-regress-log FILE    sanitize-build/shim-regress.log of the build job (adds a shim-regress row: pass, fail,
+                             or skip when bwrap could not run there)
 Cram failures are classified: lab-network (--lab-list), config (005-build-config.t: the sanitize profile has
 another build configuration), slow (the failure text mentions a time out: "slow under sanitizer") and
 other. None of them is a sanitizer finding and none fails the job; the sanitizer findings and the harness
@@ -31,8 +33,8 @@ checks do.
 Output (-o OUT, default DIR): OUT/san-summary.md, OUT/san-junit.xml and OUT/cram-merged.xml (the cram and
 post results of all iterations, for the GitLab test report). JUnit testcases:
   suite sanitizer-findings   one per unique finding: failure = new or open
-  suite sanitizer-harness    metrics-log, SAN-DEATH, report-dir, plus symbolization and cram-classes when
-                             their inputs are given. A missing input file is a FAILURE, never a clean result.
+  suite sanitizer-harness    metrics-log, SAN-DEATH, report-dir, plus symbolization, shim-regress and cram-classes
+                             when their inputs are given. A missing input file is a FAILURE, never a clean result.
   suite sanitizer-pm-reboots only when DIR/logread-prereboot.txt or DIR/logread-full.txt exists: one testcase
                              (class sanitizer.finding, failure type finding) per reboot that ProcessMonitor.MaxReboots
                              blocked, found by san-pmreboots.py; the markdown gets a section
@@ -289,6 +291,7 @@ def main():
     ap.add_argument("--baseline-musl")
     ap.add_argument("--baseline-glibc")
     ap.add_argument("--symbolize-summary")
+    ap.add_argument("--shim-regress-log")
     ap.add_argument("-o", "--out")
     ap.add_argument("--top", type=int, default=20, help="findings in the summary table (default 20)")
     ap.add_argument("--exit-code", action="store_true")
@@ -347,6 +350,16 @@ def main():
             index["unmatched_n"], index["matched"], ", ".join("%s x%d" % kv for kv in by.most_common(5))), detail))
     else:
         hv.append(("SAN-DEATH", "pass", "%d SANDEATH, all with a SANREPORT before them" % index["deaths"], ""))
+    if a.shim_regress_log:
+        lines = (read_text(a.shim_regress_log) or "").splitlines()
+        skip = [ln for ln in lines if ln.startswith("shim-regress SKIPPED:")]
+        res = [ln for ln in lines if re.match(r"^shim-regress: \d+ passed, \d+ failed", ln)]
+        if skip:
+            hv.append(("shim-regress", "skip", skip[0], ""))
+        elif res:
+            hv.append(("shim-regress", "pass" if ", 0 failed" in res[-1] else "fail", res[-1], ""))
+        else:
+            hv.append(("shim-regress", "fail", "%s has no result line" % os.path.basename(a.shim_regress_log), ""))
     if index is not None and findings is not None and index["reports"] and not findings:
         hv.append(("reports-collected", "fail", "%d SANREPORT lines on the console, but san-report.py found no report in the collected files: reports lost?" % index["reports"], ""))
     if findings is None:

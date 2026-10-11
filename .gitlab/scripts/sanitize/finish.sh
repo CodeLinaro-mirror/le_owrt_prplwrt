@@ -14,7 +14,8 @@
 # Usage: finish.sh ARTIFACTS [--symbols ARCHIVE_OR_DIR] [--tree DIR]
 #   --symbols  sanitize-symbols.tar.xz of the build job, or a directory with build_dir/ (default:
 #              sanitize-symbols.tar.xz in the current directory)
-#   --tree     the checkout, for the drift report of the committed .opts files (default: the current directory)
+#   --tree     the checkout, for the drift report of the committed .opts files and the shim-regress.log of the
+#              build job in sanitize-build/ (default: the current directory)
 set -uo pipefail
 
 here=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)
@@ -133,6 +134,9 @@ echo "== summary"
 args=(--artifacts "$art" --lab-list "$here/lab-network-tests.txt" --exit-code)
 [[ -f $art/san-findings.tsv ]] && args+=(--findings "$art/san-findings.tsv")
 args+=(--symbolize-summary "$sumtsv")   # a missing file is a failure in the summary: the symbolization did not run
+# the shim regression test of the build job (its artifact sanitize-build/): passed, or skipped where bwrap cannot run.
+# Without that log (a run judged without the build job's artifacts) the summary has no shim-regress row.
+[[ -f $tree/sanitize-build/shim-regress.log ]] && args+=(--shim-regress-log "$tree/sanitize-build/shim-regress.log")
 py san-summary.py "${args[@]}"
 rc_sum=$?
 
