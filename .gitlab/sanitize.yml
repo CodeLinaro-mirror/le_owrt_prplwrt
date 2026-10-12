@@ -49,6 +49,9 @@ build test x86_64 prpl security sanitize:
       +DEVEL +BUILD_LOG +INCLUDE_CONFIG
     GIT_STRATEGY: clone
     GIT_CLEAN_FLAGS: -ffdx
+    # The script stops before the job time out, so a build that runs out of time still uploads logs/ (the
+    # per-package build logs and the sampler log).
+    RUNNER_SCRIPT_TIMEOUT: 7h30m
   before_script:
     - !reference [.build test config, before_script]
     - |
