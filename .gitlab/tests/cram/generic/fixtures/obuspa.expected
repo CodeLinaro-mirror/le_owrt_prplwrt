@@ -5416,6 +5416,7 @@ Device.WiFi.EndPoint.{i}.Profile.{i}.Security.PreSharedKey                      
 Device.WiFi.EndPoint.{i}.Profile.{i}.Security.SAEPassphrase                                          proto::prplmesh-dm-mapper
 Device.WiFi.EndPoint.{i}.Profile.{i}.Security.WEPKey                                                 proto::prplmesh-dm-mapper
 Device.WiFi.EndPoint.{i}.Profile.{i}.Status                                                          proto::prplmesh-dm-mapper
+Device.WiFi.EndPoint.{i}.ProfileNumberOfEntries                                                      proto::prplmesh-dm-mapper
 Device.WiFi.EndPoint.{i}.ProfileReference                                                            proto::prplmesh-dm-mapper
 Device.WiFi.EndPoint.{i}.RequiredOperatingStandards                                                  proto::prplmesh-dm-mapper
 Device.WiFi.EndPoint.{i}.SSIDReference                                                               proto::prplmesh-dm-mapper
