@@ -13,7 +13,15 @@ Restart routing manager:
   $ R "service tr181-bgp-ospf stop"
   $ sleep 5
   $ R "service tr181-bgp-ospf start"
-  $ sleep 7
+  $ sleep 3
+
+Wait until OSPF converges again:
+
+  $ . ${TESTDIR}/script_functions_routing.sh
+  $ wait_ospf_state ospf4 1 1 BackupDesignatedRouter
+  $ wait_ospf_state ospf6 1 1 BackupDesignatedRouter
+  $ wait_ospf_neighbor_state ospf4 1 1 1 Full
+  $ wait_ospf_neighbor_state ospf6 1 1 1 Full
 
 Verify the connection is reestablished for IPv4 OSPF:
 

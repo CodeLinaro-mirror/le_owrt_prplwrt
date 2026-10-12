@@ -102,3 +102,14 @@ wait_ospf_state() {
 wait_ospf_neighbors() {
 	wait_param_min "Device.Routing.X_PRPLWARE-COM_OSPF.Config.$1.Area.$2.Interface.$3.NeighborNumberOfEntries" "${4:-1}"
 }
+
+# wait_ospf_neighbor_state - waits for an OSPF neighbor adjacency to reach a given state
+# Parameters:
+#   $1 - config_alias: OSPF configuration alias name
+#   $2 - area_index: OSPF area instance index
+#   $3 - interface_index: OSPF interface instance index
+#   $4 - neighbor_index: OSPF neighbor instance index
+#   $5 - state: expected adjacency state, defaults to Full
+wait_ospf_neighbor_state() {
+	wait_param "Device.Routing.X_PRPLWARE-COM_OSPF.Config.$1.Area.$2.Interface.$3.Neighbor.$4.State" "${5:-Full}"
+}
