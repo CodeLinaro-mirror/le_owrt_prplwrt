@@ -47,10 +47,9 @@ them, keeping all other prpl gateway features available.
 Dynamic routing protocols, BGP and OSPF, are implemented by the [`bird2`](https://bird.network.cz/)
 routing daemon, driven and configured through TR-181:
 
-- [`tr181-routing`](https://gitlab.com/prpl-foundation/components/core/plugins/tr181-routing)
-  (package `routing-manager`) — TR-181 `Device.Routing.` plugin. It exposes
-  the BGP/OSPF data model and delegates the actual protocol handling to a
-  pluggable back-end module.
+- [`tr181-bgp-ospf`](https://gitlab.com/prpl-foundation/components/core/plugins/tr181-bgp-ospf)
+  — TR-181 `Device.Routing.X_PRPLWARE-COM_{BGP, OSPF, RouteFiltering}` datamodel plugin. It
+  exposes the BGP/OSPF data model and delegates the actual protocol handling to a pluggable back-end module.
 - [`mod-routing-bird2`](https://gitlab.com/prpl-foundation/components/core/modules/mod-routing-bird2)
   — the back-end module selected for dynamic routing. It translates the
   TR-181 BGP/OSPF configuration into `bird2` configuration and manages the
@@ -61,15 +60,11 @@ routing daemon, driven and configured through TR-181:
   data model. See the `netdev` component documentation for configuration
   details and the default value.
 
-`tr181-routing` also ships two other back-ends (`mod-routing-lin`,
-`mod-routing-uci`) used for static/OS-level routing; they are unrelated to
-BGP/OSPF.
-
 ## Enabling BGP/OSPF
 
 ### 1. Build-time: packages
 
-`mod-routing-bird2` and `routing-manager` are included by default in the
+`mod-routing-bird2` and `tr181-bgp-ospf` are included by default in the
 [`prpl_core`](../../profiles/prpl_core.yml) build profile
 (`profiles/prpl_core.yml`), so a standard prplOS image already ships with the
 packages required for BGP/OSPF support — no separate profile needs to be
@@ -78,7 +73,7 @@ selected as of right now.
 To remove dynamic routing support entirely (e.g. for a memory-constrained
 device that will never need it):
 1. Drop `mod-routing-bird2` from the build profile so `bird2` is not compiled/installed at all.
-2. Disable dynamic routing support via `CONFIG_SAH_AMX_TR181_ROUTING_DYN_ROUTING_SUPPPORT` handle. (e.g. set to 'n')
+2. Disable dynamic routing support via `CONFIG_PACKAGE_tr181-bgp-ospf` handle. (e.g. set to 'n')
 
 ### 2. Build-time: kernel configuration
 
@@ -151,3 +146,10 @@ The BGP/OSPF data model (`Device.Routing.X_PRPLWARE-COM_BGP.` /
 `Device.Routing.X_PRPLWARE-COM_OSPF.`) is a vendor extension on top of
 `Device.Routing.`, pending standardization in the Broadband Forum TR-181
 data model.
+
+On the ubus, the datamodels are also available under `BGPOSPF.` common root:
+```
+BGPOSPF.X_PRPLWARE-COM_BGP
+BGPOSPF.X_PRPLWARE-COM_RouteFiltering
+BGPOSPF.X_PRPLWARE-COM_OSPF
+```
