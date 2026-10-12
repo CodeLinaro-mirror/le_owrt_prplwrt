@@ -11,8 +11,7 @@ Create ReqOption with even length and hexBinary value:
 Try to set Value parameter
 
   $ R ba-cli 'Device.DHCPv4.Client.1.ReqOption.TestReq1.Value=12ba' | grep -Ev '^>|^$'
-  Device.DHCPv4.Client.1.ReqOption.*. (re)
-  Device.DHCPv4.Client.1.ReqOption.*.Value="12ba" (re)
+  ERROR: set Device.DHCPv4.Client.1.ReqOption.TestReq1.Value failed (15 - is read only)
 
 Create ReqOption with odd length and hexBinary Value:
 
