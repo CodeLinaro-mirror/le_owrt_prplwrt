@@ -63,8 +63,10 @@ build test x86_64 prpl security sanitize:
       done
     # shim-regress.sh runs the test programs in bwrap. Check that it works before a build of hours. Where bwrap
     # cannot run (exit 77), the job goes on without the test and build-checks.sh skips it the same way.
-    - sudo apt-get update && sudo apt-get install --yes --no-install-recommends bubblewrap
+    - sudo apt-get update && sudo apt-get install --yes --no-install-recommends bubblewrap procps
     - .gitlab/scripts/sanitize/shim-regress.sh --preflight || [ $? -eq 77 ]
+    # The resource use of the runner every 60 s in logs/sanitize-sampler.log, until this shell ends.
+    - .gitlab/scripts/sanitize/sampler.sh "$$" logs/sanitize-sampler.log </dev/null >/dev/null 2>&1 &
   script:
     - !reference [.build test config, script]
     # The build script above sets an ERR trap that reports a failed build; the checks have their own messages.

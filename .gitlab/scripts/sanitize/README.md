@@ -10,6 +10,8 @@ Python tools run with `python3 -I` and use only the standard library.
 
 ## Build job
 
+- `sampler.sh`: the memory, CPU and compiler processes of the runner every 60 s while the job runs, in
+  `logs/sanitize-sampler.log`.
 - `build-checks.sh`: runs after the image build and calls the three scripts below.
 - `instr-scan.sh` + `instr-allowlist.tsv`: fails on an ELF in the rootfs that is not instrumented
   (undefined `__asan_report_*` in the dynamic symbols), not opted out and not in the allowlist.
