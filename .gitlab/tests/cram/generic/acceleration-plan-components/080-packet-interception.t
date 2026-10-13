@@ -54,6 +54,7 @@ Start a packet capture :
 
   $ sudo tcpdump -l -i $TESTBED_WAN_INTERFACE -w $TESTDIR/dns.pcap > /dev/null 2>&1 &
   $ TCPDUMP_PID=$!
+  $ sleep 1  
 
 Send out one DNS packet
 
