@@ -38,7 +38,6 @@ Assure expected build configuration (PCF-1413):
   CONFIG_DMM_DATA_MODEL_MAPPER_ORDER=54
   CONFIG_DROPBEAR_ECC=y
   CONFIG_DROPBEAR_ECDSA_SK=y
-  CONFIG_FORCE_RUNNING_AS_ROOT=y
   CONFIG_FWI_FLASH_PARTITIONS="u-boot,kernel,rootfs"
   CONFIG_GCC_DEFAULT_PIE=y
   CONFIG_IB=y
@@ -344,7 +343,10 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_libbsd=y
   CONFIG_PACKAGE_libbz2=y
   CONFIG_PACKAGE_libcap=y
+  CONFIG_PACKAGE_libcap-bin=y
+  CONFIG_PACKAGE_libcap-bin-capsh-shell="/bin/sh"
   CONFIG_PACKAGE_libcap-ng=y
+  CONFIG_PACKAGE_libcap-ng-bin=y
   CONFIG_PACKAGE_libcares=y
   CONFIG_PACKAGE_libconfig=y
   CONFIG_PACKAGE_libcthulhu=y
@@ -791,7 +793,6 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PRPL_CPE_OPMODE="gateway"
   CONFIG_PRPL_CPE_OPMODE_GATEWAY=y
   CONFIG_PRPL_IP_DIAGNOSTIC_UPLOAD_DOWNLOAD=y
-  CONFIG_REMOVE_CAPS_ODLS=y
   CONFIG_SAH_AMXRT_RWDATAPATH="/etc/config"
   CONFIG_SAH_AMX_ADD_DBREADY_SCRIPT=y
   CONFIG_SAH_AMX_FAULTMONITOR=y
