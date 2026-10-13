@@ -12,6 +12,12 @@ Restart multisettings service and start testing service:
   $ R "/etc/init.d/testing-receiver start 2> /dev/null"
   $ R "/etc/init.d/multisettings restart 2> /dev/null"
 
+multisettings must still run as tr181_app after that restart. A RUN_AS mismatch
+silently leaves it as root, which would make the escalation below vacuous:
+
+  $ R "i=0; while [ \$i -lt 30 ] && ! pgrep -x -u tr181_app multisettings >/dev/null; do i=\$((i+1)); sleep 1; done; pgrep -x --count -u tr181_app multisettings"
+  1
+
 Add testing profiles and triggers:
 
   $ printf "\
@@ -60,6 +66,32 @@ Check that french profile is correctly applied:
   $ R "ubus call TestingReceiver _get \"{'rel_path':''}\" | jsonfilter -e @[*].NTPServer1 -e @[*].NTPServer2 | sort"
   0.fr.pool.ntp.org
   1.fr.pool.ntp.org
+
+multisettings stops and starts its impacted modules with
+"sudo /etc/init.d/<module> <action>". Verify the service account can really
+drive an init.d script through that grant, using the fixture installed above:
+
+  $ R "sudo -n -u tr181_app -g tr181_app sudo -n /etc/init.d/testing-receiver stop"
+  $ R "i=0; while [ \$i -lt 30 ] && ubus list | grep -qx TestingReceiver; do i=\$((i+1)); sleep 1; done; ubus list | grep -cx TestingReceiver"
+  0
+  [1]
+
+  $ R "sudo -n -u tr181_app -g tr181_app sudo -n /etc/init.d/testing-receiver start"
+  $ R "i=0; while [ \$i -lt 30 ] && ! ubus list | grep -qx TestingReceiver; do i=\$((i+1)); sleep 1; done; ubus list | grep -cx TestingReceiver"
+  1
+
+The grant covers only start, stop and restart, and the wildcard does not cross a
+directory separator. Query the policy without executing anything: sudo -l exits
+0 when a command is permitted and 1 when it is not.
+
+  $ R "sudo -n -u tr181_app -g tr181_app sudo -n -l /etc/init.d/testing-receiver restart >/dev/null 2>&1; echo \$?"
+  0
+
+  $ R "sudo -n -u tr181_app -g tr181_app sudo -n -l /etc/init.d/testing-receiver status >/dev/null 2>&1; echo \$?"
+  1
+
+  $ R "sudo -n -u tr181_app -g tr181_app sudo -n -l /etc/init.d/../../bin/busybox start >/dev/null 2>&1; echo \$?"
+  1
 
 Cleanup:
 
