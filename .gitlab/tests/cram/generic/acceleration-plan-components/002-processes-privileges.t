@@ -47,3 +47,21 @@ Verify that amxrt fails to run with invalid user or group names
   $ R "amxrt -O '%config{name=\"invalid-app\";privileges={user=\"tr181_app\",group=\"invalid_group\"};}'"
   *invalid_group* (glob)
   [241]
+
+Each service keeps its persistent odl under the directory amxrt derives from its
+storage-path, "${storage-path}/odl". amxrt creates that directory owned by the
+service account so an unprivileged service can still write its configuration:
+
+  $ R "ls -ld /etc/config/tr181-dns/odl" | awk '{print $1, $3, $4}'
+  drwxr-xr-x tr181_app tr181_app
+
+  $ R "ls -ld /etc/config/tr181-usermanagement/odl" | awk '{print $1, $3, $4}'
+  drwxr-xr-x tr181_app tr181_app
+
+  $ R "ls -ld /etc/config/routing-manager/odl" | awk '{print $1, $3, $4}'
+  drwxr-xr-x tr181_app tr181_app
+
+The service account must be able to write there without relying on a capability:
+
+  $ R "sudo -n -u tr181_app -g tr181_app test -w /etc/config/tr181-dns/odl; echo \$?"
+  0
