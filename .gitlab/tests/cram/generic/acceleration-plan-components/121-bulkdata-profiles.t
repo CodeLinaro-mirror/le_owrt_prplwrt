@@ -11,7 +11,7 @@ Check Bulkdata syslog messages:
   >   local no_sync="$1"
   >   success=true
   >   if [ -z "$no_sync" ]; then
-  >     result=$(R "grep 'bulkdata' /var/log/messages | grep 'http request sent successfully for profile' | tail -n 1 | sed 's/.*tr181-bulkdata: //'")
+  >     result=$(R "grep 'bulkdata' /var/log/messages | grep -i 'http request sent successfully for profile' | tail -n 1 | sed 's/.*tr181-bulkdata: //'")
   >     transfer_failed=$(R "grep 'bulkdata' /var/log/messages | grep 'transfer failed' | tail -n 1 | sed 's/.*tr181-bulkdata: //'")
   >     if [ -z "$result" -a -z "$transfer_failed" ]; then
   >       success=false
