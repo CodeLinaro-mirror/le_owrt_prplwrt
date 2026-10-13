@@ -34,8 +34,10 @@ Verify that the tr181_app user has the expected sudo privileges
       (root) NOPASSWD: /usr/lib/amx/scripts/tmpfs_download_mount.sh
       (root) NOPASSWD: /usr/lib/amx/scripts/tmpfs_download_unmount.sh
       (root) NOPASSWD: /etc/init.d/* start, /etc/init.d/* stop, /etc/init.d/* restart
+      (root) NOPASSWD: /usr/sbin/dropbear
       (root) NOPASSWD: /sbin/reboot
       (root) NOPASSWD: /bin/getDebugInformation
+      (root) NOPASSWD: /usr/sbin/pppd
 
 
 Verify that amxrt fails to run with invalid user or group names

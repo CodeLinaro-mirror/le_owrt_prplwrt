@@ -181,13 +181,17 @@
     optional: true
     ignore_child: true
   - cmd: ssh_server
-    id: root:root
-    caps: full
+    id: tr181_app:tr181_app
+    caps: chown,dac_override,dac_read_search,kill,sys_ptrace
     child:
-    - cmd: dropbear
-      id: root:root
+    - cmd: sudo
+      id: tr181_app/root:root
       caps: full
-      ignore_child: true
+      child:
+      - cmd: dropbear
+        id: root:root
+        caps: full
+        ignore_child: true
   - cmd: time-manager
     id: chrony:chrony
     caps: chown,dac_override,dac_read_search,kill,net_bind_service,sys_time
@@ -284,12 +288,13 @@
     id: tr181_app:tr181_app
     caps: dac_override,kill,net_raw,setgid,setuid
   - cmd: tr181-ipsec
-    id: root:root
-    caps: full
+    id: tr181_app:tr181_app
+    caps: dac_override,dac_read_search,net_admin,net_bind_service,net_raw
     child:
     - cmd: charon
-      id: root:root
-      caps: full
+      id: tr181_app:tr181_app
+      caps: net_admin,net_raw
+      optional: true
       ignore_child: true
   - cmd: tr181-led
     id: tr181_app:tr181_app
@@ -323,13 +328,18 @@
     id: tr181_app:tr181_app
     caps: dac_override
   - cmd: tr181-ppp
-    id: root:root
-    caps: full
+    id: tr181_app:tr181_app
+    caps: dac_override,net_admin,net_raw,sys_module,sys_rawio
     child:
-    - cmd: pppd
-      id: root:root
+    - cmd: sudo
+      id: tr181_app/root:root
       caps: full
       optional: true
+      child:
+      - cmd: pppd
+        id: root:root
+        caps: full
+        ignore_child: true
   - cmd: tr181-qos
     id: tr181_app:tr181_app
     caps: dac_override,net_admin,net_raw
