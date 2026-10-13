@@ -22,7 +22,14 @@ before_diff=
 after_actual=
 after_diff=
 remote_dump_script=/tmp/obuspa-datamodel-dump.sh
+remote_diag_script=/tmp/obuspa-diagnostics.sh
 remote_snapshot=
+# Maximum time to wait for DeviceInfo.DeviceStatus to become Up
+device_up_timeout=${OBUSPA_DEVICE_UP_TIMEOUT:-180}
+# Maximum time to wait for the obuspa datamodel to match the expected one,
+# USP Services register asynchronously and may still be registering
+datamodel_timeout=${OBUSPA_DATAMODEL_TIMEOUT:-90}
+retry_interval=${OBUSPA_RETRY_INTERVAL:-5}
 
 while [ "$#" -gt 0 ]; do
     case "$1" in
@@ -109,14 +116,15 @@ fi
     exit 1
 }
 
-target_script=$(CDPATH= cd -- "$(dirname -- "$0")/target" && pwd)/
-target_script=${target_script}obuspa-datamodel-dump.sh
+target_dir=$(CDPATH= cd -- "$(dirname -- "$0")/target" && pwd)
+target_script=${target_dir}/obuspa-datamodel-dump.sh
+diag_script=${target_dir}/obuspa-diagnostics.sh
 
 cleanup() {
     if [ -n "$remote_snapshot" ]; then
         R "rm -f '${remote_snapshot}'" >/dev/null 2>&1 || true
     fi
-    R "rm -f '${remote_dump_script}'" >/dev/null 2>&1 || true
+    R "rm -f '${remote_dump_script}' '${remote_diag_script}'" >/dev/null 2>&1 || true
 }
 
 trap cleanup EXIT HUP INT TERM
@@ -152,29 +160,94 @@ capture_actual() {
     printf '%s\n' "$tmp_actual"
 }
 
+wait_device_up() {
+    deadline=$(($(date +%s) + device_up_timeout))
+
+    while :; do
+        status=$(R "ba-cli -l DeviceInfo.DeviceStatus?" 2>/dev/null | tr -d '\r\n"') || true
+        [ "$status" = "Up" ] && return 0
+        [ "$(date +%s)" -lt "$deadline" ] || break
+        sleep "$retry_interval"
+    done
+
+    # Not fatal, the datamodel retry loop still covers late registrations
+    printf '%s\n' "DeviceInfo.DeviceStatus not Up after ${device_up_timeout}s (last: '${status}')" >&2
+}
+
+# Collect diagnostics from the DUT into a .diag file next to the actual
+# snapshot, as mismatches are mostly seen in CI where the DUT can't be accessed
+collect_diagnostics() {
+    diff_file=$1
+    diag_file=$2
+
+    # USP Services owning the missing or unexpected elements
+    endpoints=$(sed -n 's/^[-+]Device\..*[[:space:]]\(proto::[^[:space:]]*\)$/\1/p' "$diff_file" |
+        sort -u | tr '\n' ' ')
+
+    {
+        printf 'Phase: %s\n' "$phase"
+        printf 'USP Services with mismatching elements: %s\n' "${endpoints:-none}"
+        if C "$diag_script" "root@${remote_host}:${remote_diag_script}" >/dev/null 2>&1; then
+            # shellcheck disable=SC2086
+            R "sh '${remote_diag_script}' ${endpoints}" 2>&1
+        else
+            printf '%s\n' "Failed to copy ${diag_script} to ${remote_host}"
+        fi
+    } >"$diag_file"
+
+    printf 'USP Services with mismatching elements: %s\n' "${endpoints:-none}" >&2
+    printf '%s\n' "Saved diagnostics to $diag_file" >&2
+}
+
 verify_snapshot() {
     phase=$1
     actual_output=$2
     diff_file=$3
     label=$4
+    capture_err=$(mktemp "${TMPDIR:-/tmp}/obuspa-datamodel.err.XXXXXX")
+    deadline=$(($(date +%s) + datamodel_timeout))
+    rc=2
+
+    diag_output="${actual_output%.*}.diag"
 
     mkdir -p "$(dirname -- "$actual_output")" "$(dirname -- "$diff_file")"
-    rm -f "$actual_output" "$diff_file"
+    rm -f "$actual_output" "$diff_file" "$diag_output"
 
-    tmp_actual=$(capture_actual) || return 2
+    # USP Services register asynchronously with obuspa (at boot or after an
+    # obuspa restart), so retry until the datamodel matches or timeout expires
+    while :; do
+        rm -f "$actual_output"
+        if tmp_actual=$(capture_actual 2>"$capture_err"); then
+            if diff -u --label expected --label "$label" \
+                "$expected" "$tmp_actual" >"$diff_file"; then
+                rm -f "$tmp_actual" "$diff_file" "$capture_err"
+                return 0
+            fi
+            mv "$tmp_actual" "$actual_output"
+            rc=1
+        else
+            rc=2
+        fi
 
-    if diff -u --label expected --label "$label" \
-        "$expected" "$tmp_actual" >"$diff_file"; then
-        rm -f "$tmp_actual" "$diff_file"
-        return 0
+        [ "$(date +%s)" -lt "$deadline" ] || break
+        sleep "$retry_interval"
+    done
+
+    if [ "$rc" -eq 2 ]; then
+        cat "$capture_err" >&2
+        rm -f "$capture_err" "$diff_file"
+        return 2
     fi
 
-    mv "$tmp_actual" "$actual_output"
+    rm -f "$capture_err"
     cat "$diff_file"
     printf '%s\n' "Saved actual snapshot to $actual_output" >&2
     printf '%s\n' "Saved diff to $diff_file" >&2
+    collect_diagnostics "$diff_file" "$diag_output"
     return 1
 }
+
+wait_device_up
 
 if [ -n "$actual" ]; then
     verify_snapshot single "$actual" "$diff_output" "${mode}_actual"
@@ -188,7 +261,6 @@ R "service obuspa restart" >/dev/null || {
     printf '%s\n' "Failed to restart obuspa on DUT" >&2
     exit 1
 }
-sleep 20
 
 verify_snapshot after_restart "$after_actual" "$after_diff" "${mode}_after_restart" || failed=1
 exit "$failed"
