@@ -18,6 +18,31 @@ Check that the server is running:
   $ R "pgrep -f '^dropbear.*1922' --count"
   1
 
+Host keys live in the hostkey-path directory, /etc/config/dropbear/. Check the
+identity the server actually serves, without restarting ssh-server: the cram
+transport itself pins the DUT host key, so a regenerated identity would strand
+the rest of the suite.
+
+  $ R "ls /etc/config/dropbear/ | grep -c '_key$'"
+  3
+
+  $ R "ls -l /etc/config/dropbear/dropbear_ed25519_host_key" | awk '{print $1}'
+  -rw-------
+
+Neither legacy location may still hold a host key. A key left behind means the
+migration in the ssh-server start script did not move it, and the next boot
+would serve a different identity to every client:
+
+  $ R "ls /etc/dropbear/*_key /etc/config/ssh_server/*_key 2>/dev/null | wc -l"
+  0
+
+The key served on the wire is the one on disk, so the migration preserved the
+host identity rather than generating a new one:
+
+  $ DUTKEY=$(R "dropbearkey -y -f /etc/config/dropbear/dropbear_ed25519_host_key" | awk '/^ssh-ed25519 /{print $2}')
+  $ ssh-keyscan -p 1922 -t ed25519 $TARGET_LAN_IP 2>/dev/null | awk '{print $3}' | grep -cF "$DUTKEY"
+  1
+
 Check that root is not able to login with password:
 
   $ script --quiet --command "ssh -t -o StrictHostKeyChecking=no -p 1922 root@$TARGET_LAN_IP" | grep -c "Permission denied (publickey)"
@@ -64,6 +89,15 @@ Start two client connections using public key authentication:
 
   $ ssh -i ${CI_PROJECT_DIR}/.gitlab/certs/ssh-server/ed25519-ci -o "UserKnownHostsFile=/dev/null" -o BatchMode=yes -o StrictHostKeyChecking=no -p 1922 root@$TARGET_LAN_IP 'sleep 5' > /dev/null 2>&1 &
   $ sleep 1
+
+Every other login in this test disables host key checking, so none of them can
+fail when the identity changes. Pin the key read from disk above and log in with
+strict checking: this is the assertion an unwanted host key change has to break.
+
+  $ KNOWNHOSTS=$(mktemp)
+  $ echo "[$TARGET_LAN_IP]:1922 ssh-ed25519 $DUTKEY" > "$KNOWNHOSTS"
+  $ ssh -i ${CI_PROJECT_DIR}/.gitlab/certs/ssh-server/ed25519-ci -o BatchMode=yes -o StrictHostKeyChecking=yes -o "GlobalKnownHostsFile=/dev/null" -o "UserKnownHostsFile=$KNOWNHOSTS" -p 1922 root@$TARGET_LAN_IP 'exit 0'
+  $ rm -f "$KNOWNHOSTS"
 
 Remove the testing SSH server:
 
