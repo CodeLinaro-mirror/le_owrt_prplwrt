@@ -75,6 +75,18 @@ ifeq ($(call pkg_build_flag,sanitize,$(if $(CONFIG_SANITIZE),1,0)),1)
   TARGET_LDFLAGS += $(call qstrip,$(CONFIG_SANITIZE_FLAGS))
   TARGET_LDFLAGS += $(call qstrip,$(CONFIG_SANITIZE_LDFLAGS))
   CMAKE_OPTIONS += $(SANITIZE_PKG_CMAKE_OPTIONS_$(PKG_NAME))
+  # No PIE programs: configure and cmake run instrumented test programs on
+  # the build host, where a PIE program can be loaded inside the ASan
+  # allocator area and the libasan of the host loops for ever. Leave the
+  # package out of the PIE link of hardening.mk, but keep its objects
+  # position independent: static libraries end up in shared ones.
+  # -no-pie does not work: gcc takes the last of -shared, -pie and -no-pie.
+  ifneq ($(strip $(PKG_ASLR_PIE)),0)
+    PKG_ASLR_PIE := 0
+    PKG_ASLR_PIE_REGULAR := 0
+    TARGET_CFLAGS += $(FPIC)
+    TARGET_LDFLAGS += $(FPIC)
+  endif
   # gnulib's locale checks run ./conftest on the build host even when
   # cross-compiling; an instrumented conftest can spin there for hours.
   # The results only choose locales for the package's own tests.

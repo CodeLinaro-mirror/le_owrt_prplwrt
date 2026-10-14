@@ -13,6 +13,11 @@ diffconfig: |
   CONFIG_LIBC_USE_GLIBC=y
   # ASan and _FORTIFY_SOURCE conflict: the fortified wrappers hide the real caller
   CONFIG_PKG_FORTIFY_SOURCE_NONE=y
+  # No PIE programs: configure runs instrumented test programs on the build host, and with vm.mmap_rnd_bits=32
+  # a PIE program can be loaded inside the ASan allocator area, where the GCC 12 libasan of the host loops for
+  # ever. The sanitize block of include/package.mk leaves instrumented packages out of the PIE link; gcc must
+  # not default to PIE either. busybox (not instrumented; PKG_ASLR_PIE_ALL selects BUSYBOX_DEFAULT_PIE) stays PIE.
+  # CONFIG_GCC_DEFAULT_PIE is not set
   CONFIG_TARGET_ROOTFS_PARTSIZE=1536
   # testbed-qemu boots squashfs-combined-efi only
   # CONFIG_TARGET_ROOTFS_INITRAMFS is not set
