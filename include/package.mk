@@ -75,6 +75,15 @@ ifeq ($(call pkg_build_flag,sanitize,$(if $(CONFIG_SANITIZE),1,0)),1)
   TARGET_LDFLAGS += $(call qstrip,$(CONFIG_SANITIZE_FLAGS))
   TARGET_LDFLAGS += $(call qstrip,$(CONFIG_SANITIZE_LDFLAGS))
   CMAKE_OPTIONS += $(SANITIZE_PKG_CMAKE_OPTIONS_$(PKG_NAME))
+  # gnulib's locale checks run ./conftest on the build host even when
+  # cross-compiling; an instrumented conftest can spin there for hours.
+  # The results only choose locales for the package's own tests.
+  SANITIZE_CONFIGURE_VARS := \
+	gt_cv_locale_fr=none \
+	gt_cv_locale_fr_utf8=none \
+	gt_cv_locale_ja=none \
+	gt_cv_locale_tr_utf8=none \
+	gt_cv_locale_zh_CN=none
 endif
 # Rebuild the package when the sanitizer options change.
 PKG_CONFIG_DEPENDS += $(if $(filter no-sanitize,$(PKG_BUILD_FLAGS)),,CONFIG_SANITIZE CONFIG_SANITIZE_FLAGS CONFIG_SANITIZE_LDFLAGS)
@@ -158,6 +167,7 @@ endef
 PKG_INSTALL_STAMP:=$(PKG_INFO_DIR)/$(PKG_DIR_NAME).$(if $(BUILD_VARIANT),$(BUILD_VARIANT),default).install
 
 include $(INCLUDE_DIR)/package-defaults.mk
+CONFIGURE_VARS += $(SANITIZE_CONFIGURE_VARS)
 include $(INCLUDE_DIR)/package-dumpinfo.mk
 include $(INCLUDE_DIR)/package-pack.mk
 include $(INCLUDE_DIR)/package-bin.mk
