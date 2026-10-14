@@ -10,6 +10,7 @@ Python tools run with `python3 -I` and use only the standard library.
 
 ## Build job
 
+- `make-world.sh`: the world build in steps: 2 h with all CPUs, 2 h with half of them, then `-j1 V=s`.
 - `sampler.sh`: the memory, CPU and compiler processes of the runner every 60 s while the job runs, in
   `logs/sanitize-sampler.log`.
 - `build-checks.sh`: runs after the image build and calls the three scripts below.

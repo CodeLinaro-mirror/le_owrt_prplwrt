@@ -52,9 +52,6 @@ build test x86_64 prpl security sanitize:
     # The script stops before the job time out, so a build that runs out of time still uploads logs/ (the
     # per-package build logs and the sampler log).
     RUNNER_SCRIPT_TIMEOUT: 7h30m
-    # The make jobs of the build: a positive number, or empty for the CPU count of the runner. Set it as a pipeline
-    # variable to change it for one run.
-    SANITIZE_MAKE_JOBS: ""
   before_script:
     - !reference [.build test config, before_script]
     - |
@@ -68,16 +65,17 @@ build test x86_64 prpl security sanitize:
     # cannot run (exit 77), the job goes on without the test and build-checks.sh skips it the same way.
     - sudo apt-get update && sudo apt-get install --yes --no-install-recommends bubblewrap procps
     - .gitlab/scripts/sanitize/shim-regress.sh --preflight || [ $? -eq 77 ]
-    # The build script of .build test config runs "make -j $(nproc)". With SANITIZE_MAKE_JOBS set, the function
-    # nproc of this shell answers it instead; programs that the shell starts still see the real nproc.
+    # The build script of .build test config compiles the world with "make -j $(nproc)", the only make call there
+    # without a target. In this shell the function make runs make-world.sh for that call instead (2 h with all
+    # CPUs, 2 h with half of them, then -j1 V=s) and passes every other make call on unchanged.
     - |
-      if [ -n "$SANITIZE_MAKE_JOBS" ]; then
-        case $SANITIZE_MAKE_JOBS in
-          *[!0-9]* | 0*) echo "ERROR: SANITIZE_MAKE_JOBS is not a positive number: '$SANITIZE_MAKE_JOBS'"; exit 1 ;;
-        esac
-        nproc() { echo "$SANITIZE_MAKE_JOBS"; }
-      fi
-      echo "make jobs: $(nproc) on $(command nproc) CPUs"
+      make() {
+        if [ $# -eq 2 ] && [ "$1" = -j ]; then
+          .gitlab/scripts/sanitize/make-world.sh "$2"
+        else
+          command make "$@"
+        fi
+      }
     # The resource use of the runner every 60 s in logs/sanitize-sampler.log, until this shell ends.
     - .gitlab/scripts/sanitize/sampler.sh "$$" logs/sanitize-sampler.log </dev/null >/dev/null 2>&1 &
   script:
