@@ -64,6 +64,26 @@ build test x86_64 prpl security sanitize:
     # shim-regress.sh runs the test programs in bwrap. Check that it works before a build of hours. Where bwrap
     # cannot run (exit 77), the job goes on without the test and build-checks.sh skips it the same way.
     - sudo apt-get update && sudo apt-get install --yes --no-install-recommends bubblewrap procps
+    # The kernel settings behind the result of the preflight, for the log only: nothing here fails the job.
+    - |
+      {
+        echo "runner: kernel and user namespaces"
+        echo "runner: uname -r: $(uname -r)"
+        for key in vm/mmap_rnd_bits kernel/apparmor_restrict_unprivileged_userns kernel/unprivileged_userns_clone; do
+          file=/proc/sys/$key
+          if [ ! -e "$file" ]; then
+            value="not present"
+          else
+            value=$(cat "$file" 2>/dev/null || sudo -n cat "$file" 2>/dev/null) || value="not readable"
+          fi
+          echo "runner: $(echo "$key" | tr / .): $value"
+        done
+        if err=$(timeout 10 unshare -Ur true 2>&1); then
+          echo "runner: unshare -Ur true: ok"
+        else
+          echo "runner: unshare -Ur true: failed: $(echo "$err" | head -n 1)"
+        fi
+      } || true
     - .gitlab/scripts/sanitize/shim-regress.sh --preflight || [ $? -eq 77 ]
     # The build script of .build test config compiles the world with "make -j $(nproc)", the only make call there
     # without a target. In this shell the function make runs make-world.sh for that call instead (2 h with all
