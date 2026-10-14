@@ -18,7 +18,7 @@ This helper Python scripts allows managing of device under test (DUT) via labgri
 
 ## CDRouter reports
 
-The testbed image supplies `cdrouter-ci` from version `vX.Y.Z`.
+Testbed image `v1.7.0` and later supply `cdrouter-ci`.
 The CDRouter job runs
 `cdrouter-ci report cdrouter-results/` after it extracts the result archive.
 The command reads local logs, including partial runs without `final.txt`.
