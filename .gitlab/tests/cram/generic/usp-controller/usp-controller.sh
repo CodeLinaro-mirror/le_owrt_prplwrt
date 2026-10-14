@@ -253,6 +253,46 @@ usp_received() {
 	_usp_tcp | sed -n "s/^$1 \([0-9]*\)$/\1/p"
 }
 
+# usp_now: print the current Unix time with fractions of a second. The
+# controller runs on the same host and records the time it receives each
+# notification from the same clock.
+usp_now() {
+	date +%s.%N
+}
+
+# usp_notify_wait SINCE ID SECONDS: wait at most SECONDS until the controller
+# has received a notification for the subscription ID since the Unix time
+# SINCE, then print every such notification, one per line, as
+# `testbed-qemu usp notifications` prints it. The controller also keeps the
+# notifications of its own subscriptions, so only the lines of ID count. Only
+# a read that the client completes with success counts. Every read gives all
+# notifications since SINCE, so a failed read is followed by the next one. It
+# prints one line when no notification arrives in time, and another line when
+# the last read failed, because then nothing shows that none arrived.
+usp_notify_wait() {
+	_usp_end=$(($(date +%s) + $3))
+	while :; do
+		if _usp_output=$(testbed-qemu usp notifications --since "$1" 2>&1); then
+			_usp_read=
+			_usp_lines=$(printf '%s\n' "${_usp_output}" | awk -v id="$2" '$2 == id')
+			if [ -n "${_usp_lines}" ]; then
+				printf '%s\n' "${_usp_lines}"
+				return 0
+			fi
+		else
+			_usp_read="exit $?${_usp_output:+: $(printf '%s\n' "${_usp_output}" | tail -n 1)}"
+		fi
+		[ "$(date +%s)" -lt "${_usp_end}" ] || break
+		sleep 0.5
+	done
+	if [ -n "${_usp_read}" ]; then
+		echo "usp-controller: cannot read the notifications from the controller (${_usp_read})"
+		return 1
+	fi
+	echo "usp-controller: no notification for subscription $2 within $3 s"
+	return 1
+}
+
 case ${TESTFILE:-} in
 000-preflight.t)
 	rm -f "${USP_PREFLIGHT_RESULT}"
