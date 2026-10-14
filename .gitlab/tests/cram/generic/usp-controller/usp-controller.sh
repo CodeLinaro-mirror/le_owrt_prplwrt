@@ -146,6 +146,55 @@ usp_clean_slate() {
 	fi
 }
 
+# usp_agent_wait: wait, at most 60 s, until the DUT agent is ready. The agent
+# is ready when it answers a local Get of Device.DeviceInfo.SoftwareVersion
+# and the number of USP services registered with it stays the same for 3 s.
+# The services register again one by one after an agent start, and the
+# DeviceInfo service is not the last one. A probe counts only when both Gets
+# succeed and give values, so a probe that finds no USP service fails. A
+# failed probe starts the 3 s again. The 60 s include the SSH connections to
+# the DUT. It prints nothing when the agent is ready and one line otherwise.
+usp_agent_wait() {
+	_usp_end=$(($(date +%s%3N) + 60000))
+	_usp_last=
+	_usp_same=0
+	while _usp_left=$(((_usp_end - $(date +%s%3N)) / 1000)); [ "${_usp_left}" -gt 0 ]; do
+		if _usp_count=$(timeout "${_usp_left}" ${CRAM_REMOTE_COMMAND} \
+			'v=$(obuspa -c get Device.DeviceInfo.SoftwareVersion) || exit 1
+			case $v in *" => "*) ;; *) exit 1 ;; esac
+			v=$(obuspa -c get "Device.USPServices.USPService.*.EndpointID") || exit 1
+			n=$(printf "%s\n" "$v" | grep -c " => ")
+			[ "$n" -gt 0 ] || exit 1
+			echo "$n"' \
+			2>/dev/null); then
+			if [ "${_usp_count}" = "${_usp_last}" ]; then
+				_usp_same=$((_usp_same + 1))
+				[ "${_usp_same}" -ge 3 ] && return 0
+			else
+				_usp_same=0
+			fi
+			_usp_last=${_usp_count}
+		else
+			_usp_last=
+			_usp_same=0
+		fi
+		[ $((_usp_end - $(date +%s%3N))) -gt 1000 ] || break
+		sleep 1
+	done
+	echo "usp-controller: the DUT agent is not ready after 60 s"
+	return 1
+}
+
+# usp_agent_restart: restart the DUT agent and wait until it answers. It
+# prints nothing on success and one line on failure.
+usp_agent_restart() {
+	if ! _usp_output=$(${CRAM_REMOTE_COMMAND} /etc/init.d/obuspa restart 2>&1); then
+		echo "usp-controller: agent restart failed: $(printf '%s\n' "${_usp_output}" | tail -n 1)"
+		return 1
+	fi
+	usp_agent_wait
+}
+
 # usp_dut_value PATH: print the values that the DUT agent gives for PATH,
 # read locally on the DUT. PATH must not contain a single quote. The command
 # line of the agent exits 0 also when the Get fails, and then prints an error
