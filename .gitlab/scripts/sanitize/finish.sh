@@ -55,11 +55,23 @@ if [[ -d $opts && ${#manifests[@]} -gt 0 && -d $art/calibration ]]; then
 fi
 
 echo "== symbolization"
+# apt_install PKG...: install packages the image of the job lacks (the testbed-qemu container has neither xz nor
+# binutils); the output goes away, a failed install shows up where the caller runs the tool.
+apt_install() {
+    local sudo=''
+    [[ $(id -u) -eq 0 ]] || sudo=sudo
+    # shellcheck disable=SC2086
+    { $sudo apt-get update && $sudo apt-get install --yes --no-install-recommends "$@"; } >/dev/null 2>&1
+}
 symtree=''
 tmp=''
 if [[ -d $symbols ]]; then
     symtree=$symbols
 elif [[ -f $symbols ]]; then
+    if ! command -v xz >/dev/null; then
+        echo "finish: xz not found, installing xz-utils with apt-get" >&2
+        apt_install xz-utils || echo "finish: xz-utils not available" >&2
+    fi
     tmp=$(mktemp -d "${TMPDIR:-/tmp}/sanitize-symbols.XXXXXX") || exit 2
     if tar -C "$tmp" -xJf "$symbols"; then symtree=$tmp; else echo "finish: cannot unpack $symbols" >&2; fi
 else
@@ -79,10 +91,7 @@ else
     tool_args=(--addr2line addr2line --readelf readelf)
     if ! command -v addr2line >/dev/null || ! command -v readelf >/dev/null; then
         echo "finish: addr2line or readelf not found, installing binutils with apt-get" >&2
-        sudo=''
-        [[ $(id -u) -eq 0 ]] || sudo=sudo
-        # shellcheck disable=SC2086
-        { $sudo apt-get update && $sudo apt-get install --yes --no-install-recommends binutils; } >/dev/null 2>&1 || echo "finish: binutils not available" >&2
+        apt_install binutils || echo "finish: binutils not available" >&2
         if ! command -v addr2line >/dev/null || ! command -v readelf >/dev/null; then
             echo "finish: no addr2line or readelf: the reports cannot be symbolized" >&2
             sym_failed=1
