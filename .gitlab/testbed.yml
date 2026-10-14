@@ -148,6 +148,7 @@
       - processes-$LABGRID_TARGET.txt
       - dmesg-$LABGRID_TARGET.txt
       - syslog-$LABGRID_TARGET.txt
+      - auditlog-$LABGRID_TARGET.txt
       - system-$LABGRID_TARGET.json
       - console_$LABGRID_TARGET.txt
       - cram-result-*

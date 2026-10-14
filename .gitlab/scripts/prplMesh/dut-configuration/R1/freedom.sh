@@ -8,6 +8,7 @@ set -e
 
 # Start with a new log file:
 rm -f /var/log/messages && syslog-ng-ctl reload
+rm -r /var/log/audit/audit.log
 
 /etc/init.d/tr181-upnp stop || true
 rm -f /etc/rc.d/S*tr181-upnp

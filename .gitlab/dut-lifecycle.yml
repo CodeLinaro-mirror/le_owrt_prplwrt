@@ -64,6 +64,7 @@
       fi
     - ssh root@$TARGET_LAN_IP 'logger -t CI -p local0.info "System accessible over SSH, $(uptime -p)"' || true
     - ssh root@$TARGET_LAN_IP "cat /var/log/messages" > syslog-$LABGRID_TARGET.txt 2> /dev/null || true
+    - ssh root@$TARGET_LAN_IP "cat /var/log/audit/audit.log" > auditlog-$LABGRID_TARGET.txt 2> /dev/null || true
     - ssh root@$TARGET_LAN_IP "ubus call system board" | tee system-$LABGRID_TARGET.json
     - .gitlab/scripts/memory-footprint.sh boot || true
 
@@ -97,6 +98,7 @@
         ssh root@$TARGET_LAN_IP ps > processes-$LABGRID_TARGET.txt
         ssh root@$TARGET_LAN_IP dmesg > dmesg-$LABGRID_TARGET.txt
         ssh root@$TARGET_LAN_IP "cat /var/log/messages" > syslog-$LABGRID_TARGET.txt
+        ssh root@$TARGET_LAN_IP "cat /var/log/audit/audit.log" > auditlog-$LABGRID_TARGET.txt
         ssh root@$TARGET_LAN_IP opkg list > opkg_list-$LABGRID_TARGET.txt
         script --quiet --command "ssh -t root@$TARGET_LAN_IP /bin/getDebugInformation --all"
         scp -O -r root@${TARGET_LAN_IP}:/tmp/debug-*_all.tar.gz . > /dev/null
