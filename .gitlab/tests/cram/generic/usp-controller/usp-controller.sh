@@ -21,6 +21,22 @@ if [ -z "${TESTBED_QEMU_ARTIFACT_ROOT:-}" ] || [ -z "${TESTBED_QEMU_SCRATCH:-}" 
 	exit 1
 fi
 
+# The controller host and port, from USP_CONTROLLER_URL. The URL must give
+# the port.
+_usp_url_host=${USP_CONTROLLER_URL#*://}
+_usp_url_host=${_usp_url_host%%/*}
+case ${_usp_url_host} in
+*:*) _usp_url_port=${_usp_url_host##*:} ;;
+*) _usp_url_port= ;;
+esac
+_usp_url_host=${_usp_url_host%:*}
+case ${_usp_url_port} in
+''|*[!0-9]*)
+	echo "usp-controller: USP_CONTROLLER_URL has no port: ${USP_CONTROLLER_URL}"
+	exit 1
+	;;
+esac
+
 USP_PREFLIGHT_RESULT="${TESTBED_QEMU_ARTIFACT_ROOT}/usp-controller-preflight.txt"
 # The testbed creates a new workspace for each run, so its path is the run ID.
 USP_RUN_ID="${TESTBED_QEMU_SCRATCH}"
@@ -120,9 +136,85 @@ usp_controller_check() {
 	fi
 }
 
-if [ "${TESTFILE:-}" = 000-preflight.t ]; then
+# usp_clean_slate: remove the rows that the onboarding created on the DUT,
+# for every controller, so that a test can onboard exactly the transports it
+# needs. It prints nothing on success and one line on failure.
+usp_clean_slate() {
+	if ! _usp_output=$(testbed-qemu usp cleanup --all 2>&1); then
+		echo "usp-controller: cleanup failed: $(printf '%s\n' "${_usp_output}" | tail -n 1)"
+		return 1
+	fi
+}
+
+# usp_dut_value PATH: print the values that the DUT agent gives for PATH,
+# read locally on the DUT. PATH must not contain a single quote. The command
+# line of the agent exits 0 also when the Get fails, and then prints an error
+# line or nothing. So when the read fails, prints a line that is not a value,
+# or gives no value, it prints one line on standard error and returns 1.
+usp_dut_value() {
+	if ! _usp_value=$(${CRAM_REMOTE_COMMAND} "obuspa -c get '$1'" 2>/dev/null) ||
+		[ -z "${_usp_value}" ] || printf '%s\n' "${_usp_value}" | grep -qv ' => '; then
+		echo "usp-controller: cannot read $1 on the DUT${_usp_value:+: $(printf '%s\n' "${_usp_value}" | tail -n 1)}" >&2
+		return 1
+	fi
+	printf '%s\n' "${_usp_value}" | sed 's/^[^ ]* => //'
+}
+
+# _usp_tcp: print "TRANSPORT BYTES" for each TCP connection that the DUT
+# holds to the controller. TRANSPORT is the transport that the controller
+# reports for the connection, or "unknown PEER". BYTES is the number of bytes
+# that the controller received on it.
+_usp_tcp() {
+	_usp_sources=$(testbed-qemu usp agents --json | python3 -c 'import json, sys
+for agent in json.load(sys.stdin):
+    for transport in agent.get("transports") or ():
+        if transport.get("connected") and transport.get("connection_source"):
+            print(transport["connection_source"], transport["transport_type"])') || return 1
+	ss -Htni state established "( sport = :${_usp_url_port} )" | awk \
+		-v self="${_usp_url_host}:" -v sources="${_usp_sources}" '
+		BEGIN {
+			n = split(sources, line, "\n")
+			for (i = 1; i <= n; i++) {
+				split(line[i], field, " ")
+				transport[field[1]] = field[2]
+			}
+		}
+		/^[^ \t]/ {
+			peer = (index($4, self) == 1) ? "" : $4
+			next
+		}
+		peer != "" {
+			bytes = 0
+			if (match($0, /bytes_received:[0-9]+/))
+				bytes = substr($0, RSTART + 15, RLENGTH - 15)
+			print ((peer in transport) ? transport[peer] : "unknown " peer), bytes
+			peer = ""
+		}'
+}
+
+# usp_connections: print the transport of each TCP connection that the DUT
+# holds to the controller, one per line, sorted.
+usp_connections() {
+	_usp_tcp | sed 's/ [0-9]*$//' | sort
+}
+
+# usp_received TRANSPORT: print the number of bytes that the controller
+# received on the connection of TRANSPORT.
+usp_received() {
+	_usp_tcp | sed -n "s/^$1 \([0-9]*\)$/\1/p"
+}
+
+case ${TESTFILE:-} in
+000-preflight.t)
 	rm -f "${USP_PREFLIGHT_RESULT}"
-else
+	;;
+[0-9][0-9][0-9]-mtp-*.t)
+	# A test for one MTP removes the rows of every controller and onboards
+	# its own transport, so it does not need the MQTT client.
+	usp_controller_check
+	;;
+*)
 	usp_controller_check
 	usp_mqtt_client_check
-fi
+	;;
+esac
