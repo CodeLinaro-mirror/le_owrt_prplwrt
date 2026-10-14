@@ -144,6 +144,12 @@ usp_clean_slate() {
 		echo "usp-controller: cleanup failed: $(printf '%s\n' "${_usp_output}" | tail -n 1)"
 		return 1
 	fi
+	# The DUT agent aborts when an MQTT client is deleted and then added
+	# again through its command line: the cleanup above deletes the
+	# client, and a later onboarding over MQTT adds it again. A restart
+	# after the cleanup gives a running agent without the deleted client.
+	# Remove the restart when the agent handles the delete and re-add.
+	usp_agent_restart
 }
 
 # usp_agent_wait: wait, at most 60 s, until the DUT agent is ready. The agent
