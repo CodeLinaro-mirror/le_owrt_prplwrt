@@ -42,8 +42,13 @@ echo "== memory trend and calibration"
 py san-rss-trend.py "$art/serial.log" -o "$art" || echo "finish: san-rss-trend failed" >&2
 py san-calibrate.py "$art/serial.log" -o "$art/calibration" --force || echo "finish: san-calibrate failed" >&2
 opts=$tree/package/utils/sanitizer-opts/files/opts
+# OpenWrt adds -<libc> to the target directory in bin/ for every libc except musl (bin/targets/x86/64-glibc).
+# Without a .config (the cram job, downloaded artifacts) it is glibc, the libc of the sanitize profile.
+libc=$(sed -n 's/^CONFIG_LIBC="\(.*\)"$/\1/p' "$tree/.config" 2>/dev/null)
+bindir=$tree/bin/targets/x86/64
+[[ ${libc:-glibc} == musl ]] || bindir+=-${libc:-glibc}
 shopt -s nullglob
-manifests=("$tree"/bin/targets/x86/64/*.manifest)
+manifests=("$bindir"/*.manifest)
 shopt -u nullglob
 if [[ -d $opts && ${#manifests[@]} -gt 0 && -d $art/calibration ]]; then
     py san-calibrate.py drift "$opts" --manifest "${manifests[0]}" --calibration "$art/calibration" >"$art/calibration/drift.txt" 2>&1 || true

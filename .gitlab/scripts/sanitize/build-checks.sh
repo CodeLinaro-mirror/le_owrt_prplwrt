@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # build-checks.sh: the steps of the sanitize build job after "make" has built the image.
 #
-#   1. the image is there (bin/targets/x86/64/...-combined-efi.img) and its sha256 is recorded;
+#   1. the image is there (bin/targets/x86/64-glibc/...-combined-efi.img, the libc from .config) and its sha256
+#      is recorded;
 #   2. instr-scan.sh on the rootfs: fails on an ELF that is neither instrumented, opted out nor allowlisted;
 #   3. shim-regress.sh: the shim regression test in bwrap on the rootfs, skipped where bwrap cannot run;
 #   4. export-symbols.py: sanitize-symbols.tar.xz for the symbolization after the run.
@@ -27,7 +28,11 @@ if ((${#roots[@]} != 1)); then
 fi
 rootfs=${roots[0]}
 
-img=bin/targets/x86/64/prplos-x86-64-generic-squashfs-combined-efi.img
+# OpenWrt adds -<libc> to the target directory in bin/ for every libc except musl (bin/targets/x86/64-glibc).
+libc=$(sed -n 's/^CONFIG_LIBC="\(.*\)"$/\1/p' .config 2>/dev/null)
+bindir=bin/targets/x86/64
+[[ ${libc:-glibc} == musl ]] || bindir+=-${libc:-glibc}
+img=$bindir/prplos-x86-64-generic-squashfs-combined-efi.img
 echo "== image"
 if [[ -f $img ]]; then
     sha256sum "$img" | tee "$out/image.sha256"

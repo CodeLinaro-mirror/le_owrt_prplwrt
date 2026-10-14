@@ -105,10 +105,11 @@ build test x86_64 prpl security sanitize:
     - .gitlab/scripts/sanitize/build-checks.sh
   artifacts:
     paths:
-      - bin/targets/x86/64/prplos-x86-64-generic-squashfs-combined-efi.img
-      - bin/targets/x86/64/*.manifest
-      - bin/targets/x86/64/*.buildinfo
-      - bin/targets/x86/64/sha256sums
+      # A glibc build writes to 64-glibc, the shared musl jobs to 64.
+      - bin/targets/x86/64-glibc/prplos-x86-64-generic-squashfs-combined-efi.img
+      - bin/targets/x86/64-glibc/*.manifest
+      - bin/targets/x86/64-glibc/*.buildinfo
+      - bin/targets/x86/64-glibc/sha256sums
       - logs
       - sanitize-build
       - sanitize-symbols.tar.xz
@@ -135,6 +136,8 @@ cram QEMU x86-64 [sanitize]:
   needs: ["build test x86_64 prpl security sanitize"]
   timeout: 6 hours
   variables:
+    # The template points at the musl image in bin/targets/x86/64; the sanitize image is a glibc build.
+    TESTBED_QEMU_IMAGE: bin/targets/x86/64-glibc/prplos-x86-64-generic-squashfs-combined-efi.img
     SANITIZE_QEMU_MEMORY: "16G"
     SANITIZE_LOOP_SECONDS: "10800"
     # run-loop.sh stops when the guest has less MemTotal than this (15 GiB, in kB; the 16G guest shows about 16.3 GB):
