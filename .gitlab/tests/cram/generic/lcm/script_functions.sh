@@ -88,6 +88,7 @@ get_container_by_name() {
             case "${board_name}" in
             "haze" | \
                     "freedom" | \
+                    "mozart" | \
 		    "valyrian")
                     hw_ctr_name="alpine3.16-arm32v7"
                    ;;
@@ -99,7 +100,11 @@ get_container_by_name() {
                     hw_ctr_name="alpine3.16-cortexa9"
                     ;;
             *)
-                    hw_ctr_name="alpine3.16-arm32v7"
+                    case "$(uname -m)" in
+                        aarch64) hw_ctr_name="arm64v8/alpine" ;;
+                        x86_64) hw_ctr_name="alpine3.16-amd64" ;;
+                        *) hw_ctr_name="alpine3.16-arm32v7" ;;
+                    esac
                     ;;
             esac
         else
@@ -114,6 +119,7 @@ get_arch_name() {
 	case "${board_name}" in
 	"haze" | \
 		"freedom" | \
+		"mozart" | \
 		"valyrian")
 		echo arm32v7
 		;;
@@ -125,7 +131,11 @@ get_arch_name() {
 		echo cortexa9
 		;;
 	*)
-		echo arm32v7
+		case "$(uname -m)" in
+			aarch64) echo arm64v8 ;;
+			x86_64) echo amd64 ;;
+			*) echo arm32v7 ;;
+		esac
 		;;
 	esac
 }
@@ -149,7 +159,11 @@ get_true_arch_name() {
 		echo cortexa9
 		;;
 	*)
-		echo arm32v7
+		case "$(uname -m)" in
+			aarch64) echo arm64v8 ;;
+			x86_64) echo amd64 ;;
+			*) echo arm32v7 ;;
+		esac
 		;;
 	esac
 }
@@ -172,7 +186,11 @@ get_board_arch() {
 		echo cortexa9
 		;;
 	*)
-		echo generic
+		case "$(uname -m)" in
+			aarch64) echo cortexa53 ;;
+			x86_64) echo x86-64 ;;
+			*) echo generic ;;
+		esac
 		;;
 	esac
 }
@@ -183,6 +201,8 @@ get_container_version_by_name() {
 
         if [ -n "${version}" ]; then
             echo "${version}"
+        elif [ "$(get_container_by_name "$arg")" = "arm64v8/alpine" ]; then
+            echo "3.16"
         else
            echo "latest"
         fi
