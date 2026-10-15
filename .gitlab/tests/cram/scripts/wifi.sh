@@ -845,15 +845,15 @@ testbed_set_wifi_defaults() {
 
   # Set 2.4GHz radio channel to 1
   check_output wifi_dm "Radio.[OperatingFrequencyBand==\"2.4GHz\"].Channel=1" -- \
-    'Device.WiFi.Radio.1.Channel=1'
+    'Device.WiFi.Radio.[0-9]+.Channel=1'
 
   # Set 5GHz radio channel to 36 (non DFS)
   check_output wifi_dm "Radio.[OperatingFrequencyBand==\"5GHz\"].Channel=36" -- \
-    'Device.WiFi.Radio.2.Channel=36'
+    'Device.WiFi.Radio.[0-9]+.Channel=36'
 
   # Set 6GHz radio channel to 37
   check_output wifi_dm "Radio.[OperatingFrequencyBand==\"6GHz\"].Channel=37" -- \
-    'Device.WiFi.Radio.3.Channel=37'
+    'Device.WiFi.Radio.[0-9]+.Channel=37'
 
   # Set default MLDUnitSetting
   check_output wifi_dm "Radio.*.IEEE80211be.MLDUnitSetting='Required'" "WiFi." "ba-cli" "protected" -- \
@@ -861,3 +861,7 @@ testbed_set_wifi_defaults() {
     'WiFi.Radio.2.IEEE80211be.MLDUnitSetting="Required"' \
     'WiFi.Radio.3.IEEE80211be.MLDUnitSetting="Required"'
 }
+# Dynamically learn interfaces and radio names
+wlan2g=$(R ba-cli -l 'WiFi.Radio.[OperatingFrequencyBand == \"2.4GHz\"].Name?'  | sed '/^$/d')
+wlan5g=$(R ba-cli -l 'WiFi.Radio.[OperatingFrequencyBand == \"5Hz\"].Name?'  | sed '/^$/d')
+wlan6g=$(R ba-cli -l 'WiFi.Radio.[OperatingFrequencyBand == \"6GHz\"].Name?'  | sed '/^$/d')

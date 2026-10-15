@@ -62,9 +62,9 @@ Check wpacltrl socket file:
   $ ls_ap_hapd_socket 1
   /var/run/hostapd/wlan[0-9.]+_link[0-9].* (re)
 
-  $ ls_hapd_sockets
-  wlan2.1
-  wlan2.1_link0
+  $ check_output ls_hapd_sockets -- \
+  > "$wlan2g.1" \
+  > "$wlan2g.1_link0"
 
 Save hostap pid:
 
@@ -80,9 +80,9 @@ Save all the current ifindexes and verify inodes (FEAT-389):
 
 This is a new MLD so two new sockets should be created:
 
-  $ compare_list "$ilist_old" "$ilist_new"
-  A: .* /var/run/hostapd/wlan2.1 (re)
-  A: .* /var/run/hostapd/wlan2.1_link0 (re)
+  $ check_output compare_list "$ilist_old" "$ilist_new" -- \
+  > "A: .* /var/run/hostapd/$wlan2g.1" \
+  > "A: .* /var/run/hostapd/$wlan2g.1_link0"
 
   $ ilist_old=$ilist_new
 
@@ -111,11 +111,11 @@ Check wpacltrl socket file:
   $ ls_ap_hapd_socket 2
   /var/run/hostapd/wlan[0-9.]+_link[0-9] (re)
 
-  $ ls_hapd_sockets
-  wlan2.1
-  wlan2.1_link0
-  wlan2.2
-  wlan2.2_link0
+  $ check_output ls_hapd_sockets -- \
+  > "$wlan2g.1" \
+  > "$wlan2g.1_link0" \
+  > "$wlan2g.2" \
+  > "$wlan2g.2_link0"
 
 Check and save inodes (FEAT-389):
 
@@ -123,9 +123,9 @@ Check and save inodes (FEAT-389):
 
 This is a new MLD so two new sockets should be created:
 
-  $ compare_list "$ilist_old" "$ilist_new"
-  A: .* /var/run/hostapd/wlan2.2 (re)
-  A: .* /var/run/hostapd/wlan2.2_link0 (re)
+  $ check_output compare_list "$ilist_old" "$ilist_new" -- \
+  > "A: .* /var/run/hostapd/$wlan2g.2" \
+  > "A: .* /var/run/hostapd/$wlan2g.2_link0"
 
   $ ilist_old=$ilist_new
 
@@ -154,12 +154,12 @@ Check wpacltrl socket file:
   $ ls_ap_hapd_socket 3
   /var/run/hostapd/wlan[0-9.]+_link[0-9] (re)
 
-  $ ls_hapd_sockets
-  wlan2.1
-  wlan2.1_link0
-  wlan2.1_link1
-  wlan2.2
-  wlan2.2_link0
+  $ check_output ls_hapd_sockets -- \
+  > "$wlan2g.1" \
+  > "$wlan2g.1_link0" \
+  > "$wlan2g.1_link1" \
+  > "$wlan2g.2" \
+  > "$wlan2g.2_link0"
 
 Check and save inodes (FEAT-389):
 
@@ -167,8 +167,8 @@ Check and save inodes (FEAT-389):
 
 This is a new link so one new socket should be created:
 
-  $ compare_list "$ilist_old" "$ilist_new"
-  A: .* /var/run/hostapd/wlan2.1_link1 (re)
+  $ check_output compare_list "$ilist_old" "$ilist_new" -- \
+  > "A: .* /var/run/hostapd/$wlan2g.1_link1"
 
   $ ilist_old=$ilist_new
 
@@ -197,13 +197,13 @@ Check wpacltrl socket file:
   $ ls_ap_hapd_socket 4
   /var/run/hostapd/wlan[0-9.]+_link[0-9] (re)
 
-  $ ls_hapd_sockets
-  wlan2.1
-  wlan2.1_link0
-  wlan2.1_link1
-  wlan2.2
-  wlan2.2_link0
-  wlan2.2_link1
+  $ check_output ls_hapd_sockets -- \
+  > "$wlan2g.1" \
+  > "$wlan2g.1_link0" \
+  > "$wlan2g.1_link1" \
+  > "$wlan2g.2" \
+  > "$wlan2g.2_link0" \
+  > "$wlan2g.2_link1"
 
 Check and save inodes (FEAT-389):
 
@@ -211,8 +211,8 @@ Check and save inodes (FEAT-389):
 
 This is a new link so one new socket should be created:
 
-  $ compare_list "$ilist_old" "$ilist_new"
-  A: .* /var/run/hostapd/wlan2.2_link1 (re)
+  $ check_output compare_list "$ilist_old" "$ilist_new" -- \
+  > "A: .* /var/run/hostapd/$wlan2g.2_link1"
 
   $ ilist_old=$ilist_new
 
@@ -241,14 +241,14 @@ Check wpacltrl socket file:
   $ ls_ap_hapd_socket 5
   /var/run/hostapd/wlan[0-9.]+_link[0-9] (re)
 
-  $ ls_hapd_sockets
-  wlan2.1
-  wlan2.1_link0
-  wlan2.1_link1
-  wlan2.1_link2
-  wlan2.2
-  wlan2.2_link0
-  wlan2.2_link1
+  $ check_output ls_hapd_sockets -- \
+  > "$wlan2g.1" \
+  > "$wlan2g.1_link0" \
+  > "$wlan2g.1_link1" \
+  > "$wlan2g.1_link2" \
+  > "$wlan2g.2" \
+  > "$wlan2g.2_link0" \
+  > "$wlan2g.2_link1"
 
 Check and save inodes (FEAT-389):
 
@@ -256,8 +256,8 @@ Check and save inodes (FEAT-389):
 
 This is a new link so one new socket should be created:
 
-  $ compare_list "$ilist_old" "$ilist_new"
-  A: .* /var/run/hostapd/wlan2.1_link2 (re)
+  $ check_output compare_list "$ilist_old" "$ilist_new" -- \
+  > "A: .* /var/run/hostapd/$wlan2g.1_link2"
 
   $ ilist_old=$ilist_new
 
@@ -286,15 +286,15 @@ Check wpacltrl socket file:
   $ ls_ap_hapd_socket 6
   /var/run/hostapd/wlan[0-9.]+_link[0-9] (re)
 
-  $ ls_hapd_sockets
-  wlan2.1
-  wlan2.1_link0
-  wlan2.1_link1
-  wlan2.1_link2
-  wlan2.2
-  wlan2.2_link0
-  wlan2.2_link1
-  wlan2.2_link2
+  $ check_output ls_hapd_sockets -- \
+  > "$wlan2g.1" \
+  > "$wlan2g.1_link0" \
+  > "$wlan2g.1_link1" \
+  > "$wlan2g.1_link2" \
+  > "$wlan2g.2" \
+  > "$wlan2g.2_link0" \
+  > "$wlan2g.2_link1" \
+  > "$wlan2g.2_link2"
 
 Check and save inodes (FEAT-389):
 
@@ -302,8 +302,8 @@ Check and save inodes (FEAT-389):
 
 This is a new link so one new socket should be created:
 
-  $ compare_list "$ilist_old" "$ilist_new"
-  A: .* /var/run/hostapd/wlan2.2_link2 (re)
+  $ check_output compare_list "$ilist_old" "$ilist_new" -- \
+  > "A: .* /var/run/hostapd/$wlan2g.2_link2"
 
   $ ilist_old=$ilist_new
 
@@ -332,17 +332,17 @@ Check wpacltrl socket file:
   $ ls_ap_hapd_socket 7
   /var/run/hostapd/wlan[0-9.]+_link[0-9] (re)
 
-  $ ls_hapd_sockets
-  wlan2.1
-  wlan2.1_link0
-  wlan2.1_link1
-  wlan2.1_link2
-  wlan2.2
-  wlan2.2_link0
-  wlan2.2_link1
-  wlan2.2_link2
-  wlan2.3
-  wlan2.3_link0
+  $ check_output ls_hapd_sockets -- \
+  > "$wlan2g.1" \
+  > "$wlan2g.1_link0" \
+  > "$wlan2g.1_link1" \
+  > "$wlan2g.1_link2" \
+  > "$wlan2g.2" \
+  > "$wlan2g.2_link0" \
+  > "$wlan2g.2_link1" \
+  > "$wlan2g.2_link2" \
+  > "$wlan2g.3" \
+  > "$wlan2g.3_link0"
 
 Check and save inodes (FEAT-389):
 
@@ -350,9 +350,9 @@ Check and save inodes (FEAT-389):
 
 This is a new MLD so two new sockets should be created:
 
-  $ compare_list "$ilist_old" "$ilist_new"
-  A: .* /var/run/hostapd/wlan2.3 (re)
-  A: .* /var/run/hostapd/wlan2.3_link0 (re)
+  $ check_output compare_list "$ilist_old" "$ilist_new" -- \
+  > "A: .* /var/run/hostapd/$wlan2g.3" \
+  > "A: .* /var/run/hostapd/$wlan2g.3_link0"
 
   $ ilist_old=$ilist_new
 
@@ -381,18 +381,18 @@ Check wpacltrl socket file:
   $ ls_ap_hapd_socket 8
   /var/run/hostapd/wlan[0-9.]+_link[0-9] (re)
 
-  $ ls_hapd_sockets
-  wlan2.1
-  wlan2.1_link0
-  wlan2.1_link1
-  wlan2.1_link2
-  wlan2.2
-  wlan2.2_link0
-  wlan2.2_link1
-  wlan2.2_link2
-  wlan2.3
-  wlan2.3_link0
-  wlan2.3_link1
+  $ check_output ls_hapd_sockets -- \
+  > "$wlan2g.1" \
+  > "$wlan2g.1_link0" \
+  > "$wlan2g.1_link1" \
+  > "$wlan2g.1_link2" \
+  > "$wlan2g.2" \
+  > "$wlan2g.2_link0" \
+  > "$wlan2g.2_link1" \
+  > "$wlan2g.2_link2" \
+  > "$wlan2g.3" \
+  > "$wlan2g.3_link0" \
+  > "$wlan2g.3_link1"
 
 Check and save inodes (FEAT-389):
 
@@ -400,8 +400,8 @@ Check and save inodes (FEAT-389):
 
 This is a new link so one new socket should be created:
 
-  $ compare_list "$ilist_old" "$ilist_new"
-  A: .* /var/run/hostapd/wlan2.3_link1 (re)
+  $ check_output compare_list "$ilist_old" "$ilist_new" -- \
+  > "A: .* /var/run/hostapd/$wlan2g.3_link1"
 
   $ ilist_old=$ilist_new
 
@@ -430,19 +430,19 @@ Check wpacltrl socket file:
   $ ls_ap_hapd_socket 9
   /var/run/hostapd/wlan[0-9.]+_link[0-9] (re)
 
-  $ ls_hapd_sockets
-  wlan2.1
-  wlan2.1_link0
-  wlan2.1_link1
-  wlan2.1_link2
-  wlan2.2
-  wlan2.2_link0
-  wlan2.2_link1
-  wlan2.2_link2
-  wlan2.3
-  wlan2.3_link0
-  wlan2.3_link1
-  wlan2.3_link2
+  $ check_output ls_hapd_sockets -- \
+  > "$wlan2g.1" \
+  > "$wlan2g.1_link0" \
+  > "$wlan2g.1_link1" \
+  > "$wlan2g.1_link2" \
+  > "$wlan2g.2" \
+  > "$wlan2g.2_link0" \
+  > "$wlan2g.2_link1" \
+  > "$wlan2g.2_link2" \
+  > "$wlan2g.3" \
+  > "$wlan2g.3_link0" \
+  > "$wlan2g.3_link1" \
+  > "$wlan2g.3_link2"
 
 Check and save inodes (FEAT-389):
 
@@ -450,15 +450,15 @@ Check and save inodes (FEAT-389):
 
 This is a new link so one new socket should be created:
 
-  $ compare_list "$ilist_old" "$ilist_new"
-  A: .* /var/run/hostapd/wlan2.3_link2 (re)
+  $ check_output compare_list "$ilist_old" "$ilist_new" -- \
+  > "A: .* /var/run/hostapd/$wlan2g.3_link2"
 
   $ ilist_old=$ilist_new
 
 Check is any ifindex changed. grep only removed (ie changed) ifindexes (FEAT-389):
 
   $ ifidx_cur=$(R "iw dev" | grep ifindex -B 1 | sed 's/^[[:space:]]*//')
-  $ compare_list "$ifindexes" "$ifidx_cur" | grep 'R:' || true
+  $ check_output compare_list "$ifindexes" "$ifidx_cur" | grep 'R:' || true --
 
   $ sleep 5
 
