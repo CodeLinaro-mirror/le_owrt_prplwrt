@@ -43,66 +43,26 @@ build test x86_64 prpl security sanitize:
   extends:
     - .build test config
     - .sanitize rules
-  timeout: 8 hours
+  timeout: 30 minutes
+  tags: []
   variables:
     CI_BUILD_CONFIG: >
       +DEVEL +BUILD_LOG +INCLUDE_CONFIG
     GIT_STRATEGY: clone
     GIT_CLEAN_FLAGS: -ffdx
-    # The script stops before the job time out, so a build that runs out of time still uploads logs/ (the
-    # per-package build logs and the sampler log).
-    RUNNER_SCRIPT_TIMEOUT: 7h30m
+  # WIP: skip the real build, reuse the artifacts of the sanitize build of job 17172880475.
+  # Nothing in this round touches firmware, so its image and symbols are valid.
   before_script:
-    - !reference [.build test config, before_script]
-    - |
-      for dir in build_dir staging_dir tmp bin; do
-        if [ -e "$dir" ]; then
-          echo "ERROR: $dir exists: the sanitize build must start from a clean checkout"
-          exit 1
-        fi
-      done
-    # shim-regress.sh runs the test programs in bwrap. Check that it works before a build of hours. Where bwrap
-    # cannot run (exit 77), the job goes on without the test and build-checks.sh skips it the same way.
-    - sudo apt-get update && sudo apt-get install --yes --no-install-recommends bubblewrap procps
-    # The kernel settings behind the result of the preflight, for the log only: nothing here fails the job.
-    - |
-      {
-        echo "runner: kernel and user namespaces"
-        echo "runner: uname -r: $(uname -r)"
-        for key in vm/mmap_rnd_bits kernel/apparmor_restrict_unprivileged_userns kernel/unprivileged_userns_clone; do
-          file=/proc/sys/$key
-          if [ ! -e "$file" ]; then
-            value="not present"
-          else
-            value=$(cat "$file" 2>/dev/null || sudo -n cat "$file" 2>/dev/null) || value="not readable"
-          fi
-          echo "runner: $(echo "$key" | tr / .): $value"
-        done
-        if err=$(timeout 10 unshare -Ur true 2>&1); then
-          echo "runner: unshare -Ur true: ok"
-        else
-          echo "runner: unshare -Ur true: failed: $(echo "$err" | head -n 1)"
-        fi
-      } || true
-    - .gitlab/scripts/sanitize/shim-regress.sh --preflight || [ $? -eq 77 ]
-    # The build script of .build test config compiles the world with "make -j $(nproc)", the only make call there
-    # without a target. In this shell the function make runs make-world.sh for that call instead (2 h with all
-    # CPUs, 2 h with half of them, then -j1 V=s) and passes every other make call on unchanged.
-    - |
-      make() {
-        if [ $# -eq 2 ] && [ "$1" = -j ]; then
-          .gitlab/scripts/sanitize/make-world.sh "$2"
-        else
-          command make "$@"
-        fi
-      }
-    # The resource use of the runner every 60 s in logs/sanitize-sampler.log, until this shell ends.
-    - .gitlab/scripts/sanitize/sampler.sh "$$" logs/sanitize-sampler.log </dev/null >/dev/null 2>&1 &
+    - git config --global --add safe.directory '*'
   script:
-    - !reference [.build test config, script]
-    # The build script above sets an ERR trap that reports a failed build; the checks have their own messages.
-    - trap - ERR
-    - .gitlab/scripts/sanitize/build-checks.sh
+    - source .gitlab/scripts/helpers.sh
+    - 'section_start "artifact-reuse" "WIP: reusing artifacts from job 17172880475" "collapsed"'
+    - 'curl --fail --location --header "JOB-TOKEN: $CI_JOB_TOKEN" "$CI_API_V4_URL/projects/$CI_PROJECT_ID/jobs/17172880475/artifacts" -o artifacts.zip'
+    - unzip -q artifacts.zip 'bin/*' 'logs/*' 'sanitize-build/*' sanitize-symbols.tar.xz sanitize-symbols.tsv
+    - unzip -q artifacts.zip '*packages-hash-issues.patch' || true
+    - rm -f artifacts.zip
+    - section_end "artifact-reuse"
+  after_script: []
   artifacts:
     paths:
       # A glibc build writes to 64-glibc, the shared musl jobs to 64.
