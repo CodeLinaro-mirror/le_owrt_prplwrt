@@ -138,7 +138,7 @@ def main() -> int:
     check(all_components == full_path == "full", "full collapse")
     print("4 collapse: PASS (all buckets and full path)")
 
-    with tempfile.TemporaryDirectory(prefix="ci9-phase1-", dir="/tmp") as temporary:
+    with tempfile.TemporaryDirectory(prefix="ci9-phase1-") as temporary:
         repository = Path(temporary)
         (repository / ".gitlab/tests/cram").mkdir(parents=True)
         (repository / ".gitlab/tests/cram/components.yml").write_text(
