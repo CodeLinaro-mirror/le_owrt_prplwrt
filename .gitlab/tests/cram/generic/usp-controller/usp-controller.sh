@@ -324,10 +324,32 @@ usp_mqtt_wait() {
 
 # usp_mqtt_switch TLS: switch the MQTT client of this controller to MQTT
 # with TLS (TLS=true) or without TLS (TLS=false), and wait until the
-# controller sees the agent connected that way. It runs the onboarding over
-# MQTT again with the new setting. It prints the line of usp_mqtt_wait on
-# success and one line on failure.
+# controller sees the agent connected that way. It disables the MQTT client
+# first, waits at most 10 s until the DUT reports it Disabled, and then runs
+# the onboarding over MQTT again with the new setting. When the onboarding
+# changes the transport of a connected client, the connection can drop
+# before the onboarding disables the client; the agent then connects again
+# with the old transport when its retry timer runs out, and keeps that
+# connection although the client is set to the new transport. A disabled
+# client has no connection that can drop. Remove the first step when the
+# agent applies the new transport in that case. It prints the line of
+# usp_mqtt_wait on success and one line on failure.
 usp_mqtt_switch() {
+	_usp_client=$(${CRAM_REMOTE_COMMAND} "obuspa -c get 'Device.MQTT.Client.[Alias==\"$(usp_controller_id)-mqtt-client\"].Alias'" 2>/dev/null |
+		sed -n 's/Alias => .*$//p')
+	if [ -z "${_usp_client}" ]; then
+		echo "usp-controller: cannot find the MQTT client of the controller"
+		return 1
+	fi
+	${CRAM_REMOTE_COMMAND} "obuspa -c set ${_usp_client}Enable false" >/dev/null 2>&1
+	_usp_end=$(($(date +%s) + 10))
+	until [ "$(usp_dut_value "${_usp_client}Status")" = Disabled ]; do
+		if [ "$(date +%s)" -ge "${_usp_end}" ]; then
+			echo "usp-controller: ${_usp_client} is not Disabled after 10 s"
+			return 1
+		fi
+		sleep 0.5
+	done
 	case $1 in
 	true) _usp_tls=--tls ;;
 	*) _usp_tls=--no-tls ;;
