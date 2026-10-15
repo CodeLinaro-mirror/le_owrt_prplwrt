@@ -147,7 +147,11 @@ Prepare CABundle for the cram tests:
   $ sleep 4
   $ R "openssl s_client -connect \"$SERVER_IP:8181\" -showcerts < /dev/null 2> /dev/null | openssl x509 -outform PEM > /tmp/server-cert.crt"
   $ R '/etc/init.d/tr181-security restart'
-  $ sleep 1
+  $ deadline=$(($(date +%s%N) + 5 * ${TESTBED_QEMU_TIMEOUT_SCALE:-1} * 1000000000))
+  $ while [ "$(date +%s%N)" -lt "$deadline" ]; do
+  >   if R "ba-cli 'protected;Device.Security.CABundle.[Name==\"cram\"].?'" 2>/dev/null | grep -v '>' | head -1 | sed 's/\.$//' | grep -q '^Device\.Security\.CABundle\.[0-9]\+$'; then break; fi
+  >   sleep .1
+  > done
   $ export CABUNDLEPATH=`R "ba-cli 'protected;Device.Security.CABundle.[Name==\"cram\"].?'" | grep -v '>' | head -1 | sed 's/\.$//'`
 
 Check PeriodicFileTransfer over HTTPS:
