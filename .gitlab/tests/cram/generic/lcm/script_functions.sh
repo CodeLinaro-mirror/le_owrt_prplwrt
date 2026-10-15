@@ -1129,6 +1129,8 @@ remove_user_role() {
 ## It simulates a firmware upgrade by stopping and starting the LCM Agent, as
 ## well as manually removing critical configurations.
 fake_fw_upgrade() {
+    local scale=${1:-1}
+    local deadline restore_count restore_duid restore_euid
     duid=$(cli_json_safe "SoftwareModules.DeploymentUnit.[ UUID == \"${DEFAULT_UUID}\" ].DUID?" -e @[*].*.DUID)
     uuid=$(cli_json_safe "SoftwareModules.DeploymentUnit.[ UUID == \"${DEFAULT_UUID}\" ].UUID?" -e @[*].*.UUID)
     ## Stop the active container to allow stopping cthulhu without any problem
@@ -1145,7 +1147,15 @@ fake_fw_upgrade() {
     sleep 2
     service timingila start
 
-    sleep 5
+    now_cs() { awk -F'[. ]' '{ print $1 $2 }' /proc/uptime; }
+    deadline=$(( $(now_cs) + 500 * scale ))
+    while [ "$(now_cs)" -lt "$deadline" ]; do
+        restore_count=$(cli_json_safe "SoftwareModules.ExecEnvNumberOfEntries?" -e '@[*].*.ExecEnvNumberOfEntries' 2>/dev/null)
+        restore_duid=$(cli_json_safe "SoftwareModules.DeploymentUnit.[ UUID == \"${DEFAULT_UUID}\" ].DUID?" -e '@[*].*.DUID' 2>/dev/null)
+        restore_euid=$(cli_json_safe "SoftwareModules.ExecutionUnit.[ EUID == \"${restore_duid}\" ].EUID?" -e '@[*].*.EUID' 2>/dev/null)
+        [ "$restore_count" = 1 ] && [ -n "$restore_duid" ] && [ "$restore_euid" = "$restore_duid" ] && break
+        sleep .1
+    done
     start_ctr --uuid "${uuid}" >> /dev/null
 }
 
