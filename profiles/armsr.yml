@@ -8,6 +8,7 @@ description: Build image for armsr/armv8 generic target
 packages:
   - hostapd-utils
   - iw-full
+  - kmod-button-hotplug
   - kmod-mac80211-hwsim
   - wpad-basic
 
