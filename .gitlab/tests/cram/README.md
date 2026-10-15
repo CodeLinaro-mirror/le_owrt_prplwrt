@@ -160,6 +160,11 @@ component buckets after `hw_only` tests are removed, as does an automatic
 `full` selection. Changes to `profiles/x86_64.yml` select that full QEMU
 component set.
 
+QEMU boards use the `qemu-` directory prefix. The resolver removes the
+common `hw_only` tests from each QEMU suite. Smoke membership combines
+the generic smoke tests with tests from the requested board directory.
+Tests from another QEMU board do not enter the selection.
+
 ## Selecting pipeline jobs
 
 Merge request pipelines contain one `cram <Board> [auto]` job for every

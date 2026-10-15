@@ -42,9 +42,9 @@ smoke:
     - "generic/ulimit.t"
     - "generic/network.t"
     - "generic/busybox.t"
-    - "qemu-x86-64/connectivity.t"
-    - "qemu-x86-64/reboot.t"
-    - "qemu-x86-64/005-build-config.t"
+    - "qemu-*/connectivity.t"
+    - "qemu-*/reboot.t"
+    - "qemu-*/005-build-config.t"
 
 # Tests requiring hardware or firmware capabilities unavailable on QEMU.
 hw_only:
