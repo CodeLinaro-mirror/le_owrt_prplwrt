@@ -39,6 +39,11 @@ Copy the CSR from the device, sign it with the local CA to produce a client cert
   Certificate signed successfully
   $ C /tmp/lcm_cert_client.crt root@${TARGET_LAN_IP}:/etc/config/autocert/  2>/dev/null
   $ R "${S} && configure_security ${TARGET_LAN_TEST_HOST}" > /dev/null
+  $ deadline=$(($(date +%s%N) + 4 * ${TESTBED_QEMU_TIMEOUT_SCALE:-1} * 1000000000))
+  $ while [ "$(date +%s%N)" -lt "$deadline" ]; do
+  >   R "ba-cli -l -j 'SoftwareModules.Config.DUSignatureProtocols?'" 2>/dev/null | grep -q '"DUSignatureProtocols":"HTTPS"' && break
+  >   sleep .1
+  > done
 
 
 ###### TEST SECTION
