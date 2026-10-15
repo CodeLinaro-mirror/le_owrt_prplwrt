@@ -12,15 +12,7 @@ from typing import Mapping, Sequence
 import yaml
 
 
-BOARDS = {
-    "Omnia": "turris-omnia",
-    "Haze": "prpl-haze",
-    "OSPv2": "mxl25641-hdk-6",
-    "Freedom": "wnc-freedom",
-    "Mozart": "arcadyan-mozart",
-    "Valyrian": "nokia-valyrian",
-    "QEMU x86-64": "qemu-x86-64",
-}
+from cram_component_bucketing import BucketingError, load_manifest
 
 
 def _yaml_value(loader: yaml.SafeLoader, node: yaml.Node) -> object:
@@ -130,24 +122,24 @@ def _wip_tag_override_allowed(
     )
 
 
-def check_repository(repository: Path) -> None:
-    paths = [
-        repository / ".gitlab-ci.yml",
-        repository / ".gitlab/testbed.yml",
-        *(
-            repository / f".gitlab/testbed/{board}.yml"
-            for board in BOARDS.values()
-        ),
-    ]
-    definitions: dict[str, object] = {}
+def check_repository(repository: Path) -> int:
+    manifest = load_manifest(repository / ".gitlab/tests/cram/components.yml")
+    boards = manifest.selection.boards
+    definitions = dict(_load(repository / ".gitlab-ci.yml"))
+    paths = [repository / ".gitlab/testbed.yml"]
+    for include in definitions.get("include", []):
+        local = include.get("local") if isinstance(include, dict) else None
+        if isinstance(local, str) and local.lstrip("/").startswith(".gitlab/testbed/"):
+            paths.append(repository / local.lstrip("/"))
     for path in paths:
         definitions.update(_load(path))
 
     cache: dict[str, dict[str, object]] = {}
     failures = []
-    for alias in BOARDS:
+    for board, definition in boards.items():
+        alias = definition.alias
         auto_name = f"cram {alias} [auto]"
-        reference_component = "smoke" if alias == "QEMU x86-64" else "full"
+        reference_component = "smoke" if board.startswith("qemu-") else "full"
         full_name = f"cram {alias} [{reference_component}]"
         auto = _resolve(definitions, auto_name, cache)
         full = _resolve(definitions, full_name, cache)
@@ -177,6 +169,7 @@ def check_repository(repository: Path) -> None:
 
     if failures:
         raise ValueError("\n".join(failures))
+    return len(boards)
 
 
 def parse_args(argv: Sequence[str]) -> argparse.Namespace:
@@ -193,11 +186,13 @@ def parse_args(argv: Sequence[str]) -> argparse.Namespace:
 def main(argv: Sequence[str] | None = None) -> int:
     args = parse_args(sys.argv[1:] if argv is None else argv)
     try:
-        check_repository(args.repository.resolve())
-    except ValueError as error:
+        count = check_repository(args.repository.resolve())
+    except (ValueError, BucketingError) as error:
         print(f"error: {error}", file=sys.stderr)
         return 1
-    print("auto job variables: all seven boards match their reference bucket")
+    # Preserve the existing diagnostic for the seven-board configuration.
+    count_text = "seven" if count == 7 else str(count)
+    print(f"auto job variables: all {count_text} boards match their reference bucket")
     return 0
 
 
