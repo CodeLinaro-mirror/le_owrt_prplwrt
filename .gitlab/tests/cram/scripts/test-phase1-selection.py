@@ -24,6 +24,7 @@ COMPONENT_RESOLVER = SCRIPT_DIR / "resolve-component-tests.py"
 sys.path.insert(0, str(SCRIPT_DIR))
 from cram_component_bucketing import (  # noqa: E402
     BucketingError,
+    collect_board_tests,
     discover_tests,
     expand_manifest,
     load_manifest,
@@ -96,6 +97,8 @@ def main() -> int:
     manifest = load_manifest(MANIFEST_PATH)
     fixture = yaml.safe_load(FIXTURE_PATH.read_text(encoding="utf-8"))
     check(fixture["schema"] == 1, "fixture schema")
+    boards = manifest.selection.boards
+    qemu_boards = [board for board in boards if board.startswith("qemu-")]
     cases = fixture["matrix"]
     check(
         {case["glob"] for case in cases}
@@ -222,8 +225,8 @@ def main() -> int:
 
         report = invoke(repository, base, union_head, "--report")
         check(report.returncode == 0, "report mode failed")
-        check(len(report.stdout.splitlines()) == 7, "report must show seven boards")
-        print("5 report mode: PASS (7 boards)")
+        check(len(report.stdout.splitlines()) == len(boards), "report board count")
+        print(f"5 report mode: PASS ({len(boards)} boards)")
 
         unmapped = invoke(repository, base, union_head, "--board", "turris-omnia")
         drift_head = commit_paths(
@@ -313,7 +316,7 @@ def main() -> int:
             "".join(f"{path.relative_to(test_root).as_posix()}\n" for path in existing),
             encoding="utf-8",
         )
-        for directory in ("generic", "prplmesh", "qemu-x86-64"):
+        for directory in ("generic", "prplmesh", *qemu_boards):
             (test_root / directory / "foo.t").write_text("  $ true\n", encoding="utf-8")
         result = run(
             [
@@ -330,39 +333,51 @@ def main() -> int:
             "  prplmesh/foo.t\n" in warning,
             "new generic and prplmesh tests must prompt component review",
         )
-        check("qemu-x86-64/foo.t" not in warning, "board test prompted review")
+        for board in qemu_boards:
+            check(f"{board}/foo.t" not in warning, "board test prompted review")
     print("10 lint remainder: PASS (new generic/prplmesh tests warned; board excluded)")
 
     expanded = expand_manifest(TEST_ROOT, manifest)
-    for component in ("smoke", "lcm", "prplos", "prplmesh", "full"):
-        result = run(
-            [
-                str(COMPONENT_RESOLVER),
-                "--test-root",
-                str(TEST_ROOT),
-                "--manifest",
-                str(MANIFEST_PATH),
-                "--board",
-                "qemu-x86-64",
-                "--component",
-                component,
-            ],
-            stdout=subprocess.PIPE,
-        )
-        selected = {
-            Path(line).relative_to(TEST_ROOT).as_posix()
-            for line in result.stdout.splitlines()
+    check(set(fixture["qemu_smoke"]) == set(qemu_boards), "QEMU smoke fixture boards")
+    for board in qemu_boards:
+        board_tests = {
+            path.relative_to(TEST_ROOT).as_posix()
+            for path in collect_board_tests(TEST_ROOT, board)
         }
-        check(
-            not selected & expanded.hw_only_matches,
-            f"QEMU {component} selection contains hw_only tests",
-        )
-        if component == "smoke":
-            check(selected == expanded.smoke_matches, "QEMU smoke selection")
+        for component in ("smoke", "lcm", "prplos", "prplmesh", "full"):
+            result = run(
+                [
+                    str(COMPONENT_RESOLVER),
+                    "--test-root",
+                    str(TEST_ROOT),
+                    "--manifest",
+                    str(MANIFEST_PATH),
+                    "--board",
+                    board,
+                    "--component",
+                    component,
+                ],
+                stdout=subprocess.PIPE,
+            )
+            selected = {
+                Path(line).relative_to(TEST_ROOT).as_posix()
+                for line in result.stdout.splitlines()
+            }
+            check(selected <= board_tests, f"{board} {component} contains foreign tests")
+            check(
+                not selected & expanded.hw_only_matches,
+                f"QEMU {component} selection contains hw_only tests",
+            )
+            if component == "smoke":
+                check(
+                    selected == set(fixture["qemu_smoke"][board]),
+                    "QEMU smoke selection",
+                )
     print("11 QEMU buckets: PASS (smoke exact; hw_only excluded from all suites)")
 
     run([str(AUTO_VARIABLES_GUARD), "--repository", str(REPOSITORY)])
-    print("12 auto variables: PASS (seven auto/reference pairs match)")
+    count_text = "seven" if len(boards) == 7 else str(len(boards))
+    print(f"12 auto variables: PASS ({count_text} auto/reference pairs match)")
     return 0
 
 

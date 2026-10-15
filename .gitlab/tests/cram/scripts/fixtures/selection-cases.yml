@@ -65,3 +65,11 @@ by_test:
   - {path: .gitlab/tests/cram/post/generic/example-wifi.t, board: mxl25641-hdk-6, expected: prplos}
   - {path: .gitlab/tests/cram/turris-omnia/example-wifi.t, board: turris-omnia, expected: prplmesh}
   - {path: .gitlab/tests/cram/qemu-x86-64/connectivity.t, board: qemu-x86-64, expected: prplos}
+qemu_smoke:
+  qemu-x86-64:
+    - generic/ulimit.t
+    - generic/network.t
+    - generic/busybox.t
+    - qemu-x86-64/connectivity.t
+    - qemu-x86-64/reboot.t
+    - qemu-x86-64/005-build-config.t
