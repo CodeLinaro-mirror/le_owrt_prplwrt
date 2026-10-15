@@ -14,7 +14,11 @@ Setup https server at prplOS.lan/localhost 127.0.0.1:
   > ba-cli UserInterface.HTTPAccess.1.Enable=1
   > EOF
   $ script --command "ssh -t root@$TARGET_LAN_IP '$(cat /tmp/httpaccess-setup.sh)'" > /dev/null
-  $ sleep 1
+  $ deadline=$(($(date +%s%N) + ${TESTBED_QEMU_TIMEOUT_SCALE:-1} * 1000000000))
+  $ while [ "$(date +%s%N)" -lt "$deadline" ]; do
+  >   response=$(R "curl --cacert /usr/share/ca-certificates/test/ca.crt --silent --output /dev/null --write-out \"%{http_code}\\n\" https://prplOS.lan" 2>/dev/null) && [ "$response" = 200 ] && break
+  >   sleep .1
+  > done
 
 Check server response ok:
 
