@@ -127,6 +127,7 @@ selection:
     - {glob: .gitlab/testbed/wnc-freedom.yml, boards: [wnc-freedom], component: prplos}
     - {glob: .gitlab/testbed/mxl25641-hdk-6.yml, boards: [mxl25641-hdk-6], component: prplos}
     - {glob: .gitlab/testbed/qemu-x86-64.yml, boards: [qemu-x86-64], component: prplos}
+    - {glob: .gitlab/testbed/qemu.yml, boards: [qemu-x86-64], component: prplos}
     - {glob: profiles/debug.yml, component: noop}
     - {glob: profiles/extender_full.yml, component: noop}
     - {glob: profiles/extender_minimal.yml, component: noop}
