@@ -122,6 +122,37 @@ variables:
         - .gitlab/testbed/qemu.yml
         - profiles/x86_64.yml
 
+.cram changes qemu-armsr-armv8:
+  rules:
+    - changes: &cram_changes_qemu_armsr_armv8
+        - profiles/secure_boot_emmc.yml
+        - profiles/feed_amx.yml
+        - profiles/feed_prplmesh.yml
+        - profiles/feed_prplos.yml
+        - profiles/lcm.yml
+        - profiles/prpl_core.yml
+        - profiles/prpl.yml
+        - profiles/mgmt.yml
+        - profiles/security.yml
+        - profiles/cellular.yml
+        - profiles/thread.yml
+        - .gitlab/tests/cram/generic/**
+        - .gitlab/tests/cram/post/**
+        - .gitlab/testbed.yml
+        - package/**
+        - target/**
+        - toolchain/**
+        - include/**
+        - config/**
+        - tools/**
+        - feeds.conf.default
+        - Makefile
+        - rules.mk
+        - .gitlab/tests/cram/qemu-armsr-armv8/**
+        - .gitlab/testbed/qemu-armsr-armv8.yml
+        - .gitlab/testbed/qemu.yml
+        - profiles/armsr.yml
+
 include:
   - local: .gitlab/build.yml
   - local: .gitlab/blackduck.yml
@@ -149,6 +180,7 @@ include:
   - local: .gitlab/testbed/nokia-valyrian.yml
   - local: .gitlab/testbed/qemu.yml
   - local: .gitlab/testbed/qemu-x86-64.yml
+  - local: .gitlab/testbed/qemu-armsr-armv8.yml
   - component: $CI_SERVER_FQDN/prpl-foundation/prplos/ci/components/git-commit-checker/static@v1.0.0
 
 stages:
@@ -234,6 +266,28 @@ build test mvebu prpl security:
 
 build test armsr prpl security:
   extends: .build test config
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == $CI_DESIGNATED_BRANCH'
+    - if: '$CI_COMMIT_TAG =~ /^prplware-v[0-9]+\.[0-9]+\.[0-9]+.*$/'
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CRAM_COMPONENTS != null'
+      when: manual
+      allow_failure: true
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_LABELS =~ /(^|,)cram::skip($|,)/'
+      when: manual
+      allow_failure: true
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_LABELS =~ /(^|,)cram::(full|prplmesh|lcm|prplos)($|,)/'
+      when: manual
+      allow_failure: false
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      changes: *cram_changes_qemu_armsr_armv8
+      when: manual
+      allow_failure: false
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      when: manual
+      allow_failure: true
+    - when: manual
 
 build test x86_64 prpl security:
   extends: .build test config
@@ -539,6 +593,27 @@ cram QEMU x86-64 [auto]:
     - when: manual
       allow_failure: true
 
+cram QEMU armsr-armv8 [auto]:
+  allow_failure: true
+  timeout: 480 minutes
+  needs: ["build test armsr prpl security"]
+  extends:
+    - .qemu-armsr-armv8 testbed
+    - .cram_component_auto_selection
+  rules:
+    - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
+      when: never
+    - if: '$CRAM_COMPONENTS != null'
+      when: never
+    - if: '$CI_MERGE_REQUEST_LABELS =~ /(^|,)cram::skip($|,)/'
+      when: manual
+      allow_failure: true
+    - if: '$CI_MERGE_REQUEST_LABELS =~ /(^|,)cram::(full|prplmesh|lcm|prplos)($|,)/'
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      changes: *cram_changes_qemu_armsr_armv8
+    - when: manual
+      allow_failure: true
+
 report cram selection:
   extends: .report_cram_selection
   needs: []
@@ -730,11 +805,27 @@ cram QEMU x86-64 [full]:
   variables:
     COMPONENT: full
 
+cram QEMU armsr-armv8 [full]:
+  allow_failure: true
+  timeout: 480 minutes
+  needs: ["build test armsr prpl security"]
+  extends: .qemu-armsr-armv8 testbed
+  variables:
+    COMPONENT: full
+
 cram QEMU x86-64 [smoke]:
   allow_failure: true
   timeout: 5 minutes
   needs: ["build test x86_64 prpl security"]
   extends: .qemu-x86-64 testbed
+  variables:
+    COMPONENT: smoke
+
+cram QEMU armsr-armv8 [smoke]:
+  allow_failure: true
+  timeout: 40 minutes
+  needs: ["build test armsr prpl security"]
+  extends: .qemu-armsr-armv8 testbed
   variables:
     COMPONENT: smoke
 
@@ -746,6 +837,14 @@ cram QEMU x86-64 [prplmesh]:
   variables:
     COMPONENT: prplmesh
 
+cram QEMU armsr-armv8 [prplmesh]:
+  allow_failure: true
+  timeout: 40 minutes
+  needs: ["build test armsr prpl security"]
+  extends: .qemu-armsr-armv8 testbed
+  variables:
+    COMPONENT: prplmesh
+
 cram QEMU x86-64 [lcm]:
   allow_failure: true
   timeout: 45 minutes
@@ -754,10 +853,26 @@ cram QEMU x86-64 [lcm]:
   variables:
     COMPONENT: lcm
 
+cram QEMU armsr-armv8 [lcm]:
+  allow_failure: true
+  timeout: 360 minutes
+  needs: ["build test armsr prpl security"]
+  extends: .qemu-armsr-armv8 testbed
+  variables:
+    COMPONENT: lcm
+
 cram QEMU x86-64 [prplos]:
   allow_failure: true
   timeout: 45 minutes
   needs: ["build test x86_64 prpl security"]
   extends: .qemu-x86-64 testbed
+  variables:
+    COMPONENT: prplos
+
+cram QEMU armsr-armv8 [prplos]:
+  allow_failure: true
+  timeout: 360 minutes
+  needs: ["build test armsr prpl security"]
+  extends: .qemu-armsr-armv8 testbed
   variables:
     COMPONENT: prplos
