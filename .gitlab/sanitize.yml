@@ -134,6 +134,8 @@ cram QEMU x86-64 [sanitize]:
     - .qemu-x86-64 testbed
     - .sanitize rules
   needs: ["build test x86_64 prpl security sanitize"]
+  # The guest needs 16G and the shared QEMU runner limits a job container to 1434m: a runner of its own.
+  tags: [qemu-amd64-sanitize]
   timeout: 6 hours
   variables:
     # The template points at the musl image in bin/targets/x86/64; the sanitize image is a glibc build.
