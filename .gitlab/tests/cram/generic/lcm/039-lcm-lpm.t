@@ -73,6 +73,11 @@ wait for cthulhu to terminate all containers and itself, before clear its data
   $ R "ba-cli -l 'Device.SoftwareModules.DeploymentUnitNumberOfEntries?'"
   
   0
+  $ deadline=$(($(date +%s%N) + 5 * ${TESTBED_QEMU_TIMEOUT_SCALE:-1} * 1000000000))
+  $ while [ "$(date +%s%N)" -lt "$deadline" ]; do
+  >   [ "$(R "ba-cli -l 'Device.SoftwareModules.ExecEnvNumberOfEntries?'" 2>/dev/null | tr -d '\r\n')" = 1 ] && break
+  >   sleep .1
+  > done
   $ R "ba-cli -l 'Device.SoftwareModules.ExecEnvNumberOfEntries?'"
   
   1
