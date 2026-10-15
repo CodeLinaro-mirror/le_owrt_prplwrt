@@ -2,6 +2,16 @@ Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
+Wait for the requested output interface in the installed rule:
+
+  $ wait_for_output_interface() {
+  >   deadline=$(($(date +%s%N) + 2 * ${TESTBED_QEMU_TIMEOUT_SCALE:-1} * 1000000000))
+  >   while [ "$(date +%s%N)" -lt "$deadline" ]; do
+  >     [ "$(R "iptables -t mangle -nvL FORWARD_class | awk '/MARK/ {print \$6,\$7}'" 2>/dev/null)" = "* $1" ] && break
+  >     sleep .1
+  >   done
+  > }
+
 If test is running on a Valyrian, skip the test due to PCF-2669:
   $ if echo "$CI_JOB_NAME" | grep -q -E "Valyrian"; then exit 80; fi
 
@@ -57,6 +67,7 @@ Set X_PRPLWARE-COM_OutputInterface to Logical.Interface.1:
   $ R "ubus-cli 'QoS.Classification.lansubnet1.X_PRPLWARE-COM_OutputInterface=Logical.Interface.1.'" > /dev/null
 
 Check the rule now filters on output WAN interface without tr181-qos restart:
+  $ wait_for_output_interface "$WAN_IFACE"
   $ RESULT=$(R "iptables -t mangle -nvL FORWARD_class | awk '/MARK/ {print \$6,\$7}'"); [ "$RESULT" = "* $WAN_IFACE" ] && echo "OK" || echo "FAIL: got '$RESULT', expected '* $WAN_IFACE'"
   OK
 
@@ -64,6 +75,7 @@ Change X_PRPLWARE-COM_OutputInterface to Logical.Interface.2:
   $ R "ubus-cli 'QoS.Classification.lansubnet1.X_PRPLWARE-COM_OutputInterface=Logical.Interface.2.'" > /dev/null
 
 Check the rule reflects the new output LAN interface without tr181-qos restart:
+  $ wait_for_output_interface "$LAN_IFACE"
   $ RESULT=$(R "iptables -t mangle -nvL FORWARD_class | awk '/MARK/ {print \$6,\$7}'"); [ "$RESULT" = "* $LAN_IFACE" ] && echo "OK" || echo "FAIL: got '$RESULT', expected '* $LAN_IFACE'"
   OK
 
