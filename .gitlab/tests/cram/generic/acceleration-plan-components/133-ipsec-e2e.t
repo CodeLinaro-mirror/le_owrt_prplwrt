@@ -59,7 +59,13 @@ an enabled engine makes signing with an on-disk CA key fail on OpenSSL 3 with
 Import the certificates into the Security data model:
 
   $ R "/etc/init.d/tr181-security restart > /dev/null 2>&1"
-  $ sleep 3
+  $ deadline=$(($(date +%s%N) + 3 * ${TESTBED_QEMU_TIMEOUT_SCALE:-1} * 1000000000))
+  $ while [ "$(date +%s%N)" -lt "$deadline" ]; do
+  >   cpe_ready=$(R "ba-cli 'Security.Certificate.[CAFileName == \"tr181-ipsec.pem\"].SerialNumber?'" 2>/dev/null | sed -ne 's/^Security.Certificate.\([0-9]\+\)\..*/\1/p' | head -n 1)
+  >   peer_ready=$(R "ba-cli 'Security.Certificate.[CAFileName == \"ipsec-peer.pem\"].SerialNumber?'" 2>/dev/null | sed -ne 's/^Security.Certificate.\([0-9]\+\)\..*/\1/p' | head -n 1)
+  >   [ -n "$cpe_ready" ] && [ -n "$peer_ready" ] && break
+  >   sleep .1
+  > done
   $ CPECERTIDX=$(R "ba-cli 'Security.Certificate.[CAFileName == \"tr181-ipsec.pem\"].SerialNumber?'" | sed -ne 's/^Security.Certificate.\([0-9]\+\)\..*/\1/p' | head -n 1)
   $ PEERCERTIDX=$(R "ba-cli 'Security.Certificate.[CAFileName == \"ipsec-peer.pem\"].SerialNumber?'" | sed -ne 's/^Security.Certificate.\([0-9]\+\)\..*/\1/p' | head -n 1)
   $ R "ba-cli 'Security.Certificate.$CPECERTIDX.PrivateKeyURI=\"file:///root/certs/tr181-ipsec.pem\"'" > /dev/null 2>&1
