@@ -20,7 +20,7 @@ Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
-  $ R "ba-cli 'Device.MQTT.Client.*.-'" > /dev/null
+  $ R "ba-cli 'Device.MQTT.Client.[Alias==\"local_broker\"].-'" > /dev/null
   $ R "ba-cli 'Device.BulkData.Profile.*.-'" > /dev/null
 
   $ R "ba-cli 'Device.BulkData.set_trace_zone(zone=bulkdata, level=500)'" > /dev/null
@@ -131,7 +131,7 @@ Teardown, Stop mosquitto_sub:
 
 Teardown, Delete the MQTT client:
 
-  $ R "ba-cli 'Device.MQTT.Client.*.-'" > /dev/null
+  $ R "ba-cli 'Device.MQTT.Client.[Alias==\"local_broker\"].-'" > /dev/null
 
 Teardown, Delete the MQTT profile:
 

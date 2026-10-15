@@ -21,7 +21,7 @@ Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
-  $ R "ba-cli 'MQTT.Client.*.-'" > /dev/null
+  $ R "ba-cli 'MQTT.Client.[Alias==\"local_broker\"].-'" > /dev/null
   $ R "ba-cli 'MQTT.set_trace_zone(zone=mqtt_client, level=500)'" > /dev/null
 
   $ R '# Start a subscriber in background
@@ -78,7 +78,7 @@ Wait for the subscription to take effect and the message to be received by the s
 
 Teardown, Delete MQTT client and subscription:
 
-  $ R "ba-cli 'MQTT.Client.*.-'" > /dev/null
+  $ R "ba-cli 'MQTT.Client.[Alias==\"local_broker\"].-'" > /dev/null
 
 Teardown, Kill mosquitto_sub using PID file:
 
