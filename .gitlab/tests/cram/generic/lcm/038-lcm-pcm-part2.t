@@ -14,7 +14,7 @@ If test is running on a Valyrian, skip the test due to PCF-2669:
 
 Simulate firmware upgrade with manual configuration removal:
 
-  $ R "${S} && fake_fw_upgrade"
+  $ R "${S} && fake_fw_upgrade \"${TESTBED_QEMU_TIMEOUT_SCALE:-1}\""
 
 Save the data model after simulated firmware upgrade:
 
