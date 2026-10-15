@@ -24,7 +24,11 @@ Save current fault list:
 Start a dummy process and cause it to crash with a SIGSEGV:
 
   $ dummy_pid="$(R 'sleep 60 & sleepPid="$!"; sleep 1; kill -SEGV "$sleepPid"; echo "$sleepPid"')"
-  $ sleep 2
+  $ deadline=$(($(date +%s%N) + 2 * ${TESTBED_QEMU_TIMEOUT_SCALE:-1} * 1000000000))
+  $ while [ "$(date +%s%N)" -lt "$deadline" ]; do
+  >   if R "ba-cli -j 'ProcessFaults.ProcessFault.?' | sed -n 2p" 2>/dev/null | jq -e --argjson pid "$dummy_pid" 'any(.[] | .[]; .ProcessID == $pid)' >/dev/null 2>&1; then break; fi
+  >   sleep .1
+  > done
 
 Get new entry in the fault list
 
