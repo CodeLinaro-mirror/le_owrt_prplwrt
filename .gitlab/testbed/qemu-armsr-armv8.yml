@@ -1,0 +1,11 @@
+# SPDX-License-Identifier: GPL-2.0-only
+# SPDX-FileCopyrightText: Copyright (c) 2026 prpl Foundation
+
+.qemu-armsr-armv8 testbed:
+  extends: .qemu testbed
+  tags: [qemu-amd64]
+  variables:
+    DUT_BOARD: qemu-armsr-armv8
+    DUT_ARCH_PACKAGES_PATH: bin/packages/aarch64_generic
+    TESTBED_QEMU_ACCEL: tcg
+    TESTBED_QEMU_IMAGE: bin/targets/armsr/armv8/prplos-armsr-armv8-generic-squashfs-combined-efi.img

@@ -21,3 +21,6 @@ boards:
   qemu-x86-64:
     count: 27
     sha256: 37178c2c230e13d0ea6f724a4ad07fe4ca4941854d927fed8cb6c4090cb63c18
+  qemu-armsr-armv8:
+    count: 27
+    sha256: f417e5a15e64e4c0b8df1346028ee5e37325298bca9adc0a216a432b9c2a481f
