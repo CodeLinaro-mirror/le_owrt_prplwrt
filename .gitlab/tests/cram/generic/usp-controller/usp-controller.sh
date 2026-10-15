@@ -293,6 +293,272 @@ usp_notify_wait() {
 	return 1
 }
 
+# usp_mqtt_wait TLS: wait at most 30 s until the controller sees the agent
+# connected over MQTT with tls=TLS (true or false), then print that line of
+# `testbed-qemu usp agents` without its enabled field. A new onboarding over
+# MQTT returns as soon as the controller lists the agent as connected over
+# MQTT, and that can still be the connection from before the change. It prints
+# one line when the time runs out.
+usp_mqtt_wait() {
+	_usp_end=$(($(date +%s) + 30))
+	while :; do
+		_usp_line=$(testbed-qemu usp agents 2>/dev/null | grep ' mqtt ' | sed 's/ enabled=[a-z]*//')
+		case ${_usp_line} in
+		*" connected=true tls=$1")
+			printf '%s\n' "${_usp_line}"
+			return 0
+			;;
+		esac
+		[ "$(date +%s)" -lt "${_usp_end}" ] || break
+		sleep 0.5
+	done
+	echo "usp-controller: agent not connected over MQTT with tls=$1 within 30 s: ${_usp_line}"
+	return 1
+}
+
+# usp_mqtt_switch TLS: switch the MQTT client of this controller to MQTT
+# with TLS (TLS=true) or without TLS (TLS=false), and wait until the
+# controller sees the agent connected that way. It runs the onboarding over
+# MQTT again with the new setting. It prints the line of usp_mqtt_wait on
+# success and one line on failure.
+usp_mqtt_switch() {
+	case $1 in
+	true) _usp_tls=--tls ;;
+	*) _usp_tls=--no-tls ;;
+	esac
+	testbed-qemu usp onboard mqtt "${_usp_tls}" >/dev/null || return 1
+	usp_mqtt_wait "$1"
+}
+
+# usp_acl_rows_add: add the two port mappings that the access control tests
+# use, both disabled: usp-acl-a and usp-acl-b. Rows that an interrupted
+# earlier run left are deleted first. It sets usp_acl_a and usp_acl_b to the
+# object instance paths of the rows, and usp_acl_ctl to the controller row of
+# this controller. It prints nothing on success and one line on failure.
+usp_acl_rows_add() {
+	usp_acl_rows_del
+	for _usp_row in a:50541 b:50542; do
+		if ! testbed-qemu usp add Device.NAT.PortMapping. "Alias=usp-acl-${_usp_row%:*}" \
+			"ExternalPort=${_usp_row#*:}" "Description=usp-acl-${_usp_row%:*}0" Enable=false >/dev/null; then
+			echo "usp-controller: cannot add the port mapping usp-acl-${_usp_row%:*}"
+			return 1
+		fi
+	done
+	usp_acl_a=$(testbed-qemu usp get 'Device.NAT.PortMapping.[Alias=="usp-acl-a"].Alias' | sed -n 's/Alias=.*$//p')
+	usp_acl_b=$(testbed-qemu usp get 'Device.NAT.PortMapping.[Alias=="usp-acl-b"].Alias' | sed -n 's/Alias=.*$//p')
+	usp_acl_ctl=$(testbed-qemu usp get "Device.LocalAgent.Controller.[EndpointID==\"$(usp_controller_id)\"].EndpointID" | sed -n 's/EndpointID=.*$//p')
+	if [ -z "${usp_acl_a}" ] || [ -z "${usp_acl_b}" ] || [ -z "${usp_acl_ctl}" ]; then
+		echo "usp-controller: cannot read the paths of the access control rows"
+		return 1
+	fi
+}
+
+# usp_acl_rows_del: delete the port mappings of usp_acl_rows_add, one at a
+# time, so that a missing row does not keep the other one. A delete of a row
+# that is not there can fail, so the result of each delete does not count;
+# a Get must then succeed and find neither row. It prints nothing on success
+# and one line otherwise.
+usp_acl_rows_del() {
+	for _usp_row in a b; do
+		testbed-qemu usp delete "Device.NAT.PortMapping.[Alias==\"usp-acl-${_usp_row}\"]." >/dev/null 2>&1
+	done
+	_usp_absent 'Device.NAT.PortMapping.[Alias=="usp-acl-a"].Alias' 'Device.NAT.PortMapping.[Alias=="usp-acl-b"].Alias'
+}
+
+# _usp_absent PATH...: check with a Get over the controller that no PATH
+# matches. It prints nothing when the Get succeeds and gives nothing, and one
+# line otherwise.
+_usp_absent() {
+	if ! _usp_output=$(testbed-qemu usp get "$@" 2>&1); then
+		echo "usp-controller: cannot read $*: $(printf '%s\n' "${_usp_output}" | tail -n 1)"
+		return 1
+	fi
+	if [ -n "${_usp_output}" ]; then
+		echo "usp-controller: still on the DUT: $(printf '%s' "${_usp_output}" | tr '\n' ' ')"
+		return 1
+	fi
+}
+
+# usp_acl_limit ROLE: add three permission rows to the Role with the object
+# path ROLE. Their Order values (100 to 102) are higher than the Order of the
+# rows that the agent creates, so they take priority for their targets:
+#   usp-acl-deny    the instance usp_acl_b: no permission at all
+#   usp-acl-ro      the parameter Description of usp_acl_a: read and notify,
+#                   no write
+#   usp-acl-noexec  SendOnBoardRequest() of usp_acl_ctl: read, no execute
+# It prints nothing on success and one line on failure.
+usp_acl_limit() {
+	_usp_acl_perm "$1" usp-acl-deny 100 "${usp_acl_b}" ---- ---- ---- ---- &&
+	_usp_acl_perm "$1" usp-acl-ro 101 "${usp_acl_a}Description" r--n ---- ---- ---- &&
+	_usp_acl_perm "$1" usp-acl-noexec 102 "${usp_acl_ctl}SendOnBoardRequest()" ---- ---- ---- r---
+}
+
+# _usp_acl_perm ROLE ALIAS ORDER TARGETS PARAM OBJ INSTANTIATEDOBJ
+# COMMANDEVENT: add one enabled permission row to ROLE.
+_usp_acl_perm() {
+	if ! _usp_output=$(testbed-qemu usp add "$1Permission." "Alias=$2" "Order=$3" "Targets=$4" \
+		"Param=$5" "Obj=$6" "InstantiatedObj=$7" "CommandEvent=$8" Enable=true 2>&1); then
+		echo "usp-controller: cannot add the permission row $2: $(printf '%s\n' "${_usp_output}" | tail -n 1)"
+		return 1
+	fi
+}
+
+# usp_acl_unlimit ROLE: delete the permission rows of usp_acl_limit from the
+# Role with the object path ROLE. The agent's command line deletes them, so
+# this works whatever the rows deny and whatever the transport of the
+# controller is. That command line exits 0 also when it fails, so each delete
+# counts only when it prints that it deleted the row or that no row matched.
+# A read of the Role must then succeed and show none of the rows: it reads
+# PermissionNumberOfEntries and, when that is not 0, the Alias of each row,
+# and the numbers must agree. It also keeps ROLE in usp_acl_limited for
+# usp_acl_cleanup. It prints nothing on success and one line otherwise.
+usp_acl_unlimit() {
+	usp_acl_limited=$1
+	for _usp_alias in usp-acl-deny usp-acl-ro usp-acl-noexec; do
+		if ! _usp_output=$(${CRAM_REMOTE_COMMAND} "obuspa -c del '$1Permission.[Alias==\"${_usp_alias}\"].'" 2>/dev/null); then
+			echo "usp-controller: cannot delete the permission row ${_usp_alias} of $1"
+			return 1
+		fi
+		case ${_usp_output} in
+		"No objects were matched for deletion") continue ;;
+		"Deleted $1Permission."*[!0-9]*) ;;
+		"Deleted $1Permission."[0-9]*) continue ;;
+		esac
+		echo "usp-controller: cannot delete the permission row ${_usp_alias} of $1: $(printf '%s\n' "${_usp_output:-no output}" | tail -n 1)"
+		return 1
+	done
+	if ! _usp_output=$(${CRAM_REMOTE_COMMAND} "obuspa -c get '$1PermissionNumberOfEntries'" 2>/dev/null); then
+		echo "usp-controller: cannot read the permission rows of $1"
+		return 1
+	fi
+	case ${_usp_output} in
+	"$1PermissionNumberOfEntries => "*) _usp_count=${_usp_output#* => } ;;
+	*) _usp_count= ;;
+	esac
+	case ${_usp_count} in
+	'' | *[!0-9]*)
+		echo "usp-controller: cannot read the permission rows of $1: $(printf '%s' "${_usp_output}" | tr '\n' ' ')"
+		return 1
+		;;
+	0) return 0 ;;
+	esac
+	if ! _usp_output=$(${CRAM_REMOTE_COMMAND} "obuspa -c get '$1Permission.*.Alias'" 2>/dev/null); then
+		echo "usp-controller: cannot read the permission rows of $1"
+		return 1
+	fi
+	_usp_rows=0
+	_usp_left=
+	_usp_bad=
+	while IFS= read -r _usp_line; do
+		case ${_usp_line} in
+		"$1Permission."*".Alias => usp-acl-"*) _usp_rows=$((_usp_rows + 1)) _usp_left=1 ;;
+		"$1Permission."*".Alias => "*) _usp_rows=$((_usp_rows + 1)) ;;
+		*) _usp_bad=1 ;;
+		esac
+	done <<EOF
+${_usp_output}
+EOF
+	if [ -n "${_usp_bad}" ] || [ "${_usp_count}" != "${_usp_rows}" ]; then
+		echo "usp-controller: cannot read the permission rows of $1: $(printf '%s' "${_usp_output}" | tr '\n' ' ')"
+		return 1
+	fi
+	if [ -n "${_usp_left}" ]; then
+		echo "usp-controller: permission rows of the access control tests are left in $1"
+		return 1
+	fi
+}
+
+# usp_acl_ca_role: print the Role that the DUT agent gives to a controller
+# whose certificate chain ends in the CA of this controller. The CA is the
+# LocalAgent.Certificate row with the SHA-256 fingerprint of the CA that the
+# controller publishes, and the Role is the one of the
+# ControllerTrust.Credential row that refers to that certificate. It prints one
+# line that starts with "usp-controller:" when there is no such row.
+usp_acl_ca_role() {
+	_usp_fp=$(curl -fsS "${USP_CONTROLLER_URL%/}/api/v1/mux/ca.pem" | python3 -c '
+import hashlib, ssl, sys
+print(hashlib.sha256(ssl.PEM_cert_to_DER_cert(sys.stdin.read())).hexdigest().upper())') || {
+		echo "usp-controller: cannot read the CA of the controller"
+		return 1
+	}
+	for _usp_cert in $(testbed-qemu usp instances Device.LocalAgent.Certificate. | grep '\.$'); do
+		if [ "$(testbed-qemu usp operate "${_usp_cert}GetFingerprint()" FingerprintAlgorithm=SHA-256 |
+			sed -n 's/^.*\.Fingerprint="\(.*\)"$/\1/p')" = "${_usp_fp}" ]; then
+			testbed-qemu usp get "Device.LocalAgent.ControllerTrust.Credential.[Credential==\"${_usp_cert%.}\"].Role" |
+				sed -n 's/^[^=]*="\(..*\)"$/\1/p' | grep . && return 0
+			break
+		fi
+	done
+	echo "usp-controller: no Credential row gives a Role to the CA of the controller"
+	return 1
+}
+
+# usp_acl_trap [SUBSCRIPTION_ID...]: run usp_acl_cleanup when the test shell
+# exits: at the end of the test file, and also when a signal stops the test
+# early. An access control test calls it before its first change on the DUT.
+# Each SUBSCRIPTION_ID is the ID of a subscription that the test adds.
+usp_acl_trap() {
+	usp_acl_subscriptions="$*"
+	trap usp_acl_cleanup EXIT
+	trap 'exit 129' HUP
+	trap 'exit 130' INT
+	trap 'exit 143' TERM
+}
+
+# usp_acl_cleanup: undo what an access control test changed on the DUT,
+# also after a partial change. When the test ends normally, it has undone
+# everything already, and this finds nothing to do. Each step runs whatever
+# the earlier steps gave:
+#   - delete the permission rows of usp_acl_limit from the Role in
+#     usp_acl_limited (set by usp_acl_unlimit)
+#   - switch the MQTT client back to MQTT without TLS, unless the controller
+#     already lists the agent connected that way
+#   - delete the subscriptions of usp_acl_trap
+#   - put back the AssignedRole of the controller row usp_acl_ctl that
+#     usp_acl_assigned holds, when the test set usp_acl_assigned
+#   - delete the Role usp-acl-limited
+#   - delete the port mappings of usp_acl_rows_add
+# A Get must then succeed and find none of the subscriptions and not the
+# Role. It prints nothing when every step succeeds and one line otherwise.
+# It does not change the exit status of the test.
+usp_acl_cleanup() {
+	_usp_errors=
+	if [ -n "${usp_acl_limited:-}" ]; then
+		_usp_output=$(usp_acl_unlimit "${usp_acl_limited}" 2>&1) || _usp_acl_error "${_usp_output}"
+	fi
+	_usp_output=$(testbed-qemu usp agents 2>/dev/null) || _usp_output=
+	case ${_usp_output} in
+	*" mqtt enabled=true connected=true tls=false"*) ;;
+	*) _usp_output=$(usp_mqtt_switch false 2>&1) || _usp_acl_error "${_usp_output}" ;;
+	esac
+	set -- 'Device.LocalAgent.ControllerTrust.Role.[Alias=="usp-acl-limited"].Alias'
+	for _usp_id in ${usp_acl_subscriptions:-}; do
+		testbed-qemu usp delete "Device.LocalAgent.Subscription.[ID==\"${_usp_id}\"]." >/dev/null 2>&1
+		set -- "$@" "Device.LocalAgent.Subscription.[ID==\"${_usp_id}\"].ID"
+	done
+	if [ -n "${usp_acl_assigned+set}" ] && [ -n "${usp_acl_ctl:-}" ]; then
+		testbed-qemu usp set "${usp_acl_ctl}AssignedRole=${usp_acl_assigned}" >/dev/null 2>&1
+		if ! _usp_output=$(usp_dut_value "${usp_acl_ctl}AssignedRole" 2>&1); then
+			_usp_acl_error "${_usp_output}"
+		elif [ "${_usp_output}" != "${usp_acl_assigned}" ]; then
+			_usp_acl_error "AssignedRole of ${usp_acl_ctl} is '${_usp_output}', expected '${usp_acl_assigned}'"
+		fi
+	fi
+	testbed-qemu usp delete 'Device.LocalAgent.ControllerTrust.Role.[Alias=="usp-acl-limited"].' >/dev/null 2>&1
+	_usp_output=$(usp_acl_rows_del 2>&1) || _usp_acl_error "${_usp_output}"
+	_usp_output=$(_usp_absent "$@" 2>&1) || _usp_acl_error "${_usp_output}"
+	if [ -n "${_usp_errors}" ]; then
+		echo "usp-controller: cleanup after the test failed: ${_usp_errors}"
+	fi
+}
+
+# _usp_acl_error TEXT: add TEXT, without its "usp-controller: " prefix and on
+# one line, to the errors of usp_acl_cleanup.
+_usp_acl_error() {
+	_usp_text=$(printf '%s\n' "$1" | sed 's/^usp-controller: //' | tr '\n' ' ' | sed 's/ *$//')
+	_usp_errors="${_usp_errors:+${_usp_errors}; }${_usp_text}"
+}
+
 case ${TESTFILE:-} in
 000-preflight.t)
 	rm -f "${USP_PREFLIGHT_RESULT}"
