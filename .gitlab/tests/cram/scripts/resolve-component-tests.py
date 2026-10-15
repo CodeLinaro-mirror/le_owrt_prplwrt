@@ -50,7 +50,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         manifest = load_manifest(manifest_path)
         expanded = expand_manifest(args.test_root, manifest)
         full = collect_board_tests(args.test_root, args.board)
-        if args.board == "qemu-x86-64":
+        if args.board.startswith("qemu-"):
             full = [
                 path
                 for path in full
@@ -58,8 +58,8 @@ def main(argv: Sequence[str] | None = None) -> int:
                 not in expanded.hw_only_matches
             ]
         if args.component == "smoke":
-            if args.board != "qemu-x86-64":
-                raise BucketingError("smoke is only available for qemu-x86-64")
+            if not args.board.startswith("qemu-"):
+                raise BucketingError("smoke is only available for QEMU boards")
             selected = [
                 path
                 for path in full
