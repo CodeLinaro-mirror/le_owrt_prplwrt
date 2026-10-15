@@ -3,6 +3,16 @@ Create R alias:
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
   $ alias C="${CRAM_REMOTE_COPY:-}"
 
+Wait for certificate data after a service restart:
+
+  $ wait_for_certificates() {
+  >   deadline=$(($(date +%s%N) + 2 * ${TESTBED_QEMU_TIMEOUT_SCALE:-1} * 1000000000))
+  >   while [ "$(date +%s%N)" -lt "$deadline" ]; do
+  >     [ "$(R "ubus -S call Security.Certificate _get | jsonfilter -e @[*].Enable" 2>/dev/null | grep -c '^true$')" = "$1" ] && break
+  >     sleep .1
+  >   done
+  > }
+
 Backup the state of the system:
 
   $ R "mkdir -p /etc/config/autocert"
@@ -27,6 +37,7 @@ Restart tr181-security service:
 
 Check that certs are in place as expected:
 
+  $ wait_for_certificates 2
   $ R "ubus -S call Security.Certificate _get | jsonfilter -e @[*].Enable -e @[*].Subject -e @[*].SignatureAlgorithm -e @[*].NotBefore | LC_ALL=C sort"
   /C=US/O=PrplFoundation/OU=prplOS/CN=prplOS.lan
   /C=US/O=PrplFoundation/OU=prplOS/CN=prplOS.lan
@@ -83,6 +94,7 @@ Restart tr181-security service:
 
 Check that the first certificate is not present anymore:
 
+  $ wait_for_certificates 1
   $ R "ubus -S call Security.Certificate _get | jsonfilter -e @[*].Enable -e @[*].Subject -e @[*].SignatureAlgorithm -e @[*].NotBefore | LC_ALL=C sort"
   /C=US/O=PrplFoundation/OU=prplOS/CN=prplOS.lan
   2023-12-04T17:41:08.* (re)
@@ -93,6 +105,11 @@ Check that CABundle are presents:
 
   $ R "echo '%populate{object Security{object CABundle{instance add(){parameter Enable=1; parameter Name=cram; parameter CAFileURI=\"/tmp/server-cert.crt\";}}}}' > /etc/amx/tr181-security/defaults.d/01_cram_periodic_transfer.odl" ; sleep 1
   $ R '/etc/init.d/tr181-security restart'
+  $ deadline=$(($(date +%s%N) + 2 * ${TESTBED_QEMU_TIMEOUT_SCALE:-1} * 1000000000))
+  $ while [ "$(date +%s%N)" -lt "$deadline" ]; do
+  >   if R 'ba-cli Security.CABundleNumberOfEntries?' 2>/dev/null | grep -q '^Security.CABundleNumberOfEntries=1$'; then break; fi
+  >   sleep .1
+  > done
   $ R 'ba-cli Security.CABundleNumberOfEntries?' | grep -Ev '^(>|$)'
   Security.CABundleNumberOfEntries=1
 
