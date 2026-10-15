@@ -119,6 +119,7 @@ variables:
         - rules.mk
         - .gitlab/tests/cram/qemu-x86-64/**
         - .gitlab/testbed/qemu-x86-64.yml
+        - .gitlab/testbed/qemu.yml
         - profiles/x86_64.yml
 
 include:
