@@ -3,7 +3,7 @@
 
 .qemu testbed:
   stage: run
-  image: "registry.gitlab.com/prpl-foundation/prplos/ci/containers/testbed-qemu@sha256:4f87f818e1511091c43baac3cf02a9cab5b9cfa59a84674672a8555645b37979"
+  image: "registry.gitlab.com/prpl-foundation/prplos/ci/containers/testbed-qemu@sha256:270006e89d7b461f999996d4626db1a49408d657d7fd13c6b3bca9715df8989d"
   timeout: 40 minutes
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
