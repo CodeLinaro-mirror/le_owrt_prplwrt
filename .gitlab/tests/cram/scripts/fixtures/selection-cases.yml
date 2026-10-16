@@ -84,3 +84,4 @@ qemu_smoke:
     - generic/busybox.t
     - qemu-armsr-armv8/connectivity.t
     - qemu-armsr-armv8/reboot.t
+    - qemu-armsr-armv8/005-build-config.t
