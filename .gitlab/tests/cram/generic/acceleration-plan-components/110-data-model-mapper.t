@@ -288,6 +288,12 @@ Run AddExecEnv command:
 
 Check that new ExecEnv is present:
 
+  $ deadline=$(($(date +%s%N) + 1 * ${TESTBED_QEMU_TIMEOUT_SCALE:-1} * 1000000000))
+  $ while [ "$(date +%s%N)" -lt "$deadline" ]; do
+  >   exec_env_names=$(R "ba-cli 'SoftwareModules.ExecEnv.*.Name?'" 2>/dev/null | grep -Ev '^(>|$)' | sed 's/^SoftwareModules.ExecEnv\.[0-9][0-9]*\.Name="TestEnv01"$/SoftwareModules.ExecEnv.*.Name="TestEnv01"/')
+  >   [ "$exec_env_names" = "$(printf '%s\n' 'SoftwareModules.ExecEnv.1.Name="generic"' 'SoftwareModules.ExecEnv.*.Name="TestEnv01"')" ] && break
+  >   sleep .1
+  > done
   $ R "ba-cli 'SoftwareModules.ExecEnv.*.Name?'" | grep -Ev '^(>|$)'
   SoftwareModules.ExecEnv.1.Name="generic"
   SoftwareModules.ExecEnv.*.Name="TestEnv01" (glob)
@@ -308,6 +314,11 @@ Remove new ExecEnv:
 
 Check that new ExecEnv is deleted:
 
+  $ deadline=$(($(date +%s%N) + 1 * ${TESTBED_QEMU_TIMEOUT_SCALE:-1} * 1000000000))
+  $ while [ "$(date +%s%N)" -lt "$deadline" ]; do
+  >   [ "$(R "ba-cli 'SoftwareModules.ExecEnv.*.Name?'" 2>/dev/null | grep -Ev '^(>|$)')" = 'SoftwareModules.ExecEnv.1.Name="generic"' ] && break
+  >   sleep .1
+  > done
   $ R "ba-cli 'SoftwareModules.ExecEnv.*.Name?'" | grep -Ev '^(>|$)'
   SoftwareModules.ExecEnv.1.Name="generic"
 
