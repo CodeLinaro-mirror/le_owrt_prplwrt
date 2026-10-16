@@ -593,6 +593,31 @@ prplmesh_stop() {
 }
 
 #
+# Poll Agent state is Operational
+# In : number of fronthaul instances
+# In : (optional : max timeout; default :15)
+# Out : "Fronthauls Operational: COUNT" for success, "No All Fronthaul Operational" for failure;
+prplmesh_agent_poll_operational() {
+  local res
+  local count=$1
+  local timeout=${2:-15}
+
+  while [ $timeout -gt 0 ]; do
+    res=$(R "ba-cli X_PRPLWARE-COM_Agent.Info.Fronthaul.*.CurrentState? | grep -v '>' | grep "OPERATIONAL" | wc -l")
+    if [ $count -eq $res ]; then
+      echo "Fronthauls Operational: $res"
+      break
+    fi
+    timeout=$((timeout-1))
+    sleep 1
+  done
+
+  if [ ! $count -eq $res ]; then
+    echo "Not All Fronthauls Operational: $res"
+  fi
+}
+
+#
 ################ Testbed configuration helpers ##################
 #
 

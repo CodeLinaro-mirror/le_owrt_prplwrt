@@ -10,7 +10,7 @@ Create R alias:
 
 Check default SecMode:
 
-  $ R logger -t cram "Check default SecMode"
+  $ R logger -t cram "First subtest : Controller WifiManager"
 
   $ wifi_dm "AccessPoint.1.Security.ModeEnabled?"
   Device.WiFi.AccessPoint.1.Security.ModeEnabled="WPA3-Personal-Transition"
@@ -32,13 +32,14 @@ Check if private/guest VAPs contain WPA3-Personal-Compatibility in the Security.
   Device.WiFi.AccessPoint.5.Security.X_PRPLWARE-COM_ModesAvailable has WPA3-Personal-Compatibility mode
   Device.WiFi.AccessPoint.6.Security.X_PRPLWARE-COM_ModesAvailable has WPA3-Personal-Compatibility mode
 
-Configure controller for NBAPI configuration:
+Configure controller for WiFi Manager configuration:
 
   $ prplmesh_stop
-  $ R "sed -i 's/use_dataelements_vap_configs=0/use_dataelements_vap_configs=1/g' /opt/prplmesh/config/beerocks_controller.conf"
-  $ prplmesh_start
+  $ R "sed -i 's/use_dataelements_vap_configs=./use_dataelements_vap_configs=0/g' /opt/prplmesh/config/beerocks_controller.conf"
 
-Set WPA3-Personal-Compatibility and check that : 1. Controller reads it correctly, 2. triggers reconfiguration, and 3. agent applies the correct value:
+  $ R logger -t cram "Configure private VAPs for WifiManager"
+
+Set WPA3-Personal-Compatibility for private vaps:
 
   $ wifi_dm "AccessPoint.1.Security.ModeEnabled=\"WPA3-Personal-Compatibility\""
   Device.WiFi.AccessPoint.1.Security.ModeEnabled="WPA3-Personal-Compatibility"
@@ -51,16 +52,46 @@ Set WPA3-Personal-Compatibility and check that : 1. Controller reads it correctl
 
 Enable private vaps:
 
-  $ R logger -t cram "Enable private vaps"
+  $ enable_ap 1
+  Device.WiFi.AccessPoint.1 enabled
 
-  $ enable_ap_sync 1 1
-  AccessPoint.\d+.Enable=1 (re)
+  $ enable_ap 3
+  Device.WiFi.AccessPoint.3 enabled
 
-  $ enable_ap_sync 3 1
-  AccessPoint.\d+.Enable=1 (re)
+  $ enable_ap 5
+  Device.WiFi.AccessPoint.5 enabled
 
-  $ enable_ap_sync 5 1
-  AccessPoint.\d+.Enable=1 (re)
+Start prplMesh and check that WiFi Manager reads WPA3-CM from pwhm, and Controller correctly transports it to the Agent
+As a result of the full chain, AccessPoint fields {.Security.ModeEnabled} and {.Enable} are not changed
+
+  $ prplmesh_start
+
+  $ prplmesh_agent_poll_operational 3 10
+  Fronthauls Operational: 3
+
+Sleep a bit longer than WiFiManager CONFIG_RENEW_TIMEOUT{3000}; [ms]
+
+  $ sleep 5
+
+  $ wifi_dm "AccessPoint.1.Enable?"
+  Device.WiFi.AccessPoint.1.Enable=1
+
+  $ wifi_dm "AccessPoint.3.Enable?"
+  Device.WiFi.AccessPoint.3.Enable=1
+
+  $ wifi_dm "AccessPoint.5.Enable?"
+  Device.WiFi.AccessPoint.5.Enable=1
+
+  $ wifi_dm "AccessPoint.1.Security.ModeEnabled?"
+  Device.WiFi.AccessPoint.1.Security.ModeEnabled="WPA3-Personal-Compatibility"
+
+  $ wifi_dm "AccessPoint.3.Security.ModeEnabled?"
+  Device.WiFi.AccessPoint.3.Security.ModeEnabled="WPA3-Personal-Compatibility"
+
+  $ wifi_dm "AccessPoint.5.Security.ModeEnabled?"
+  Device.WiFi.AccessPoint.5.Security.ModeEnabled="WPA3-Personal-Compatibility"
+
+Status goes Up or Down as a consequence of changing the value of Enable. Agent only writes to Enable. Still, let's check the Status
 
   $ check_ap_ref_ssid 1 Up
   Device.WiFi.AccessPoint.1 SSID Reference is Up
@@ -70,6 +101,18 @@ Enable private vaps:
 
   $ check_ap_ref_ssid 5 Up
   Device.WiFi.AccessPoint.5 SSID Reference is Up
+
+  $ R logger -t cram "Second subtest : Controller Dataelements"
+
+Configure controller for NBAPI configuration:
+
+  $ prplmesh_stop
+  $ R "sed -i 's/use_dataelements_vap_configs=./use_dataelements_vap_configs=1/g' /opt/prplmesh/config/beerocks_controller.conf"
+  $ prplmesh_start
+
+  $ prplmesh_agent_poll_operational 3 10
+  Fronthauls Operational: 3
+
 
 Create one instances of Network.AccessPoint with WPA3-Personal enabled and push it to the agent:
 
@@ -84,11 +127,14 @@ Create one instances of Network.AccessPoint with WPA3-Personal enabled and push 
       ""
   ]
 
+Unfortunately, we cannot use prplmesh_agent_poll_operational here: Agent.Fronthaul.CurrentState does not change from
+OPERATIONAL during Autoconfiguration Renew. So we sleep for 10 seconds instead.
+
   $ sleep 10
 
 Check that 3 SSID instances are still operating:
 
-  $ R logger -t cram "Check private vaps"
+  $ R logger -t cram "Search Values from Dataelements in private VAPs Configuration"
 
   $ check_ap_ref_ssid 1 Up
   Device.WiFi.AccessPoint.1 SSID Reference is Up
@@ -134,7 +180,7 @@ Push WPA3-Personal-Compatibility:
       ""
   ]
 
-  $ sleep 5
+  $ sleep 10
 
 Check if agent overrides the security mode:
 
@@ -146,23 +192,6 @@ Check if agent overrides the security mode:
 
   $ wifi_dm "AccessPoint.5.Security.ModeEnabled?"
   Device.WiFi.AccessPoint.5.Security.ModeEnabled="WPA3-Personal-Compatibility"
-
-Check hostapd configuration file:
-(RSN Override 1 is set, RSN Override 2 shouldn't be present)
-
-  $ itf=$(R "ba-cli -l WiFi.AccessPoint.1.SSIDReference+.Name?" | sed '/^$/d')
-  $ get_hapd_config $itf rsn_override_key_mgmt
-  SAE
-
-  $ get_hapd_config $itf rsn_override_key_mgmt_2
-  Option 'rsn_override_key_mgmt_2' not found
-
-  $ itf=$(R "ba-cli -l WiFi.AccessPoint.3.SSIDReference+.Name?" | sed '/^$/d')
-  $ get_hapd_config $itf rsn_override_key_mgmt
-  SAE
-
-  $ get_hapd_config $itf rsn_override_key_mgmt_2
-  Option 'rsn_override_key_mgmt_2' not found
 
 Restore default config:
 
@@ -205,28 +234,19 @@ Restore security modes in two steps: WPA3 Transition to 2.4GHz/5GHz and then WPA
   $ sleep 5
 
   $ prplmesh_stop
-  $ R "sed -i 's/use_dataelements_vap_configs=1/use_dataelements_vap_configs=0/g' /opt/prplmesh/config/beerocks_controller.conf"
+  $ R "sed -i 's/use_dataelements_vap_configs=./use_dataelements_vap_configs=0/g' /opt/prplmesh/config/beerocks_controller.conf"
 
 Disable private vaps:
 
   $ R logger -t cram "Disable private vaps"
-  $ enable_ap_sync 5 0
-  AccessPoint.\d+.Enable=0 (re)
+  $ disable_ap 1
+  Device.WiFi.AccessPoint.1 disabled
 
-  $ enable_ap_sync 3 0
-  AccessPoint.\d+.Enable=0 (re)
+  $ disable_ap 3
+  Device.WiFi.AccessPoint.3 disabled
 
-  $ enable_ap_sync 1 0
-  AccessPoint.\d+.Enable=0 (re)
-
-  $ check_ap_ref_ssid 5 Down
-  Device.WiFi.AccessPoint.5 SSID Reference is Down
-
-  $ check_ap_ref_ssid 3 Down
-  Device.WiFi.AccessPoint.3 SSID Reference is Down
-
-  $ check_ap_ref_ssid 1 Down
-  Device.WiFi.AccessPoint.1 SSID Reference is Down
+  $ disable_ap 5
+  Device.WiFi.AccessPoint.5 disabled
 
 Force restoring pwhm default MLDUnit:
 
