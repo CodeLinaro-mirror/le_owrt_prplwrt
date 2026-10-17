@@ -136,6 +136,6 @@ Test container installation with Token/Bearer authentication using a correct pas
 ##### GENERAL CLEANUP SECTION
 Clear all configuration and environment:
 
-  $ R "${S} && cleanup_security"
+  $ R "${S} && cleanup_security \"${TESTBED_QEMU_TIMEOUT_SCALE:-1}\""
   $ kill $SIGNATURE_SERVER_PID 2>/dev/null || true
   $ R logger -t cram Ended $TESTFILE

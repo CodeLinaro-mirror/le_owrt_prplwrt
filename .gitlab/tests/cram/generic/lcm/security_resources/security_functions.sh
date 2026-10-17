@@ -96,8 +96,10 @@ filtered_event() {
 #   - Removing the client CSR, server CA certificate, client certificate,
 #     root CA directory, software modules ODL config, and the CRAM LCM ODL extension
 #   - Restarting the timingila and tr181-security services
-# No arguments required; all paths are hardcoded.
+# Optional argument: timeout scale (default 1).
 cleanup_security() {
+	local scale=${1:-1}
+	local deadline
 	exec >/dev/null 2>&1
 
 	configure_datamodel remove_subscription
@@ -127,6 +129,13 @@ cleanup_security() {
 	#rm -f /tmp/script_functions.sh /tmp/security_functions.sh
 	service tr181-security start
 	service timingila start
+
+	now_cs() { awk -F'[. ]' '{ print $1 $2 }' /proc/uptime; }
+	deadline=$(( $(now_cs) + 200 * scale ))
+	while [ "$(now_cs)" -lt "$deadline" ]; do
+		ba-cli -l -j 'SoftwareModules.ExecEnv.[Name=="generic"].Status?' | grep -q '"Status":"Up"' && break
+		sleep .1
+	done
 }
 
 # Applies a named data model configuration command via usp-test-cli or ubus.
