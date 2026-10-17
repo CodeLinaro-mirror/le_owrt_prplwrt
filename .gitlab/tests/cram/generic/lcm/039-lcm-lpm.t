@@ -277,6 +277,6 @@ wait for cthulhu to terminate all containers and itself, before clear its data
 
 ### Cleanup LPM test env:
 
-  $ R "${S} && cleanup_lpm_test"
+  $ R "${S} && cleanup_lpm_test \"${TESTBED_QEMU_TIMEOUT_SCALE:-1}\""
   $ R "rm -f /tmp/script_functions.sh"
   $ R logger -t cram Ended $TESTFILE

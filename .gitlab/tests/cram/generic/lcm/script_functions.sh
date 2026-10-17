@@ -1366,7 +1366,10 @@ normalize_dump(){
     sed -i -e "s/\(\.LocalPolicyManager\.Action\)\.[[:digit:]][[:digit:]]*/\1\.{i}/g" $1
 }
 
+# Optional argument: timeout scale (default 1).
 cleanup_lpm_test(){
+    local scale=${1:-1}
+    local deadline
 
     /etc/init.d/cthulhu stop
     /etc/init.d/rlyeh stop
@@ -1383,6 +1386,13 @@ cleanup_lpm_test(){
     /etc/init.d/cthulhu start
     /etc/init.d/rlyeh start
     /etc/init.d/timingila start
+
+    now_cs() { awk -F'[. ]' '{ print $1 $2 }' /proc/uptime; }
+    deadline=$(( $(now_cs) + 300 * scale ))
+    while [ "$(now_cs)" -lt "$deadline" ]; do
+        ba-cli -l -j 'SoftwareModules.ExecEnv.[Name=="generic"].Status?' 2>/dev/null | grep -q '"Status":"Up"' && break
+        sleep .1
+    done
 }
 
 ## Wrapper around CLI_JSON that prints descriptive errors on failure.
