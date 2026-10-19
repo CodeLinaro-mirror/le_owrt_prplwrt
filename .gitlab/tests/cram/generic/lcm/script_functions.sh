@@ -47,6 +47,9 @@ cli_cmd() {
 }
 
 MAX_WAIT_CTR_UP=180
+## Seconds to wait before each container pull retry. The retry loops add an
+## empty item after these waits, which marks the last attempt: 3 in all.
+PULL_RETRY_WAITS="5 15"
 
 ## Return default container name based on target.
 ## Default is Cortex-A53 based ARM 64-bit container
@@ -322,6 +325,54 @@ wait_du_state_change_sub() {
 	fi
 }
 
+## Succeed on a transient pull error from rlyeh (timeout, DNS, connect, reset,
+## short read, HTTP 429/503); never TLS or other HTTP. Sets PULL_ERROR.
+is_transient_pull_error() {
+	PULL_ERROR=${1#*"Curl download content error ["}
+	[ "${PULL_ERROR}" != "$1" ] || return 1
+	PULL_ERROR=${PULL_ERROR%%]*}
+	case "${PULL_ERROR}" in
+		"Operation too slow. "* | "Operation timed out after "* | \
+		"Connection timed out after "* | "Resolving timed out after "* | \
+		"Could not resolve host: "* | "Failed to connect to "* | \
+		"Recv failure: "* | "Send failure: "* | "Empty reply from server" | \
+		"transfer closed with "* | "end of response with "* | \
+		"The requested URL returned error: 429" | \
+		"The requested URL returned error: 503")
+			return 0 ;;
+	esac
+	return 1
+}
+
+## Tests compare stdout and stderr, so a retry goes to syslog only.
+log_pull_retry() {
+	logger -t cram-lcm "$1 failed (${PULL_ERROR}), retry in $2 s"
+}
+
+## InstallDU or Update, repeated after a transient pull error with the waits in
+## <waits> between the attempts; the caller sees the last attempt only.
+## Usage: du_operation_with_retry <install|update> <uuid> <params> <waits>
+du_operation_with_retry() (
+	_retry_du="SoftwareModules.DeploymentUnit.[ UUID == \"$2\" ]."
+	_retry_call="${_retry_du}Update($3)"
+	[ "$1" = "update" ] || _retry_call="SoftwareModules.InstallDU($3)"
+	_retry_dir=$(mktemp -d)
+	for _retry_wait in $4 ""; do
+		start_du_state_change_sub "$2"
+		${CLI_JSON} "${_retry_call}" >"${_retry_dir}/out" 2>"${_retry_dir}/err"
+		wait_du_state_change_sub 2>>"${_retry_dir}/err"
+		[ -n "${_retry_wait}" ] && [ -s "${_retry_dir}/err" ] || break
+		is_transient_pull_error "$(cat "${_retry_dir}/err")" || break
+		# A failed Install can leave its DU behind; Update keeps the old one.
+		[ "$1" = "update" ] || ${CLI_JSON} "${_retry_du}Uninstall(RetainData = false)" >/dev/null 2>&1
+		log_pull_retry "$1 $2" "${_retry_wait}"
+		sleep "${_retry_wait}"
+	done
+	cat "${_retry_dir}/out"
+	cat "${_retry_dir}/err" >&2
+	rm -rf "${_retry_dir:?}"
+)
+
 install_update_ctr_with_params() {
 	params=$@
 	operation=$1
@@ -449,14 +500,12 @@ install_update_ctr_with_params() {
 		esac
 	done
 
-	if [ "${operation}" = "install" ]; then
-		start_du_state_change_sub "${uuid}"
-		${CLI_JSON} "SoftwareModules.InstallDU($str_params)"
-		wait_du_state_change_sub
-	elif [ "${operation}" = "update" ]; then
-		start_du_state_change_sub "${uuid}"
-		${CLI_JSON} "SoftwareModules.DeploymentUnit.[ UUID == \"${uuid}\" ].Update($str_params)"
-		wait_du_state_change_sub
+	# A caller that does not wait for the container expects the install to
+	# fail and gets one attempt.
+	retry_waits=${PULL_RETRY_WAITS}
+	[ "${no_wait}" = "false" ] || retry_waits=""
+	du_operation_with_retry "${operation}" "${uuid}" "${str_params}" "${retry_waits}"
+	if [ "${operation}" = "update" ]; then
 		wait_ctr_down
 	fi
 
