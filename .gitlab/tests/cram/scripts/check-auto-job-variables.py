@@ -129,18 +129,23 @@ def _wip_tag_override_allowed(
     )
 
 
-def check_repository(repository: Path) -> None:
-    paths = [
-        repository / ".gitlab-ci.yml",
-        repository / ".gitlab/testbed.yml",
-        *(
-            repository / f".gitlab/testbed/{board}.yml"
-            for board in BOARDS.values()
-        ),
+def _local_includes(repository: Path, pipeline: Mapping[str, object]) -> list[Path]:
+    includes = pipeline.get("include", [])
+    if not isinstance(includes, list):
+        raise ValueError(".gitlab-ci.yml has invalid include")
+    return [
+        repository / str(include["local"]).lstrip("/")
+        for include in includes
+        if isinstance(include, dict) and "local" in include
     ]
+
+
+def check_repository(repository: Path) -> None:
+    pipeline = _load(repository / ".gitlab-ci.yml")
     definitions: dict[str, object] = {}
-    for path in paths:
+    for path in _local_includes(repository, pipeline):
         definitions.update(_load(path))
+    definitions.update(pipeline)
 
     cache: dict[str, dict[str, object]] = {}
     failures = []
