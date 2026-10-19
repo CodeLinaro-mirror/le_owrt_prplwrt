@@ -42,6 +42,11 @@ matrix:
   - {glob: .gitlab/testbed/nokia-valyrian.yml, path: .gitlab/testbed/nokia-valyrian.yml, expected: {nokia-valyrian: prplos}}
   - {glob: .gitlab/testbed/wnc-freedom.yml, path: .gitlab/testbed/wnc-freedom.yml, expected: {wnc-freedom: prplos}}
   - {glob: .gitlab/testbed/mxl25641-hdk-6.yml, path: .gitlab/testbed/mxl25641-hdk-6.yml, expected: {mxl25641-hdk-6: prplos}}
+  - {glob: .testbed/labgrid/default.yaml, path: .testbed/labgrid/default.yaml, expected: {nokia-valyrian: prplos, turris-omnia: prplos, wnc-freedom: prplos, mxl25641-hdk-6: prplos}}
+  - {glob: .testbed/labgrid/testbed-02.yaml, path: .testbed/labgrid/testbed-02.yaml, expected: {arcadyan-mozart: prplos, prpl-haze: prplos, wnc-freedom: prplos, mxl25641-hdk-6: prplos}}
+  - {glob: .testbed/labgrid/testbed-03.yaml, path: .testbed/labgrid/testbed-03.yaml, expected: {wnc-freedom: prplos, mxl25641-hdk-6: prplos}}
+  - {glob: .testbed/labgrid/testbed-04.yaml, path: .testbed/labgrid/testbed-04.yaml, expected: {wnc-freedom: prplos, mxl25641-hdk-6: prplos}}
+  - {glob: .gitlab/dut-lifecycle.yml, path: .gitlab/dut-lifecycle.yml, expected: {wnc-freedom: prplos, mxl25641-hdk-6: prplos, turris-omnia: prplos, prpl-haze: prplos, arcadyan-mozart: prplos, nokia-valyrian: prplos}}
   - {glob: profiles/debug.yml, path: profiles/debug.yml, expected: {}}
   - {glob: profiles/extender_full.yml, path: profiles/extender_full.yml, expected: {}}
   - {glob: profiles/extender_minimal.yml, path: profiles/extender_minimal.yml, expected: {}}

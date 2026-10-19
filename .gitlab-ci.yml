@@ -31,6 +31,11 @@ variables:
         - rules.mk
         - .gitlab/tests/cram/wnc-freedom/**
         - .gitlab/testbed/wnc-freedom.yml
+        - .testbed/labgrid/default.yaml
+        - .testbed/labgrid/testbed-02.yaml
+        - .testbed/labgrid/testbed-03.yaml
+        - .testbed/labgrid/testbed-04.yaml
+        - .gitlab/dut-lifecycle.yml
 
 .cram changes mxl25641-hdk-6:
   rules:
@@ -62,6 +67,11 @@ variables:
         - rules.mk
         - .gitlab/tests/cram/mxl25641-hdk-6/**
         - .gitlab/testbed/mxl25641-hdk-6.yml
+        - .testbed/labgrid/default.yaml
+        - .testbed/labgrid/testbed-02.yaml
+        - .testbed/labgrid/testbed-03.yaml
+        - .testbed/labgrid/testbed-04.yaml
+        - .gitlab/dut-lifecycle.yml
 
 .cram changes turris-omnia:
   rules:
@@ -69,6 +79,8 @@ variables:
         - profiles/mvebu.yml
         - .gitlab/tests/cram/turris-omnia/**
         - .gitlab/testbed/turris-omnia.yml
+        - .testbed/labgrid/default.yaml
+        - .gitlab/dut-lifecycle.yml
 
 .cram changes prpl-haze:
   rules:
@@ -76,6 +88,8 @@ variables:
         - profiles/ipq807x.yml
         - .gitlab/tests/cram/prpl-haze/**
         - .gitlab/testbed/prpl-haze.yml
+        - .testbed/labgrid/testbed-02.yaml
+        - .gitlab/dut-lifecycle.yml
 
 .cram changes arcadyan-mozart:
   rules:
@@ -83,6 +97,8 @@ variables:
         - profiles/mtk_filogic.yml
         - .gitlab/tests/cram/arcadyan-mozart/**
         - .gitlab/testbed/arcadyan-mozart.yml
+        - .testbed/labgrid/testbed-02.yaml
+        - .gitlab/dut-lifecycle.yml
 
 .cram changes nokia-valyrian:
   rules:
@@ -90,6 +106,8 @@ variables:
         - profiles/airoha_an7581.yml
         - .gitlab/tests/cram/nokia-valyrian/**
         - .gitlab/testbed/nokia-valyrian.yml
+        - .testbed/labgrid/default.yaml
+        - .gitlab/dut-lifecycle.yml
 
 include:
   - local: .gitlab/dut-lifecycle.yml

@@ -245,6 +245,33 @@ def _check_profile_completeness(repository: Path, manifest: object) -> tuple[int
     return len(profiles), len(categorized)
 
 
+def _check_labgrid_completeness(repository: Path, manifest: object) -> int:
+    environments = set(
+        _run_git(
+            repository,
+            [
+                "ls-files",
+                "--cached",
+                "--others",
+                "--exclude-standard",
+                "--",
+                ".testbed/labgrid/*.yaml",
+            ],
+        ).splitlines()
+    )
+    missing = sorted(
+        path
+        for path in environments
+        if not any(
+            path_matches_glob(path, row.glob) for row in manifest.selection.paths
+        )
+    )
+    if missing:
+        rendered = "\n".join(f"  - {path}" for path in missing)
+        raise BucketingError("unmapped labgrid environments:\n" + rendered)
+    return len(environments)
+
+
 def _yaml_value(loader: yaml.SafeLoader, node: yaml.Node) -> object:
     if isinstance(node, yaml.SequenceNode):
         return loader.construct_sequence(node)
@@ -322,6 +349,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         profile_count, categorized_count = _check_profile_completeness(
             repository, manifest
         )
+        labgrid_count = _check_labgrid_completeness(repository, manifest)
         wiring_found = _check_real_wiring(repository, manifest, expected_changes)
         expanded = expand_manifest(args.test_root, manifest)
         tests = discover_tests(args.test_root)
@@ -352,6 +380,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     print(f"smoke: {len(expanded.smoke_matches)}")
     print(f"hw_only: {len(expanded.hw_only_matches)}")
     print(f"profiles: {categorized_count}/{profile_count} categorized")
+    print(f"labgrid: {labgrid_count} environments mapped")
     print(
         "rules:changes: "
         + ("all boards match" if wiring_found else "fixture derivation verified")

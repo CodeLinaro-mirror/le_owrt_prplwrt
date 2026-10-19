@@ -294,7 +294,20 @@ def main() -> int:
         else:
             raise AssertionError("uncategorized profile passed lint")
 
-    print("10 lint fixture: PASS (uncategorized profile rejected)")
+        (repository / ".testbed/labgrid").mkdir(parents=True, exist_ok=True)
+        (repository / ".testbed/labgrid/zzz-unmapped-probe.yaml").write_text(
+            "---\n", encoding="utf-8"
+        )
+        try:
+            lint._check_labgrid_completeness(repository, manifest)
+        except BucketingError as error:
+            check("zzz-unmapped-probe.yaml" in str(error), "labgrid lint diagnostic")
+        else:
+            raise AssertionError("unmapped labgrid environment passed lint")
+
+    print(
+        "10 lint fixture: PASS (uncategorized profile, unmapped labgrid file rejected)"
+    )
     run([str(AUTO_VARIABLES_GUARD), "--repository", str(REPOSITORY)])
     print("11 auto variables: PASS (six auto/full pairs match)")
     return 0

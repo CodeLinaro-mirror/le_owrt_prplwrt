@@ -102,6 +102,11 @@ selection:
     - {glob: .gitlab/testbed/nokia-valyrian.yml, boards: [nokia-valyrian], component: prplos}
     - {glob: .gitlab/testbed/wnc-freedom.yml, boards: [wnc-freedom], component: prplos}
     - {glob: .gitlab/testbed/mxl25641-hdk-6.yml, boards: [mxl25641-hdk-6], component: prplos}
+    - {glob: .testbed/labgrid/default.yaml, boards: [nokia-valyrian, turris-omnia, wnc-freedom, mxl25641-hdk-6], component: prplos}
+    - {glob: .testbed/labgrid/testbed-02.yaml, boards: [arcadyan-mozart, prpl-haze, wnc-freedom, mxl25641-hdk-6], component: prplos}
+    - {glob: .testbed/labgrid/testbed-03.yaml, boards: [wnc-freedom, mxl25641-hdk-6], component: prplos}
+    - {glob: .testbed/labgrid/testbed-04.yaml, boards: [wnc-freedom, mxl25641-hdk-6], component: prplos}
+    - {glob: .gitlab/dut-lifecycle.yml, boards: [wnc-freedom, mxl25641-hdk-6, turris-omnia, prpl-haze, arcadyan-mozart, nokia-valyrian], component: prplos}
     - {glob: profiles/debug.yml, component: noop}
     - {glob: profiles/extender_full.yml, component: noop}
     - {glob: profiles/extender_minimal.yml, component: noop}
