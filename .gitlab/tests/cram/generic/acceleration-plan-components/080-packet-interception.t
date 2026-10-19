@@ -52,7 +52,7 @@ Check that iptables rule are correct
 
 Start a packet capture :
 
-  $ sudo tcpdump -l -U -i $TESTBED_WAN_INTERFACE -w $TESTDIR/dns.pcap > /tmp/tcpdump.log 2>&1 &
+  $ sudo tcpdump -l -U -i $TESTBED_WAN_INTERFACE port 53 -w $TESTDIR/dns.pcap > /dev/null 2>&1 &
   $ TCPDUMP_PID=$!
   $ sleep 2  
 
@@ -89,7 +89,5 @@ Check that no interception is being configured:
   target     prot opt source               destination         
 
 Cleanup
-  $ cat /tmp/tcpdump.log
   $ sleep 1
   $ sudo kill -9 "$TCPDUMP_PID" >/dev/null 2>&1 || true
-  $ sudo tcpdump -nn -r /tmp/dns.pcap
