@@ -169,7 +169,7 @@ Set Input for InstallDU command:
 
 Run InstallDU command and wait:
 
-  $ R "ba-cli X_PRPLWARE-COM_SoftwareModules.InstallDUCmd.State='Requested'" | grep -Ev '^(>|$)'; sleep 30
+  $ R "${S} && dmm_install_du_with_retry" | grep -Ev '^(>|$)'
   X_PRPLWARE-COM_SoftwareModules.InstallDUCmd.
   X_PRPLWARE-COM_SoftwareModules.InstallDUCmd.State="Requested"
 
