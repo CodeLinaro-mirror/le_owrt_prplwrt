@@ -1,11 +1,69 @@
-# testbed-04 labgrid environment for the WNC Freedom DUT, powered
-# through channel 2 of the Olimex ESP32-EVB relay board at 10.40.0.3.
+# testbed-04 labgrid environment (pod with two DUTs: MaxLinear OSPv2
+# as DUT-A and WNC Freedom as DUT-B). The OSPv2 is powered through
+# channel 1 and the Freedom through channel 2 of the Olimex ESP32-EVB
+# relay board at 10.40.0.3.
 # The ESP32EVBRelay Bearer token is injected at job time from the
 # LG_EVB_RELAY_TOKEN environment variable (set runner-locally in each
 # runner's config.toml, never a CI variable); labgrid's !template tag
 # substitutes it when the environment is loaded and fails loudly if
 # the variable is unset.
 targets:
+  mxl25641-hdk-6-emmc:
+    resources:
+    - ESP32EVBRelay:
+        name: dut-power
+        host: 10.40.0.3
+        index: onboard:1
+        token: !template "$LG_EVB_RELAY_TOKEN"
+    - RawSerialPort:
+        port: /dev/dut-console
+    drivers:
+    - ESP32EVBRelayDriver:
+        name: dut-power
+        bindings:
+          relay: dut-power
+    - DigitalOutputPowerDriver:
+        name: dut-power
+        bindings:
+          output: dut-power
+        delay: 2.5
+    - SerialDriver:
+        txdelay: 0.01
+    - ShellDriver:
+        console_ready: Please press Enter to activate this console.
+        prompt: 'root@[\w()]+:[^ ]+ '
+        login_prompt: built-in shell (ash)
+        username: kingbanik
+        login_timeout: 80
+    - UBootDriver:
+        prompt: 'Lightning #'
+        console_decodeerrors: backslashreplace
+        init_command_timeout: 60
+        init_commands:
+        - setenv serverip 192.168.1.2
+        - setenv ipaddr 192.168.1.1
+        - setenv loadaddr 0x8200000
+        - tftpboot ${loadaddr} prplos-intel_x86-lgm-PRPL_OSP_v2-update_script.itb
+        - source ${loadaddr}:update-script
+        - setenv tftppath
+        - setenv img_kernel prplos-intel_x86-lgm-PRPL_OSP_v2-wgrtd159be_b_wav700-ext4.img
+        - setenv img_uboot
+        - setenv img_rbe
+        - setenv img_smd
+        - setenv update_rescue_bank yes
+        - mmc dev 0
+        # testbed-04's OSPv2 carries the newer eMMC layout with the 16M
+        # 'config' partition (PCF-2690), so rootfs_data starts at LBA
+        # 0x8ec00 and lcm_data at 0xaec00 (testbed-03's board: 0x86c00 and
+        # 0xa6c00). Wipe rootfs_data and the lcm_data superblock as before.
+        # Also wipe 'config' (LBA 0x86c00), because the firmware keeps
+        # /cfg/pcm across a reflash. The firmware formats it on first boot.
+        - mmc erase 0x86c00 0x8000
+        - mmc erase 0x8ec00 0x10000
+        - mmc erase 0xaec00 0x400
+        - run update_prpl
+        boot_command: run bootcmd
+    - UBootStrategy: {}
   wnc-freedom-emmc:
     resources:
     - ESP32EVBRelay:
