@@ -50,6 +50,10 @@ MAX_WAIT_CTR_UP=180
 ## Seconds to wait before each container pull retry. The retry loops add an
 ## empty item after these waits, which marks the last attempt: 3 in all.
 PULL_RETRY_WAITS="5 15"
+## Rlyeh reports a stalled download only after its 10 s low-speed limit. When
+## the image is still missing after the pull poll, wait up to these seconds
+## more for the result of that pull before the retry decision.
+PULL_VERDICT_WAIT=12
 
 ## Return default container name based on target.
 ## Default is Cortex-A53 based ARM 64-bit container
@@ -371,6 +375,65 @@ du_operation_with_retry() (
 	cat "${_retry_dir}/err" >&2
 	rm -rf "${_retry_dir:?}"
 )
+
+## Succeed when Rlyeh has the image of <duid>. Usage: rlyeh_image_present <duid>
+rlyeh_image_present() {
+	[ "$(ba-cli -lj "Rlyeh.Images.[DUID == \"$1\"].DUID?" | jsonfilter -e @[*].*.DUID)" = "$1" ]
+}
+
+## Print the newest rlyeh error for a pull of <uri> logged after <mark>.
+## Usage: rlyeh_pull_reason <mark> <uri>
+rlyeh_pull_reason() {
+	logread | sed -n "/$1/,\$p" | grep -F "Reason [Pull image [$2]" | tail -n 1
+}
+
+## Rlyeh.pull, then wait up to 9 s for the image; repeat the pull when rlyeh
+## logs a transient download error for it. Before a retry decision, wait up to
+## PULL_VERDICT_WAIT s more for the image or an error of the pull.
+## Usage: rlyeh_pull_with_retry <uri> <duid>
+rlyeh_pull_with_retry() {
+	_pull_out=$(mktemp)
+	for _pull_wait in ${PULL_RETRY_WAITS} ""; do
+		# Only the rlyeh lines after this mark belong to this attempt.
+		_pull_mark="Rlyeh.pull $2 $(date +%s) ${_pull_wait:-last}"
+		logger -t cram-lcm "${_pull_mark}"
+		ba-cli -l -j "Rlyeh.pull(URI = \"$1\", DUID = \"$2\")" >"${_pull_out}" 2>&1
+		_pull_i=1
+		while [ ${_pull_i} -lt 10 ] && ! rlyeh_image_present "$2"; do
+			_pull_i=$((_pull_i + 1))
+			sleep 1
+		done
+		[ ${_pull_i} -lt 10 ] && break
+		[ -n "${_pull_wait}" ] || break
+		_pull_i=0
+		while [ ${_pull_i} -lt ${PULL_VERDICT_WAIT} ] && [ -z "$(rlyeh_pull_reason "${_pull_mark}" "$1")" ]; do
+			rlyeh_image_present "$2" && break 2
+			_pull_i=$((_pull_i + 1))
+			sleep 1
+		done
+		is_transient_pull_error "$(rlyeh_pull_reason "${_pull_mark}" "$1")" || break
+		log_pull_retry "Rlyeh.pull $2" "${_pull_wait}"
+		sleep "${_pull_wait}"
+	done
+	cat "${_pull_out}"
+	rm -f "${_pull_out:?}"
+}
+
+## Request InstallDUCmd and wait the fixed 30 s; repeat the request when the
+## command ends in Error with a transient download error.
+dmm_install_du_with_retry() {
+	_dmm_cmd="X_PRPLWARE-COM_SoftwareModules.InstallDUCmd"
+	for _dmm_wait in ${PULL_RETRY_WAITS} ""; do
+		_dmm_out=$(ba-cli "${_dmm_cmd}.State='Requested'")
+		sleep 30
+		[ -n "${_dmm_wait}" ] || break
+		[ "$(cli_json_safe "${_dmm_cmd}.State?" -e @[*].*.State)" = "Error" ] || break
+		is_transient_pull_error "$(cli_json_safe "${_dmm_cmd}.ErrorMessage?" -e @[*].*.ErrorMessage)" || break
+		log_pull_retry "InstallDUCmd" "${_dmm_wait}"
+		sleep "${_dmm_wait}"
+	done
+	printf '%s\n' "${_dmm_out}"
+}
 
 install_update_ctr_with_params() {
 	params=$@
