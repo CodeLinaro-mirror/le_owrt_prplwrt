@@ -74,12 +74,12 @@ Check that registry.gitlab.com is accessible:
 
 Check that Rlyeh can download testing container:
 
-  $ R "ba-cli -l -j 'Rlyeh.pull(URI = \"docker://registry.gitlab.com/prpl-foundation/prplos/prplos/prplos-testing-container-intel_mips-xrx500:v1\", DUID = \"0f032bd7-54bd-5b81-b14e-9441d730092f\")'"
+  $ S=". /tmp/script_functions.sh"
+  $ scp -O ${TESTDIR}/../lcm/script_functions.sh root@${TARGET_LAN_IP}:/tmp/script_functions.sh
+  $ R "${S} && rlyeh_pull_with_retry docker://registry.gitlab.com/prpl-foundation/prplos/prplos/prplos-testing-container-intel_mips-xrx500:v1 0f032bd7-54bd-5b81-b14e-9441d730092f"
   
   Rlyeh.pull() returned
   [""]
-
-  $ R 'i=1; while [ $i -lt 10 ] && [ "$(ba-cli -lj "Rlyeh.Images.[DUID == \"0f032bd7-54bd-5b81-b14e-9441d730092f\"].DUID?" | jsonfilter -e @[*].*.DUID)" != "0f032bd7-54bd-5b81-b14e-9441d730092f" ]; do i=$((i+1)); sleep 1; done'
 
 
 Check that Rlyeh has downloaded the testing container:
@@ -114,3 +114,7 @@ Check that testing image is gone from the filesystem as well:
   $ R "ls -al /lcm_data/rlyeh/images/prplos/prplos-testing-container-intel_mips-xrx500"
   ls: /lcm_data/rlyeh/images/prplos/prplos-testing-container-intel_mips-xrx500: No such file or directory
   [1]
+
+Remove the helper functions:
+
+  $ R "rm /tmp/script_functions.sh"
