@@ -29,13 +29,9 @@ Set-up the test configuration:
   [
       ""
   ]
-  $ R "/etc/init.d/cthulhu stop"
-  $ R "/etc/init.d/rlyeh stop"
-  $ R "/etc/init.d/timingila stop"
+  $ R "${S} && stop_services_and_wait 60 cthulhu rlyeh timingila"
 
-wait for cthulhu to terminate all containers and itself, before clear its data
-
-  $ R "while [ -n \"$(pidof cthulhu)\" ]; do sleep 1; done"
+wait for all LCM services to terminate before clearing their data
   $ R "rm -rf /lcm/*"
   $ R "rm -rf /etc/config/cthulhu/*"
   $ R "find /usr/rlyeh_save" | sort
@@ -68,8 +64,7 @@ wait for cthulhu to terminate all containers and itself, before clear its data
   $ R "/etc/init.d/rlyeh start"
   $ sleep 1
   $ R "/etc/init.d/cthulhu start"
-  $ R "/etc/init.d/timingila start"
-  $ R "sleep 1"
+  $ R "${S} && start_timingila_and_wait 60"
   $ R "ba-cli -l 'Device.SoftwareModules.DeploymentUnitNumberOfEntries?'"
   
   0
@@ -140,9 +135,9 @@ wait for cthulhu to terminate all containers and itself, before clear its data
   $ R "/etc/init.d/rlyeh stop"
   $ R "/etc/init.d/timingila stop"
 
-wait for cthulhu to terminate all containers and itself, before clear its data
+wait for all LCM services to terminate before clearing their data
 
-  $ R "while [ -n \"\$(pidof cthulhu)\" ]; do sleep 1; done"
+  $ R "${S} && wait_for_services_exit 60 cthulhu rlyeh timingila"
   $ R "rm -rf /etc/config/cthulhu/*"
   $ R "rm -rf /etc/config/lxc/*"
   $ R "rm -rf /etc/config/rlyeh/*"
@@ -191,10 +186,9 @@ wait for cthulhu to terminate all containers and itself, before clear its data
   $ R "/etc/init.d/rlyeh start"
   $ sleep 1
   $ R "/etc/init.d/cthulhu start"
-  $ R "/etc/init.d/timingila start"
-  $ while ! R ba-cli 'SoftwareModules.ExecEnv.? | grep "SoftwareModules\.ExecEnv\.1\." | head -n 1 | grep "SoftwareModules\.ExecEnv\.1\."' ; do sleep 1 ; done
+  $ R "${S} && start_timingila_and_wait 60"
+  $ R "ba-cli 'SoftwareModules.ExecEnv.?' | grep 'SoftwareModules\.ExecEnv\.1\.' | head -n 1"
   SoftwareModules.ExecEnv.1.
-  $ sleep 10
 
 ## check state after the simulated reboot
 

@@ -1109,18 +1109,14 @@ fake_fw_upgrade() {
     ## Stop the active container to allow stopping cthulhu without any problem
     stop_ctr --uuid "${uuid}" >> /dev/null
 
-    service cthulhu stop
-    service rlyeh stop
-    service timingila stop
+    stop_services_and_wait 60 cthulhu rlyeh timingila || return $?
 
     rm -rf /etc/config/cthulhu /etc/config/lxc/"${duid}"
 
     service rlyeh start
     service cthulhu start
     sleep 2
-    service timingila start
-
-    sleep 5
+    start_timingila_and_wait 60 || return $?
     start_ctr --uuid "${uuid}" >> /dev/null
 }
 
@@ -1257,17 +1253,190 @@ cleanup_pcm_test() {
 	echo "Done"
 }
 
+unmount_cthulhu_appdata() {
+    _cthulhu_mounts="/lcm/cthulhu/data/mounts/generic/applicationdata/mounts/00000000-0000-5000-b000-000000000001/Volume2
+/lcm/cthulhu/data/mounts/generic/applicationdata/mounts/00000000-0000-5000-b000-000000000001/Volume1
+/lcm/cthulhu/data/mounts/generic
+"
+    _cthulhu_unmount_failed=0
+    while IFS= read -r _cthulhu_mount; do
+        if awk -v path="${_cthulhu_mount}" '$2 == path { found=1 } END { exit !found }' /proc/mounts; then
+            if ! umount "${_cthulhu_mount}"; then
+                echo "ERROR: failed to unmount Cthulhu appdata mount ${_cthulhu_mount}" >&2
+                _cthulhu_unmount_failed=1
+            fi
+        fi
+    done <<EOF
+${_cthulhu_mounts}
+EOF
+    return "${_cthulhu_unmount_failed}"
+}
+
+wait_for_services_exit() {
+    _wait_timeout=$1
+    shift
+
+    case "${_wait_timeout}" in
+        ''|*[!0-9]*)
+            echo "ERROR: timeout must be a non-negative integer" >&2
+            return 2
+            ;;
+    esac
+
+    if [ "$#" -eq 0 ]; then
+        echo "ERROR: no services specified" >&2
+        return 2
+    fi
+
+    _wait_elapsed=0
+    while :; do
+        _wait_running=""
+        for _wait_service in "$@"; do
+            _wait_pids=$(pidof "${_wait_service}" 2>/dev/null)
+            if [ -n "${_wait_pids}" ]; then
+                _wait_running="${_wait_running} ${_wait_service}(pid=${_wait_pids})"
+            fi
+        done
+
+        [ -z "${_wait_running}" ] && return 0
+
+        if [ "${_wait_elapsed}" -ge "${_wait_timeout}" ]; then
+            echo "WARNING: services still running after ${_wait_timeout}s; sending SIGKILL:${_wait_running}" >&2
+            _wait_killed_cthulhu=0
+            for _wait_service in "$@"; do
+                _wait_pids=$(pidof "${_wait_service}" 2>/dev/null)
+                if [ -n "${_wait_pids}" ]; then
+                    [ "${_wait_service}" = "cthulhu" ] && _wait_killed_cthulhu=1
+                    # pidof returns a whitespace-separated list; intentionally split it for kill.
+                    kill -9 ${_wait_pids} || echo "ERROR: failed to SIGKILL ${_wait_service} (pid=${_wait_pids})" >&2
+                fi
+            done
+
+            _wait_kill_elapsed=0
+            while :; do
+                _wait_running=""
+                for _wait_service in "$@"; do
+                    _wait_pids=$(pidof "${_wait_service}" 2>/dev/null)
+                    if [ -n "${_wait_pids}" ]; then
+                        _wait_running="${_wait_running} ${_wait_service}(pid=${_wait_pids})"
+                    fi
+                done
+
+                if [ -z "${_wait_running}" ]; then
+                    if [ "${_wait_killed_cthulhu}" -eq 1 ]; then
+                        unmount_cthulhu_appdata || return $?
+                    fi
+                    return 0
+                fi
+                if [ "${_wait_kill_elapsed}" -ge 5 ]; then
+                    echo "ERROR: services still running after SIGKILL:${_wait_running}" >&2
+                    return 1
+                fi
+                sleep 1
+                _wait_kill_elapsed=$((_wait_kill_elapsed + 1))
+            done
+        fi
+
+        sleep 1
+        _wait_elapsed=$((_wait_elapsed + 1))
+    done
+}
+
+stop_services_and_wait() {
+    _stop_timeout=$1
+    shift
+
+    case "${_stop_timeout}" in
+        ''|*[!0-9]*)
+            echo "ERROR: timeout must be a non-negative integer" >&2
+            return 2
+            ;;
+    esac
+
+    if [ "$#" -eq 0 ]; then
+        echo "ERROR: no services specified" >&2
+        return 2
+    fi
+
+    _stop_failed=0
+    for _stop_service in "$@"; do
+        if ! "/etc/init.d/${_stop_service}" stop; then
+            echo "ERROR: failed to request stop for ${_stop_service}" >&2
+            _stop_failed=1
+        fi
+    done
+
+    wait_for_services_exit "${_stop_timeout}" "$@" || return $?
+    return "${_stop_failed}"
+}
+
+## Start Timingila and wait for its asynchronous late initialization to finish.
+## Follow only new log entries so a prior restart's completion cannot satisfy the wait.
+## Usage: start_timingila_and_wait [timeout_seconds]
+start_timingila_and_wait() {
+    _timingila_timeout=${1:-60}
+    case "${_timingila_timeout}" in
+        ''|*[!0-9]*)
+            echo "ERROR: timeout must be a non-negative integer" >&2
+            return 2
+            ;;
+    esac
+
+    _timingila_log="/tmp/timingila-lateinit-$$.log"
+    rm -f "${_timingila_log}"
+
+    logread -f > "${_timingila_log}" 2>&1 &
+    _timingila_logread_pid=$!
+    sleep 1
+    if ! kill -0 "${_timingila_logread_pid}" 2>/dev/null; then
+        echo "ERROR: could not start log monitor for Timingila late-init" >&2
+        wait "${_timingila_logread_pid}" 2>/dev/null || true
+        rm -f "${_timingila_log}"
+        return 1
+    fi
+
+    if ! service timingila start; then
+        echo "ERROR: failed to start Timingila" >&2
+        kill "${_timingila_logread_pid}" 2>/dev/null || true
+        wait "${_timingila_logread_pid}" 2>/dev/null || true
+        rm -f "${_timingila_log}"
+        return 1
+    fi
+
+    _timingila_elapsed=0
+    while ! grep -q 'tmg:lateinit:done' "${_timingila_log}"; do
+        if ! kill -0 "${_timingila_logread_pid}" 2>/dev/null; then
+            echo "ERROR: Timingila log monitor exited before late-init completed" >&2
+            wait "${_timingila_logread_pid}" 2>/dev/null || true
+            rm -f "${_timingila_log}"
+            return 1
+        fi
+        if [ "${_timingila_elapsed}" -ge "${_timingila_timeout}" ]; then
+            echo "ERROR: Timingila late-init did not complete within ${_timingila_timeout}s" >&2
+            kill "${_timingila_logread_pid}" 2>/dev/null || true
+            wait "${_timingila_logread_pid}" 2>/dev/null || true
+            rm -f "${_timingila_log}"
+            return 1
+        fi
+        sleep 1
+        _timingila_elapsed=$((_timingila_elapsed + 1))
+    done
+
+    kill "${_timingila_logread_pid}" 2>/dev/null || true
+    wait "${_timingila_logread_pid}" 2>/dev/null || true
+    rm -f "${_timingila_log}"
+}
+
 cleanup_appdata() {
-	umount /lcm/cthulhu/data/mounts/generic > /dev/null 2>&1
-	umount /lcm/cthulhu/data/mounts/generic/applicationdata/mounts/00000000-0000-5000-b000-000000000001/Volume1 > /dev/null 2>&1
-	umount /lcm/cthulhu/data/mounts/generic/applicationdata/mounts/00000000-0000-5000-b000-000000000001/Volume2 > /dev/null 2>&1
+	unmount_cthulhu_appdata || return $?
 	rm -rf /lcm/cthulhu/data/mounts/generic/applicationdata
 	service cthulhu stop > /dev/null 2>&1
 	while [ -n "$(pidof cthulhu)" ]; do sleep 1; done; sleep 10
 	rm -rf /etc/config/cthulhu/* > /dev/null 2>&1
 	service cthulhu start > /dev/null
 	sleep 2
-	service timingila restart > /dev/null
+	stop_services_and_wait 60 timingila || return $?
+	start_timingila_and_wait 60 || return $?
 }
 
 ##
@@ -1333,13 +1502,7 @@ normalize_dump(){
 
 cleanup_lpm_test(){
 
-    /etc/init.d/cthulhu stop
-    /etc/init.d/rlyeh stop
-    /etc/init.d/timingila stop
-
-    ## Wait for cthulhu to terminate all containers and itself, before clearing its data
-
-    COUNT=0; while [ -n "$(pidof cthulhu)" ]; do if [ "$COUNT" -ge 10 ]; then echo "Warning: cthulhu is still running after 10 checks. Exiting."; break; fi; sleep 1; COUNT=$((COUNT + 1)); done
+    stop_services_and_wait 60 cthulhu rlyeh timingila || return $?
 
     rm -rf /usr/rlyeh/*
     rm -rf /etc/amx/cthulhu/onboard/*
@@ -1347,7 +1510,7 @@ cleanup_lpm_test(){
 
     /etc/init.d/cthulhu start
     /etc/init.d/rlyeh start
-    /etc/init.d/timingila start
+    start_timingila_and_wait 60 || return $?
 }
 
 ## Wrapper around CLI_JSON that prints descriptive errors on failure.

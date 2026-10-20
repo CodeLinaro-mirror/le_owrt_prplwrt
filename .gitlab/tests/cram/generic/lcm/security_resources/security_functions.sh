@@ -59,10 +59,7 @@ configure_security() {
 	exec >/dev/null 2>&1
 	destination="$1"
 
-	/etc/init.d/timingila stop
-	/etc/init.d/rlyeh stop
-	/etc/init.d/tr181-security stop
-	sleep 2
+	stop_services_and_wait 60 timingila rlyeh tr181-security || return $?
 	mv /tmp/softwaremodules_default.odl /etc/config/softwaremodules/odl/timingila.odl
 	mkdir -p /usr/share/rlyeh/keys/
 	mv /tmp/sign_test_pub.asc /usr/share/rlyeh/keys/
@@ -70,10 +67,10 @@ configure_security() {
 	/etc/init.d/rlyeh start
 	/etc/init.d/tr181-security start
 	sleep 2
-	/etc/init.d/timingila start
+	start_timingila_and_wait 60 || return $?
 
-	${CLI_JSON} 'Device.Security.Certificate.[CAFileName=="lcm_cert_client.crt"].PrivateKeyURI="pkcs11:token=lcm_token;object=key;type=private;pin-value=12345"'
-	${CLI_JSON} 'Device.Security.Certificate.[CAFileName=="lcm_cert_client.crt"].CertificateURI="file:///etc/config/autocert/lcm_cert_client.crt"'
+	${CLI_JSON} 'Device.Security.Certificate.[CAFileName=="lcm_cert_client.crt"].PrivateKeyURI="pkcs11:token=lcm_token;object=key;type=private;pin-value=12345"' || return $?
+	${CLI_JSON} 'Device.Security.Certificate.[CAFileName=="lcm_cert_client.crt"].CertificateURI="file:///etc/config/autocert/lcm_cert_client.crt"' || return $?
 
 
 	# Set the defined server names in /etc/hosts
@@ -107,8 +104,7 @@ cleanup_security() {
 	CLIENT_CERT_LOCATION="/etc/config/autocert/"
 	CLIENT_CERT_NAME="lcm_cert_client"
 
-	service timingila stop
-	service tr181-security stop
+	stop_services_and_wait 60 timingila tr181-security || return $?
 
 	# Remove all config installed or generated
 	rm -rf /tmp/"${CLIENT_CERT_NAME}".csr
@@ -126,7 +122,7 @@ cleanup_security() {
 
 	#rm -f /tmp/script_functions.sh /tmp/security_functions.sh
 	service tr181-security start
-	service timingila start
+	start_timingila_and_wait 60 || return $?
 }
 
 # Applies a named data model configuration command via usp-test-cli or ubus.
@@ -225,11 +221,21 @@ configure_datamodel() {
             ;;
     esac
 
-    # Execute based on cli and type
+    # Execute based on cli and type, checking USP CLI's structured error response.
     if [ "$cli" = "usp" ] && [ "$type" = "set" ]; then
-		usp-test-cli -lj "$param='$value'" | sed '/^$/d'
+        _configure_output=$(usp-test-cli -lj "$param='$value'")
+        _configure_status=$?
+        printf '%s\n' "${_configure_output}" | sed '/^$/d'
+        if [ "${_configure_status}" -ne 0 ]; then
+            return "${_configure_status}"
+        fi
+        printf '%s\n' "${_configure_output}" | grep -Eq '"err_code"[[:space:]]*:[[:space:]]*[1-9][0-9]*' && return 1
+        return 0
     elif [ "$cli" = "ubus" ] && [ "$type" = "set" ]; then
-		ubus-cli -lj "$param='$value'" | sed '/^$/d'
+        _configure_output=$(ubus-cli -lj "$param='$value'")
+        _configure_status=$?
+        printf '%s\n' "${_configure_output}" | sed '/^$/d'
+        return "${_configure_status}"
     elif [ "$cli" = "usp" ] && [ "$type" = "sub" ]; then
         usp-test-cli "$sub"
     fi
