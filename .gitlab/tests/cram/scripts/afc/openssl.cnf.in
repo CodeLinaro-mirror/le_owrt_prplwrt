@@ -1,0 +1,10 @@
+[req]
+distinguished_name = dn
+prompt = no
+[dn]
+CN = @SERVER_IP@
+[v3_srv]
+basicConstraints = CA:FALSE
+subjectAltName = IP:@SERVER_IP@
+keyUsage = digitalSignature,keyEncipherment
+extendedKeyUsage = serverAuth
