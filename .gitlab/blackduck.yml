@@ -3,10 +3,11 @@
   stage: blackduck
   timeout: 4 hours
   needs: []
+  variables:
+    BD_PROJECT_NAME: "prplware-v5"
+    BD_PROJECT_VERSION: "prplware-v5.2.0"
   rules:
-    - if: $CI_COMMIT_REF_PROTECTED && $CI_COMMIT_TAG
-    - if: $CI_PIPELINE_SOURCE == "schedule"
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_LABELS =~ /ci::allow-expensive-jobs/'
+    - if: '$CI_COMMIT_BRANCH == "blackduck_scan_v5.2.0"'
   before_script:
     - touch .build_failed
     - export CI_BUILD_PROFILE="$(echo $CI_JOB_NAME | sed 's/blackduck scan \(.*\)/\1/')"
@@ -17,15 +18,16 @@
     - sudo apt install openjdk-17-jdk -y
     - curl -s --output detect.sh https://detect.blackduck.com/detect10.sh
     - sudo chmod +x detect.sh
+    - mkdir -p logs
     - |
       for dir in $(ls -d build_dir/target-*/*); do
         ./detect.sh \
             --blackduck.url=https://prplfoundation.app.blackduck.com \
             --blackduck.api.token=$BLACKDUCK_API_KEY \
-            --detect.project.name=prplos \
-            --detect.project.version.name=$CI_COMMIT_REF_NAME-$target_name \
+            --detect.project.name="$BD_PROJECT_NAME" \
+            --detect.project.version.name="$BD_PROJECT_VERSION" \
             --detect.source.path=$dir \
-            --detect.excluded.detector.types=PIP,NPM 2>&1 | tee logs/blackduck.log
+            --detect.excluded.detector.types=PIP,NPM 2>&1 | tee -a logs/blackduck.log
       done
   after_script:
     - mkdir -p bin
