@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<presence xmlns="urn:ietf:params:xml:ns:pidf"
+xmlns:gp="urn:ietf:params:xml:ns:pidf:geopriv10"
+xmlns:gml="http://www.opengis.net/gml"
+xmlns:gs="http://www.opengis.net/pidflo/1.0"
+entity="ENTITY_VALUE">
+<tuple id="TUPLE_ID">
+<status>
+<gp:geopriv>
+<gp:location-info>
+<gs:Ellipse srsName="urn:ogc:def:crs:EPSG::4326">
+<gml:pos>37.7749 -122.4194</gml:pos>
+<gs:semiMajorAxis uom="urn:ogc:def:uom:EPSG::9001">50</gs:semiMajorAxis>
+<gs:semiMinorAxis uom="urn:ogc:def:uom:EPSG::9001">50</gs:semiMinorAxis>
+<gs:orientation uom="urn:ogc:def:uom:EPSG::9102">0</gs:orientation>
+</gs:Ellipse>
+</gp:location-info>
+<gp:usage-rules/>
+<gp:method>METHOD_VALUE</gp:method>
+</gp:geopriv>
+</status>
+<timestamp>2026-05-27T12:29:59Z</timestamp>
+</tuple>
+</presence>

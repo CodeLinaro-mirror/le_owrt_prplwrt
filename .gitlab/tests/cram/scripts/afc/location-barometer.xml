@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sensml xmlns="urn:ietf:params:xml:ns:senml">
+<senml bt="1781000095" n="pressure" u="Pa" v="91795"></senml>
+<senml n="barometricHeight" u="m" v="870"></senml>
+<senml n="verticalUncertainty" u="m" v="2.5"></senml>
+<senml n="heightType" vs="AMSL"></senml>
+</sensml>
