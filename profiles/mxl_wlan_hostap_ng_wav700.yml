@@ -2,9 +2,9 @@
 description: Add the WLAN feature with opensource hostap for the Maxlinear devices
 feeds:
   - name: wlan_6x
-    uri: https://github.com/maxlinear/feed_wlan.git
-    tracking_branch:  updk_9.2.10
-    revision: 0583be0ba84cbbd3632188278aa5f84cb2180fb3
+    uri: https://gitlab.com/prpl-foundation/mirrors/maxlinear/feed_wlan.git
+    tracking_branch:  feature/PPM-3563
+    revision: 94cdf304ee003951e05b375a5412a0cf14dc28d0
 
 packages:
   - dwpal_6x-uci-osp
