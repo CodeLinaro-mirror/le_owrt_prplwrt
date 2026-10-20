@@ -1,0 +1,34 @@
+.blackduck scan config:
+  extends: .build test config
+  stage: blackduck
+  timeout: 4 hours
+  needs: []
+  variables:
+    BD_PROJECT_NAME: "prplware-v4"
+    BD_PROJECT_VERSION: "prplware-v4.0.4"
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "blackduck_scan_v4.0.4"'
+  before_script:
+    - touch .build_failed
+    - export CI_BUILD_PROFILE="$(echo $CI_JOB_NAME | sed 's/blackduck scan \(.*\)/\1/')"
+  script:
+    - !reference [.build test config, script]
+    - target_name=$(sed -n 's/.*CONFIG_TARGET_BOARD="\([^"]\+\)".*/\1/p' .config)
+    - sudo apt update
+    - sudo apt install openjdk-17-jdk -y
+    - curl -s --output detect.sh https://detect.blackduck.com/detect10.sh
+    - sudo chmod +x detect.sh
+    - mkdir -p logs
+    - |
+      for dir in $(ls -d build_dir/target-*/*); do
+        ./detect.sh \
+            --blackduck.url=https://prplfoundation.app.blackduck.com \
+            --blackduck.api.token=$BLACKDUCK_API_KEY \
+            --detect.project.name="$BD_PROJECT_NAME" \
+            --detect.project.version.name="$BD_PROJECT_VERSION" \
+            --detect.source.path=$dir \
+            --detect.excluded.detector.types=PIP,NPM 2>&1 | tee -a logs/blackduck.log
+      done
+  after_script:
+    - mkdir -p bin
+    - tar -czf bin/blackduck-scan-output.tar.gz /home/builder/blackduck/runs/*/scan/BlackDuckScanOutput/* 2>/dev/null || true
