@@ -124,6 +124,7 @@ packages:
   - tr181-wireguard
   - tr181-gre
   - tr181-tuntap
+  - tr181-bootstatus
 
 diffconfig: |
           CONFIG_DEVEL=y
