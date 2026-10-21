@@ -360,7 +360,7 @@ cram Freedom [auto]:
   extends:
     - .wnc-freedom testbed
     - .cram_component_auto
-  timeout: 120 minutes
+  timeout: 94 minutes
   rules:
     - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
       when: never
@@ -508,7 +508,7 @@ cram OSPv2 [prplos]:
 cram Freedom [full]:
   needs: ["build test qca_ipq95xx prpl cellular security thread"]
   extends: .wnc-freedom testbed
-  timeout: 120 minutes
+  timeout: 94 minutes
   variables:
     COMPONENT: full
 
