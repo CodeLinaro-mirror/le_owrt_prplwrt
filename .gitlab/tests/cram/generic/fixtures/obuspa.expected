@@ -545,6 +545,15 @@ Device.DeviceInfo.ActiveFirmwareImage                                           
 Device.DeviceInfo.AdditionalHardwareVersion                                                          proto::deviceinfo-manager
 Device.DeviceInfo.AdditionalSoftwareVersion                                                          proto::deviceinfo-manager
 Device.DeviceInfo.BootFirmwareImage                                                                  proto::deviceinfo-manager
+Device.DeviceInfo.BootTiming.                                                                        proto::tr181-bootstatus
+Device.DeviceInfo.BootTiming.BootCompleteTime                                                        proto::tr181-bootstatus
+Device.DeviceInfo.BootTiming.BootDuration                                                            proto::tr181-bootstatus
+Device.DeviceInfo.BootTiming.BootStartTime                                                           proto::tr181-bootstatus
+Device.DeviceInfo.BootTiming.LastBootMilestone.{i}.                                                  proto::tr181-bootstatus
+Device.DeviceInfo.BootTiming.LastBootMilestone.{i}.Alias                                             proto::tr181-bootstatus
+Device.DeviceInfo.BootTiming.LastBootMilestone.{i}.BootStage                                         proto::tr181-bootstatus
+Device.DeviceInfo.BootTiming.LastBootMilestone.{i}.TimeStamp                                         proto::tr181-bootstatus
+Device.DeviceInfo.BootTiming.LastBootMilestoneNumberOfEntries                                        proto::tr181-bootstatus
 Device.DeviceInfo.CID                                                                                proto::deviceinfo-manager
 Device.DeviceInfo.Description                                                                        proto::deviceinfo-manager
 Device.DeviceInfo.DeviceCategory                                                                     proto::deviceinfo-manager
