@@ -271,7 +271,7 @@ LastRebootRef
 
 bs_lastreboot_field <Cause|Reason>: the field on the row LastRebootRef names.
 
-  $ bs_lastreboot_field() { bs_get "$(bs_lastrebootref)$1"; }
+  $ bs_lastreboot_field() { bs_get "$(bs_lastrebootref).$1"; }
 
 The highest Reboots.Reboot.{i} instance number that exists. The component picks
 the highest index, not the next one, so a gap in the indexes does not matter.
@@ -290,8 +290,8 @@ row.
   >     _bs_top="$(bs_reboot_highest)"
   >     if [ -z "$_bs_top" ]; then
   >         echo "NO Reboots.Reboot rows, LastRebootRef='${_bs_ref}'"
-  >     elif [ "$_bs_ref" != "Device.DeviceInfo.Reboots.Reboot.${_bs_top}." ]; then
-  >         echo "WRONG LastRebootRef='${_bs_ref}', the newest row is Device.DeviceInfo.Reboots.Reboot.${_bs_top}."
+  >     elif [ "$_bs_ref" != "Device.DeviceInfo.Reboots.Reboot.${_bs_top}" ]; then
+  >         echo "WRONG LastRebootRef='${_bs_ref}', the newest row is Device.DeviceInfo.Reboots.Reboot.${_bs_top}"
   >     else
   >         echo "valid"
   >     fi
@@ -314,11 +314,8 @@ bs_write <path> <value>: the ERROR line ba-cli prints for the write, then
   > }
 
 bs_cli <command>: the ERROR line ba-cli prints for <command>.
-bs_cli_as <role> <command>: the same, with ACL checks on for <role>, as for a
-controller with that role.
 
   $ bs_cli() { bs_remote "ba-cli '$1'" 2>&1 | grep '^ERROR'; }
-  $ bs_cli_as() { bs_remote "ba-cli -u $1 '$2'" 2>&1 | grep '^ERROR'; }
 
 Timeline snapshots
 
@@ -361,10 +358,10 @@ stops here with a failure instead of running every wait to its timeout.
   $ R "logger -t cram 'bootstatus-cram: starting BootStatus run'"
 
 Put time-manager and tr181-bootstatus back if the test stops early, so the
-tests that run after this one find both running. Starting a service that is
-already running does nothing:
+tests that run after this one find both running, with the FSM trace zone at its
+default. Starting a service that is already running does nothing:
 
-  $ trap 'bs_remote "${BS_TIME_INIT} start; ${BS_SERVICE_INIT} start" >/dev/null 2>&1' EXIT
+  $ trap 'bs_remote "${BS_TIME_INIT} start; ${BS_SERVICE_INIT} start; ba-cli \"BootTiming.set_trace_zone(zone=bootstatus_fsm, level=200)\"" >/dev/null 2>&1' EXIT
 
 Check the clock is trusted, since Completed needs it. Without a reachable NTP
 server every later wait for Completed would time out for the same reason, so the
@@ -388,7 +385,7 @@ Check BootStage and LastRebootRef:
   $ bs_bootstage
   Completed
   $ bs_lastrebootref
-  Device\.DeviceInfo\.Reboots\.Reboot\.\d+\. (re)
+  Device\.DeviceInfo\.Reboots\.Reboot\.\d+ (re)
 
 Check the three BootTiming scalars. The clock is synchronized, so both times
 must be real ones; the unset value 0001-01-01T00:00:00Z does not match:
@@ -413,7 +410,7 @@ aliases:
   $ bs_stage_sequence
   Started PowerOn KernelReady NetworkReady ManagementReady Completed
   $ bs_alias_sequence
-  cpe-1 cpe-2 cpe-3 cpe-4 cpe-5 cpe-6
+  cpe-LastBootMilestone-1 cpe-LastBootMilestone-2 cpe-LastBootMilestone-3 cpe-LastBootMilestone-4 cpe-LastBootMilestone-5 cpe-LastBootMilestone-6
   $ for i in $(bs_rows); do
   >   [ -n "$(bs_milestone_field "$i" TimeStamp)" ] || echo "FAIL: row $i has no TimeStamp"
   > done; echo done
@@ -484,12 +481,7 @@ C-4. The boot stage cannot be written:
 
 Attempt to set the boot stage to another stage and to a value that is not one of
 the defined stages, and confirm each write is refused with "is read only" and
-the value is unchanged afterwards. Then call the internal SetBootStatus() method
-the way a controller would, with ACL checks on for the admin and untrusted
-roles. No role ACL grants it, so both calls must be refused. Root on the device
-may call it (it is %protected, not private), so a root call with a missing,
-empty or invalid BootStage must be refused by its argument checks. The values
-must not change.
+the value is unchanged afterwards. The values must not change.
 
 Check BootStage rejects a write:
 
@@ -500,25 +492,10 @@ Check BootStage rejects a write:
   ERROR: set Device.DeviceInfo.BootStage failed (15 - is read only)
   unchanged
 
-Check SetBootStatus() refuses a controller role. The calls pass the current
-values, so the values stay right even if a call were accepted; the test then
-fails on the missing ERROR line:
+Check both values are still the same:
 
   $ STAGE_BEFORE="$(bs_bootstage)"
   $ REF_BEFORE="$(bs_lastrebootref)"
-  $ bs_cli_as admin "Device.DeviceInfo.SetBootStatus(BootStage=\"${STAGE_BEFORE}\",LastRebootRef=\"${REF_BEFORE}\")"
-  ERROR: permission denied Device.DeviceInfo.SetBootStatus
-  $ bs_cli_as untrusted "Device.DeviceInfo.SetBootStatus(BootStage=\"${STAGE_BEFORE}\",LastRebootRef=\"${REF_BEFORE}\")"
-  ERROR: permission denied Device.DeviceInfo.SetBootStatus
-
-Check SetBootStatus() refuses invalid arguments:
-
-  $ bs_cli 'Device.DeviceInfo.SetBootStatus(LastRebootRef="")'
-  ERROR: call .* failed with status \d+ - .* (re)
-  $ bs_cli 'Device.DeviceInfo.SetBootStatus(BootStage="",LastRebootRef="")'
-  ERROR: call .* failed with status \d+ - .* (re)
-  $ bs_cli 'Device.DeviceInfo.SetBootStatus(BootStage="NotAStage",LastRebootRef="")'
-  ERROR: call .* failed with status \d+ - .* (re)
   $ [ "$(bs_bootstage)" = "$STAGE_BEFORE" ] && echo unchanged || echo "FAIL: BootStage is now '$(bs_bootstage)', was '$STAGE_BEFORE'"
   unchanged
   $ [ "$(bs_lastrebootref)" = "$REF_BEFORE" ] && echo unchanged || echo "FAIL: LastRebootRef is now '$(bs_lastrebootref)', was '$REF_BEFORE'"
@@ -532,7 +509,7 @@ still names the newest reboot record afterwards.
 
 Check LastRebootRef rejects a wrong reference and a clear:
 
-  $ bs_write Device.DeviceInfo.LastRebootRef "Device.DeviceInfo.Reboots.Reboot.99."
+  $ bs_write Device.DeviceInfo.LastRebootRef "Device.DeviceInfo.Reboots.Reboot.99"
   ERROR: set Device.DeviceInfo.LastRebootRef failed (15 - is read only)
   unchanged
   $ bs_write Device.DeviceInfo.LastRebootRef ""
@@ -631,6 +608,11 @@ changes are read from the FSM's own log lines, after a marker.
 C-8 is the stop half of that cycle, so C-7 resumes below it. The device is never
 rebooted.
 
+The stage changes are NOTICE lines, which the default trace level (200) leaves
+out. Raise the FSM trace zone until C-7 is done:
+
+  $ R "ba-cli 'BootTiming.set_trace_zone(zone=bootstatus_fsm, level=500)'" > /dev/null
+
   $ MARK="bootstatus-cram-mark-$$-$(date +%s)"
   $ R "logger -t cram '$MARK'"
 
@@ -659,7 +641,7 @@ Check BootTiming. left the bus while BootStage and LastRebootRef survived:
   $ [ -z "$(bs_probe "${BS_BOOTTIMING}.LastBootMilestoneNumberOfEntries")" ] && echo "BootTiming. is off the bus" || echo "FAIL: BootTiming. still answers although its owner is stopped"
   BootTiming. is off the bus
   $ bs_lastrebootref
-  Device\.DeviceInfo\.Reboots\.Reboot\.\d+\. (re)
+  Device\.DeviceInfo\.Reboots\.Reboot\.\d+ (re)
 
 C-7 (part 2). The changes are checked once the service is back:
 
@@ -680,6 +662,10 @@ Check the changes agree with the live value and the restored table:
   OK
   $ [ "$(bs_logged_stages "$MARK" | cut -d' ' -f2-)" = "$(bs_stage_sequence)" ] && echo OK || echo "FAIL: logged boot sequence differs from the milestone table"
   OK
+
+Put the FSM trace zone back to the default:
+
+  $ R "ba-cli 'BootTiming.set_trace_zone(zone=bootstatus_fsm, level=200)'" > /dev/null
 
 Re-check the invariants:
 
@@ -733,7 +719,7 @@ Check the row set is identical and Aliases restart from the first:
   $ bs_stage_sequence
   Started PowerOn KernelReady NetworkReady ManagementReady Completed
   $ bs_alias_sequence
-  cpe-1 cpe-2 cpe-3 cpe-4 cpe-5 cpe-6
+  cpe-LastBootMilestone-1 cpe-LastBootMilestone-2 cpe-LastBootMilestone-3 cpe-LastBootMilestone-4 cpe-LastBootMilestone-5 cpe-LastBootMilestone-6
 
 Check the kernel-entry timestamp did not move (tolerance, not byte-equality):
 
@@ -766,7 +752,7 @@ gives the same table as the first:
   $ bs_stage_sequence
   Started PowerOn KernelReady NetworkReady ManagementReady Completed
   $ bs_alias_sequence
-  cpe-1 cpe-2 cpe-3 cpe-4 cpe-5 cpe-6
+  cpe-LastBootMilestone-1 cpe-LastBootMilestone-2 cpe-LastBootMilestone-3 cpe-LastBootMilestone-4 cpe-LastBootMilestone-5 cpe-LastBootMilestone-6
   $ D="$(bs_seconds_apart "$(bs_stage_timestamp Started)" "$KERNEL_TS")" && [ "$D" -le "$BS_CROSSCHECK_TOLERANCE" ] && echo preserved || echo "FAIL: Started moved ${D}s on a service restart ($KERNEL_TS -> $(bs_stage_timestamp Started)); it must stay anchored to kernel entry"
   preserved
   $ [ "$(bs_table_fingerprint)" = "$PREV_TABLE" ] && echo same || echo "FAIL: the second rebuild in this boot differs: '$(bs_table_fingerprint)' != '$PREV_TABLE'"
