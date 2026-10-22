@@ -4,7 +4,7 @@ Disable BGP instance test:
 
 Verify that BGP sessions drop and all BGP-learned routes are removed when BGP instance is disabled.
 
-  $ if [ "$DUT_BOARD" = "qemu-x86-64" ]; then exit 80; fi
+  $ case "$DUT_BOARD" in qemu-*) exit 80 ;; esac
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 

@@ -5,7 +5,7 @@ Verify that BGP does not automatically discover neighbors - peers must be
 explicitly configured via TR-181 data model before any session can be
 established. BGP instances can not be created if no BGP Neighbors are set.
 
-  $ if [ "$DUT_BOARD" = "qemu-x86-64" ]; then exit 80; fi
+  $ case "$DUT_BOARD" in qemu-*) exit 80 ;; esac
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 

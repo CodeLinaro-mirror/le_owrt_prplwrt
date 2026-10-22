@@ -55,6 +55,7 @@ hw_only:
     - "generic/acceleration-plan-components/095-reboot-service.t"
     - "generic/acceleration-plan-components/105-temperature.t"
     - "generic/acceleration-plan-components/120-buttons.t"
+    # Routing capabilities are unavailable on every qemu-* board.
     - "generic/acceleration-plan-components/122-routing-*.t"
     - "generic/acceleration-plan-components/131-power-management-usb.t"
     - "generic/acceleration-plan-components/50-cellular-offline.t"

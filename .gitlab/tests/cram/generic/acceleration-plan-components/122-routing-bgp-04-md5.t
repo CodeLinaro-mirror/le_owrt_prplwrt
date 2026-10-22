@@ -5,7 +5,7 @@ Verify that a BGP session can be established between CPE and BGP Peer when MD5
 authentication is configured on both sides using matching key chain and password.
 Verify that session fails to establish when mismatched password is used.
 
-  $ if [ "$DUT_BOARD" = "qemu-x86-64" ]; then exit 80; fi
+  $ case "$DUT_BOARD" in qemu-*) exit 80 ;; esac
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 

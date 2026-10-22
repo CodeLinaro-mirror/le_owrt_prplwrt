@@ -3,7 +3,7 @@ interface states and the discovered neighbors are re-established afterwards.
 
 Setup the test configuration:
 
-  $ if [ "$DUT_BOARD" = "qemu-x86-64" ]; then exit 80; fi
+  $ case "$DUT_BOARD" in qemu-*) exit 80 ;; esac
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
   $ alias C="${CRAM_REMOTE_COPY:-}"

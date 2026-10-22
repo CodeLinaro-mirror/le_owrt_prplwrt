@@ -3,7 +3,7 @@ Group of the test:
 - Empty RouterID
 - Establish eBGP ipv4 session
 
-  $ if [ "$DUT_BOARD" = "qemu-x86-64" ]; then exit 80; fi
+  $ case "$DUT_BOARD" in qemu-*) exit 80 ;; esac
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 

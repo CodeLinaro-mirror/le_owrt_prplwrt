@@ -4,7 +4,7 @@ Verify that CPE import policy correctly matches routes based on source protocol
 BGP condition and rejects BGP-learned routes. The route is present in AdjRIBIn
 but not installed in the RIB or system routing table.
 
-  $ if [ "$DUT_BOARD" = "qemu-x86-64" ]; then exit 80; fi
+  $ case "$DUT_BOARD" in qemu-*) exit 80 ;; esac
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 

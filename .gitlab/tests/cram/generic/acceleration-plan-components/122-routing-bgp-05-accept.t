@@ -5,7 +5,7 @@ Verify that CPE import policy correctly matches routes based on source protocol
 BGP condition and accepts only BGP-learned routes into the RIB. Routes from
 other source protocols (static, OSPF) are not affected by this filter statement.
 
-  $ if [ "$DUT_BOARD" = "qemu-x86-64" ]; then exit 80; fi
+  $ case "$DUT_BOARD" in qemu-*) exit 80 ;; esac
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
 
