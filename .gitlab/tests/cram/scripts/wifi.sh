@@ -860,4 +860,10 @@ testbed_set_wifi_defaults() {
     'WiFi.Radio.1.IEEE80211be.MLDUnitSetting="Required"' \
     'WiFi.Radio.2.IEEE80211be.MLDUnitSetting="Required"' \
     'WiFi.Radio.3.IEEE80211be.MLDUnitSetting="Required"'
+
+  # Reduce MLReconfigurationCount to 5 (default: 12) to prevent intermittent VAP toggling during fast deactivation
+  check_output wifi_dm "Radio.*.X_PRPLWARE-COM_IEEE80211be.MLReconfigurationCount=5" "Device.WiFi." "ba-cli" protected -- \
+    'Device.WiFi.Radio.1.X_PRPLWARE-COM_IEEE80211be.MLReconfigurationCount=5' \
+    'Device.WiFi.Radio.2.X_PRPLWARE-COM_IEEE80211be.MLReconfigurationCount=5' \
+    'Device.WiFi.Radio.3.X_PRPLWARE-COM_IEEE80211be.MLReconfigurationCount=5'
 }
