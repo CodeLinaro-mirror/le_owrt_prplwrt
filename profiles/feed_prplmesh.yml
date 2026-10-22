@@ -2,4 +2,4 @@
 feeds:
   - name: feed_prplmesh
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplmesh.git
-    revision: main@13c6a1751d6a049b432556fe33c3cf820bbda90c
+    revision: PPW-1682-add-ft-akm-suites-wpa3-mixed_main@a67646faeb6c26092346843d47d9d4de3ea3b231
