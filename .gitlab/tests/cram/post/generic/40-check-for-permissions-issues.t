@@ -17,7 +17,7 @@ in /var/log/messages and rotated logs:
 Check that there are no signs of failed file access attempts
 in compressed logs:
 
-  $ R "cat /var/log/messages*.gz 2>/dev/null | grep " \
+  $ R "zcat /var/log/messages*.gz 2>/dev/null | grep " \
   > "-e EPERM -e EACCES " \
   > "|| true"
 
@@ -32,6 +32,6 @@ in /var/log/messages and rotated logs
 Check that there are no signs of failed sudo attempts
 in compressed logs:
 
-  $ R "cat /var/log/messages*.gz 2>/dev/null | grep " \
+  $ R "zcat /var/log/messages*.gz 2>/dev/null | grep " \
   > "-E \"sudo: .*: command not allowed\" " \
   > "|| true"
