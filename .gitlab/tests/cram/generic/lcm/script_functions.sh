@@ -1370,8 +1370,9 @@ stop_services_and_wait() {
     return "${_stop_failed}"
 }
 
-## Start Timingila and wait for its asynchronous late initialization to finish.
-## Follow only new log entries so a prior restart's completion cannot satisfy the wait.
+## Start Timingila and wait for its asynchronous startup markers.
+## Follow only new log entries so a prior restart's markers cannot satisfy the wait.
+## Both the Rlyeh completion marker and delayed Timingila late-init start marker are required.
 ## Usage: start_timingila_and_wait [timeout_seconds]
 start_timingila_and_wait() {
     _timingila_timeout=${1:-60}
@@ -1404,15 +1405,16 @@ start_timingila_and_wait() {
     fi
 
     _timingila_elapsed=0
-    while ! grep -q 'tmg:lateinit:done' "${_timingila_log}"; do
+    while ! grep -q 'tmg:lateinit:done' "${_timingila_log}" ||
+          ! grep -q 'tmg:lateinit:start' "${_timingila_log}"; do
         if ! kill -0 "${_timingila_logread_pid}" 2>/dev/null; then
-            echo "ERROR: Timingila log monitor exited before late-init completed" >&2
+            echo "ERROR: Timingila log monitor exited before late-init markers were observed" >&2
             wait "${_timingila_logread_pid}" 2>/dev/null || true
             rm -f "${_timingila_log}"
             return 1
         fi
         if [ "${_timingila_elapsed}" -ge "${_timingila_timeout}" ]; then
-            echo "ERROR: Timingila late-init did not complete within ${_timingila_timeout}s" >&2
+            echo "ERROR: Timingila late-init markers were not both observed within ${_timingila_timeout}s" >&2
             kill "${_timingila_logread_pid}" 2>/dev/null || true
             wait "${_timingila_logread_pid}" 2>/dev/null || true
             rm -f "${_timingila_log}"

@@ -48,6 +48,37 @@ configure_hsm() {
 	fi
 }
 
+# Wait until the test's Docker Repository entry is visible through the same
+# Device.SoftwareModules path used by the security configuration commands.
+# Usage: wait_for_security_repository [timeout_seconds]
+wait_for_security_repository() {
+	_repository_timeout=${1:-60}
+	case "${_repository_timeout}" in
+		''|*[!0-9]*)
+			echo "ERROR: timeout must be a non-negative integer" >&2
+			return 2
+			;;
+	esac
+
+	_repository_elapsed=0
+	while :; do
+		if _repository_output=$(${CLI_JSON} 'Device.SoftwareModules.Config.Repository.[Name == "docker_repo"].Name?' 2>/dev/null); then
+			_repository_status=0
+		else
+			_repository_status=$?
+		fi
+		if [ "${_repository_status}" -eq 0 ] && printf '%s\n' "${_repository_output}" | grep -Fq 'docker_repo'; then
+			return 0
+		fi
+		if [ "${_repository_elapsed}" -ge "${_repository_timeout}" ]; then
+			echo "ERROR: Device.SoftwareModules.Config.Repository docker_repo was not available within ${_repository_timeout}s" >&2
+			return 1
+		fi
+		sleep 1
+		_repository_elapsed=$((_repository_elapsed + 1))
+	done
+}
+
 # Configures the security environment for the LCM (Life Cycle Management) stack by:
 #   - Stopping and restarting the services: timingila, rlyeh, tr181-security
 #   - Installing the software modules ODL config and the GPG public signing key for rlyeh
@@ -68,6 +99,7 @@ configure_security() {
 	/etc/init.d/tr181-security start
 	sleep 2
 	start_timingila_and_wait 60 || return $?
+	wait_for_security_repository 60 || return $?
 
 	${CLI_JSON} 'Device.Security.Certificate.[CAFileName=="lcm_cert_client.crt"].PrivateKeyURI="pkcs11:token=lcm_token;object=key;type=private;pin-value=12345"' || return $?
 	${CLI_JSON} 'Device.Security.Certificate.[CAFileName=="lcm_cert_client.crt"].CertificateURI="file:///etc/config/autocert/lcm_cert_client.crt"' || return $?
