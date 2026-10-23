@@ -2,7 +2,7 @@
 # Prepared by AI Codex for CI-69.
 workflow:
   rules:
-    - if: '$CI_COMMIT_BRANCH == "codex/ci-69-runner-netns-probe" && ($CI_PIPELINE_SOURCE == "push" || $CI_PIPELINE_SOURCE == "web")'
+    - if: '$CI_COMMIT_BRANCH == "codex/ci-69-nptv6-prefix-ref" && ($CI_PIPELINE_SOURCE == "push" || $CI_PIPELINE_SOURCE == "web")'
     - when: never
 
 include:
@@ -10,8 +10,8 @@ include:
 
 variables:
   CI69_TESTBED_IMAGE: "registry.gitlab.com/prpl-foundation/prplos/ci/containers/testbed-qemu@sha256:c7bc9592304871ebffb21f8510f7f086ef11602d39c0500fd47038ace43f2f53"
-  CI69_FIRMWARE_URL: "http://45.13.226.75:18080/4a7758285041/prplos-x86-64-generic-squashfs-combined-efi.img.gz"
-  CI69_FIRMWARE_SHA256: "966a40a5a1e167302c15b19af4b86cedbd0d81cb03475f086199b37029753f6e"
+  CI69_FIRMWARE_URL: "http://45.13.226.75:18080/7139cb1a98e1/prplos-x86-64-generic-squashfs-combined-efi.img.gz"
+  CI69_FIRMWARE_SHA256: "7139cb1a98e14c35e5d216e07e2ca55041e5850e7c83ed14a65fbe7b9f0a3dfd"
 
 stages: [prepare, run]
 

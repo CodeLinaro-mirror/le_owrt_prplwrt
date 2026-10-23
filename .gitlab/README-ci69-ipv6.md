@@ -48,7 +48,7 @@ A source-specific rule selects that table for traffic bound to the WAN server ad
 An unreachable default prevents fallback through the controller LAN when no lease route exists.
 The harness reserves the table and rule priority and removes them on exit.
 The route helper accepts the prefix supplied by Kea, so it is not tied to the initial pool.
-The examples do not exercise PD replacement.
+`nptv6-pd.t` replaces the Kea pool and renews the DUT lease through DHCPv6.
 
 TAP devices, the host end of the client veth, and controller bridges use
 `addrgenmode none` to suppress automatic link-local addresses and Router Solicitations.
@@ -74,7 +74,8 @@ It uses `unshare --user --map-root-user --net`.
 The fixture leaves firewall policy and NPTv6 configuration to CRAM.
 The examples save and restore the original firewall Enable value.
 The routing example temporarily disables it for WAN-initiated traffic.
-The NPTv6 example explicitly sets ExternalPrefix; PD does not update this string.
+`nptv6.t` explicitly sets ExternalPrefix.
+`nptv6-pd.t` instead uses the vendor ExternalPrefixRef extension to follow the WAN PD object.
 
 ## CRAM environment
 
@@ -116,7 +117,7 @@ The socket is local to the job, with no HTTP control service or credentials.
 
 ## Examples and artifacts
 
-`CRAM_TEST_SUITE` selects `.gitlab/tests/cram/ci69` and runs only the two examples.
+`CRAM_TEST_SUITE` selects `.gitlab/tests/cram/ci69` and runs the three IPv6 examples.
 `ipv6-pd.t` checks the Kea configuration, routes through the DUT,
 and ping and TCP in both directions.
 `nptv6.t` requires firmware with NPTv6 support.
@@ -127,19 +128,31 @@ The TCP probe binds to the acquired address and checks that the WAN server
 sees a source in the external prefix and returns the payload.
 The test restores the LAN configuration and removes its NPT setting on exit.
 `ExternalPrefix` is a literal CIDR; the test sets it explicitly.
-Automatic NPT updates following PD changes are not provided by this fixture.
 The test first checks translation with filtering disabled, then enables the firewall
 and repeats LAN-to-WAN TCP with a live conntrack check.
 The entry must be `ESTABLISHED` and `[ASSURED]`, with matching original and reply tuples.
 The reply destination must equal the translated source observed by the WAN server.
 Conntrack snapshots are saved as `conntrack-<port>.txt`, including after a failed connection.
 Benchmark addresses avoid the default firewall's ULA filtering.
-The test does not exercise hairpinning or PD changes.
 
-To run both in a local testbed-qemu session, use this payload:
+`nptv6-pd.t` uses the same static LAN setup with the firewall enabled.
+It configures only `X_PRPLWARE-COM_ExternalPrefixRef`, InternalPrefix and InternalInterfaces;
+the firmware supplies ExternalPrefix and Interface from the referenced PD object.
+The test changes Kea's pool from `2001:2:0:9600::/60` to `2001:2:0:9700::/60`
+with `config-set`, then calls the DUT DHCPv6 client's `Renew()` method.
+Kea 2.6.3 does not support DHCPv6 Reconfigure; the explicit renewal starts the exchange immediately.
+PD convergence allows 45 seconds, including a subsequent T1 exchange if needed;
+firewall rule regeneration is limited to five seconds.
+It checks the same referenced object, updated NPT parameters, new translation targets,
+and removal of the old target prefixes.
+TCP and conntrack checks run before and after the change.
+Cleanup restores the Kea configuration and renews the original delegation before restoring the LAN.
+The tests do not exercise hairpinning or preservation of existing TCP connections across renumbering.
+
+To run all three in a local testbed-qemu session, use this payload:
 
 ```sh
-testbed-qemu cram .gitlab/tests/cram/ci69/ipv6-pd.t .gitlab/tests/cram/ci69/nptv6.t
+testbed-qemu cram .gitlab/tests/cram/ci69
 ```
 
 The normal harness artifacts include `cram.txt`, `cram.xml` and failing `.t.err` files.
@@ -153,7 +166,7 @@ the CRAM examples perform real traffic exchanges.
 The CRAM job extends `.qemu-x86-64 testbed`, using its normal setup,
 `testbed-qemu run` invocation and artifact collection.
 The firmware dependency is the download job.
-`CRAM_TEST_SUITE` explicitly selects the two IPv6 tests;
+`CRAM_TEST_SUITE` explicitly selects the IPv6 test directory;
 `CRAM_TEST_SUITE_POST` is empty, so no other tests run.
 
 The shared template resolves `COMPONENT` through `components.yml` when no
