@@ -26,16 +26,22 @@
 
     - section_start "testbed-setup" "Testbed Setup" "collapsed"
 
-    # Resolve the COMPONENT bucket into a list of test paths.
+    # An explicit suite overrides component selection.
     - |
-      CRAM_TEST_SUITE="$(
-        .gitlab/tests/cram/scripts/resolve-component-tests.py \
-          --test-root .gitlab/tests/cram \
-          --manifest components.yml \
-          --board "$DUT_BOARD" \
-          --component "$COMPONENT"
-      )"
+      if [ -z "${CRAM_TEST_SUITE:-}" ]; then
+        CRAM_TEST_SUITE="$(
+          .gitlab/tests/cram/scripts/resolve-component-tests.py \
+            --test-root .gitlab/tests/cram \
+            --manifest components.yml \
+            --board "$DUT_BOARD" \
+            --component "$COMPONENT"
+        )"
+      fi
       export CRAM_TEST_SUITE
+      CRAM_POST_ARGS=()
+      if [ -n "$CRAM_TEST_SUITE_POST" ]; then
+        CRAM_POST_ARGS=(--post "$CRAM_TEST_SUITE_POST")
+      fi
 
     - mkdir -p artifacts
 
@@ -51,7 +57,7 @@
       --artifacts "$CI_PROJECT_DIR/artifacts"
       --accel "$TESTBED_QEMU_ACCEL"
       --debug-information always
-      -- testbed-qemu cram --post "$CRAM_TEST_SUITE_POST" $CRAM_TEST_SUITE
+      -- testbed-qemu cram "${CRAM_POST_ARGS[@]}" $CRAM_TEST_SUITE
 
     - section_end "test-execution"
 
