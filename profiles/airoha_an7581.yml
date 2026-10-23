@@ -11,7 +11,7 @@ feeds:
     revision: 595680f2d9b04ae49df13354f77106f19c2c081f
   - name: feed_wifi_mediatek_mt76
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-wifi-mediatek-mt76
-    revision: 36e628293e41cb41742bcc8ebba5716051f80c4e
+    revision: 314059eb6d18f5eb6d36bd8d8084f1a2e057209b
 
 packages:
   - airoha
