@@ -12,4 +12,5 @@ Check that there is just single TLS library OpenSSL:
   libustream-openssl.* (re)
   lighttpd-mod-openssl
   openssl-util
+  strongswan-mod-openssl
   wpa-supplicant-openssl
