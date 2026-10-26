@@ -457,10 +457,7 @@ du_operation_with_retry() (
     done
 
     cat "${_output_dir}/out"
-    # Print CLI command error only if no notification error was captured
-    if [ ! -s "${_output_dir}/err" ]; then
-        cat "${_output_dir}/cmd_error" >&2
-    fi
+    cat "${_output_dir}/cmd_error" >&2
     cat "${_output_dir}/err" >&2
     rm -rf "${_output_dir:?}"
 )
