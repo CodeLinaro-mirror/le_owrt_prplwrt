@@ -50,10 +50,6 @@ MAX_WAIT_CTR_UP=180
 ## Seconds to wait before each container pull retry. The retry loops add an
 ## empty item after these waits, which marks the last attempt: 3 in all.
 PULL_RETRY_WAITS="5 15"
-## Rlyeh reports a stalled download only after its 10 s low-speed limit. When
-## the image is still missing after the pull poll, wait up to these seconds
-## more for the result of that pull before the retry decision.
-PULL_VERDICT_WAIT=12
 
 ## Return default container name based on target.
 ## Default is Cortex-A53 based ARM 64-bit container
@@ -299,34 +295,112 @@ value_or_default() {
 	fi
 }
 
+## Wait for a process with timeout (default 120s). Sets MONITORED_PROCESS_RESULT
+## to "terminated" or "killed", and MONITORED_PROCESS_STATUS to the exit status.
+## Usage: wait_for_process_timeout <pid> [timeout]
+wait_for_process_timeout() {
+    _wf_pid=$1
+    _wf_timeout=${2:-120}
+    _wf_marker="${TMPDIR:-/tmp}/wait-for-process-timeout.$$"
+    MONITORED_PROCESS_RESULT=
+    MONITORED_PROCESS_STATUS=
+    rm -f "$_wf_marker"
 
-## Start background subscription to DUStateChange! for a given UUID.
-## Usage: start_du_state_change_sub <uuid> <lua_script_path>
-## Stores PID in _DU_SUB_PID
-start_du_state_change_sub() {
-	_du_sub_uuid="$1"
-	_du_sub_script="/tmp/du_state_change.lua"
-	if [ -f "${_du_sub_script}" ]; then
-		rm -f /tmp/du_state_change_out.txt
-		lua "${_du_sub_script}" "${_du_sub_uuid}" > /tmp/du_state_change_out.txt 2>&1 &
-		_DU_SUB_PID=$!
-	else
-		_DU_SUB_PID=""
-	fi
+    (
+        _wf_stop=
+        trap '_wf_stop=1' TERM
+        sleep "$_wf_timeout" &
+        _wf_sleep_pid=$!
+        trap 'kill -KILL "$_wf_sleep_pid" 2>/dev/null; exit 0' TERM
+        [ -z "$_wf_stop" ] || { kill -KILL "$_wf_sleep_pid" 2>/dev/null; exit 0; }
+        wait "$_wf_sleep_pid"
+        if kill -0 "$_wf_pid" 2>/dev/null; then
+            : > "$_wf_marker"
+            kill -TERM "$_wf_pid" 2>/dev/null
+        fi
+    ) &
+    _wf_timer_pid=$!
+
+    wait "$_wf_pid"
+    # shellcheck disable=SC2034
+    MONITORED_PROCESS_STATUS=$?
+
+    if [ -f "$_wf_marker" ]; then
+        MONITORED_PROCESS_RESULT=killed
+    else
+        MONITORED_PROCESS_RESULT=terminated
+    fi
+    rm -f "$_wf_marker"
+
+    kill "$_wf_timer_pid" 2>/dev/null
+    wait "$_wf_timer_pid" 2>/dev/null
 }
 
-## Wait for background DUStateChange! subscription to finish and print any fault output.
-## Call after the CLI operation completes.
+## Start a Lua subscription script in the background, storing its PID.
+## Usage: start_subscription_sub <pid_var> <script> <output_file> <uuid>
+start_subscription_sub() {
+        _pid_var="$1"
+        _script="$2"
+        _output_file="$3"
+        _uuid="$4"
+
+        if [ -f "$_script" ]; then
+                rm -f "$_output_file"
+                lua "$_script" "$_uuid" >"$_output_file" 2>&1 &
+                eval "$_pid_var=\$!"
+        else
+                eval "$_pid_var="
+        fi
+}
+
+## Start a DUStateChange! subscription. Usage: start_du_state_change_sub <uuid>
+start_du_state_change_sub() {
+        start_subscription_sub _DU_SUB_PID \
+                /tmp/du_state_change.lua /tmp/du_state_change_out.txt "$1"
+}
+
+## Start a Rlyeh event subscription. Usage: start_rlyeh_event_sub <duid>
+start_rlyeh_event_sub() {
+        start_subscription_sub _RLYEH_SUB_PID \
+                /tmp/rlyeh_events.lua /tmp/rlyeh_event_out.txt "$1"
+}
+
+## Wait for a subscription, print output to stderr, and cleanup.
+## Usage: wait_subscription_sub <pid_var> <output_file> [timeout]
+wait_subscription_sub() {
+        _pid_var="$1"
+        _output_file="$2"
+        shift 2
+
+        eval "_pid=\${$_pid_var}"
+        if [ -n "$_pid" ]; then
+                if [ "$#" -gt 0 ]; then
+                        wait_for_process_timeout "$_pid" "$1"
+                else
+                        wait_for_process_timeout "$_pid"
+                fi
+                if [ "${MONITORED_PROCESS_RESULT}" = "killed" ]; then
+                        logger -t cram-lcm "${_output_file##*/}: no event before the timeout, listener stopped"
+                fi
+
+                if [ -s "$_output_file" ]; then
+                        cat "$_output_file" >&2
+                fi
+                rm -f "$_output_file"
+                eval "$_pid_var="
+        fi
+}
+
+## Wait for DUStateChange! subscription. Usage: wait_du_state_change_sub [timeout]
+# shellcheck disable=SC2120
 wait_du_state_change_sub() {
-	_du_sub_timeout="${1:-1}"
-	if [ -n "${_DU_SUB_PID}" ]; then
-		timeout "${_du_sub_timeout}" tail --pid="${_DU_SUB_PID}" -f /dev/null 2>/dev/null; kill "${_DU_SUB_PID}" 2>/dev/null; wait "${_DU_SUB_PID}" 2>/dev/null
-		if [ -s /tmp/du_state_change_out.txt ]; then
-			cat /tmp/du_state_change_out.txt >&2
-		fi
-		rm -f /tmp/du_state_change_out.txt
-		_DU_SUB_PID=""
-	fi
+        wait_subscription_sub _DU_SUB_PID /tmp/du_state_change_out.txt "$@"
+}
+
+## Wait for Rlyeh event subscription. Usage: wait_rlyeh_event_sub [timeout]
+# shellcheck disable=SC2120
+wait_rlyeh_event_sub() {
+        wait_subscription_sub _RLYEH_SUB_PID /tmp/rlyeh_event_out.txt "$@"
 }
 
 ## Succeed on a transient pull error from rlyeh (timeout, DNS, connect, reset,
@@ -353,71 +427,77 @@ log_pull_retry() {
 	logger -t cram-lcm "$1 failed (${PULL_ERROR}), retry in $2 s"
 }
 
-## InstallDU or Update, repeated after a transient pull error with the waits in
-## <waits> between the attempts; the caller sees the last attempt only.
-## Usage: du_operation_with_retry <install|update> <uuid> <params> <waits>
+## InstallDU or Update with retry on transient pull errors.
+## Uses PULL_RETRY_WAITS for retry delays.
+## Usage: du_operation_with_retry <install|update> <uuid> <params>
 du_operation_with_retry() (
-	_retry_du="SoftwareModules.DeploymentUnit.[ UUID == \"$2\" ]."
-	_retry_call="${_retry_du}Update($3)"
-	[ "$1" = "update" ] || _retry_call="SoftwareModules.InstallDU($3)"
-	_retry_dir=$(mktemp -d)
-	for _retry_wait in $4 ""; do
-		start_du_state_change_sub "$2"
-		${CLI_JSON} "${_retry_call}" >"${_retry_dir}/out" 2>"${_retry_dir}/err"
-		wait_du_state_change_sub 2>>"${_retry_dir}/err"
-		[ -n "${_retry_wait}" ] && [ -s "${_retry_dir}/err" ] || break
-		is_transient_pull_error "$(cat "${_retry_dir}/err")" || break
-		# A failed Install can leave its DU behind; Update keeps the old one.
-		[ "$1" = "update" ] || ${CLI_JSON} "${_retry_du}Uninstall(RetainData = false)" >/dev/null 2>&1
-		log_pull_retry "$1 $2" "${_retry_wait}"
-		sleep "${_retry_wait}"
-	done
-	cat "${_retry_dir}/out"
-	cat "${_retry_dir}/err" >&2
-	rm -rf "${_retry_dir:?}"
+    _operation=$1
+    _uuid=$2
+    _params=$3
+
+    _du_path="SoftwareModules.DeploymentUnit.[ UUID == \"${_uuid}\" ]."
+    if [ "${_operation}" = "update" ]; then
+        _call="${_du_path}Update(${_params})"
+    else
+        _call="SoftwareModules.InstallDU(${_params})"
+    fi
+
+    _output_dir=$(mktemp -d)
+
+    for _wait in ${PULL_RETRY_WAITS} ""; do
+        start_du_state_change_sub "${_uuid}"
+
+        ${CLI_JSON} "${_call}" >"${_output_dir}/out" 2>"${_output_dir}/cmd_error"
+        # shellcheck disable=SC2119
+        wait_du_state_change_sub 2>"${_output_dir}/err"
+
+        # Retry only when there is another wait configured and the error
+        # indicates a transient pull failure.
+        [ -n "${_wait}" ] && [ -s "${_output_dir}/err" ] || break
+        is_transient_pull_error "$(cat "${_output_dir}/err")" || break
+
+        log_pull_retry "${_operation} ${_uuid}" "${_wait}"
+        sleep "${_wait}"
+    done
+
+    cat "${_output_dir}/out"
+    cat "${_output_dir}/cmd_error" >&2
+    cat "${_output_dir}/err" >&2
+    rm -rf "${_output_dir:?}"
 )
 
-## Succeed when Rlyeh has the image of <duid>. Usage: rlyeh_image_present <duid>
-rlyeh_image_present() {
-	[ "$(ba-cli -lj "Rlyeh.Images.[DUID == \"$1\"].DUID?" | jsonfilter -e @[*].*.DUID)" = "$1" ]
-}
 
-## Print the newest rlyeh error for a pull of <uri> logged after <mark>.
-## Usage: rlyeh_pull_reason <mark> <uri>
-rlyeh_pull_reason() {
-	logread | sed -n "/$1/,\$p" | grep -F "Reason [Pull image [$2]" | tail -n 1
-}
-
-## Rlyeh.pull, then wait up to 9 s for the image; repeat the pull when rlyeh
-## logs a transient download error for it. Before a retry decision, wait up to
-## PULL_VERDICT_WAIT s more for the image or an error of the pull.
+## Rlyeh.pull with retry on transient errors. Uses PULL_RETRY_WAITS for delays.
 ## Usage: rlyeh_pull_with_retry <uri> <duid>
 rlyeh_pull_with_retry() {
-	_pull_out=$(mktemp)
-	for _pull_wait in ${PULL_RETRY_WAITS} ""; do
-		# Only the rlyeh lines after this mark belong to this attempt.
-		_pull_mark="Rlyeh.pull $2 $(date +%s) ${_pull_wait:-last}"
-		logger -t cram-lcm "${_pull_mark}"
-		ba-cli -l -j "Rlyeh.pull(URI = \"$1\", DUID = \"$2\")" >"${_pull_out}" 2>&1
-		_pull_i=1
-		while [ ${_pull_i} -lt 10 ] && ! rlyeh_image_present "$2"; do
-			_pull_i=$((_pull_i + 1))
-			sleep 1
-		done
-		[ ${_pull_i} -lt 10 ] && break
-		[ -n "${_pull_wait}" ] || break
-		_pull_i=0
-		while [ ${_pull_i} -lt ${PULL_VERDICT_WAIT} ] && [ -z "$(rlyeh_pull_reason "${_pull_mark}" "$1")" ]; do
-			rlyeh_image_present "$2" && break 2
-			_pull_i=$((_pull_i + 1))
-			sleep 1
-		done
-		is_transient_pull_error "$(rlyeh_pull_reason "${_pull_mark}" "$1")" || break
-		log_pull_retry "Rlyeh.pull $2" "${_pull_wait}"
-		sleep "${_pull_wait}"
-	done
-	cat "${_pull_out}"
-	rm -f "${_pull_out:?}"
+    _uri=$1
+    _duid=$2
+
+    _output_dir=$(mktemp -d)
+
+    for _wait in ${PULL_RETRY_WAITS} ""; do
+        start_rlyeh_event_sub "${_duid}"
+        _call="Rlyeh.pull(URI = \"${_uri}\", DUID = \"${_duid}\")"
+        ${CLI_JSON} "${_call}" >"${_output_dir}/out" 2>"${_output_dir}/cmd_error"
+        # shellcheck disable=SC2119
+        wait_rlyeh_event_sub 2>"${_output_dir}/err"
+
+        # Retry only when there is another wait configured and the error
+        # indicates a transient pull failure.
+        [ -n "${_wait}" ] && [ -s "${_output_dir}/err" ] || break
+        is_transient_pull_error "$(cat "${_output_dir}/err")" || break
+
+        log_pull_retry "Rlyeh.pull ${_duid}" "${_wait}"
+        sleep "${_wait}"
+    done
+
+    cat "${_output_dir}/out"
+    # Print CLI command error only if no notification error was captured
+    if [ ! -s "${_output_dir}/err" ]; then
+        cat "${_output_dir}/cmd_error" >&2
+    fi
+    cat "${_output_dir}/err" >&2
+    rm -rf "${_output_dir:?}"
 }
 
 ## Request InstallDUCmd and wait the fixed 30 s; repeat the request when the
@@ -563,11 +643,7 @@ install_update_ctr_with_params() {
 		esac
 	done
 
-	# A caller that does not wait for the container expects the install to
-	# fail and gets one attempt.
-	retry_waits=${PULL_RETRY_WAITS}
-	[ "${no_wait}" = "false" ] || retry_waits=""
-	du_operation_with_retry "${operation}" "${uuid}" "${str_params}" "${retry_waits}"
+	du_operation_with_retry "${operation}" "${uuid}" "${str_params}"
 	if [ "${operation}" = "update" ]; then
 		wait_ctr_down
 	fi
@@ -614,6 +690,7 @@ uninstall_ctr() {
 	else
 		start_du_state_change_sub "${uuid}"
 		${CLI_JSON} "SoftwareModules.DeploymentUnit.[ UUID == \"${uuid}\" ].Uninstall(RetainData = ${retaindata})"
+		# shellcheck disable=SC2119
 		wait_du_state_change_sub
 	fi
 
@@ -1520,3 +1597,37 @@ local sub = lamx.bus.subscribe("SoftwareModules.", print_event)
 
 el:start()
 LUAEOF
+
+
+## Write rlyeh_events.lua to /tmp/ when this script is sourced
+cat > /tmp/rlyeh_events.lua << 'LUAEOF'
+#!/usr/bin/lua
+
+local req_duid = arg[1]
+local lamx = require("lamx")
+
+lamx.backend.load("/usr/bin/mods/amxb/mod-amxb-ubus.so")
+lamx.bus.open("ubus:/var/run/ubus/ubus.sock")
+
+local el = lamx.eventloop.new()
+
+local function print_event(event, data)
+    if event == "rlyeh:error" then
+        if data.command == "pull" then
+            local fault_str = data.reason or ""
+            print("Failed: " .. tostring(fault_str))
+            el:stop()
+        end
+    elseif event == "rlyeh:image:pulled" then
+        local p = data.parameters
+        if p and (req_duid == "" or req_duid == nil or p.DUID == req_duid) then
+            el:stop()
+        end
+    end
+end
+
+local sub = lamx.bus.subscribe("Rlyeh.", print_event)
+
+el:start()
+LUAEOF
+
