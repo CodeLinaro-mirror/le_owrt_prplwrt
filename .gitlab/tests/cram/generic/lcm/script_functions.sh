@@ -307,7 +307,13 @@ wait_for_process_timeout() {
     rm -f "$_wf_marker"
 
     (
-        sleep "$_wf_timeout"
+        _wf_stop=
+        trap '_wf_stop=1' TERM
+        sleep "$_wf_timeout" &
+        _wf_sleep_pid=$!
+        trap 'kill -KILL "$_wf_sleep_pid" 2>/dev/null; exit 0' TERM
+        [ -z "$_wf_stop" ] || { kill -KILL "$_wf_sleep_pid" 2>/dev/null; exit 0; }
+        wait "$_wf_sleep_pid"
         if kill -0 "$_wf_pid" 2>/dev/null; then
             : > "$_wf_marker"
             kill -TERM "$_wf_pid" 2>/dev/null
