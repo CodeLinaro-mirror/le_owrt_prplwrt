@@ -365,19 +365,14 @@ start_rlyeh_event_sub() {
 }
 
 ## Wait for a subscription, print output to stderr, and cleanup.
-## Usage: wait_subscription_sub <pid_var> <output_file> [timeout]
+## Usage: wait_subscription_sub <pid_var> <output_file>
 wait_subscription_sub() {
         _pid_var="$1"
         _output_file="$2"
-        shift 2
 
         eval "_pid=\${$_pid_var}"
         if [ -n "$_pid" ]; then
-                if [ "$#" -gt 0 ]; then
-                        wait_for_process_timeout "$_pid" "$1"
-                else
-                        wait_for_process_timeout "$_pid"
-                fi
+                wait_for_process_timeout "$_pid"
                 if [ "${MONITORED_PROCESS_RESULT}" = "killed" ]; then
                         logger -t cram-lcm "${_output_file##*/}: no event before the timeout, listener stopped"
                 fi
@@ -390,14 +385,14 @@ wait_subscription_sub() {
         fi
 }
 
-## Wait for DUStateChange! subscription. Usage: wait_du_state_change_sub [timeout]
+## Wait for DUStateChange! subscription. Usage: wait_du_state_change_sub
 wait_du_state_change_sub() {
-        wait_subscription_sub _DU_SUB_PID /tmp/du_state_change_out.txt "$@"
+        wait_subscription_sub _DU_SUB_PID /tmp/du_state_change_out.txt
 }
 
-## Wait for Rlyeh event subscription. Usage: wait_rlyeh_event_sub [timeout]
+## Wait for Rlyeh event subscription. Usage: wait_rlyeh_event_sub
 wait_rlyeh_event_sub() {
-        wait_subscription_sub _RLYEH_SUB_PID /tmp/rlyeh_event_out.txt "$@"
+        wait_subscription_sub _RLYEH_SUB_PID /tmp/rlyeh_event_out.txt
 }
 
 ## Succeed on a transient pull error from rlyeh (timeout, DNS, connect, reset,
