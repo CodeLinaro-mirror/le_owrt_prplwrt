@@ -378,6 +378,9 @@ wait_subscription_sub() {
                 else
                         wait_for_process_timeout "$_pid"
                 fi
+                if [ "${MONITORED_PROCESS_RESULT}" = "killed" ]; then
+                        logger -t cram-lcm "${_output_file##*/}: no event before the timeout, listener stopped"
+                fi
 
                 if [ -s "$_output_file" ]; then
                         cat "$_output_file" >&2
