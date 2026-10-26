@@ -1591,6 +1591,7 @@ LUAEOF
 cat > /tmp/rlyeh_events.lua << 'LUAEOF'
 #!/usr/bin/lua
 
+local req_duid = arg[1]
 local lamx = require("lamx")
 
 lamx.backend.load("/usr/bin/mods/amxb/mod-amxb-ubus.so")
@@ -1600,11 +1601,16 @@ local el = lamx.eventloop.new()
 
 local function print_event(event, data)
     if event == "rlyeh:error" then
-        local fault_str = data.reason or ""
-        print("Failed: " .. tostring(fault_str))
-        el:stop()
-    elseif event == "dm:instance-added" then
-        el:stop()
+        if data.command == "pull" then
+            local fault_str = data.reason or ""
+            print("Failed: " .. tostring(fault_str))
+            el:stop()
+        end
+    elseif event == "rlyeh:image:pulled" then
+        local p = data.parameters
+        if p and (req_duid == "" or req_duid == nil or p.DUID == req_duid) then
+            el:stop()
+        end
     end
 end
 
