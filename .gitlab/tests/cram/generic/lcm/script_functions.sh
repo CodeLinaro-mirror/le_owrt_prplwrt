@@ -322,6 +322,7 @@ wait_for_process_timeout() {
     _wf_timer_pid=$!
 
     wait "$_wf_pid"
+    # shellcheck disable=SC2034
     MONITORED_PROCESS_STATUS=$?
 
     if [ -f "$_wf_marker" ]; then
@@ -391,11 +392,13 @@ wait_subscription_sub() {
 }
 
 ## Wait for DUStateChange! subscription. Usage: wait_du_state_change_sub [timeout]
+# shellcheck disable=SC2120
 wait_du_state_change_sub() {
         wait_subscription_sub _DU_SUB_PID /tmp/du_state_change_out.txt "$@"
 }
 
 ## Wait for Rlyeh event subscription. Usage: wait_rlyeh_event_sub [timeout]
+# shellcheck disable=SC2120
 wait_rlyeh_event_sub() {
         wait_subscription_sub _RLYEH_SUB_PID /tmp/rlyeh_event_out.txt "$@"
 }
@@ -445,6 +448,7 @@ du_operation_with_retry() (
         start_du_state_change_sub "${_uuid}"
 
         ${CLI_JSON} "${_call}" >"${_output_dir}/out" 2>"${_output_dir}/cmd_error"
+        # shellcheck disable=SC2119
         wait_du_state_change_sub 2>"${_output_dir}/err"
 
         # Retry only when there is another wait configured and the error
@@ -475,6 +479,7 @@ rlyeh_pull_with_retry() {
         start_rlyeh_event_sub "${_duid}"
         _call="Rlyeh.pull(URI = \"${_uri}\", DUID = \"${_duid}\")"
         ${CLI_JSON} "${_call}" >"${_output_dir}/out" 2>"${_output_dir}/cmd_error"
+        # shellcheck disable=SC2119
         wait_rlyeh_event_sub 2>"${_output_dir}/err"
 
         # Retry only when there is another wait configured and the error
@@ -685,6 +690,7 @@ uninstall_ctr() {
 	else
 		start_du_state_change_sub "${uuid}"
 		${CLI_JSON} "SoftwareModules.DeploymentUnit.[ UUID == \"${uuid}\" ].Uninstall(RetainData = ${retaindata})"
+		# shellcheck disable=SC2119
 		wait_du_state_change_sub
 	fi
 
