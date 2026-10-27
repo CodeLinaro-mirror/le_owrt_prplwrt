@@ -62,7 +62,7 @@ Verify BGP-learned routes present in CPE BGP RIB.
 
 Verify that TCP session on port 179 is present.
 
-  $ R "netstat -an | grep 192.168.1.1:179 | grep -q ESTABLISHED"
+  $ R "netstat -tn | grep ESTABLISHED | grep -qE '192\.168\.1\.[12]:179 '"
 
 Disable BGP instance on CPE.
 
@@ -82,7 +82,7 @@ Verify BGP session is no longer Established.
 
 Verify TCP session on port 179 is terminated.
 
-  $ R "netstat -an | grep 192.168.1.1:179 | grep -v TIME_WAIT"
+  $ R "netstat -tn | grep -E '192\.168\.1\.[12]:179 ' | grep -v TIME_WAIT"
   [1]
 
 Refresh routes in DM.
