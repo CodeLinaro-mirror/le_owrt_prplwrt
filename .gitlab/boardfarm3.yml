@@ -1,11 +1,16 @@
 # SPDX-FileCopyrightText: 2026 prpl Foundation
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# The boardfarm3 job of the OSPv2 on testbed-04. It takes the firmware
-# from the build job of pipeline FW_PIPELINE_ID.
+# The boardfarm3 job of the OSPv2 on testbed-04, and its labgrid baseline:
+# the cram job of the same board with the same cram component, on the same
+# firmware. Both take the firmware from the build job of pipeline
+# FW_PIPELINE_ID, so their cram results can be compared.
 #
-# Start: glab ci run -b <branch> --variables BF3_RUN:1,FW_PIPELINE_ID:<id>
-# The job waits for a manual start.
+# Start the boardfarm3 job:
+#   glab ci run -b <branch> --variables BF3_RUN:1,FW_PIPELINE_ID:<id>
+# Start the baseline job:
+#   glab ci run -b <branch> --variables LG_BASELINE_RUN:1,FW_PIPELINE_ID:<id>
+# Both jobs wait for a manual start.
 
 .ospv2 firmware from pipeline:
   variables:
@@ -25,3 +30,24 @@ boardfarm3 OSPv2:
     BF3_BOARD_NAME: testbed-04-ospv2
     BF3_INVENTORY: .testbed/boardfarm3/testbed-04.json
     BF3_ENVIRONMENT: .testbed/boardfarm3/mxl25641-hdk-6.json
+
+cram OSPv2 [baseline]:
+  extends:
+    - .mxl25641-hdk-6 testbed
+    - .ospv2 firmware from pipeline
+  needs: []
+  timeout: 89 minutes
+  tags:
+    - dut-mxl25641-hdk-6-b-sfl-04
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == "latest-24.10"'
+      when: never
+    - if: '$LG_BASELINE_RUN == "1" && $CI_COMMIT_BRANCH'
+      when: manual
+    - when: never
+  before_script:
+    - test -n "$FW_PIPELINE_ID" || { echo "FW_PIPELINE_ID is empty" >&2; exit 1; }
+    - .gitlab/scripts/firmware-from-pipeline.sh "$TFTP_IMAGE_PATH" $TFTP_IMAGE_FILENAMES
+    - !reference [.testbed, before_script]
