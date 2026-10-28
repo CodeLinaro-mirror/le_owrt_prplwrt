@@ -1,8 +1,10 @@
 # SPDX-FileCopyrightText: 2026 prpl Foundation
-"""Report failed tests to the board.
+# SPDX-License-Identifier: GPL-2.0-only
+"""Fixtures of the boardfarm3 tests.
 
-When a test fails, the board dumps its system state and tries to recover
-SSH on its serial console before boardfarm3 powers it off.
+The tests reach the board only through the use cases of the
+boardfarm3-prplos plugin. When a test fails, the board dumps its system
+state and recovers SSH before boardfarm3 powers it off.
 """
 
 from __future__ import annotations
@@ -10,12 +12,13 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 import pytest
-from boardfarm3_prplos.devices.prplos_board import PrplOSBoard
+from boardfarm3_prplos.use_cases.device_getters import get_board
+from boardfarm3_prplos.use_cases.system import mark_board_failed
 
 if TYPE_CHECKING:
     from collections.abc import Generator
 
-    from boardfarm3.lib.device_manager import DeviceManager
+    from boardfarm3_prplos.templates.prplos_cpe import PrplOSCPE
 
 _failed_tests: list[str] = []
 
@@ -29,10 +32,15 @@ def pytest_runtest_makereport(item: pytest.Item) -> Generator[None, object, obje
     return report
 
 
+@pytest.fixture(scope="session")
+def board() -> PrplOSCPE:
+    """Return the prplOS board of the testbed."""
+    return get_board()
+
+
 @pytest.fixture(scope="session", autouse=True)
-def _report_failed_tests_to_board(device_manager: DeviceManager) -> Generator[None]:
+def _report_failed_tests_to_board() -> Generator[None]:
     """After the last test, mark the board failed if a test failed."""
     yield
     if _failed_tests:
-        board = device_manager.get_device_by_type(PrplOSBoard)
-        board.mark_failed(f"failed tests: {', '.join(_failed_tests)}")
+        mark_board_failed(get_board(), f"failed tests: {', '.join(_failed_tests)}")
