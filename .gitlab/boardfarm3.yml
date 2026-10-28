@@ -1,57 +1,27 @@
 # SPDX-FileCopyrightText: 2026 prpl Foundation
+# SPDX-License-Identifier: GPL-2.0-only
 #
-# boardfarm3 controls the DUT: it flashes and boots the board through the
-# labgrid target, then runs the tests on its own serial console.
+# The boardfarm3 job of the OSPv2 on testbed-04. It takes the firmware
+# from the build job of pipeline FW_PIPELINE_ID.
 #
 # Start: glab ci run -b <branch> --variables BF3_RUN:1,FW_PIPELINE_ID:<id>
-# The job waits for a manual start, so the pipeline can be checked first.
+# The job waits for a manual start.
+
+.ospv2 firmware from pipeline:
+  variables:
+    COMPONENT: prplos
+    CRAM_COMPONENTS: prplos
+    FW_BUILD_JOB_NAME: "build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread"
 
 boardfarm3 OSPv2:
-  stage: run
-  image: "registry.gitlab.com/prpl-foundation/prplos/ci/containers/testbed/testbed-bf3@sha256:079af1d5a8cdca651a1f1ad605fa0aeb696b34de755ee562aacca93410dd3553"
+  extends:
+    - .mxl25641-hdk-6 testbed
+    - .ospv2 firmware from pipeline
+    - .testbed-bf3
+  timeout: 89 minutes
   tags:
     - dut-mxl25641-hdk-6-b-sfl-04
-  needs: []
-  timeout: 60 minutes
-  rules:
-    - if: '$BF3_RUN == "1" && $CI_COMMIT_BRANCH'
-      when: manual
-    - when: never
   variables:
-    TESTBED_LAN_INTERFACE: enp2s0
-    TESTBED_WAN_INTERFACE: enp3s0
-    FW_BUILD_JOB_NAME: "build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread"
-    BF3_FIRMWARE_FILES: >-
-      prplos-intel_x86-lgm-PRPL_OSP_v2-update_script.itb
-      prplos-intel_x86-lgm-PRPL_OSP_v2-wgrtd159be_b_wav700-ext4.img
-    BF3_RESULTS: boardfarm3-results
-    BF3_PLUGIN_COMMIT: 8628402be7be10e7628071cf755afec0a4d350db
-  script:
-    - test -n "$FW_PIPELINE_ID" || { echo "FW_PIPELINE_ID is empty" >&2; exit 1; }
-    - .gitlab/scripts/firmware-from-pipeline.sh firmware $BF3_FIRMWARE_FILES
-    - sudo ip link set $TESTBED_LAN_INTERFACE up 2> /dev/null
-    - sudo ip link set $TESTBED_WAN_INTERFACE up 2> /dev/null
-    - sleep 10
-    - python3 -m pip install --user --break-system-packages --no-deps "git+https://gitlab.com/ynezz/boardfarm3-prplos.git@$BF3_PLUGIN_COMMIT"
-    # The boardfarm3 and labgrid log (stderr) goes to an artifact: it holds
-    # every console read and is too large for the job log. The job log gets
-    # the test results and the lines of the board device and its power.
-    - mkdir -p "$BF3_RESULTS"
-    - |
-      status=0
-      pytest -v -p no:randomly -p no:cacheprovider \
-        --board-name testbed-04-ospv2 \
-        --inventory-config .testbed/boardfarm3/inventory.json \
-        --env-config .testbed/boardfarm3/mxl25641-hdk-6.json \
-        --save-console-logs "$BF3_RESULTS" \
-        --junitxml "$BF3_RESULTS/pytest.xml" \
-        .gitlab/tests/boardfarm3 2> "$BF3_RESULTS/boardfarm3.log" || status=$?
-      grep -E 'boardfarm3_prplos|PowerDriver\.off|/api/v1/relays/' "$BF3_RESULTS/boardfarm3.log" || true
-      exit "$status"
-  artifacts:
-    expire_in: 1 month
-    when: always
-    paths:
-      - boardfarm3-results/
-    reports:
-      junit: boardfarm3-results/pytest.xml
+    BF3_BOARD_NAME: testbed-04-ospv2
+    BF3_INVENTORY: .testbed/boardfarm3/testbed-04.json
+    BF3_ENVIRONMENT: .testbed/boardfarm3/mxl25641-hdk-6.json
