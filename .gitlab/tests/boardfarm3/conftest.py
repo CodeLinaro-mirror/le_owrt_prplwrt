@@ -8,7 +8,8 @@ state and recovers SSH before boardfarm3 powers it off.
 
 In a CI job, a session fixture runs the steps of the labgrid DUT
 lifecycle that are prplOS CI policy (.gitlab/scripts/boardfarm3-dut-glue.sh)
-while the board is up.
+while the board is up. The cram suites run after the other tests, and
+the obuspa test runs after them.
 """
 
 from __future__ import annotations
@@ -30,8 +31,23 @@ if TYPE_CHECKING:
 
 _LOGGER = logging.getLogger(__name__)
 _GLUE = Path(__file__).resolve().parents[2] / "scripts" / "boardfarm3-dut-glue.sh"
+# Modules that run after all others, in this order. The cram suites run
+# generic/obuspa-1905.t, which must run before any obuspa restart, and
+# test_obuspa.py restarts obuspa, as its cram original obuspa.t does.
+_LAST_MODULES = ("test_cram_suites.py", "test_obuspa.py")
 
 _failed_tests: list[str] = []
+
+
+def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
+    """Run the cram suites, then the obuspa test, after all other tests."""
+    items.sort(
+        key=lambda item: (
+            _LAST_MODULES.index(item.path.name) + 1
+            if item.path.name in _LAST_MODULES
+            else 0
+        )
+    )
 
 
 @pytest.hookimpl(wrapper=True)
