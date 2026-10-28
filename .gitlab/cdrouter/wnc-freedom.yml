@@ -36,6 +36,7 @@ CDRouter-Wireless Freedom eMMC:
   <<: *wnc_freedom
   stage: smoke tests
   timeout: 20 minutes
+  tags: [r102-reserved]
   variables:
     CDROUTER_TEST_CONFIG: wireless
     CDROUTER_CONFIG_USP_CONTROLLER_MTP: websocket
