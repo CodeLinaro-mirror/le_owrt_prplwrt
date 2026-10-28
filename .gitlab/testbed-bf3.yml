@@ -1,0 +1,159 @@
+# SPDX-FileCopyrightText: 2026 prpl Foundation
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Testbed job in which boardfarm3 owns the DUT: it flashes, boots and
+# powers the board through the boardfarm3-prplos plugin, which drives the
+# labgrid target in-process, and runs the tests in one pytest session:
+# the boardfarm3 tests of .gitlab/tests/boardfarm3, then the cram suites
+# of the job, unchanged, over SSH.
+#
+# A job extends a board template first (for example .mxl25641-hdk-6
+# testbed), for the variables that the cram tests read, then this
+# template, which replaces the labgrid lifecycle scripts of .testbed.
+# The job sets BF3_BOARD_NAME, BF3_INVENTORY, BF3_ENVIRONMENT and
+# FW_BUILD_JOB_NAME.
+#
+# Start: glab ci run -b <branch> --variables BF3_RUN:1,FW_PIPELINE_ID:<id>
+# The job waits for a manual start, so the pipeline can be checked first.
+#
+# The DUT is switched off in two ways. pytest gets SIGINT BF3_STOP_MARGIN
+# seconds before the job timeout, so that its teardown switches the board
+# off and the job reaches after_script: GitLab skips after_script when the
+# job timeout expires. after_script then switches the board off with the
+# power driver only, also after a cancel, without the serial console.
+
+.testbed-bf3:
+  image: "registry.gitlab.com/prpl-foundation/prplos/ci/containers/testbed/testbed-bf3@sha256:079af1d5a8cdca651a1f1ad605fa0aeb696b34de755ee562aacca93410dd3553"
+  needs: []
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == "latest-24.10"'
+      when: never
+    - if: '$BF3_RUN == "1" && $CI_COMMIT_BRANCH'
+      when: manual
+    - when: never
+  variables:
+    BF3_RESULTS: boardfarm3-results
+    BF3_FIRMWARE_DIR: firmware
+    BF3_PLUGIN_REPO: https://gitlab.com/ynezz/boardfarm3-prplos.git
+    BF3_PLUGIN_COMMIT: 20c7c52af05781f859969d1c36d73391e6eacf48
+    # Seconds: pytest gets SIGINT this long before the job timeout, and
+    # SIGKILL BF3_TEARDOWN_TIME after SIGINT. The rest is for after_script.
+    BF3_STOP_MARGIN: 480
+    BF3_TEARDOWN_TIME: 300
+
+  before_script:
+    - source .gitlab/scripts/helpers.sh
+    - section_start "testbed-setup" "Testbed Setup" "collapsed"
+
+    - test -n "$FW_PIPELINE_ID" || { log_error "FW_PIPELINE_ID is empty"; exit 1; }
+    - .gitlab/scripts/firmware-from-pipeline.sh "$BF3_FIRMWARE_DIR" $TFTP_IMAGE_FILENAMES
+
+    - sudo ip link set $TESTBED_LAN_INTERFACE up 2> /dev/null
+    - sudo ip link set $TESTBED_WAN_INTERFACE up 2> /dev/null
+    - sleep 10
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+
+    - python3 -m pip install --user --break-system-packages --no-deps "git+$BF3_PLUGIN_REPO@$BF3_PLUGIN_COMMIT"
+
+    - mkdir -p "$BF3_RESULTS"
+    - >
+      jq --arg uri "gitlab-pipeline:$FW_PIPELINE_ID"
+      '.environment_def.board.software.image_uri = $uri'
+      "$BF3_ENVIRONMENT" > "$BF3_RESULTS/environment.json"
+
+    - |
+      CRAM_TEST_SUITE="$(
+        .gitlab/tests/cram/scripts/resolve-component-tests.py \
+          --test-root .gitlab/tests/cram \
+          --manifest components.yml \
+          --board "$DUT_BOARD" \
+          --component "$COMPONENT"
+      )"
+      export CRAM_TEST_SUITE
+    - |
+      export TEST_CUTOFF_TIMEOUT=$((CI_JOB_TIMEOUT - DUT_SLEEP_AFTER_BOOT - TEST_SETUP_TEARDOWN_DURATION))
+      echo "Job timeout: $CI_JOB_TIMEOUT seconds, test cutoff timeout: $TEST_CUTOFF_TIMEOUT seconds"
+
+    - section_end "testbed-setup"
+
+  script:
+    # The job log gets the pytest results and the progress lines of the
+    # plugin, one collapsible section for each lifecycle phase. The whole
+    # boardfarm3 and labgrid log, console traffic included, goes to
+    # $BF3_RESULTS/boardfarm3.log: it is too large for the job log.
+    # pytest does not capture: with capture, the log goes to the capture
+    # file instead of the filter, and a failed test shows its captured log
+    # in the job log.
+    - |
+      started="$(date -d "$CI_JOB_STARTED_AT" +%s)"
+      stop_after=$((started + CI_JOB_TIMEOUT - BF3_STOP_MARGIN - $(date +%s)))
+      [ "$stop_after" -gt 0 ] || stop_after=1
+      echo "pytest gets SIGINT after $stop_after seconds"
+      {
+        {
+          timeout --signal=INT --kill-after="$BF3_TEARDOWN_TIME" "$stop_after" \
+          pytest -v -s --show-capture=no -p no:randomly -p no:cacheprovider \
+            --board-name "$BF3_BOARD_NAME" \
+            --inventory-config "$BF3_INVENTORY" \
+            --env-config "$BF3_RESULTS/environment.json" \
+            --save-console-logs "$BF3_RESULTS" \
+            --junitxml "$BF3_RESULTS/pytest.xml" \
+            .gitlab/tests/boardfarm3 && status=0 || status=$?
+          echo "$status" > "$BF3_RESULTS/pytest.status"
+        } 2>&1 >&3 | .gitlab/scripts/boardfarm3-log-filter.py "$BF3_RESULTS/boardfarm3.log"
+      } 3>&1
+      status="$(cat "$BF3_RESULTS/pytest.status")"
+      case "$status" in
+        124 | 137) echo "pytest was stopped before the job timeout (exit code $status)" ;;
+      esac
+      exit "$status"
+
+  after_script:
+    # In a container of its own, after_script installs the plugin again.
+    - |
+      python3 -c "import boardfarm3_prplos" 2> /dev/null ||
+        python3 -m pip install --user --break-system-packages --no-deps --quiet "git+$BF3_PLUGIN_REPO@$BF3_PLUGIN_COMMIT"
+      python3 -m boardfarm3_prplos.power_off \
+        --board-name "$BF3_BOARD_NAME" \
+        --inventory-config "$BF3_INVENTORY" \
+        --log-dir "$BF3_RESULTS/power-off" ||
+        echo "The power-off tool failed with exit code $?"
+
+    - >-
+      curl --fail \
+        --output .gitlab/scripts/cram-xunit-merger.py \
+        https://gitlab.com/prpl-foundation/tooling/cram-xunit-merger/-/raw/9bc14318ab88c2a024ad0ff8bf09c21d048e1e3b/cram-xunit-merger.py
+
+    - |
+      python3 .gitlab/scripts/cram-xunit-merger.py \
+        --output "${CI_PROJECT_DIR}/cram-result-$LABGRID_TARGET.junit.xml" \
+        "${CI_PROJECT_DIR}/cram-result-$LABGRID_TARGET.xunit.xml" \
+        "${CI_PROJECT_DIR}/cram-result-post-$LABGRID_TARGET.xunit.xml" || true
+
+  artifacts:
+    expire_in: 1 month
+    when: always
+    paths:
+      - boardfarm3-results/
+      - memory-footprint/
+      - .gitlab/tests/cram/**/*.t.err
+      - .gitlab/tests/cram/**/*.actual
+      - .gitlab/tests/cram/**/*.diff
+      - etc
+      - prplmesh_beerocks_logs
+      - debug-information-$LABGRID_TARGET.txt
+      - processes-$LABGRID_TARGET.txt
+      - dmesg-$LABGRID_TARGET.txt
+      - syslog-$LABGRID_TARGET.txt
+      - system-$LABGRID_TARGET.json
+      - cram-result-*
+      - opkg_list-$LABGRID_TARGET.txt
+      - coredumps-$LABGRID_TARGET.tar.gz
+    reports:
+      junit:
+        - boardfarm3-results/pytest.xml
+        - cram-result-$LABGRID_TARGET.junit.xml
+      metrics: memory-footprint/*/metrics.prom
