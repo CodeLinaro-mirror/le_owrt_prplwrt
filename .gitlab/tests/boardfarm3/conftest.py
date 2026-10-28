@@ -5,20 +5,31 @@
 The tests reach the board only through the use cases of the
 boardfarm3-prplos plugin. When a test fails, the board dumps its system
 state and recovers SSH before boardfarm3 powers it off.
+
+In a CI job, a session fixture runs the steps of the labgrid DUT
+lifecycle that are prplOS CI policy (.gitlab/scripts/boardfarm3-dut-glue.sh)
+while the board is up.
 """
 
 from __future__ import annotations
 
+import logging
+import os
+import subprocess
+from pathlib import Path
 from typing import TYPE_CHECKING
 
 import pytest
 from boardfarm3_prplos.use_cases.device_getters import get_board
-from boardfarm3_prplos.use_cases.system import mark_board_failed
+from boardfarm3_prplos.use_cases.system import ensure_ssh_access, mark_board_failed
 
 if TYPE_CHECKING:
     from collections.abc import Generator
 
     from boardfarm3_prplos.templates.prplos_cpe import PrplOSCPE
+
+_LOGGER = logging.getLogger(__name__)
+_GLUE = Path(__file__).resolve().parents[2] / "scripts" / "boardfarm3-dut-glue.sh"
 
 _failed_tests: list[str] = []
 
@@ -44,3 +55,22 @@ def _report_failed_tests_to_board() -> Generator[None]:
     yield
     if _failed_tests:
         mark_board_failed(get_board(), f"failed tests: {', '.join(_failed_tests)}")
+
+
+@pytest.fixture(scope="session", autouse=True)
+def _ci_glue(board: PrplOSCPE) -> Generator[None]:
+    """Run the CI steps before the first test and after the last one.
+
+    After the tests, SSH is recovered when it does not answer, as the
+    labgrid job does before it collects the logs. Outside a CI job the
+    fixture does nothing.
+    """
+    if os.environ.get("CI") != "true":
+        yield
+        return
+    subprocess.run([_GLUE, "ready"], check=True)  # noqa: S603
+    yield
+    subprocess.run([_GLUE, "finished"], check=False)  # noqa: S603
+    if not ensure_ssh_access(board):
+        _LOGGER.error("SSH to the board does not answer after the recovery")
+    subprocess.run([_GLUE, "collect"], check=False)  # noqa: S603
