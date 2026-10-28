@@ -1,0 +1,14 @@
+{
+    "environment_def": {
+        "board": {
+            "model": "mxl25641-hdk-6",
+            "software": {
+                "image_dir": "firmware",
+                "tftp_files": [
+                    "prplos-intel_x86-lgm-PRPL_OSP_v2-update_script.itb",
+                    "prplos-intel_x86-lgm-PRPL_OSP_v2-wgrtd159be_b_wav700-ext4.img"
+                ]
+            }
+        }
+    }
+}

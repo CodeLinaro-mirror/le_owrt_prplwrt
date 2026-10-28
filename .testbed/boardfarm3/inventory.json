@@ -1,0 +1,18 @@
+{
+    "testbed-04-ospv2": {
+        "devices": [
+            {
+                "name": "board",
+                "type": "prplos_board",
+                "connection_type": "serial",
+                "conn_cmd": ["picocom -b 115200 /dev/dut-console"],
+                "shell_prompt": ["root@[\\w()]+:[^ ]+ "],
+                "labgrid": {
+                    "config_file": ".testbed/labgrid/testbed-04.yaml",
+                    "target": "mxl25641-hdk-6-emmc"
+                },
+                "tftp_dir": "/var/lib/tftpboot"
+            }
+        ]
+    }
+}
