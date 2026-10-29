@@ -45,6 +45,7 @@ CDRouter-Wireless Freedom eMMC:
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
       .gitlab/scripts/dut-init/cdrouter-dut-configure-wireless.sh
+      .gitlab/scripts/dut-init/cdrouter-dut-raise-hostapd-logging.sh
       .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
 
 
