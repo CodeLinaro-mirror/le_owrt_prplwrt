@@ -49,9 +49,18 @@ if [ "$phase" = before ]; then
 fi
 
 dump() {
-	# $1 = debugfs file, $2 = output name suffix
+	# $1 = debugfs file, $2 = output name suffix; the DUT busybox has no
+	# timeout applet, so read in the background and kill after 5 seconds
 	name="$(echo "${1#$dbg/}" | tr '/' '_')$2"
-	timeout 10 cat "$1" 2> /dev/null | head -c 200000 > "$out/$name" || true
+	cat "$1" > "$out/$name" 2> /dev/null &
+	pid=$!
+	n=0
+	while kill -0 "$pid" 2> /dev/null && [ "$n" -lt 5 ]; do
+		sleep 1
+		n=$((n + 1))
+	done
+	kill "$pid" 2> /dev/null || true
+	wait "$pid" 2> /dev/null || true
 }
 
 for f in $(find "$dbg/ieee80211" "$dbg/ath12k" -type f \( -name device_dp_stats -o -name dump_mgmt_stats -o -name fw_reset_stats -o -name vdev_stats -o -name link_stats -o -name mld_stats -o -name pdev_stats -o -name device_mon_stats -o -name htt_peer_stats -o -name tx_stats -o -name rx_stats \) 2> /dev/null); do
