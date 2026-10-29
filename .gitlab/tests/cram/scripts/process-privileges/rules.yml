@@ -198,6 +198,9 @@
   - cmd: timingila
     id: root:root
     caps: none
+  - cmd: tr181-bootstatus
+    id: tr181_app:tr181_app
+    caps: dac_override
   - cmd: tr181-bridging
     id: tr181_app:tr181_app
     caps: dac_override,net_admin
