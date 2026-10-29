@@ -1,0 +1,31 @@
+From: Petr Stetiar <petr.stetiar@prplfoundation.org>
+Subject: [PATCH] ath12k: print the masked debug messages with dev_info
+
+__ath12k_dbg() prints with dev_dbg(), which is compiled out on the
+Freedom image (no CONFIG_DYNAMIC_DEBUG at run time, no -DDEBUG), so the
+debug_mask bits select messages that never appear. Print the messages
+that pass the debug_mask gate with dev_info(), so that the EAPOL, PEER
+and MLME classes reach the kernel log. The mask gate and the branch
+without a device stay as they are.
+
+Throwaway debug patch for the Freedom build, never merged.
+
+Assisted-by: claude:sonnet-5-5
+Signed-off-by: Petr Stetiar <petr.stetiar@prplfoundation.org>
+---
+ drivers/net/wireless/ath/ath12k/debug.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+--- a/drivers/net/wireless/ath/ath12k/debug.c
++++ b/drivers/net/wireless/ath/ath12k/debug.c
+@@ -74,7 +74,7 @@
+ 
+ 	if (mask & ath12k_debug_mask) {
+ 		if (ab)
+-			dev_dbg(ab->dev, "%pV", &vaf);
++			dev_info(ab->dev, "%pV", &vaf);
+ 		else
+ 			pr_info("ath12k: %pV", &vaf);
+ 	}
+-- 
+2.25.1
