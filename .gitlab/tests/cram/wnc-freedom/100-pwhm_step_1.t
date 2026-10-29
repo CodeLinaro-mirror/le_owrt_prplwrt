@@ -13,6 +13,30 @@ Create R alias:
   $ prplmesh_stop
 
 #####################################
+# Check defaults                    #
+#####################################
+
+  $ wifi_dm "Radio.*.SupportedStandards?"
+  Device.WiFi.Radio.1.SupportedStandards="b,g,n,ax,be"
+  Device.WiFi.Radio.2.SupportedStandards="a,n,ac,ax,be"
+  Device.WiFi.Radio.3.SupportedStandards="ax,be"
+
+  $ wifi_dm "Radio.*.OperatingStandards?" "WiFi." "ba-cli"
+  WiFi.Radio.1.OperatingStandards="b,g,n,ax,be"
+  WiFi.Radio.2.OperatingStandards="a,n,ac,ax,be"
+  WiFi.Radio.3.OperatingStandards="ax,be"
+
+  $ wifi_dm 'Radio.*.X_PRPLWARE-COM_UHRPhyCapabilities?'
+  Device.WiFi.Radio.1.X_PRPLWARE-COM_UHRPhyCapabilities="AAAAAA=="
+  Device.WiFi.Radio.2.X_PRPLWARE-COM_UHRPhyCapabilities="AAAAAA=="
+  Device.WiFi.Radio.3.X_PRPLWARE-COM_UHRPhyCapabilities="AAAAAA=="
+
+  $ wifi_dm 'Radio.*.X_PRPLWARE-COM_UHRPhyCapabilitiesStr?'
+  Device.WiFi.Radio.1.X_PRPLWARE-COM_UHRPhyCapabilitiesStr=""
+  Device.WiFi.Radio.2.X_PRPLWARE-COM_UHRPhyCapabilitiesStr=""
+  Device.WiFi.Radio.3.X_PRPLWARE-COM_UHRPhyCapabilitiesStr=""
+
+#####################################
 # Test activation of access point 1 #
 #####################################
 
