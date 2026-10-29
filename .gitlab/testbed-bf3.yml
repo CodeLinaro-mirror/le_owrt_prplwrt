@@ -64,6 +64,40 @@
       '.environment_def.board.software.image_uri = $uri'
       "$BF3_ENVIRONMENT" > "$BF3_RESULTS/environment.json"
 
+    # A fault for a recovery test, unset in normal runs. The job then uses
+    # changed copies of the inventory and the labgrid file:
+    #   ssh   - the board boots, but its LAN address in the inventory is
+    #           unused, so SSH does not answer after the boot;
+    #   uboot - the bootloader runs a command that does not start the
+    #           kernel, so the boot stops in the bootloader.
+    - |
+      case "${BF3_BOOT_FAULT:-}" in
+        "") ;;
+        ssh)
+          jq --arg board "$BF3_BOARD_NAME" \
+            '.[$board].devices |= map(if .labgrid then .network.lan_ip = "192.168.1.250" else . end)' \
+            "$BF3_INVENTORY" > "$BF3_RESULTS/inventory.json"
+          export BF3_INVENTORY="$BF3_RESULTS/inventory.json"
+          log_info "BF3_BOOT_FAULT=ssh: LAN address 192.168.1.250 in $BF3_INVENTORY"
+          ;;
+        uboot)
+          labgrid_file="$(jq -r --arg board "$BF3_BOARD_NAME" \
+            '.[$board].devices[] | select(.labgrid) | .labgrid.config_file' "$BF3_INVENTORY")"
+          sed 's/^\( *boot_command:\) run bootcmd$/\1 echo boot skipped/' \
+            "$labgrid_file" > "$BF3_RESULTS/labgrid.yaml"
+          grep -q 'boot_command: echo boot skipped' "$BF3_RESULTS/labgrid.yaml"
+          jq --arg board "$BF3_BOARD_NAME" --arg file "$BF3_RESULTS/labgrid.yaml" \
+            '.[$board].devices |= map(if .labgrid then .labgrid.config_file = $file else . end)' \
+            "$BF3_INVENTORY" > "$BF3_RESULTS/inventory.json"
+          export BF3_INVENTORY="$BF3_RESULTS/inventory.json"
+          log_info "BF3_BOOT_FAULT=uboot: boot command 'echo boot skipped' in $BF3_RESULTS/labgrid.yaml"
+          ;;
+        *)
+          log_error "BF3_BOOT_FAULT: unknown value '$BF3_BOOT_FAULT' (ssh or uboot)"
+          exit 1
+          ;;
+      esac
+
     - |
       CRAM_TEST_SUITE="$(
         .gitlab/tests/cram/scripts/resolve-component-tests.py \
