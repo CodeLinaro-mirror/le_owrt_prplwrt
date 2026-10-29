@@ -125,6 +125,7 @@
     - ssh root@$TARGET_LAN_IP 'logger -t CI -p local0.info "Testing finished, $(uptime -p)"' || true
     - >
       if [ -n "${DUT_DEBUGFS_DUMP:-}" ]; then
+        .gitlab/scripts/dut-init/cdrouter-dut-instrument.sh stop || true
         .gitlab/scripts/dut-init/cdrouter-dut-ath12k-debugfs.sh after || true
       fi
 

@@ -35,7 +35,7 @@ CDRouter-Top-100+mDNS Freedom PPPoE WAN eMMC:
 CDRouter-Wireless Freedom eMMC:
   <<: *wnc_freedom
   stage: smoke tests
-  timeout: 20 minutes
+  timeout: 30 minutes
   tags: [r102-reserved]
   variables:
     CDROUTER_TEST_CONFIG: wireless
@@ -49,6 +49,7 @@ CDRouter-Wireless Freedom eMMC:
       .gitlab/scripts/dut-init/cdrouter-dut-configure-wireless.sh
       .gitlab/scripts/dut-init/cdrouter-dut-raise-hostapd-logging.sh
       .gitlab/scripts/dut-init/cdrouter-dut-ath12k-debugfs.sh
+      .gitlab/scripts/dut-init/cdrouter-dut-instrument.sh
       .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
 
 
