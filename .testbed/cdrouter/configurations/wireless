@@ -898,8 +898,8 @@ SECTION "Base Configuration" {
 
             # testvar wirelessRetry                    3
             # testvar lanWirelessMaxClients            auto
-            testvar wifiCapture                        on
-            # testvar wifiCaptureFilter                {}
+            testvar wifiCapture                        filter
+            testvar wifiCaptureFilter                  {not subtype beacon and not subtype probe-req and not subtype probe-resp}
 
         }
 
