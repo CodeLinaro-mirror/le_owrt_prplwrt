@@ -10,6 +10,30 @@ Create R alias:
   $ check_wifi_defaults
   $ testbed_set_wifi_defaults
 
+Check defaults:
+
+  $ wifi_dm "Radio.*.SupportedStandards?"
+  Device.WiFi.Radio.1.SupportedStandards="b,g,n,bg,gn,bgn,ax,be"
+  Device.WiFi.Radio.2.SupportedStandards="a,n,an,ac,ax,be"
+  Device.WiFi.Radio.3.SupportedStandards="ax,be"
+
+  $ wifi_dm "Radio.*.OperatingStandards?" "WiFi." "ba-cli"
+  WiFi.Radio.1.OperatingStandards="be"
+  WiFi.Radio.2.OperatingStandards="be"
+  WiFi.Radio.3.OperatingStandards="be"
+
+  $ wifi_dm 'Radio.*.X_PRPLWARE-COM_UHRPhyCapabilities?'
+  Device.WiFi.Radio.1.X_PRPLWARE-COM_UHRPhyCapabilities="AAAAAA=="
+  Device.WiFi.Radio.2.X_PRPLWARE-COM_UHRPhyCapabilities="AAAAAA=="
+  Device.WiFi.Radio.3.X_PRPLWARE-COM_UHRPhyCapabilities="AAAAAA=="
+
+  $ wifi_dm 'Radio.*.X_PRPLWARE-COM_UHRPhyCapabilitiesStr?'
+  Device.WiFi.Radio.1.X_PRPLWARE-COM_UHRPhyCapabilitiesStr=""
+  Device.WiFi.Radio.2.X_PRPLWARE-COM_UHRPhyCapabilitiesStr=""
+  Device.WiFi.Radio.3.X_PRPLWARE-COM_UHRPhyCapabilitiesStr=""
+
+Stop prplMesh:
+
   $ prplmesh_stop
 
 USP events: Before enabling the first vap, let's start testing usp events.
