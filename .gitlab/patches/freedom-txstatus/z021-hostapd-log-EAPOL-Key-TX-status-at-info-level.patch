@@ -1,0 +1,30 @@
+From: Petr Stetiar <petr.stetiar@prplfoundation.org>
+Subject: [PATCH] hostapd: log the EAPOL-Key TX status at info level
+
+The "WPA: EAPOL-Key TX status for STA ... ack=" line is a wpa_printf at
+MSG_DEBUG, which the prplOS hostapd-qca build compiles out
+(CONFIG_WPA_MSG_MIN_PRIORITY defaults to 3). Raise this one line to
+MSG_INFO so that the syslog shows, per EAPOL frame sent over the control
+port, whether the frame was acknowledged.
+
+Throwaway debug patch for the Freedom build, never merged.
+
+Assisted-by: claude:sonnet-5-5
+Signed-off-by: Petr Stetiar <petr.stetiar@prplfoundation.org>
+---
+ src/ap/wpa_auth.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+--- a/src/ap/wpa_auth.c
++++ b/src/ap/wpa_auth.c
+@@ -7283,7 +7283,7 @@ void wpa_auth_eapol_key_tx_status(struct wpa_authenticator *wpa_auth,
+ {
+ 	if (!wpa_auth || !sm)
+ 		return;
+-	wpa_printf(MSG_DEBUG, "WPA: EAPOL-Key TX status for STA " MACSTR
++	wpa_printf(MSG_INFO, "WPA: EAPOL-Key TX status for STA " MACSTR
+ 		   " ack=%d", MAC2STR(wpa_auth_get_spa(sm)), ack);
+ 	if (sm->pending_1_of_4_timeout && ack) {
+ 		/*
+-- 
+2.25.1

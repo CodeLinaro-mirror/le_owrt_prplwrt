@@ -124,6 +124,14 @@
       done
     - section_end "integrity-check"
 
+    - 'section_start "txstatus-patches" "WIP: carrying the TX-status debug patches" "collapsed"'
+    - |
+      if [ -d feeds/feed_qca/feeds/mac80211/patches/subsys ] && [ -d feeds/feed_qca/feeds/hostapd-qca/patches-qca ]; then
+        cp -v .gitlab/patches/freedom-txstatus/0393-*.patch feeds/feed_qca/feeds/mac80211/patches/subsys/
+        cp -v .gitlab/patches/freedom-txstatus/z021-*.patch feeds/feed_qca/feeds/hostapd-qca/patches-qca/
+      fi
+    - section_end "txstatus-patches"
+
     - >
       trap "
         grep -qz 'package/install[[:space:]]make -r world' logs/build.log && {
