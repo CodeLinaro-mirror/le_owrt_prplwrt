@@ -57,8 +57,8 @@ if [ "$action" = start ]; then
 	: > "$log"
 	(
 		n=0
-		# at most 1500 iterations (25 minutes) and 6 MB
-		while [ "$n" -lt 1500 ] && [ "$(wc -c < "$log")" -lt 6000000 ]; do
+		# at most 2100 iterations (35 minutes) and 12 MB
+		while [ "$n" -lt 2100 ] && [ "$(wc -c < "$log")" -lt 12000000 ]; do
 			echo "## $(date +%T) up $(cut -d' ' -f1 /proc/uptime)" >> "$log"
 			iw dev "$bss" station dump >> "$log" 2>&1 || true
 			hostapd_cli -p /var/run/hostapd -i "$bss" -l 0 all_sta >> "$log" 2>&1 || true

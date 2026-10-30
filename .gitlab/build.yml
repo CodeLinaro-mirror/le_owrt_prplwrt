@@ -126,10 +126,9 @@
 
     - 'section_start "txstatus-patches" "WIP: carrying the TX-status debug patches" "collapsed"'
     - |
-      if [ -d feeds/feed_qca/feeds/mac80211/patches/subsys ] && [ -d feeds/feed_qca/feeds/hostapd-qca/patches-qca ] && [ -d feeds/feed_qca/feeds/mac80211/patches/ath12k ]; then
-        cp -v .gitlab/patches/freedom-txstatus/0393-*.patch feeds/feed_qca/feeds/mac80211/patches/subsys/
+      if [ -d feeds/feed_qca/feeds/hostapd-qca/patches-qca ] && [ -d feeds/feed_qca/feeds/mac80211/patches/bugfix ]; then
         cp -v .gitlab/patches/freedom-txstatus/z021-*.patch feeds/feed_qca/feeds/hostapd-qca/patches-qca/
-        cp -v .gitlab/patches/freedom-txstatus/0554-*.patch feeds/feed_qca/feeds/mac80211/patches/ath12k/
+        cp -v .gitlab/patches/freedom-txstatus/0554-*.patch feeds/feed_qca/feeds/mac80211/patches/bugfix/
       fi
     - section_end "txstatus-patches"
 
