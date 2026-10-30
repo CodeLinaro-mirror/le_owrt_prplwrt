@@ -455,6 +455,17 @@ SECTION "Base Configuration" {
 
             }
 
+            SECTION "prplOS CI knobs (PCF-2838, CI-164)" {
+
+                # User-defined testvars read by two local patches on the CDRouter boxes
+                # (tests/wifi.tcl and lib/pktsrc16.10.1/eapol.tcl). Temporary: remove them
+                # with the patches, see the PCF and CI tickets named in the commit message.
+                # Vendor behaviour: 1 and 0.
+                testvar prplWifiAssocAttempts              "@CDROUTER_CONFIG_PRPL_WIFI_ASSOC_ATTEMPTS@"
+                testvar prplWifiPtkInstallDelayMs          "@CDROUTER_CONFIG_PRPL_WIFI_PTK_INSTALL_DELAY_MS@"
+
+            }
+
         }
 
         SECTION "LAN 802.1X and RADIUS" {
