@@ -42,6 +42,8 @@ CDRouter-Wireless Freedom eMMC:
     CDROUTER_DUT_INIT_USP_MTP_SCRIPT: .gitlab/scripts/dut-init/cdrouter-dut-configure-usp-ws.sh
     CDROUTER_CONFIG_WIFI_BEACON_PHY: 'ax b be g n'
     CDROUTER_CONFIG_WIFI_BEACON_RSN_CIPHER: 'CCMP-128 GCMP-256'
+    CDROUTER_CONFIG_PRPL_WIFI_ASSOC_ATTEMPTS: '3'
+    CDROUTER_CONFIG_PRPL_WIFI_PTK_INSTALL_DELAY_MS: '20'
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
       .gitlab/scripts/dut-init/cdrouter-dut-configure-wireless.sh
