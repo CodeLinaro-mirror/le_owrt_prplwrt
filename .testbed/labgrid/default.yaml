@@ -133,6 +133,8 @@ targets:
           - mmc dev 0
           - mmc erase 0x534022 0x40000 # rootfs_data
           - mmc erase 0x134022 0x400 # lcm_data
+          # Wipe the securestore superblock, so the firmware reformats /cfg.
+          - mmc erase 0x574822 0x400 # securestore
           - run update_prpl
         boot_command: run bootcmd
       UBootStrategy: {}
