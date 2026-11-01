@@ -1,0 +1,14 @@
+name: CDRouter-Wireless
+description: CDRouter's Essential Wireless Test Cases
+tests:
+- wifi_1
+- wifi_2
+- wifi_3
+- wifi_10
+- wifi_11
+- wifi_20
+- wifi_30
+- wifi_40
+options:
+  loop: '2'
+  repeat: '2'
