@@ -23,9 +23,9 @@ Switch channel bandwith from 160 to 80 Mhz to avoid doing DFS CAC operation, tha
 Check that wireless has desired configuration and state after boot:
 
   $ R "ubus -S call WiFi.SSID _get | jsonfilter -e @[*].SSID -e @[*].Status | sort"
-  Dormant
-  Dormant
-  Dormant
+  Down
+  Down
+  Down
   Down
   Down
   Down
@@ -89,7 +89,7 @@ Start wireless:
   {}
   {"amxd-error-code":0}
 
-  $ sleep 10
+  $ sleep 30
 
 Check that hostapd is operating as expected:
 
@@ -113,9 +113,9 @@ Check that hostapd is operating as expected:
 Check that wireless is operating:
 
   $ R "ubus -S call WiFi.SSID _get | jsonfilter -e @[*].SSID -e @[*].Status | sort"
-  Dormant
-  Dormant
-  Dormant
+  Down
+  Down
+  Down
   PWHM_SSID2
   PWHM_SSID5
   PWHM_SSID8
@@ -203,6 +203,7 @@ Check that prplmesh is in operational state:
 Disable wireless:
 
   $ R logger -t cram "Stop wireless"
+  $ R "/etc/init.d/prplmesh stop 2>&1 > /dev/null"
 
   $ R "ubus -S call WiFi.AccessPoint.6 _set '{\"parameters\":{\"Enable\":0}}'"
   {"WiFi.AccessPoint.6.":{"Enable":false}}
@@ -239,9 +240,10 @@ Disable wireless:
 Check that wireless is disabled:
 
   $ R "ubus -S call WiFi.SSID _get | jsonfilter -e @[*].SSID -e @[*].Status | sort"
-  Dormant
-  Dormant
-  Dormant
+  Down
+  Down
+  Down
+  Down
   Down
   Down
   Down
@@ -250,7 +252,6 @@ Check that wireless is disabled:
   PWHM_SSID2
   PWHM_SSID5
   PWHM_SSID8
-  Up
   prplOS
   prplOS
   prplOS
