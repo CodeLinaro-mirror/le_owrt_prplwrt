@@ -15,3 +15,15 @@ This helper Python script creates new or updates existing Jira ticket when somet
 ## testbed-device.py
 
 This helper Python scripts allows managing of device under test (DUT) via labgrid framework.
+
+## CDRouter reports
+
+The testbed image supplies `cdrouter-ci` version `0.4.0`.
+The CDRouter job runs
+`cdrouter-ci report cdrouter-results/` after it extracts the result archive.
+The command reads local logs, including partial runs without `final.txt`.
+It prints failure messages, preceding log lines, and file names with line
+numbers. It writes `cdrouter-junit.xml`, `failure-digest.md`,
+`failure-digest.html`, and `failure-digest.json` in the job directory.
+GitLab collects the JUnit report and keeps the logs and digests as artifacts,
+including `final.txt` when present.
