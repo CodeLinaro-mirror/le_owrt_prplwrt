@@ -45,6 +45,8 @@ CDRouter-Wireless Turris initramfs:
     CDROUTER_TEST_CONFIG: wireless
     CDROUTER_CONFIG_USP_CONTROLLER_MTP: websocket
     CDROUTER_DUT_INIT_USP_MTP_SCRIPT: .gitlab/scripts/dut-init/cdrouter-dut-configure-usp-ws.sh
+    CDROUTER_CONFIG_WIFI_BEACON_PHY: 'ax b g n'
+    CDROUTER_CONFIG_WIFI_BEACON_RSN_CIPHER: 'CCMP-128'
     CDROUTER_CONFIG_WIFI_BEACON_WPA_KEY_MGMT: 'PSK SAE'
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
