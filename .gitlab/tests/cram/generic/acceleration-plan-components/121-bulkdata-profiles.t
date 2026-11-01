@@ -5,21 +5,38 @@ Create R alias:
   $ R "ba-cli 'BulkData.Profile.*.-'" > /dev/null
   $ R "ba-cli 'BulkData.set_trace_zone(zone=http, level=500)'" > /dev/null
 
+Point at the testbed when the DUT cannot reach the HTTP collector:
+
+  $ warn_if_collector_unreachable() {
+  >   R "curl -m 10 -s -o /dev/null https://postman-echo.com/post/" ||
+  >     echo "WARNING: unable to reach postman-echo.com from the DUT" >&2
+  > }
+
 Check Bulkdata syslog messages:
 
   $ check_bulkdata_success() {
   >   local no_sync="$1"
-  >   success=true
-  >   if [ -z "$no_sync" ]; then
-  >     result=$(R "grep 'bulkdata' /var/log/messages | grep 'http request sent successfully for profile' | tail -n 1 | sed 's/.*tr181-bulkdata: //'")
-  >     transfer_failed=$(R "grep 'bulkdata' /var/log/messages | grep 'transfer failed' | tail -n 1 | sed 's/.*tr181-bulkdata: //'")
-  >     if [ -z "$result" -a -z "$transfer_failed" ]; then
-  >       success=false
-  >     fi
-  >   fi
-  >   if [ "$success" = true ]; then
+  >   local attempt logs
+  >   if [ -n "$no_sync" ]; then
   >     echo "Test Successful"
+  >     return 0
   >   fi
+  >   for attempt in $(seq 1 40); do
+  >     logs=$(R "grep bulkdata /var/log/messages" || true)
+  >     if echo "$logs" | grep -Fq 'transfer failed'; then
+  >       echo "$logs" >&2
+  >       warn_if_collector_unreachable
+  >       return 1
+  >     fi
+  >     if echo "$logs" | grep -Fiq 'http request sent successfully for profile'; then
+  >       echo "Test Successful"
+  >       return 0
+  >     fi
+  >     sleep 1
+  >   done
+  >   echo "$logs" >&2
+  >   warn_if_collector_unreachable
+  >   return 1
   > }
 
 Check time synchronization to start BulkData module:
