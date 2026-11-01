@@ -2491,6 +2491,7 @@ SECTION "CDRouter TR-069 Add-On" {
 SECTION "CDRouter USP Add-On" {
 
       testvar supportsUSP                      yes
+      testvar uspAgentVersion                  1.3
 
     SECTION "Basic Controller Configuration" {
 
