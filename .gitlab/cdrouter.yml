@@ -17,7 +17,10 @@
     CDROUTER_CONFIG_WIFI_LAN_CHANNEL: 6
     CDROUTER_CONFIG_WIFI_LAN_SSID: 'prplOS'
     CDROUTER_CONFIG_PRPL_WIFI_ASSOC_ATTEMPTS: '1'
-    CDROUTER_CONFIG_PRPL_WIFI_PTK_INSTALL_DELAY_MS: '0'
+    # The client installs the PTK before M4 has left the radio, so M4 goes out encrypted
+    # (CI-164). 20 ms covers the observed dequeue lag (up to 6.9 ms); 0 of 3063 on OSPv2,
+    # 0 of 2084 on Freedom. Remove with CI-165 once QA Cafe fixes the client.
+    CDROUTER_CONFIG_PRPL_WIFI_PTK_INSTALL_DELAY_MS: '20'
     CDROUTER_CONFIG_USP_CONTROLLER_MTP: mqtt
     CDROUTER_CONFIG_USP_CONTROLLER_MTP_ENCRYPTION: 'yes'
     CDROUTER_CONFIG_USP_CONTROLLER_DOMAIN: controller.cdroutertest.com
