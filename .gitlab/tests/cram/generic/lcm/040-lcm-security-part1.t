@@ -132,5 +132,6 @@ Test container installation with Token/Bearer authentication using a correct pas
 Clear all configuration and environment:
 
   $ R "${S} && cleanup_security"
+  $ R "rm -f /tmp/script_functions.sh /tmp/security_functions.sh"
   $ kill $SIGNATURE_SERVER_PID 2>/dev/null || true
   $ R logger -t cram Ended $TESTFILE

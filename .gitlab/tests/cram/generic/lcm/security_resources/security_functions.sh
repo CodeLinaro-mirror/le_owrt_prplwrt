@@ -112,7 +112,11 @@ cleanup_security() {
 
 	# Remove all config installed or generated
 	rm -rf /tmp/"${CLIENT_CERT_NAME}".csr
-	rm -rf /usr/share/ca-certificates/server_1.crt
+	rm -rf /tmp/captured_event
+	rm -rf /usr/share/ca-certificates/lcm_servers_root_ca1.crt
+	rm -rf /usr/share/ca-certificates/ca_bundle.crt
+	rm -rf /usr/share/rlyeh/keys/sign_test_pub.asc
+	rm -rf /usr/share/rlyeh/keys/
 	rm -rf ${CLIENT_CERT_LOCATION}/${CLIENT_CERT_NAME}.crt
 	rm -rf ${ROOT_LOCATION}
 	rm -rf /etc/config/softwaremodules/odl/timingila.odl
@@ -123,8 +127,6 @@ cleanup_security() {
 
 	# Delete the test HSM token
 	softhsm2-util --delete-token --token lcm_token
-
-	#rm -f /tmp/script_functions.sh /tmp/security_functions.sh
 	service tr181-security start
 	service timingila start
 }
