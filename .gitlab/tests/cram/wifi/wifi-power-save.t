@@ -74,6 +74,11 @@ Trigger power save on Radio 1:
   Device.WiFi.Radio.1.X_PRPLWARE-COM_SetRadioPowerDown() returned
   [
       {
+      },
+      {
+          _userconfig = {
+              CommandKey = "Device.WiFi.Radio.1._exec\(\)-[0-9]+" (re)
+          }
       }
   ]
 
