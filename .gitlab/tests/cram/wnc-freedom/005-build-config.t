@@ -15,6 +15,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_BUSYBOX_CUSTOM=y
   CONFIG_AMX_TR181_USB=y
   CONFIG_AMX_TR181_USB_ORDER=81
+  CONFIG_ATH_USER_REGD=y
   CONFIG_AMX_TR181_USB_RUN_AS_GROUP="tr181_app"
   CONFIG_AMX_TR181_USB_RUN_AS_USER="tr181_app"
   CONFIG_BIND_ENABLE_DOH=y
@@ -36,6 +37,8 @@ Assure expected build configuration (PCF-1413):
   CONFIG_BUSYBOX_CONFIG_VOLUMEID=y
   CONFIG_BUSYBOX_DEFAULT_PIE=y
   CONFIG_DMM_DATA_MODEL_MAPPER_ORDER=54
+  CONFIG_DRIVER_11AC_SUPPORT=y
+  CONFIG_DRIVER_11AX_SUPPORT=y
   CONFIG_DROPBEAR_ECC=y
   CONFIG_DROPBEAR_ECDSA_SK=y
   CONFIG_FWI_FLASH_PARTITIONS="u-boot,kernel,rootfs"
@@ -102,7 +105,16 @@ Assure expected build configuration (PCF-1413):
   CONFIG_OPENSOURCE_SWUPDATE_DISKPART_HANDLER=y
   CONFIG_OPENSOURCE_SWUPDATE_EXT_FILESYSTEM=y
   CONFIG_PACKAGE_ATH_DEBUG=y
+  CONFIG_PACKAGE_ATH_DFS=y
+  CONFIG_PACKAGE_MAC80211_ATHDEBUG=y
+  CONFIG_PACKAGE_MAC80211_DEBUGFS=y
+  CONFIG_PACKAGE_MAC80211_DS_SUPPORT=y
+  CONFIG_PACKAGE_MAC80211_MESH=y
+  CONFIG_PACKAGE_MAC80211_PPE_SUPPORT=y
   CONFIG_PACKAGE_MAC80211_SFE_SUPPORT=y
+  CONFIG_PACKAGE_QCA_LAB_TEST_FEATURES=y
+  CONFIG_PACKAGE_QCN_EXTN=y
+  CONFIG_PACKAGE_QCN_EXTN_MESH_SUPPORT=y
   CONFIG_PACKAGE_acl=y
   CONFIG_PACKAGE_acl-manager=y
   CONFIG_PACKAGE_amx-cli=y
@@ -170,7 +182,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_gmap-mod-self=y
   CONFIG_PACKAGE_gmap-mod-upnp=y
   CONFIG_PACKAGE_gmap-server=y
-  CONFIG_PACKAGE_hostapd-qca-utils=y
+  CONFIG_PACKAGE_hostapd-common=y
   CONFIG_PACKAGE_hosts-manager=y
   CONFIG_PACKAGE_image-authentication=y
   CONFIG_PACKAGE_imagegenerator=y
@@ -190,17 +202,30 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_iptables-zz-legacy=y
   CONFIG_PACKAGE_iputils-ping=y
   CONFIG_PACKAGE_ivykis=y
+  CONFIG_PACKAGE_iw-full=y
+  CONFIG_PACKAGE_iwinfo=y
   # CONFIG_PACKAGE_jansson is not set
   CONFIG_PACKAGE_keyctl=y
   CONFIG_PACKAGE_keyutils=y
   CONFIG_PACKAGE_kmod-asn1-decoder=y
   CONFIG_PACKAGE_kmod-asn1-encoder=y
+  CONFIG_PACKAGE_kmod-ath=y
   CONFIG_PACKAGE_kmod-ath11k=y
+  CONFIG_PACKAGE_kmod-ath12k=y
+  CONFIG_PACKAGE_kmod-cfg80211=y
   CONFIG_PACKAGE_kmod-crypto-acompress=y
   CONFIG_PACKAGE_kmod-crypto-cbc=y
+  CONFIG_PACKAGE_kmod-crypto-ccm=y
+  CONFIG_PACKAGE_kmod-crypto-cmac=y
+  CONFIG_PACKAGE_kmod-crypto-ctr=y
   CONFIG_PACKAGE_kmod-crypto-deflate=y
   CONFIG_PACKAGE_kmod-crypto-des=y
   CONFIG_PACKAGE_kmod-crypto-echainiv=y
+  CONFIG_PACKAGE_kmod-crypto-gcm=y
+  CONFIG_PACKAGE_kmod-crypto-geniv=y
+  CONFIG_PACKAGE_kmod-crypto-gf128=y
+  CONFIG_PACKAGE_kmod-crypto-ghash=y
+  CONFIG_PACKAGE_kmod-crypto-hmac=y
   CONFIG_PACKAGE_kmod-crypto-kpp=y
   CONFIG_PACKAGE_kmod-crypto-lib-chacha20=y
   CONFIG_PACKAGE_kmod-crypto-lib-chacha20poly1305=y
@@ -208,15 +233,18 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-crypto-lib-poly1305=y
   CONFIG_PACKAGE_kmod-crypto-md5=y
   CONFIG_PACKAGE_kmod-crypto-michael-mic=y
+  CONFIG_PACKAGE_kmod-crypto-rng=y
+  CONFIG_PACKAGE_kmod-crypto-seqiv=y
   CONFIG_PACKAGE_kmod-crypto-sha1=y
   CONFIG_PACKAGE_kmod-crypto-sha256=y
+  CONFIG_PACKAGE_kmod-crypto-sha3=y
+  CONFIG_PACKAGE_kmod-crypto-sha512=y
   CONFIG_PACKAGE_kmod-crypto-user=y
   CONFIG_PACKAGE_kmod-dax=y
   CONFIG_PACKAGE_kmod-dm=y
   CONFIG_PACKAGE_kmod-ebtables=y
   CONFIG_PACKAGE_kmod-ebtables-ipv4=y
   CONFIG_PACKAGE_kmod-ebtables-ipv6=y
-  CONFIG_PACKAGE_kmod-fs-vfat=y
   CONFIG_PACKAGE_kmod-gpio-pca953x=y
   CONFIG_PACKAGE_kmod-gre=y
   CONFIG_PACKAGE_kmod-gre6=y
@@ -253,6 +281,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-lib-zlib-deflate=y
   CONFIG_PACKAGE_kmod-lib-zlib-inflate=y
   CONFIG_PACKAGE_kmod-loop=y
+  CONFIG_PACKAGE_kmod-mac80211=y
   CONFIG_PACKAGE_kmod-mcastd-core=y
   CONFIG_PACKAGE_kmod-mhi-bus=y
   CONFIG_PACKAGE_kmod-mhi-net=y
@@ -266,9 +295,6 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-nf-nathelper-extra=y
   CONFIG_PACKAGE_kmod-nfnetlink-queue=y
   # CONFIG_PACKAGE_kmod-nft-fib is not set
-  CONFIG_PACKAGE_kmod-nls-cp437=y
-  CONFIG_PACKAGE_kmod-nls-iso8859-1=y
-  CONFIG_PACKAGE_kmod-nls-utf8=y
   CONFIG_PACKAGE_kmod-nss-udp-st-drv=y
   CONFIG_PACKAGE_kmod-oid-registry=y
   CONFIG_PACKAGE_kmod-ppp=y
@@ -276,7 +302,6 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-pppol2tp=y
   CONFIG_PACKAGE_kmod-pppox=y
   CONFIG_PACKAGE_kmod-pptp=y
-  CONFIG_PACKAGE_kmod-qca-mdio=y
   CONFIG_PACKAGE_kmod-qca-nss-ecm-premium=y
   CONFIG_PACKAGE_kmod-qca-nss-eip=y
   CONFIG_PACKAGE_kmod-qca-nss-eip-ipsec=y
@@ -290,6 +315,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-qca-nss-ppe-gre-mgr=y
   CONFIG_PACKAGE_kmod-qca-nss-ppe-pppoe-mgr=y
   CONFIG_PACKAGE_kmod-qca-nss-sfe=y
+  CONFIG_PACKAGE_kmod-qca-nss-wifi-plugins=y
   CONFIG_PACKAGE_kmod-qca-wifi-nss-plugins=y
   CONFIG_PACKAGE_kmod-qseecom=m
   CONFIG_PACKAGE_kmod-random-core=y
@@ -313,9 +339,6 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-usb-serial=y
   CONFIG_PACKAGE_kmod-usb-serial-option=y
   CONFIG_PACKAGE_kmod-usb-serial-wwan=y
-  CONFIG_PACKAGE_kmod-usb-storage=y
-  CONFIG_PACKAGE_kmod-usb-storage-extras=y
-  CONFIG_PACKAGE_kmod-usb-storage-uas=y
   CONFIG_PACKAGE_kmod-usb-wdm=y
   CONFIG_PACKAGE_kmod-veth=y
   CONFIG_PACKAGE_kmod-wireguard=y
@@ -379,10 +402,13 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_libipset=y
   CONFIG_PACKAGE_libiptext=y
   CONFIG_PACKAGE_libiptext6=y
+  CONFIG_PACKAGE_libiwinfo=y
+  CONFIG_PACKAGE_libiwinfo-data=y
   CONFIG_PACKAGE_libkcapi=y
   CONFIG_PACKAGE_libkeyutils=y
   CONFIG_PACKAGE_libkmod=y
   CONFIG_PACKAGE_liblcm=y
+  CONFIG_PACKAGE_liblua=y
   CONFIG_PACKAGE_liblua5.3=y
   CONFIG_PACKAGE_liblxc=y
   CONFIG_PACKAGE_liblzma=y
@@ -405,9 +431,10 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_libnl-nf=y
   CONFIG_PACKAGE_libnl-ppe=y
   CONFIG_PACKAGE_libnl-route=y
-  CONFIG_PACKAGE_libnl-tcpst=y
   CONFIG_PACKAGE_libocispec=y
   CONFIG_PACKAGE_libopensc=y
+  CONFIG_PACKAGE_libopenssl-conf=y
+  CONFIG_PACKAGE_libopenssl-legacy=y
   CONFIG_PACKAGE_libp11=y
   CONFIG_PACKAGE_libpacket-interception=y
   CONFIG_PACKAGE_libpass=y
@@ -564,8 +591,6 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_netmodel-wireguard=y
   CONFIG_PACKAGE_netmodel-xpon=y
   # CONFIG_PACKAGE_nftables-json is not set
-  CONFIG_PACKAGE_nss-tcp-st-cli=y
-  CONFIG_PACKAGE_nss-udp-st=y
   CONFIG_PACKAGE_obudpst=y
   CONFIG_PACKAGE_obuspa=y
   CONFIG_PACKAGE_odl-generator=y
@@ -597,6 +622,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_prplmesh-unit-tests=m
   CONFIG_PACKAGE_pwhm=y
   CONFIG_PACKAGE_qca-ssdk-shell=y
+  CONFIG_PACKAGE_qca-wifi-scripts=y
   CONFIG_PACKAGE_qmi-utils=y
   CONFIG_PACKAGE_radvd=y
   CONFIG_PACKAGE_readmfg=y
@@ -757,6 +783,9 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_tr181-wireguard=y
   CONFIG_PACKAGE_tr181-xpon=y
   CONFIG_PACKAGE_uboot-tools=y
+  CONFIG_PACKAGE_ucode-mod-nl80211=y
+  CONFIG_PACKAGE_ucode-mod-rtnl=y
+  CONFIG_PACKAGE_ucode-mod-uloop=y
   CONFIG_PACKAGE_umbim=y
   CONFIG_PACKAGE_umdns-prpl=y
   CONFIG_PACKAGE_unbound-daemon-prpl=y
@@ -769,11 +798,12 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_wan-manager=y
   CONFIG_PACKAGE_wifi-helper-scripts=y
   CONFIG_PACKAGE_wifi-scheduler=y
+  CONFIG_PACKAGE_wifi-scripts=y
   CONFIG_PACKAGE_wifi-sensing=y
-  # CONFIG_PACKAGE_wififw_mount_script is not set
   CONFIG_PACKAGE_wireguard-tools=y
   CONFIG_PACKAGE_wireless-freedom=y
-  CONFIG_PACKAGE_wpa-qca-cli=y
+  CONFIG_PACKAGE_wireless-regdb=y
+  CONFIG_PACKAGE_wpad-mesh-openssl=y
   CONFIG_PACKAGE_wwan=y
   CONFIG_PACKAGE_xtables-legacy=y
   CONFIG_PACKAGE_yajl=y
@@ -1238,7 +1268,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_VERSION_PRODUCT=""
   CONFIG_VERSION_REPO="https://downloads.openwrt.org/releases/24.10-SNAPSHOT"
   CONFIG_VERSION_SUPPORT_URL="https://jira.prplfoundation.org"
+  CONFIG_WPA_MBO_SUPPORT=y
+  CONFIG_WPA_MSG_MIN_PRIORITY=3
   CONFIG_shadow-all=y
-  CONFIG_PACKAGE_ucode-mod-uci=y
-  CONFIG_PACKAGE_wifi-scripts=y
   # CONFIG_VERSION_FILENAMES is not set
