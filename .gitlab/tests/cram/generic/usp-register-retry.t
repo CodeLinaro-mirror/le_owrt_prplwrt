@@ -1,0 +1,55 @@
+Check that a service registers after a delayed broker handshake.
+
+Skip the affected platform due to PCF-2669:
+
+  $ if echo "$CI_JOB_NAME" | grep -q -E "Valyrian"; then exit 80; fi
+
+Skip images without RouterAdvertisement or obuspa.
+
+  $ R() { timeout "${REMOTE_TIMEOUT:-10}" ${CRAM_REMOTE_COMMAND:-sh -c} "$@"; }
+  $ SERVICE=tr181-routeradvertisement
+  $ USP_PARAMETER=Device.RouterAdvertisement.Enable
+  $ broker=$(R 'pidof obuspa') || exit 80
+  $ service_pid=$(R "pidof $SERVICE") || exit 80
+  $ case "$broker:$service_pid" in *[!0-9:]*|:*|*:) echo 'expected one process per service'; exit 1;; esac
+  $ datamodel_available() {
+  >     REMOTE_TIMEOUT=${1:-2} R "obuspa -c get $USP_PARAMETER" 2>/dev/null |
+  >         grep -q '^Device\.RouterAdvertisement\.Enable => '
+  > }
+  $ datamodel_available && echo 'datamodel available on USP' || exit 1
+  datamodel available on USP
+
+Resume obuspa on exit or connection loss, and restore the service.
+
+  $ backstop=
+  $ cleanup() {
+  >     R "kill -CONT $broker; ${backstop:+kill $backstop 2>/dev/null;} /etc/init.d/$SERVICE restart" >/dev/null 2>&1
+  > }
+  $ trap 'cleanup' EXIT
+  $ trap 'exit 129' HUP
+  $ trap 'exit 130' INT
+  $ trap 'exit 143' TERM
+  $ backstop=$(R "(trap '' HUP; sleep 15; kill -CONT $broker) </dev/null >/dev/null 2>&1 & echo \$!") || exit 1
+
+Delay the handshake beyond the two-second wait without changing ODL.
+
+  $ R "kill -STOP $broker && /etc/init.d/$SERVICE restart" || exit 1
+  $ sleep 5
+  $ R "kill -CONT $broker && kill $backstop" || exit 1
+  $ backstop=
+  $ R "kill -0 $broker && pidof $SERVICE >/dev/null" && echo 'obuspa and service running' || exit 1
+  obuspa and service running
+  $ R "ba-cli 'RouterAdvertisement.?'" | grep -q '^RouterAdvertisement.Enable=' && echo 'datamodel available locally' || exit 1
+  datamodel available locally
+
+Poll for recovery with bounded queries.
+
+  $ deadline=$(($(date +%s) + 30))
+  $ found=
+  $ for i in $(seq 1 15); do
+  >     datamodel_available && { found=1; break; }
+  >     [ "$(($(date +%s) + 2))" -le "$deadline" ] || break
+  >     sleep 2
+  > done
+  $ [ -n "$found" ] && echo 'datamodel available on USP after late handshake' || { echo 'datamodel not available on USP after 30 seconds'; exit 1; }
+  datamodel available on USP after late handshake
