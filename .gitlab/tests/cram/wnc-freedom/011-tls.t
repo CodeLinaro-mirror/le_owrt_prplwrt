@@ -12,4 +12,4 @@ Check that there is just single TLS library OpenSSL:
   lighttpd-mod-openssl
   openssl-util
   strongswan-mod-openssl
-  wpad-qca-mesh-openssl
+  wpad-mesh-openssl
