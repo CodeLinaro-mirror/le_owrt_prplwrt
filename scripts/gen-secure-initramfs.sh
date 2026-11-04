@@ -122,7 +122,8 @@ function import_file_binary {
 	deps=`objdump -p "$UNSTRIPPED_FOLDER$1" | grep NEEDED | sed -r 's/\s*NEEDED\s*//'`
 	[ -z "$deps" ] && return 0
 	while read -r dependency; do
-		import_file `find_binary "$dependency"`
+		dep=$(find_binary "$dependency") || exit 1
+		import_file "$dep"
 	done < <(echo "$deps")
 }
 
@@ -132,6 +133,10 @@ function import_file_other {
 }
 
 function import_file {
+	if [ -z "$1" ]; then
+		echo "Error: import_file called with an empty path" >&2
+		exit 1
+	fi
 	[ -e "$TMP_FOLDER$1" ] && return 0
 
 	# Here it both checks the file exists, and expand any wildcard pattern, so we need the ls command
@@ -192,7 +197,7 @@ function import_files_list {
         if [[ "$file" == /* ]]; then
             import_file "$file"
         else
-            file=$(find_binary "$file")
+            file=$(find_binary "$file") || exit 1
             import_file "$file"
         fi
     done < <(cat "$IN_FOLDER/initramfs-files-list.txt"; \
