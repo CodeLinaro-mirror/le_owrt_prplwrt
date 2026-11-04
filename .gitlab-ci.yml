@@ -780,3 +780,45 @@ usp registration loops OSPv2:
       - syslog-$LABGRID_TARGET.txt
       - console_$LABGRID_TARGET.txt
       - opkg_list-$LABGRID_TARGET.txt
+
+# Private protocol capture around the unchanged unpatched measurement.
+usp verbose baseline loops OSPv2:
+  extends: usp registration loops OSPv2
+  timeout: 210 minutes
+  variables:
+    N: "50"
+    PREBUILT_FIRMWARE_JOB_ID: "17700924460"
+    USP_TIMING_ONLY: "0"
+  before_script:
+    - |
+      sudo apt-get update
+      sudo apt-get install --no-install-recommends -y gcc
+      cc -Os -shared -fPIC -nostdlib -fno-builtin -fno-stack-protector \
+        -Wall -Wextra -Werror .gitlab/uspreg-verbose-observer.c \
+        -o .gitlab/uspreg-verbose-observer.so
+    - !reference [usp registration loops OSPv2, before_script]
+    - sha256sum "$TFTP_IMAGE_PATH"/prplos-intel_x86-lgm-PRPL_OSP_v2-update_script.itb "$TFTP_IMAGE_PATH"/prplos-intel_x86-lgm-PRPL_OSP_v2-wgrtd159be_b_wav700-ext4.img >firmware-sha256.txt
+  script:
+    - timeout --kill-after=15s 190m python3 .gitlab/uspreg-verbose.py
+    - rm -f .run_failed
+  after_script:
+    # The inherited debug collector can print data values; redirect it too.
+    - mkdir -p uspreg-verbose
+    - exec >uspreg-verbose/after-script.log 2>&1
+    - !reference [.testbed, after_script]
+  artifacts:
+    public: false
+    when: always
+    expire_in: 1 month
+    reports: null
+    paths:
+      - firmware-sha256.txt
+      - results.tsv
+      - uspreg-results/
+      - uspreg-verbose/
+      - debug-information-$LABGRID_TARGET.txt
+      - processes-$LABGRID_TARGET.txt
+      - dmesg-$LABGRID_TARGET.txt
+      - syslog-$LABGRID_TARGET.txt
+      - console_$LABGRID_TARGET.txt
+      - opkg_list-$LABGRID_TARGET.txt
