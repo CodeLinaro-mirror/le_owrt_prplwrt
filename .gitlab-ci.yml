@@ -749,6 +749,9 @@ usp registration loops OSPv2:
       cc -Os -nostdlib -static -no-pie -fno-builtin -fno-stack-protector \
         -Wall -Wextra -Werror .gitlab/uspreg-socket-peer.c \
         -o .gitlab/uspreg-socket-peer
+      cc -Os -shared -fPIC -nostdlib -fno-builtin -fno-stack-protector \
+        -Wall -Wextra -Werror .gitlab/uspreg-socket-trace.c \
+        -o .gitlab/uspreg-socket-trace.so
       : "${PREBUILT_FIRMWARE_JOB_ID:?set the firmware artifact job}"
       mkdir -p "$TFTP_IMAGE_PATH"
       for f in $TFTP_IMAGE_FILENAMES; do
@@ -758,7 +761,12 @@ usp registration loops OSPv2:
       done
     - !reference [.testbed, before_script]
   script:
-    - timeout --kill-after=15s 150m bash .gitlab/uspreg-loop.sh
+    - |
+      if [ "${USP_TIMING_ONLY:-0}" = 1 ]; then
+        timeout --kill-after=15s 20m bash .gitlab/uspreg-loop.sh --timing
+      else
+        timeout --kill-after=15s 150m bash .gitlab/uspreg-loop.sh
+      fi
     - rm -f .run_failed
   artifacts:
     when: always

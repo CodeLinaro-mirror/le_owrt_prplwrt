@@ -4,6 +4,10 @@
 # run, trigger, param, service, connected, raw verdict, missing owners.
 # FAIL/INVALID are measurements; command or baseline failures exit nonzero.
 set -euo pipefail
+if [[ ${1:-} == --timing && $# == 1 ]]; then
+    exec bash "${CI_PROJECT_DIR:?missing project directory}/.gitlab/uspreg-timing.sh"
+fi
+[[ $# == 0 ]] || { echo 'usage: usp-loop [--timing]' >&2; exit 2; }
 export LC_ALL=C
 runs=${N:-50}
 service=tr181-routeradvertisement
