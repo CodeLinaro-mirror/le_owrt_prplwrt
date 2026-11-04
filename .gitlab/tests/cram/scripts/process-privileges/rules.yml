@@ -325,6 +325,10 @@
   - cmd: tr181-periodicfileupload
     id: tr181_app:tr181_app
     caps: dac_override,dac_read_search
+  - cmd: tr181-powermanager
+    id: root:root
+    caps: full
+    optional: true
   - cmd: tr181-powerstatus
     id: tr181_app:tr181_app
     caps: dac_override
