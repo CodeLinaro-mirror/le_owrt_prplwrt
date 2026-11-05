@@ -139,6 +139,17 @@ stages:
 
 build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread:
   extends: .build test config
+  before_script: []
+  after_script: []
+  script:
+    - |
+      set -eu
+      curl --fail --silent --show-error --location \
+        --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
+        --output reuse-artifacts.zip \
+        "${CI_API_V4_URL}/projects/20776235/jobs/17774872845/artifacts"
+      unzip -q -o reuse-artifacts.zip
+      rm reuse-artifacts.zip
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
       when: never
