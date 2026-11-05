@@ -159,6 +159,7 @@
   - cmd: prplmesh-process-manager
     id: root:root
     caps: full
+    ignore_child: true
   - cmd: rcvry_monitor
     id: root:root
     caps: full
