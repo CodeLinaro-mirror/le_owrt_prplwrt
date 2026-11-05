@@ -34,6 +34,7 @@ CDRouter-Top-100+mDNS-OSP MXL25641-HDK-6 PPPoE WAN eMMC:
 
 CDRouter-Wireless MXL25641-HDK-6 eMMC:
   <<: *mxl25641_cdrouter
+  tags: [w30-reserved]
   stage: smoke tests
   timeout: 20 minutes
   variables:
