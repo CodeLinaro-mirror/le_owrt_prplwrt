@@ -758,12 +758,14 @@ usp registration loops OSPv2:
       done
     - !reference [.testbed, before_script]
   script:
+    - bash .gitlab/uspreg-retry-off.sh > uspreg-overlay.log 2>&1 || { cat uspreg-overlay.log; exit 1; }
     - timeout --kill-after=15s 150m bash .gitlab/uspreg-loop.sh
     - rm -f .run_failed
   artifacts:
     when: always
     expire_in: 1 month
     paths:
+      - uspreg-overlay.log
       - results.tsv
       - uspreg-results/
       - debug-information-$LABGRID_TARGET.txt

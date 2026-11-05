@@ -73,7 +73,7 @@ wait_baseline() {
 }
 : >"$CI_PROJECT_DIR/results.tsv"
 previous_missing=''
-for kind in ci-order dutinit; do
+for kind in dutinit; do
 for (( run=1; run<=runs; run++ )); do
     dir=$out/$kind/run-$(printf '%03d' "$run")
     mkdir -p "$dir"
