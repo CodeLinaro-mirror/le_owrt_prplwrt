@@ -781,13 +781,13 @@ usp registration loops OSPv2:
       - console_$LABGRID_TARGET.txt
       - opkg_list-$LABGRID_TARGET.txt
 
-# Private protocol capture around the unchanged unpatched measurement.
-usp verbose baseline loops OSPv2:
+# Private protocol capture around the final firmware's dutinit measurement.
+usp verbose pin loops OSPv2:
   extends: usp registration loops OSPv2
   timeout: 210 minutes
   variables:
     N: "50"
-    PREBUILT_FIRMWARE_JOB_ID: "17700924460"
+    PREBUILT_FIRMWARE_JOB_ID: "17753834532"
     USP_TIMING_ONLY: "0"
   before_script:
     - |

@@ -17,6 +17,91 @@ OUT = PROJECT / 'uspreg-verbose'
 REMOTE = shlex.split(os.environ['CRAM_REMOTE_COMMAND'])
 COPY = shlex.split(os.environ['CRAM_REMOTE_COPY'])
 DUT = '/run/usp-verbose'
+STREAMS = ('logread-stream.txt', 'process-stream.txt', 'lifecycle-events')
+
+
+def bounded(command, seconds=180):
+    """Use image-provided shell builtins and sleep; the DUT has no timeout."""
+    return '''set -eu
+sh -c %s &
+capture=$!
+(
+    sleep %d &
+    timer=$!
+    trap 'kill "$timer" 2>/dev/null || :; exit 0' HUP INT TERM
+    wait "$timer"
+    kill -TERM "$capture" 2>/dev/null || :
+) &
+watchdog=$!
+trap 'kill "$capture" "$watchdog" 2>/dev/null || :; wait "$capture" 2>/dev/null || :; wait "$watchdog" 2>/dev/null || :' EXIT
+trap 'exit 143' HUP INT TERM
+wait "$capture"
+''' % (shlex.quote(command), seconds)
+
+
+def stream_command(name):
+    if name == 'logread-stream.txt':
+        # This image's logread -f is a shell wrapper around exactly this tail.
+        # Exec the follower so the watchdog also terminates the actual reader.
+        return 'exec tail -f /var/log/messages'
+    if name == 'lifecycle-events':
+        return 'exec ubus listen'
+    assert name == 'process-stream.txt'
+    return '''while :; do
+    date -u +%FT%TZ; cat /proc/uptime
+    printf 'broker '; pidof obuspa || true
+    for p in $(pidof obuspa); do cat /proc/$p/stat 2>/dev/null || true; done
+    for s in ''' + ' '.join(SERVICES) + '''; do
+        echo "service=$s"
+        for p in $(pidof "$s" 2>/dev/null); do
+            cat /proc/$p/stat 2>/dev/null || true
+            for f in /proc/$p/fd/*; do
+                l=$(readlink "$f" 2>/dev/null || true)
+                case "$l" in socket:*) echo "pid=$p fd=${f##*/} $l";; esac
+            done
+        done
+    done
+    sleep 1
+done'''
+
+
+def check_streams(directory):
+    for name in STREAMS:
+        if not (directory / (name + '.ready')).exists() or (directory / (name + '.exit')).exists():
+            raise RuntimeError('continuous stream unavailable')
+
+
+def capture(directory, name):
+    """A long-lived host worker records readiness and every unexpected exit."""
+    assert name in STREAMS
+    with (directory / (name + '.stderr')).open('w') as err:
+        if name == 'lifecycle-events':
+            child = subprocess.Popen(REMOTE + [bounded(stream_command(name))],
+                                     stdout=subprocess.PIPE, stderr=err, text=True)
+        else:
+            dest = (directory / name).open('w')
+            child = subprocess.Popen(REMOTE + [bounded(stream_command(name))], stdout=dest, stderr=err)
+        try:
+            time.sleep(1)
+            if child.poll() is not None:
+                raise RuntimeError('stream exited during startup')
+            (directory / (name + '.ready')).write_text('ready\n')
+            if name == 'lifecycle-events':
+                event_stream(directory, child)
+            code = child.wait()
+            (directory / (name + '.exit')).write_text(str(code) + '\n')
+            raise RuntimeError('stream exited before collection finished')
+        finally:
+            if not (directory / 'capture-stop-requested').exists() and not (directory / (name + '.exit')).exists():
+                (directory / (name + '.exit')).write_text('worker failed\n')
+            child.terminate()
+            try:
+                child.wait(timeout=3)
+            except subprocess.TimeoutExpired:
+                child.kill()
+                child.wait()
+            if name != 'lifecycle-events':
+                dest.close()
 
 
 def remote(command, timeout=20):
@@ -72,10 +157,9 @@ def runtime_snapshot(directory, name):
     (directory / name).write_text(json.dumps(data, indent=2) + '\n')
 
 
-def event_stream(directory):
+def event_stream(directory, child):
     # ubus notifications can contain arbitrary data. Keep only service lifecycle
     # events for the selected names, and only fixed numeric / boolean fields.
-    child = subprocess.Popen(REMOTE + ['timeout 180 ubus listen'], stdout=subprocess.PIPE, text=True)
     decoder, pending = json.JSONDecoder(), ''
     try:
         with (directory / 'lifecycle-events.jsonl').open('w') as dest:
@@ -119,34 +203,21 @@ def begin(directory):
     # Store each run on the DUT separately. New brokers open their log with "w".
     # Preserve it on the host before the next restart.
     remote('for f in ' + DUT + '/socket-io-*.log; do [ ! -f "$f" ] || : >"$f"; done')
-    processes = []
-    for name, command in [('logread-stream.txt', 'timeout 180 logread -f'),
-                          ('process-stream.txt', 'timeout 180 sh -c ' + shlex.quote('''
-while :; do
-    date -u +%FT%TZ; cat /proc/uptime
-    printf 'broker '; pidof obuspa || true
-    for p in $(pidof obuspa); do cat /proc/$p/stat 2>/dev/null || true; done
-    for s in ''' + ' '.join(SERVICES) + '''; do
-        echo "service=$s"
-        for p in $(pidof "$s" 2>/dev/null); do
-            cat /proc/$p/stat 2>/dev/null || true
-            for f in /proc/$p/fd/*; do
-                l=$(readlink "$f" 2>/dev/null || true)
-                case "$l" in socket:*) echo "pid=$p fd=${f##*/} $l";; esac
-            done
-        done
-    done
-    sleep 1
-done'''))]:
-        with (directory / name).open('w') as dest, (directory / (name + '.stderr')).open('w') as err:
-            child = subprocess.Popen(REMOTE + [command], stdout=dest, stderr=err, start_new_session=True)
+    processes, children = [], []
+    for name in STREAMS:
+        with (directory / (name + '.worker-stderr')).open('w') as err:
+            child = subprocess.Popen([sys.executable, __file__, 'capture', str(directory), name],
+                                     stdout=subprocess.DEVNULL, stderr=err, start_new_session=True)
         processes.append(child.pid)
-    with (directory / 'lifecycle-events.stderr').open('w') as err:
-        child = subprocess.Popen([sys.executable, __file__, 'events', str(directory)],
-                                 stdout=subprocess.DEVNULL, stderr=err, start_new_session=True)
-    processes.append(child.pid)
+        children.append(child)
     (directory / 'capture-pids.json').write_text(json.dumps(processes))
-    time.sleep(1)
+    for attempt in range(50):
+        if any(child.poll() is not None for child in children):
+            raise RuntimeError('continuous observer exited')
+        if all((directory / (name + '.ready')).exists() for name in STREAMS):
+            break
+        time.sleep(0.1)
+    check_streams(directory)
     save(directory, 'capture-ready.txt', 'date -u +%FT%TZ; cat /proc/uptime; logger -t USP-VERBOSE ' + shlex.quote('begin ' + str(directory.relative_to(OUT))))
 
 
@@ -170,12 +241,18 @@ def end(directory):
     save(directory, 'after-clock.txt', 'date -u +%FT%TZ; cat /proc/uptime')
     save(directory, 'broker.log', 'cat ' + DUT + '/broker.log')
     save(directory, 'service-socket-io.log', 'cat ' + DUT + '/socket-io-*.log')
+    try:
+        check_streams(directory)
+    except RuntimeError:
+        print('Continuous stream failure; inspect private artifacts.', file=sys.stderr)
+        raise
     stop(directory)
 
 
 def stop(directory):
     state = directory / 'capture-pids.json'
     if state.exists():
+        (directory / 'capture-stop-requested').write_text('intentional stop\n')
         for pid in json.loads(state.read_text()):
             try:
                 os.killpg(pid, signal.SIGTERM)
@@ -186,15 +263,16 @@ def stop(directory):
 
 def public_check():
     rows = list(csv.reader((PROJECT / 'results.tsv').open(), delimiter='\t'))
-    assert len(rows) == 100
+    assert len(rows) == 50
     for row in rows:
-        assert len(row) == 7 and row[1] in ('ci-order', 'dutinit')
+        assert len(row) == 7 and row[1] == 'dutinit'
         assert row[2] == '-' and row[3] == 'tr181-routeradvertisement'
         assert row[4] in ('0', '1') and row[5] in ('PASS', 'FAIL', 'INVALID')
         assert row[0].isdigit() and 1 <= int(row[0]) <= 50
         assert all(re.fullmatch(r'proto::[A-Za-z0-9_-]+', owner) for owner in row[6].split(',') if owner)
     summary = (PROJECT / 'uspreg-results/summary.txt').read_text()
-    assert len(summary.splitlines()) == 4
+    summary = ''.join(line + '\n' for line in summary.splitlines() if line.startswith('dutinit '))
+    assert len(summary.splitlines()) == 2
     assert all(re.fullmatch(r'(ci-order|dutinit) (raw|scored): FAIL=\d+, PASS=\d+, INVALID=\d+', line)
                for line in summary.splitlines())
     # These are the only DUT-derived text files printed in the public trace.
@@ -202,25 +280,34 @@ def public_check():
     print(summary, end='')
     revision = os.environ['CI_COMMIT_SHA']
     assert re.fullmatch(r'[0-9a-f]{40}', revision)
-    print(json.dumps({'revision': revision, 'target': 'OSPv2', 'firmware_job': '17700924460',
+    print(json.dumps({'revision': revision, 'target': 'OSPv2', 'firmware_job': '17753834532',
                       'N_per_trigger': 50, 'window_seconds': 40, 'artifacts_public': False}))
     print('Public output allowlist scan: PASS (result columns, counts and metadata only)')
 
 
 def main():
     OUT.mkdir(exist_ok=True)
-    if sys.argv[1:] and sys.argv[1] in ('prepare', 'before', 'after', 'events'):
+    if sys.argv[1:] and sys.argv[1] in ('prepare', 'before', 'after', 'capture'):
         mode, directory = sys.argv[1], Path(sys.argv[2])
-        {'prepare': lambda _: configure(), 'before': begin, 'after': end, 'events': event_stream}[mode](directory)
+        {'prepare': lambda _: configure(), 'before': begin, 'after': end,
+         'capture': lambda path: capture(path, sys.argv[3])}[mode](directory)
         return
     assert os.environ.get('N', '50') == '50', 'this diagnostic requires N=50'
-    assert os.environ['PREBUILT_FIRMWARE_JOB_ID'] == '17700924460'
+    assert os.environ['PREBUILT_FIRMWARE_JOB_ID'] == '17753834532'
     assert not list(OUT.iterdir()), 'diagnostic directory must be empty'
+    save(OUT, 'device-command-preflight.txt',
+         'for tool in sh sleep kill wait trap date cat printf pidof readlink echo ubus logread tail logger '
+         'mkdir cp grep sed service rm test chmod awk obuspa; do command -v "$tool"; done; '
+         'test -r /var/log/messages; '
+         'for name in obuspa tr181-routeradvertisement tr181-neighbordiscovery ' + ' '.join(SERVICES) + '; do '
+         'test -x /etc/init.d/$name; sh -n /etc/init.d/$name; done; '
+         'ubus call service list \'{"name":"obuspa","verbose":true}\' >/dev/null; '
+         'obuspa -f /etc/obuspa.db -c dump datamodel >/dev/null')
     save(OUT, 'passive-probe-capabilities.txt', 'for d in /sys/kernel/tracing /sys/kernel/debug/tracing; do '
          'test ! -d "$d" || { echo "tracefs=$d"; test ! -w "$d/uprobe_events" || echo uprobe_control_writable; }; done; '
          'for tool in bpftrace perf readelf nm; do command -v "$tool" || true; done')
     (OUT / 'metadata.json').write_text(json.dumps({
-        'revision': os.environ['CI_COMMIT_SHA'], 'firmware_job': '17700924460',
+        'revision': os.environ['CI_COMMIT_SHA'], 'firmware_job': '17753834532',
         'services': SERVICES, 'N_per_trigger': 50, 'window_seconds': 40,
         'later_snapshot_delays_seconds': [10, 20], 'baseline_loop_unmodified': True,
         'observer_payloads_retained': False, 'artifacts_public': False}, indent=2) + '\n')
@@ -269,6 +356,7 @@ def main():
         (OUT / 'setup.restored.owners').write_text(''.join(owner + '\n' for owner in sorted(actual)))
         source = (PROJECT / '.gitlab/uspreg-loop.sh').read_text()
         replacements = {
+            'for kind in ci-order dutinit; do': 'for kind in dutinit; do',
             '    wait_baseline "$dir/expected.owners"': '    diag prepare "$kind" "$run"\n    wait_baseline "$dir/expected.owners"',
             '    date -u +%FT%TZ >"$dir/start.txt"': '    diag before "$kind" "$run"\n    date -u +%FT%TZ >"$dir/start.txt"',
             '    R \'logread\' >"$dir/logread.txt"': '    R \'logread\' >"$dir/logread.txt"\n    diag after "$kind" "$run"',
@@ -324,5 +412,8 @@ if __name__ == '__main__':
         main()
     except Exception:
         # subprocess exceptions can contain an inherited procd environment.
-        print('Verbose diagnostic failed; inspect private artifacts.', file=sys.stderr)
+        failed = [name for name in STREAMS if list(OUT.glob('*/run-*/' + name + '.exit'))]
+        message = ('Continuous stream failed: ' + ', '.join(failed) if failed else
+                   'Verbose diagnostic or continuous stream failed')
+        print(message + '; inspect private artifacts.', file=sys.stderr)
         sys.exit(1)
