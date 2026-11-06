@@ -97,8 +97,10 @@ Check 11be configuration values : {ieee80211be} disabled for Radio, {mld_ap,disa
   $ get_hapd_config $itf mld_ap
   Option 'mld_ap' not found
 
+disable_11be is enabled when ieee80211be (PPW-2575):
+
   $ get_hapd_config $itf disable_11be
-  Option 'disable_11be' not found
+  1
 
   $ R "logger -t cram 'MLDUnitSetting: Disabled MLD; MLDUnitSetting=Assumed'"
 
