@@ -95,6 +95,7 @@ packages:
   - wifi-scheduler
 
 diffconfig: |
+          CONFIG_BUSYBOX_CONFIG_NOHUP=y
           CONFIG_PACKAGE_ppp-prpl=y
           # CONFIG_PACKAGE_dnsmasq is not set
           # CONFIG_LIGHTTPD_CRYPTOLIB_MBEDTLS is not set
