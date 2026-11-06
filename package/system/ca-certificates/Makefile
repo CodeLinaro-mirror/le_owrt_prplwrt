@@ -7,7 +7,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=ca-certificates
-PKG_VERSION:=20230311
+PKG_VERSION:=20260816+nmu1
 PKG_RELEASE:=1
 PKG_MAINTAINER:=
 
@@ -16,7 +16,7 @@ PKG_LICENSE_FILES:=debian/copyright
 
 PKG_SOURCE:=$(PKG_NAME)_$(PKG_VERSION).tar.xz
 PKG_SOURCE_URL:=@DEBIAN/pool/main/c/ca-certificates
-PKG_HASH:=83de934afa186e279d1ed08ea0d73f5cf43a6fbfb5f00874b6db3711c64576f3
+PKG_HASH:=914416a1e44a25733aff51092fe4e27fdec1c9f6e8d1db0b8364922486153134
 PKG_INSTALL:=1
 
 include $(INCLUDE_DIR)/package.mk
