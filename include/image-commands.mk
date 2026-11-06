@@ -755,7 +755,7 @@ define Build/zyxel-ras-image
 endef
 
 define Build/imagegenerator-init
-	$(eval IMG_GEN_DIR := $(wildcard $(BUILD_DIR_BASE)/hostpkg/imagegenerator-*))
+	$(eval IMG_GEN_DIR := $(wildcard $(BUILD_DIR)/imagegenerator-*))
 	rm -rf $(IMG_GEN_DIR)/build
 	mkdir -p $(IMG_GEN_DIR)/build
 	cp -r $(IMG_GEN_DIR)/src/scripts $(IMG_GEN_DIR)/build
@@ -769,7 +769,7 @@ define Build/imagegenerator-init
 endef
 
 define Build/binman
-	$(eval IMG_GEN_DIR := $(wildcard $(BUILD_DIR_BASE)/hostpkg/imagegenerator-*))
+	$(eval IMG_GEN_DIR := $(wildcard $(BUILD_DIR)/imagegenerator-*))
 	$(eval device := $(DEVICE_NAME))
 	@echo "Running binman for $(device) using $(1)"
 	ln -sf $(1) $(IMG_GEN_DIR)/build/binman.dts
@@ -783,7 +783,7 @@ define Build/binman
 endef
 
 define Build/swugenerator
-	$(eval IMG_GEN_DIR := $(wildcard $(BUILD_DIR_BASE)/hostpkg/imagegenerator-*))
+	$(eval IMG_GEN_DIR := $(wildcard $(BUILD_DIR)/imagegenerator-*))
 	$(eval device := $(DEVICE_NAME))
 	@echo "Running SWUGenerator for $(device) using $(1)"
 	ln -sf $(1) $(IMG_GEN_DIR)/build/sw-description
