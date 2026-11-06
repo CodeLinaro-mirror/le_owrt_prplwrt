@@ -8,7 +8,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=ca-certificates
 PKG_VERSION:=20260601
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 PKG_MAINTAINER:=
 
 PKG_LICENSE:=GPL-2.0-or-later MPL-2.0
@@ -38,6 +38,14 @@ define Package/ca-bundle
   TITLE:=System CA certificates as a bundle
   PKGARCH:=all
   PROVIDES:=ca-certs
+endef
+
+define Build/Prepare
+	$(call Build/Prepare/Default)
+	printf '%s\n' \
+		'"emSign ECC Root CA - G3"' \
+		'"Comodo AAA Services root"' \
+		>> $(PKG_BUILD_DIR)/mozilla/blacklist.txt
 endef
 
 define Build/Install
