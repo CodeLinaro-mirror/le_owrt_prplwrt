@@ -17,6 +17,8 @@ additional_packages:
       - usbutils
 
 packages:
+  - strace
+  - ss
   - dhcpv4-manager
   - dhcpv6s-manager
   - dmtui
