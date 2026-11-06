@@ -262,7 +262,7 @@ Reset CACertificate
 Reset the state of deviceinfo-manager
 
   $ R "/etc/init.d/deviceinfo-manager restart" > /dev/null 2>&1
-  $ sleep 2
+  $ for i in $(seq 1 15); do R "ba-cli 'DeviceInfo.FirmwareImage.$ACTIVE.Status?'" | grep -qF '="Active"' && break; sleep 2; done
 
 Stop the download server
 
