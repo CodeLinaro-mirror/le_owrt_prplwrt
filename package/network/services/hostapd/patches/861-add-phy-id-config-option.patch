@@ -1,0 +1,74 @@
+Index: hostapd/config_file.c
+===================================================================
+--- a/hostapd/config_file.c
++++ b/hostapd/config_file.c
+@@ -2268,6 +2268,8 @@ static int hostapd_config_fill(struct ho
+ 		os_strlcpy(bss->snoop_iface, pos, sizeof(bss->snoop_iface));
+ 	} else if (os_strcmp(buf, "monitor_iface") == 0) {
+ 		os_strlcpy(conf->monitor_iface_name, pos, sizeof(conf->monitor_iface_name));
++	} else if (os_strcmp(buf, "phy_id") == 0) {
++		os_strlcpy(conf->phy_id, pos, sizeof(conf->phy_id));
+ 	} else if (os_strcmp(buf, "vlan_bridge") == 0) {
+ 		os_strlcpy(bss->vlan_bridge, pos, sizeof(bss->vlan_bridge));
+ 	} else if (os_strcmp(buf, "wds_bridge") == 0) {
+Index: hostapd/hostapd.conf
+===================================================================
+--- a/hostapd/hostapd.conf
++++ b/hostapd/hostapd.conf
+@@ -7,6 +7,15 @@
+ # command line parameter.
+ interface=wlan0
+ 
++# Name of the PHY (radio), e.g. phy0.0 - in case of multi radio device,
++# to bind this interface to. Only needed when hostapd is started directly
++# from this config file and the PHY cannot be determined from the
++# netdev (interface) itself, e.g. on multi-radio setups.
++# When hostapd is started via the control interface ADD_IFACE command,
++# the phy name supplied there takes precedence and this option is not needed.
++# (default: not set; PHY is queried from the driver)
++#phy_id=phy0
++#
+ # In case of atheros and nl80211 driver interfaces, an additional
+ # configuration parameter, bridge, may be used to notify hostapd if the
+ # interface is included in a bridge. This parameter is not used with Host AP
+Index: src/ap/ap_config.h
+===================================================================
+--- a/src/ap/ap_config.h
++++ b/src/ap/ap_config.h
+@@ -1502,6 +1502,12 @@ struct hostapd_config {
+ 	const struct wpa_driver_ops *driver;
+ 	char *driver_params;
+ 
++	/* Name of the PHY (radio) to bind this interface to; used when
++	 * hostapd is started directly from a config file (no explicit
++	 * ADD_IFACE phy argument) and the PHY cannot be inferred from the
++	 * driver query in setup_interface(). */
++	char phy_id[16];
++
+ 	int ap_table_max_size;
+ 	int ap_table_expiration_time;
+ 
+Index: src/ap/hostapd.c
+===================================================================
+--- a/src/ap/hostapd.c
++++ b/src/ap/hostapd.c
+@@ -4509,10 +4509,15 @@ static int setup_interface(struct hostap
+ 	iface->driver_ap_teardown = 0;
+ 
+ 	if (!iface->phy[0]) {
+-		const char *phy = hostapd_drv_get_radio_name(hapd);
+-		if (phy) {
+-			wpa_printf(MSG_DEBUG, "phy: %s", phy);
+-			os_strlcpy(iface->phy, phy, sizeof(iface->phy));
++		if (iface->conf->phy_id[0]) {
++			os_strlcpy(iface->phy, iface->conf->phy_id, sizeof(iface->phy));
++			wpa_printf(MSG_DEBUG, "phy from config: %s", iface->phy);
++		} else {
++			const char *phy = hostapd_drv_get_radio_name(hapd);
++			if (phy) {
++				wpa_printf(MSG_DEBUG, "phy: %s", phy);
++				os_strlcpy(iface->phy, phy, sizeof(iface->phy));
++			};
+ 		}
+ 	}
+ 
