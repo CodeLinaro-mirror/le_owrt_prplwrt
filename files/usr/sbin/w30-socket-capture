@@ -1,0 +1,138 @@
+#!/bin/sh
+# Capture metadata only. Never decode application buffers or process arguments.
+set -eu
+out=/var/log/w30-socket-trace
+export TZ=UTC
+umask 077
+
+targets() {
+    for proc in /proc/[0-9]*; do
+        # comm preserves the service name when /proc/exe resolves to amxrt.
+        # Shell read avoids two external commands per unrelated process.
+        read -r comm 2>/dev/null < "$proc/comm" || continue
+        case $comm in
+            wld|pwhm|beerocks*|prplmesh*) echo "${proc##*/}" ;;
+        esac
+    done
+}
+
+anchor() {
+    date -u +%Y-%m-%dT%H:%M:%SZ
+    cat /proc/uptime
+}
+
+snapshot() {
+    anchor
+    ss -xapnem || echo 'SS_FAILED: socket mapping incomplete'
+    cat /proc/net/unix
+    for pid in $(targets); do
+        echo "PID $pid"
+        cat "/proc/$pid/stat" "/proc/$pid/comm" 2>/dev/null || true
+        readlink "/proc/$pid/exe" || true
+        for fd in /proc/"$pid"/fd/*; do
+            printf '%s ' "$fd"
+            readlink "$fd" || true
+        done
+        for comm in /proc/"$pid"/task/*/comm; do
+            printf '%s ' "$comm"
+            cat "$comm" 2>/dev/null || true
+        done
+        cat "/proc/$pid/maps" 2>/dev/null || true
+    done
+}
+
+finish() {
+    trap - EXIT INT TERM
+    # These are this shell's own tracer children, never DUT services.
+    for tracer in $tracers; do
+        parent=$(awk '/^PPid:/ {print $2}' "/proc/$tracer/status" 2>/dev/null) || continue
+        test "$parent" = "$$" || continue
+        kill -INT "$tracer" 2>/dev/null || true
+    done
+    for tracer in $tracers; do
+        wait "$tracer" || true
+    done
+    anchor >> "$out/status"
+    echo stopped >> "$out/status"
+    touch "$out/stopped"
+}
+
+case ${1:-} in
+start)
+    command -v strace >/dev/null
+    command -v ss >/dev/null
+    test -n "$(targets)"
+    mkdir "$out" # Preserve any earlier capture rather than overwrite it.
+    nohup "$0" run > "$out/supervisor.log" 2>&1 </dev/null &
+    # Readiness concerns only capture startup; suite timings are unchanged.
+    for _tick in 1 2 3 4 5; do
+        test ! -f "$out/ready" || exit 0
+        test ! -f "$out/stopped" || exit 1
+        sleep 1
+    done
+    exit 1
+    ;;
+run)
+    tracers=
+    trap finish EXIT
+    trap 'exit 0' INT TERM
+    echo "$$" > "$out/supervisor.pid"
+    anchor > "$out/status"
+    strace -V >> "$out/status" 2>&1
+    # Raw I/O prevents protocol-aware decoders (notably netlink) dumping keys.
+    # Optional names cover syscalls absent from AArch64 (for example fork/dup2).
+    io='?read,?write,?readv,?writev,?pread64,?pwrite64,?preadv,?pwritev,?sendto,?recvfrom,?sendmsg,?recvmsg,?sendmmsg,?recvmmsg'
+    calls="$io,?socket,?socketpair,?bind,?listen,?connect,?accept,?accept4,?shutdown,?close,?dup,?dup2,?dup3,?fcntl,?clone,?clone3,?fork,?vfork"
+    start=$(cut -d. -f1 /proc/uptime)
+    while test ! -f "$out/stop"; do
+        now=$(cut -d. -f1 /proc/uptime)
+        if test "$((now - start))" -ge 1500; then
+            echo 'TRUNCATED: 25 minute capture cap' >> "$out/status"
+            break
+        fi
+        size=$(du -sk "$out" | cut -f1)
+        if test "$size" -ge 196608; then
+            echo 'TRUNCATED: 192 MiB capture cap' >> "$out/status"
+            break
+        fi
+        set --
+        for pid in $(targets); do
+            # Includes start time, so PID reuse does not suppress a new process.
+            identity=$(awk '{print $1 "-" $22}' "/proc/$pid/stat" 2>/dev/null) || continue
+            test ! -f "$out/seen-$identity" || continue
+            owner=$(awk '/^TracerPid:/ {print $2}' "/proc/$pid/status" 2>/dev/null) || continue
+            test "$owner" = 0 || continue
+            touch "$out/seen-$identity"
+            set -- "$@" -p "$pid"
+        done
+        if test "$#" -gt 0; then
+            strace -f -ttt -T -i -yy -s 0 -e "trace=$calls" -e "raw=$io" \
+                -o "$out/syscalls-$now.log" "$@" 2>> "$out/attach.log" &
+            tracers="$tracers $!"
+        fi
+        snapshot >> "$out/snapshots.log" 2>&1
+        # Fail capture startup if no selected process could be attached.
+        if test ! -f "$out/ready"; then
+            attached=0
+            for pid in $(targets); do
+                owner=$(awk '/^TracerPid:/ {print $2}' "/proc/$pid/status" 2>/dev/null) || continue
+                test "$owner" = 0 || attached=1
+            done
+            test "$attached" = 1 || exit 1
+            touch "$out/ready"
+        fi
+        sleep 1
+    done
+    ;;
+stop)
+    test -d "$out" || exit 1
+    touch "$out/stop"
+    for _tick in 1 2 3 4 5 6 7 8 9 10; do
+        test ! -f "$out/stopped" || exit 0
+        sleep 1
+    done
+    echo 'capture has not stopped' >&2
+    exit 1
+    ;;
+*) echo "Usage: $0 {start|stop}" >&2; exit 2 ;;
+esac

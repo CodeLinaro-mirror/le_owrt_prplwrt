@@ -149,6 +149,7 @@
        echo "CDRouter report failed; continuing cleanup.")
 
     - !reference [.dut-lifecycle.recover-ssh, script]
+    - if [ "${W30_SOCKET_CAPTURE:-}" = 1 ]; then .gitlab/scripts/w30-collect-socket-capture.sh || true; fi
     - !reference [.dut-lifecycle.collect-logs, script]
     - mv console_$LABGRID_TARGET console_$LABGRID_TARGET.txt || true
     - !reference [.dut-lifecycle.extract-debug, script]
@@ -163,6 +164,8 @@
     expire_in: 1 month
     when: always
     paths:
+      - socket-trace-$LABGRID_TARGET.tar.gz
+      - socket-trace-$LABGRID_TARGET.status
       - memory-footprint/
       - cdrouter-results
       - cdrouter-junit.xml

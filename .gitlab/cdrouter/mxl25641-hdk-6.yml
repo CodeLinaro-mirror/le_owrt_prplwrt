@@ -34,9 +34,11 @@ CDRouter-Top-100+mDNS-OSP MXL25641-HDK-6 PPPoE WAN eMMC:
 
 CDRouter-Wireless MXL25641-HDK-6 eMMC:
   <<: *mxl25641_cdrouter
+  tags: [w30-reserved]
   stage: smoke tests
   timeout: 20 minutes
   variables:
+    W30_SOCKET_CAPTURE: '1'
     CDROUTER_TEST_CONFIG: wireless
     CDROUTER_CONFIG_USP_CONTROLLER_MTP: websocket
     CDROUTER_DUT_INIT_USP_MTP_SCRIPT: .gitlab/scripts/dut-init/cdrouter-dut-configure-usp-ws.sh
@@ -47,6 +49,7 @@ CDRouter-Wireless MXL25641-HDK-6 eMMC:
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
       .gitlab/scripts/dut-init/cdrouter-dut-configure-wireless.sh
       .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
+      .gitlab/scripts/dut-init/w30-start-socket-capture.sh
 
 
 .mxl25641-cdrouter-ipv6: &mxl25641_cdrouter_ipv6
