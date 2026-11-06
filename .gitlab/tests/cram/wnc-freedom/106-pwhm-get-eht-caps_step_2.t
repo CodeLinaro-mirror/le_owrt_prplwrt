@@ -33,14 +33,12 @@ Check EhtPhyCapabilities, EhtPhyCapabilitiesStr, CurrentEhtOperatingIE and getEH
   BasicEHT-MCSAndNssSet=1145324612
   CCFS0=39
   CCFS1=47
-  CommandKey="Device.WiFi.Radio.[0-9].getEHTOperations\(\)-0" (re)
   ControlChannelWidth=3
   DisabledSubchannelBitmapPresent=0
   EHTDefaultPEDuration=0
   EHTOperationInformationPresent=1
   GroupAddressedBUIndicationExponent=0
   GroupAddressedBUIndicationLimit=0
-  _userconfig=
 
 Disable channels 49,53:
 
@@ -55,7 +53,6 @@ Disable channels 49,53:
   BasicEHT-MCSAndNssSet=1145324612
   CCFS0=39
   CCFS1=47
-  CommandKey="Device.WiFi.Radio.[0-9].getEHTOperations\(\)-0" (re)
   ControlChannelWidth=3
   DisabledSubchannelBitmap=48
   DisabledSubchannelBitmapPresent=1
@@ -63,7 +60,6 @@ Disable channels 49,53:
   EHTOperationInformationPresent=1
   GroupAddressedBUIndicationExponent=0
   GroupAddressedBUIndicationLimit=0
-  _userconfig=
 
 Expecting the EHT Operations IE:
 
@@ -91,8 +87,6 @@ Downgrade to AX operating mode:
 Check that get_eht_ops output is empty:
 
   $ get_eht_ops 6
-  CommandKey="Device.WiFi.Radio.[0-9].getEHTOperations\(\)-0" (re)
-  _userconfig=
 
 
 Check channels 49,53 are still configured in Radio.StaticPuncturing

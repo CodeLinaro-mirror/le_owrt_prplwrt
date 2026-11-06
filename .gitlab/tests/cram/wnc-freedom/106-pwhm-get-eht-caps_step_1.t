@@ -102,14 +102,12 @@ Check EhtPhyCapabilities, EhtPhyCapabilitiesStr, CurrentEhtOperatingIE and getEH
   BasicEHT-MCSAndNssSet=1145324612
   CCFS0=3
   CCFS1=0
-  CommandKey="Device.WiFi.Radio.[0-9].getEHTOperations\(\)-0" (re)
   ControlChannelWidth=1
   DisabledSubchannelBitmapPresent=0
   EHTDefaultPEDuration=0
   EHTOperationInformationPresent=1
   GroupAddressedBUIndicationExponent=0
   GroupAddressedBUIndicationLimit=0
-  _userconfig=
 
 Downgrade to AX operating mode:
 
@@ -135,8 +133,6 @@ Downgrade to AX operating mode:
 Check that get_eht_ops output is empty:
 
   $ get_eht_ops 2.4
-  CommandKey="Device.WiFi.Radio.[0-9].getEHTOperations\(\)-0" (re)
-  _userconfig=
 
 Check that all radios and private vaps are still up:
 
@@ -188,14 +184,12 @@ Check EhtPhyCapabilities, EhtPhyCapabilitiesStr, CurrentEhtOperatingIE and getEH
   BasicEHT-MCSAndNssSet=1145324612
   CCFS0=42
   CCFS1=0
-  CommandKey="Device.WiFi.Radio.[0-9].getEHTOperations\(\)-0" (re)
   ControlChannelWidth=2
   DisabledSubchannelBitmapPresent=0
   EHTDefaultPEDuration=0
   EHTOperationInformationPresent=1
   GroupAddressedBUIndicationExponent=0
   GroupAddressedBUIndicationLimit=0
-  _userconfig=
 
 Disable channels 40:
 
@@ -210,7 +204,6 @@ Disable channels 40:
   BasicEHT-MCSAndNssSet=1145324612
   CCFS0=42
   CCFS1=0
-  CommandKey="Device.WiFi.Radio.[0-9].getEHTOperations\(\)-0" (re)
   ControlChannelWidth=2
   DisabledSubchannelBitmap=2
   DisabledSubchannelBitmapPresent=1
@@ -218,7 +211,6 @@ Disable channels 40:
   EHTOperationInformationPresent=1
   GroupAddressedBUIndicationExponent=0
   GroupAddressedBUIndicationLimit=0
-  _userconfig=
 
 Expecting the EHT Operations IE puncturing bitmap to be updated:
 
@@ -246,8 +238,6 @@ Downgrade to AX operating mode:
 Check that get_eht_ops output is empty:
 
   $ get_eht_ops 5
-  CommandKey="Device.WiFi.Radio.[0-9].getEHTOperations\(\)-0" (re)
-  _userconfig=
 
 
 Check if channels 40 is still configured in Radio.StaticPuncturing

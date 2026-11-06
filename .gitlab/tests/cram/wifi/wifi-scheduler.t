@@ -48,11 +48,6 @@ First call of AccessPointCommit, controller should push empty config to agents:
   Device.WiFi.DataElements.Network.AccessPointCommit() returned
   [
       {
-      },
-      {
-          _userconfig = {
-              CommandKey = "Device.WiFi.DataElements.Network.AccessPointCommit\(\)-[0-9]+" (re)
-          }
       }
   ]
 
@@ -75,11 +70,6 @@ Create one instances of Network.AccessPoint and push it to the agent:
   Device.WiFi.DataElements.Network.AccessPointCommit() returned
   [
       {
-      },
-      {
-          _userconfig = {
-              CommandKey = "Device.WiFi.DataElements.Network.AccessPointCommit\(\)-[0-9]+" (re)
-          }
       }
   ]
 
