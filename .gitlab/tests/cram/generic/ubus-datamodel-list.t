@@ -153,7 +153,6 @@ Check that ubus has expected datamodels available:
   Device.Users
   Device.WiFi
   Device.WireGuard
-  Device.XPON
   Device.X_PRPLWARE-COM_Buttons
   Device.X_PRPLWARE-COM_ConMon
   Device.X_PRPLWARE-COM_ConnectionTrackingQuery
@@ -472,8 +471,6 @@ Check that ubus has expected datamodels available:
   WireGuard
   WireGuard.Peer
   WireGuard.Tunnel
-  XPON
-  XPON.ONU
   X_PRPLWARE-COM_Agent
   X_PRPLWARE-COM_Agent.Configuration
   X_PRPLWARE-COM_Agent.Info
