@@ -34,9 +34,9 @@ CDRouter-Top-100+mDNS Freedom PPPoE WAN eMMC:
 
 CDRouter-Wireless Freedom eMMC:
   <<: *wnc_freedom
-  tags: [w30-reserved]
+  tags: [w30b-reserved]
   stage: smoke tests
-  timeout: 20 minutes
+  timeout: 45 minutes
   variables:
     W30_SOCKET_CAPTURE: '1'
     CDROUTER_TEST_CONFIG: wireless

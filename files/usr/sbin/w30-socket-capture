@@ -1,14 +1,16 @@
 #!/bin/sh
 # Capture metadata only. Never decode application buffers or process arguments.
 set -eu
-out=/var/log/w30-socket-trace
+# Overrides allow the complete lifecycle to run against a fake tracefs and proc.
+out=${W30_CAPTURE_OUT:-/var/log/w30-socket-trace}
+tracefs=${W30_TRACEFS:-/sys/kernel/tracing}
+procfs=${W30_PROC_ROOT:-/proc}
 export TZ=UTC
 umask 077
 
 targets() {
-    for proc in /proc/[0-9]*; do
+    for proc in "$procfs"/[0-9]*; do
         # comm preserves the service name when /proc/exe resolves to amxrt.
-        # Shell read avoids two external commands per unrelated process.
         read -r comm 2>/dev/null < "$proc/comm" || continue
         case $comm in
             wld|pwhm|beerocks*|prplmesh*) echo "${proc##*/}" ;;
@@ -16,111 +18,228 @@ targets() {
     done
 }
 
+uptime_seconds() {
+    cut -d. -f1 "$procfs/uptime"
+}
+
 anchor() {
     date -u +%Y-%m-%dT%H:%M:%SZ
-    cat /proc/uptime
+    cat "$procfs/uptime"
+}
+
+fail() {
+    echo "ERROR: $*" >&2
+    echo "ERROR: $*" >> "$out/status"
+    exit 1
 }
 
 snapshot() {
     anchor
     ss -xapnem || echo 'SS_FAILED: socket mapping incomplete'
-    cat /proc/net/unix
+    cat "$procfs/net/unix"
     for pid in $(targets); do
         echo "PID $pid"
-        cat "/proc/$pid/stat" "/proc/$pid/comm" 2>/dev/null || true
-        readlink "/proc/$pid/exe" || true
-        for fd in /proc/"$pid"/fd/*; do
+        cat "$procfs/$pid/stat" "$procfs/$pid/comm" 2>/dev/null || true
+        readlink "$procfs/$pid/exe" || true
+        for fd in "$procfs/$pid"/fd/*; do
             printf '%s ' "$fd"
             readlink "$fd" || true
         done
-        for comm in /proc/"$pid"/task/*/comm; do
+        for comm in "$procfs/$pid"/task/*/comm; do
             printf '%s ' "$comm"
             cat "$comm" 2>/dev/null || true
         done
-        cat "/proc/$pid/maps" 2>/dev/null || true
+        # Even a failed read is recorded once; never rewrite a PID's maps.
+        if test ! -e "$out/maps-$pid.log"; then
+            cat "$procfs/$pid/maps" > "$out/maps-$pid.log" 2>/dev/null || true
+        fi
     done
 }
 
+add_tids() {
+    found=0
+    for pid in $(targets); do
+        for task in "$procfs/$pid"/task/[0-9]*; do
+            test -d "$task" || continue
+            tid=${task##*/}
+            # Recheck recycled IDs using the task start time. Removing the comm
+            # field first also handles spaces and parentheses in task names.
+            identity=$(sed 's/^.*) //' "$task/stat" 2>/dev/null | awk '{print $20}')
+            test -n "$identity" || continue
+            found=1
+            test ! -e "$out/seen-$tid-$identity" || continue
+            # Append without clearing the live filter (empty means all PIDs).
+            echo "$tid" >> "$tracefs/set_event_pid"
+            echo "uptime=$(uptime_seconds) pid=$pid tid=$tid start=$identity" >> "$out/attach.log"
+            touch "$out/seen-$tid-$identity"
+        done
+    done
+    test "$found" = 1 || fail 'no target threads found'
+}
+
+arm() {
+    if ! awk -v path="$tracefs" '$2 == path && $3 == "tracefs" {found=1} END {exit !found}' "$procfs/mounts"; then
+        mkdir -p "$tracefs"
+        mount -t tracefs nodev "$tracefs" || fail 'cannot mount tracefs'
+    fi
+    test -d "$tracefs/events/syscalls/sys_enter_write" || fail 'events/syscalls/sys_enter_write missing'
+    for file in tracing_on trace_clock buffer_size_kb trace trace_pipe \
+        set_event_pid options/event-fork events/enable current_tracer; do
+        test -e "$tracefs/$file" || fail "tracefs lacks $file"
+    done
+    # Do not take over an existing event/function tracer or discard its data.
+    test "$(cat "$tracefs/events/enable")" = 0 || fail 'tracefs events already enabled'
+    test "$(cat "$tracefs/current_tracer")" = nop || fail 'tracefs tracer is not nop'
+    test -z "$(cat "$tracefs/set_event_pid")" || fail 'tracefs PID filter already in use'
+    if test -e "$tracefs/set_event_notrace_pid"; then
+        test -z "$(cat "$tracefs/set_event_notrace_pid")" || fail 'tracefs PID exclusion filter already in use'
+    fi
+    test -z "$(sed '/^#/d; /^[[:space:]]*$/d' "$tracefs/trace")" || fail 'trace buffer already contains data'
+    for stats in "$tracefs"/per_cpu/cpu*/stats; do
+        test -r "$stats" || fail 'per-CPU trace statistics missing'
+    done
+    clock_old=$(sed -n 's/.*\[\([^]]*\)\].*/\1/p' "$tracefs/trace_clock")
+    test -n "$clock_old" || fail 'cannot read original trace_clock'
+    cp "$tracefs/tracing_on" "$out/saved-tracing_on"
+    cp "$tracefs/options/event-fork" "$out/saved-event-fork"
+    # Unallocated buffers can read "7 (expanded: 8160)". Save the actual size.
+    sed 's/.*expanded: \([0-9]*\)).*/\1/; s/ .*//' "$tracefs/buffer_size_kb" > "$out/saved-buffer_size_kb"
+    echo "$clock_old" > "$out/saved-trace_clock"
+    case $(cat "$out/saved-buffer_size_kb") in
+        ''|*[!0-9]*) fail 'cannot restore mixed or invalid per-CPU buffer sizes' ;;
+    esac
+    armed=1
+    echo 0 > "$tracefs/tracing_on"
+    echo mono > "$tracefs/trace_clock"
+    echo 'trace_clock=mono' >> "$out/status"
+    # 8160 KiB per CPU absorbs bursts while the consuming reader is scheduled.
+    echo 8160 > "$tracefs/buffer_size_kb"
+    echo "buffer_size_kb=$(cat "$tracefs/buffer_size_kb")" >> "$out/status"
+    echo 1 > "$tracefs/options/event-fork"
+    : > "$tracefs/set_event_pid"
+    add_tids
+    missing=
+    for call in read write readv writev sendto recvfrom sendmsg recvmsg \
+        sendmmsg recvmmsg accept accept4 connect close socket; do
+        for direction in enter exit; do
+            event=sys_${direction}_$call
+            if test -e "$tracefs/events/syscalls/$event/enable"; then
+                # Record before writing, so a partial arm is also undone.
+                echo "$event" >> "$out/armed-events"
+                echo 1 > "$tracefs/events/syscalls/$event/enable"
+            else
+                missing="${missing:+$missing }$event"
+            fi
+        done
+    done
+    test -z "$missing" || echo "events_missing=$missing" >> "$out/status"
+    : > "$tracefs/trace"
+    # dd writes every read directly, without a stdio tail lost on termination.
+    # The loop checks the 256 MiB byte cap once per second, like the time cap.
+    trace_log="$out/syscalls-$start.log"
+    : > "$trace_log"
+    dd if="$tracefs/trace_pipe" of="$trace_log" bs=4096 2>> "$out/supervisor.log" &
+    reader=$!
+    echo 1 > "$tracefs/tracing_on"
+}
+
+restore() {
+    # Each undo runs even if an earlier one failed. Never enable other events.
+    echo 0 > "$tracefs/tracing_on" || cleanup_status=1
+    if test -n "$reader"; then
+        # Let the consuming reader drain the stopped buffer before killing it.
+        for _drain in 1 2 3; do
+            sleep 1
+            remaining=$(awk '$1 == "entries:" {n += $2} END {print n+0}' "$tracefs"/per_cpu/cpu*/stats)
+            test "$remaining" -gt 0 || break
+        done
+        test "$remaining" -eq 0 || echo 'TRUNCATED: unread events at stop' >> "$out/status"
+        kill "$reader" 2>/dev/null || true
+        reader_status=0
+        wait "$reader" || reader_status=$?
+        echo "reader_exit=$reader_status" >> "$out/status"
+    fi
+    # Save counters before restoring the clock/buffer (which reset the ring).
+    if lost=$(awk '$1 == "overrun:" || $1 == "dropped" {n += $NF} END {print n+0}' "$tracefs"/per_cpu/cpu*/stats); then
+        echo "lost_events=$lost" >> "$out/status"
+    else
+        echo 'lost_events=unknown' >> "$out/status"
+        cleanup_status=1
+    fi
+    if test -f "$out/armed-events"; then
+        while read -r event; do
+            echo 0 > "$tracefs/events/syscalls/$event/enable" || cleanup_status=1
+        done < "$out/armed-events"
+    fi
+    : > "$tracefs/set_event_pid" || cleanup_status=1
+    cat "$out/saved-event-fork" > "$tracefs/options/event-fork" || cleanup_status=1
+    cat "$out/saved-trace_clock" > "$tracefs/trace_clock" || cleanup_status=1
+    cat "$out/saved-buffer_size_kb" > "$tracefs/buffer_size_kb" || cleanup_status=1
+    cat "$out/saved-tracing_on" > "$tracefs/tracing_on" || cleanup_status=1
+    # A stop request can race the loop's last size check.
+    if test -n "${trace_log:-}" && test "$(stat -c %s "$trace_log")" -ge 268435456; then
+        grep -q '^TRUNCATED: 256 MiB syscall byte cap$' "$out/status" ||
+            echo 'TRUNCATED: 256 MiB syscall byte cap' >> "$out/status"
+    fi
+}
+
 finish() {
+    run_status=$1
     trap - EXIT INT TERM
-    # These are this shell's own tracer children, never DUT services.
-    for tracer in $tracers; do
-        parent=$(awk '/^PPid:/ {print $2}' "/proc/$tracer/status" 2>/dev/null) || continue
-        test "$parent" = "$$" || continue
-        kill -INT "$tracer" 2>/dev/null || true
-    done
-    for tracer in $tracers; do
-        wait "$tracer" || true
-    done
+    set +e
+    cleanup_status=0
+    test "$armed" = 0 || restore
+    echo "run_exit=$run_status" >> "$out/status"
+    echo "cleanup_exit=$cleanup_status" >> "$out/status"
+    test "$run_status" -ne 0 || run_status=$cleanup_status
+    echo "$run_status" > "$out/exit-code"
     anchor >> "$out/status"
     echo stopped >> "$out/status"
     touch "$out/stopped"
+    exit "$run_status"
 }
 
 case ${1:-} in
 start)
-    command -v strace >/dev/null
-    command -v ss >/dev/null
-    test -n "$(targets)"
     mkdir "$out" # Preserve any earlier capture rather than overwrite it.
     nohup "$0" run > "$out/supervisor.log" 2>&1 </dev/null &
-    # Readiness concerns only capture startup; suite timings are unchanged.
     for _tick in 1 2 3 4 5; do
-        test ! -f "$out/ready" || exit 0
         test ! -f "$out/stopped" || exit 1
+        test ! -f "$out/ready" || exit 0
         sleep 1
     done
     exit 1
     ;;
 run)
-    tracers=
-    trap finish EXIT
+    armed=0 reader=
+    trap 'finish "$?"' EXIT
     trap 'exit 0' INT TERM
     echo "$$" > "$out/supervisor.pid"
-    anchor > "$out/status"
-    strace -V >> "$out/status" 2>&1
-    # Raw I/O prevents protocol-aware decoders (notably netlink) dumping keys.
-    # Optional names cover syscalls absent from AArch64 (for example fork/dup2).
-    io='?read,?write,?readv,?writev,?pread64,?pwrite64,?preadv,?pwritev,?sendto,?recvfrom,?sendmsg,?recvmsg,?sendmmsg,?recvmmsg'
-    calls="$io,?socket,?socketpair,?bind,?listen,?connect,?accept,?accept4,?shutdown,?close,?dup,?dup2,?dup3,?fcntl,?clone,?clone3,?fork,?vfork"
-    start=$(cut -d. -f1 /proc/uptime)
+    start=$(uptime_seconds)
+    printf 'date=%s\nuptime=%s\n' "$(date -u +%Y-%m-%dT%H:%M:%SZ)" "$start" > "$out/status"
+    : > "$out/attach.log"
+    command -v ss >/dev/null || fail 'ss missing'
+    arm
     while test ! -f "$out/stop"; do
-        now=$(cut -d. -f1 /proc/uptime)
-        if test "$((now - start))" -ge 1500; then
-            echo 'TRUNCATED: 25 minute capture cap' >> "$out/status"
+        now=$(uptime_seconds)
+        if test "$((now - start))" -ge 2600; then
+            echo 'TRUNCATED: 2600 second capture cap' >> "$out/status"
+            break
+        fi
+        bytes=$(stat -c %s "$trace_log")
+        if test "$bytes" -ge 268435456; then
+            echo 'TRUNCATED: 256 MiB syscall byte cap' >> "$out/status"
             break
         fi
         size=$(du -sk "$out" | cut -f1)
-        if test "$size" -ge 196608; then
-            echo 'TRUNCATED: 192 MiB capture cap' >> "$out/status"
+        if test "$size" -ge 327680; then
+            echo 'TRUNCATED: 320 MiB archive directory cap' >> "$out/status"
             break
         fi
-        set --
-        for pid in $(targets); do
-            # Includes start time, so PID reuse does not suppress a new process.
-            identity=$(awk '{print $1 "-" $22}' "/proc/$pid/stat" 2>/dev/null) || continue
-            test ! -f "$out/seen-$identity" || continue
-            owner=$(awk '/^TracerPid:/ {print $2}' "/proc/$pid/status" 2>/dev/null) || continue
-            test "$owner" = 0 || continue
-            touch "$out/seen-$identity"
-            set -- "$@" -p "$pid"
-        done
-        if test "$#" -gt 0; then
-            strace -f -ttt -T -i -yy -s 0 -e "trace=$calls" -e "raw=$io" \
-                -o "$out/syscalls-$now.log" "$@" 2>> "$out/attach.log" &
-            tracers="$tracers $!"
-        fi
+        kill -0 "$reader" 2>/dev/null || fail 'trace_pipe reader exited before byte cap'
+        add_tids
         snapshot >> "$out/snapshots.log" 2>&1
-        # Fail capture startup if no selected process could be attached.
-        if test ! -f "$out/ready"; then
-            attached=0
-            for pid in $(targets); do
-                owner=$(awk '/^TracerPid:/ {print $2}' "/proc/$pid/status" 2>/dev/null) || continue
-                test "$owner" = 0 || attached=1
-            done
-            test "$attached" = 1 || exit 1
-            touch "$out/ready"
-        fi
+        touch "$out/ready"
         sleep 1
     done
     ;;
@@ -128,7 +247,9 @@ stop)
     test -d "$out" || exit 1
     touch "$out/stop"
     for _tick in 1 2 3 4 5 6 7 8 9 10; do
-        test ! -f "$out/stopped" || exit 0
+        if test -f "$out/stopped"; then
+            exit "$(cat "$out/exit-code")"
+        fi
         sleep 1
     done
     echo 'capture has not stopped' >&2
