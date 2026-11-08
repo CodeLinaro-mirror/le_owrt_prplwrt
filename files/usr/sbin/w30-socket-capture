@@ -120,7 +120,7 @@ arm() {
     add_tids
     missing=
     for call in read write readv writev sendto recvfrom sendmsg recvmsg \
-        sendmmsg recvmmsg accept accept4 connect close socket; do
+        sendmmsg recvmmsg; do
         for direction in enter exit; do
             event=sys_${direction}_$call
             if test -e "$tracefs/events/syscalls/$event/enable"; then
@@ -135,7 +135,7 @@ arm() {
     test -z "$missing" || echo "events_missing=$missing" >> "$out/status"
     : > "$tracefs/trace"
     # dd writes every read directly, without a stdio tail lost on termination.
-    # The loop checks the 256 MiB byte cap once per second, like the time cap.
+    # The loop checks the 640 MiB byte cap once per second, like the time cap.
     trace_log="$out/syscalls-$start.log"
     : > "$trace_log"
     dd if="$tracefs/trace_pipe" of="$trace_log" bs=4096 2>> "$out/supervisor.log" &
@@ -177,9 +177,9 @@ restore() {
     cat "$out/saved-buffer_size_kb" > "$tracefs/buffer_size_kb" || cleanup_status=1
     cat "$out/saved-tracing_on" > "$tracefs/tracing_on" || cleanup_status=1
     # A stop request can race the loop's last size check.
-    if test -n "${trace_log:-}" && test "$(stat -c %s "$trace_log")" -ge 268435456; then
-        grep -q '^TRUNCATED: 256 MiB syscall byte cap$' "$out/status" ||
-            echo 'TRUNCATED: 256 MiB syscall byte cap' >> "$out/status"
+    if test -n "${trace_log:-}" && test "$(stat -c %s "$trace_log")" -ge 671088640; then
+        grep -q '^TRUNCATED: 640 MiB syscall byte cap (671088640 bytes)$' "$out/status" ||
+            echo 'TRUNCATED: 640 MiB syscall byte cap (671088640 bytes)' >> "$out/status"
     fi
 }
 
@@ -227,13 +227,13 @@ run)
             break
         fi
         bytes=$(stat -c %s "$trace_log")
-        if test "$bytes" -ge 268435456; then
-            echo 'TRUNCATED: 256 MiB syscall byte cap' >> "$out/status"
+        if test "$bytes" -ge 671088640; then
+            echo 'TRUNCATED: 640 MiB syscall byte cap (671088640 bytes)' >> "$out/status"
             break
         fi
         size=$(du -sk "$out" | cut -f1)
-        if test "$size" -ge 327680; then
-            echo 'TRUNCATED: 320 MiB archive directory cap' >> "$out/status"
+        if test "$size" -ge 819200; then
+            echo 'TRUNCATED: 800 MiB archive directory cap' >> "$out/status"
             break
         fi
         kill -0 "$reader" 2>/dev/null || fail 'trace_pipe reader exited before byte cap'
