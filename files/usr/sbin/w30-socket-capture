@@ -13,7 +13,7 @@ targets() {
         # comm preserves the service name when /proc/exe resolves to amxrt.
         read -r comm 2>/dev/null < "$proc/comm" || continue
         case $comm in
-            wld|pwhm|beerocks*|prplmesh*) echo "${proc##*/}" ;;
+            wld|pwhm|hostapd|beerocks*|prplmesh*) echo "${proc##*/}" ;;
         esac
     done
 }
@@ -54,6 +54,39 @@ snapshot() {
             cat "$procfs/$pid/maps" > "$out/maps-$pid.log" 2>/dev/null || true
         fi
     done
+}
+
+sched_sample() {
+    anchor
+    read -r sample_mono _idle < "$procfs/uptime"
+    sample_mono=${sample_mono%%.*}
+    set -- "$procfs/loadavg" "$procfs/stat"
+    for pid in $(targets); do
+        set -- "$@" "$procfs/$pid/stat"
+        for task in "$procfs/$pid"/task/[0-9]*; do
+            test -d "$task" || continue
+            for field in stat wchan schedstat; do
+                test ! -e "$task/$field" || set -- "$@" "$task/$field"
+            done
+        done
+    done
+    # One awk per sample, regardless of thread count. Explicit getline skips
+    # files that disappear after discovery without aborting the other reads.
+    awk -v root="$procfs/" -v mono="$sample_mono" 'BEGIN {
+        for (i = 1; i < ARGC; i++) {
+            path = ARGV[i]
+            n = split(substr(path, length(root) + 1), part, "/")
+            pid = n > 1 ? part[1] : 0
+            tid = n > 3 ? part[3] : pid
+            scope = n > 3 ? "thread" : (n > 1 ? "process" : "system")
+            while ((getline line < path) > 0) {
+                printf "mono=%s pid=%s tid=%s scope=%s %s %s\n", \
+                    mono, pid, tid, scope, part[n], line
+                if (n == 1 && part[n] == "stat") break
+            }
+            close(path)
+        }
+    }' "$@" || true
 }
 
 add_tids() {
@@ -239,6 +272,7 @@ run)
         kill -0 "$reader" 2>/dev/null || fail 'trace_pipe reader exited before byte cap'
         add_tids
         snapshot >> "$out/snapshots.log" 2>&1
+        sched_sample >> "$out/sched-samples.log" 2>&1
         touch "$out/ready"
         sleep 1
     done
