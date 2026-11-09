@@ -727,3 +727,80 @@ cram QEMU x86-64 [prplos]:
   extends: .qemu-x86-64 testbed
   variables:
     COMPONENT: prplos
+
+# Temporary measurement job; drop this job and its helpers before merge.
+usp registration loops OSPv2:
+  extends: .mxl25641-hdk-6 testbed
+  needs: []
+  timeout: 3 hours
+  rules:
+    - when: manual
+      allow_failure: true
+  variables:
+    DUT_TAG: "dut-mxl25641-hdk-6-b-sfl-04"
+    N: "50"
+    PREBUILT_FIRMWARE_JOB_ID: "17871529985"
+    PREBUILT_ARTIFACT_PATH: bin/targets/intel_x86/lgm
+  before_script:
+    - |
+      # Build the libc-free peer check before flashing the DUT.
+      sudo apt-get update
+      sudo apt-get install --no-install-recommends -y gcc
+      cc -Os -nostdlib -static -no-pie -fno-builtin -fno-stack-protector \
+        -Wall -Wextra -Werror .gitlab/uspreg-socket-peer.c \
+        -o .gitlab/uspreg-socket-peer
+      : "${PREBUILT_FIRMWARE_JOB_ID:?set the firmware artifact job}"
+      mkdir -p "$TFTP_IMAGE_PATH"
+      for f in $TFTP_IMAGE_FILENAMES; do
+        curl -fsSL --header "JOB-TOKEN: $CI_JOB_TOKEN" \
+          -o "$TFTP_IMAGE_PATH/$f" \
+          "$CI_API_V4_URL/projects/$CI_PROJECT_ID/jobs/$PREBUILT_FIRMWARE_JOB_ID/artifacts/$PREBUILT_ARTIFACT_PATH/$f"
+      done
+      sha256sum "$TFTP_IMAGE_PATH"/prplos-intel_x86-lgm-PRPL_OSP_v2-update_script.itb "$TFTP_IMAGE_PATH"/prplos-intel_x86-lgm-PRPL_OSP_v2-wgrtd159be_b_wav700-ext4.img >firmware-sha256.txt
+    - !reference [.testbed, before_script]
+  script:
+    - mkdir -p uspreg-private
+    - timeout --kill-after=15s 150m bash .gitlab/uspreg-loop.sh >uspreg-private/loop.log 2>&1
+    - |
+      # Only structurally validated rows and numeric counts reach job output.
+      python3 - <<'PUBLIC'
+      import csv
+      import pathlib
+      import re
+      rows = list(csv.reader(open('results.tsv'), delimiter='\t'))
+      assert len(rows) == 50
+      for index, row in enumerate(rows, 1):
+          assert len(row) == 7 and row[0] == str(index)
+          assert row[1:4] == ['dutinit', '-', 'tr181-routeradvertisement']
+          assert row[4] in ('0', '1') and row[5] in ('PASS', 'FAIL', 'INVALID')
+          assert all(re.fullmatch(r'proto::[A-Za-z0-9_-]+', owner)
+                     for owner in row[6].split(',') if owner)
+      summary = pathlib.Path('uspreg-results/summary.txt').read_text().splitlines()
+      assert len(summary) == 2
+      assert all(re.fullmatch(r'dutinit (raw|scored): FAIL=[0-9]+, PASS=[0-9]+, INVALID=[0-9]+', line)
+                 for line in summary)
+      print(pathlib.Path('results.tsv').read_text(), end='')
+      print('\n'.join(summary))
+      PUBLIC
+    - rm -f .run_failed
+  after_script:
+    # The inherited debug collector can print data values; keep them private.
+    - mkdir -p uspreg-private
+    - exec >uspreg-private/after-script.log 2>&1
+    - !reference [.testbed, after_script]
+  artifacts:
+    public: false
+    reports: null
+    when: always
+    expire_in: 1 month
+    paths:
+      - results.tsv
+      - firmware-sha256.txt
+      - uspreg-private/
+      - uspreg-results/
+      - debug-information-$LABGRID_TARGET.txt
+      - processes-$LABGRID_TARGET.txt
+      - dmesg-$LABGRID_TARGET.txt
+      - syslog-$LABGRID_TARGET.txt
+      - console_$LABGRID_TARGET.txt
+      - opkg_list-$LABGRID_TARGET.txt
