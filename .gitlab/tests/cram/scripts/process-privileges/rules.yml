@@ -329,13 +329,8 @@
     id: tr181_app:tr181_app
     caps: dac_override
   - cmd: tr181-ppp
-    id: root:root
-    caps: full
-    child:
-    - cmd: pppd
-      id: root:root
-      caps: full
-      optional: true
+    id: tr181_app:tr181_app
+    caps: dac_override,net_admin,net_raw,sys_module,sys_rawio
   - cmd: tr181-qos
     id: tr181_app:tr181_app
     caps: dac_override,net_admin,net_raw
