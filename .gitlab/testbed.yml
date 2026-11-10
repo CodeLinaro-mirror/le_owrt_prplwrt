@@ -45,8 +45,8 @@
 
     - |
       if [ "${TESTBED_CDROUTER_ENABLED:-1}" = "1" ]; then
-        .gitlab/scripts/testbed-cdrouter.py check_connectivity
-        .gitlab/scripts/testbed-cdrouter.py package_stop
+        pretest_bounded cdrouter-connectivity 30 .gitlab/scripts/testbed-cdrouter.py check_connectivity
+        pretest_bounded package-stop 65 .gitlab/scripts/testbed-cdrouter.py package_stop
       fi
 
     - section_end "cdrouter-cleanup"
@@ -59,10 +59,13 @@
     - !reference [.dut-lifecycle.boot, script]
     - !reference [.dut-lifecycle.ready, script]
 
-    - >
-      for dut_init_script in $DUT_INIT_SCRIPTS;
-        do echo "Running $dut_init_script"; "${CI_PROJECT_DIR}/$dut_init_script";
-      done
+    - |
+      pretest_bounded dut-init 240 bash -ec '
+        for dut_init_script in $DUT_INIT_SCRIPTS; do
+          echo "Running $dut_init_script"
+          "${CI_PROJECT_DIR}/$dut_init_script"
+        done
+      '
 
     - section_end "dut-system-info"
 
@@ -103,8 +106,8 @@
         }
       }
 
-      run_check ssh root@$TARGET_LAN_IP 'f=$(logread | grep "procd.*init complete"); echo "${f:-Warning: init is not complete yet,} $(uptime -p)"'
-      run_check ssh root@$TARGET_LAN_IP 'logger -t CI -p local0.info "Testing starts, $(uptime -p)"'
+      run_check pretest_bounded dut-init-status 30 ssh root@$TARGET_LAN_IP 'f=$(logread | grep "procd.*init complete"); echo "${f:-Warning: init is not complete yet,} $(uptime -p)"'
+      run_check pretest_bounded dut-log-start 30 ssh root@$TARGET_LAN_IP 'logger -t CI -p local0.info "Testing starts, $(uptime -p)"'
       run_cram_suite() {
         local rc=0
         timeout --kill-after=10s --verbose ${TEST_CUTOFF_TIMEOUT}s \

@@ -13,15 +13,17 @@
     - chmod 700 ~/.ssh
 
     - |
-      for f in ${TFTP_IMAGE_FILENAMES:-$TFTP_IMAGE_FILENAME}; do
-        echo "Using firmware image $TFTP_IMAGE_PATH/$f"
-        cp "$TFTP_IMAGE_PATH/$f" "$TESTBED_TFTP_PATH"
-      done
+      pretest_bounded firmware-stage 140 bash -ec '
+        for f in ${TFTP_IMAGE_FILENAMES:-$TFTP_IMAGE_FILENAME}; do
+          echo "Using firmware image $TFTP_IMAGE_PATH/$f"
+          cp "$TFTP_IMAGE_PATH/$f" "$TESTBED_TFTP_PATH"
+        done
 
-      if [ -n "$TFTP_IMAGE_UNPACK_COMMAND" ]; then
-        echo "Running $TFTP_IMAGE_UNPACK_COMMAND"
-        eval "$TFTP_IMAGE_UNPACK_COMMAND"
-      fi
+        if [ -n "$TFTP_IMAGE_UNPACK_COMMAND" ]; then
+          echo "Running $TFTP_IMAGE_UNPACK_COMMAND"
+          eval "$TFTP_IMAGE_UNPACK_COMMAND"
+        fi
+      '
 
     - >
       if echo "$CI_RUNNER_DESCRIPTION" | grep -q testbed-02; then
@@ -38,12 +40,12 @@
   script:
     - section_start "dut-bringup" "DUT Bringup" "collapsed"
 
-    - .gitlab/scripts/testbed-device.py --target $LABGRID_TARGET boot_into shell
+    - pretest_bounded dut-boot 464 .gitlab/scripts/testbed-device.py --target $LABGRID_TARGET boot_into shell
 
 .dut-lifecycle.ready:
   script:
     - >
-      .gitlab/scripts/testbed-device.py
+      pretest_bounded dut-network 300 .gitlab/scripts/testbed-device.py
       --target $LABGRID_TARGET check_network
       --network lan
       --remote-host $TARGET_LAN_TEST_HOST
@@ -54,18 +56,18 @@
     - section_start "dut-system-info" "DUT System Information" "collapsed"
 
     - echo "Waiting for SSH connection availability with ${DUT_SSH_CONNECT_TIMEOUT}sec timeout, with $DUT_SSH_CONNECT_ATTEMPTS attempts..."
-    - time ssh -o BatchMode=yes -o StrictHostKeyChecking=no -o ConnectionAttempts=$DUT_SSH_CONNECT_ATTEMPTS -o ConnectTimeout=$DUT_SSH_CONNECT_TIMEOUT root@$TARGET_LAN_IP 'exit 0'
+    - pretest_bounded dut-ssh 90 ssh -o BatchMode=yes -o StrictHostKeyChecking=no -o ConnectionAttempts=$DUT_SSH_CONNECT_ATTEMPTS -o ConnectTimeout=$DUT_SSH_CONNECT_TIMEOUT root@$TARGET_LAN_IP 'exit 0'
 
-    - ssh-keyscan $TARGET_LAN_IP >> ~/.ssh/known_hosts 2> /dev/null
+    - pretest_bounded ssh-keyscan 10 bash -ec 'ssh-keyscan "$TARGET_LAN_IP" >> ~/.ssh/known_hosts 2> /dev/null'
     - >
       if [ -n "${DUT_OBUSPA_VERBOSE_LEVEL:-}" ] ||
          [ -n "${DUT_OBUSPA_PROTOCOL_TRACE:-}" ]; then
-        .gitlab/scripts/dut-init/dut-configure-obuspa-logging.sh;
+        pretest_bounded obuspa-logging 60 .gitlab/scripts/dut-init/dut-configure-obuspa-logging.sh;
       fi
-    - ssh root@$TARGET_LAN_IP 'logger -t CI -p local0.info "System accessible over SSH, $(uptime -p)"' || true
-    - ssh root@$TARGET_LAN_IP "cat /var/log/messages" > syslog-$LABGRID_TARGET.txt 2> /dev/null || true
-    - ssh root@$TARGET_LAN_IP "ubus call system board" | tee system-$LABGRID_TARGET.json
-    - bounded memory-footprint 40 .gitlab/scripts/memory-footprint.sh boot || true
+    - pretest_bounded dut-log-ready 30 ssh root@$TARGET_LAN_IP 'logger -t CI -p local0.info "System accessible over SSH, $(uptime -p)"' || true
+    - pretest_bounded dut-syslog 30 bash -ec 'exec ssh root@"$TARGET_LAN_IP" "cat /var/log/messages" > "syslog-$LABGRID_TARGET.txt" 2> /dev/null' || true
+    - pretest_bounded dut-system-board 30 bash -eo pipefail -c 'ssh root@"$TARGET_LAN_IP" "ubus call system board" | tee "system-$LABGRID_TARGET.json"'
+    - pretest_bounded memory-footprint 40 .gitlab/scripts/memory-footprint.sh boot || true
 
 .dut-lifecycle.recover-ssh:
   script:

@@ -116,6 +116,21 @@ bounded() {
 	return "$rc"
 }
 
+# Pre-test timeouts fail the job, including optional diagnostics. Returning
+# ordinary failures lets callers retain their existing best-effort policy.
+pretest_bounded() {
+	local step="$1" cap="$2" rc=0
+	shift 2
+	bounded "$step" "$cap" "$@" || rc=$?
+	case "$rc" in
+		124|137)
+			echo "ERROR: pre-test step ${step} exceeded ${cap} s"
+			exit 86
+			;;
+	esac
+	return "$rc"
+}
+
 # Collection shares one wall-clock budget and leaves time for mandatory cleanup
 # and artifact upload, even when after_script starts late.
 TEARDOWN_COLLECTION_SECONDS=240
