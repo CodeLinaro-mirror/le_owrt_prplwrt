@@ -122,22 +122,27 @@ TEARDOWN_COLLECTION_SECONDS=240
 TEARDOWN_JOB_TAIL_SECONDS=130
 
 teardown_init() {
-	local start job_end
+	local start job_start job_end=unknown
 	start=$(date +%s)
-	job_end=$(( $(date -d "$CI_JOB_STARTED_AT" +%s) + CI_JOB_TIMEOUT ))
 	TEARDOWN_DEADLINE=$(( start + TEARDOWN_COLLECTION_SECONDS ))
-	if [ "$(( job_end - TEARDOWN_JOB_TAIL_SECONDS ))" -lt "$TEARDOWN_DEADLINE" ]; then
-		TEARDOWN_DEADLINE=$(( job_end - TEARDOWN_JOB_TAIL_SECONDS ))
+	if [ -z "${CI_JOB_STARTED_AT:-}" ] || [ -z "${CI_JOB_TIMEOUT:-}" ] ||
+		! job_start=$(date -d "$CI_JOB_STARTED_AT" +%s 2>/dev/null); then
+		echo "WARNING: missing or invalid job timing; using ${TEARDOWN_COLLECTION_SECONDS} s collection deadline"
+	else
+		job_end=$(( job_start + CI_JOB_TIMEOUT ))
+		if [ "$(( job_end - TEARDOWN_JOB_TAIL_SECONDS ))" -lt "$TEARDOWN_DEADLINE" ]; then
+			TEARDOWN_DEADLINE=$(( job_end - TEARDOWN_JOB_TAIL_SECONDS ))
+		fi
 	fi
 	printf 'teardown-deadline start=%s job_end=%s deadline=%s\n' "$start" "$job_end" "$TEARDOWN_DEADLINE"
 }
 
-# Like bounded, but clamp the cap to the collection time still available.
+# Like bounded, but reserve its five-second KILL grace within the deadline.
 # A deadline skip returns 125, without passing zero (unlimited) to timeout.
 teardown_bounded() {
 	local step="$1" cap="$2" left
 	shift 2
-	left=$(( TEARDOWN_DEADLINE - $(date +%s) ))
+	left=$(( TEARDOWN_DEADLINE - $(date +%s) - 5 ))
 	if [ "$left" -le 0 ]; then
 		section_start "teardown-${step}" "Teardown: ${step}"
 		printf 'teardown-step name=%s dur=0 rc=125 skipped (deadline)\n' "$step"

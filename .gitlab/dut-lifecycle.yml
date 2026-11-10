@@ -133,7 +133,8 @@
 
     - |
       if [ -n "${TEARDOWN_DEADLINE:-}" ]; then
-        bounded power-off 20 .gitlab/scripts/testbed-device.py --target "$LABGRID_TARGET" power off || true
+        # D02a estimate until measured; reserve five more seconds for KILL.
+        bounded power-off 15 .gitlab/scripts/testbed-device.py --target "$LABGRID_TARGET" power off || true
       else
         .gitlab/scripts/testbed-device.py --target $LABGRID_TARGET power off
       fi

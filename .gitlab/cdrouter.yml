@@ -162,7 +162,8 @@
       if echo "$CI_RUNNER_DESCRIPTION" | grep -q testbed-02; then
         export CDROUTER_API_TOKEN="$CDROUTER_API_TOKEN_TESTBED_02"
       fi
-    - bounded package-stop 20 .gitlab/scripts/testbed-cdrouter.py package_stop || true
+    # D02a estimate until measured; reserve five more seconds for KILL.
+    - bounded package-stop 15 .gitlab/scripts/testbed-cdrouter.py package_stop || true
 
   artifacts:
     expire_in: 1 month
