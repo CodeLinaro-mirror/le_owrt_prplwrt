@@ -65,6 +65,7 @@ section_end() {
 # further five seconds if needed. Logs the duration in seconds and exit code,
 # warns on timeout, and returns the command status without changing shell options.
 # Shell functions and builtins are refused with exit code 126.
+# A cap that is not a positive integer skips the command with exit code 125.
 #
 # Parameters:
 #   $1 - step: Unique name for the teardown step (required)
@@ -83,6 +84,15 @@ bounded() {
 
 	section_start "teardown-${step}" "Teardown: ${step}"
 	start=$(date +%s)
+
+	if ! [[ "$cap" =~ ^0*[1-9][0-9]*$ ]]; then
+		# Return 125 for a skipped step, distinct from timeout's 124/137.
+		rc=125
+		log_error "step ${step} skipped: cap '${cap}' must be a positive integer"
+		printf 'teardown-step name=%s dur=%s rc=%s cap=%s skipped\n' "$step" "$(( $(date +%s) - start ))" "$rc" "$cap"
+		section_end "teardown-${step}"
+		return "$rc"
+	fi
 
 	case "$(type -t "$1")" in
 		function|builtin)
