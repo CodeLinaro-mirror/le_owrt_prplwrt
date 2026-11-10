@@ -13,6 +13,17 @@
     - chmod 700 ~/.ssh
 
     - |
+      if [ -n "${PREBUILT_FIRMWARE_JOB_ID:-}" ]; then
+        mkdir -p "$TFTP_IMAGE_PATH"
+        for f in ${TFTP_IMAGE_FILENAMES:-$TFTP_IMAGE_FILENAME}; do
+          echo "Fetching prebuilt firmware image $f from job $PREBUILT_FIRMWARE_JOB_ID"
+          curl -fsSL --header "JOB-TOKEN: $CI_JOB_TOKEN" \
+            -o "$TFTP_IMAGE_PATH/$f" \
+            "$CI_API_V4_URL/projects/$CI_PROJECT_ID/jobs/$PREBUILT_FIRMWARE_JOB_ID/artifacts/${PREBUILT_ARTIFACT_PATH:-$TFTP_IMAGE_PATH}/$f" || exit 1
+        done
+      fi
+
+    - |
       pretest_bounded firmware-stage 140 bash -ec '
         for f in ${TFTP_IMAGE_FILENAMES:-$TFTP_IMAGE_FILENAME}; do
           echo "Using firmware image $TFTP_IMAGE_PATH/$f"

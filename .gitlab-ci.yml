@@ -641,6 +641,7 @@ cram OSPv2 [lcm]:
 
 cram OSPv2 [prplos]:
   timeout: 68 minutes
+  rules: !reference [.prebuilt-firmware, rules]
   needs: ["build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread"]
   extends: .mxl25641-hdk-6 testbed
   variables:
@@ -677,6 +678,7 @@ cram Freedom [lcm]:
 
 cram Freedom [prplos]:
   timeout: 68 minutes
+  rules: !reference [.prebuilt-firmware, rules]
   needs: ["build test qca_ipq95xx prpl cellular security thread"]
   extends: .wnc-freedom testbed
   variables:
@@ -811,3 +813,24 @@ cram QEMU x86-64 [prplos]:
   extends: .qemu-x86-64 testbed
   variables:
     COMPONENT: prplos
+
+.prebuilt-firmware:
+  rules:
+    - when: manual
+      allow_failure: true
+      needs: []
+
+CDRouter-Wireless Mozart initramfs:
+  rules: !reference [.prebuilt-firmware, rules]
+
+CDRouter-Wireless Valyrian initramfs:
+  rules: !reference [.prebuilt-firmware, rules]
+
+prplWare-Smoke-Test-Suite Valyrian initramfs:
+  rules: !reference [.prebuilt-firmware, rules]
+
+prplWare-Smoke-Test-Suite Mozart initramfs:
+  rules: !reference [.prebuilt-firmware, rules]
+
+prplWare-Smoke-Test-Suite Haze initramfs:
+  rules: !reference [.prebuilt-firmware, rules]
