@@ -104,7 +104,15 @@
       run_check \
         timeout --kill-after=10s --verbose ${TEST_CUTOFF_TIMEOUT}s \
         python3 -m cram --xunit-file=cram-result-$LABGRID_TARGET.xunit.xml --verbose $CRAM_TEST_SUITE $CRAM_TEST_SUITE_EXTRA | tee cram-result-$LABGRID_TARGET.txt
-      run_check python3 -m cram --xunit-file=cram-result-post-$LABGRID_TARGET.xunit.xml --verbose $CRAM_TEST_SUITE_POST | tee --append cram-result-$LABGRID_TARGET.txt
+      # D02a estimate until measured; counts against the 60-second script tail.
+      CRAM_POST_TIMEOUT=30
+      if ! [ "$CRAM_POST_TIMEOUT" -gt 0 ]; then
+        log_error "Post suite requires a positive timeout."
+        exit 1
+      fi
+      run_check \
+        timeout --kill-after=10 "$CRAM_POST_TIMEOUT" \
+        python3 -m cram --xunit-file=cram-result-post-$LABGRID_TARGET.xunit.xml --verbose $CRAM_TEST_SUITE_POST | tee --append cram-result-$LABGRID_TARGET.txt
       run_check ssh root@$TARGET_LAN_IP 'logger -t CI -p local0.info "Testing finished, $(uptime -p)"'
 
     - section_end "test-execution"

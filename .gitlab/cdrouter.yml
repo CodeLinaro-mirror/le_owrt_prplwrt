@@ -116,19 +116,35 @@
 
     - section_start "test-execution" "Test Execution" "expanded"
     - |
-      .gitlab/scripts/testbed-cdrouter.py \
+      PACKAGE_RUN_TIMEOUT=$((TEST_CUTOFF_TIMEOUT + 60))
+      if ! [ "$TEST_CUTOFF_TIMEOUT" -gt 0 ] || ! [ "$PACKAGE_RUN_TIMEOUT" -gt 0 ]; then
+        log_error "package_run requires positive cutoff and wrapper timeouts."
+        exit 1
+      fi
+      timeout --kill-after=10 "$PACKAGE_RUN_TIMEOUT" .gitlab/scripts/testbed-cdrouter.py \
         package_run $TEST_PACKAGE \
         --device generic \
         --configuration $CDROUTER_TEST_CONFIG \
         --system-info system-$LABGRID_TARGET.json \
         --timeout ${TEST_CUTOFF_TIMEOUT} || cdrouter_exit_code=$?
+      case "${cdrouter_exit_code:-0}" in
+        124|137) log_error "package_run did not stop by itself" ;;
+      esac
     - section_end "test-execution"
 
     - sudo ip link set $TESTBED_LAN_INTERFACE up 2> /dev/null || true
     - sudo ip link set $TESTBED_WAN_INTERFACE up 2> /dev/null || true
     - sleep 5
 
-    - python3 -m cram --verbose .gitlab/tests/cram/post/generic/50-check-for-crashes.t || cram_exit_code=$?
+    - |
+      # D02a estimate until measured; counts against the 60-second script tail.
+      CRAM_CRASH_CHECK_TIMEOUT=30
+      if ! [ "$CRAM_CRASH_CHECK_TIMEOUT" -gt 0 ]; then
+        log_error "Crash check requires a positive timeout."
+        exit 1
+      fi
+      timeout --kill-after=10 "$CRAM_CRASH_CHECK_TIMEOUT" \
+        python3 -m cram --verbose .gitlab/tests/cram/post/generic/50-check-for-crashes.t || cram_exit_code=$?
     - ssh root@$TARGET_LAN_IP 'logger -t CI -p local0.info "Testing finished, $(uptime -p)"' || true
 
     - >
