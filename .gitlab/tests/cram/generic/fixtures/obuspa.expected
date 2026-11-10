@@ -763,11 +763,13 @@ Device.DeviceInfo.Swap.ZRAM.{i}.CompressionRatio                                
 Device.DeviceInfo.Swap.ZRAM.{i}.DiskSize                                                             proto::tr181-zram
 Device.DeviceInfo.Swap.ZRAM.{i}.Enable                                                               proto::tr181-zram
 Device.DeviceInfo.Swap.ZRAM.{i}.HugePages                                                            proto::tr181-zram
+Device.DeviceInfo.Swap.ZRAM.{i}.HugePagesTotal                                                       proto::tr181-zram
 Device.DeviceInfo.Swap.ZRAM.{i}.MemLimit                                                             proto::tr181-zram
 Device.DeviceInfo.Swap.ZRAM.{i}.MemUsedMax                                                           proto::tr181-zram
 Device.DeviceInfo.Swap.ZRAM.{i}.MemUsedTotal                                                         proto::tr181-zram
 Device.DeviceInfo.Swap.ZRAM.{i}.Name                                                                 proto::tr181-zram
-Device.DeviceInfo.Swap.ZRAM.{i}.OrigDataSize                                                         proto::tr181-zram
+Device.DeviceInfo.Swap.ZRAM.{i}.OriginalDataSize                                                     proto::tr181-zram
+Device.DeviceInfo.Swap.ZRAM.{i}.PagesCompacted                                                       proto::tr181-zram
 Device.DeviceInfo.Swap.ZRAM.{i}.Priority                                                             proto::tr181-zram
 Device.DeviceInfo.Swap.ZRAM.{i}.SamePages                                                            proto::tr181-zram
 Device.DeviceInfo.Swap.ZRAM.{i}.Status                                                               proto::tr181-zram
