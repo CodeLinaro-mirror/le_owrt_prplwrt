@@ -167,6 +167,7 @@ include:
   - local: .gitlab/testbed/nokia-valyrian.yml
   - local: .gitlab/testbed/qemu-x86-64.yml
   - component: $CI_SERVER_FQDN/prpl-foundation/prplos/ci/components/git-commit-checker/static@v1.0.0
+  - local: .gitlab/proof-p6.yml
 
 stages:
   - commit-check
@@ -188,174 +189,42 @@ stages:
 
 build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread:
   extends: .build test config
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "schedule"'
-      when: never
-    - if: '$CI_COMMIT_BRANCH == $CI_DESIGNATED_BRANCH'
-    - if: '$CI_COMMIT_TAG =~ /^prplware-v[0-9]+\.[0-9]+\.[0-9]+.*$/'
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CRAM_COMPONENTS != null'
-      when: manual
-      allow_failure: true
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_LABELS =~ /(^|,)cram::skip($|,)/'
-      when: manual
-      allow_failure: true
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_LABELS =~ /(^|,)cram::(full|prplmesh|lcm|prplos)($|,)/'
-      when: manual
-      allow_failure: false
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-      changes: *cram_changes_mxl25641_hdk_6
-      when: manual
-      allow_failure: false
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-      when: manual
-      allow_failure: true
-    - when: manual
+  rules: [{ when: never }]
 
 build test mvebu prpl security:
   extends: .build test config
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "schedule"'
-      when: never
-    - if: '$CI_COMMIT_BRANCH == $CI_DESIGNATED_BRANCH'
-    - if: '$CI_COMMIT_TAG =~ /^prplware-v[0-9]+\.[0-9]+\.[0-9]+.*$/'
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CRAM_COMPONENTS != null'
-      when: manual
-      allow_failure: true
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_LABELS =~ /(^|,)cram::skip($|,)/'
-      when: manual
-      allow_failure: true
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-      changes: *cram_changes_turris_omnia
-      when: manual
-      allow_failure: false
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-      when: manual
-      allow_failure: true
-    - when: manual
+  rules: [{ when: never }]
 
 build test x86_64 prpl security:
   extends: .build test config
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "schedule"'
-      when: never
-    - if: '$CI_COMMIT_BRANCH == $CI_DESIGNATED_BRANCH'
-    - if: '$CI_COMMIT_TAG =~ /^prplware-v[0-9]+\.[0-9]+\.[0-9]+.*$/'
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CRAM_COMPONENTS != null'
-      when: manual
-      allow_failure: true
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_LABELS =~ /(^|,)cram::skip($|,)/'
-      when: manual
-      allow_failure: true
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_LABELS =~ /(^|,)cram::(full|prplmesh|lcm|prplos)($|,)/'
-      when: manual
-      allow_failure: false
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-      changes: *cram_changes_qemu_x86_64
-      when: manual
-      allow_failure: false
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-      when: manual
-      allow_failure: true
-    - when: manual
+  rules: [{ when: never }]
 
 build test ipq807x prpl security:
   extends: .build test config
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "schedule"'
-      when: never
-    - if: '$CI_COMMIT_BRANCH == $CI_DESIGNATED_BRANCH'
-    - if: '$CI_COMMIT_TAG =~ /^prplware-v[0-9]+\.[0-9]+\.[0-9]+.*$/'
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CRAM_COMPONENTS != null'
-      when: manual
-      allow_failure: true
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_LABELS =~ /(^|,)cram::skip($|,)/'
-      when: manual
-      allow_failure: true
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-      changes: *cram_changes_prpl_haze
-      when: manual
-      allow_failure: false
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-      when: manual
-      allow_failure: true
-    - when: manual
+  rules: [{ when: never }]
 
 build test mtk_filogic prpl security:
   extends: .build test config
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "schedule"'
-      when: never
-    - if: '$CI_COMMIT_BRANCH == $CI_DESIGNATED_BRANCH'
-    - if: '$CI_COMMIT_TAG =~ /^prplware-v[0-9]+\.[0-9]+\.[0-9]+.*$/'
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CRAM_COMPONENTS != null'
-      when: manual
-      allow_failure: true
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_LABELS =~ /(^|,)cram::skip($|,)/'
-      when: manual
-      allow_failure: true
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-      changes: *cram_changes_arcadyan_mozart
-      when: manual
-      allow_failure: false
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-      when: manual
-      allow_failure: true
-    - when: manual
+  rules: [{ when: never }]
 
 build test airoha_an7581 prpl security:
   extends: .build test config
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "schedule"'
-      when: never
-    - if: '$CI_COMMIT_BRANCH == $CI_DESIGNATED_BRANCH'
-    - if: '$CI_COMMIT_TAG =~ /^prplware-v[0-9]+\.[0-9]+\.[0-9]+.*$/'
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CRAM_COMPONENTS != null'
-      when: manual
-      allow_failure: true
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_LABELS =~ /(^|,)cram::skip($|,)/'
-      when: manual
-      allow_failure: true
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-      changes: *cram_changes_nokia_valyrian
-      when: manual
-      allow_failure: false
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-      when: manual
-      allow_failure: true
-    - when: manual
+  rules: [{ when: never }]
 
 build test qca_ipq95xx prpl cellular security thread:
   extends: .build test config
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "schedule"'
-      when: never
-    - if: '$CI_COMMIT_BRANCH == $CI_DESIGNATED_BRANCH'
-    - if: '$CI_COMMIT_TAG =~ /^prplware-v[0-9]+\.[0-9]+\.[0-9]+.*$/'
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CRAM_COMPONENTS != null'
-      when: manual
-      allow_failure: true
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_LABELS =~ /(^|,)cram::skip($|,)/'
-      when: manual
-      allow_failure: true
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_LABELS =~ /(^|,)cram::(full|prplmesh|lcm|prplos)($|,)/'
-      when: manual
-      allow_failure: false
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-      changes: *cram_changes_wnc_freedom
-      when: manual
-      allow_failure: false
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-      when: manual
-      allow_failure: true
-    - when: manual
+  rules: [{ when: never }]
 
 build test qca_ipq95xx extender_minimal cellular security thread:
+  rules: [{ when: never }]
   extends: .build test config
 
 build test qca_ipq95xx extender_full cellular security thread:
+  rules: [{ when: never }]
   extends: .build test config
 
 coverity scan qca_ipq95xx prpl extender_full cellular thread:
+  rules: [{ when: never }]
   extends: .coverity scan config
   variables:
     CI_COVERITY_COMPILER_TEMPLATE_LIST: >
@@ -363,9 +232,11 @@ coverity scan qca_ipq95xx prpl extender_full cellular thread:
       aarch64-openwrt-linux-musl-gcc
 
 blackduck scan mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl extender_full cellular security thread:
+  rules: [{ when: never }]
   extends: .blackduck scan config
 
 blackduck scan qca_ipq95xx prpl extender_full cellular security thread:
+  rules: [{ when: never }]
   extends: .blackduck scan config
 
 cram Omnia [auto]:
@@ -374,18 +245,7 @@ cram Omnia [auto]:
     - .turris-omnia testbed
     - .cram_component_auto
   timeout: 85 minutes
-  rules:
-    - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
-      when: never
-    - if: '$CRAM_COMPONENTS != null'
-      when: never
-    - if: '$CI_MERGE_REQUEST_LABELS =~ /(^|,)cram::skip($|,)/'
-      when: manual
-      allow_failure: true
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-      changes: *cram_changes_turris_omnia
-    - when: manual
-      allow_failure: true
+  rules: [{ when: never }]
 
 cram Haze [auto]:
   needs: ["build test ipq807x prpl security"]
@@ -393,18 +253,7 @@ cram Haze [auto]:
     - .prpl-haze testbed
     - .cram_component_auto
   timeout: 85 minutes
-  rules:
-    - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
-      when: never
-    - if: '$CRAM_COMPONENTS != null'
-      when: never
-    - if: '$CI_MERGE_REQUEST_LABELS =~ /(^|,)cram::skip($|,)/'
-      when: manual
-      allow_failure: true
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-      changes: *cram_changes_prpl_haze
-    - when: manual
-      allow_failure: true
+  rules: [{ when: never }]
 
 cram OSPv2 [auto]:
   needs: ["build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread"]
@@ -412,19 +261,7 @@ cram OSPv2 [auto]:
     - .mxl25641-hdk-6 testbed
     - .cram_component_auto
   timeout: 89 minutes
-  rules:
-    - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
-      when: never
-    - if: '$CRAM_COMPONENTS != null'
-      when: never
-    - if: '$CI_MERGE_REQUEST_LABELS =~ /(^|,)cram::skip($|,)/'
-      when: manual
-      allow_failure: true
-    - if: '$CI_MERGE_REQUEST_LABELS =~ /(^|,)cram::(full|prplmesh|lcm|prplos)($|,)/'
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-      changes: *cram_changes_mxl25641_hdk_6
-    - when: manual
-      allow_failure: true
+  rules: [{ when: never }]
 
 cram Freedom [auto]:
   needs: ["build test qca_ipq95xx prpl cellular security thread"]
@@ -432,19 +269,7 @@ cram Freedom [auto]:
     - .wnc-freedom testbed
     - .cram_component_auto
   timeout: 94 minutes
-  rules:
-    - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
-      when: never
-    - if: '$CRAM_COMPONENTS != null'
-      when: never
-    - if: '$CI_MERGE_REQUEST_LABELS =~ /(^|,)cram::skip($|,)/'
-      when: manual
-      allow_failure: true
-    - if: '$CI_MERGE_REQUEST_LABELS =~ /(^|,)cram::(full|prplmesh|lcm|prplos)($|,)/'
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-      changes: *cram_changes_wnc_freedom
-    - when: manual
-      allow_failure: true
+  rules: [{ when: never }]
 
 cram Mozart [auto]:
   needs: ["build test mtk_filogic prpl security"]
@@ -452,18 +277,7 @@ cram Mozart [auto]:
     - .arcadyan-mozart testbed
     - .cram_component_auto
   timeout: 85 minutes
-  rules:
-    - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
-      when: never
-    - if: '$CRAM_COMPONENTS != null'
-      when: never
-    - if: '$CI_MERGE_REQUEST_LABELS =~ /(^|,)cram::skip($|,)/'
-      when: manual
-      allow_failure: true
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-      changes: *cram_changes_arcadyan_mozart
-    - when: manual
-      allow_failure: true
+  rules: [{ when: never }]
 
 cram Valyrian [auto]:
   needs: ["build test airoha_an7581 prpl security"]
@@ -471,18 +285,7 @@ cram Valyrian [auto]:
     - .nokia-valyrian testbed
     - .cram_component_auto
   timeout: 85 minutes
-  rules:
-    - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
-      when: never
-    - if: '$CRAM_COMPONENTS != null'
-      when: never
-    - if: '$CI_MERGE_REQUEST_LABELS =~ /(^|,)cram::skip($|,)/'
-      when: manual
-      allow_failure: true
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-      changes: *cram_changes_nokia_valyrian
-    - when: manual
-      allow_failure: true
+  rules: [{ when: never }]
 
 cram QEMU x86-64 [auto]:
   allow_failure: true
@@ -491,30 +294,15 @@ cram QEMU x86-64 [auto]:
   extends:
     - .qemu-x86-64 testbed
     - .cram_component_auto_selection
-  rules:
-    - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
-      when: never
-    - if: '$CRAM_COMPONENTS != null'
-      when: never
-    - if: '$CI_MERGE_REQUEST_LABELS =~ /(^|,)cram::skip($|,)/'
-      when: manual
-      allow_failure: true
-    - if: '$CI_MERGE_REQUEST_LABELS =~ /(^|,)cram::(full|prplmesh|lcm|prplos)($|,)/'
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-      changes: *cram_changes_qemu_x86_64
-    - when: manual
-      allow_failure: true
+  rules: [{ when: never }]
 
 report cram selection:
   extends: .report_cram_selection
   needs: []
-  rules:
-    - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
-      when: never
-    - when: manual
-      allow_failure: true
+  rules: [{ when: never }]
 
 cram Omnia [full]:
+  rules: [{ when: never }]
   allow_failure: true
   needs: ["build test mvebu prpl security"]
   extends: .turris-omnia testbed
@@ -523,6 +311,7 @@ cram Omnia [full]:
     COMPONENT: full
 
 cram Omnia [prplmesh]:
+  rules: [{ when: never }]
   allow_failure: true
   needs: ["build test mvebu prpl security"]
   extends: .turris-omnia testbed
@@ -530,6 +319,7 @@ cram Omnia [prplmesh]:
     COMPONENT: prplmesh
 
 cram Omnia [lcm]:
+  rules: [{ when: never }]
   allow_failure: true
   needs: ["build test mvebu prpl security"]
   extends: .turris-omnia testbed
@@ -537,6 +327,7 @@ cram Omnia [lcm]:
     COMPONENT: lcm
 
 cram Omnia [prplos]:
+  rules: [{ when: never }]
   allow_failure: true
   needs: ["build test mvebu prpl security"]
   extends: .turris-omnia testbed
@@ -544,6 +335,7 @@ cram Omnia [prplos]:
     COMPONENT: prplos
 
 cram Haze [full]:
+  rules: [{ when: never }]
   allow_failure: true
   needs: ["build test ipq807x prpl security"]
   extends: .prpl-haze testbed
@@ -552,6 +344,7 @@ cram Haze [full]:
     COMPONENT: full
 
 cram Haze [prplmesh]:
+  rules: [{ when: never }]
   allow_failure: true
   needs: ["build test ipq807x prpl security"]
   extends: .prpl-haze testbed
@@ -559,6 +352,7 @@ cram Haze [prplmesh]:
     COMPONENT: prplmesh
 
 cram Haze [lcm]:
+  rules: [{ when: never }]
   allow_failure: true
   needs: ["build test ipq807x prpl security"]
   extends: .prpl-haze testbed
@@ -566,6 +360,7 @@ cram Haze [lcm]:
     COMPONENT: lcm
 
 cram Haze [prplos]:
+  rules: [{ when: never }]
   allow_failure: true
   needs: ["build test ipq807x prpl security"]
   extends: .prpl-haze testbed
@@ -573,6 +368,7 @@ cram Haze [prplos]:
     COMPONENT: prplos
 
 cram OSPv2 [full]:
+  rules: [{ when: never }]
   needs: ["build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread"]
   extends: .mxl25641-hdk-6 testbed
   timeout: 89 minutes
@@ -580,24 +376,28 @@ cram OSPv2 [full]:
     COMPONENT: full
 
 cram OSPv2 [prplmesh]:
+  rules: [{ when: never }]
   needs: ["build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread"]
   extends: .mxl25641-hdk-6 testbed
   variables:
     COMPONENT: prplmesh
 
 cram OSPv2 [lcm]:
+  rules: [{ when: never }]
   needs: ["build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread"]
   extends: .mxl25641-hdk-6 testbed
   variables:
     COMPONENT: lcm
 
 cram OSPv2 [prplos]:
+  rules: [{ when: never }]
   needs: ["build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread"]
   extends: .mxl25641-hdk-6 testbed
   variables:
     COMPONENT: prplos
 
 cram Freedom [full]:
+  rules: [{ when: never }]
   needs: ["build test qca_ipq95xx prpl cellular security thread"]
   extends: .wnc-freedom testbed
   timeout: 94 minutes
@@ -605,24 +405,28 @@ cram Freedom [full]:
     COMPONENT: full
 
 cram Freedom [prplmesh]:
+  rules: [{ when: never }]
   needs: ["build test qca_ipq95xx prpl cellular security thread"]
   extends: .wnc-freedom testbed
   variables:
     COMPONENT: prplmesh
 
 cram Freedom [lcm]:
+  rules: [{ when: never }]
   needs: ["build test qca_ipq95xx prpl cellular security thread"]
   extends: .wnc-freedom testbed
   variables:
     COMPONENT: lcm
 
 cram Freedom [prplos]:
+  rules: [{ when: never }]
   needs: ["build test qca_ipq95xx prpl cellular security thread"]
   extends: .wnc-freedom testbed
   variables:
     COMPONENT: prplos
 
 cram Mozart [full]:
+  rules: [{ when: never }]
   needs:
     - job: build test mtk_filogic prpl security
       optional: true
@@ -632,6 +436,7 @@ cram Mozart [full]:
     COMPONENT: full
 
 cram Mozart [prplmesh]:
+  rules: [{ when: never }]
   needs:
     - job: build test mtk_filogic prpl security
       optional: true
@@ -640,6 +445,7 @@ cram Mozart [prplmesh]:
     COMPONENT: prplmesh
 
 cram Mozart [lcm]:
+  rules: [{ when: never }]
   needs:
     - job: build test mtk_filogic prpl security
       optional: true
@@ -648,6 +454,7 @@ cram Mozart [lcm]:
     COMPONENT: lcm
 
 cram Mozart [prplos]:
+  rules: [{ when: never }]
   needs:
     - job: build test mtk_filogic prpl security
       optional: true
@@ -656,6 +463,7 @@ cram Mozart [prplos]:
     COMPONENT: prplos
 
 cram Valyrian [full]:
+  rules: [{ when: never }]
   needs:
     - job: build test airoha_an7581 prpl security
       optional: true
@@ -665,6 +473,7 @@ cram Valyrian [full]:
     COMPONENT: full
 
 cram Valyrian [prplmesh]:
+  rules: [{ when: never }]
   needs:
     - job: build test airoha_an7581 prpl security
       optional: true
@@ -673,6 +482,7 @@ cram Valyrian [prplmesh]:
     COMPONENT: prplmesh
 
 cram Valyrian [lcm]:
+  rules: [{ when: never }]
   needs:
     - job: build test airoha_an7581 prpl security
       optional: true
@@ -681,6 +491,7 @@ cram Valyrian [lcm]:
     COMPONENT: lcm
 
 cram Valyrian [prplos]:
+  rules: [{ when: never }]
   needs:
     - job: build test airoha_an7581 prpl security
       optional: true
@@ -689,6 +500,7 @@ cram Valyrian [prplos]:
     COMPONENT: prplos
 
 cram QEMU x86-64 [full]:
+  rules: [{ when: never }]
   allow_failure: true
   timeout: 60 minutes
   needs: ["build test x86_64 prpl security"]
@@ -697,6 +509,7 @@ cram QEMU x86-64 [full]:
     COMPONENT: full
 
 cram QEMU x86-64 [smoke]:
+  rules: [{ when: never }]
   allow_failure: true
   timeout: 5 minutes
   needs: ["build test x86_64 prpl security"]
@@ -705,6 +518,7 @@ cram QEMU x86-64 [smoke]:
     COMPONENT: smoke
 
 cram QEMU x86-64 [prplmesh]:
+  rules: [{ when: never }]
   allow_failure: true
   timeout: 5 minutes
   needs: ["build test x86_64 prpl security"]
@@ -713,6 +527,7 @@ cram QEMU x86-64 [prplmesh]:
     COMPONENT: prplmesh
 
 cram QEMU x86-64 [lcm]:
+  rules: [{ when: never }]
   allow_failure: true
   timeout: 45 minutes
   needs: ["build test x86_64 prpl security"]
@@ -721,6 +536,7 @@ cram QEMU x86-64 [lcm]:
     COMPONENT: lcm
 
 cram QEMU x86-64 [prplos]:
+  rules: [{ when: never }]
   allow_failure: true
   timeout: 45 minutes
   needs: ["build test x86_64 prpl security"]

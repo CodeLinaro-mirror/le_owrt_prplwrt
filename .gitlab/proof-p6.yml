@@ -1,0 +1,421 @@
+.timeout-proof:
+  stage: run
+  image: "registry.gitlab.com/prpl-foundation/prplos/ci/containers/testbed/testbed:v1.7.0@sha256:91904f7814afffc7bf042a35b5c1038caf74de49d36ecc10f0e5f3d47ffcde04"
+  timeout: 20 minutes
+  needs: []
+  rules:
+    - when: manual
+      allow_failure: true
+
+.runner-cap-proof:
+  extends: .timeout-proof
+  script:
+    - date -u +%FT%TZ
+    - echo "Checking the runner after_script cap"
+  after_script:
+    - date -u +%FT%TZ > p6-after-start.txt
+    - |
+      for i in $(seq 1 40); do
+        date -u +%FT%TZ >> p6-ticks.txt
+        sleep 10
+      done
+    - date -u +%FT%TZ > p6-after-end.txt
+  artifacts:
+    when: always
+    expire_in: 1 week
+    paths:
+      - p6-*.txt
+
+.script-timeout-proof:
+  extends: .timeout-proof
+  before_script:
+    - |
+      for i in $(seq 1 90); do
+        date -u +%FT%TZ >> p6b-ticks.txt
+        sleep 10
+      done
+  script:
+    - date -u +%FT%TZ > p6b-script-ran.txt
+  after_script:
+    - date -u +%FT%TZ > p6b-after.txt
+  artifacts:
+    when: always
+    expire_in: 1 week
+    paths:
+      - p6b-*.txt
+
+p6-testbed-01:
+  extends: .runner-cap-proof
+  tags: [dut-turris-omnia]
+
+p6b-testbed-01:
+  extends: .script-timeout-proof
+  tags: [dut-turris-omnia]
+
+p6-testbed-02:
+  extends: .runner-cap-proof
+  tags: [dut-prpl-haze]
+
+p6b-testbed-02:
+  extends: .script-timeout-proof
+  tags: [dut-prpl-haze]
+
+commit-check:static:
+  rules: [{ when: never }]
+
+upload:
+  rules: [{ when: never }]
+
+release:
+  rules: [{ when: never }]
+
+EasyMesh-Smoke-test-R1-Freedom:
+  rules: [{ when: never }]
+
+CDRouter-Top-100+mDNS Haze initramfs:
+  rules: [{ when: never }]
+
+CDRouter-Top-100+mDNS Haze VLAN WAN/LAN initramfs:
+  rules: [{ when: never }]
+
+CDRouter-Top-100+mDNS Haze PPPoE WAN initramfs:
+  rules: [{ when: never }]
+
+CDRouter-Wireless Haze initramfs:
+  rules: [{ when: never }]
+
+CDRouter-UPnP-IPv46 Haze initramfs:
+  rules: [{ when: never }]
+
+CDRouter-UPnP-IPv46-Failing Haze initramfs:
+  rules: [{ when: never }]
+
+CDRouter-IPv6-Top-100+mDNS Haze initramfs:
+  rules: [{ when: never }]
+
+prpl-Certification Haze initramfs:
+  rules: [{ when: never }]
+
+CDRouter-IPv6-Top-100+mDNS Haze VLAN WAN/LAN initramfs:
+  rules: [{ when: never }]
+
+CDRouter-TR-069 Haze eMMC:
+  rules: [{ when: never }]
+
+CDRouter-USP-prpl Haze initramfs:
+  rules: [{ when: never }]
+
+prplWare-Smoke-Test-Suite Haze initramfs:
+  rules: [{ when: never }]
+
+prplOS-Network-Test-Plan-Mandatory-v1.2.0 Haze initramfs:
+  rules: [{ when: never }]
+
+prplOS-Network-Test-Plan-Candidate-v1.2.0 Haze initramfs:
+  rules: [{ when: never }]
+
+CDRouter-Top-100+mDNS Turris initramfs:
+  rules: [{ when: never }]
+
+CDRouter-Top-100+mDNS Turris VLAN WAN/LAN initramfs:
+  rules: [{ when: never }]
+
+CDRouter-Top-100+mDNS Turris PPPoE WAN initramfs:
+  rules: [{ when: never }]
+
+CDRouter-Wireless Turris initramfs:
+  rules: [{ when: never }]
+
+CDRouter-UPnP-IPv46 Turris initramfs:
+  rules: [{ when: never }]
+
+CDRouter-UPnP-IPv46-Failing Turris initramfs:
+  rules: [{ when: never }]
+
+CDRouter-IPv6-Top-100+mDNS Turris initramfs:
+  rules: [{ when: never }]
+
+prpl-Certification Turris initramfs:
+  rules: [{ when: never }]
+
+CDRouter-IPv6-Top-100+mDNS Turris VLAN WAN/LAN initramfs:
+  rules: [{ when: never }]
+
+CDRouter-TR-069 Turris eMMC:
+  rules: [{ when: never }]
+
+CDRouter-USP-prpl Turris initramfs:
+  rules: [{ when: never }]
+
+prplWare-Smoke-Test-Suite Turris initramfs:
+  rules: [{ when: never }]
+
+prplOS-Network-Test-Plan-Mandatory-v1.2.0 Turris initramfs:
+  rules: [{ when: never }]
+
+prplOS-Network-Test-Plan-Candidate-v1.2.0 Turris initramfs:
+  rules: [{ when: never }]
+
+CDRouter-Top-100+mDNS-OSP MXL25641-HDK-6 eMMC:
+  rules: [{ when: never }]
+
+CDRouter-Top-100+mDNS-OSP MXL25641-HDK-6 VLAN WAN/LAN eMMC:
+  rules: [{ when: never }]
+
+CDRouter-Top-100+mDNS-OSP MXL25641-HDK-6 PPPoE WAN eMMC:
+  rules: [{ when: never }]
+
+CDRouter-Wireless MXL25641-HDK-6 eMMC:
+  rules: [{ when: never }]
+
+CDRouter-UPnP-IPv46 MXL25641-HDK-6 eMMC:
+  rules: [{ when: never }]
+
+CDRouter-UPnP-IPv46-Failing MXL25641-HDK-6 eMMC:
+  rules: [{ when: never }]
+
+CDRouter-IPv6-Top-100+mDNS MXL25641-HDK-6 eMMC:
+  rules: [{ when: never }]
+
+prpl-Certification MXL25641-HDK-6 eMMC:
+  rules: [{ when: never }]
+
+CDRouter-IPv6-Top-100+mDNS MXL25641-HDK-6 VLAN WAN/LAN eMMC:
+  rules: [{ when: never }]
+
+CDRouter-TR-069 MXL25641-HDK-6 eMMC:
+  rules: [{ when: never }]
+
+CDRouter-USP-prpl MXL25641-HDK-6 eMMC:
+  rules: [{ when: never }]
+
+prplWare-Smoke-Test-Suite MXL25641-HDK-6 eMMC:
+  rules: [{ when: never }]
+
+prplOS-Network-Test-Plan-Mandatory-v1.2.0 MXL25641-HDK-6 eMMC:
+  rules: [{ when: never }]
+
+prplOS-Network-Test-Plan-Candidate-v1.2.0 MXL25641-HDK-6 eMMC:
+  rules: [{ when: never }]
+
+CDRouter-Top-100+mDNS Mozart initramfs:
+  rules: [{ when: never }]
+
+CDRouter-Top-100+mDNS Mozart VLAN WAN/LAN initramfs:
+  rules: [{ when: never }]
+
+CDRouter-Top-100+mDNS Mozart PPPoE WAN initramfs:
+  rules: [{ when: never }]
+
+CDRouter-Wireless Mozart initramfs:
+  rules: [{ when: never }]
+
+CDRouter-UPnP-IPv46 Mozart initramfs:
+  rules: [{ when: never }]
+
+CDRouter-UPnP-IPv46-Failing Mozart initramfs:
+  rules: [{ when: never }]
+
+CDRouter-IPv6-Top-100+mDNS Mozart initramfs:
+  rules: [{ when: never }]
+
+prpl-Certification Mozart initramfs:
+  rules: [{ when: never }]
+
+CDRouter-IPv6-Top-100+mDNS Mozart VLAN WAN/LAN initramfs:
+  rules: [{ when: never }]
+
+CDRouter-TR-069 Mozart eMMC:
+  rules: [{ when: never }]
+
+CDRouter-USP-prpl Mozart initramfs:
+  rules: [{ when: never }]
+
+prplWare-Smoke-Test-Suite Mozart initramfs:
+  rules: [{ when: never }]
+
+prplOS-Network-Test-Plan-Mandatory-v1.2.0 Mozart initramfs:
+  rules: [{ when: never }]
+
+prplOS-Network-Test-Plan-Candidate-v1.2.0 Mozart initramfs:
+  rules: [{ when: never }]
+
+CDRouter-Top-100+mDNS Freedom eMMC:
+  rules: [{ when: never }]
+
+CDRouter-Top-100+mDNS Freedom VLAN WAN/LAN eMMC:
+  rules: [{ when: never }]
+
+CDRouter-Top-100+mDNS Freedom PPPoE WAN eMMC:
+  rules: [{ when: never }]
+
+CDRouter-Wireless Freedom eMMC:
+  rules: [{ when: never }]
+
+CDRouter-UPnP-IPv46 Freedom eMMC:
+  rules: [{ when: never }]
+
+CDRouter-UPnP-IPv46-Failing Freedom eMMC:
+  rules: [{ when: never }]
+
+CDRouter-IPv6-Top-100+mDNS Freedom eMMC:
+  rules: [{ when: never }]
+
+prpl-Certification Freedom eMMC:
+  rules: [{ when: never }]
+
+CDRouter-IPv6-Top-100+mDNS Freedom VLAN WAN/LAN eMMC:
+  rules: [{ when: never }]
+
+CDRouter-TR-069 Freedom eMMC:
+  rules: [{ when: never }]
+
+CDRouter-USP-prpl Freedom eMMC:
+  rules: [{ when: never }]
+
+prplWare-Smoke-Test-Suite Freedom eMMC:
+  rules: [{ when: never }]
+
+prplOS-Network-Test-Plan-Mandatory-v1.2.0 Freedom eMMC:
+  rules: [{ when: never }]
+
+prplOS-Network-Test-Plan-Candidate-v1.2.0 Freedom eMMC:
+  rules: [{ when: never }]
+
+CDRouter-Top-100+mDNS Valyrian initramfs:
+  rules: [{ when: never }]
+
+CDRouter-Top-100+mDNS Valyrian VLAN WAN/LAN initramfs:
+  rules: [{ when: never }]
+
+CDRouter-Top-100+mDNS Valyrian PPPoE WAN initramfs:
+  rules: [{ when: never }]
+
+CDRouter-Wireless Valyrian initramfs:
+  rules: [{ when: never }]
+
+CDRouter-UPnP-IPv46 Valyrian initramfs:
+  rules: [{ when: never }]
+
+CDRouter-UPnP-IPv46-Failing Valyrian initramfs:
+  rules: [{ when: never }]
+
+CDRouter-IPv6-Top-100+mDNS Valyrian initramfs:
+  rules: [{ when: never }]
+
+prpl-Certification Valyrian initramfs:
+  rules: [{ when: never }]
+
+CDRouter-IPv6-Top-100+mDNS Valyrian VLAN WAN/LAN initramfs:
+  rules: [{ when: never }]
+
+CDRouter-TR-069 Valyrian eMMC:
+  rules: [{ when: never }]
+
+CDRouter-USP-prpl Valyrian initramfs:
+  rules: [{ when: never }]
+
+prplWare-Smoke-Test-Suite Valyrian initramfs:
+  rules: [{ when: never }]
+
+prplOS-Network-Test-Plan-Mandatory-v1.2.0 Valyrian initramfs:
+  rules: [{ when: never }]
+
+prplOS-Network-Test-Plan-Candidate-v1.2.0 Valyrian initramfs:
+  rules: [{ when: never }]
+
+build Docker image builder:
+  rules: [{ when: never }]
+
+test Docker image builder:
+  rules: [{ when: never }]
+
+deploy Docker image builder:
+  rules: [{ when: never }]
+
+build Docker image sdk-mvebu-cortexa9:
+  rules: [{ when: never }]
+
+test Docker image sdk-mvebu-cortexa9:
+  rules: [{ when: never }]
+
+deploy Docker image sdk-mvebu-cortexa9:
+  rules: [{ when: never }]
+
+build Docker image sdk-x86-64:
+  rules: [{ when: never }]
+
+test Docker image sdk-x86-64:
+  rules: [{ when: never }]
+
+deploy Docker image sdk-x86-64:
+  rules: [{ when: never }]
+
+build Docker image sdk-qualcommax-ipq807x:
+  rules: [{ when: never }]
+
+test Docker image sdk-qualcommax-ipq807x:
+  rules: [{ when: never }]
+
+deploy Docker image sdk-qualcommax-ipq807x:
+  rules: [{ when: never }]
+
+build Docker image sdk-qca_ipq95xx-generic:
+  rules: [{ when: never }]
+
+test Docker image sdk-qca_ipq95xx-generic:
+  rules: [{ when: never }]
+
+deploy Docker image sdk-qca_ipq95xx-generic:
+  rules: [{ when: never }]
+
+build Docker image ib-mvebu-cortexa9:
+  rules: [{ when: never }]
+
+test Docker image ib-mvebu-cortexa9:
+  rules: [{ when: never }]
+
+deploy Docker image ib-mvebu-cortexa9:
+  rules: [{ when: never }]
+
+build Docker image ib-x86-64:
+  rules: [{ when: never }]
+
+test Docker image ib-x86-64:
+  rules: [{ when: never }]
+
+deploy Docker image ib-x86-64:
+  rules: [{ when: never }]
+
+build Docker image ib-qualcommax-ipq807x:
+  rules: [{ when: never }]
+
+test Docker image ib-qualcommax-ipq807x:
+  rules: [{ when: never }]
+
+deploy Docker image ib-qualcommax-ipq807x:
+  rules: [{ when: never }]
+
+build lcm-test-mvebu-cortexa9:
+  rules: [{ when: never }]
+
+deploy lcm-test-mvebu-cortexa9:
+  rules: [{ when: never }]
+
+build lcm-test-qualcommax-ipq807x:
+  rules: [{ when: never }]
+
+deploy lcm-test-qualcommax-ipq807x:
+  rules: [{ when: never }]
+
+build lcm-test-x86-64:
+  rules: [{ when: never }]
+
+test lcm-test-x86-64:
+  rules: [{ when: never }]
+
+deploy lcm-test-x86-64:
+  rules: [{ when: never }]
+
+lint cram component manifest:
+  rules: [{ when: never }]
