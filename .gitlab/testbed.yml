@@ -110,8 +110,15 @@
         log_error "Post suite requires a positive timeout."
         exit 1
       fi
-      run_check \
-        timeout --kill-after=10 "$CRAM_POST_TIMEOUT" \
+      run_post_suite() {
+        local start rc=0
+        start=$(date +%s)
+        timeout --kill-after=10 "$CRAM_POST_TIMEOUT" "$@" || rc=$?
+        printf 'teardown-step name=cram-post-suite dur=%s rc=%s cap=%s\n' \
+          "$(( $(date +%s) - start ))" "$rc" "$CRAM_POST_TIMEOUT"
+        return "$rc"
+      }
+      run_check run_post_suite \
         python3 -m cram --xunit-file=cram-result-post-$LABGRID_TARGET.xunit.xml --verbose $CRAM_TEST_SUITE_POST | tee --append cram-result-$LABGRID_TARGET.txt
       run_check ssh root@$TARGET_LAN_IP 'logger -t CI -p local0.info "Testing finished, $(uptime -p)"'
 

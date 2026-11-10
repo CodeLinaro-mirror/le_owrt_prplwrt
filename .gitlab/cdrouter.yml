@@ -143,8 +143,11 @@
         log_error "Crash check requires a positive timeout."
         exit 1
       fi
+      CRAM_CRASH_CHECK_START=$(date +%s)
       timeout --kill-after=10 "$CRAM_CRASH_CHECK_TIMEOUT" \
         python3 -m cram --verbose .gitlab/tests/cram/post/generic/50-check-for-crashes.t || cram_exit_code=$?
+      printf 'teardown-step name=cram-crash-check dur=%s rc=%s cap=%s\n' \
+        "$(( $(date +%s) - CRAM_CRASH_CHECK_START ))" "${cram_exit_code:-0}" "$CRAM_CRASH_CHECK_TIMEOUT"
     - ssh root@$TARGET_LAN_IP 'logger -t CI -p local0.info "Testing finished, $(uptime -p)"' || true
 
     - >
