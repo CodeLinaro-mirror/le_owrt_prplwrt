@@ -81,34 +81,74 @@
         export TB_CONFIG=".testbed/labgrid/testbed-04.yaml"
       fi
 
-    - >
-      ssh -o BatchMode=yes -o StrictHostKeyChecking=no -o ConnectTimeout=15 root@$TARGET_LAN_IP 'exit 0' || {
-        .gitlab/scripts/testbed-device.py --target $LABGRID_TARGET console_dump_system_state
-        .gitlab/scripts/testbed-device.py --target $LABGRID_TARGET console_recover_ssh_access
-      } || true
+    - |
+      if [ -n "${TEARDOWN_DEADLINE:-}" ]; then
+        teardown_bounded recover-ssh 45 bash -c '
+          ssh -o BatchMode=yes -o StrictHostKeyChecking=no -o ConnectTimeout=15 root@"$TARGET_LAN_IP" "exit 0" || {
+            .gitlab/scripts/testbed-device.py --target "$LABGRID_TARGET" console_dump_system_state
+            .gitlab/scripts/testbed-device.py --target "$LABGRID_TARGET" console_recover_ssh_access
+          }
+        ' || true
+      else
+        ssh -o BatchMode=yes -o StrictHostKeyChecking=no -o ConnectTimeout=15 root@$TARGET_LAN_IP 'exit 0' || {
+          .gitlab/scripts/testbed-device.py --target $LABGRID_TARGET console_dump_system_state
+          .gitlab/scripts/testbed-device.py --target $LABGRID_TARGET console_recover_ssh_access
+        } || true
+      fi
 
-    - ssh-keyscan $TARGET_LAN_IP >> ~/.ssh/known_hosts 2> /dev/null
+    - |
+      if [ -n "${TEARDOWN_DEADLINE:-}" ]; then
+        teardown_bounded ssh-keyscan 10 bash -c 'ssh-keyscan "$TARGET_LAN_IP" >> ~/.ssh/known_hosts 2> /dev/null' || true
+      else
+        ssh-keyscan $TARGET_LAN_IP >> ~/.ssh/known_hosts 2> /dev/null
+      fi
 
 .dut-lifecycle.collect-logs:
   script:
     - .gitlab/scripts/memory-footprint.sh final || true
-    - >
-      ssh root@$TARGET_LAN_IP exit && {
-        ssh root@$TARGET_LAN_IP ps > processes-$LABGRID_TARGET.txt
-        ssh root@$TARGET_LAN_IP dmesg > dmesg-$LABGRID_TARGET.txt
-        ssh root@$TARGET_LAN_IP "cat /var/log/messages" > syslog-$LABGRID_TARGET.txt
-        ssh root@$TARGET_LAN_IP opkg list > opkg_list-$LABGRID_TARGET.txt
-        script --quiet --command "ssh -t root@$TARGET_LAN_IP /bin/getDebugInformation --all"
-        scp -O -r root@${TARGET_LAN_IP}:/tmp/debug-*_all.tar.gz . > /dev/null
-        scp -O -r root@${TARGET_LAN_IP}:/etc etc > /dev/null
-        scp -O -r root@${TARGET_LAN_IP}:/var/log/prplmesh prplmesh_beerocks_logs > /dev/null
-      } || true
+    - |
+      if [ -n "${TEARDOWN_DEADLINE:-}" ]; then
+        if teardown_dut_alive; then
+          teardown_bounded ps 30 bash -c 'exec ssh root@"$TARGET_LAN_IP" ps > "processes-$LABGRID_TARGET.txt"' || true
+          teardown_bounded dmesg 30 bash -c 'exec ssh root@"$TARGET_LAN_IP" dmesg > "dmesg-$LABGRID_TARGET.txt"' || true
+          teardown_bounded syslog 30 bash -c 'exec ssh root@"$TARGET_LAN_IP" "cat /var/log/messages" > "syslog-$LABGRID_TARGET.txt"' || true
+          teardown_bounded opkg 30 bash -c 'exec ssh root@"$TARGET_LAN_IP" opkg list > "opkg_list-$LABGRID_TARGET.txt"' || true
+          teardown_bounded debug 60 script --quiet --command "ssh -t root@$TARGET_LAN_IP /bin/getDebugInformation --all" || true
+          teardown_bounded debug-scp 20 scp -O -r "root@${TARGET_LAN_IP}:/tmp/debug-*_all.tar.gz" . || true
+          teardown_bounded etc-scp 20 scp -O -r "root@${TARGET_LAN_IP}:/etc" etc || true
+          teardown_bounded prplmesh-scp 20 scp -O -r "root@${TARGET_LAN_IP}:/var/log/prplmesh" prplmesh_beerocks_logs || true
+        fi
+      else
+        ssh root@$TARGET_LAN_IP exit && {
+          ssh root@$TARGET_LAN_IP ps > processes-$LABGRID_TARGET.txt
+          ssh root@$TARGET_LAN_IP dmesg > dmesg-$LABGRID_TARGET.txt
+          ssh root@$TARGET_LAN_IP "cat /var/log/messages" > syslog-$LABGRID_TARGET.txt
+          ssh root@$TARGET_LAN_IP opkg list > opkg_list-$LABGRID_TARGET.txt
+          script --quiet --command "ssh -t root@$TARGET_LAN_IP /bin/getDebugInformation --all"
+          scp -O -r root@${TARGET_LAN_IP}:/tmp/debug-*_all.tar.gz . > /dev/null
+          scp -O -r root@${TARGET_LAN_IP}:/etc etc > /dev/null
+          scp -O -r root@${TARGET_LAN_IP}:/var/log/prplmesh prplmesh_beerocks_logs > /dev/null
+        } || true
+      fi
 
-    - .gitlab/scripts/testbed-device.py --target $LABGRID_TARGET power off
+    - |
+      if [ -n "${TEARDOWN_DEADLINE:-}" ]; then
+        bounded power-off 20 .gitlab/scripts/testbed-device.py --target "$LABGRID_TARGET" power off || true
+      else
+        .gitlab/scripts/testbed-device.py --target $LABGRID_TARGET power off
+      fi
 
 .dut-lifecycle.extract-debug:
   script:
-    - tar xzf debug-*_all.tar.gz || true
-    - mv debug-*.txt debug-information-$LABGRID_TARGET.txt || true
-    - ( [ $(tar -tf coredumps_all.tar.gz | wc -l) -eq 0 ] && rm coredumps_all.tar.gz || true ) 2>/dev/null
-    - mv coredumps_all.tar.gz coredumps-$LABGRID_TARGET.tar.gz 2> /dev/null || true
+    - |
+      if [ -n "${TEARDOWN_DEADLINE:-}" ]; then
+        teardown_bounded debug-extract 20 tar xzf debug-*_all.tar.gz || true
+        teardown_bounded debug-rename 20 mv debug-*.txt "debug-information-$LABGRID_TARGET.txt" || true
+        teardown_bounded coredumps-empty 20 bash -c '[ "$(tar -tf coredumps_all.tar.gz | wc -l)" -eq 0 ] && rm coredumps_all.tar.gz' || true
+        teardown_bounded coredumps-rename 20 mv coredumps_all.tar.gz "coredumps-$LABGRID_TARGET.tar.gz" || true
+      else
+        tar xzf debug-*_all.tar.gz || true
+        mv debug-*.txt debug-information-$LABGRID_TARGET.txt || true
+        ( [ $(tar -tf coredumps_all.tar.gz | wc -l) -eq 0 ] && rm coredumps_all.tar.gz || true ) 2>/dev/null
+        mv coredumps_all.tar.gz coredumps-$LABGRID_TARGET.tar.gz 2> /dev/null || true
+      fi

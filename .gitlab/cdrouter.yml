@@ -143,23 +143,26 @@
       fi
 
   after_script:
-    - >
-      test -f *-logdir.tgz &&
-      mkdir -p cdrouter-results &&
-      tar xf *-logdir.tgz --strip-components=1 --directory=cdrouter-results &&
-      (cdrouter-ci report cdrouter-results/ ||
-       echo "CDRouter report failed; continuing cleanup.")
+    - source .gitlab/scripts/helpers.sh
+    - teardown_init
+    - |
+      teardown_bounded report 20 bash -c '
+        test -f *-logdir.tgz &&
+        mkdir -p cdrouter-results &&
+        tar xf *-logdir.tgz --strip-components=1 --directory=cdrouter-results &&
+        cdrouter-ci report cdrouter-results/
+      ' || echo "CDRouter report failed or skipped; continuing cleanup."
 
     - !reference [.dut-lifecycle.recover-ssh, script]
     - !reference [.dut-lifecycle.collect-logs, script]
-    - mv console_$LABGRID_TARGET console_$LABGRID_TARGET.txt || true
+    - teardown_bounded console-rename 20 mv "console_$LABGRID_TARGET" "console_$LABGRID_TARGET.txt" || true
     - !reference [.dut-lifecycle.extract-debug, script]
 
     - >
       if echo "$CI_RUNNER_DESCRIPTION" | grep -q testbed-02; then
         export CDROUTER_API_TOKEN="$CDROUTER_API_TOKEN_TESTBED_02"
       fi
-    - .gitlab/scripts/testbed-cdrouter.py package_stop
+    - bounded package-stop 20 .gitlab/scripts/testbed-cdrouter.py package_stop || true
 
   artifacts:
     expire_in: 1 month
