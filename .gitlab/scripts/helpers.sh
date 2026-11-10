@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# after_script runs in a new shell and must source .gitlab/scripts/helpers.sh.
+
 log_error() { echo -e "\e[91m❌ ERROR: $*\e[0m"; }
 log_success() { echo -e "\e[92m✅ $*\e[0m"; }
 log_info() { echo -e "\e[93m💡 $*\e[0m"; }
@@ -55,4 +57,51 @@ section_end() {
 	local section_title="${1}"
 
 	echo -e "section_end:$(date +%s):${section_title}\r\e[0K"
+}
+
+# bounded - Run an external command with a time cap and log its duration
+#
+# Opens a log section, stops the command at the cap, and sends KILL after a
+# further five seconds if needed. Logs the duration in seconds and exit code,
+# warns on timeout, and returns the command status without changing shell options.
+# Shell functions and builtins are refused with exit code 126.
+#
+# Parameters:
+#   $1 - step: Unique name for the teardown step (required)
+#   $2 - cap: Time limit in seconds (required)
+#   $3... - command: External command and its arguments (required)
+#
+# Usage:
+#   bounded report 20 ./collect-report.sh
+#   bounded logs 30 ssh root@"$TARGET_LAN_IP" dmesg
+#
+bounded() {
+	local step="${1}"
+	local cap="${2}"
+	local start rc
+	shift 2
+
+	section_start "teardown-${step}" "Teardown: ${step}"
+	start=$(date +%s)
+
+	case "$(type -t "$1")" in
+		function|builtin)
+			log_error "bounded requires an external command: $1"
+			rc=126
+			;;
+		*)
+			if timeout --kill-after=5 "$cap" "$@"; then
+				rc=0
+			else
+				rc=$?
+			fi
+			;;
+	esac
+
+	printf 'teardown-step name=%s dur=%s rc=%s\n' "$step" "$(( $(date +%s) - start ))" "$rc"
+	if [ "$rc" -eq 124 ] || [ "$rc" -eq 137 ]; then
+		echo "WARNING: step ${step} exceeded ${cap} s and was stopped"
+	fi
+	section_end "teardown-${step}"
+	return "$rc"
 }
