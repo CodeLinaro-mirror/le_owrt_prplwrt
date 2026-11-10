@@ -91,6 +91,7 @@ packages:
   - tr181-upnpdiscovery
   - tr181-usb
   - tr181-xpon
+  - tr181-zram
   - wan-manager
   - wifi-scheduler
 

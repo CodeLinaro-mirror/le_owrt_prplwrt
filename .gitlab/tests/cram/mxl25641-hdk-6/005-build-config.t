@@ -476,6 +476,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-wireguard=y
   CONFIG_PACKAGE_kmod-wwan=y
   CONFIG_PACKAGE_kmod-xfrm-interface=y
+  CONFIG_PACKAGE_kmod-zram=y
   CONFIG_PACKAGE_lib-cli=y
   CONFIG_PACKAGE_libacl=y
   CONFIG_PACKAGE_libaio=y
@@ -963,6 +964,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_tr181-usermanagement=y
   CONFIG_PACKAGE_tr181-wireguard=y
   CONFIG_PACKAGE_tr181-xpon=y
+  CONFIG_PACKAGE_tr181-zram=y
   CONFIG_PACKAGE_uboot-envtools=y
   CONFIG_PACKAGE_uboot-octopus-urx641-4GB-ddr-overlay-fit-p34x-phy-emmc-prpl=y
   CONFIG_PACKAGE_uboot-octopus-urx641-overlay-fit-p34x-phy-emmc-prpl=y
@@ -1304,6 +1306,8 @@ Assure expected build configuration (PCF-1413):
   CONFIG_SAH_AMX_TR181_XPON_ORDER=30
   CONFIG_SAH_AMX_TR181_XPON_RUN_AS_GROUP="tr181_app"
   CONFIG_SAH_AMX_TR181_XPON_RUN_AS_USER="tr181_app"
+  CONFIG_SAH_AMX_TR181_ZRAM=y
+  CONFIG_SAH_AMX_TR181_ZRAM_ORDER=13
   CONFIG_SAH_AMX_USERMANAGEMENT=y
   CONFIG_SAH_AMX_USERMANAGEMENT_ORDER=15
   CONFIG_SAH_AMX_USERMANAGEMENT_RUN_AS_GROUP="tr181_app"
@@ -1465,5 +1469,6 @@ Assure expected build configuration (PCF-1413):
   CONFIG_WAVE_700=y
   CONFIG_WIRELESS_AFC=y
   CONFIG_WIRELESS_STA=y
+  CONFIG_ZRAM_DEF_COMP_LZORLE=y
   CONFIG_shadow-all=y
   # CONFIG_VERSION_FILENAMES is not set

@@ -103,6 +103,7 @@ Check that ubus has expected datamodels available:
   Device.DeviceInfo.PowerStatus
   Device.DeviceInfo.ProcessFaults
   Device.DeviceInfo.Reboots
+  Device.DeviceInfo.Swap
   Device.DeviceInfo.TemperatureStatus
   Device.DynamicDNS
   Device.Ethernet
@@ -395,6 +396,9 @@ Check that ubus has expected datamodels available:
   SoftwareModules.LocalManagement.Action
   SoftwareModules.NetworkConfig
   SoftwareModules.NetworkConfig.Interfaces
+  Swap
+  Swap.Area
+  Swap.ZRAM
   Syslog
   Syslog.Action
   Syslog.Filter

@@ -193,6 +193,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-sched-prio=y
   CONFIG_PACKAGE_kmod-slhc=y
   CONFIG_PACKAGE_kmod-veth=y
+  CONFIG_PACKAGE_kmod-zram=y
   CONFIG_PACKAGE_libacl=y
   CONFIG_PACKAGE_libamxa=y
   CONFIG_PACKAGE_libamxb=y
@@ -526,6 +527,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_tr181-usb=y
   CONFIG_PACKAGE_tr181-usermanagement=y
   CONFIG_PACKAGE_tr181-xpon=y
+  CONFIG_PACKAGE_tr181-zram=y
   CONFIG_PACKAGE_ucode-mod-uloop=y
   CONFIG_PACKAGE_umdns-prpl=y
   CONFIG_PACKAGE_unbound-daemon-prpl=y
@@ -830,6 +832,8 @@ Assure expected build configuration (PCF-1413):
   CONFIG_SAH_AMX_TR181_XPON_ORDER=30
   CONFIG_SAH_AMX_TR181_XPON_RUN_AS_GROUP="tr181_app"
   CONFIG_SAH_AMX_TR181_XPON_RUN_AS_USER="tr181_app"
+  CONFIG_SAH_AMX_TR181_ZRAM=y
+  CONFIG_SAH_AMX_TR181_ZRAM_ORDER=13
   CONFIG_SAH_AMX_USERMANAGEMENT=y
   CONFIG_SAH_AMX_USERMANAGEMENT_ORDER=15
   CONFIG_SAH_AMX_USERMANAGEMENT_RUN_AS_GROUP="tr181_app"
@@ -961,5 +965,6 @@ Assure expected build configuration (PCF-1413):
   CONFIG_VERSION_PRODUCT=""
   CONFIG_VERSION_REPO="https://downloads.openwrt.org/releases/24.10-SNAPSHOT"
   CONFIG_VERSION_SUPPORT_URL="https://jira.prplfoundation.org"
+  CONFIG_ZRAM_DEF_COMP_LZORLE=y
   CONFIG_shadow-all=y
   # CONFIG_VERSION_FILENAMES is not set

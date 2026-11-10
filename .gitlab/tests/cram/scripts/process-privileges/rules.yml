@@ -394,6 +394,9 @@
   - cmd: tr181-xpon
     id: tr181_app:tr181_app
     caps: dac_override,net_admin,sys_module
+  - cmd: tr181-zram
+    id: root:root
+    caps: full
   - cmd: ubusd
     id: ubus:ubus
     caps: none
