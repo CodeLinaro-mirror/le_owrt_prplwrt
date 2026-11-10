@@ -61,10 +61,10 @@
 
     # stop a package left running by a canceled job before the DUT boots,
     # otherwise its DHCP server hands the DUT a WAN lease which outlives it
-    - pretest_bounded cdrouter-connectivity 300 .gitlab/scripts/testbed-cdrouter.py check_connectivity --timeout 300
+    - pretest_bounded cdrouter-connectivity 450 .gitlab/scripts/testbed-cdrouter.py check_connectivity --timeout 300
     - pretest_bounded package-stop 60 .gitlab/scripts/testbed-cdrouter.py package_stop
-    - pretest_bounded cdrouter-lan 60 .gitlab/scripts/testbed-cdrouter.py wait_for_netif $CDROUTER_LAN_INTERFACE
-    - pretest_bounded cdrouter-wan 60 .gitlab/scripts/testbed-cdrouter.py wait_for_netif $CDROUTER_WAN_INTERFACE
+    - pretest_bounded cdrouter-lan 120 .gitlab/scripts/testbed-cdrouter.py wait_for_netif $CDROUTER_LAN_INTERFACE
+    - pretest_bounded cdrouter-wan 120 .gitlab/scripts/testbed-cdrouter.py wait_for_netif $CDROUTER_WAN_INTERFACE
 
     - !reference [.dut-lifecycle.setup, script]
 

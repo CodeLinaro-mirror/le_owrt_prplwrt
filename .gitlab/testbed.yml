@@ -45,7 +45,7 @@
 
     - |
       if [ "${TESTBED_CDROUTER_ENABLED:-1}" = "1" ]; then
-        pretest_bounded cdrouter-connectivity 30 .gitlab/scripts/testbed-cdrouter.py check_connectivity
+        pretest_bounded cdrouter-connectivity 90 .gitlab/scripts/testbed-cdrouter.py check_connectivity
         pretest_bounded package-stop 65 .gitlab/scripts/testbed-cdrouter.py package_stop
       fi
 
