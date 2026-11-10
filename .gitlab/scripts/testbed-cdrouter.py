@@ -331,10 +331,15 @@ class TestbedCDRouter:
         self.connect()
         self.job_launch()
         success = self.job_execute()
-        self.job_result()
-
-        if not success:
-            exit(124)
+        try:
+            self.job_result()
+        except SystemExit:
+            if not success:
+                logging.error(
+                    "test cutoff reached after {} s".format(self.args.timeout)
+                )
+                exit(86)
+            raise
 
     def netif_available(self, name):
         for netif in self.cdr.system.interfaces():
