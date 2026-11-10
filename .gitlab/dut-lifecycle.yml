@@ -65,7 +65,7 @@
     - ssh root@$TARGET_LAN_IP 'logger -t CI -p local0.info "System accessible over SSH, $(uptime -p)"' || true
     - ssh root@$TARGET_LAN_IP "cat /var/log/messages" > syslog-$LABGRID_TARGET.txt 2> /dev/null || true
     - ssh root@$TARGET_LAN_IP "ubus call system board" | tee system-$LABGRID_TARGET.json
-    - .gitlab/scripts/memory-footprint.sh boot || true
+    - bounded memory-footprint 40 .gitlab/scripts/memory-footprint.sh boot || true
 
 .dut-lifecycle.recover-ssh:
   script:
@@ -105,7 +105,6 @@
 
 .dut-lifecycle.collect-logs:
   script:
-    - .gitlab/scripts/memory-footprint.sh final || true
     - |
       if [ -n "${TEARDOWN_DEADLINE:-}" ]; then
         if teardown_dut_alive; then
@@ -115,6 +114,7 @@
           teardown_bounded opkg 30 bash -c 'exec ssh root@"$TARGET_LAN_IP" opkg list > "opkg_list-$LABGRID_TARGET.txt"' || true
           teardown_bounded debug 60 script --quiet --command "ssh -t root@$TARGET_LAN_IP /bin/getDebugInformation --all" || true
           teardown_bounded debug-scp 20 scp -O -r "root@${TARGET_LAN_IP}:/tmp/debug-*_all.tar.gz" . || true
+          teardown_bounded memory-footprint 40 .gitlab/scripts/memory-footprint.sh final || true
           teardown_bounded etc-scp 20 scp -O -r "root@${TARGET_LAN_IP}:/etc" etc || true
           teardown_bounded prplmesh-scp 20 scp -O -r "root@${TARGET_LAN_IP}:/var/log/prplmesh" prplmesh_beerocks_logs || true
         fi
@@ -126,6 +126,7 @@
           ssh root@$TARGET_LAN_IP opkg list > opkg_list-$LABGRID_TARGET.txt
           script --quiet --command "ssh -t root@$TARGET_LAN_IP /bin/getDebugInformation --all"
           scp -O -r root@${TARGET_LAN_IP}:/tmp/debug-*_all.tar.gz . > /dev/null
+          bounded memory-footprint 40 .gitlab/scripts/memory-footprint.sh final || true
           scp -O -r root@${TARGET_LAN_IP}:/etc etc > /dev/null
           scp -O -r root@${TARGET_LAN_IP}:/var/log/prplmesh prplmesh_beerocks_logs > /dev/null
         } || true
