@@ -178,6 +178,7 @@ prplWare-Smoke-Test-Suite Freedom eMMC:
 
 prplOS-Network-Test-Plan-Mandatory-v1.2.0 Freedom eMMC:
   <<: *wnc_freedom_certification
+  timeout: 126 minutes
 
 prplOS-Network-Test-Plan-Candidate-v1.2.0 Freedom eMMC:
   <<: *wnc_freedom_certification
