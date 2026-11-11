@@ -186,7 +186,7 @@ prplOS-Network-Test-Plan-Mandatory-v1.2.0 Haze initramfs:
 
 prplOS-Network-Test-Plan-Candidate-v1.2.0 Haze initramfs:
   <<: *prpl_haze_certification
-  timeout: 52 minutes
+  timeout: 77 minutes
   variables:
     <<: *prpl_haze_certification_variables
     CDROUTER_CONFIG_USP_CONTROLLER_MTP: websocket

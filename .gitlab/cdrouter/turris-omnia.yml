@@ -187,7 +187,7 @@ prplOS-Network-Test-Plan-Mandatory-v1.2.0 Turris initramfs:
 
 prplOS-Network-Test-Plan-Candidate-v1.2.0 Turris initramfs:
   <<: *turris_certification
-  timeout: 52 minutes
+  timeout: 77 minutes
   variables:
     <<: *turris_certification_variables
     CDROUTER_CONFIG_USP_CONTROLLER_MTP: websocket

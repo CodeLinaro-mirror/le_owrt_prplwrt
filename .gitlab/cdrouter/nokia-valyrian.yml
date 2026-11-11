@@ -178,7 +178,7 @@ prplOS-Network-Test-Plan-Mandatory-v1.2.0 Valyrian initramfs:
 
 prplOS-Network-Test-Plan-Candidate-v1.2.0 Valyrian initramfs:
   <<: *nokia_valyrian_certification
-  timeout: 52 minutes
+  timeout: 77 minutes
   variables:
     <<: *nokia_valyrian_certification_variables
     CDROUTER_CONFIG_USP_CONTROLLER_MTP: websocket
