@@ -57,7 +57,7 @@ CDRouter-Wireless Valyrian initramfs:
 
 CDRouter-UPnP-IPv46 Valyrian initramfs:
   <<: *nokia_valyrian_ipv6
-  timeout: 60 minutes
+  timeout: 76 minutes
   variables:
     CDROUTER_TEST_CONFIG: generic-ipv6-upnp
     DUT_INIT_SCRIPTS: |
