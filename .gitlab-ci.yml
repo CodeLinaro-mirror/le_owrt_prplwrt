@@ -611,6 +611,7 @@ cram Freedom [prplmesh]:
     COMPONENT: prplmesh
 
 cram Freedom [lcm]:
+  timeout: 53 minutes
   needs: ["build test qca_ipq95xx prpl cellular security thread"]
   extends: .wnc-freedom testbed
   variables:
