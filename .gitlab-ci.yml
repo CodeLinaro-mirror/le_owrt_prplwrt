@@ -732,7 +732,7 @@ cram QEMU x86-64 [prplmesh]:
 
 cram QEMU x86-64 [lcm]:
   allow_failure: true
-  timeout: 45 minutes
+  timeout: 39 minutes
   needs: ["build test x86_64 prpl security"]
   extends: .qemu-x86-64 testbed
   variables:
