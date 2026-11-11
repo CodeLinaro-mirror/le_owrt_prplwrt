@@ -87,6 +87,7 @@ CDRouter-UPnP-IPv46-Failing MXL25641-HDK-6 eMMC:
 
 CDRouter-IPv6-Top-100+mDNS MXL25641-HDK-6 eMMC:
   <<: *mxl25641_cdrouter_ipv6
+  timeout: 37 minutes
   variables:
     CDROUTER_TEST_CONFIG: generic-ipv6
     DUT_INIT_SCRIPTS: |
