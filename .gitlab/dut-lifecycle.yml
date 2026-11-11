@@ -13,6 +13,24 @@
     - chmod 700 ~/.ssh
 
     - |
+      if [ -n "${PREBUILT_FIRMWARE_JOB_ID:-}" ] && [ "${PREBUILT_CRAM_ARTIFACTS:-}" = "1" ]; then
+        echo "Fetching prebuilt cram artifacts from job $PREBUILT_FIRMWARE_JOB_ID"
+        prebuilt_archive=$(mktemp "$CI_PROJECT_DIR/.prebuilt-cram-artifacts.XXXXXX.zip") || exit 1
+        if ! curl -fsSL --max-time 600 --header "JOB-TOKEN: $CI_JOB_TOKEN" \
+          -o "$prebuilt_archive" \
+          "$CI_API_V4_URL/projects/$CI_PROJECT_ID/jobs/$PREBUILT_FIRMWARE_JOB_ID/artifacts"; then
+          rm -f "$prebuilt_archive"
+          exit 1
+        fi
+        if ! python3 -m zipfile -e "$prebuilt_archive" "$CI_PROJECT_DIR"; then
+          rm -f "$prebuilt_archive"
+          exit 1
+        fi
+        rm -f "$prebuilt_archive" || exit 1
+        echo "Finished extracting prebuilt cram artifacts from job $PREBUILT_FIRMWARE_JOB_ID"
+      fi
+
+    - |
       if [ -n "${PREBUILT_FIRMWARE_JOB_ID:-}" ]; then
         mkdir -p "$TFTP_IMAGE_PATH"
         for f in ${TFTP_IMAGE_FILENAMES:-$TFTP_IMAGE_FILENAME}; do
