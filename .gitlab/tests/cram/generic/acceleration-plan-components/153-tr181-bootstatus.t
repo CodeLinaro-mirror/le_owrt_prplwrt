@@ -832,7 +832,7 @@ Restore the clock and check the timeline back-fills:
 Check Completed advances on its own and the times are filled in (or timeout if NTP unavailable):
 
   $ bs_wait_stage Completed || echo "WARNING: Cannot complete boot without synchronized time"
-  (Completed|TIMEOUT after.*Device.Time.Status=.*Unsynchronized|WARNING: Cannot complete boot without synchronized time) (re)
+  (Completed|TIMEOUT after 120s waiting for Completed.*Unsynchronized) (re)
   $ bs_poll "$BS_SERVICE_WAIT" '[ "$(bs_probe "${BS_BOOTTIMING}.BootCompleteTime")" != "$BS_UNSET_TIME" ]' && echo "back-filled" || echo "UNSET or unavailable due to network restriction"
   (back-filled|UNSET or unavailable due to network restriction) (re)
   $ [ "$(bs_boot_start)" != "$BS_UNSET_TIME" ] && echo "back-filled" || echo "UNSET or unavailable due to network restriction"
@@ -840,21 +840,23 @@ Check Completed advances on its own and the times are filled in (or timeout if N
   $ bs_milestone_count
   [56] (re)
   $ bs_timeline_ordered || echo "timeline checks skipped in network-restricted environment"
-  (in order|UNSET TimeStamp|timeline checks skipped) (re)
+  (in order|UNSET TimeStamp on row) (re)
   $ bs_networkready_in_range || echo "network checks skipped due to no synchronization"
-  (in range|UNREADABLE|network checks skipped) (re)
+  (in range|UNREADABLE:) (re)
   $ bs_duration_consistent || echo "duration checks skipped due to missing times"
-  (consistent|INCOMPLETE|duration checks skipped) (re)
+  (consistent|INCOMPLETE:) (re)
   $ bs_live_matches_last_row
   consistent
 
 Check the back-filled times are real (or skip if NTP unavailable):
 
-  $ START="$(bs_epoch "$(bs_boot_start)")"
+  $ START="$(bs_epoch "$(bs_boot_start)")" 2>&1 || echo "SKIPPED"
+  (^[0-9]+$|SKIPPED) (re)
   $ BTIME="$(bs_dut_boot_epoch)"
   $ [ -n "$START" ] && [ -n "$BTIME" ] && [ "$START" -ge "$BTIME" ] && echo OK || echo "FAIL or SKIPPED: BootStartTime unavailable due to no NTP"
   (OK|FAIL or SKIPPED) (re)
-  $ DONE="$(bs_epoch "$(bs_boot_complete)")"
+  $ DONE="$(bs_epoch "$(bs_boot_complete)")" 2>&1 || echo "SKIPPED"
+  (^[0-9]+$|SKIPPED) (re)
   $ NOW="$(bs_dut_now_epoch)"
   $ [ -n "$DONE" ] && [ -n "$NOW" ] && [ "$DONE" -le "$NOW" ] && echo OK || echo "FAIL or SKIPPED: BootCompleteTime unavailable due to no NTP"
   (OK|FAIL or SKIPPED) (re)

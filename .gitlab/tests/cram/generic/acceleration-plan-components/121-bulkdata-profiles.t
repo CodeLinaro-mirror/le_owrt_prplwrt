@@ -102,7 +102,7 @@ Check after enabling the configured profile:
 Check traces:
 
   $ check_bulkdata_success "$log_start" 40 "HTTP request sent successfully for profile 'BulkData.Profile.http-json'" || echo "SKIPPED: HTTP profile test requires external connectivity"
-  (Test Successful|SKIPPED: HTTP profile test requires external connectivity) (re)
+  (Test Successful|.*curl transfer failed[\s\S]*SKIPPED: HTTP profile test requires external connectivity) (re)
 
 2-HTTP Profile to send CSV report
 Check adding an object with HTTP profile to send CSV report:
@@ -153,7 +153,7 @@ Check after enabling the configured profile:
 Check traces:
 
   $ check_bulkdata_success "$log_start" 40 "HTTP request sent successfully for profile 'BulkData.Profile.http-csv'" || echo "SKIPPED: HTTP profile test requires external connectivity"
-  (Test Successful|SKIPPED: HTTP profile test requires external connectivity) (re)
+  (Test Successful|.*curl transfer failed[\s\S]*SKIPPED: HTTP profile test requires external connectivity) (re)
 
 3-USP event notification profile
 Check adding an object with USP event notification profile:
