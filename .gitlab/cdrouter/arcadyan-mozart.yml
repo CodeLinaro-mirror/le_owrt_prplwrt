@@ -147,6 +147,7 @@ CDRouter-USP-prpl Mozart initramfs:
 
 prplWare-Smoke-Test-Suite Mozart initramfs:
   <<: *arcadyan_mozart_ipv6
+  timeout: 53 minutes
   stage: smoke tests
   variables:
     CDROUTER_TEST_CONFIG: smoke-test
