@@ -124,6 +124,7 @@ CDRouter-IPv6-Top-100+mDNS Turris VLAN WAN/LAN initramfs:
 
 CDRouter-TR-069 Turris eMMC:
   <<: *turris_cdrouter
+  timeout: 45 minutes
   variables:
     LABGRID_TARGET: turris-omnia-emmc
     TFTP_IMAGE_FILENAME: prplos-mvebu-cortexa9-cznic_turris-omnia-sysupgrade.img.gz

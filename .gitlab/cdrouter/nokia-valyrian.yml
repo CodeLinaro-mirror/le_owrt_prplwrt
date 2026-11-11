@@ -119,6 +119,7 @@ CDRouter-IPv6-Top-100+mDNS Valyrian VLAN WAN/LAN initramfs:
 
 CDRouter-TR-069 Valyrian eMMC:
   <<: *nokia_valyrian
+  timeout: 45 minutes
   variables:
     LABGRID_TARGET: nokia-valyrian-emmc
     TFTP_IMAGE_FILENAME: prplos-airoha-an7581-nokia_valyrian-squashfs-sysupgrade.bin
