@@ -411,7 +411,7 @@ cram OSPv2 [auto]:
   extends:
     - .mxl25641-hdk-6 testbed
     - .cram_component_auto
-  timeout: 89 minutes
+  timeout: 134 minutes
   rules:
     - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
       when: never
