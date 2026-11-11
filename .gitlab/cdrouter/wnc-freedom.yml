@@ -181,7 +181,7 @@ prplOS-Network-Test-Plan-Mandatory-v1.2.0 Freedom eMMC:
 
 prplOS-Network-Test-Plan-Candidate-v1.2.0 Freedom eMMC:
   <<: *wnc_freedom_certification
-  timeout: 52 minutes
+  timeout: 60 minutes
   variables:
     <<: *wnc_freedom_certification_variables
     CDROUTER_CONFIG_USP_CONTROLLER_MTP: websocket
