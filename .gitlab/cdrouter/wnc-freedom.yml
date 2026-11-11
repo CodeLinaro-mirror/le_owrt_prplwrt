@@ -24,6 +24,7 @@ CDRouter-Top-100+mDNS Freedom VLAN WAN/LAN eMMC:
 
 CDRouter-Top-100+mDNS Freedom PPPoE WAN eMMC:
   <<: *wnc_freedom
+  timeout: 41 minutes
   variables:
     CDROUTER_TEST_CONFIG: ppp
     DUT_INIT_SCRIPTS: |
