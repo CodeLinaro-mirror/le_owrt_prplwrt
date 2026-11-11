@@ -133,6 +133,7 @@ CDRouter-TR-069 Freedom eMMC:
 
 CDRouter-USP-prpl Freedom eMMC:
   <<: *wnc_freedom
+  timeout: 30 minutes
   allow_failure: true
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
