@@ -110,6 +110,7 @@ prpl-Certification MXL25641-HDK-6 eMMC:
 
 CDRouter-IPv6-Top-100+mDNS MXL25641-HDK-6 VLAN WAN/LAN eMMC:
   <<: *mxl25641_cdrouter_ipv6
+  timeout: 38 minutes
   variables:
     CDROUTER_TEST_CONFIG: vlan-ipv6
     CDROUTER_CONFIG_USP_CONTROLLER_MTP: stomp
