@@ -14,6 +14,7 @@ CDRouter-Top-100+mDNS Mozart initramfs:
 
 CDRouter-Top-100+mDNS Mozart VLAN WAN/LAN initramfs:
   <<: *arcadyan_mozart
+  timeout: 41 minutes
   variables:
     CDROUTER_TEST_CONFIG: vlan
     DUT_INIT_SCRIPTS: |
