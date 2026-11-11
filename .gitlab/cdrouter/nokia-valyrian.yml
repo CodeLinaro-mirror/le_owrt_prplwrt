@@ -14,6 +14,7 @@ CDRouter-Top-100+mDNS Valyrian initramfs:
 
 CDRouter-Top-100+mDNS Valyrian VLAN WAN/LAN initramfs:
   <<: *nokia_valyrian
+  timeout: 41 minutes
   variables:
     CDROUTER_TEST_CONFIG: vlan
     DUT_INIT_SCRIPTS: |
