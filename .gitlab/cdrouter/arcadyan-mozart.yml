@@ -178,6 +178,7 @@ prplWare-Smoke-Test-Suite Mozart initramfs:
 
 prplOS-Network-Test-Plan-Mandatory-v1.2.0 Mozart initramfs:
   <<: *arcadyan_mozart_certification
+  timeout: 124 minutes
 
 prplOS-Network-Test-Plan-Candidate-v1.2.0 Mozart initramfs:
   <<: *arcadyan_mozart_certification
