@@ -79,6 +79,19 @@ def find_root_processes(procs: dict[int, ActualProcess]) -> list[ActualProcess]:
     return roots
 
 
+def find_spec(name: str, specs: dict[str, ProcessSpec]) -> ProcessSpec | None:
+    """Return the spec for a process name.
+
+    Interpreter processes are named "<interpreter>:<script>" (e.g. "sh:prplmesh_utils"). A rule
+    for the exact name wins; otherwise the rule for the bare interpreter ("sh") applies, so a
+    specific script can get its own rule without affecting every other script.
+    """
+    spec = specs.get(name)
+    if spec is None and ":" in name:
+        spec = specs.get(name.split(":", 1)[0])
+    return spec
+
+
 def normalize_caps(caps: str) -> set[str]:
     if caps == "full":
         return {"full"}
@@ -99,27 +112,22 @@ def verify_process(
     if normalize_caps(spec.caps) != normalize_caps(actual.caps):
         errors.append(f"{path}: expected caps '{spec.caps}', got '{actual.caps}'")
 
-    actual_children_by_name: dict[str, list[ActualProcess]] = {}
-    for child in actual.children:
-        actual_children_by_name.setdefault(child.name, []).append(child)
+    spec_children_by_name: dict[str, ProcessSpec] = {c.name: c for c in spec.children}
+    matched_specs: set[str] = set()
+    for actual_child in actual.children:
+        child_spec = find_spec(actual_child.name, spec_children_by_name)
+        if child_spec is not None:
+            matched_specs.add(child_spec.name)
+            verify_process(child_spec, actual_child, f"{path} > {actual_child.name}", errors)
+        elif not spec.ignore_child:
+            errors.append(
+                f"{path}: unexpected child process '{actual_child.name}' "
+                f"(id={actual_child.id}, caps={actual_child.caps})"
+            )
 
     for child_spec in spec.children:
-        actual_matches = actual_children_by_name.get(child_spec.name, [])
-        if not actual_matches:
-            if not child_spec.optional:
-                errors.append(f"{path}: missing required child process '{child_spec.name}'")
-        else:
-            for actual_child in actual_matches:
-                verify_process(child_spec, actual_child, f"{path} > {child_spec.name}", errors)
-
-    if not spec.ignore_child:
-        spec_children_by_name: dict[str, ProcessSpec] = {c.name: c for c in spec.children}
-        for actual_child in actual.children:
-            if actual_child.name not in spec_children_by_name:
-                errors.append(
-                    f"{path}: unexpected child process '{actual_child.name}' "
-                    f"(id={actual_child.id}, caps={actual_child.caps})"
-                )
+        if child_spec.name not in matched_specs and not child_spec.optional:
+            errors.append(f"{path}: missing required child process '{child_spec.name}'")
 
 
 def verify_all(
@@ -127,25 +135,21 @@ def verify_all(
     roots: list[ActualProcess],
     errors: list[str],
 ) -> None:
-    actual_by_name: dict[str, list[ActualProcess]] = {}
+    matched_specs: set[str] = set()
     for proc in roots:
-        actual_by_name.setdefault(proc.name, []).append(proc)
-
-    for spec_name, spec in specs.items():
-        actual_matches = actual_by_name.get(spec_name, [])
-        if not actual_matches:
-            if not spec.optional:
-                errors.append(f"missing required process '{spec_name}'")
+        spec = find_spec(proc.name, specs)
+        if spec is not None:
+            matched_specs.add(spec.name)
+            verify_process(spec, proc, proc.name, errors)
         else:
-            for actual_proc in actual_matches:
-                verify_process(spec, actual_proc, spec_name, errors)
-
-    for proc in roots:
-        if proc.name not in specs:
             errors.append(
                 f"unexpected root process '{proc.name}' "
                 f"(id={proc.id}, caps={proc.caps})"
             )
+
+    for spec_name, spec in specs.items():
+        if spec_name not in matched_specs and not spec.optional:
+            errors.append(f"missing required process '{spec_name}'")
 
 
 def main():

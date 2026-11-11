@@ -82,14 +82,18 @@ local function parse_command_name(cmdline)
     cmd = basename(cmd)
 
     -- For certain interpreters/launchers, append the first argument to clarify identity
-    -- e.g., "lua" -> "lua:script_name", "amxrt" -> "amxrt:module_name"
-    if cmd == "lua" or cmd == "amxrt" then
+    -- e.g., "lua" -> "lua:script_name", "amxrt" -> "amxrt:module_name",
+    -- "sh /opt/prplmesh/scripts/prplmesh_utils.sh" -> "sh:prplmesh_utils"
+    local is_launcher = cmd == "lua" or cmd == "amxrt"
+    local is_shell = cmd == "sh" or cmd == "ash" or cmd == "bash"
+    if is_launcher or is_shell then
         -- Extract second argument (first argument after command)
         local arg = cmdline:match("[^%z]*%z([^%z]+)")
-        if arg then
+        -- A shell argument starting with "-" is an option ("sh -c ..."), not a script
+        if arg and not (is_shell and arg:sub(1, 1) == "-") then
             arg = basename(arg)
             -- Remove common extensions
-            arg = arg:gsub("%.lua$", ""):gsub("%.odl$", "")
+            arg = arg:gsub("%.lua$", ""):gsub("%.odl$", ""):gsub("%.sh$", "")
             cmd = cmd .. ":" .. arg
         end
     end
