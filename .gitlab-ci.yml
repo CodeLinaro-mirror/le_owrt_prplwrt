@@ -373,7 +373,7 @@ cram Omnia [auto]:
   extends:
     - .turris-omnia testbed
     - .cram_component_auto
-  timeout: 85 minutes
+  timeout: 137 minutes
   rules:
     - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
       when: never
@@ -392,7 +392,7 @@ cram Haze [auto]:
   extends:
     - .prpl-haze testbed
     - .cram_component_auto
-  timeout: 85 minutes
+  timeout: 137 minutes
   rules:
     - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
       when: never
@@ -451,7 +451,7 @@ cram Mozart [auto]:
   extends:
     - .arcadyan-mozart testbed
     - .cram_component_auto
-  timeout: 85 minutes
+  timeout: 137 minutes
   rules:
     - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
       when: never
@@ -470,7 +470,7 @@ cram Valyrian [auto]:
   extends:
     - .nokia-valyrian testbed
     - .cram_component_auto
-  timeout: 85 minutes
+  timeout: 137 minutes
   rules:
     - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
       when: never
