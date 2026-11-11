@@ -120,6 +120,7 @@ CDRouter-IPv6-Top-100+mDNS Mozart VLAN WAN/LAN initramfs:
 
 CDRouter-TR-069 Mozart eMMC:
   <<: *arcadyan_mozart
+  timeout: 39 minutes
   variables:
     LABGRID_TARGET: arcadyan-mozart-emmc
     TFTP_IMAGE_FILENAME: prplos-mediatek-filogic-arcadyan_mozart-squashfs-sysupgrade.itb
