@@ -151,6 +151,7 @@ CDRouter-USP-prpl Haze initramfs:
 
 prplWare-Smoke-Test-Suite Haze initramfs:
   <<: *prpl_haze_ipv6
+  timeout: 62 minutes
   stage: smoke tests
   variables:
     CDROUTER_TEST_CONFIG: smoke-test
