@@ -165,6 +165,13 @@
         https://gitlab.com/prpl-foundation/tooling/cram-xunit-merger/-/raw/9bc14318ab88c2a024ad0ff8bf09c21d048e1e3b/cram-xunit-merger.py || true
 
     - |
+      teardown_bounded cram-xunit-recover 20 python3 .gitlab/scripts/cram-xunit-recover.py \
+        "${CI_PROJECT_DIR}/cram-result-$LABGRID_TARGET.txt" \
+        "${CI_PROJECT_DIR}/cram-result-$LABGRID_TARGET.xunit.xml" \
+        "${CI_PROJECT_DIR}/cram-result-post-$LABGRID_TARGET.xunit.xml" \
+        --post-suite $CRAM_TEST_SUITE_POST || true
+
+    - |
       teardown_bounded cram-merger 20 python3 .gitlab/scripts/cram-xunit-merger.py \
         --output "${CI_PROJECT_DIR}/cram-result-$LABGRID_TARGET.junit.xml" \
         "${CI_PROJECT_DIR}/cram-result-$LABGRID_TARGET.xunit.xml" \
