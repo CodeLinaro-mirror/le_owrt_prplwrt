@@ -2,4 +2,4 @@
 feeds:
   - name: feed_prplos
     uri: https://gitlab.com/prpl-foundation/prplos/feeds/feed-prplos.git
-    revision: testing-dev_PCF-2758_netmodel_ram_optimizations@8855b249cf1a613203e7c8b2e6c279b4471ad420
+    revision: testing-dev_PCF-2758_netmodel_ram_optimizations@f497a67b81babf8e5d5a13d1ae45b362d1df3dc4
