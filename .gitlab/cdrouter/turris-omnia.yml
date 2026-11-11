@@ -11,6 +11,7 @@
 
 CDRouter-Top-100+mDNS Turris initramfs:
   <<: *turris_cdrouter
+  timeout: 42 minutes
   variables:
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
@@ -19,6 +20,7 @@ CDRouter-Top-100+mDNS Turris initramfs:
 
 CDRouter-Top-100+mDNS Turris VLAN WAN/LAN initramfs:
   <<: *turris_cdrouter
+  timeout: 42 minutes
   variables:
     CDROUTER_TEST_CONFIG: vlan
     DUT_INIT_SCRIPTS: |
@@ -29,6 +31,7 @@ CDRouter-Top-100+mDNS Turris VLAN WAN/LAN initramfs:
 
 CDRouter-Top-100+mDNS Turris PPPoE WAN initramfs:
   <<: *turris_cdrouter
+  timeout: 42 minutes
   variables:
     CDROUTER_TEST_CONFIG: ppp
     DUT_INIT_SCRIPTS: |
