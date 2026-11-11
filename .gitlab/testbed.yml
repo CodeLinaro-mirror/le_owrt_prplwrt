@@ -20,7 +20,11 @@
     DUT_TR181_LAN_INTERFACE: Device.Ethernet.Link.3.
     DUT_OBUSPA_VERBOSE_LEVEL: ''
     DUT_OBUSPA_PROTOCOL_TRACE: ''
-    TEST_TEARDOWN_RESERVE: 180
+    # 660 s = 60 s script tail + 300 s after_script + 300 s upload.
+    # Runner cap verified by job 17927787136.
+    # Upload: 172.246 s (job 17824766078) + 120 s, rounded up to 10 s.
+    # Keep all three terms; do not lower this to the measured teardown time.
+    TEST_TEARDOWN_RESERVE: 660
     CRAM_REMOTE_COMMAND: ssh -n root@$TARGET_LAN_IP
     CRAM_REMOTE_COPY: scp -O -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
     CRAM_TEST_SUITE: |
