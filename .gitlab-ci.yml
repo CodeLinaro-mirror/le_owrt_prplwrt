@@ -600,7 +600,7 @@ cram OSPv2 [prplos]:
 cram Freedom [full]:
   needs: ["build test qca_ipq95xx prpl cellular security thread"]
   extends: .wnc-freedom testbed
-  timeout: 94 minutes
+  timeout: 126 minutes
   variables:
     COMPONENT: full
 
