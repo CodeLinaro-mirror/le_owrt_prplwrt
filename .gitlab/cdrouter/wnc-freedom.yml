@@ -76,6 +76,7 @@ CDRouter-UPnP-IPv46-Failing Freedom eMMC:
 
 CDRouter-IPv6-Top-100+mDNS Freedom eMMC:
   <<: *wnc_freedom_ipv6
+  timeout: 35 minutes
   variables:
     CDROUTER_TEST_CONFIG: generic-ipv6
     DUT_INIT_SCRIPTS: |
