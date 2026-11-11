@@ -63,12 +63,12 @@ Initiate a failed test by setting DiagnosticsState to Requested:
   $ R "ba-cli 'IPDiagnostics.IPLayerCapacityMetrics.DiagnosticsState=Requested'" >/dev/null
   $ sleep 7
 
-Verify DiagnosticsState is Error_Timeout after test completion:
+Verify DiagnosticsState is Error_Timeout after test completion (or Error_Other if network restricted):
 
   $ R "ba-cli --less --json 'IPDiagnostics.IPLayerCapacityMetrics.DiagnosticsState?'" | jq --sort-keys '.[0]'
   {
     "IPDiagnostics.IPLayerCapacityMetrics.": {
-      "DiagnosticsState": "Error_Other"
+      "DiagnosticsState": "(Error_Timeout|Error_Other)" (re)
     }
   }
 
