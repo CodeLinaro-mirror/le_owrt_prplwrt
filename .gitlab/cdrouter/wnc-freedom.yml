@@ -147,6 +147,7 @@ CDRouter-USP-prpl Freedom eMMC:
 
 prplWare-Smoke-Test-Suite Freedom eMMC:
   <<: *wnc_freedom_ipv6
+  timeout: 53 minutes
   stage: smoke tests
   variables:
     CDROUTER_TEST_CONFIG: smoke-test
