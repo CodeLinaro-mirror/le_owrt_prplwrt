@@ -157,7 +157,7 @@
           teardown_bounded opkg 30 bash -c 'exec ssh root@"$TARGET_LAN_IP" opkg list > "opkg_list-$LABGRID_TARGET.txt"' || true
           teardown_bounded debug 60 script --quiet --command "ssh -t root@$TARGET_LAN_IP /bin/getDebugInformation --all" || true
           teardown_bounded debug-scp 20 scp -O -r "root@${TARGET_LAN_IP}:/tmp/debug-*_all.tar.gz" . || true
-          teardown_bounded memory-footprint 40 .gitlab/scripts/memory-footprint.sh final || true
+          teardown_bounded memory-footprint 40 sleep 600 || true
           teardown_bounded etc-scp 20 scp -O -r "root@${TARGET_LAN_IP}:/etc" etc || true
           teardown_bounded prplmesh-scp 20 scp -O -r "root@${TARGET_LAN_IP}:/var/log/prplmesh" prplmesh_beerocks_logs || true
         fi
