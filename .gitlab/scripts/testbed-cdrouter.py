@@ -252,6 +252,10 @@ class TestbedCDRouter:
         current = None
         timeout = getattr(self.args, "timeout", None)
         start_time = time.time() if timeout else None
+        stall_timeout = getattr(self.args, "stall_timeout", 0)
+        stall_current = None
+        test_start = None
+        self.stall_stopped = False
 
         job = self.cdr.jobs.get(self.job.id)
         while job.status == "running":
@@ -268,6 +272,25 @@ class TestbedCDRouter:
             updates = self.cdr.results.updates(job.result_id)
             running = updates.running
             progress = updates.progress
+
+            if stall_timeout and stall_timeout > 0:
+                if not running:
+                    stall_current = None
+                    test_start = None
+                else:
+                    now = time.monotonic()
+                    if test_start is None or stall_current != running.description:
+                        stall_current = running.description
+                        test_start = now
+                    elif now - test_start > stall_timeout:
+                        logging.error(
+                            "stall stop: test {} ran {:.0f} s, limit {} s".format(
+                                stall_current, now - test_start, stall_timeout
+                            )
+                        )
+                        self.stall_stopped = True
+                        self.package_stop()
+                        return False
 
             if not running or not progress:
                 job = self.cdr.jobs.get(self.job.id)
@@ -335,9 +358,10 @@ class TestbedCDRouter:
             self.job_result()
         except SystemExit:
             if not success:
-                logging.error(
-                    "test cutoff reached after {} s".format(self.args.timeout)
-                )
+                if not self.stall_stopped:
+                    logging.error(
+                        "test cutoff reached after {} s".format(self.args.timeout)
+                    )
                 exit(86)
             raise
 
@@ -853,6 +877,12 @@ def main():
         "--timeout",
         type=int,
         help="timeout duration in seconds for test execution",
+    )
+    subparser.add_argument(
+        "--stall-timeout",
+        type=int,
+        default=0,
+        help="stop an unchanged test after this many seconds (default: disabled)",
     )
     subparser.set_defaults(func=TestbedCDRouter.package_run)
 
