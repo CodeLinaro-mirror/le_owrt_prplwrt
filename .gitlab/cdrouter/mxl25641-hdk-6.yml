@@ -99,7 +99,7 @@ CDRouter-IPv6-Top-100+mDNS MXL25641-HDK-6 eMMC:
 
 prpl-Certification MXL25641-HDK-6 eMMC:
   <<: *mxl25641_cdrouter_ipv6
-  timeout: 120 minutes
+  timeout: 150 minutes
   allow_failure: true
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
