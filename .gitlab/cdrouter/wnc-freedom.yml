@@ -99,6 +99,7 @@ prpl-Certification Freedom eMMC:
 
 CDRouter-IPv6-Top-100+mDNS Freedom VLAN WAN/LAN eMMC:
   <<: *wnc_freedom_ipv6
+  timeout: 37 minutes
   variables:
     CDROUTER_TEST_CONFIG: vlan-ipv6
     CDROUTER_CONFIG_USP_CONTROLLER_MTP: stomp
