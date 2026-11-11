@@ -530,6 +530,7 @@ cram Omnia [prplmesh]:
     COMPONENT: prplmesh
 
 cram Omnia [lcm]:
+  timeout: 57 minutes
   allow_failure: true
   needs: ["build test mvebu prpl security"]
   extends: .turris-omnia testbed
@@ -559,6 +560,7 @@ cram Haze [prplmesh]:
     COMPONENT: prplmesh
 
 cram Haze [lcm]:
+  timeout: 57 minutes
   allow_failure: true
   needs: ["build test ipq807x prpl security"]
   extends: .prpl-haze testbed
@@ -646,6 +648,7 @@ cram Mozart [prplmesh]:
     COMPONENT: prplmesh
 
 cram Mozart [lcm]:
+  timeout: 57 minutes
   needs:
     - job: build test mtk_filogic prpl security
       optional: true
@@ -679,6 +682,7 @@ cram Valyrian [prplmesh]:
     COMPONENT: prplmesh
 
 cram Valyrian [lcm]:
+  timeout: 57 minutes
   needs:
     - job: build test airoha_an7581 prpl security
       optional: true
