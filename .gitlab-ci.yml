@@ -374,6 +374,9 @@ cram Omnia [auto]:
     - .turris-omnia testbed
     - .cram_component_auto
   timeout: 137 minutes
+  variables:
+    RUNNER_SCRIPT_TIMEOUT: 7620s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
   rules:
     - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
       when: never
@@ -393,6 +396,9 @@ cram Haze [auto]:
     - .prpl-haze testbed
     - .cram_component_auto
   timeout: 137 minutes
+  variables:
+    RUNNER_SCRIPT_TIMEOUT: 7620s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
   rules:
     - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
       when: never
@@ -412,6 +418,9 @@ cram OSPv2 [auto]:
     - .mxl25641-hdk-6 testbed
     - .cram_component_auto
   timeout: 134 minutes
+  variables:
+    RUNNER_SCRIPT_TIMEOUT: 7440s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
   rules:
     - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
       when: never
@@ -432,6 +441,9 @@ cram Freedom [auto]:
     - .wnc-freedom testbed
     - .cram_component_auto
   timeout: 137 minutes
+  variables:
+    RUNNER_SCRIPT_TIMEOUT: 7620s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
   rules:
     - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
       when: never
@@ -452,6 +464,9 @@ cram Mozart [auto]:
     - .arcadyan-mozart testbed
     - .cram_component_auto
   timeout: 137 minutes
+  variables:
+    RUNNER_SCRIPT_TIMEOUT: 7620s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
   rules:
     - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
       when: never
@@ -471,6 +486,9 @@ cram Valyrian [auto]:
     - .nokia-valyrian testbed
     - .cram_component_auto
   timeout: 137 minutes
+  variables:
+    RUNNER_SCRIPT_TIMEOUT: 7620s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
   rules:
     - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
       when: never
@@ -520,6 +538,8 @@ cram Omnia [full]:
   extends: .turris-omnia testbed
   timeout: 126 minutes
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 6960s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     COMPONENT: full
 
 cram Omnia [prplmesh]:
@@ -528,6 +548,8 @@ cram Omnia [prplmesh]:
   needs: ["build test mvebu prpl security"]
   extends: .turris-omnia testbed
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 3540s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     COMPONENT: prplmesh
 
 cram Omnia [lcm]:
@@ -536,6 +558,8 @@ cram Omnia [lcm]:
   needs: ["build test mvebu prpl security"]
   extends: .turris-omnia testbed
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 2820s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     COMPONENT: lcm
 
 cram Omnia [prplos]:
@@ -544,6 +568,8 @@ cram Omnia [prplos]:
   needs: ["build test mvebu prpl security"]
   extends: .turris-omnia testbed
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 3480s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     COMPONENT: prplos
 
 cram Haze [full]:
@@ -552,6 +578,8 @@ cram Haze [full]:
   extends: .prpl-haze testbed
   timeout: 126 minutes
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 6960s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     COMPONENT: full
 
 cram Haze [prplmesh]:
@@ -560,6 +588,8 @@ cram Haze [prplmesh]:
   needs: ["build test ipq807x prpl security"]
   extends: .prpl-haze testbed
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 3540s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     COMPONENT: prplmesh
 
 cram Haze [lcm]:
@@ -568,6 +598,8 @@ cram Haze [lcm]:
   needs: ["build test ipq807x prpl security"]
   extends: .prpl-haze testbed
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 2820s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     COMPONENT: lcm
 
 cram Haze [prplos]:
@@ -576,6 +608,8 @@ cram Haze [prplos]:
   needs: ["build test ipq807x prpl security"]
   extends: .prpl-haze testbed
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 3480s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     COMPONENT: prplos
 
 cram OSPv2 [full]:
@@ -583,6 +617,8 @@ cram OSPv2 [full]:
   extends: .mxl25641-hdk-6 testbed
   timeout: 117 minutes
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 6420s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     COMPONENT: full
 
 cram OSPv2 [prplmesh]:
@@ -590,6 +626,8 @@ cram OSPv2 [prplmesh]:
   needs: ["build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread"]
   extends: .mxl25641-hdk-6 testbed
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 2460s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     COMPONENT: prplmesh
 
 cram OSPv2 [lcm]:
@@ -597,6 +635,8 @@ cram OSPv2 [lcm]:
   needs: ["build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread"]
   extends: .mxl25641-hdk-6 testbed
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 2820s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     COMPONENT: lcm
 
 cram OSPv2 [prplos]:
@@ -604,6 +644,8 @@ cram OSPv2 [prplos]:
   needs: ["build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread"]
   extends: .mxl25641-hdk-6 testbed
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 3480s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     COMPONENT: prplos
 
 cram Freedom [full]:
@@ -611,6 +653,8 @@ cram Freedom [full]:
   extends: .wnc-freedom testbed
   timeout: 126 minutes
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 6960s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     COMPONENT: full
 
 cram Freedom [prplmesh]:
@@ -618,6 +662,8 @@ cram Freedom [prplmesh]:
   needs: ["build test qca_ipq95xx prpl cellular security thread"]
   extends: .wnc-freedom testbed
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 3540s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     COMPONENT: prplmesh
 
 cram Freedom [lcm]:
@@ -625,6 +671,8 @@ cram Freedom [lcm]:
   needs: ["build test qca_ipq95xx prpl cellular security thread"]
   extends: .wnc-freedom testbed
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 2580s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     COMPONENT: lcm
 
 cram Freedom [prplos]:
@@ -632,6 +680,8 @@ cram Freedom [prplos]:
   needs: ["build test qca_ipq95xx prpl cellular security thread"]
   extends: .wnc-freedom testbed
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 3480s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     COMPONENT: prplos
 
 cram Mozart [full]:
@@ -641,6 +691,8 @@ cram Mozart [full]:
   extends: .arcadyan-mozart testbed
   timeout: 126 minutes
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 6960s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     COMPONENT: full
 
 cram Mozart [prplmesh]:
@@ -650,6 +702,8 @@ cram Mozart [prplmesh]:
       optional: true
   extends: .arcadyan-mozart testbed
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 3540s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     COMPONENT: prplmesh
 
 cram Mozart [lcm]:
@@ -659,6 +713,8 @@ cram Mozart [lcm]:
       optional: true
   extends: .arcadyan-mozart testbed
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 2820s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     COMPONENT: lcm
 
 cram Mozart [prplos]:
@@ -668,6 +724,8 @@ cram Mozart [prplos]:
       optional: true
   extends: .arcadyan-mozart testbed
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 3480s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     COMPONENT: prplos
 
 cram Valyrian [full]:
@@ -677,6 +735,8 @@ cram Valyrian [full]:
   extends: .nokia-valyrian testbed
   timeout: 126 minutes
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 6960s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     COMPONENT: full
 
 cram Valyrian [prplmesh]:
@@ -686,6 +746,8 @@ cram Valyrian [prplmesh]:
       optional: true
   extends: .nokia-valyrian testbed
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 3540s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     COMPONENT: prplmesh
 
 cram Valyrian [lcm]:
@@ -695,6 +757,8 @@ cram Valyrian [lcm]:
       optional: true
   extends: .nokia-valyrian testbed
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 2820s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     COMPONENT: lcm
 
 cram Valyrian [prplos]:
@@ -704,6 +768,8 @@ cram Valyrian [prplos]:
       optional: true
   extends: .nokia-valyrian testbed
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 3480s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     COMPONENT: prplos
 
 cram QEMU x86-64 [full]:

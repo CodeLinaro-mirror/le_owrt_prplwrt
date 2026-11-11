@@ -13,6 +13,8 @@ CDRouter-Top-100+mDNS Haze initramfs:
   <<: *prpl_haze
   timeout: 42 minutes
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 1920s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     TEST_STALL_TIMEOUT: 456
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
@@ -23,6 +25,8 @@ CDRouter-Top-100+mDNS Haze VLAN WAN/LAN initramfs:
   <<: *prpl_haze
   timeout: 42 minutes
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 1920s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     TEST_STALL_TIMEOUT: 456
     CDROUTER_TEST_CONFIG: vlan
     DUT_INIT_SCRIPTS: |
@@ -35,6 +39,8 @@ CDRouter-Top-100+mDNS Haze PPPoE WAN initramfs:
   <<: *prpl_haze
   timeout: 42 minutes
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 1920s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     TEST_STALL_TIMEOUT: 456
     CDROUTER_TEST_CONFIG: ppp
     DUT_INIT_SCRIPTS: |
@@ -48,6 +54,8 @@ CDRouter-Wireless Haze initramfs:
   stage: smoke tests
   timeout: 34 minutes
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 1440s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     TEST_STALL_TIMEOUT: 300
     CDROUTER_TEST_CONFIG: wireless
     CDROUTER_CONFIG_USP_CONTROLLER_MTP: websocket
@@ -72,6 +80,8 @@ CDRouter-UPnP-IPv46 Haze initramfs:
   <<: *prpl_haze_ipv6
   timeout: 87 minutes
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 4620s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     TEST_STALL_TIMEOUT: 1002
     CDROUTER_TEST_CONFIG: generic-ipv6-upnp
     DUT_INIT_SCRIPTS: |
@@ -83,6 +93,8 @@ CDRouter-UPnP-IPv46-Failing Haze initramfs:
   timeout: 120 minutes
   allow_failure: true
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 6600s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     TEST_STALL_TIMEOUT: 892
     CDROUTER_TEST_CONFIG: generic-ipv6-upnp
     DUT_INIT_SCRIPTS: |
@@ -106,6 +118,8 @@ prpl-Certification Haze initramfs:
       when: never
     - when: manual
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 8400s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     TEST_STALL_TIMEOUT: 5208
     CDROUTER_TEST_CONFIG: generic-ipv6
     DUT_INIT_SCRIPTS: |
@@ -139,6 +153,8 @@ CDRouter-TR-069 Haze eMMC:
   <<: *prpl_haze
   timeout: 45 minutes
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 2100s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     TEST_STALL_TIMEOUT: 324
     LABGRID_TARGET: prpl-haze-emmc
     TFTP_IMAGE_FILENAME: prplos-qualcommax-ipq807x-prpl_haze-squashfs-sysupgrade.bin
@@ -166,6 +182,8 @@ prplWare-Smoke-Test-Suite Haze initramfs:
   timeout: 62 minutes
   stage: smoke tests
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 3120s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     TEST_STALL_TIMEOUT: 480
     CDROUTER_TEST_CONFIG: smoke-test
     DUT_INIT_SCRIPTS: |
@@ -193,12 +211,16 @@ prplWare-Smoke-Test-Suite Haze initramfs:
       when: never
     - when: manual
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 5700s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     <<: *prpl_haze_certification_variables
 
 prplOS-Network-Test-Plan-Mandatory-v1.2.0 Haze initramfs:
   <<: *prpl_haze_certification
   timeout: 128 minutes
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 7080s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     <<: *prpl_haze_certification_variables
     TEST_STALL_TIMEOUT: 1850
 
@@ -206,6 +228,8 @@ prplOS-Network-Test-Plan-Candidate-v1.2.0 Haze initramfs:
   <<: *prpl_haze_certification
   timeout: 77 minutes
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 4020s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     <<: *prpl_haze_certification_variables
     TEST_STALL_TIMEOUT: 1130
     CDROUTER_CONFIG_USP_CONTROLLER_MTP: websocket

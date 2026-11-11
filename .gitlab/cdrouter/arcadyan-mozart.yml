@@ -8,6 +8,8 @@ CDRouter-Top-100+mDNS Mozart initramfs:
   <<: *arcadyan_mozart
   timeout: 39 minutes
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 1740s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     TEST_STALL_TIMEOUT: 456
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
@@ -18,6 +20,8 @@ CDRouter-Top-100+mDNS Mozart VLAN WAN/LAN initramfs:
   <<: *arcadyan_mozart
   timeout: 41 minutes
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 1860s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     TEST_STALL_TIMEOUT: 456
     CDROUTER_TEST_CONFIG: vlan
     DUT_INIT_SCRIPTS: |
@@ -30,6 +34,8 @@ CDRouter-Top-100+mDNS Mozart PPPoE WAN initramfs:
   <<: *arcadyan_mozart
   timeout: 39 minutes
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 1740s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     TEST_STALL_TIMEOUT: 456
     CDROUTER_TEST_CONFIG: ppp
     DUT_INIT_SCRIPTS: |
@@ -43,6 +49,8 @@ CDRouter-Wireless Mozart initramfs:
   stage: smoke tests
   timeout: 25 minutes
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 900s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     TEST_STALL_TIMEOUT: 300
     CDROUTER_TEST_CONFIG: wireless
     CDROUTER_CONFIG_USP_CONTROLLER_MTP: websocket
@@ -65,6 +73,8 @@ CDRouter-UPnP-IPv46 Mozart initramfs:
   <<: *arcadyan_mozart_ipv6
   timeout: 86 minutes
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 4560s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     TEST_STALL_TIMEOUT: 1002
     CDROUTER_TEST_CONFIG: generic-ipv6-upnp
     DUT_INIT_SCRIPTS: |
@@ -76,6 +86,8 @@ CDRouter-UPnP-IPv46-Failing Mozart initramfs:
   timeout: 120 minutes
   allow_failure: true
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 6600s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     TEST_STALL_TIMEOUT: 892
     CDROUTER_TEST_CONFIG: generic-ipv6-upnp
     DUT_INIT_SCRIPTS: |
@@ -86,6 +98,8 @@ CDRouter-IPv6-Top-100+mDNS Mozart initramfs:
   <<: *arcadyan_mozart_ipv6
   timeout: 34 minutes
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 1440s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     TEST_STALL_TIMEOUT: 494
     CDROUTER_TEST_CONFIG: generic-ipv6
     DUT_INIT_SCRIPTS: |
@@ -101,6 +115,8 @@ prpl-Certification Mozart initramfs:
       when: never
     - when: manual
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 8400s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     TEST_STALL_TIMEOUT: 5208
     CDROUTER_TEST_CONFIG: generic-ipv6
     DUT_INIT_SCRIPTS: |
@@ -112,6 +128,8 @@ CDRouter-IPv6-Top-100+mDNS Mozart VLAN WAN/LAN initramfs:
   <<: *arcadyan_mozart_ipv6
   timeout: 36 minutes
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 1560s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     TEST_STALL_TIMEOUT: 494
     CDROUTER_TEST_CONFIG: vlan-ipv6
     CDROUTER_CONFIG_USP_CONTROLLER_MTP: stomp
@@ -135,6 +153,8 @@ CDRouter-TR-069 Mozart eMMC:
   <<: *arcadyan_mozart
   timeout: 39 minutes
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 1740s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     TEST_STALL_TIMEOUT: 324
     LABGRID_TARGET: arcadyan-mozart-emmc
     TFTP_IMAGE_FILENAME: prplos-mediatek-filogic-arcadyan_mozart-squashfs-sysupgrade.itb
@@ -162,6 +182,8 @@ prplWare-Smoke-Test-Suite Mozart initramfs:
   timeout: 53 minutes
   stage: smoke tests
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 2580s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     TEST_STALL_TIMEOUT: 480
     CDROUTER_TEST_CONFIG: smoke-test
     DUT_INIT_SCRIPTS: |
@@ -188,12 +210,16 @@ prplWare-Smoke-Test-Suite Mozart initramfs:
       when: never
     - when: manual
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 5700s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     <<: *arcadyan_mozart_certification_variables
 
 prplOS-Network-Test-Plan-Mandatory-v1.2.0 Mozart initramfs:
   <<: *arcadyan_mozart_certification
   timeout: 124 minutes
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 6840s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     <<: *arcadyan_mozart_certification_variables
     TEST_STALL_TIMEOUT: 1850
 
@@ -201,6 +227,8 @@ prplOS-Network-Test-Plan-Candidate-v1.2.0 Mozart initramfs:
   <<: *arcadyan_mozart_certification
   timeout: 77 minutes
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 4020s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     <<: *arcadyan_mozart_certification_variables
     TEST_STALL_TIMEOUT: 1130
     CDROUTER_CONFIG_USP_CONTROLLER_MTP: websocket

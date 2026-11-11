@@ -17,6 +17,8 @@ CDRouter-Top-100+mDNS Valyrian VLAN WAN/LAN initramfs:
   <<: *nokia_valyrian
   timeout: 41 minutes
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 1860s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     TEST_STALL_TIMEOUT: 456
     CDROUTER_TEST_CONFIG: vlan
     DUT_INIT_SCRIPTS: |
@@ -41,6 +43,8 @@ CDRouter-Wireless Valyrian initramfs:
   stage: smoke tests
   timeout: 25 minutes
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 900s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     TEST_STALL_TIMEOUT: 300
     CDROUTER_TEST_CONFIG: wireless
     CDROUTER_CONFIG_USP_CONTROLLER_MTP: websocket
@@ -63,6 +67,8 @@ CDRouter-UPnP-IPv46 Valyrian initramfs:
   <<: *nokia_valyrian_ipv6
   timeout: 76 minutes
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 3960s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     TEST_STALL_TIMEOUT: 1002
     CDROUTER_TEST_CONFIG: generic-ipv6-upnp
     DUT_INIT_SCRIPTS: |
@@ -74,6 +80,8 @@ CDRouter-UPnP-IPv46-Failing Valyrian initramfs:
   timeout: 120 minutes
   allow_failure: true
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 6600s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     TEST_STALL_TIMEOUT: 892
     CDROUTER_TEST_CONFIG: generic-ipv6-upnp
     DUT_INIT_SCRIPTS: |
@@ -98,6 +106,8 @@ prpl-Certification Valyrian initramfs:
       when: never
     - when: manual
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 8400s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     TEST_STALL_TIMEOUT: 5208
     CDROUTER_TEST_CONFIG: generic-ipv6
     DUT_INIT_SCRIPTS: |
@@ -131,6 +141,8 @@ CDRouter-TR-069 Valyrian eMMC:
   <<: *nokia_valyrian
   timeout: 45 minutes
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 2100s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     TEST_STALL_TIMEOUT: 324
     LABGRID_TARGET: nokia-valyrian-emmc
     TFTP_IMAGE_FILENAME: prplos-airoha-an7581-nokia_valyrian-squashfs-sysupgrade.bin
@@ -158,6 +170,8 @@ prplWare-Smoke-Test-Suite Valyrian initramfs:
   timeout: 52 minutes
   stage: smoke tests
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 2520s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     TEST_STALL_TIMEOUT: 480
     CDROUTER_TEST_CONFIG: smoke-test
     DUT_INIT_SCRIPTS: |
@@ -184,12 +198,16 @@ prplWare-Smoke-Test-Suite Valyrian initramfs:
       when: never
     - when: manual
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 5700s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     <<: *nokia_valyrian_certification_variables
 
 prplOS-Network-Test-Plan-Mandatory-v1.2.0 Valyrian initramfs:
   <<: *nokia_valyrian_certification
   timeout: 125 minutes
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 6900s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     <<: *nokia_valyrian_certification_variables
     TEST_STALL_TIMEOUT: 1850
 
@@ -197,6 +215,8 @@ prplOS-Network-Test-Plan-Candidate-v1.2.0 Valyrian initramfs:
   <<: *nokia_valyrian_certification
   timeout: 77 minutes
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 4020s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     <<: *nokia_valyrian_certification_variables
     TEST_STALL_TIMEOUT: 1130
     CDROUTER_CONFIG_USP_CONTROLLER_MTP: websocket

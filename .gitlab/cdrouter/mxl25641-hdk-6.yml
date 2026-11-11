@@ -8,6 +8,8 @@ CDRouter-Top-100+mDNS-OSP MXL25641-HDK-6 eMMC:
   <<: *mxl25641_cdrouter
   timeout: 41 minutes
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 1860s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     TEST_STALL_TIMEOUT: 450
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
@@ -18,6 +20,8 @@ CDRouter-Top-100+mDNS-OSP MXL25641-HDK-6 VLAN WAN/LAN eMMC:
   <<: *mxl25641_cdrouter
   timeout: 42 minutes
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 1920s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     TEST_STALL_TIMEOUT: 450
     CDROUTER_TEST_CONFIG: vlan
     DUT_INIT_SCRIPTS: |
@@ -30,6 +34,8 @@ CDRouter-Top-100+mDNS-OSP MXL25641-HDK-6 PPPoE WAN eMMC:
   <<: *mxl25641_cdrouter
   timeout: 41 minutes
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 1860s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     TEST_STALL_TIMEOUT: 450
     CDROUTER_TEST_CONFIG: ppp
     DUT_INIT_SCRIPTS: |
@@ -43,6 +49,8 @@ CDRouter-Wireless MXL25641-HDK-6 eMMC:
   stage: smoke tests
   timeout: 32 minutes
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 1320s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     TEST_STALL_TIMEOUT: 300
     CDROUTER_TEST_CONFIG: wireless
     CDROUTER_CONFIG_USP_CONTROLLER_MTP: websocket
@@ -66,6 +74,8 @@ CDRouter-UPnP-IPv46 MXL25641-HDK-6 eMMC:
   <<: *mxl25641_cdrouter_ipv6
   timeout: 87 minutes
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 4620s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     TEST_STALL_TIMEOUT: 1002
     CDROUTER_TEST_CONFIG: generic-ipv6-upnp
     # PROVISORY workaround for PPW-1897: after switching CDRouter USP testing
@@ -84,6 +94,8 @@ CDRouter-UPnP-IPv46-Failing MXL25641-HDK-6 eMMC:
   timeout: 110 minutes
   allow_failure: true
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 6000s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     TEST_STALL_TIMEOUT: 892
     CDROUTER_TEST_CONFIG: generic-ipv6-upnp
     # PROVISORY workaround for PPW-1897: see CDRouter-UPnP-IPv46 sibling job
@@ -98,6 +110,8 @@ CDRouter-IPv6-Top-100+mDNS MXL25641-HDK-6 eMMC:
   <<: *mxl25641_cdrouter_ipv6
   timeout: 37 minutes
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 1620s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     TEST_STALL_TIMEOUT: 494
     CDROUTER_TEST_CONFIG: generic-ipv6
     DUT_INIT_SCRIPTS: |
@@ -113,6 +127,8 @@ prpl-Certification MXL25641-HDK-6 eMMC:
       when: never
     - when: manual
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 8400s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     TEST_STALL_TIMEOUT: 5208
     CDROUTER_TEST_CONFIG: generic-ipv6
     DUT_INIT_SCRIPTS: |
@@ -124,6 +140,8 @@ CDRouter-IPv6-Top-100+mDNS MXL25641-HDK-6 VLAN WAN/LAN eMMC:
   <<: *mxl25641_cdrouter_ipv6
   timeout: 38 minutes
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 1680s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     TEST_STALL_TIMEOUT: 494
     CDROUTER_TEST_CONFIG: vlan-ipv6
     CDROUTER_CONFIG_USP_CONTROLLER_MTP: stomp
@@ -147,6 +165,8 @@ CDRouter-TR-069 MXL25641-HDK-6 eMMC:
   <<: *mxl25641_cdrouter
   timeout: 45 minutes
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 2100s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     TEST_STALL_TIMEOUT: 324
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
@@ -162,6 +182,8 @@ CDRouter-USP-prpl MXL25641-HDK-6 eMMC:
       when: never
     - when: manual
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 1320s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     TEST_STALL_TIMEOUT: 300
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
@@ -173,6 +195,8 @@ prplWare-Smoke-Test-Suite MXL25641-HDK-6 eMMC:
   timeout: 62 minutes
   stage: smoke tests
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 3120s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     TEST_STALL_TIMEOUT: 480
     CDROUTER_TEST_CONFIG: smoke-test
     DUT_INIT_SCRIPTS: |
@@ -199,12 +223,16 @@ prplWare-Smoke-Test-Suite MXL25641-HDK-6 eMMC:
       when: never
     - when: manual
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 5700s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     <<: *mxl25641_certification_variables
 
 prplOS-Network-Test-Plan-Mandatory-v1.2.0 MXL25641-HDK-6 eMMC:
   <<: *mxl25641_certification
   timeout: 128 minutes
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 7080s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     <<: *mxl25641_certification_variables
     TEST_STALL_TIMEOUT: 1850
     # PROVISORY workaround for PPW-1837: obuspa's MQTTv5 client does not detect
@@ -219,6 +247,8 @@ prplOS-Network-Test-Plan-Candidate-v1.2.0 MXL25641-HDK-6 eMMC:
   <<: *mxl25641_certification
   timeout: 77 minutes
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 4020s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     <<: *mxl25641_certification_variables
     TEST_STALL_TIMEOUT: 1130
     CDROUTER_CONFIG_USP_CONTROLLER_MTP: websocket
