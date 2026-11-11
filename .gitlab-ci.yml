@@ -580,6 +580,7 @@ cram OSPv2 [full]:
     COMPONENT: full
 
 cram OSPv2 [prplmesh]:
+  timeout: 51 minutes
   needs: ["build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread"]
   extends: .mxl25641-hdk-6 testbed
   variables:
