@@ -143,6 +143,7 @@ CDRouter-USP-prpl Valyrian initramfs:
 
 prplWare-Smoke-Test-Suite Valyrian initramfs:
   <<: *nokia_valyrian_ipv6
+  timeout: 52 minutes
   stage: smoke tests
   variables:
     CDROUTER_TEST_CONFIG: smoke-test
