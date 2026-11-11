@@ -179,6 +179,14 @@ so `CAP_DAC_OVERRIDE` in the ODL becomes `dac_override` here. Two values are
 special: `full` for a process that keeps every capability, and `none` for a
 process that has none.
 
+Interpreters are named after the script they run, so `cmd` for them is
+`<interpreter>:<script>` without the extension: `lua:amx_monitor_dm`,
+`amxrt:<module>`, and for `sh`, `ash` and `bash` running a script file,
+`sh:prplmesh_utils`. A shell started with an option (`sh -c ...`) stays `sh`.
+A rule for the exact name wins; a process without one falls back to the rule
+for the bare interpreter, so the generic `sh` rule still covers every other
+script while `sh:prplmesh_utils` gets its own expected children.
+
 Mark an entry `optional` when the process only exists on some boards or only
 under some conditions. A required entry that is missing fails the test on every
 board.

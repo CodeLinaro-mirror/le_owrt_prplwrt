@@ -31,16 +31,7 @@
     id: root:root
     caps: full
     optional: true
-  - cmd: beerocks_agent
-    id: root:root
-    caps: full
-  - cmd: beerocks_controller
-    id: root:root
-    caps: full
   - cmd: beerocks_fronthaul
-    id: root:root
-    caps: full
-  - cmd: beerocks_vendor_message
     id: root:root
     caps: full
   - cmd: blockd
@@ -109,9 +100,6 @@
   - cmd: hosts-manager
     id: tr181_app:tr181_app
     caps: dac_override
-  - cmd: ieee1905_transport
-    id: root:root
-    caps: full
   - cmd: ip-manager
     id: tr181_app:tr181_app
     caps: dac_override,net_admin,net_raw
@@ -181,6 +169,26 @@
     caps: full
     optional: true
     ignore_child: true
+  - cmd: "sh:prplmesh_utils"
+    id: root:root
+    caps: full
+    child:
+    - cmd: beerocks_agent
+      id: root:root
+      caps: full
+    - cmd: beerocks_controller
+      id: root:root
+      caps: full
+    - cmd: beerocks_vendor_message
+      id: root:root
+      caps: full
+    - cmd: ieee1905_transport
+      id: root:root
+      caps: full
+    - cmd: sleep
+      id: root:root
+      caps: full
+      optional: true
   - cmd: ssh_server
     id: root:root
     caps: full
