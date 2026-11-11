@@ -6,6 +6,7 @@
 
 CDRouter-Top-100+mDNS Mozart initramfs:
   <<: *arcadyan_mozart
+  timeout: 39 minutes
   variables:
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
