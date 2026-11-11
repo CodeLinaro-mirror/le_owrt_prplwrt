@@ -98,6 +98,7 @@ prpl-Certification Mozart initramfs:
 
 CDRouter-IPv6-Top-100+mDNS Mozart VLAN WAN/LAN initramfs:
   <<: *arcadyan_mozart_ipv6
+  timeout: 36 minutes
   variables:
     CDROUTER_TEST_CONFIG: vlan-ipv6
     CDROUTER_CONFIG_USP_CONTROLLER_MTP: stomp
