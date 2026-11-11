@@ -75,6 +75,7 @@ CDRouter-UPnP-IPv46-Failing Mozart initramfs:
 
 CDRouter-IPv6-Top-100+mDNS Mozart initramfs:
   <<: *arcadyan_mozart_ipv6
+  timeout: 34 minutes
   variables:
     CDROUTER_TEST_CONFIG: generic-ipv6
     DUT_INIT_SCRIPTS: |
