@@ -640,6 +640,7 @@ cram OSPv2 [lcm]:
     COMPONENT: lcm
 
 cram OSPv2 [prplos]:
+  tags: [cdr-cutoff-reserved-18604453]
   timeout: 68 minutes
   rules: !reference [.prebuilt-firmware, rules]
   needs: ["build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread"]
@@ -677,6 +678,7 @@ cram Freedom [lcm]:
     COMPONENT: lcm
 
 cram Freedom [prplos]:
+  tags: [cdr-cutoff-reserved-18604453]
   timeout: 68 minutes
   rules: !reference [.prebuilt-firmware, rules]
   needs: ["build test qca_ipq95xx prpl cellular security thread"]
@@ -821,16 +823,21 @@ cram QEMU x86-64 [prplos]:
       needs: []
 
 CDRouter-Wireless Mozart initramfs:
+  tags: [cdr-cutoff-reserved-18604453]
   rules: !reference [.prebuilt-firmware, rules]
 
 CDRouter-Wireless Valyrian initramfs:
+  tags: [cdr-cutoff-reserved-3056367]
   rules: !reference [.prebuilt-firmware, rules]
 
 prplWare-Smoke-Test-Suite Valyrian initramfs:
+  tags: [cdr-cutoff-reserved-3056367]
   rules: !reference [.prebuilt-firmware, rules]
 
 prplWare-Smoke-Test-Suite Mozart initramfs:
+  tags: [cdr-cutoff-reserved-18604453]
   rules: !reference [.prebuilt-firmware, rules]
 
 prplWare-Smoke-Test-Suite Haze initramfs:
+  tags: [cdr-cutoff-reserved-18604453]
   rules: !reference [.prebuilt-firmware, rules]
