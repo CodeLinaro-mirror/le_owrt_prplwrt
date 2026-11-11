@@ -132,6 +132,7 @@ CDRouter-IPv6-Top-100+mDNS MXL25641-HDK-6 VLAN WAN/LAN eMMC:
 
 CDRouter-TR-069 MXL25641-HDK-6 eMMC:
   <<: *mxl25641_cdrouter
+  timeout: 45 minutes
   variables:
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
