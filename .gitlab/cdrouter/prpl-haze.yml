@@ -183,6 +183,7 @@ prplWare-Smoke-Test-Suite Haze initramfs:
 
 prplOS-Network-Test-Plan-Mandatory-v1.2.0 Haze initramfs:
   <<: *prpl_haze_certification
+  timeout: 128 minutes
 
 prplOS-Network-Test-Plan-Candidate-v1.2.0 Haze initramfs:
   <<: *prpl_haze_certification

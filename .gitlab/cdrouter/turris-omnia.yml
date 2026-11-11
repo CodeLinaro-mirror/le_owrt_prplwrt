@@ -184,6 +184,7 @@ prplWare-Smoke-Test-Suite Turris initramfs:
 
 prplOS-Network-Test-Plan-Mandatory-v1.2.0 Turris initramfs:
   <<: *turris_certification
+  timeout: 128 minutes
 
 prplOS-Network-Test-Plan-Candidate-v1.2.0 Turris initramfs:
   <<: *turris_certification
