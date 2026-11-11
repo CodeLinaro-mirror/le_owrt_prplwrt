@@ -7,6 +7,7 @@
 CDRouter-Top-100+mDNS Valyrian initramfs:
   <<: *nokia_valyrian
   variables:
+    TEST_STALL_TIMEOUT: 456
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
       .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
@@ -16,6 +17,7 @@ CDRouter-Top-100+mDNS Valyrian VLAN WAN/LAN initramfs:
   <<: *nokia_valyrian
   timeout: 41 minutes
   variables:
+    TEST_STALL_TIMEOUT: 456
     CDROUTER_TEST_CONFIG: vlan
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
@@ -26,6 +28,7 @@ CDRouter-Top-100+mDNS Valyrian VLAN WAN/LAN initramfs:
 CDRouter-Top-100+mDNS Valyrian PPPoE WAN initramfs:
   <<: *nokia_valyrian
   variables:
+    TEST_STALL_TIMEOUT: 456
     CDROUTER_TEST_CONFIG: ppp
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
@@ -38,6 +41,7 @@ CDRouter-Wireless Valyrian initramfs:
   stage: smoke tests
   timeout: 25 minutes
   variables:
+    TEST_STALL_TIMEOUT: 300
     CDROUTER_TEST_CONFIG: wireless
     CDROUTER_CONFIG_USP_CONTROLLER_MTP: websocket
     CDROUTER_DUT_INIT_USP_MTP_SCRIPT: .gitlab/scripts/dut-init/cdrouter-dut-configure-usp-ws.sh
@@ -59,6 +63,7 @@ CDRouter-UPnP-IPv46 Valyrian initramfs:
   <<: *nokia_valyrian_ipv6
   timeout: 76 minutes
   variables:
+    TEST_STALL_TIMEOUT: 1002
     CDROUTER_TEST_CONFIG: generic-ipv6-upnp
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
@@ -69,6 +74,7 @@ CDRouter-UPnP-IPv46-Failing Valyrian initramfs:
   timeout: 120 minutes
   allow_failure: true
   variables:
+    TEST_STALL_TIMEOUT: 892
     CDROUTER_TEST_CONFIG: generic-ipv6-upnp
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
@@ -77,6 +83,7 @@ CDRouter-UPnP-IPv46-Failing Valyrian initramfs:
 CDRouter-IPv6-Top-100+mDNS Valyrian initramfs:
   <<: *nokia_valyrian_ipv6
   variables:
+    TEST_STALL_TIMEOUT: 494
     CDROUTER_TEST_CONFIG: generic-ipv6
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
@@ -91,6 +98,7 @@ prpl-Certification Valyrian initramfs:
       when: never
     - when: manual
   variables:
+    TEST_STALL_TIMEOUT: 5208
     CDROUTER_TEST_CONFIG: generic-ipv6
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
@@ -100,6 +108,7 @@ prpl-Certification Valyrian initramfs:
 CDRouter-IPv6-Top-100+mDNS Valyrian VLAN WAN/LAN initramfs:
   <<: *nokia_valyrian_ipv6
   variables:
+    TEST_STALL_TIMEOUT: 494
     CDROUTER_TEST_CONFIG: vlan-ipv6
     CDROUTER_CONFIG_USP_CONTROLLER_MTP: stomp
     CDROUTER_DUT_INIT_USP_MTP_SCRIPT: ''
@@ -111,6 +120,7 @@ CDRouter-IPv6-Top-100+mDNS Valyrian VLAN WAN/LAN initramfs:
 .CDRouter-IPv6-Top-100+mDNS Valyrian PPPoE WAN initramfs:
   <<: *nokia_valyrian_ipv6
   variables:
+    TEST_STALL_TIMEOUT: 494
     CDROUTER_TEST_CONFIG: ppp-ipv6
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
@@ -121,6 +131,7 @@ CDRouter-TR-069 Valyrian eMMC:
   <<: *nokia_valyrian
   timeout: 45 minutes
   variables:
+    TEST_STALL_TIMEOUT: 324
     LABGRID_TARGET: nokia-valyrian-emmc
     TFTP_IMAGE_FILENAME: prplos-airoha-an7581-nokia_valyrian-squashfs-sysupgrade.bin
     TFTP_IMAGE_FILENAME_PATTERN: /.*prplos-airoha-an7581-nokia_valyrian-squashfs-sysupgrade.bin/
@@ -136,6 +147,7 @@ CDRouter-USP-prpl Valyrian initramfs:
       when: never
     - when: manual
   variables:
+    TEST_STALL_TIMEOUT: 300
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
       .gitlab/scripts/dut-init/cdrouter-dut-configure-dyndns.sh
@@ -146,6 +158,7 @@ prplWare-Smoke-Test-Suite Valyrian initramfs:
   timeout: 52 minutes
   stage: smoke tests
   variables:
+    TEST_STALL_TIMEOUT: 480
     CDROUTER_TEST_CONFIG: smoke-test
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
@@ -176,11 +189,15 @@ prplWare-Smoke-Test-Suite Valyrian initramfs:
 prplOS-Network-Test-Plan-Mandatory-v1.2.0 Valyrian initramfs:
   <<: *nokia_valyrian_certification
   timeout: 125 minutes
+  variables:
+    <<: *nokia_valyrian_certification_variables
+    TEST_STALL_TIMEOUT: 1850
 
 prplOS-Network-Test-Plan-Candidate-v1.2.0 Valyrian initramfs:
   <<: *nokia_valyrian_certification
   timeout: 77 minutes
   variables:
     <<: *nokia_valyrian_certification_variables
+    TEST_STALL_TIMEOUT: 1130
     CDROUTER_CONFIG_USP_CONTROLLER_MTP: websocket
     CDROUTER_DUT_INIT_USP_MTP_SCRIPT: .gitlab/scripts/dut-init/cdrouter-dut-configure-usp-ws.sh

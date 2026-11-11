@@ -137,6 +137,7 @@
         --device generic \
         --configuration $CDROUTER_TEST_CONFIG \
         --system-info system-$LABGRID_TARGET.json \
+        --stall-timeout "${TEST_STALL_TIMEOUT:-0}" \
         --timeout ${TEST_CUTOFF_TIMEOUT} || cdrouter_exit_code=$?
       case "${cdrouter_exit_code:-0}" in
         124|137)
