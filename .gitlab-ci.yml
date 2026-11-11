@@ -646,6 +646,7 @@ cram OSPv2 [prplos]:
   needs: []
   extends: .mxl25641-hdk-6 testbed
   variables:
+    PREBUILT_CRAM_ARTIFACTS: "1"
     RUNNER_SCRIPT_TIMEOUT: 3480s
     RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     COMPONENT: prplos
@@ -684,6 +685,7 @@ cram Freedom [prplos]:
   needs: []
   extends: .wnc-freedom testbed
   variables:
+    PREBUILT_CRAM_ARTIFACTS: "1"
     RUNNER_SCRIPT_TIMEOUT: 3480s
     RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     COMPONENT: prplos
