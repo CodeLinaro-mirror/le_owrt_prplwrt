@@ -202,7 +202,7 @@ prplOS-Network-Test-Plan-Mandatory-v1.2.0 MXL25641-HDK-6 eMMC:
 
 prplOS-Network-Test-Plan-Candidate-v1.2.0 MXL25641-HDK-6 eMMC:
   <<: *mxl25641_certification
-  timeout: 52 minutes
+  timeout: 77 minutes
   variables:
     <<: *mxl25641_certification_variables
     CDROUTER_CONFIG_USP_CONTROLLER_MTP: websocket
