@@ -46,19 +46,19 @@
 
 p6-testbed-01:
   extends: .runner-cap-proof
-  tags: [dut-turris-omnia]
+  tags: [cdr-cutoff-reserved-3056367]
 
 p6b-testbed-01:
   extends: .script-timeout-proof
-  tags: [dut-turris-omnia]
+  tags: [cdr-cutoff-reserved-3056367]
 
 p6-testbed-02:
   extends: .runner-cap-proof
-  tags: [dut-prpl-haze]
+  tags: [cdr-cutoff-reserved-18604453]
 
 p6b-testbed-02:
   extends: .script-timeout-proof
-  tags: [dut-prpl-haze]
+  tags: [cdr-cutoff-reserved-18604453]
 
 commit-check:static:
   rules: [{ when: never }]
