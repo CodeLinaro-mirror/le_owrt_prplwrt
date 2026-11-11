@@ -24,6 +24,7 @@ CDRouter-Top-100+mDNS-OSP MXL25641-HDK-6 VLAN WAN/LAN eMMC:
 
 CDRouter-Top-100+mDNS-OSP MXL25641-HDK-6 PPPoE WAN eMMC:
   <<: *mxl25641_cdrouter
+  timeout: 41 minutes
   variables:
     CDROUTER_TEST_CONFIG: ppp
     DUT_INIT_SCRIPTS: |
