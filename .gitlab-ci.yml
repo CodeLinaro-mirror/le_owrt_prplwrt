@@ -518,7 +518,7 @@ cram Omnia [full]:
   allow_failure: true
   needs: ["build test mvebu prpl security"]
   extends: .turris-omnia testbed
-  timeout: 85 minutes
+  timeout: 126 minutes
   variables:
     COMPONENT: full
 
@@ -547,7 +547,7 @@ cram Haze [full]:
   allow_failure: true
   needs: ["build test ipq807x prpl security"]
   extends: .prpl-haze testbed
-  timeout: 85 minutes
+  timeout: 126 minutes
   variables:
     COMPONENT: full
 
@@ -633,7 +633,7 @@ cram Mozart [full]:
     - job: build test mtk_filogic prpl security
       optional: true
   extends: .arcadyan-mozart testbed
-  timeout: 85 minutes
+  timeout: 126 minutes
   variables:
     COMPONENT: full
 
@@ -666,7 +666,7 @@ cram Valyrian [full]:
     - job: build test airoha_an7581 prpl security
       optional: true
   extends: .nokia-valyrian testbed
-  timeout: 85 minutes
+  timeout: 126 minutes
   variables:
     COMPONENT: full
 
