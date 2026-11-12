@@ -838,6 +838,21 @@ prplWare-Smoke-Test-Suite Valyrian initramfs:
   needs: []
   rules: !reference [.prebuilt-firmware, rules]
 
+prplWare-Smoke-Test-Suite MXL25641-HDK-6 eMMC:
+  tags: [cdr-cutoff-reserved-3056367]
+  needs: []
+  rules: !reference [.prebuilt-firmware, rules]
+
+CDRouter-Wireless MXL25641-HDK-6 eMMC:
+  tags: [cdr-cutoff-reserved-3056367]
+  needs: []
+  rules: !reference [.prebuilt-firmware, rules]
+
+CDRouter-Wireless Freedom eMMC:
+  tags: [cdr-cutoff-reserved-3056367]
+  needs: []
+  rules: !reference [.prebuilt-firmware, rules]
+
 prplWare-Smoke-Test-Suite Mozart initramfs:
   tags: [cdr-cutoff-reserved-18604453]
   needs: []
