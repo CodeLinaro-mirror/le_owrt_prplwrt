@@ -242,11 +242,11 @@
       optional: true
   - cmd: tr181-dns
     id: tr181_app:tr181_app
-    caps: dac_override,fowner,kill,net_bind_service,net_raw,setfcap
+    caps: dac_override,fowner,kill,net_bind_service,net_raw,setfcap,setgid,setuid
     child:
     - cmd: unbound
       id: tr181_app:tr181_app
-      caps: dac_override,fowner,kill,net_bind_service,net_raw,setfcap
+      caps: dac_override,fowner,kill,net_bind_service,net_raw,setfcap,setgid,setuid
       child:
       - cmd: unbound
         id: tr181_app:tr181_app
