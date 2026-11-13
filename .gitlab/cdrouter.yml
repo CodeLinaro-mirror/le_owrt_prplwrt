@@ -113,36 +113,63 @@
     - section_end "cdrouter-configuration"
     - setup_finish
 
-    - |
-      JOB_ELAPSED=$(( $(date +%s) - $(date -d "$CI_JOB_STARTED_AT" +%s) ))
-      TEST_CUTOFF_TIMEOUT=$((CI_JOB_TIMEOUT - JOB_ELAPSED - TEST_TEARDOWN_RESERVE))
-      if [ "$TEST_CUTOFF_TIMEOUT" -lt 60 ]; then TEST_CUTOFF_TIMEOUT=60; fi
-      echo "Job timeout: $CI_JOB_TIMEOUT seconds, elapsed: $JOB_ELAPSED seconds, test cutoff timeout: $TEST_CUTOFF_TIMEOUT seconds"
+    - test_budget
 
-    - section_start "test-execution" "Test Execution" "expanded"
+    - section_start "test-execution" "Test Execution" "expanded" "🧪"
     - |
-      .gitlab/scripts/testbed-cdrouter.py \
+      PACKAGE_RUN_TIMEOUT=$((TEST_CUTOFF_TIMEOUT + 60))
+      if ! [ "$TEST_CUTOFF_TIMEOUT" -gt 0 ] || ! [ "$PACKAGE_RUN_TIMEOUT" -gt 0 ]; then
+        log_error "package_run requires positive cutoff and wrapper timeouts."
+        exit 1
+      fi
+      timeout --kill-after=10 "$PACKAGE_RUN_TIMEOUT" .gitlab/scripts/testbed-cdrouter.py \
         package_run $TEST_PACKAGE \
         --device generic \
         --configuration $CDROUTER_TEST_CONFIG \
         --system-info system-$LABGRID_TARGET.json \
         --timeout ${TEST_CUTOFF_TIMEOUT} || cdrouter_exit_code=$?
-    - section_end "test-execution"
+      case "${cdrouter_exit_code:-0}" in
+        124|137)
+          section_close_on_fatal
+          log_error "The CDRouter package did not finish within $(format_duration "$PACKAGE_RUN_TIMEOUT") and was stopped."
+          cdrouter_exit_code=86
+          ;;
+      esac
+    - tests_finish "${cdrouter_exit_code:-0}"
 
     - sudo ip link set $TESTBED_LAN_INTERFACE up 2> /dev/null || true
     - sudo ip link set $TESTBED_WAN_INTERFACE up 2> /dev/null || true
     - sleep 5
 
-    - python3 -m cram --verbose .gitlab/tests/cram/post/generic/50-check-for-crashes.t || cram_exit_code=$?
+    - |
+      # An estimated limit; the crash check runs inside the 60-second script tail.
+      CRAM_CRASH_CHECK_TIMEOUT=30
+      if ! [ "$CRAM_CRASH_CHECK_TIMEOUT" -gt 0 ]; then
+        log_error "Crash check requires a positive timeout."
+        exit 1
+      fi
+      CRAM_CRASH_CHECK_START=$(date +%s)
+      timeout --kill-after=10 "$CRAM_CRASH_CHECK_TIMEOUT" \
+        python3 -m cram --verbose .gitlab/tests/cram/post/generic/50-check-for-crashes.t || cram_exit_code=$?
+      if [ "${cram_exit_code:-0}" -eq 0 ]; then
+        log_success "Crash check passed ($(format_duration "$(( $(date +%s) - CRAM_CRASH_CHECK_START ))"))."
+      else
+        log_error "Crash check failed after $(format_duration "$(( $(date +%s) - CRAM_CRASH_CHECK_START ))") (exit code $cram_exit_code)."
+      fi
     - ssh root@$TARGET_LAN_IP 'logger -t CI -p local0.info "Testing finished, $(uptime -p)"' || true
 
     - >
       if test -n "$cdrouter_exit_code"; then
-        log_error "CDRouter exited with $cdrouter_exit_code exit code."
+        if [ "$cdrouter_exit_code" -eq 86 ]; then
+          log_error "The job fails with exit code 86, which means a time limit was reached."
+        else
+          log_error "CDRouter exited with $cdrouter_exit_code exit code."
+        fi
         exit "$cdrouter_exit_code"
       fi
 
       if test -n "$cram_exit_code"; then
+        write_outcome tests-failed "$cram_exit_code"
         log_error "cram exited with $cram_exit_code exit code."
         exit "$cram_exit_code"
       fi
