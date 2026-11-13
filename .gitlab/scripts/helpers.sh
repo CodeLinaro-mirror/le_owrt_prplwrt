@@ -20,7 +20,7 @@ _section_problem() {
 log_error() { _section_problem 91 "❌ ERROR: $*"; }
 log_warn() {
 	TEARDOWN_WARNINGS=$((${TEARDOWN_WARNINGS:-0} + 1))
-	_section_problem '1;33' "⚠️ WARNING: $*"
+	_section_problem '1;38;5;208' "⚠️ WARNING: $*"
 }
 
 # Durations are whole seconds; hour-long durations show hours and minutes.
@@ -344,6 +344,7 @@ teardown_begin() {
 
 teardown_device_logs_begin() {
 	local left job_end directory
+	TEARDOWN_SSH_RECOVERY_STATUS=0
 	section_start teardown-device-logs "Teardown: device logs" collapsed "🧹"
 	left=$((TEARDOWN_DEADLINE - $(date +%s)))
 	[ "$left" -ge 0 ] || left=0
@@ -357,7 +358,8 @@ teardown_device_logs_begin() {
 	directory=$(job_state_dir) || directory=
 	if [ -n "$directory" ] && [ -f "$directory/device-boot-started" ]; then
 		TEARDOWN_DEVICE_BOOTED=true
-		if [ "$TEARDOWN_OUTCOME" = setup-timeout ] || [ "$TEARDOWN_OUTCOME" = unknown ]; then
+		# Setup already explained recovery before exiting on its time limit.
+		if [ "$TEARDOWN_OUTCOME" = unknown ]; then
 			log_info "The device had started to boot, so teardown now tries to reach it and save its logs."
 		fi
 	else
@@ -394,9 +396,17 @@ _teardown_step_warning() {
 
 # Mandatory cleanup retains its own limit even when collection time runs out.
 teardown_cleanup_step() {
-	local _step_failure_log=_teardown_step_warning
+	local _step_failure_log=${_step_failure_log:-_teardown_step_warning}
 	local _teardown_step_name="$1" _teardown_step_limit="$2"
 	run_step "$@" || :
+	_teardown_count_step
+}
+
+# A known missing prerequisite is a skipped step, not a command failure.
+teardown_skip() {
+	RUN_STEP_STATUS=125
+	RUN_STEP_DURATION=0
+	log_skip "$1: skipped, $2"
 	_teardown_count_step
 }
 
@@ -459,8 +469,29 @@ teardown_finish() {
 	printf '   Setup %s · tests %s · teardown %s\n' "$setup" "$tests" "$duration"
 }
 
+# Keep artifact names and each remote command's existing time limit together.
+# Continue after a failed snapshot so other device logs can still be saved.
+collect_device_logs() {
+	local file command rc=0
+	while IFS='|' read -r file command; do
+		timeout --kill-after=5 30 ssh -n root@"$TARGET_LAN_IP" "$command" > "${file}-$LABGRID_TARGET.txt" || rc=1
+	done <<'LOGS'
+processes|ps
+dmesg|dmesg
+syslog|cat /var/log/messages
+opkg_list|opkg list
+LOGS
+	return "$rc"
+}
+
 device_reachable() {
-	teardown_step 'Check that the device answers over SSH' 10 ssh -o ConnectTimeout=10 root@"$TARGET_LAN_IP" exit
+	# This predicate owns the reachability warning, including a failed probe.
+	local _step_failure_log=:
+	if [ "${TEARDOWN_SSH_RECOVERY_STATUS:-0}" -ne 0 ]; then
+		teardown_skip 'Check that the device answers over SSH' 'SSH recovery did not finish successfully'
+	else
+		teardown_step 'Check that the device answers over SSH' 10 ssh -o ConnectTimeout=10 root@"$TARGET_LAN_IP" exit
+	fi
 	if [ "$RUN_STEP_STATUS" -eq 0 ]; then
 		return 0
 	fi
