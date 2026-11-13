@@ -13,15 +13,17 @@
     - chmod 700 ~/.ssh
 
     - |
-      for f in ${TFTP_IMAGE_FILENAMES:-$TFTP_IMAGE_FILENAME}; do
-        echo "Using firmware image $TFTP_IMAGE_PATH/$f"
-        cp "$TFTP_IMAGE_PATH/$f" "$TESTBED_TFTP_PATH"
-      done
+      setup_step "Stage the device firmware" 140 bash -ec '
+        for f in ${TFTP_IMAGE_FILENAMES:-$TFTP_IMAGE_FILENAME}; do
+          echo "Using firmware image $TFTP_IMAGE_PATH/$f"
+          cp "$TFTP_IMAGE_PATH/$f" "$TESTBED_TFTP_PATH"
+        done
 
-      if [ -n "$TFTP_IMAGE_UNPACK_COMMAND" ]; then
-        echo "Running $TFTP_IMAGE_UNPACK_COMMAND"
-        eval "$TFTP_IMAGE_UNPACK_COMMAND"
-      fi
+        if [ -n "$TFTP_IMAGE_UNPACK_COMMAND" ]; then
+          echo "Running $TFTP_IMAGE_UNPACK_COMMAND"
+          eval "$TFTP_IMAGE_UNPACK_COMMAND"
+        fi
+      '
 
     - >
       if echo "$CI_RUNNER_DESCRIPTION" | grep -q testbed-02; then
@@ -36,36 +38,44 @@
 
 .dut-lifecycle.boot:
   script:
-    - section_start "dut-bringup" "DUT Bringup" "collapsed"
+    - section_start "dut-bringup" "Device Boot" "collapsed" "🔧"
 
-    - .gitlab/scripts/testbed-device.py --target $LABGRID_TARGET boot_into shell
+    - mark_device_boot_started
+    - setup_step "Wait for the device to boot" 464 .gitlab/scripts/testbed-device.py --target $LABGRID_TARGET boot_into shell
 
 .dut-lifecycle.ready:
   script:
     - >
-      .gitlab/scripts/testbed-device.py
+      setup_step "Wait for the device network" 300 .gitlab/scripts/testbed-device.py
       --target $LABGRID_TARGET check_network
       --network lan
       --remote-host $TARGET_LAN_TEST_HOST
 
-    - sleep $DUT_SLEEP_AFTER_BOOT
+    - setup_step "Let the device settle after boot" "$((DUT_SLEEP_AFTER_BOOT + 10))" sleep "$DUT_SLEEP_AFTER_BOOT"
 
     - section_end "dut-bringup"
-    - section_start "dut-system-info" "DUT System Information" "collapsed"
+    - section_start "dut-system-info" "Device Information" "collapsed" "🔧"
 
     - echo "Waiting for SSH connection availability with ${DUT_SSH_CONNECT_TIMEOUT}sec timeout, with $DUT_SSH_CONNECT_ATTEMPTS attempts..."
-    - time ssh -o BatchMode=yes -o StrictHostKeyChecking=no -o ConnectionAttempts=$DUT_SSH_CONNECT_ATTEMPTS -o ConnectTimeout=$DUT_SSH_CONNECT_TIMEOUT root@$TARGET_LAN_IP 'exit 0'
+    - |
+      DUT_SSH_DEADLINE=$((DUT_SSH_CONNECT_ATTEMPTS * DUT_SSH_CONNECT_TIMEOUT))
+      # Allow max(1.5 * deadline, deadline + 60), rounded up to seconds.
+      DUT_SSH_CAP=$(( (3 * DUT_SSH_DEADLINE + 1) / 2 ))
+      if [ "$DUT_SSH_CAP" -lt "$((DUT_SSH_DEADLINE + 60))" ]; then
+        DUT_SSH_CAP=$((DUT_SSH_DEADLINE + 60))
+      fi
+      setup_step "Connect to the device over SSH" "$DUT_SSH_CAP" bash -c 'source .gitlab/scripts/helpers.sh; wait_for_ssh "$1"' _ "$DUT_SSH_CAP"
 
-    - ssh-keyscan $TARGET_LAN_IP >> ~/.ssh/known_hosts 2> /dev/null
+    - setup_step "Record the SSH host key of the device" 10 bash -ec 'ssh-keyscan "$TARGET_LAN_IP" >> ~/.ssh/known_hosts 2> /dev/null'
     - >
       if [ -n "${DUT_OBUSPA_VERBOSE_LEVEL:-}" ] ||
          [ -n "${DUT_OBUSPA_PROTOCOL_TRACE:-}" ]; then
-        .gitlab/scripts/dut-init/dut-configure-obuspa-logging.sh;
+        setup_step "Configure device protocol logging" 60 .gitlab/scripts/dut-init/dut-configure-obuspa-logging.sh;
       fi
-    - ssh root@$TARGET_LAN_IP 'logger -t CI -p local0.info "System accessible over SSH, $(uptime -p)"' || true
-    - ssh root@$TARGET_LAN_IP "cat /var/log/messages" > syslog-$LABGRID_TARGET.txt 2> /dev/null || true
-    - ssh root@$TARGET_LAN_IP "ubus call system board" | tee system-$LABGRID_TARGET.json
-    - .gitlab/scripts/memory-footprint.sh boot || true
+    - setup_optional_step "Record that the device is accessible over SSH" 30 ssh root@$TARGET_LAN_IP 'logger -t CI -p local0.info "System accessible over SSH, $(uptime -p)"'
+    - setup_optional_step "Read the device system log" 30 bash -ec 'exec ssh root@"$TARGET_LAN_IP" "cat /var/log/messages" > "syslog-$LABGRID_TARGET.txt" 2> /dev/null'
+    - setup_step "Read the device board information" 30 bash -eo pipefail -c 'ssh root@"$TARGET_LAN_IP" "ubus call system board" | tee "system-$LABGRID_TARGET.json"'
+    - setup_optional_step "Measure memory use after boot" 40 .gitlab/scripts/memory-footprint.sh boot
 
 .dut-lifecycle.recover-ssh:
   script:

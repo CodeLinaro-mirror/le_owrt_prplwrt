@@ -186,8 +186,7 @@ _setup_step_error() {
 	fi
 }
 
-# Setup timeouts fail the job, even for optional diagnostics. Ordinary command
-# failures return to the caller's existing failure policy and count as failures.
+# Mandatory setup timeouts fail the job. Other failures return to the caller.
 setup_step() {
 	local rc=0 _step_failure_log=_setup_step_error _step_close_on_timeout=true
 	local _setup_step_name="$1" _setup_step_limit="$2" directory
@@ -211,6 +210,58 @@ setup_step() {
 	esac
 	return "$rc"
 }
+
+# Optional diagnostics warn on failure or timeout and let setup continue.
+setup_optional_step() {
+	local rc=0 _step_failure_log=log_warn
+	run_step "$@" || rc=$?
+	case "$rc" in
+		0) SETUP_STEPS_DONE=$((${SETUP_STEPS_DONE:-0} + 1)) ;;
+		124) SETUP_STEPS_STOPPED=$((${SETUP_STEPS_STOPPED:-0} + 1)) ;;
+		*) SETUP_STEPS_FAILED=$((${SETUP_STEPS_FAILED:-0} + 1)) ;;
+	esac
+	return 0
+}
+
+# wait_for_ssh <setup step limit in seconds>
+wait_for_ssh() (
+	# Leave two seconds for the caller and one for whole-second rounding.
+	local deadline=$((SECONDS + $1 - 3)) attempt remaining rc=124 error_file
+	error_file=$(mktemp) || return 1
+	trap 'rm -- "$error_file"' EXIT
+
+	for ((attempt = 0; attempt < DUT_SSH_CONNECT_ATTEMPTS; attempt++)); do
+		if (( attempt > 0 )); then
+			if (( deadline - SECONDS <= DUT_SSH_CONNECT_TIMEOUT + 1 )); then
+				rc=124
+				break
+			fi
+			sleep 1
+		fi
+
+		remaining=$((deadline - SECONDS))
+		if (( remaining <= DUT_SSH_CONNECT_TIMEOUT )); then
+			rc=124
+			break
+		fi
+		# Also bound the remote command after SSH has connected.
+		rc=0
+		timeout --foreground --signal=KILL "$remaining" ssh \
+			-o BatchMode=yes -o StrictHostKeyChecking=no \
+			-o "ConnectTimeout=$DUT_SSH_CONNECT_TIMEOUT" "root@$TARGET_LAN_IP" 'exit 0' \
+			2> "$error_file" || rc=$?
+		if (( rc == 0 )); then
+			return 0
+		fi
+		if (( rc == 137 && SECONDS >= deadline )); then
+			rc=124
+			break
+		fi
+	done
+
+	cat "$error_file" >&2
+	return "$rc"
+)
 
 # Compute the test budget after setup, keeping the job deadline in UTC.
 test_budget() {

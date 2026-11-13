@@ -225,6 +225,24 @@ pass 'durations persist across shells with validated names and values'
  assert_absent "$output" '✅ Setup finished'
  pass 'optional setup failures are counted without a success summary'
 
+ rc=0
+ (
+  setup_begin
+  section_start setup Setup collapsed '🔧'
+  setup_optional_step 'Read an optional diagnostic' 2 /bin/false || fail 'optional failure returned an error'
+  setup_optional_step 'Wait for an optional diagnostic' 1 sleep 5 || fail 'optional timeout returned an error'
+  setup_optional_step 'Read another diagnostic' 2 /bin/true
+  setup_finish
+ ) > "$scratch/setup-optional.log" || rc=$?
+ assert_equal "$rc" 0
+ output=$(cat "$scratch/setup-optional.log")
+ assert_contains "$output" '⚠️ WARNING: Read an optional diagnostic failed'
+ assert_contains "$output" '⚠️ WARNING: Wait for an optional diagnostic stopped at its time limit of 1 s'
+ assert_contains "$output" '✅ Read another diagnostic'
+ assert_contains "$output" 'Setup finished (1 steps done, 1 failed, 1 stopped)'
+ assert_absent "$output" 'exit code 86'
+ pass 'optional setup diagnostics warn, count outcomes and allow the next command'
+
  hung_setup() { sleep 5; }
  export -f hung_setup
  for boot in no yes; do
@@ -264,6 +282,64 @@ pass 'durations persist across shells with validated names and values'
   fi
  done
  pass 'hung setup function exits 86 with visible error, persisted state and boot-dependent explanation'
+)
+
+# Exercise the boot settle step from the shared lifecycle.
+(
+ lifecycle="$(dirname "$helpers")/../dut-lifecycle.yml"
+ settle_step=$(sed -n 's/^    - \(setup_step "Let the device settle after boot".*\)/\1/p' "$lifecycle")
+ [ -n "$settle_step" ] || fail 'missing boot settle step'
+ DUT_SLEEP_AFTER_BOOT=1
+ output=$(eval "$settle_step")
+ assert_contains "$output" '  ✅ Let the device settle after boot ('
+ pass 'device boot settle delay appears as a successful setup step'
+)
+
+# Stub SSH so failures have distinct diagnostics and configurable elapsed time.
+(
+ cat > "$scratch/bin/ssh" <<'SH'
+#!/bin/sh
+read -r attempt < "$SSH_ATTEMPT_FILE"
+attempt=$((attempt + 1))
+printf '%s\n' "$attempt" > "$SSH_ATTEMPT_FILE"
+printf 'ssh: attempt %s failed\n' "$attempt" >&2
+[ "$attempt" -ne "$SSH_SUCCESS_ATTEMPT" ] || exit 0
+sleep "$SSH_ATTEMPT_DELAY"
+exit 23
+SH
+ chmod +x "$scratch/bin/ssh"
+ export PATH="$scratch/bin:$PATH" TARGET_LAN_IP=unused DUT_SSH_CONNECT_TIMEOUT=1
+ export SSH_ATTEMPT_FILE="$scratch/ssh-attempt" SSH_ATTEMPT_DELAY=1 SSH_SUCCESS_ATTEMPT=0
+ export DUT_SSH_CONNECT_ATTEMPTS=120
+
+ printf '0\n' > "$SSH_ATTEMPT_FILE"
+ limit=8
+ start=$SECONDS
+ rc=0
+ wait_for_ssh "$limit" 2> "$scratch/ssh-error" || rc=$?
+ elapsed=$((SECONDS - start))
+ assert_equal "$rc" 124
+ (( elapsed <= limit - 2 )) || fail "SSH wait took ${elapsed}s with a ${limit}s limit"
+ attempt=$(cat "$SSH_ATTEMPT_FILE")
+ (( attempt > 0 && attempt < DUT_SSH_CONNECT_ATTEMPTS )) || fail 'SSH wait did not stop at its deadline'
+ printf 'ssh: attempt %s failed\n' "$attempt" | cmp -s - "$scratch/ssh-error" || fail 'SSH deadline lost the last error'
+ pass 'SSH deadline prints the last error and returns 124 before the step limit'
+
+ printf '0\n' > "$SSH_ATTEMPT_FILE"
+ SSH_ATTEMPT_DELAY=0 DUT_SSH_CONNECT_ATTEMPTS=2
+ rc=0
+ wait_for_ssh 20 2> "$scratch/ssh-error" || rc=$?
+ assert_equal "$rc" 23
+ assert_equal "$(cat "$SSH_ATTEMPT_FILE")" 2
+ printf 'ssh: attempt 2 failed\n' | cmp -s - "$scratch/ssh-error" || fail 'SSH exhaustion lost the last error'
+ pass 'SSH attempt exhaustion prints the last error and preserves its status'
+
+ printf '0\n' > "$SSH_ATTEMPT_FILE"
+ DUT_SSH_CONNECT_ATTEMPTS=5 SSH_SUCCESS_ATTEMPT=3
+ wait_for_ssh 20 > "$scratch/ssh-output" 2> "$scratch/ssh-error"
+ assert_equal "$(cat "$SSH_ATTEMPT_FILE")" 3
+ [ ! -s "$scratch/ssh-output" ] && [ ! -s "$scratch/ssh-error" ] || fail 'SSH success printed retry diagnostics'
+ pass 'SSH succeeds on the third attempt without printing retry diagnostics'
 )
 
 # after_script is a new shell: summaries must read saved outcomes and durations.
