@@ -176,13 +176,15 @@
     - |
       teardown_step "Download the cram report merger" 20 curl --fail \
         --output .gitlab/scripts/cram-xunit-merger.py \
-        https://gitlab.com/prpl-foundation/tooling/cram-xunit-merger/-/raw/9bc14318ab88c2a024ad0ff8bf09c21d048e1e3b/cram-xunit-merger.py || true
+        https://gitlab.com/prpl-foundation/tooling/cram-xunit-merger/-/raw/e9b5075891e8a478ec4bd721608479523ea3c079/cram-xunit-merger.py || true
 
     - |
-      teardown_step "Merge the cram reports" 20 python3 .gitlab/scripts/cram-xunit-merger.py \
+      teardown_step "Recover and merge the cram reports" 20 python3 .gitlab/scripts/cram-xunit-merger.py \
         --output "${CI_PROJECT_DIR}/cram-result-$LABGRID_TARGET.junit.xml" \
         "${CI_PROJECT_DIR}/cram-result-$LABGRID_TARGET.xunit.xml" \
-        "${CI_PROJECT_DIR}/cram-result-post-$LABGRID_TARGET.xunit.xml" || true
+        "${CI_PROJECT_DIR}/cram-result-post-$LABGRID_TARGET.xunit.xml" \
+        --recover-from-log "${CI_PROJECT_DIR}/cram-result-$LABGRID_TARGET.txt" \
+        --post-suite $CRAM_TEST_SUITE_POST || true
 
     - >
       [ "$TMATE_ENABLE_SHELL" = "YES" ] && {

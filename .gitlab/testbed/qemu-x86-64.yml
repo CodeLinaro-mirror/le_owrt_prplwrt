@@ -60,6 +60,18 @@
         124|137)
           write_outcome cutoff
           tests_finish 86
+          if [ ! -s artifacts/cram.xml ] || [ ! -s artifacts/cram-post.xml ]; then
+            # Bound the download and recovery together to leave time for artifact upload.
+            timeout --signal=KILL 20s bash -ec '
+              curl --fail --silent --show-error --output "$1" \
+                https://gitlab.com/prpl-foundation/tooling/cram-xunit-merger/-/raw/e9b5075891e8a478ec4bd721608479523ea3c079/cram-xunit-merger.py
+              python3 "$1" artifacts/cram.xml artifacts/cram-post.xml \
+                --recover-from-log artifacts/cram.txt --post-suite "$2" > /dev/null
+            ' bash "$(job_state_dir)/cram-xunit-merger.py" "$CRAM_TEST_SUITE_POST" || true
+            if [ ! -s artifacts/cram.xml ] || [ ! -s artifacts/cram-post.xml ]; then
+              log_warn "A cut-off cram suite has no xUnit report."
+            fi
+          fi
           log_error "The job fails with exit code 86, which means a time limit was reached."
           exit 86
           ;;
