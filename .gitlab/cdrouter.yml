@@ -1,7 +1,7 @@
 .cdrouter:
   extends: .dut-lifecycle
   stage: cdrouter
-  timeout: 40 minutes
+  timeout: 45 minutes  # need 30..45 min
   image: "registry.gitlab.com/prpl-foundation/prplos/ci/containers/testbed/testbed:v1.7.0@sha256:91904f7814afffc7bf042a35b5c1038caf74de49d36ecc10f0e5f3d47ffcde04"
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
@@ -11,6 +11,8 @@
     - $DUT_TAG
     - cdrouter
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 2100s  # need 30..45 min
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     CDROUTER_CONFIG_WIFI_BEACON_PHY: 'ax b be g n'
     CDROUTER_CONFIG_WIFI_BEACON_RSN_CIPHER: 'CCMP-128 GCMP-256'
     CDROUTER_CONFIG_WIFI_BEACON_WPA_KEY_MGMT: 'PSK SAE SAE-EXT'
@@ -30,7 +32,11 @@
     CDROUTER_DUT_INIT_USP_MTP_SCRIPT: .gitlab/scripts/dut-init/cdrouter-dut-configure-usp-mqtt.sh
     DUT_OBUSPA_VERBOSE_LEVEL: ''
     DUT_OBUSPA_PROTOCOL_TRACE: ''
-    TEST_TEARDOWN_RESERVE: 180
+    # 660 s = 60 s script tail + 300 s after_script + 300 s upload.
+    # Runner cap verified by job 17927787136.
+    # Upload: 172.246 s (job 17824766078) + 120 s, rounded up to 10 s.
+    # Keep all three terms; do not lower this to the measured teardown time.
+    TEST_TEARDOWN_RESERVE: 660
     CDROUTER_LAN_INTERFACE: eth1
     CDROUTER_WAN_INTERFACE: eth2
     CDROUTER_ETH0_MAC_ADDRESS: 00:03:2d:49:2e:d8
