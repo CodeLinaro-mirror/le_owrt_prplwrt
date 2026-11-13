@@ -59,6 +59,7 @@ CDRouter-UPnP-IPv46 MXL25641-HDK-6 eMMC:
   timeout: 90 minutes  # need 77..88 min
   <<: *mxl25641_cdrouter_ipv6
   variables:
+    TEST_STALL_TIMEOUT: 1200  # need 14.867..16.7 min (892..1002 s)
     RUNNER_SCRIPT_TIMEOUT: 4800s  # need 77..88 min
     CDROUTER_TEST_CONFIG: generic-ipv6-upnp
     # PROVISORY workaround for PPW-1897: after switching CDRouter USP testing
@@ -77,6 +78,7 @@ CDRouter-UPnP-IPv46-Failing MXL25641-HDK-6 eMMC:
   <<: *mxl25641_cdrouter_ipv6
   allow_failure: true
   variables:
+    TEST_STALL_TIMEOUT: 1200  # need 14.867..16.7 min (892..1002 s)
     RUNNER_SCRIPT_TIMEOUT: 6900s  # need 107..121 min
     CDROUTER_TEST_CONFIG: generic-ipv6-upnp
     # PROVISORY workaround for PPW-1897: see CDRouter-UPnP-IPv46 sibling job
@@ -104,6 +106,7 @@ prpl-Certification MXL25641-HDK-6 eMMC:
       when: never
     - when: manual
   variables:
+    TEST_STALL_TIMEOUT: 5400  # need 86.8..86.8 min (5208 s)
     RUNNER_SCRIPT_TIMEOUT: 8700s  # need 142..151 min
     CDROUTER_TEST_CONFIG: generic-ipv6
     DUT_INIT_SCRIPTS: |
@@ -167,6 +170,7 @@ prplWare-Smoke-Test-Suite MXL25641-HDK-6 eMMC:
       .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
 
 .mxl25641-certification-variables: &mxl25641_certification_variables
+  TEST_STALL_TIMEOUT: 2100  # need 18.833..30.833 min (1130..1850 s)
   RUNNER_SCRIPT_TIMEOUT: 7200s  # need 125..129 min
   CDROUTER_TEST_CONFIG: prplos-certification
   DUT_INIT_SCRIPTS: |

@@ -13,6 +13,7 @@
   variables:
     RUNNER_SCRIPT_TIMEOUT: 2400s  # need 31..46 min
     RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
+    TEST_STALL_TIMEOUT: 600
     CDROUTER_CONFIG_WIFI_BEACON_PHY: 'ax b be g n'
     CDROUTER_CONFIG_WIFI_BEACON_RSN_CIPHER: 'CCMP-128 GCMP-256'
     CDROUTER_CONFIG_WIFI_BEACON_WPA_KEY_MGMT: 'PSK SAE SAE-EXT'
@@ -130,6 +131,7 @@
         --device generic \
         --configuration $CDROUTER_TEST_CONFIG \
         --system-info system-$LABGRID_TARGET.json \
+        --stall-timeout "${TEST_STALL_TIMEOUT:-0}" \
         --timeout ${TEST_CUTOFF_TIMEOUT} || cdrouter_exit_code=$?
       if time_limit_reached "${cdrouter_exit_code:-0}" "$package_start" "$PACKAGE_RUN_TIMEOUT"; then
         section_close_on_fatal
