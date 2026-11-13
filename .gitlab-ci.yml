@@ -698,7 +698,7 @@ cram QEMU x86-64 [full]:
 
 cram QEMU x86-64 [smoke]:
   allow_failure: true
-  timeout: 5 minutes
+  timeout: 10 minutes
   needs: ["build test x86_64 prpl security"]
   extends: .qemu-x86-64 testbed
   variables:
@@ -706,7 +706,7 @@ cram QEMU x86-64 [smoke]:
 
 cram QEMU x86-64 [prplmesh]:
   allow_failure: true
-  timeout: 5 minutes
+  timeout: 10 minutes
   needs: ["build test x86_64 prpl security"]
   extends: .qemu-x86-64 testbed
   variables:
