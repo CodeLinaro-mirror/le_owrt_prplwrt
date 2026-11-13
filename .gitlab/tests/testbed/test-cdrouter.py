@@ -103,6 +103,45 @@ class PackageRunTests(unittest.TestCase):
             with self.subTest(seconds=seconds):
                 self.assertEqual(MODULE.format_duration(seconds), expected)
 
+    def test_stop_reason_is_saved_before_stopping_package(self):
+        for reason in ("cutoff", "hung-test"):
+            with self.subTest(reason=reason), tempfile.TemporaryDirectory() as directory:
+                runner = MODULE.TestbedCDRouter(SimpleNamespace(
+                    root_dir=directory, timeout=252 if reason == "cutoff" else None,
+                    stall_timeout=10,
+                ))
+                runner.job = SimpleNamespace(id=11)
+                runner.job_total = 3
+                runner.cdr = Mock()
+                runner.cdr.jobs.get.return_value = SimpleNamespace(
+                    status="running", result_id=22,
+                )
+                runner.cdr.results.updates.return_value = SimpleNamespace(
+                    running=SimpleNamespace(description="test A"), progress=None,
+                )
+                state = Path(directory) / ".ci-job-state/123/outcome"
+
+                def stop():
+                    self.assertEqual(state.read_text(), reason + "\n")
+
+                runner.package_stop = Mock(side_effect=stop)
+                with patch.dict(os.environ, {"CI_PROJECT_DIR": directory, "CI_JOB_ID": "123"}), \
+                        patch.object(MODULE.time, "time", side_effect=[0, 252, 252]), \
+                        patch.object(MODULE.time, "monotonic", side_effect=[0, 11]), \
+                        patch.object(MODULE.logging, "error") as error:
+                    self.assertFalse(runner.job_execute())
+                    runner.package_stop.assert_called_once_with()
+                    result = subprocess.run(
+                        ["bash", "-c", 'source "$1"; read_outcome',
+                         "bash", str(SCRIPT.with_name("helpers.sh"))],
+                        check=True, text=True, capture_output=True,
+                    )
+                    self.assertEqual(result.stdout, reason + "\n")
+                    if reason == "cutoff":
+                        error.assert_called_with(
+                            "The time budget for the tests ended after 4 min 12 s. Stopping the package."
+                        )
+
     def test_job_templates_preserve_status_and_show_visible_stop_reason(self):
         # Execute the actual YAML script tail with local command stubs. Nothing
         # connects to a device or API, and the timeout statuses are deterministic.
