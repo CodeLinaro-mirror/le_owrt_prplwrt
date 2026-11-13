@@ -4,6 +4,8 @@
   image: "registry.gitlab.com/prpl-foundation/prplos/ci/containers/testbed/testbed:v1.7.1@sha256:b1b2c5e1a69a1ba8dbd72809ef2d22f4e4e2fba357b2158cb4d3d85a1c6d8480"
   timeout: 91 minutes
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 4860s
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 5m
     DUT_WAN_INTERFACE: eth1
     TESTBED_MNG_INTERFACE: enp1s0
     TESTBED_LAN_INTERFACE: enp2s0
@@ -20,7 +22,11 @@
     DUT_TR181_LAN_INTERFACE: Device.Ethernet.Link.3.
     DUT_OBUSPA_VERBOSE_LEVEL: ''
     DUT_OBUSPA_PROTOCOL_TRACE: ''
-    TEST_TEARDOWN_RESERVE: 180
+    # 720 s = 120 s script tail + 300 s after_script + 300 s upload.
+    # Runner cap verified by job 17927787136.
+    # Upload: 172.246 s (job 17824766078) + 120 s, rounded up to 10 s.
+    # Keep all three terms; do not lower this to the measured teardown time.
+    TEST_TEARDOWN_RESERVE: 720
     CRAM_REMOTE_COMMAND: ssh -n root@$TARGET_LAN_IP
     CRAM_REMOTE_COPY: scp -O -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
     CRAM_TEST_SUITE: |
@@ -216,7 +222,7 @@
 
 .cram_component:
   extends: .testbed
-  timeout: 44 minutes
+  timeout: 70 minutes  # need 52..70 min
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
       when: never
@@ -228,6 +234,7 @@
     - when: manual
       allow_failure: true
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 3600s  # need 52..70 min
     COMPONENT: prplos
   script:
     - |
@@ -306,6 +313,9 @@
 
 .cram_component_auto:
   extends: .cram_component_auto_selection
+  timeout: 140 minutes  # need 135..138 min
+  variables:
+    RUNNER_SCRIPT_TIMEOUT: 7800s  # need 135..138 min
   before_script:
     - !reference [.cram_component_auto_selection, before_script]
     - !reference [.testbed, before_script]

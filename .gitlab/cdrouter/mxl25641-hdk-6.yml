@@ -33,10 +33,11 @@ CDRouter-Top-100+mDNS-OSP MXL25641-HDK-6 PPPoE WAN eMMC:
       .gitlab/scripts/dut-init/cdrouter-dut-enable-pppoe.sh
 
 CDRouter-Wireless MXL25641-HDK-6 eMMC:
+  timeout: 35 minutes  # need 26..35 min
   <<: *mxl25641_cdrouter
   stage: smoke tests
-  timeout: 20 minutes
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 1500s  # need 26..35 min
     CDROUTER_TEST_CONFIG: wireless
     CDROUTER_CONFIG_USP_CONTROLLER_MTP: websocket
     CDROUTER_DUT_INIT_USP_MTP_SCRIPT: .gitlab/scripts/dut-init/cdrouter-dut-configure-usp-ws.sh
@@ -55,9 +56,10 @@ CDRouter-Wireless MXL25641-HDK-6 eMMC:
     - when: manual
 
 CDRouter-UPnP-IPv46 MXL25641-HDK-6 eMMC:
+  timeout: 90 minutes  # need 77..88 min
   <<: *mxl25641_cdrouter_ipv6
-  timeout: 60 minutes
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 4800s  # need 77..88 min
     CDROUTER_TEST_CONFIG: generic-ipv6-upnp
     # PROVISORY workaround for PPW-1897: after switching CDRouter USP testing
     # to MQTTv5 (MR #2579), this job spends ~30s between every IGD2/IPv6 test
@@ -71,10 +73,11 @@ CDRouter-UPnP-IPv46 MXL25641-HDK-6 eMMC:
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
 
 CDRouter-UPnP-IPv46-Failing MXL25641-HDK-6 eMMC:
+  timeout: 125 minutes  # need 107..121 min
   <<: *mxl25641_cdrouter_ipv6
-  timeout: 120 minutes
   allow_failure: true
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 6900s  # need 107..121 min
     CDROUTER_TEST_CONFIG: generic-ipv6-upnp
     # PROVISORY workaround for PPW-1897: see CDRouter-UPnP-IPv46 sibling job
     # above. Switch USP MTP from MQTTv5 to WebSocket; revert with the sibling.
@@ -93,14 +96,15 @@ CDRouter-IPv6-Top-100+mDNS MXL25641-HDK-6 eMMC:
       .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
 
 prpl-Certification MXL25641-HDK-6 eMMC:
+  timeout: 155 minutes  # need 142..151 min
   <<: *mxl25641_cdrouter_ipv6
-  timeout: 120 minutes
   allow_failure: true
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
       when: never
     - when: manual
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 8700s  # need 142..151 min
     CDROUTER_TEST_CONFIG: generic-ipv6
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
@@ -149,10 +153,11 @@ CDRouter-USP-prpl MXL25641-HDK-6 eMMC:
       .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
 
 prplWare-Smoke-Test-Suite MXL25641-HDK-6 eMMC:
+  timeout: 65 minutes  # need 53..63 min
   <<: *mxl25641_cdrouter_ipv6
-  timeout: 45 minutes
   stage: smoke tests
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 3300s  # need 53..63 min
     CDROUTER_TEST_CONFIG: smoke-test
     DUT_INIT_SCRIPTS: |
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
@@ -162,6 +167,7 @@ prplWare-Smoke-Test-Suite MXL25641-HDK-6 eMMC:
       .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
 
 .mxl25641-certification-variables: &mxl25641_certification_variables
+  RUNNER_SCRIPT_TIMEOUT: 7200s  # need 125..129 min
   CDROUTER_TEST_CONFIG: prplos-certification
   DUT_INIT_SCRIPTS: |
     .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
@@ -171,7 +177,7 @@ prplWare-Smoke-Test-Suite MXL25641-HDK-6 eMMC:
 
 .mxl25641-certification: &mxl25641_certification
   <<: *mxl25641_cdrouter_ipv6
-  timeout: 1h 45m
+  timeout: 130 minutes  # need 125..129 min
   stage: certification tests
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
@@ -194,8 +200,9 @@ prplOS-Network-Test-Plan-Mandatory-v1.2.0 MXL25641-HDK-6 eMMC:
 
 prplOS-Network-Test-Plan-Candidate-v1.2.0 MXL25641-HDK-6 eMMC:
   <<: *mxl25641_certification
-  timeout: 52 minutes
+  timeout: 80 minutes  # need 61..78 min
   variables:
     <<: *mxl25641_certification_variables
+    RUNNER_SCRIPT_TIMEOUT: 4200s  # need 61..78 min
     CDROUTER_CONFIG_USP_CONTROLLER_MTP: websocket
     CDROUTER_DUT_INIT_USP_MTP_SCRIPT: .gitlab/scripts/dut-init/cdrouter-dut-configure-usp-ws.sh

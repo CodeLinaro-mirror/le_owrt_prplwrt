@@ -373,7 +373,6 @@ cram Omnia [auto]:
   extends:
     - .turris-omnia testbed
     - .cram_component_auto
-  timeout: 85 minutes
   rules:
     - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
       when: never
@@ -392,7 +391,6 @@ cram Haze [auto]:
   extends:
     - .prpl-haze testbed
     - .cram_component_auto
-  timeout: 85 minutes
   rules:
     - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
       when: never
@@ -411,7 +409,6 @@ cram OSPv2 [auto]:
   extends:
     - .mxl25641-hdk-6 testbed
     - .cram_component_auto
-  timeout: 89 minutes
   rules:
     - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
       when: never
@@ -431,7 +428,6 @@ cram Freedom [auto]:
   extends:
     - .wnc-freedom testbed
     - .cram_component_auto
-  timeout: 94 minutes
   rules:
     - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
       when: never
@@ -451,7 +447,6 @@ cram Mozart [auto]:
   extends:
     - .arcadyan-mozart testbed
     - .cram_component_auto
-  timeout: 85 minutes
   rules:
     - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
       when: never
@@ -470,7 +465,6 @@ cram Valyrian [auto]:
   extends:
     - .nokia-valyrian testbed
     - .cram_component_auto
-  timeout: 85 minutes
   rules:
     - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
       when: never
@@ -515,11 +509,12 @@ report cram selection:
       allow_failure: true
 
 cram Omnia [full]:
+  timeout: 130 minutes  # need 118..127 min
   allow_failure: true
   needs: ["build test mvebu prpl security"]
   extends: .turris-omnia testbed
-  timeout: 85 minutes
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 7200s  # need 118..127 min
     COMPONENT: full
 
 cram Omnia [prplmesh]:
@@ -544,11 +539,12 @@ cram Omnia [prplos]:
     COMPONENT: prplos
 
 cram Haze [full]:
+  timeout: 130 minutes  # need 118..127 min
   allow_failure: true
   needs: ["build test ipq807x prpl security"]
   extends: .prpl-haze testbed
-  timeout: 85 minutes
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 7200s  # need 118..127 min
     COMPONENT: full
 
 cram Haze [prplmesh]:
@@ -573,10 +569,11 @@ cram Haze [prplos]:
     COMPONENT: prplos
 
 cram OSPv2 [full]:
+  timeout: 130 minutes  # need 118..127 min
   needs: ["build test mxl_x86_osp_tb341_v2 mxl_wlan_hostap_ng_wav700 prpl cellular security thread"]
   extends: .mxl25641-hdk-6 testbed
-  timeout: 89 minutes
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 7200s  # need 118..127 min
     COMPONENT: full
 
 cram OSPv2 [prplmesh]:
@@ -598,10 +595,11 @@ cram OSPv2 [prplos]:
     COMPONENT: prplos
 
 cram Freedom [full]:
+  timeout: 130 minutes  # need 118..127 min
   needs: ["build test qca_ipq95xx prpl cellular security thread"]
   extends: .wnc-freedom testbed
-  timeout: 94 minutes
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 7200s  # need 118..127 min
     COMPONENT: full
 
 cram Freedom [prplmesh]:
@@ -623,12 +621,13 @@ cram Freedom [prplos]:
     COMPONENT: prplos
 
 cram Mozart [full]:
+  timeout: 130 minutes  # need 118..127 min
   needs:
     - job: build test mtk_filogic prpl security
       optional: true
   extends: .arcadyan-mozart testbed
-  timeout: 85 minutes
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 7200s  # need 118..127 min
     COMPONENT: full
 
 cram Mozart [prplmesh]:
@@ -656,12 +655,13 @@ cram Mozart [prplos]:
     COMPONENT: prplos
 
 cram Valyrian [full]:
+  timeout: 130 minutes  # need 118..127 min
   needs:
     - job: build test airoha_an7581 prpl security
       optional: true
   extends: .nokia-valyrian testbed
-  timeout: 85 minutes
   variables:
+    RUNNER_SCRIPT_TIMEOUT: 7200s  # need 118..127 min
     COMPONENT: full
 
 cram Valyrian [prplmesh]:

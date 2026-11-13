@@ -16,6 +16,18 @@ assert_contains() { [[ "$1" == *"$2"* ]] || fail "missing '$2' in '$1'"; }
 assert_absent() { [[ "$1" != *"$2"* ]] || fail "unexpected '$2' in '$1'"; }
 pass() { printf 'PASS %s\n' "$*"; }
 
+(
+ testbed_template="$(dirname "$helpers")/../testbed.yml"
+ post_limit=$(sed -n 's/^      CRAM_POST_TIMEOUT=\([0-9]*\)$/\1/p' "$testbed_template")
+ reserve=$(sed -n 's/^    TEST_TEARDOWN_RESERVE: \([0-9]*\)$/\1/p' "$testbed_template")
+ job_minutes=$(sed -n '1,/^  variables:/s/^  timeout: \([0-9]*\) minutes.*/\1/p' "$testbed_template")
+ script_limit=$(sed -n 's/^    RUNNER_SCRIPT_TIMEOUT: \([0-9]*\)s.*/\1/p' "$testbed_template" | head -n 1)
+ tail_seconds=$((script_limit - (job_minutes * 60 - reserve)))
+ # Allow ten seconds each for forced termination and the final logger.
+ ((post_limit + 10 + 10 <= tail_seconds)) || fail 'post suite exceeds the hardware script tail'
+ pass 'post-suite limit, forced termination and final logger fit the hardware script tail'
+)
+
 assert_equal "$(format_duration 5)" '5 s'
 assert_equal "$(format_duration 42)" '42 s'
 assert_equal "$(format_duration 252)" '4 min 12 s'
