@@ -90,7 +90,9 @@ SH
  cat > bin/testbed-qemu <<'SH'
 #!/bin/sh
 case "$QEMU_RESULT" in
- cutoff)
+ cutoff*)
+  printf '%s\n' '.gitlab/tests/cram/first.t: passed' > artifacts/cram.txt
+  printf '%s' '.gitlab/tests/cram/second.t: ' >> artifacts/cram.txt
   trap 'echo "QEMU received SIGTERM"; exit 143' TERM
   sleep 30 &
   wait "$!"
@@ -102,12 +104,43 @@ SH
  REAL_TIMEOUT=$(command -v timeout)
  cat > bin/timeout <<'SH'
 #!/bin/sh
-if [ "$1" = --signal=TERM ] && [ "$4" = testbed-qemu ] && [ "$QEMU_RESULT" = cutoff ]; then
+if [ "$1" = --signal=TERM ] && [ "$4" = testbed-qemu ] && [ "${QEMU_RESULT#cutoff}" != "$QEMU_RESULT" ]; then
  [ "$2" = --kill-after=150s ] && [ "$3" -ge 120 ] || exit 99
  shift 3
  exec "$REAL_TIMEOUT" --signal=TERM --kill-after=2s 1s "$@"
 fi
 exec "$REAL_TIMEOUT" "$@"
+SH
+ cat > bin/curl <<'SH'
+#!/bin/sh
+if [ "$QEMU_RESULT" = cutoff-download-failed ]; then
+ exit 22
+fi
+[ "$4" = --output ] || exit 99
+case "$6" in
+ */e9b5075891e8a478ec4bd721608479523ea3c079/cram-xunit-merger.py) ;;
+ *) exit 99 ;;
+esac
+# Stand in for the download in the offline job-shell test.
+cat > "$5" <<'PY'
+import sys
+import xml.etree.ElementTree as ET
+from pathlib import Path
+
+assert sys.argv[1:] == [
+    "artifacts/cram.xml", "artifacts/cram-post.xml",
+    "--recover-from-log", "artifacts/cram.txt",
+    "--post-suite", ".gitlab/tests/cram/post/generic",
+]
+assert Path("artifacts/cram.txt").read_text() == (
+    ".gitlab/tests/cram/first.t: passed\n.gitlab/tests/cram/second.t: "
+)
+suite = ET.Element("testsuite")
+for name in ("first.t", "second.t"):
+    ET.SubElement(suite, "testcase", name=name)
+ET.ElementTree(suite).write(sys.argv[1])
+ET.ElementTree(ET.Element("testsuite")).write(sys.argv[2])
+PY
 SH
  chmod +x bin/* .gitlab/tests/cram/scripts/resolve-component-tests.py
  export PATH="$PWD/bin:$PATH" CI_PROJECT_DIR="$PWD" CI_JOB_TIMEOUT=600
@@ -115,7 +148,8 @@ SH
  export CRAM_TEST_SUITE_POST=.gitlab/tests/cram/post/generic TEST_TEARDOWN_RESERVE=180
  export CI_JOB_STARTED_AT QEMU_RESULT
  CI_JOB_STARTED_AT=$(date -u +%FT%TZ)
- for QEMU_RESULT in 0 1 cutoff; do
+ for QEMU_RESULT in 0 1 cutoff cutoff-download-failed; do
+  rm -f artifacts/cram.xml artifacts/cram-post.xml
   log="$scratch/qemu-$QEMU_RESULT.log"
   rc=0
   bash -eu -o pipefail "$qemu_script" > "$log" 2>&1 || rc=$?
@@ -133,17 +167,26 @@ SH
   sed -nE $'s/^(section_(start|end):)[0-9]+:/\\1/; s/\e\\[[0-9;]*[Km]//g; s/\r/ /; s/ $//; /^section_/p' \
    "$log" > "$scratch/qemu-headers.actual"
   diff -u "$scratch/qemu-headers.expected" "$scratch/qemu-headers.actual"
-  if [ "$QEMU_RESULT" = cutoff ]; then
+  if [[ "$QEMU_RESULT" == cutoff* ]]; then
    assert_equal "$rc" 86
    assert_contains "$output" 'QEMU received SIGTERM'
    assert_contains "$output" '🛑 Tests stopped on purpose: the time budget ended.'
    assert_contains "$output" 'The job fails with exit code 86, which means a time limit was reached.'
+   if [ "$QEMU_RESULT" = cutoff ]; then
+    assert_contains "$(cat artifacts/cram.xml)" 'name="first.t"'
+    assert_contains "$(cat artifacts/cram.xml)" 'name="second.t"'
+    [ -s artifacts/cram-post.xml ] || fail 'missing recovered QEMU post-suite report'
+    assert_absent "$output" 'has no xUnit report'
+   else
+    assert_equal "$(grep -Fc 'A cut-off cram suite has no xUnit report.' "$log")" 1
+   fi
   else
    assert_equal "$rc" "$QEMU_RESULT"
    assert_absent "$output" 'Tests stopped on purpose'
   fi
  done
  pass 'QEMU preserves normal section headers and exit codes, and logs a SIGTERM cutoff with exit 86'
+ pass 'QEMU requests xUnit recovery from verbose cram output and retains exit 86 if the download fails'
 )
 
 output=$(run_step 'Run a successful command' 2 /bin/true)
