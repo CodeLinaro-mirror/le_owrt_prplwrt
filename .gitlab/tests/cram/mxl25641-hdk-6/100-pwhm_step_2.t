@@ -10,7 +10,7 @@ Check that hostapd is operating as expected:
   $ R logger -t cram "Check that hostapd is operating"
 
   $ R "ps axw" | sed -nE 's/.*(hostapd.*)/\1/p' | head -3 | LC_ALL=C sort
-  hostapd -t /tmp/wlan0_hapd.conf /tmp/wlan2_hapd.conf /tmp/wlan4_hapd.conf
+  hostapd -ts /tmp/wlan0_hapd.conf /tmp/wlan2_hapd.conf /tmp/wlan4_hapd.conf
 
 Check iw interfaces and beaconing:
 
