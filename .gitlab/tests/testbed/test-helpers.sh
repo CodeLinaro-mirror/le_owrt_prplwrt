@@ -27,12 +27,35 @@ if format_duration invalid; then fail 'accepted invalid duration'; fi
 pass 'duration formatting'
 
 output=$(log_warn 'Continue with cleanup')
-assert_contains "$output" $'\e[1;33m⚠️'
+assert_contains "$output" $'\e[1;38;5;208m⚠️'
 assert_contains "$(log_budget 'Time left')" $'\e[96m⏳'
 assert_contains "$(log_skip 'Already done')" $'\e[90m⏩'
 assert_contains "$(log_stop 'Tests stopped')" $'\e[1;91m🛑'
 assert_contains "$(log_summary 'Finished')" $'\e[1m🏁'
 pass 'log colors and glyphs'
+
+# Run the debug collection command from the job template with a stub SSH.
+(
+ lifecycle="$(dirname "$helpers")/../dut-lifecycle.yml"
+ debug_command=$(sed -n 's/^ *teardown_step "Collect debug information" [0-9][0-9]* \(.*\) || true$/\1/p' "$lifecycle")
+ [ -n "$debug_command" ] || fail 'missing debug collection command'
+ cat > "$scratch/bin/ssh" <<'SH'
+#!/bin/sh
+[ -t 0 ] || exit 1
+[ "$#" -eq 6 ] && [ "$*" = '-t -o LogLevel=ERROR root@debug-device /bin/getDebugInformation --all' ] || exit 1
+sleep 0.1
+printf 'debug output\n'
+SH
+ chmod +x "$scratch/bin/ssh"
+ export PATH="$scratch/bin:$PATH" TARGET_LAN_IP=debug-device
+ debug_output="$scratch/debug-output"
+ printf '\000' | bash -ec "$debug_command" > "$debug_output" 2>&1
+ grep -aFq 'debug output' "$debug_output" || fail 'missing debug output'
+ if grep -aFq '^@' "$debug_output"; then fail 'debug output contains echoed ^@'; fi
+ cmp -s "$debug_output" <(tr -d '\000' < "$debug_output") || fail 'debug output contains NUL'
+ rm "$scratch/bin/ssh"
+ pass 'debug collection preserves PTY output without echoing NUL'
+)
 
 # Run the QEMU template's script entries as one job shell with no VM.
 (
@@ -124,7 +147,7 @@ run_step 'Wait for completion' 1 sleep 5 > "$scratch/timeout.log" || rc=$?
 assert_equal "$rc" 124
 assert_equal "$RUN_STEP_STATUS" 124
 output=$(cat "$scratch/timeout.log")
-assert_contains "$output" $'\e[1;33m⚠️ WARNING:'
+assert_contains "$output" $'\e[1;38;5;208m⚠️ WARNING:'
 assert_absent "$output" '❌ ERROR:'
 assert_contains "$output" 'stopped at its time limit of 1 s'
 assert_contains "$output" 'exit code 124: time limit reached'
@@ -149,7 +172,7 @@ for status in 86 137 7; do
  run_step 'Run a failing command' 2 bash -c "exit $status" > "$scratch/status.log" || rc=$?
  assert_equal "$rc" "$status"
  assert_contains "$(cat "$scratch/status.log")" "exit code $status:"
- assert_contains "$(cat "$scratch/status.log")" $'\e[1;33m⚠️ WARNING:'
+ assert_contains "$(cat "$scratch/status.log")" $'\e[1;38;5;208m⚠️ WARNING:'
  assert_absent "$(cat "$scratch/status.log")" '❌ ERROR:'
 done
 assert_contains "$(run_step 'Report a time limit' 2 bash -c 'exit 86' || :)" 'a time limit was reached'
@@ -215,13 +238,29 @@ SH
 chmod +x "$scratch/bin/ssh"
 export PATH="$scratch/bin:$PATH" TARGET_LAN_IP=unused SSH_STATUS=1
 TEARDOWN_DEADLINE=$(($(date +%s) + 30))
+TEARDOWN_WARNINGS=0
 if device_reachable > "$scratch/device.log"; then fail 'failed device probe returned success'; fi
 assert_contains "$(cat "$scratch/device.log")" 'Device logs and debug information are skipped'
+assert_equal "$TEARDOWN_WARNINGS" 1
+assert_absent "$(cat "$scratch/device.log")" 'Check that the device answers over SSH failed'
 SSH_STATUS=0
 device_reachable > "$scratch/device.log"
+assert_equal "$TEARDOWN_WARNINGS" 1
+for status in 1 124 137 125; do
+ TEARDOWN_SSH_RECOVERY_STATUS=$status
+ TEARDOWN_WARNINGS=0
+ TEARDOWN_STEPS_SKIPPED=0
+ # SSH would succeed here: failed recovery must skip the probe entirely.
+ if device_reachable > "$scratch/device.log"; then fail 'probed after failed recovery'; fi
+ assert_equal "$TEARDOWN_WARNINGS" 1
+ assert_equal "$TEARDOWN_STEPS_SKIPPED" 1
+ assert_equal "$RUN_STEP_STATUS" 125
+ assert_contains "$(cat "$scratch/device.log")" '⏩ Check that the device answers over SSH: skipped'
+done
+unset TEARDOWN_SSH_RECOVERY_STATUS
 TEARDOWN_DEADLINE=$(date +%s)
 if device_reachable > "$scratch/device.log"; then fail 'skipped device probe returned success'; fi
-pass 'device predicate preserves failure despite best-effort teardown'
+pass 'device predicate warns once and skips its probe after failed recovery'
 
 output=$(unset CI_JOB_STARTED_AT CI_JOB_TIMEOUT; teardown_begin; teardown_device_logs_begin)
 assert_contains "$output" '⚠️ WARNING:'
@@ -388,11 +427,202 @@ SH
  pass 'SSH succeeds on the third attempt without printing retry diagnostics'
 )
 
+# The collector must preserve artifact names and try every snapshot on failure.
+(
+ mkdir -p "$scratch/collector/bin"
+ cat > "$scratch/collector/bin/ssh" <<'SH'
+#!/bin/sh
+printf '%s\n' "$*" >> "$SSH_COMMANDS"
+printf 'snapshot: %s\n' "$*"
+# A real SSH client consumes stdin unless -n is set, which must not eat the table.
+[ "$1" = -n ] || cat >/dev/null
+[ "${SSH_FAIL_COMMAND:-}" != "$3" ]
+SH
+ chmod +x "$scratch/collector/bin/ssh"
+ export PATH="$scratch/collector/bin:$PATH" LABGRID_TARGET=example
+ export SSH_COMMANDS="$scratch/collector/commands"
+ cd "$scratch/collector"
+ collect_device_logs
+ expected=$'-n root@unused ps\n-n root@unused dmesg\n-n root@unused cat /var/log/messages\n-n root@unused opkg list'
+ assert_equal "$(cat "$SSH_COMMANDS")" "$expected"
+ for file in processes dmesg syslog opkg_list; do
+  [ -s "$file-example.txt" ] || fail "missing $file snapshot"
+ done
+ assert_contains "$(cat syslog-example.txt)" 'cat /var/log/messages'
+ assert_contains "$(cat opkg_list-example.txt)" 'opkg list'
+ : > "$SSH_COMMANDS"
+ export SSH_FAIL_COMMAND=dmesg
+ rc=0
+ collect_device_logs || rc=$?
+ assert_equal "$rc" 1
+ assert_equal "$(cat "$SSH_COMMANDS")" "$expected"
+ pass 'device log table preserves commands and artifacts and continues after failure'
+)
+
+# Exercise the actual lifecycle commands with local archives and an SSH stub.
+(
+ lifecycle="$(dirname "$helpers")/../dut-lifecycle.yml"
+ collect_debug=$(sed -n '/teardown_step "Collect debug information"/p' "$lifecycle")
+ assert_contains "$collect_debug" 'script --quiet --echo never --command "ssh -t -o LogLevel=ERROR '
+ assert_contains "$collect_debug" '/bin/getDebugInformation --all" /dev/null || true'
+ pass 'debug collection keeps the SSH terminal, suppresses close notices and discards the typescript'
+
+ copy_config=$(sed -n '/teardown_step "Copy device configuration"/p' "$lifecycle")
+ core_steps=$(awk '
+  /^\.dut-lifecycle.extract-debug:/ { block = 1; next }
+  block && /^[^ ]/ { exit }
+  block && /^      if \[ -e coredumps_all.tar.gz/ { started = 1 }
+  started { print }
+ ' "$lifecycle")
+ debug_steps=$(awk '
+  /^\.dut-lifecycle.extract-debug:/ { block = 1; next }
+  block && /^      if \[ -e coredumps_all.tar.gz/ { exit }
+  block && /^      if compgen/ { started = 1 }
+  started { print }
+ ' "$lifecycle")
+ [ -n "$copy_config" ] && [ -n "$core_steps" ] || fail 'missing lifecycle commands'
+ [ -n "$debug_steps" ] || fail 'missing debug archive commands'
+ mkdir -p "$scratch/optional/bin" "$scratch/optional/device/etc/rc.d" "$scratch/optional/copy" "$scratch/optional/cores"
+ export CONFIG_DEVICE_ROOT="$scratch/optional/device"
+ export REAL_TAR
+ REAL_TAR=$(command -v tar)
+ printf 'configuration\n' > "$CONFIG_DEVICE_ROOT/etc/config"
+ ln -s missing "$CONFIG_DEVICE_ROOT/etc/rc.d/missing-link"
+ ln -s config "$CONFIG_DEVICE_ROOT/etc/config-link"
+ mkfifo "$CONFIG_DEVICE_ROOT/etc/config-fifo"
+ ln -s config-fifo "$CONFIG_DEVICE_ROOT/etc/fifo-link"
+ cat > "$scratch/optional/bin/ssh" <<'SH'
+#!/bin/sh
+[ "$1" = root@unused ] && [ "${2#cd / && }" != "$2" ] || exit 99
+cd "$CONFIG_DEVICE_ROOT" || exit $?
+PATH=${PATH#*:} sh -c "${2#cd / && }" || exit $?
+exit "${CONFIG_SSH_STATUS:-0}"
+SH
+ cat > "$scratch/optional/bin/tar" <<'SH'
+#!/bin/sh
+if [ "${CONFIG_EXTRACT_STATUS:-0}" != 0 ]; then
+ cat >/dev/null
+ exit "$CONFIG_EXTRACT_STATUS"
+fi
+exec "$REAL_TAR" "$@"
+SH
+ cat > "$scratch/optional/bin/rm" <<'SH'
+#!/bin/sh
+exit 17
+SH
+ cat > "$scratch/optional/bin/mv" <<'SH'
+#!/bin/sh
+exit 18
+SH
+ chmod +x "$scratch/optional/bin/"*
+ cd "$scratch/optional/copy"
+ export PATH="$scratch/optional/bin:$PATH" LABGRID_TARGET=example
+ TEARDOWN_DEADLINE=$(($(date +%s) + 60))
+ output=$(eval "$copy_config" 2>&1)
+ assert_absent "$output" '⚠️ WARNING:'
+ assert_equal "$(cat etc/config)" configuration
+ [ ! -e etc/rc.d/missing-link ] && [ ! -L etc/rc.d/missing-link ] || fail 'dangling configuration link retained'
+ assert_equal "$(cat etc/config-link)" configuration
+ [ ! -L etc/config-link ] || fail 'valid configuration link was not dereferenced'
+ [ ! -e etc/config-fifo ] || fail 'configuration FIFO retained'
+ [ ! -e etc/fifo-link ] && [ ! -L etc/fifo-link ] || fail 'configuration FIFO link retained'
+ pass 'configuration copy preserves file and valid symlink contents and skips FIFOs and dangling links without warnings'
+
+ # Exercise a real tar read failure, not just an injected SSH exit status.
+ if [ "$EUID" -ne 0 ]; then
+  printf 'unreadable configuration\n' > "$CONFIG_DEVICE_ROOT/etc/unreadable"
+  chmod 000 "$CONFIG_DEVICE_ROOT/etc/unreadable"
+  output=$(eval "$copy_config" 2>&1)
+  chmod 600 "$CONFIG_DEVICE_ROOT/etc/unreadable"
+  assert_contains "$output" '⚠️ WARNING: Copy device configuration failed (exit code 2:'
+  PATH=${PATH#*:} rm "$CONFIG_DEVICE_ROOT/etc/unreadable"
+  pass 'unreadable regular configuration file still warns'
+ else
+  printf 'SKIP unreadable configuration file: root bypasses file permissions\n'
+ fi
+
+ # A failed remote read must warn even when local extraction succeeds.
+ export CONFIG_SSH_STATUS=23
+ output=$(eval "$copy_config" 2>&1)
+ assert_contains "$output" '⚠️ WARNING: Copy device configuration failed (exit code 23:'
+ CONFIG_SSH_STATUS=0
+ export CONFIG_EXTRACT_STATUS=19
+ output=$(eval "$copy_config" 2>&1)
+ assert_contains "$output" '⚠️ WARNING: Copy device configuration failed (exit code 19:'
+ CONFIG_EXTRACT_STATUS=0
+ pass 'remote read and local configuration extraction failures still warn'
+
+ # Use real filesystem operations except when injecting remove/rename failures.
+ cd "$scratch/optional/cores"
+ PATH=${PATH#*:}
+ TEARDOWN_STEPS_SKIPPED=0
+ eval "$debug_steps" > "$scratch/debug-absent.log" 2>&1
+ assert_equal "$TEARDOWN_STEPS_SKIPPED" 2
+ assert_absent "$(cat "$scratch/debug-absent.log")" '⚠️ WARNING:'
+ assert_contains "$(cat "$scratch/debug-absent.log")" '⏩ Unpack debug information: skipped, no debug archive was collected'
+ assert_contains "$(cat "$scratch/debug-absent.log")" '⏩ Rename debug information: skipped, no debug archive was collected'
+ pass 'absent debug archive skips both dependent steps and counts each skip'
+
+ printf 'debug contents\n' > debug-example.txt
+ tar -czf debug-example_all.tar.gz debug-example.txt
+ rm debug-example.txt
+ output=$(eval "$debug_steps" 2>&1)
+ assert_absent "$output" '⚠️ WARNING:'
+ assert_equal "$(cat debug-information-example.txt)" 'debug contents'
+ output=$(PATH="$scratch/optional/bin:$PATH"; eval "$debug_steps" 2>&1)
+ assert_contains "$output" '⚠️ WARNING: Rename debug information failed (exit code 18:'
+ printf 'not an archive\n' > debug-example_all.tar.gz
+ output=$(eval "$debug_steps" 2>&1)
+ assert_contains "$output" '⚠️ WARNING: Unpack debug information failed (exit code '
+ rm debug-example_all.tar.gz debug-information-example.txt
+ pass 'collected debug archives retain contents and unpack or rename failures still warn'
+
+ output=$(eval "$core_steps" 2>&1)
+ assert_absent "$output" '⚠️ WARNING:'
+ assert_absent "$output" '✅'
+ pass 'absent core archive skips removal and rename without warnings'
+
+ tar -czf coredumps_all.tar.gz --files-from /dev/null
+ output=$(eval "$core_steps" 2>&1)
+ assert_absent "$output" '⚠️ WARNING:'
+ [ ! -e coredumps_all.tar.gz ] && [ ! -e coredumps-example.tar.gz ] || fail 'empty core archive retained'
+ pass 'empty core archive is removed without a rename warning'
+
+ printf 'core data\n' > core
+ tar -czf coredumps_all.tar.gz core
+ output=$(eval "$core_steps" 2>&1)
+ assert_absent "$output" '⚠️ WARNING:'
+ assert_equal "$(tar -xOf coredumps-example.tar.gz core)" 'core data'
+ pass 'nonempty core archive is renamed with its contents intact and no warning'
+
+ printf 'not an archive\n' > coredumps_all.tar.gz
+ output=$(eval "$core_steps" 2>&1)
+ assert_contains "$output" '⚠️ WARNING: Remove an empty core dump archive failed (exit code '
+ pass 'corrupt core archive still warns'
+
+ tar -czf coredumps_all.tar.gz --files-from /dev/null
+ output=$(PATH="$scratch/optional/bin:$PATH"; eval "$core_steps" 2>&1)
+ assert_contains "$output" '⚠️ WARNING: Remove an empty core dump archive failed (exit code 17:'
+ [ -e coredumps_all.tar.gz ] || fail 'failed removal discarded archive'
+ tar -czf coredumps_all.tar.gz core
+ output=$(PATH="$scratch/optional/bin:$PATH"; eval "$core_steps" 2>&1)
+ assert_absent "$output" 'Remove an empty core dump archive failed'
+ assert_contains "$output" '⚠️ WARNING: Rename the core dump archive failed (exit code 18:'
+ [ -e coredumps_all.tar.gz ] || fail 'failed rename discarded archive'
+ pass 'core archive removal and rename failures still warn and retain the source'
+)
+
 # after_script is a new shell: summaries must read saved outcomes and durations.
 (
+ ci_dir="$(dirname "$helpers")/.."
  assert_contains "$(teardown_begin expanded)" 'teardown-report[collapsed=false]'
  assert_contains "$(teardown_begin)" 'teardown-report[collapsed=true]'
- pass 'teardown report supports expanded and collapsed sections'
+ grep -qx '    - teardown_begin expanded' "$ci_dir/cdrouter.yml" || fail 'CDRouter does not expand the report'
+ grep -qx '    - teardown_begin' "$ci_dir/testbed.yml" || fail 'cram does not use the default report state'
+ if grep -q 'teardown_begin expanded' "$ci_dir/testbed.yml"; then
+  fail 'cram expands the report'
+ fi
+ pass 'CDRouter expands the report and cram keeps it collapsed'
 
  export CI_JOB_ID=300 CI_JOB_STARTED_AT
  CI_JOB_STARTED_AT=$(date -u +%FT%TZ)
@@ -426,7 +656,7 @@ SH
   [[ "$output" == *'Teardown: report'*'Teardown: device logs'*'Teardown: power off'*'Teardown finished'*'🏁 Summary:'* ]] || fail 'teardown sections or summary out of order'
   if [ "$outcome" = setup-timeout ]; then
    assert_contains "$output" 'Setup stopped after 6 min 22 s · tests not started · teardown '
-   assert_contains "$output" 'The device had started to boot, so teardown now tries to reach it and save its logs.'
+   assert_absent "$output" 'The device had started to boot, so teardown now tries to reach it and save its logs.'
   elif [ "$outcome" = unknown ]; then
    assert_contains "$output" 'Setup unknown · tests unknown · teardown '
    assert_contains "$output" '⏩ Device recovery and log collection skipped: the job stopped before the device started to boot.'
@@ -450,8 +680,40 @@ SH
  mark_device_boot_started
  output=$(teardown_begin; teardown_device_logs_begin; printf 'booted: %s\n' "$TEARDOWN_DEVICE_BOOTED")
  assert_contains "$output" 'booted: true'
- assert_contains "$output" 'The device had started to boot'
+ assert_absent "$output" 'The device had started to boot'
  pass 'recovery decision uses the boot marker after a setup timeout'
+
+ # Exercise the script failure and after_script in separate shells.
+ setup_begin
+ mark_device_boot_started
+ rc=0
+ bash -eu -c '
+  source "$1"
+  section_start setup Setup collapsed "🔧"
+  setup_step "Wait for the device to boot" 1 sleep 5
+ ' bash "$helpers" > "$scratch/setup-recovery.log" || rc=$?
+ assert_equal "$rc" 86
+ bash -eu -c '
+  source "$1"
+  teardown_begin
+  teardown_device_logs_begin
+  printf "booted: %s\n" "$TEARDOWN_DEVICE_BOOTED"
+ ' bash "$helpers" >> "$scratch/setup-recovery.log"
+ output=$(cat "$scratch/setup-recovery.log")
+ recovery='💡 The device had started to boot, so teardown now tries to reach it and save its logs.'
+ assert_equal "$(grep -Fc "$recovery" "$scratch/setup-recovery.log")" 1
+ [[ "$output" == *'❌ ERROR: Setup failed.'*'💡 The tests did not start.'*"$recovery"*'Teardown: report'* ]] || fail 'recovery explanation out of order'
+ assert_contains "$output" 'booted: true'
+ pass 'setup timeout explains recovery once before teardown in a fresh shell'
+
+ (
+  export CI_JOB_ID=301
+  setup_begin
+  mark_device_boot_started
+  output=$(teardown_begin; teardown_device_logs_begin)
+  assert_contains "$output" "$recovery"
+  pass 'unknown outcome still explains recovery during teardown'
+ )
 
  output=$(
   teardown_begin
