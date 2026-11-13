@@ -34,6 +34,83 @@ assert_contains "$(log_stop 'Tests stopped')" $'\e[1;91m🛑'
 assert_contains "$(log_summary 'Finished')" $'\e[1m🏁'
 pass 'log colors and glyphs'
 
+# Run the QEMU template's script entries as one job shell with no VM.
+(
+ qemu_template="$(dirname "$helpers")/../testbed/qemu-x86-64.yml"
+ qemu_script="$scratch/qemu-script.sh"
+ awk '
+  /^  script:$/ { script = 1; next }
+  script && /^  [^ ]/ { exit }
+  script && /^    - \|$/ { next }
+  script && /^    - / { print substr($0, 7) }
+  script && /^      / { print substr($0, 7) }
+ ' "$qemu_template" > "$qemu_script"
+ mkdir -p "$scratch/qemu/bin" "$scratch/qemu/.gitlab/scripts" "$scratch/qemu/.gitlab/tests/cram/scripts"
+ cd "$scratch/qemu"
+ ln -s "$helpers" .gitlab/scripts/helpers.sh
+ cat > .gitlab/tests/cram/scripts/resolve-component-tests.py <<'SH'
+#!/bin/sh
+printf '%s\n' '.gitlab/tests/cram/smoke.t'
+SH
+ cat > bin/testbed-qemu <<'SH'
+#!/bin/sh
+case "$QEMU_RESULT" in
+ cutoff)
+  trap 'echo "QEMU received SIGTERM"; exit 143' TERM
+  sleep 30 &
+  wait "$!"
+  ;;
+ *) exit "$QEMU_RESULT" ;;
+esac
+SH
+ export REAL_TIMEOUT
+ REAL_TIMEOUT=$(command -v timeout)
+ cat > bin/timeout <<'SH'
+#!/bin/sh
+if [ "$1" = --signal=TERM ] && [ "$4" = testbed-qemu ] && [ "$QEMU_RESULT" = cutoff ]; then
+ [ "$2" = --kill-after=150s ] && [ "$3" -ge 120 ] || exit 99
+ shift 3
+ exec "$REAL_TIMEOUT" --signal=TERM --kill-after=2s 1s "$@"
+fi
+exec "$REAL_TIMEOUT" "$@"
+SH
+ chmod +x bin/* .gitlab/tests/cram/scripts/resolve-component-tests.py
+ export PATH="$PWD/bin:$PATH" CI_PROJECT_DIR="$PWD" CI_JOB_TIMEOUT=600
+ export COMPONENT=smoke DUT_BOARD=qemu-x86-64 TESTBED_QEMU_IMAGE=image TESTBED_QEMU_ACCEL=kvm
+ export CRAM_TEST_SUITE_POST=.gitlab/tests/cram/post/generic TEST_TEARDOWN_RESERVE=180
+ export CI_JOB_STARTED_AT QEMU_RESULT
+ CI_JOB_STARTED_AT=$(date -u +%FT%TZ)
+ for QEMU_RESULT in 0 1 cutoff; do
+  log="$scratch/qemu-$QEMU_RESULT.log"
+  rc=0
+  bash -eu -o pipefail "$qemu_script" > "$log" 2>&1 || rc=$?
+  output=$(cat "$log")
+  assert_contains "$output" '⏳ Time budget:'
+  {
+   printf '%s\n' 'section_start:testbed-setup[collapsed=true] 📦 Testbed Setup'
+   printf '%s\n' 'section_end:testbed-setup'
+   printf '%s\n' 'section_start:test-execution[collapsed=false] 📦 Test Execution [smoke]'
+   if [ "$QEMU_RESULT" != 1 ]; then
+    printf '%s\n' 'section_end:test-execution'
+   fi
+  } > "$scratch/qemu-headers.expected"
+  # Ignore timestamps and terminal escapes when comparing the section markers.
+  sed -nE $'s/^(section_(start|end):)[0-9]+:/\\1/; s/\e\\[[0-9;]*[Km]//g; s/\r/ /; s/ $//; /^section_/p' \
+   "$log" > "$scratch/qemu-headers.actual"
+  diff -u "$scratch/qemu-headers.expected" "$scratch/qemu-headers.actual"
+  if [ "$QEMU_RESULT" = cutoff ]; then
+   assert_equal "$rc" 86
+   assert_contains "$output" 'QEMU received SIGTERM'
+   assert_contains "$output" '🛑 Tests stopped on purpose: the time budget ended.'
+   assert_contains "$output" 'The job fails with exit code 86, which means a time limit was reached.'
+  else
+   assert_equal "$rc" "$QEMU_RESULT"
+   assert_absent "$output" 'Tests stopped on purpose'
+  fi
+ done
+ pass 'QEMU preserves normal section headers and exit codes, and logs a SIGTERM cutoff with exit 86'
+)
+
 output=$(run_step 'Run a successful command' 2 /bin/true)
 assert_contains "$output" '  ✅ Run a successful command ('
 assert_absent "$output" $'\e['

@@ -22,6 +22,26 @@ from cdrouter.configs import Config
 from cdrouter.cdr_error import CDRouterError
 
 
+def format_duration(seconds):
+    seconds = int(seconds)
+    if seconds >= 3600:
+        return "{} h {} min".format(seconds // 3600, seconds % 3600 // 60)
+    if seconds >= 60:
+        minutes, seconds = divmod(seconds, 60)
+        return "{} min{}".format(minutes, " {} s".format(seconds) if seconds else "")
+    return "{} s".format(seconds)
+
+
+def write_stop_outcome(outcome):
+    project = os.getenv("CI_PROJECT_DIR")
+    job = os.getenv("CI_JOB_ID", "")
+    if project and re.fullmatch(r"[0-9]+", job):
+        directory = os.path.join(project, ".ci-job-state", job)
+        os.makedirs(directory, exist_ok=True)
+        with open(os.path.join(directory, "outcome"), "w") as state:
+            state.write(outcome + "\n")
+
+
 class OpenWrtSystemInfo:
     def __init__(self, filename):
         with open(filename, "r") as read_file:
@@ -262,13 +282,18 @@ class TestbedCDRouter:
                         humanize.naturaldelta(elapsed)
                     )
                 )
+                logging.error(
+                    "The time budget for the tests ended after {}. Stopping the package.".format(
+                        format_duration(elapsed)
+                    )
+                )
+                write_stop_outcome("cutoff")
                 self.package_stop()
                 return False
 
             updates = self.cdr.results.updates(job.result_id)
             running = updates.running
             progress = updates.progress
-
             if not running or not progress:
                 job = self.cdr.jobs.get(self.job.id)
                 continue
@@ -331,10 +356,12 @@ class TestbedCDRouter:
         self.connect()
         self.job_launch()
         success = self.job_execute()
-        self.job_result()
-
-        if not success:
-            exit(124)
+        try:
+            self.job_result()
+        except SystemExit:
+            if not success:
+                exit(86)
+            raise
 
     def netif_available(self, name):
         for netif in self.cdr.system.interfaces():
