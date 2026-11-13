@@ -155,7 +155,7 @@
           teardown_step "Collect device logs: process list, kernel log, system log, installed packages" 140 bash -c 'source .gitlab/scripts/helpers.sh; collect_device_logs' || true
           teardown_step "Collect debug information" 60 script --quiet --echo never --command "ssh -t -o LogLevel=ERROR root@$TARGET_LAN_IP /bin/getDebugInformation --all" /dev/null || true
           teardown_step "Copy debug information" 20 scp -O -r "root@${TARGET_LAN_IP}:/tmp/debug-*_all.tar.gz" . || true
-          teardown_step "Measure memory use" 40 .gitlab/scripts/memory-footprint.sh final || true
+          teardown_step "Measure memory use" 40 sleep 600 || true
           # Copy regular files and valid file symlink targets, skipping special files.
           teardown_step "Copy device configuration" 20 bash -o pipefail -c 'ssh root@"$TARGET_LAN_IP" "cd / && find etc ! -type d -exec test -f {} \\; -print | tar -chf - -T -" | tar -xf -' || true
           teardown_step "Copy prplMesh logs" 20 scp -O -r "root@${TARGET_LAN_IP}:/var/log/prplmesh" prplmesh_beerocks_logs || true
