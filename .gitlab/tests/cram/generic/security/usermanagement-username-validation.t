@@ -62,23 +62,23 @@ Remove the user again and assert it is gone:
   [1]
 
 The checks below cover the review findings of tr181-usermanagement MR 27
-and the policy boundaries. Each name states the property under test, and
-the boundary names follow from MINLEN and MAXLEN:
+and the policy boundaries. For new accounts, strict validation requires 9 to 32
+characters. Each name states the property under test:
 
   $ repeat() { s=; i=0; while [ $i -lt $1 ]; do s="$s$2"; i=$((i+1)); done; printf %s "$s"; }
   $ PASSWORD='Sec16.Passw0rd'
   $ NAME_LEADING_SPACE=' root'
   $ NAME_TRAILING_SPACE='root '
   $ NAME_32_SPACES_ROOT="$(repeat 32 ' ')root"
-  $ NAME_MIN_LENGTH=q$(repeat $((MINLEN-1)) a)
+  $ NAME_MIN_LENGTH=qaaaaaaaa
   $ NAME_8_CHARS=sec16d08
-  $ NAME_MAX_LENGTH=sec16d$(repeat $((MAXLEN-6)) a)
-  $ NAME_TOO_LONG=${NAME_MAX_LENGTH}x
-  $ NAME_RPC_MAX_LENGTH=sec16r$(repeat $((RPC_MAXLEN-6)) a)
-  $ NAME_RPC_TOO_LONG=${NAME_RPC_MAX_LENGTH}x
-  $ NAME_WITH_UNDERSCORE=sec16d_u
-  $ NAME_WITH_HYPHEN=sec16d-h
-  $ NAME_WITH_DOT=sec16d.d
+  $ NAME_9_CHARS=sec16d088
+  $ NAME_32_CHARS=sec16d$(repeat 26 a)
+  $ NAME_33_CHARS=sec16d$(repeat 27 a)
+  $ NAME_TOO_LONG=sec16d$(repeat 27 a)x
+  $ NAME_WITH_UNDERSCORE=sec16d_under
+  $ NAME_WITH_HYPHEN=sec16d-hyph
+  $ NAME_WITH_DOT=sec16d.dot
   $ NAME_LEADING_DIGIT_UUID=550e8400-e29b-41d4-a716-446655440000
   $ NAME_VALID=sec16valid
   $ ALIAS_TOO_LONG=$(repeat $((MAXLEN+1)) z)
@@ -90,15 +90,15 @@ removes such a leftover of an older run:
 
   $ NAME_STRAY_BYTE_LEFTOVER=rootr
 
-The names have the intended lengths, and the policy regex agrees with the
-expected result for each name:
+The names have the intended lengths. For strict validation, new accounts require
+9 to 32 characters:
 
-  $ [ ${#NAME_MIN_LENGTH} -eq $MINLEN ] && [ ${#NAME_MAX_LENGTH} -eq $MAXLEN ] && [ ${#NAME_TOO_LONG} -eq $((MAXLEN+1)) ] && [ ${#ALIAS_TOO_LONG} -eq $((MAXLEN+1)) ] && echo lengths-ok
+  $ [ ${#NAME_MIN_LENGTH} -eq 9 ] && [ ${#NAME_9_CHARS} -eq 9 ] && [ ${#NAME_32_CHARS} -eq 32 ] && [ ${#NAME_33_CHARS} -eq 33 ] && echo lengths-ok
   lengths-ok
-  $ for n in "$NAME_MIN_LENGTH" "$NAME_8_CHARS" "$NAME_MAX_LENGTH" "$NAME_RPC_MAX_LENGTH" "$NAME_WITH_UNDERSCORE" "$NAME_WITH_HYPHEN" "$NAME_WITH_DOT"; do
+  $ for n in "$NAME_MIN_LENGTH" "$NAME_9_CHARS" "$NAME_32_CHARS" "$NAME_WITH_UNDERSCORE" "$NAME_WITH_HYPHEN" "$NAME_WITH_DOT"; do
   >   echo "$n" | grep -Eq "$REGEX" || echo "regex rejects valid name $n"
   > done
-  $ for n in "$NAME_TOO_LONG" "$NAME_LEADING_DIGIT_UUID" "$ALIAS_TOO_LONG"; do
+  $ for n in "$NAME_8_CHARS" "$NAME_33_CHARS" "$NAME_TOO_LONG" "$NAME_LEADING_DIGIT_UUID" "$ALIAS_TOO_LONG"; do
   >   echo "$n" | grep -Eq "$REGEX" && echo "regex accepts invalid name $n"
   > done; true
 
@@ -178,15 +178,15 @@ leftover_test_users prints each test name that still has a passwd entry or
 an instance:
 
   $ cleanup_test_users() {
-  >   for n in "$NAME_LEADING_SPACE" "$NAME_TRAILING_SPACE" "$NAME_32_SPACES_ROOT" "$NAME_MIN_LENGTH" "$NAME_8_CHARS" "$NAME_MAX_LENGTH" \
-  >     "$NAME_TOO_LONG" "$NAME_RPC_MAX_LENGTH" "$NAME_RPC_TOO_LONG" "$NAME_WITH_UNDERSCORE" "$NAME_WITH_HYPHEN" "$NAME_WITH_DOT" "$NAME_LEADING_DIGIT_UUID" "$NAME_VALID" "$NAME_STRAY_BYTE_LEFTOVER"; do
+  >   for n in "$NAME_LEADING_SPACE" "$NAME_TRAILING_SPACE" "$NAME_32_SPACES_ROOT" "$NAME_MIN_LENGTH" "$NAME_8_CHARS" "$NAME_9_CHARS" "$NAME_32_CHARS" "$NAME_33_CHARS" \
+  >     "$NAME_TOO_LONG" "$NAME_WITH_UNDERSCORE" "$NAME_WITH_HYPHEN" "$NAME_WITH_DOT" "$NAME_LEADING_DIGIT_UUID" "$NAME_VALID" "$NAME_STRAY_BYTE_LEFTOVER"; do
   >     user_delete Username "$n"
   >   done
   >   for a in "$ALIAS_TOO_LONG" "$ALIAS_FOR_UUID_INSTANCE"; do user_delete Alias "$a"; done
   > }
   $ leftover_test_users() {
-  >   for n in "$NAME_LEADING_SPACE" "$NAME_TRAILING_SPACE" "$NAME_32_SPACES_ROOT" "$NAME_MIN_LENGTH" "$NAME_8_CHARS" "$NAME_MAX_LENGTH" \
-  >     "$NAME_TOO_LONG" "$NAME_RPC_MAX_LENGTH" "$NAME_RPC_TOO_LONG" "$NAME_WITH_UNDERSCORE" "$NAME_WITH_HYPHEN" "$NAME_WITH_DOT" "$NAME_LEADING_DIGIT_UUID" "$NAME_VALID" "$NAME_STRAY_BYTE_LEFTOVER"; do
+  >   for n in "$NAME_LEADING_SPACE" "$NAME_TRAILING_SPACE" "$NAME_32_SPACES_ROOT" "$NAME_MIN_LENGTH" "$NAME_8_CHARS" "$NAME_9_CHARS" "$NAME_32_CHARS" "$NAME_33_CHARS" \
+  >     "$NAME_TOO_LONG" "$NAME_WITH_UNDERSCORE" "$NAME_WITH_HYPHEN" "$NAME_WITH_DOT" "$NAME_LEADING_DIGIT_UUID" "$NAME_VALID" "$NAME_STRAY_BYTE_LEFTOVER"; do
   >     r="$(passwd_entries "$n") $(user_instances Username "$n")"; [ "$r" = "0 0" ] || echo "left: '$n' passwd/instances $r"
   >   done
   >   for a in "$ALIAS_TOO_LONG" "$ALIAS_FOR_UUID_INSTANCE"; do
@@ -233,21 +233,20 @@ with an empty Username must be rejected, with no account and no instance:
   $ expect_rejected "alias over MAXLEN, empty username" "" "$ALIAS_TOO_LONG"
   rejected: alias over MAXLEN, empty username (error 10 invalid value, passwd=0, instances=0)
 
-The datamodel accepts up to MAXLEN characters with a short Alias.
-CreateNewUser appends "-user" to the Alias, so its maximum is RPC_MAXLEN.
-A 59-character RPC name succeeds. A 60-character RPC name fails.
+New accounts require strict validation: 9 to 32 characters.
+A 9-character name succeeds. An 8-character name fails. A 33-character name fails.
 Each accepted name gets an account and an instance:
 
   $ expect_accepted "MINLEN characters" "$NAME_MIN_LENGTH"
   accepted: MINLEN characters (passwd=1, instances=1)
-  $ expect_accepted "8 characters" "$NAME_8_CHARS"
-  accepted: 8 characters (passwd=1, instances=1)
-  $ expect_accepted "MAXLEN characters" "$NAME_MAX_LENGTH" sec16max
-  accepted: MAXLEN characters (passwd=1, instances=1)
-  $ expect_accepted "RPC maximum characters" "$NAME_RPC_MAX_LENGTH"
-  accepted: RPC maximum characters (passwd=1, instances=1)
-  $ expect_rejected "one character over RPC maximum" "$NAME_RPC_TOO_LONG"
-  rejected: one character over RPC maximum (1, passwd=0, instances=0)
+  $ expect_rejected "8 characters" "$NAME_8_CHARS"
+  rejected: 8 characters (Error_Invalid_Input error 1, passwd=0, instances=0)
+  $ expect_accepted "9 characters" "$NAME_9_CHARS"
+  accepted: 9 characters (passwd=1, instances=1)
+  $ expect_accepted "32 characters" "$NAME_32_CHARS"
+  accepted: 32 characters (passwd=1, instances=1)
+  $ expect_rejected "33 characters" "$NAME_33_CHARS"
+  rejected: 33 characters (Error_Invalid_Input error 1, passwd=0, instances=0)
   $ expect_accepted "underscore" "$NAME_WITH_UNDERSCORE"
   accepted: underscore (passwd=1, instances=1)
   $ expect_accepted "hyphen" "$NAME_WITH_HYPHEN"
@@ -257,17 +256,17 @@ Each accepted name gets an account and an instance:
 
 Delete them again. Both the account and the instance must be gone:
 
-  $ for n in "$NAME_MIN_LENGTH" "$NAME_8_CHARS" "$NAME_MAX_LENGTH" "$NAME_RPC_MAX_LENGTH" "$NAME_WITH_UNDERSCORE" "$NAME_WITH_HYPHEN" "$NAME_WITH_DOT"; do user_delete Username "$n"; done; sleep 1
-  $ for n in "$NAME_MIN_LENGTH" "$NAME_8_CHARS" "$NAME_MAX_LENGTH" "$NAME_RPC_MAX_LENGTH" "$NAME_WITH_UNDERSCORE" "$NAME_WITH_HYPHEN" "$NAME_WITH_DOT"; do
+  $ for n in "$NAME_MIN_LENGTH" "$NAME_9_CHARS" "$NAME_32_CHARS" "$NAME_WITH_UNDERSCORE" "$NAME_WITH_HYPHEN" "$NAME_WITH_DOT"; do user_delete Username "$n"; done; sleep 1
+  $ for n in "$NAME_MIN_LENGTH" "$NAME_9_CHARS" "$NAME_32_CHARS" "$NAME_WITH_UNDERSCORE" "$NAME_WITH_HYPHEN" "$NAME_WITH_DOT"; do
   >   echo "$n passwd=$(passwd_entries "$n") instances=$(user_instances Username "$n")"
   > done | grep -v ' passwd=0 instances=0$' || echo deleted
   deleted
 
-A name one character over MAXLEN and a name that starts with a digit (a
+An 8-character name (under strict minimum) and a name that starts with a digit (a
 UUID) are rejected by CreateNewUser:
 
-  $ expect_rejected "one character over MAXLEN" "$NAME_TOO_LONG"
-  rejected: one character over MAXLEN (Error_Invalid_Input error 1, passwd=0, instances=0)
+  $ expect_rejected "one character under strict minimum" "$NAME_8_CHARS"
+  rejected: one character under strict minimum (Error_Invalid_Input error 1, passwd=0, instances=0)
   $ expect_rejected "leading digit (UUID)" "$NAME_LEADING_DIGIT_UUID"
   rejected: leading digit (UUID) (Error_Invalid_Input error 1, passwd=0, instances=0)
 
