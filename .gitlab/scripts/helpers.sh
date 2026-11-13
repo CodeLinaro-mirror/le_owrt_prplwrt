@@ -202,6 +202,46 @@ setup_step() {
 	return "$rc"
 }
 
+# wait_for_ssh <setup step limit in seconds>
+wait_for_ssh() (
+	# Leave two seconds for the caller and one for whole-second rounding.
+	local deadline=$((SECONDS + $1 - 3)) attempt remaining rc=124 error_file
+	error_file=$(mktemp) || return 1
+	trap 'rm -- "$error_file"' EXIT
+
+	for ((attempt = 0; attempt < DUT_SSH_CONNECT_ATTEMPTS; attempt++)); do
+		if (( attempt > 0 )); then
+			if (( deadline - SECONDS <= DUT_SSH_CONNECT_TIMEOUT + 1 )); then
+				rc=124
+				break
+			fi
+			sleep 1
+		fi
+
+		remaining=$((deadline - SECONDS))
+		if (( remaining <= DUT_SSH_CONNECT_TIMEOUT )); then
+			rc=124
+			break
+		fi
+		# Also bound the remote command after SSH has connected.
+		rc=0
+		timeout --foreground --signal=KILL "$remaining" ssh \
+			-o BatchMode=yes -o StrictHostKeyChecking=no \
+			-o "ConnectTimeout=$DUT_SSH_CONNECT_TIMEOUT" "root@$TARGET_LAN_IP" 'exit 0' \
+			2> "$error_file" || rc=$?
+		if (( rc == 0 )); then
+			return 0
+		fi
+		if (( rc == 137 && SECONDS >= deadline )); then
+			rc=124
+			break
+		fi
+	done
+
+	cat "$error_file" >&2
+	return "$rc"
+)
+
 # Compute the test budget after setup, keeping the job deadline in UTC.
 test_budget() {
 	local now deadline available
