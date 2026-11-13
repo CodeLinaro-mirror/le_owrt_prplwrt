@@ -59,6 +59,7 @@ CDRouter-UPnP-IPv46 Mozart initramfs:
   timeout: 90 minutes  # need 76..87 min
   <<: *arcadyan_mozart_ipv6
   variables:
+    TEST_STALL_TIMEOUT: 1200  # need 14.867..16.7 min (892..1002 s)
     RUNNER_SCRIPT_TIMEOUT: 4800s  # need 76..87 min
     CDROUTER_TEST_CONFIG: generic-ipv6-upnp
     DUT_INIT_SCRIPTS: |
@@ -70,6 +71,7 @@ CDRouter-UPnP-IPv46-Failing Mozart initramfs:
   <<: *arcadyan_mozart_ipv6
   allow_failure: true
   variables:
+    TEST_STALL_TIMEOUT: 1200  # need 14.867..16.7 min (892..1002 s)
     RUNNER_SCRIPT_TIMEOUT: 6600s  # need 106..120 min
     CDROUTER_TEST_CONFIG: generic-ipv6-upnp
     DUT_INIT_SCRIPTS: |
@@ -93,6 +95,7 @@ prpl-Certification Mozart initramfs:
       when: never
     - when: manual
   variables:
+    TEST_STALL_TIMEOUT: 5400  # need 86.8..86.8 min (5208 s)
     RUNNER_SCRIPT_TIMEOUT: 8400s  # need 141..150 min
     CDROUTER_TEST_CONFIG: generic-ipv6
     DUT_INIT_SCRIPTS: |
@@ -158,6 +161,7 @@ prplWare-Smoke-Test-Suite Mozart initramfs:
       .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
 
 .arcadyan-mozart-certification-variables: &arcadyan_mozart_certification_variables
+  TEST_STALL_TIMEOUT: 2100  # need 18.833..30.833 min (1130..1850 s)
   RUNNER_SCRIPT_TIMEOUT: 7200s  # need 124..128 min
   CDROUTER_TEST_CONFIG: prplos-certification
   DUT_INIT_SCRIPTS: |

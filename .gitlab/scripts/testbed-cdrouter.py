@@ -272,6 +272,11 @@ class TestbedCDRouter:
         current = None
         timeout = getattr(self.args, "timeout", None)
         start_time = time.time() if timeout else None
+        stall_timeout = getattr(self.args, "stall_timeout", 0)
+        stall_current = None
+        test_start = None
+        stall_fallback_logged = False
+        self.stall_stopped = False
 
         job = self.cdr.jobs.get(self.job.id)
         while job.status == "running":
@@ -294,11 +299,50 @@ class TestbedCDRouter:
             updates = self.cdr.results.updates(job.result_id)
             running = updates.running
             progress = updates.progress
+            description = getattr(running, "description", None)
+
+            if stall_timeout and stall_timeout > 0:
+                seq = getattr(running, "seq", None)
+                loop = getattr(running, "loop", None)
+                if seq not in (None, ""):
+                    stall_key = (
+                        "sequence", str(seq), None if loop in (None, "") else str(loop)
+                    )
+                elif description not in (None, ""):
+                    stall_key = ("description", description)
+                    if not stall_fallback_logged:
+                        logging.info(
+                            "The running test has no sequence number. "
+                            "The hang check follows its description instead."
+                        )
+                        stall_fallback_logged = True
+                else:
+                    stall_key = None
+
+                if stall_key is None:
+                    stall_current = None
+                    test_start = None
+                else:
+                    now = time.monotonic()
+                    if test_start is None or stall_current != stall_key:
+                        stall_current = stall_key
+                        test_start = now
+                    elif now - test_start > stall_timeout:
+                        logging.error(
+                            "Test '{}' ran {}, limit {}. Stopping the package.".format(
+                                description, format_duration(now - test_start),
+                                format_duration(stall_timeout)
+                            )
+                        )
+                        self.stall_stopped = True
+                        write_stop_outcome("hung-test")
+                        self.package_stop()
+                        return False
+
             if not running or not progress:
                 job = self.cdr.jobs.get(self.job.id)
                 continue
 
-            description = running.description
             if current == description:
                 job = self.cdr.jobs.get(self.job.id)
                 continue
@@ -875,6 +919,12 @@ def main():
         "--timeout",
         type=int,
         help="timeout duration in seconds for test execution",
+    )
+    subparser.add_argument(
+        "--stall-timeout",
+        type=int,
+        default=0,
+        help="stop an unchanged test after this many seconds (default: disabled)",
     )
     subparser.set_defaults(func=TestbedCDRouter.package_run)
 
