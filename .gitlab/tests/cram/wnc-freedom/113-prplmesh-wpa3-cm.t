@@ -134,7 +134,22 @@ Push WPA3-Personal-Compatibility:
       ""
   ]
 
-  $ sleep 5
+Check hostapd configuration file:
+(RSN Override 1 is set, RSN Override 2 shouldn't be present)
+
+  $ itf=$(R "ba-cli -l WiFi.AccessPoint.1.SSIDReference+.Name?" | sed '/^$/d')
+  $ wait_hapd_config $itf rsn_override_key_mgmt SAE
+  SAE
+
+  $ get_hapd_config $itf rsn_override_key_mgmt_2
+  Option 'rsn_override_key_mgmt_2' not found
+
+  $ itf=$(R "ba-cli -l WiFi.AccessPoint.3.SSIDReference+.Name?" | sed '/^$/d')
+  $ wait_hapd_config $itf rsn_override_key_mgmt SAE
+  SAE
+
+  $ get_hapd_config $itf rsn_override_key_mgmt_2
+  Option 'rsn_override_key_mgmt_2' not found
 
 Check if agent overrides the security mode:
 
@@ -146,23 +161,6 @@ Check if agent overrides the security mode:
 
   $ wifi_dm "AccessPoint.5.Security.ModeEnabled?"
   Device.WiFi.AccessPoint.5.Security.ModeEnabled="WPA3-Personal-Compatibility"
-
-Check hostapd configuration file:
-(RSN Override 1 is set, RSN Override 2 shouldn't be present)
-
-  $ itf=$(R "ba-cli -l WiFi.AccessPoint.1.SSIDReference+.Name?" | sed '/^$/d')
-  $ get_hapd_config $itf rsn_override_key_mgmt
-  SAE
-
-  $ get_hapd_config $itf rsn_override_key_mgmt_2
-  Option 'rsn_override_key_mgmt_2' not found
-
-  $ itf=$(R "ba-cli -l WiFi.AccessPoint.3.SSIDReference+.Name?" | sed '/^$/d')
-  $ get_hapd_config $itf rsn_override_key_mgmt
-  SAE
-
-  $ get_hapd_config $itf rsn_override_key_mgmt_2
-  Option 'rsn_override_key_mgmt_2' not found
 
 Restore default config:
 
