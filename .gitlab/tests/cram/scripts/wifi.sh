@@ -334,6 +334,30 @@ get_hapd_config() {
           ;;
   esac
 }
+
+# Same as get_hapd_config, but polls until the option has the expected value or the
+# timeout (default 20 s) expires, then prints the last value read.
+# After a controller AccessPointCommit, pWHM rewrites the hostapd config of each radio
+# separately, some seconds apart and in no fixed order, so a fixed sleep can read a
+# radio's config before it is rewritten.
+wait_hapd_config() {
+  local target_iface="$1"
+  local target_param="$2"
+  local expected="$3"
+  local timeout="${4:-20}"
+  local start=$(date +%s)
+  local result
+
+  while :; do
+    result=$(get_hapd_config "$target_iface" "$target_param")
+    [ "$result" = "$expected" ] && break
+    [ $(($(date +%s) - start)) -ge "$timeout" ] && break
+    sleep 1
+  done
+
+  R logger -t cram "wait_hapd_config: $target_param of $target_iface='$result' after $(($(date +%s) - start))s"
+  echo "$result"
+}
 #
 # APMLD helpers
 #
