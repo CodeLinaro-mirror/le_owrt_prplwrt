@@ -632,6 +632,29 @@ prplmesh_stop() {
 }
 
 #
+# Poll Agent State until it is Operational or timeout occurs
+# In : (optional : max timeout; default :15)
+# Out : "Agent Operational" for success, "Agent Not Operational" for failure;
+prplmesh_agent_poll_operational() {
+  local res
+  local timeout=${1:-15}
+
+  while [ $timeout -gt 0 ]; do
+    res=$(R "ba-cli X_PRPLWARE-COM_Agent.Info.CurrentState? | grep -v '>' | grep 'OPERATIONAL' | wc -l")
+    if [ $res -eq 1 ]; then
+      echo "Agent Operational"
+      break
+    fi
+    timeout=$((timeout-1))
+    sleep 1
+  done
+
+  if [ ! $res -eq 1 ]; then
+    echo "Agent Not Operational"
+  fi
+}
+
+#
 ################ Testbed configuration helpers ##################
 #
 
