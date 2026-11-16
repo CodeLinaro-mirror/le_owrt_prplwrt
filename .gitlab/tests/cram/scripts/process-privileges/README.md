@@ -5,11 +5,9 @@ capabilities every process runs with on the DUT, and this document explains how
 to make a plugin run as a non-root user.
 
 - [`rules.yml`](./rules.yml) describes the expected process tree.
-- [`collect.sh`](./collect.sh) copies
-  [`target/process-privileges.lua`](./target/process-privileges.lua) to the DUT
-  and runs it there.
-- [`verify.py`](./verify.py) compares the collected tree against `rules.yml`.
-- [`verify.sh`](./verify.sh) wires the two together for the cram tests.
+- [`verify.py`](./verify.py) copies
+  [`target/process-privileges.lua`](./target/process-privileges.lua) to the DUT,
+  runs it there, and compares the collected tree against `rules.yml`.
 
 ## How it works at runtime
 
@@ -212,7 +210,7 @@ To run the privilege check against a DUT:
 ```sh
 export CRAM_REMOTE_COMMAND="ssh root@192.168.1.1"
 export CRAM_REMOTE_COPY="scp -O"
-sh verify.sh
+python3 verify.py
 ```
 
 It prints `OK: All process privileges match expected configuration` when the
@@ -231,11 +229,11 @@ tree matches, and otherwise one line per problem:
 
 A single snapshot can catch the DUT in a transient state: a plugin running a
 short-lived helper that is not in `rules.yml`, or a service that is restarting
-and has not dropped its privileges yet. Give `verify.sh` a timeout to collect
+and has not dropped its privileges yet. Give `verify.py` a timeout to collect
 and verify again until the tree matches or the time runs out:
 
 ```sh
-sh verify.sh --timeout 45 --interval 2
+python3 verify.py --timeout 45 --interval 2
 ```
 
 | option | environment | meaning |
@@ -251,11 +249,31 @@ tests use `--timeout 45`.
 
 A retry hides a problem that does not show up on every snapshot, such as a
 helper that briefly runs as root with full capabilities. When a test passes
-only after retrying, run `verify.sh -v` to see what the earlier attempts
+only after retrying, run `verify.py -v` to see what the earlier attempts
 caught.
 
 The collector is copied to the DUT once, run once per attempt, and removed at
-the end. `collect.sh --stage copy|run|cleanup` exposes these steps separately.
+the end.
+
+### Collecting manually
+
+To look at the process tree without verifying it, use `--collect`:
+
+```sh
+python3 verify.py --collect             # tree, children sorted by name
+python3 verify.py --collect color_tree  # same, root and full caps in red
+python3 verify.py --collect list        # one line per process, with pid and ppid
+```
+
+The `list` output is what the verification consumes. Save it to verify it
+later, or against modified rules, without touching the DUT again:
+
+```sh
+python3 verify.py --collect list > processes.txt
+python3 verify.py --input processes.txt my-rules.yml
+```
+
+`--lua <binary>` selects the lua interpreter on the DUT (default `lua`).
 
 ### Transport
 
@@ -264,7 +282,7 @@ Both transport variables come from the environment, as described in
 `TARGET_LAN_IP` names the DUT when it cannot be derived from
 `CRAM_REMOTE_COMMAND`.
 
-[`collect.sh`](./collect.sh) copies the collector to the DUT and runs it there
+[`verify.py`](./verify.py) copies the collector to the DUT and runs it there
 rather than feeding it on standard input, because a `CRAM_REMOTE_COMMAND`
 containing `ssh -n` redirects standard input from `/dev/null` and would deliver
 an empty script. This is the form CI uses.

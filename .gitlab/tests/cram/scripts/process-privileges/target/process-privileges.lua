@@ -358,7 +358,7 @@ collect_processes()
 
 if arg[1] == "list" then
     print_list()
-elseif arg[1] == "color_tree" then
+elseif arg[1] == "color" then
     with_color = true
     print_root_tree()
 else
