@@ -30,21 +30,20 @@ def parse_yaml_spec(yaml_path: str) -> dict[str, ProcessSpec]:
     with open(yaml_path) as f:
         data = yaml.safe_load(f)
 
-    def parse_entry(entry: dict) -> ProcessSpec:
+    def parse_entries(entries: dict | None) -> dict[str, ProcessSpec]:
+        return {name: parse_entry(name, entry or {}) for name, entry in (entries or {}).items()}
+
+    def parse_entry(name: str, entry: dict) -> ProcessSpec:
         return ProcessSpec(
-            name=entry["cmd"],
+            name=name,
             id=entry.get("id", ""),
             caps=entry.get("caps", ""),
             optional=entry.get("optional", False),
             ignore_child=entry.get("ignore_child", False),
-            children=[parse_entry(c) for c in (entry.get("child") or [])],
+            children=list(parse_entries(entry.get("child")).values()),
         )
 
-    specs = {}
-    for entry in data:
-        spec = parse_entry(entry)
-        specs[spec.name] = spec
-    return specs
+    return parse_entries(data)
 
 
 def parse_process_list(lines: list[str]) -> dict[int, ActualProcess]:
