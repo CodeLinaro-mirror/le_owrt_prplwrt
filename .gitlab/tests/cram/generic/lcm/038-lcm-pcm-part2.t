@@ -22,7 +22,7 @@ Save the data model after simulated firmware upgrade:
   $ R "ba-cli 'SoftwareModules.?'" > ${T}/timingila_after.dm
   $ R "ba-cli 'Rlyeh.?'" > ${T}/rlyeh_after.dm
 
-Compare the data models before and after the firmware upgrade, matching ApplicationData rows by Alias:
+Compare the data models before and after the firmware upgrade:
 
   $ diff ${T}/rlyeh_before.dm ${T}/rlyeh_after.dm
   $ normalize_dump ${T}/cthulhu_before.dm
