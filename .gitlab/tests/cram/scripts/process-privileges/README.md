@@ -227,6 +227,38 @@ tree matches, and otherwise one line per problem:
 | `x: expected id 'a', got 'b'` | wrong user or group |
 | `x: expected caps 'a', got 'b'` | wrong capabilities |
 
+### Transient processes
+
+A single snapshot can catch the DUT in a transient state: a plugin running a
+short-lived helper that is not in `rules.yml`, or a service that is restarting
+and has not dropped its privileges yet. Give `verify.sh` a timeout to collect
+and verify again until the tree matches or the time runs out:
+
+```sh
+sh verify.sh --timeout 45 --interval 2
+```
+
+| option | environment | meaning |
+| --- | --- | --- |
+| `-t`, `--timeout <s>` | `VERIFY_TIMEOUT` | keep retrying for this many seconds (default `0`, a single attempt) |
+| `-i`, `--interval <s>` | `VERIFY_INTERVAL` | seconds between attempts (default `2`) |
+| `-v`, `--verbose` | | print the errors of every failed attempt to stderr, also when a later attempt succeeds |
+
+On success it prints only the `OK` line. On timeout it prints the errors of the
+last attempt, followed by
+`ERROR: process privileges did not match after N attempts in Ns`. The cram
+tests use `--timeout 45`.
+
+A retry hides a problem that does not show up on every snapshot, such as a
+helper that briefly runs as root with full capabilities. When a test passes
+only after retrying, run `verify.sh -v` to see what the earlier attempts
+caught.
+
+The collector is copied to the DUT once, run once per attempt, and removed at
+the end. `collect.sh --stage copy|run|cleanup` exposes these steps separately.
+
+### Transport
+
 Both transport variables come from the environment, as described in
 [`../README.md`](../README.md), and neither is a command line argument.
 `TARGET_LAN_IP` names the DUT when it cannot be derived from

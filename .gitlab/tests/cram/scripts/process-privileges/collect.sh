@@ -4,10 +4,11 @@ set -e
 script_dir="$(dirname $0)"
 collect_type=tree
 lua_bin=lua
+stage=all
 
 print_help() {
 cat << EOF
-Usage: $(basename $0) [-l|list] [-t|tree] [-h] [lua*]
+Usage: $(basename $0) [-l|list] [-t|tree] [-s|--stage <stage>] [-h] [lua*]
 
 Print the running processes and their privileges:
 - Process name
@@ -20,6 +21,12 @@ Options:
     -l, list            Print the list of all processes. Additionally prints pid and ppid
     -t, tree            Print the all processes in a hierarchical tree. (default)
                         With all processes in the same branch alphabetically ordered.
+    -s, --stage <stage> Run only part of the collection, to collect repeatedly
+                        without copying the collector every time:
+                          copy     copy the collector to the remote hgw
+                          run      run the already copied collector
+                          cleanup  remove the collector from the remote hgw
+                          all      copy, run and clean up (default)
     lua*                To specify the lua binary to use to run the lua script. (default="lua", e.g. lua5.3)
 
 Environment:
@@ -42,6 +49,13 @@ while [ $# -gt 0 ]; do case "$1" in
     ;;
 -c|ctree|color|color_tree)
     collect_type=color_tree
+    ;;
+-s|--stage)
+    case "${2:-}" in
+    copy|run|cleanup|all) stage="$2" ;;
+    *) print_help >&2; exit 2 ;;
+    esac
+    shift
     ;;
 lua*)
     lua_bin="$1"
@@ -74,11 +88,30 @@ cleanup() {
     R "rm -f '${remote_script}'" >/dev/null 2>&1 || true
 }
 
-trap cleanup EXIT HUP INT TERM
-
-C "${local_script}" "root@${remote_host}:${remote_script}" >/dev/null 2>&1 || {
-    printf '%s\n' "Failed to copy ${local_script} to ${remote_host}" >&2
-    exit 1
+copy() {
+    C "${local_script}" "root@${remote_host}:${remote_script}" >/dev/null 2>&1 || {
+        printf '%s\n' "Failed to copy ${local_script} to ${remote_host}" >&2
+        exit 1
+    }
 }
 
-R "${lua_bin}" "${remote_script}" "${collect_type}"
+run() {
+    R "${lua_bin}" "${remote_script}" "${collect_type}"
+}
+
+case "${stage}" in
+copy)
+    copy
+    ;;
+run)
+    run
+    ;;
+cleanup)
+    cleanup
+    ;;
+all)
+    trap cleanup EXIT HUP INT TERM
+    copy
+    run
+    ;;
+esac
