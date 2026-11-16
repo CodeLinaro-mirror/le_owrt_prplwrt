@@ -1,13 +1,13 @@
 Create R alias:
 
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
-  $ VERIFY_PROCESS_PRIVILEGES="${TESTDIR}/../../scripts/process-privileges/verify.sh"
+  $ VERIFY_PROCESS_PRIVILEGES="${TESTDIR}/../../scripts/process-privileges/verify.py"
 
 Verify that processes are running with reduced privileges. Services might
 still be starting, and short-lived helpers can show up in a single snapshot, so
 retry for up to 45 s:
 
-  $ sh "${VERIFY_PROCESS_PRIVILEGES}" --timeout 45
+  $ python3 "${VERIFY_PROCESS_PRIVILEGES}" --timeout 45
   OK: All process privileges match expected configuration
 
 Verify that the tr181_app user cannot run an arbitrary commands with sudo
