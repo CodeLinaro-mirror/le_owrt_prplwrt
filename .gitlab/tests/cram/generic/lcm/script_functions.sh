@@ -1316,7 +1316,78 @@ install_basic_container_no_wait() {
 	install_ctr_no_wait --version prplos-v1 --ee --uuid --privileged true "$@"
 }
 
+normalize_applicationdata_dump_by_alias() {
+    _appdata_dump_file="$1"
+    _appdata_dump_tmp="${_appdata_dump_file}.keyed.$$"
+    awk '
+        function trim(value) {
+            sub(/^[[:space:]]*/, "", value)
+            sub(/[[:space:]]*$/, "", value)
+            return value
+        }
+        {
+            lines[NR] = $0
+            separator = index($0, "=")
+            if(separator == 0) {
+                next
+            }
+
+            path = trim(substr($0, 1, separator - 1))
+            count = split(path, part, "[.]")
+            if((count == 6) && (part[1] == "SoftwareModules") &&
+               (part[2] == "ExecEnv") && (part[3] ~ /^[0-9]+$/) &&
+               (part[4] == "ApplicationData") && (part[5] ~ /^[0-9]+$/) &&
+               (part[6] == "Alias")) {
+                alias = trim(substr($0, separator + 1))
+                double_quote = sprintf("%c", 34)
+                single_quote = sprintf("%c", 39)
+                if((length(alias) >= 2) &&
+                   (((substr(alias, 1, 1) == double_quote) && (substr(alias, length(alias), 1) == double_quote)) ||
+                    ((substr(alias, 1, 1) == single_quote) && (substr(alias, length(alias), 1) == single_quote)))) {
+                    alias = substr(alias, 2, length(alias) - 2)
+                }
+                if(alias != "") {
+                    alias_by_instance[part[3] SUBSEP part[5]] = alias
+                }
+            }
+        }
+        END {
+            double_quote = sprintf("%c", 34)
+            for(line_nr = 1; line_nr <= NR; line_nr++) {
+                current = lines[line_nr]
+                separator = index(current, "=")
+                path = trim(current)
+                if(separator != 0) {
+                    path = trim(substr(current, 1, separator - 1))
+                }
+                count = split(path, part, "[.]")
+                key = part[3] SUBSEP part[5]
+                if((count == 6) && (part[1] == "SoftwareModules") &&
+                   (part[2] == "ExecEnv") && (part[3] ~ /^[0-9]+$/) &&
+                   (part[4] == "ApplicationData") && (part[5] ~ /^[0-9]+$/) &&
+                   (key in alias_by_instance)) {
+                    # Comparison key, not a DM selector: keep "=" for assignments only.
+                    canonical_path = part[1] "." part[2] "." part[3] "." part[4] ".[Alias:" double_quote alias_by_instance[key] double_quote "]." part[6]
+                    current = canonical_path
+                    if(separator != 0) {
+                        current = current substr(lines[line_nr], separator)
+                    }
+                }
+                print current
+            }
+        }
+    ' "${_appdata_dump_file}" > "${_appdata_dump_tmp}" || {
+        rm -f "${_appdata_dump_tmp}"
+        return 1
+    }
+    mv "${_appdata_dump_tmp}" "${_appdata_dump_file}" || {
+        rm -f "${_appdata_dump_tmp}"
+        return 1
+    }
+}
+
 normalize_dump(){
+    normalize_applicationdata_dump_by_alias "$1" || return $?
     ## Generic substitution of any instantionated subtree
     sed -i -e "s/\(\.Instances\)\.[[:digit:]][[:digit:]]*/\1\.{i}/g" $1
 
@@ -1327,8 +1398,11 @@ normalize_dump(){
     sed -i -e "s/\(SoftwareModules\.ExecEnv\)\.[[:digit:]][[:digit:]]*/\1\.{i}/g" $1
     sed -i -e "s/\(SoftwareModules\.ExecutionUnit\)\.[[:digit:]][[:digit:]]*/\1\.{i}/g" $1
 
-    ## Cthulhu LocalPolicy spacific case
-    sed -i -e "s/\(\.LocalPolicyManager\.Action\)\.[[:digit:]][[:digit:]]*/\1\.{i}/g" $1
+    ## Cthulhu LocalPolicy action rows can be renumbered
+    sed -i -e "s/\(\.LocalPolicyManager\.Action\)\.[[:digit:]][[:digit:]]*/\1\.{i}/g" "$1"
+
+    ## Table iteration order is not meaningful once child rows are keyed by Alias
+    LC_ALL=C sort -o "$1" "$1"
 }
 
 cleanup_lpm_test(){
