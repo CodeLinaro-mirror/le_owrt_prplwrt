@@ -157,17 +157,16 @@ denied access before looking for a missing capability.
 ## Declaring the expected privileges
 
 Add the plugin to [`rules.yml`](./rules.yml), under the parent process that
-starts it:
+starts it, keyed by the process name as it appears on the DUT:
 
 ```yaml
-  - cmd: tr181-usb
+  tr181-usb:
     id: tr181_app:tr181_app
     caps: dac_override
 ```
 
 | field | meaning |
 | --- | --- |
-| `cmd` | process name as it appears on the DUT |
 | `id` | expected `user:group` |
 | `caps` | expected capabilities |
 | `child` | expected child processes, same fields, nested |
