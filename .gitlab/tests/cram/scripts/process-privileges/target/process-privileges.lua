@@ -5,6 +5,7 @@ local processes = {}
 local uid_to_name = {}
 local gid_to_name = {}
 local full_capeff = nil
+local links = {}
 local with_color = false
 
 local color = {
@@ -195,7 +196,10 @@ local function collect_process(pid)
         cmd = cmd,
         user = user,
         group = group,
-        caps = caps
+        caps = caps,
+        cmdline = cmdline,
+        exe = links[pid] and links[pid].exe or "",
+        cwd = links[pid] and links[pid].cwd or ""
     }
 end
 
@@ -231,9 +235,41 @@ local function compute_full_capeff()
     return hex_with_n_lsb_set(last_cap)
 end
 
+-- Resolve /proc/[pid]/exe and /proc/[pid]/cwd of all processes in one shell,
+-- as lua has no readlink.
+local function load_links()
+    local handle = io.popen("cd /proc && for p in [0-9]*; do " ..
+        "printf '%s\\t%s\\t%s\\n' \"$p\" \"$(readlink $p/exe 2>/dev/null)\" \"$(readlink $p/cwd 2>/dev/null)\"; " ..
+        "done")
+    if not handle then return end
+    for line in handle:lines() do
+        local pid, exe, cwd = line:match("^(%d+)\t([^\t]*)\t(.*)$")
+        if pid then
+            links[pid] = { exe = exe, cwd = cwd }
+        end
+    end
+    handle:close()
+end
+
+-- Escape a value so it is a single whitespace free field, like /proc/mounts
+local function escape_field(value)
+    if value == nil or value == "" then
+        return "-"
+    end
+    return (value:gsub("[%s\\]", function(c)
+        return string.format("\\%03o", c:byte())
+    end))
+end
+
+-- Render a NUL separated command line on one line
+local function format_cmdline(cmdline)
+    return (cmdline:gsub("%z+$", ""):gsub("%z", " "):gsub("[%c]", "?"))
+end
+
 -- Collect all process information
 local function collect_processes()
     full_capeff = compute_full_capeff()
+    load_links()
 
     -- Get list of PIDs and collect for each
     for entry in io.popen("ls -1 /proc"):lines() do
@@ -347,7 +383,10 @@ local function print_list()
     end)
     for _, pid in ipairs(sorted_keys) do
         local proc = processes[pid]
-        print(string.format("%d %d %s %s:%s %s", pid, proc.ppid, proc.cmd, proc.user, proc.group, proc.caps))
+        -- pid ppid name user:group caps exe cwd cmdline...
+        -- name, exe and cwd are escaped to a single field, the command line is the rest of the line.
+        print(string.format("%d %d %s %s:%s %s %s %s %s", pid, proc.ppid, escape_field(proc.cmd), proc.user, proc.group, proc.caps,
+            escape_field(proc.exe), escape_field(proc.cwd), format_cmdline(proc.cmdline)))
     end
 end
 

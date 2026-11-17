@@ -31,7 +31,60 @@ class ActualProcess:
     name: str
     id: str
     caps: str
+    exe: str = ""
+    cwd: str = ""
+    cmdline: str = ""
+    parent: "ActualProcess | None" = field(default=None, repr=False)
     children: list["ActualProcess"] = field(default_factory=list)
+
+
+@dataclass
+class VerifyError:
+    """A mismatch, and optionally the process to show as context in the report."""
+
+    message: str
+    process: ActualProcess | None = None
+
+    def __str__(self) -> str:
+        return f"ERROR: {self.message}"
+
+    def report(self) -> str:
+        lines = [str(self)]
+        if self.process:
+            lines += format_context(self.process)
+        return "\n".join(lines)
+
+
+CONTEXT_INDENT = "   "
+
+
+def describe(proc: ActualProcess) -> str:
+    return (
+        f"{proc.name} (pid={proc.pid}, id={proc.id}, caps={proc.caps}, "
+        f"exe={proc.exe or '-'}, cwd={proc.cwd or '-'})"
+    )
+
+
+def format_context(proc: ActualProcess) -> list[str]:
+    """The ancestors of proc, then proc and all its descendants with their command line."""
+    ancestors: list[ActualProcess] = []
+    parent = proc.parent
+    while parent and parent not in ancestors:
+        ancestors.insert(0, parent)
+        parent = parent.parent
+
+    lines = [CONTEXT_INDENT * level + describe(a) for level, a in enumerate(ancestors)]
+
+    def subtree(p: ActualProcess, level: int) -> None:
+        indent = CONTEXT_INDENT * level
+        lines.append(indent + describe(p))
+        if p.cmdline:
+            lines.append(f"{indent}{CONTEXT_INDENT}- cmd: {p.cmdline}")
+        for child in sorted(p.children, key=lambda c: (c.name, c.pid)):
+            subtree(child, level + 1)
+
+    subtree(proc, len(ancestors))
+    return lines
 
 
 def parse_yaml_spec(yaml_path: str) -> dict[str, ProcessSpec]:
@@ -54,25 +107,42 @@ def parse_yaml_spec(yaml_path: str) -> dict[str, ProcessSpec]:
     return parse_entries(data)
 
 
+def unescape_field(value: str) -> str:
+    """Undo the octal escaping of whitespace done by the collector ("-" is empty)."""
+    if value == "-":
+        return ""
+    return re.sub(r"\\([0-7]{3})", lambda m: chr(int(m.group(1), 8)), value)
+
+
 def parse_process_list(lines: list[str]) -> dict[int, ActualProcess]:
+    """Parse '--collect list' output.
+
+    Each line is "pid ppid name user:group caps [exe cwd [cmdline...]]", where name,
+    exe and cwd have their whitespace escaped, and the command line is the rest of
+    the line.
+    """
     procs: dict[int, ActualProcess] = {}
     for line in lines:
-        line = line.strip()
-        if not line:
-            continue
-        parts = line.split()
+        parts = line.strip().split(maxsplit=7)
         if len(parts) < 5:
             continue
-        pid = int(parts[0])
-        ppid = int(parts[1])
-        name = parts[2]
-        id_ = parts[3]
-        caps = parts[4]
-        procs[pid] = ActualProcess(pid=pid, ppid=ppid, name=name, id=id_, caps=caps)
+        parts += [""] * (8 - len(parts))
+        pid, ppid = int(parts[0]), int(parts[1])
+        procs[pid] = ActualProcess(
+            pid=pid,
+            ppid=ppid,
+            name=unescape_field(parts[2]),
+            id=parts[3],
+            caps=parts[4],
+            exe=unescape_field(parts[5]),
+            cwd=unescape_field(parts[6]),
+            cmdline=parts[7],
+        )
 
     for proc in procs.values():
         parent = procs.get(proc.ppid)
         if parent and parent.pid != proc.pid:
+            proc.parent = parent
             parent.children.append(proc)
 
     return procs
@@ -98,13 +168,13 @@ def verify_process(
     spec: ProcessSpec,
     actual: ActualProcess,
     path: str,
-    errors: list[str],
+    errors: list[VerifyError],
 ) -> None:
     if spec.id != actual.id:
-        errors.append(f"{path}: expected id '{spec.id}', got '{actual.id}'")
+        errors.append(VerifyError(f"{path}: expected id '{spec.id}', got '{actual.id}'"))
 
     if normalize_caps(spec.caps) != normalize_caps(actual.caps):
-        errors.append(f"{path}: expected caps '{spec.caps}', got '{actual.caps}'")
+        errors.append(VerifyError(f"{path}: expected caps '{spec.caps}', got '{actual.caps}'"))
 
     actual_children_by_name: dict[str, list[ActualProcess]] = {}
     for child in actual.children:
@@ -114,7 +184,7 @@ def verify_process(
         actual_matches = actual_children_by_name.get(child_spec.name, [])
         if not actual_matches:
             if not child_spec.optional:
-                errors.append(f"{path}: missing required child process '{child_spec.name}'")
+                errors.append(VerifyError(f"{path}: missing required child process '{child_spec.name}'"))
         else:
             for actual_child in actual_matches:
                 verify_process(child_spec, actual_child, f"{path} > {child_spec.name}", errors)
@@ -123,16 +193,17 @@ def verify_process(
         spec_children_by_name: dict[str, ProcessSpec] = {c.name: c for c in spec.children}
         for actual_child in actual.children:
             if actual_child.name not in spec_children_by_name:
-                errors.append(
+                errors.append(VerifyError(
                     f"{path}: unexpected child process '{actual_child.name}' "
-                    f"(id={actual_child.id}, caps={actual_child.caps})"
-                )
+                    f"(id={actual_child.id}, caps={actual_child.caps})",
+                    actual_child,
+                ))
 
 
 def verify_all(
     specs: dict[str, ProcessSpec],
     roots: list[ActualProcess],
-    errors: list[str],
+    errors: list[VerifyError],
 ) -> None:
     actual_by_name: dict[str, list[ActualProcess]] = {}
     for proc in roots:
@@ -142,17 +213,17 @@ def verify_all(
         actual_matches = actual_by_name.get(spec_name, [])
         if not actual_matches:
             if not spec.optional:
-                errors.append(f"missing required process '{spec_name}'")
+                errors.append(VerifyError(f"missing required process '{spec_name}'"))
         else:
             for actual_proc in actual_matches:
                 verify_process(spec, actual_proc, spec_name, errors)
 
     for proc in roots:
         if proc.name not in specs:
-            errors.append(
+            errors.append(VerifyError(
                 f"unexpected root process '{proc.name}' "
                 f"(id={proc.id}, caps={proc.caps})"
-            )
+            ))
 
 
 class Remote:
@@ -217,10 +288,12 @@ def collect_list(remote: Remote) -> list[str]:
 
 
 def verify_lines(specs: dict[str, ProcessSpec], lines: list[str]) -> list[str]:
+    """Verify a process list, return one report per error: the error line followed
+    by the processes involved, as found in this same snapshot."""
     procs = parse_process_list(lines)
-    errors: list[str] = []
+    errors: list[VerifyError] = []
     verify_all(specs, find_root_processes(procs), errors)
-    return [f"ERROR: {error}" for error in errors]
+    return [error.report() for error in errors]
 
 
 def verify_remote(specs: dict[str, ProcessSpec], remote: Remote, timeout: int, interval: int, verbose: bool) -> list[str]:
