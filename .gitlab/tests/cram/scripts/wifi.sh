@@ -723,6 +723,13 @@ check_default_ap_status() {
         'Device.WiFi.AccessPoint.9.Status="Disabled"'
 }
 
+# Is the DUT a MediaTek platform (e.g. Arcadyan Mozart)?
+# Radio.*.ChipsetVendor is empty on MediaTek, so check the device tree model.
+# Out : exit status 0 if MediaTek
+is_mediatek_platform() {
+    R "cat /proc/device-tree/model 2>/dev/null" | tr -d '\0' | grep -q "MediaTek"
+}
+
 # Check default SSIDs
 #
 check_default_ap_ssid() {
@@ -751,6 +758,17 @@ check_default_ap_ssid() {
             'Device.WiFi.SSID.17.SSID="backhaul_(4C:BA:7D|A8:C2:46|AC:9A:96):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}"' \
             'Device.WiFi.SSID.18.SSID="backhaul_(4C:BA:7D|A8:C2:46|AC:9A:96):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}"' \
             'Device.WiFi.SSID.19.SSID="backhaul_(4C:BA:7D|A8:C2:46|AC:9A:96):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}"'
+    elif is_mediatek_platform; then
+        check_output get_ap_ssid -- \
+            'Device.WiFi.SSID.1.SSID="prplOS"' \
+            'Device.WiFi.SSID.3.SSID="prplOS-guest"' \
+            'Device.WiFi.SSID.4.SSID="prplOS"' \
+            'Device.WiFi.SSID.6.SSID="prplOS-guest"' \
+            'Device.WiFi.SSID.7.SSID="prplOS"' \
+            'Device.WiFi.SSID.9.SSID="prplOS-guest"' \
+            'Device.WiFi.SSID.14.SSID="backhaul_(1C:F4:3F|20:37:F0):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}"' \
+            'Device.WiFi.SSID.15.SSID="backhaul_(1C:F4:3F|20:37:F0):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}"' \
+            'Device.WiFi.SSID.16.SSID="backhaul_(1C:F4:3F|20:37:F0):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}"'
     else
         echo "check_default_ap_ssid: unknown platform"
         R logger -t cram "check_default_ap_ssid: unknown platform ${vendor_output}"
@@ -786,6 +804,17 @@ check_default_ap_mldunit() {
         'Device.WiFi.SSID.[0-9]+.MLDUnit=-1' \
         'Device.WiFi.SSID.[0-9]+.MLDUnit=-1' \
         'Device.WiFi.SSID.[0-9]+.MLDUnit=-1'
+    elif is_mediatek_platform; then
+      check_output get_ap_mldunit -- \
+        'Device.WiFi.SSID.[0-9]+.MLDUnit=0' \
+        'Device.WiFi.SSID.[0-9]+.MLDUnit=1' \
+        'Device.WiFi.SSID.[0-9]+.MLDUnit=0' \
+        'Device.WiFi.SSID.[0-9]+.MLDUnit=1' \
+        'Device.WiFi.SSID.[0-9]+.MLDUnit=0' \
+        'Device.WiFi.SSID.[0-9]+.MLDUnit=1' \
+        'Device.WiFi.SSID.[0-9]+.MLDUnit=2' \
+        'Device.WiFi.SSID.[0-9]+.MLDUnit=2' \
+        'Device.WiFi.SSID.[0-9]+.MLDUnit=2'
     else
         echo "check_default_ap_mldunit: unknown platform"
         R logger -t cram "check_default_ap_mldunit: unknown platform ${vendor_output}"
@@ -825,6 +854,25 @@ set_default_ap_mldunit() {
   elif echo "$vendor_output" | grep -qE "MaxLinear"; then
     # Actually MLDUnits are not set on OSPv2
     R logger -t cram "set_default_ap_mldunit: MLDUnits are not set on OSPv2"
+  elif is_mediatek_platform; then
+    check_output R 'ba-cli -l Device.WiFi.AccessPoint.1.SSIDReference+.MLDUnit=0  | sed '/^$/d'' -- \
+      '0'
+    check_output R 'ba-cli -l Device.WiFi.AccessPoint.2.SSIDReference+.MLDUnit=1  | sed '/^$/d'' -- \
+      '1'
+    check_output R 'ba-cli -l Device.WiFi.AccessPoint.3.SSIDReference+.MLDUnit=0  | sed '/^$/d'' -- \
+      '0'
+    check_output R 'ba-cli -l Device.WiFi.AccessPoint.4.SSIDReference+.MLDUnit=1  | sed '/^$/d'' -- \
+      '1'
+    check_output R 'ba-cli -l Device.WiFi.AccessPoint.5.SSIDReference+.MLDUnit=0  | sed '/^$/d'' -- \
+      '0'
+    check_output R 'ba-cli -l Device.WiFi.AccessPoint.6.SSIDReference+.MLDUnit=1  | sed '/^$/d'' -- \
+      '1'
+    check_output R 'ba-cli -l Device.WiFi.AccessPoint.7.SSIDReference+.MLDUnit=2  | sed '/^$/d'' -- \
+      '2'
+    check_output R 'ba-cli -l Device.WiFi.AccessPoint.8.SSIDReference+.MLDUnit=2  | sed '/^$/d'' -- \
+      '2'
+    check_output R 'ba-cli -l Device.WiFi.AccessPoint.9.SSIDReference+.MLDUnit=2  | sed '/^$/d'' -- \
+      '2'
   else
       echo "set_default_ap_mldunit: unknown platform ${vendor_output}"
       R logger -t cram "set_default_ap_mldunit: unknown platform ${vendor_output}"
