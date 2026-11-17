@@ -225,6 +225,24 @@ Check that controller received correct info about wifi subsystem:
   wlan2.0
   wlan2.1
 
+Restore SSIDs:
+
+  $ R logger -t cram "Restore SSIDs"
+
+  $ R "ba-cli -l \"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.1.SSID=\"prplOS\"\"" | sed '/^$/d'
+  prplOS
+
+  $ R "ba-cli -l \"X_PRPLWARE-COM_WiFiController.Network.AccessPoint.2.SSID=\"prplOS-guest\"\"" | sed '/^$/d'
+  prplOS-guest
+
+  $ R "ba-cli \"X_PRPLWARE-COM_WiFiController.Network.AccessPointCommit()\"" | grep -Ev '^(>|$)'
+  X_PRPLWARE-COM_WiFiController.Network.AccessPointCommit() returned
+  [
+      ""
+  ]
+
+  $ sleep 10
+
 To disable wireless, disable instances of Network.AccessPoint{i} and call AccessPointCommit():
 
   $ R logger -t cram "Stop wireless"
@@ -292,3 +310,19 @@ Restore Security Mode to default values
   WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal" (re)
   WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal" (re)
   WiFi.AccessPoint.\d+.Security.ModeEnabled="WPA3-Personal" (re)
+
+Check that SSIDs are restored:
+
+  $ check_default_ap_ssid
+
+Force restoring pwhm default MLDUnit:
+
+  $ prplmesh_stop
+
+  $ set_default_ap_mldunit
+  $ sleep 5
+
+  $ prplmesh_start
+  $ sleep 10
+
+  $ R logger -t cram "$TESTFILE finished!"
