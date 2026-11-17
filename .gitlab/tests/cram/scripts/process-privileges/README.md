@@ -225,6 +225,22 @@ tree matches, and otherwise one line per problem:
 | `x: expected id 'a', got 'b'` | wrong user or group |
 | `x: expected caps 'a', got 'b'` | wrong capabilities |
 
+An unexpected child process is followed by its context, taken from the same
+snapshot. Such a process is often short-lived and gone by the time anyone looks:
+
+```
+ERROR: procd > tr181-sfp: unexpected child process 'sh' (id=tr181_app:tr181_app, caps=none)
+procd (pid=1, id=root:root, caps=full, exe=/sbin/procd, cwd=/)
+   tr181-sfp (pid=500, id=tr181_app:tr181_app, caps=net_admin, exe=/usr/bin/amxrt, cwd=/)
+      sh (pid=900, id=tr181_app:tr181_app, caps=net_admin, exe=/bin/busybox, cwd=/)
+         - cmd: /bin/sh /lib/sfp/get_eeprom_info.sh sfp0
+         ethtool (pid=901, id=tr181_app:tr181_app, caps=net_admin, exe=/usr/sbin/ethtool, cwd=/)
+            - cmd: ethtool -m eth5 raw on
+```
+
+The ancestors are listed first, then the unexpected process and all its
+descendants, each with its command line. The other errors are a single line.
+
 ### Transient processes
 
 A single snapshot can catch the DUT in a transient state: a plugin running a
@@ -261,9 +277,14 @@ To look at the process tree without verifying it, use `--collect`:
 
 ```sh
 python3 verify.py --collect             # tree, children sorted by name
-python3 verify.py --collect color_tree  # same, root and full caps in red
+python3 verify.py --collect color       # same, root and full caps in red
 python3 verify.py --collect list        # one line per process, with pid and ppid
 ```
+
+Each `list` line is `pid ppid name user:group caps exe cwd cmdline`. Whitespace
+in `name`, `exe` and `cwd` is escaped as octal (`\040`), an empty value is
+`-`, and the command line takes up the rest of the line. Lists that stop after
+`caps`, the older format, are still accepted.
 
 The `list` output is what the verification consumes. Save it to verify it
 later, or against modified rules, without touching the DUT again:
