@@ -46,16 +46,16 @@ Check default SSID status:
 
 Check default SSID configuration of access points:
 
-  $ get_ap_ssid
-  Device.WiFi.SSID.1.SSID="prplOS"
-  Device.WiFi.SSID.3.SSID="prplOS-guest"
-  Device.WiFi.SSID.4.SSID="prplOS"
-  Device.WiFi.SSID.6.SSID="prplOS-guest"
-  Device.WiFi.SSID.7.SSID="prplOS"
-  Device.WiFi.SSID.9.SSID="prplOS-guest"
-  Device.WiFi.SSID.16.SSID="backhaul_6C:91:88:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}" (re)
-  Device.WiFi.SSID.17.SSID="backhaul_6C:91:88:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}" (re)
-  Device.WiFi.SSID.18.SSID="backhaul_6C:91:88:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}" (re)
+  $ get_ssid_ssid
+  backhaul_6C:91:88:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
+  backhaul_6C:91:88:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
+  backhaul_6C:91:88:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
+  prplOS
+  prplOS
+  prplOS
+  prplOS-guest
+  prplOS-guest
+  prplOS-guest
 
 Check that no hostapd instance is running:
 
