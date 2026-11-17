@@ -6,30 +6,12 @@ Create R alias:
 If test is running on a Valyrian, skip the test due to PCF-2669:
   $ if echo "$CI_JOB_NAME" | grep -q -E "Valyrian"; then exit 80; fi
 
-  $ R "logger -t cram 'Starting PWHM test (step 1) ...'"
+  $ R logger -t cram "Starting $TESTFILE"
 
-Wait for Device.WiFi. datamodel availability:
+  $ check_wifi_defaults
+  $ testbed_set_wifi_defaults
 
-  $ R "amx_wait_for Device.WiFi."
-
-Stop prplMesh:
-
-  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=0" | tr -d '\n'
-  0 (no-eol)
-
-  $ sleep 2
-
-Set AutoChannelEnable=0 on all Device.WiFi.Radio. interfaces:
-
-  $ wifi_dm "Radio.*.AutoChannelEnable=0"
-  Device.WiFi.Radio.1.AutoChannelEnable=0
-  Device.WiFi.Radio.2.AutoChannelEnable=0
-  Device.WiFi.Radio.3.AutoChannelEnable=0
-
-Set channel to a non DFS one:
-
-  $ wifi_dm "Radio.2.Channel=36"
-  Device.WiFi.Radio.2.Channel=36 (re)
+  $ prplmesh_stop
 
 PROVISORY (PPM-4273) - remove once the firmware supports it.
 MediaTek hostapd patch 0232 refuses to remove an MLO link from an MBSSID
@@ -41,37 +23,6 @@ The parameter is not exposed in the TR-181 tree, hence WiFi./ba-cli:
 
   $ wifi_dm_radio_band 6 "IEEE80211ax.MBSSIDAdvertisementMode=Off" "WiFi." "ba-cli"
   WiFi.Radio.[0-9]+.IEEE80211ax.MBSSIDAdvertisementMode="Off" (re)
-
-Check default SSID status:
-
-  $ get_ap_status
-  Device.WiFi.AccessPoint.1.Status="Disabled"
-  Device.WiFi.AccessPoint.2.Status="Disabled"
-  Device.WiFi.AccessPoint.3.Status="Disabled"
-  Device.WiFi.AccessPoint.4.Status="Disabled"
-  Device.WiFi.AccessPoint.5.Status="Disabled"
-  Device.WiFi.AccessPoint.6.Status="Disabled"
-  Device.WiFi.AccessPoint.7.Status="Disabled"
-  Device.WiFi.AccessPoint.8.Status="Disabled"
-  Device.WiFi.AccessPoint.9.Status="Disabled"
-
-Check default SSID configuration of access points:
-
-  $ get_ssid_ssid
-  backhaul_(1C:F4:3F|20:37:F0):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
-  backhaul_(1C:F4:3F|20:37:F0):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
-  backhaul_(1C:F4:3F|20:37:F0):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2} (re)
-  prplOS
-  prplOS
-  prplOS
-  prplOS-guest
-  prplOS-guest
-  prplOS-guest
-
-Check that no hostapd instance is running:
-
-  $ R "pgrep -f 'hostapd'"
-  [1]
 
 Test activation of access point 1:
 
