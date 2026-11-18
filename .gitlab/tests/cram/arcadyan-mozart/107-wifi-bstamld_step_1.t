@@ -1,0 +1,402 @@
+Create R alias:
+
+  $ alias R="${CRAM_REMOTE_COMMAND:-}"
+  $ . "${TESTDIR}/../scripts/wifi.sh"
+
+  $ R logger -t cram "Starting $TESTFILE"
+
+Stop prplMesh:
+
+  $ check_wifi_defaults
+  $ testbed_set_wifi_defaults
+
+  $ prplmesh_stop
+
+Check default configuration:
+
+  $ wifi_dm "bSTAMLD.?"
+  No data found
+
+  $ wifi_dm "EndPoint.1.SSIDReference+.MLDUnit?0"
+  Device.WiFi.SSID.\d+.MLDUnit=-1 (re)
+
+  $ wifi_dm "EndPoint.2.SSIDReference+.MLDUnit?0"
+  Device.WiFi.SSID.\d+.MLDUnit=-1 (re)
+
+  $ wifi_dm "EndPoint.3.SSIDReference+.MLDUnit?0"
+  Device.WiFi.SSID.\d+.MLDUnit=-1 (re)
+
+  $ wifi_dm "bSTAMLDMaxLinks?"
+  Device.WiFi.bSTAMLDMaxLinks=3
+
+  $ wifi_dm "Radio.*.Capabilities.WiFi7STARole.?" "WiFi." "ba-cli"
+  WiFi.Radio.1.Capabilities.WiFi7STARole.EMLMRSupport=0
+  WiFi.Radio.1.Capabilities.WiFi7STARole.EMLSRSupport=1
+  WiFi.Radio.1.Capabilities.WiFi7STARole.NSTRSupport=0
+  WiFi.Radio.1.Capabilities.WiFi7STARole.STRSupport=0
+  WiFi.Radio.1.Capabilities.WiFi7STARole.TIDLinkMapNegotiation=0
+  WiFi.Radio.2.Capabilities.WiFi7STARole.EMLMRSupport=0
+  WiFi.Radio.2.Capabilities.WiFi7STARole.EMLSRSupport=1
+  WiFi.Radio.2.Capabilities.WiFi7STARole.NSTRSupport=0
+  WiFi.Radio.2.Capabilities.WiFi7STARole.STRSupport=0
+  WiFi.Radio.2.Capabilities.WiFi7STARole.TIDLinkMapNegotiation=0
+  WiFi.Radio.3.Capabilities.WiFi7STARole.EMLMRSupport=0
+  WiFi.Radio.3.Capabilities.WiFi7STARole.EMLSRSupport=1
+  WiFi.Radio.3.Capabilities.WiFi7STARole.NSTRSupport=0
+  WiFi.Radio.3.Capabilities.WiFi7STARole.STRSupport=0
+  WiFi.Radio.3.Capabilities.WiFi7STARole.TIDLinkMapNegotiation=0
+
+#########################################
+# Nominal use case: Test 3 bands MLO    #
+#########################################
+
+Check no wpa_supplicant process is running:
+
+  $ R "pgrep -f 'wpa_supplicant'"
+  [1]
+
+Configure an EP MLD with same MLD unit:
+
+  $ R logger -t cram "Configure bSTAMLD"
+
+  $ wifi_dm "EndPoint.1.SSIDReference+.MLDUnit=11"
+  Device.WiFi.SSID.\d+.MLDUnit=11 (re)
+
+  $ wifi_dm "EndPoint.2.SSIDReference+.MLDUnit=11"
+  Device.WiFi.SSID.\d+.MLDUnit=11 (re)
+
+  $ wifi_dm "EndPoint.3.SSIDReference+.MLDUnit=11"
+  Device.WiFi.SSID.\d+.MLDUnit=11 (re)
+
+  $ sleep 5
+
+Check DM. At this step only MLDID can be checked. All other objects can't be updated unless we perform an onboarding.
+It's needed to access DM in proteced mode to read UseNeighborProfile object.
+
+  $ wifi_dm "bSTAMLD.?" "Device.WiFi." "ba-cli" protected
+  Device.WiFi.bSTAMLD.1.AffiliatedbSTAList=""
+  Device.WiFi.bSTAMLD.1.BSSID=""
+  Device.WiFi.bSTAMLD.1.MLDID=11
+  Device.WiFi.bSTAMLD.1.MLDMACAddress=""
+  Device.WiFi.bSTAMLD.1.bSTAMLDConfig.EMLMREnabled=0
+  Device.WiFi.bSTAMLD.1.bSTAMLDConfig.EMLSREnabled=1
+  Device.WiFi.bSTAMLD.1.bSTAMLDConfig.NSTREnabled=0
+  Device.WiFi.bSTAMLD.1.bSTAMLDConfig.STREnabled=0
+  Device.WiFi.bSTAMLD.1.bSTAMLDConfig.UseNeighborProfile=1
+
+Create profile for EP 1. As UseNeighborProfile is enbaled by default, no need to provision the other EP1 to do MLO:
+
+  $ R logger -t cram "Create profile on EP1"
+
+  $ ep1_alias=$(R 'ba-cli -l "WiFi.EndPoint.1.Profile+"' | sed '/^$/d')
+  $ echo $ep1_alias
+  cpe-Profile.* (re)
+
+  $ wifi_dm "EndPoint.1.ProfileReference=WiFi.EndPoint.1.Profile.${ep1_alias}" "Device.WiFi." "ba-cli"
+  Device.WiFi.EndPoint.1.ProfileReference="WiFi.EndPoint.1.Profile.* (re)
+
+  $ wifi_dm "EndPoint.1.Profile.${ep1_alias}.Enable=1" "Device.WiFi." "ba-cli"
+  Device.WiFi.EndPoint.1.Profile.\d+.Enable=1 (re)
+
+  $ wifi_dm "EndPoint.1.Profile.${ep1_alias}.SSID=\"TEST_MLO\"" "Device.WiFi." "ba-cli"
+  Device.WiFi.EndPoint.1.Profile.\d+.SSID="TEST_MLO" (re)
+
+  $ wifi_dm "EndPoint.1.Profile.${ep1_alias}.Security.ModeEnabled=\"WPA3-Personal-Transition\"" "Device.WiFi." "ba-cli"
+  Device.WiFi.EndPoint.1.Profile.\d+.Security.ModeEnabled="WPA3-Personal-Transition" (re)
+
+  $ wifi_dm "EndPoint.1.Profile.${ep1_alias}.Security.KeyPassphrase=\"password\"" "Device.WiFi." "ba-cli"
+  Device.WiFi.EndPoint.1.Profile.\d+.Security.KeyPassphrase="password" (re)
+
+Enable all EPs:
+
+  $ R logger -t cram "Enable all EndPoints"
+
+  $ wifi_dm "EndPoint.*.Enable=1"
+  Device.WiFi.EndPoint.1.Enable=1
+  Device.WiFi.EndPoint.2.Enable=1
+  Device.WiFi.EndPoint.3.Enable=1
+
+  $ sleep 5
+
+Check one wpa_supplicant instance is running:
+
+  $ R "pgrep wpa_supplicant"
+  \d+ (re)
+
+  $ wpa_pid=$(R "pgrep wpa_supplicant")
+  $ R logger -t cram "wpa_supplicant PID: $wpa_pid"
+
+  $ R "ps axw" | sed -nE 's/.*(wpa_supplicant .*)/\1/p' | head -1 | tr -s ' ' '\n' | LC_ALL=C sort
+  -Dnl80211
+  -c
+  -g
+  -i
+  -s
+  /tmp/wlan0_wpa_supplicant.conf
+  /var/run/wpa_supplicant/global\.0x.* (re)
+  wlan0
+  wpa_supplicant
+
+Check only one wpactrl socket is created under /var/run/wpa_supplicant:
+
+  $ ls_wpa_sockets
+  wlan0
+
+  $ ilist_wpa_old=
+  $ ilist_wpa_new=$(read_wpa_inodes)
+  $ compare_list "$ilist_wpa_old" "$ilist_wpa_new"
+  A: .* /var/run/wpa_supplicant/wlan0 (re)
+
+  $ ilist_wpa_old=$ilist_wpa_new
+
+  $ wpa_conf_file=$(R "ps ax | grep '[w]pa_supplicant'" | sed -nE 's/.*-c[[:space:]]*([^[:space:]]+).*/\1/p' | sed '/^$/d')
+  $ echo $wpa_conf_file
+  /tmp/wlan\d_wpa_supplicant.conf (re)
+
+Check if 3 bands are used in frequencies list:
+
+  $ freq_list=$(R "cat ${wpa_conf_file}" | grep freq_list)
+
+  $ echo $freq_list | grep -oE '24[1-7][0-9]' | wc -l
+  [1-9][0-9]* (re)
+
+  $ echo $freq_list | grep -oE '5[1-8][0-9]{2}' | wc -l
+  [1-9][0-9]* (re)
+
+  $ echo $freq_list | grep -oE '6[0-9]{3}|7[0-1][0-9]{2}' | wc -l
+  [1-9][0-9]* (re)
+
+#########################################
+# Unset MLDUnit on 6GHz EP              #
+#########################################
+
+  $ R logger -t cram "Unset MLDUnit on 6GHz EP"
+
+  $ wifi_dm "EndPoint.3.SSIDReference+.MLDUnit=-1"
+  Device.WiFi.SSID.\d+.MLDUnit=-1 (re)
+
+  $ sleep 5
+
+Check one wpa_supplicant instance is running, same pid as before:
+
+  $ R "pgrep wpa_supplicant"
+  \d+ (re)
+
+  $ if [ "$(R pgrep -f 'wpa_supplicant')" = "$wpa_pid" ]; then echo "true"; else echo "wpa_supplicant restarted !"; fi
+  true
+
+Check two wpactrl sockets exist in /var/run/wpa_supplicant:
+
+  $ ls_wpa_sockets
+  wlan0
+  wlan1
+
+  $ ilist_wpa_new=$(read_wpa_inodes)
+  $ compare_list "$ilist_wpa_old" "$ilist_wpa_new"
+  A: .* /var/run/wpa_supplicant/wlan1 (re)
+
+  $ ilist_wpa_old=$ilist_wpa_new
+
+The 6GHz EP related config file should have only 6GHz channels:
+In the bellow regex filter only wlan0_wpa_supplicant.conf (6GHz interface)
+
+  $ wpa_conf_file_6ghz=$(ls_wpa_sockets | grep '^wlan0$' | sed 's|.*|/tmp/&_wpa_supplicant.conf|')
+  $ echo $wpa_conf_file_6ghz
+  /tmp/wlan0_wpa_supplicant.conf
+
+  $ freq_list=$(R "cat ${wpa_conf_file_6ghz}" | grep freq_list)
+
+  $ echo $freq_list | grep -oE '24[1-7][0-9]' | wc -l
+  0
+
+  $ echo $freq_list | grep -oE '5[1-8][0-9]{2}' | wc -l
+  0
+
+  $ echo $freq_list | grep -oE '6[0-9]{3}|7[0-1][0-9]{2}' | wc -l
+  [1-9][0-9]* (re)
+
+The other config file should use 2.4GHz and 5GHz frequencies:
+In the bellow regex filter only the file that doesn't match  wlan0_wpa_supplicant.conf (6GHz interface)
+
+  $ wpa_conf_file=$(ls_wpa_sockets | grep -v '^wlan0$' | sed 's|.*|/tmp/&_wpa_supplicant.conf|')
+  $ echo $wpa_conf_file
+  /tmp/wlan\d_wpa_supplicant.conf (re)
+
+  $ freq_list=$(R "cat ${wpa_conf_file}" | grep freq_list)
+
+  $ echo $freq_list | grep -oE '24[1-7][0-9]' | wc -l
+  [1-9][0-9]* (re)
+
+  $ echo $freq_list | grep -oE '5[1-8][0-9]{2}' | wc -l
+  [1-9][0-9]* (re)
+
+  $ echo $freq_list | grep -oE '6[0-9]{3}|7[0-1][0-9]{2}' | wc -l
+  0
+
+Check bSTAMLD (shouldn't change):
+
+  $ wifi_dm "bSTAMLD.?" "Device.WiFi." "ba-cli" protected
+  Device.WiFi.bSTAMLD.1.AffiliatedbSTAList=""
+  Device.WiFi.bSTAMLD.1.BSSID=""
+  Device.WiFi.bSTAMLD.1.MLDID=11
+  Device.WiFi.bSTAMLD.1.MLDMACAddress=""
+  Device.WiFi.bSTAMLD.1.bSTAMLDConfig.EMLMREnabled=0
+  Device.WiFi.bSTAMLD.1.bSTAMLDConfig.EMLSREnabled=1
+  Device.WiFi.bSTAMLD.1.bSTAMLDConfig.NSTREnabled=0
+  Device.WiFi.bSTAMLD.1.bSTAMLDConfig.STREnabled=0
+  Device.WiFi.bSTAMLD.1.bSTAMLDConfig.UseNeighborProfile=1
+
+#########################################
+# Unset MLDUnit on 5GHz EP              #
+#########################################
+
+  $ R logger -t cram "Unset MLDUnit on 5GHz EP"
+
+  $ wifi_dm "EndPoint.2.SSIDReference+.MLDUnit=-1"
+  Device.WiFi.SSID.\d+.MLDUnit=-1 (re)
+
+  $ sleep 5
+
+Check one wpa_supplicant instance is running, same pid as before:
+
+  $ R "pgrep wpa_supplicant"
+  \d+ (re)
+
+  $ if [ "$(R pgrep -f 'wpa_supplicant')" = "$wpa_pid" ]; then echo "true"; else echo "wpa_supplicant restarted !"; fi
+  true
+
+Check three wpactrl sockets exist in /var/run/wpa_supplicant:
+
+  $ ls_wpa_sockets
+  wlan0
+  wlan1
+  wlan2
+
+  $ ilist_wpa_new=$(read_wpa_inodes)
+  $ compare_list "$ilist_wpa_old" "$ilist_wpa_new"
+  A: .* /var/run/wpa_supplicant/wlan2 (re)
+
+  $ ilist_wpa_old=$ilist_wpa_new
+
+Check 6GHz (wlan0) frequencies:
+
+  $ wpa_conf_file_6ghz=$(ls_wpa_sockets | grep '^wlan0$' | sed 's|.*|/tmp/&_wpa_supplicant.conf|')
+  $ echo $wpa_conf_file_6ghz
+  /tmp/wlan0_wpa_supplicant.conf
+
+  $ freq_list=$(R "cat ${wpa_conf_file_6ghz}" | grep freq_list)
+
+  $ echo $freq_list | grep -oE '24[1-7][0-9]' | wc -l
+  0
+
+  $ echo $freq_list | grep -oE '5[1-8][0-9]{2}' | wc -l
+  0
+
+  $ echo $freq_list | grep -oE '6[0-9]{3}|7[0-1][0-9]{2}' | wc -l
+  [1-9][0-9]* (re)
+
+Check 5GHz (wlan1) frequencies:
+
+  $ wpa_conf_file_5ghz=$(ls_wpa_sockets | grep '^wlan1$' | sed 's|.*|/tmp/&_wpa_supplicant.conf|')
+  $ echo $wpa_conf_file_5ghz
+  /tmp/wlan1_wpa_supplicant.conf
+
+  $ freq_list=$(R "cat ${wpa_conf_file_5ghz}" | grep freq_list)
+
+  $ echo $freq_list | grep -oE '24[1-7][0-9]' | wc -l
+  0
+
+  $ echo $freq_list | grep -oE '5[1-8][0-9]{2}' | wc -l
+  [1-9][0-9]* (re)
+
+  $ echo $freq_list | grep -oE '6[0-9]{3}|7[0-1][0-9]{2}' | wc -l
+  0
+
+Check 2.4GHz (wlan2) frequencies:
+
+  $ wpa_conf_file_2ghz=$(ls_wpa_sockets | grep '^wlan2$' | sed 's|.*|/tmp/&_wpa_supplicant.conf|')
+  $ echo $wpa_conf_file_2ghz
+  /tmp/wlan2_wpa_supplicant.conf
+
+  $ freq_list=$(R "cat ${wpa_conf_file_2ghz}" | grep freq_list)
+
+  $ echo $freq_list | grep -oE '24[1-7][0-9]' | wc -l
+  [1-9][0-9]* (re)
+
+  $ echo $freq_list | grep -oE '5[1-8][0-9]{2}' | wc -l
+  0
+
+  $ echo $freq_list | grep -oE '6[0-9]{3}|7[0-1][0-9]{2}' | wc -l
+  0
+
+Check bSTAMLD (shouldn't change):
+
+  $ wifi_dm "bSTAMLD.?" "Device.WiFi." "ba-cli" protected
+  Device.WiFi.bSTAMLD.1.AffiliatedbSTAList=""
+  Device.WiFi.bSTAMLD.1.BSSID=""
+  Device.WiFi.bSTAMLD.1.MLDID=11
+  Device.WiFi.bSTAMLD.1.MLDMACAddress=""
+  Device.WiFi.bSTAMLD.1.bSTAMLDConfig.EMLMREnabled=0
+  Device.WiFi.bSTAMLD.1.bSTAMLDConfig.EMLSREnabled=1
+  Device.WiFi.bSTAMLD.1.bSTAMLDConfig.NSTREnabled=0
+  Device.WiFi.bSTAMLD.1.bSTAMLDConfig.STREnabled=0
+  Device.WiFi.bSTAMLD.1.bSTAMLDConfig.UseNeighborProfile=1
+
+#################################
+# Set a new MLDUnit for all EPs #
+#################################
+
+  $ R logger -t cram "Set new MLDUnit on all EPs"
+
+  $ wifi_dm "EndPoint.1.SSIDReference+.MLDUnit=22"
+  Device.WiFi.SSID.\d+.MLDUnit=22 (re)
+
+  $ wifi_dm "EndPoint.2.SSIDReference+.MLDUnit=22"
+  Device.WiFi.SSID.\d+.MLDUnit=22 (re)
+
+  $ wifi_dm "EndPoint.3.SSIDReference+.MLDUnit=22"
+  Device.WiFi.SSID.\d+.MLDUnit=22 (re)
+
+Check bSTAMLD DM:
+
+  $ wifi_dm "bSTAMLD.?" "Device.WiFi." "ba-cli" protected
+  Device.WiFi.bSTAMLD.1.AffiliatedbSTAList=""
+  Device.WiFi.bSTAMLD.1.BSSID=""
+  Device.WiFi.bSTAMLD.1.MLDID=11
+  Device.WiFi.bSTAMLD.1.MLDMACAddress=""
+  Device.WiFi.bSTAMLD.1.bSTAMLDConfig.EMLMREnabled=0
+  Device.WiFi.bSTAMLD.1.bSTAMLDConfig.EMLSREnabled=1
+  Device.WiFi.bSTAMLD.1.bSTAMLDConfig.NSTREnabled=0
+  Device.WiFi.bSTAMLD.1.bSTAMLDConfig.STREnabled=0
+  Device.WiFi.bSTAMLD.1.bSTAMLDConfig.UseNeighborProfile=1
+  Device.WiFi.bSTAMLD.2.AffiliatedbSTAList=""
+  Device.WiFi.bSTAMLD.2.BSSID=""
+  Device.WiFi.bSTAMLD.2.MLDID=22
+  Device.WiFi.bSTAMLD.2.MLDMACAddress=""
+  Device.WiFi.bSTAMLD.2.bSTAMLDConfig.EMLMREnabled=0
+  Device.WiFi.bSTAMLD.2.bSTAMLDConfig.EMLSREnabled=1
+  Device.WiFi.bSTAMLD.2.bSTAMLDConfig.NSTREnabled=0
+  Device.WiFi.bSTAMLD.2.bSTAMLDConfig.STREnabled=0
+  Device.WiFi.bSTAMLD.2.bSTAMLDConfig.UseNeighborProfile=1
+
+  $ sleep 2
+
+Check one wpa_supplicant instance is running, same pid as before:
+
+  $ R "pgrep wpa_supplicant"
+  \d+ (re)
+
+  $ if [ "$(R pgrep -f 'wpa_supplicant')" = "$wpa_pid" ]; then echo "true"; else echo "wpa_supplicant restarted !"; fi
+  true
+
+Check that exactly one wpactrl socket is created in /var/run/wpa_supplicant after MLO re-grouping:
+
+  $ ls_wpa_sockets
+  wlan0
+
+  $ ilist_wpa_new=$(read_wpa_inodes)
+  $ compare_list "$ilist_wpa_old" "$ilist_wpa_new"
+  R: .* /var/run/wpa_supplicant/wlan1 (re)
+  R: .* /var/run/wpa_supplicant/wlan2 (re)
+
+  $ R logger -t cram "$TESTFILE finished!"
