@@ -141,9 +141,11 @@ define KernelPackage/lib-zstd
 	CONFIG_CRYPTO_ZSTD \
 	CONFIG_ZSTD_COMPRESS \
 	CONFIG_ZSTD_DECOMPRESS
+  # zstd_common.ko exists only from kernel 6.1. On 5.15, still used by
+  # MaxLinear OSPv2, that code is linked into zstd_compress/zstd_decompress.
   FILES:= \
 	$(LINUX_DIR)/crypto/zstd.ko \
-	$(LINUX_DIR)/lib/zstd/zstd_common.ko \
+	$(LINUX_DIR)/lib/zstd/zstd_common.ko@ge6.1 \
 	$(LINUX_DIR)/lib/zstd/zstd_compress.ko \
 	$(LINUX_DIR)/lib/zstd/zstd_decompress.ko
   AUTOLOAD:=$(call AutoProbe,zstd zstd_compress zstd_decompress)
