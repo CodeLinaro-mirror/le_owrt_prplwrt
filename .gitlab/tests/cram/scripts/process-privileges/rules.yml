@@ -24,6 +24,12 @@ procd:
     amx-processmonitor:
       id: tr181_app:tr181_app
       caps: dac_override,dac_read_search,kill,sys_ptrace
+      child:
+        sudo:
+          id: tr181_app/root:root
+          caps: full
+          optional: true
+          ignore_child: true
     "amxrt:wifi-scheduler":
       id: root:root
       caps: full
@@ -269,6 +275,12 @@ procd:
     tr181-dynamicdns:
       id: tr181_app:tr181_app
       caps: chown,dac_override,dac_read_search
+      child:
+        sh:
+          id: tr181_app:tr181_app
+          caps: chown,dac_override,dac_read_search
+          optional: true
+          ignore_child: true
     tr181-firewall:
       id: tr181_app:tr181_app
       caps: dac_override,net_admin,net_raw,setfcap,sys_module
@@ -368,6 +380,12 @@ procd:
     tr181-sfp:
       id: tr181_app:tr181_app
       caps: dac_override,net_admin
+      child:
+        sh:
+          id: tr181_app:tr181_app
+          caps: net_admin
+          optional: true
+          ignore_child: true
     tr181-syslog:
       id: tr181_app:syslog
       caps: chown,dac_override,dac_read_search,fowner,net_bind_service,net_broadcast,net_raw,syslog
