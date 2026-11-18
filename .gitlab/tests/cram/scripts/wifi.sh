@@ -416,7 +416,9 @@ get_interface_name() {
 get_link_info() {
   local itf=$1
   R logger -t cram "get_link_info: interface ${1}"
-  R "iw dev ${itf} info" | grep -e addr -e channe -e link | sed 's/^[ \t]*//' | sed 's/:*$//' | sort | uniq
+  # newer iw (e.g. MediaTek) prints "MLD with links:" / "- link ID N link addr M": bring it to the "link N" / "addr M" form
+  R "iw dev ${itf} info" | grep -e addr -e channe -e link | sed 's/^[ \t]*//' | sed 's/:*$//' \
+    | sed -e '/^MLD with links/d' -e 's/^- link ID *\([0-9]*\) link addr \(.*\)$/link \1\naddr \2/' | sort | uniq
 }
 
 # print main link interface name from MAC address
