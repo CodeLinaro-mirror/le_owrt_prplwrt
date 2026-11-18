@@ -481,7 +481,6 @@ cram Valyrian [auto]:
 cram QEMU x86-64 [auto]:
   allow_failure: true
   timeout: 60 minutes
-  needs: ["build test x86_64 prpl security"]
   extends:
     - .qemu-x86-64 testbed
     - .cram_component_auto_selection
@@ -695,7 +694,6 @@ cram Valyrian [prplos]:
 cram QEMU x86-64 [full]:
   allow_failure: true
   timeout: 60 minutes
-  needs: ["build test x86_64 prpl security"]
   extends: .qemu-x86-64 testbed
   variables:
     COMPONENT: full
@@ -703,7 +701,6 @@ cram QEMU x86-64 [full]:
 cram QEMU x86-64 [smoke]:
   allow_failure: true
   timeout: 10 minutes
-  needs: ["build test x86_64 prpl security"]
   extends: .qemu-x86-64 testbed
   variables:
     COMPONENT: smoke
@@ -711,7 +708,6 @@ cram QEMU x86-64 [smoke]:
 cram QEMU x86-64 [prplmesh]:
   allow_failure: true
   timeout: 10 minutes
-  needs: ["build test x86_64 prpl security"]
   extends: .qemu-x86-64 testbed
   variables:
     COMPONENT: prplmesh
@@ -719,7 +715,6 @@ cram QEMU x86-64 [prplmesh]:
 cram QEMU x86-64 [lcm]:
   allow_failure: true
   timeout: 45 minutes
-  needs: ["build test x86_64 prpl security"]
   extends: .qemu-x86-64 testbed
   variables:
     COMPONENT: lcm
@@ -727,7 +722,6 @@ cram QEMU x86-64 [lcm]:
 cram QEMU x86-64 [prplos]:
   allow_failure: true
   timeout: 45 minutes
-  needs: ["build test x86_64 prpl security"]
   extends: .qemu-x86-64 testbed
   variables:
     COMPONENT: prplos

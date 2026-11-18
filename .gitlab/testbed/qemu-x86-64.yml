@@ -1,6 +1,7 @@
 # SPDX-FileCopyrightText: Copyright (c) 2026 prpl Foundation
 .qemu-x86-64 testbed:
   stage: run
+  needs: []
   image: "registry.gitlab.com/prpl-foundation/prplos/ci/containers/testbed-qemu@sha256:4f87f818e1511091c43baac3cf02a9cab5b9cfa59a84674672a8555645b37979"
   tags: [qemu-amd64, kvm]
   timeout: 40 minutes
@@ -26,6 +27,28 @@
     - source .gitlab/scripts/helpers.sh
 
     - section_start "testbed-setup" "Testbed Setup" "collapsed"
+
+    - |
+      if [ -n "${PREBUILT_FIRMWARE_JOB_ID:-}" ]; then
+        echo "Fetching prebuilt QEMU artifacts from job $PREBUILT_FIRMWARE_JOB_ID"
+        prebuilt_archive=$(mktemp "$CI_PROJECT_DIR/.prebuilt-qemu-artifacts.XXXXXX.zip") || exit 1
+        if ! curl -fsSL --max-time 600 --header "JOB-TOKEN: $CI_JOB_TOKEN" \
+          -o "$prebuilt_archive" \
+          "$CI_API_V4_URL/projects/$CI_PROJECT_ID/jobs/$PREBUILT_FIRMWARE_JOB_ID/artifacts"; then
+          rm -f "$prebuilt_archive"
+          exit 1
+        fi
+        if ! python3 -m zipfile -e "$prebuilt_archive" "$CI_PROJECT_DIR"; then
+          rm -f "$prebuilt_archive"
+          exit 1
+        fi
+        rm -f "$prebuilt_archive" || exit 1
+        test -s "$CI_PROJECT_DIR/$TESTBED_QEMU_IMAGE" || {
+          echo "Prebuilt QEMU artifacts did not contain $TESTBED_QEMU_IMAGE" >&2
+          exit 1
+        }
+        echo "Finished extracting prebuilt QEMU artifacts from job $PREBUILT_FIRMWARE_JOB_ID"
+      fi
 
     # Resolve the COMPONENT bucket into a list of test paths.
     - |
