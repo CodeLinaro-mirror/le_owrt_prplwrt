@@ -73,6 +73,8 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_amxrt=y
   CONFIG_PACKAGE_bind-client=y
   CONFIG_PACKAGE_bind-libs=y
+  CONFIG_PACKAGE_bird2=y
+  CONFIG_PACKAGE_bird2c=y
   CONFIG_PACKAGE_cJSON=y
   CONFIG_PACKAGE_ca-certificates=y
   CONFIG_PACKAGE_chrony-prpl=y
@@ -302,6 +304,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_libqoscommon=y
   CONFIG_PACKAGE_libqosmodule=y
   CONFIG_PACKAGE_libqosnode=y
+  CONFIG_PACKAGE_libreadline=y
   CONFIG_PACKAGE_librlyeh=y
   CONFIG_PACKAGE_librnp=y
   CONFIG_PACKAGE_libsahtrace=y
@@ -397,6 +400,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_mod-ppp-daemon=y
   CONFIG_PACKAGE_mod-qos-tc=y
   CONFIG_PACKAGE_mod-ra-radvd=y
+  CONFIG_PACKAGE_mod-routing-bird2=y
   CONFIG_PACKAGE_mod-routing-dhcp=y
   CONFIG_PACKAGE_mod-sahtrace=y
   CONFIG_PACKAGE_mod-scheduler-amxp=y
@@ -567,6 +571,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_timingila-rlyeh=y
   CONFIG_PACKAGE_timingila-rlyeh-security=y
   CONFIG_PACKAGE_tr069-manager=y
+  CONFIG_PACKAGE_tr181-bgp-ospf=y
   CONFIG_PACKAGE_tr181-bootstatus=y
   CONFIG_PACKAGE_tr181-bridging=y
   CONFIG_PACKAGE_tr181-bulkdata=y
@@ -598,6 +603,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_tr181-neighbordiscovery=y
   CONFIG_PACKAGE_tr181-pcp=y
   CONFIG_PACKAGE_tr181-periodicfileupload=y
+  CONFIG_PACKAGE_tr181-powermanager=y
   CONFIG_PACKAGE_tr181-powerstatus=y
   CONFIG_PACKAGE_tr181-ppp=y
   CONFIG_PACKAGE_tr181-qos=y
@@ -871,6 +877,9 @@ Assure expected build configuration (PCF-1413):
   CONFIG_SAH_AMX_TR181_PERIODICFILEUPLOAD_ORDER=99
   CONFIG_SAH_AMX_TR181_PERIODICFILEUPLOAD_RUN_AS_GROUP="tr181_app"
   CONFIG_SAH_AMX_TR181_PERIODICFILEUPLOAD_RUN_AS_USER="tr181_app"
+  CONFIG_SAH_AMX_TR181_POWERMANAGER=y
+  CONFIG_SAH_AMX_TR181_POWERMANAGER_START_ORDER=81
+  CONFIG_SAH_AMX_TR181_POWERMANAGER_STOP_ORDER=19
   CONFIG_SAH_AMX_TR181_POWERSTATUS=y
   CONFIG_SAH_AMX_TR181_POWERSTATUS_ORDER=15
   CONFIG_SAH_AMX_TR181_POWERSTATUS_RUN_AS_GROUP="tr181_app"
@@ -1056,6 +1065,10 @@ Assure expected build configuration (PCF-1413):
   CONFIG_SQLITE3_RTREE=y
   CONFIG_STRONGSWAN_ROUTING_TABLE="220"
   CONFIG_STRONGSWAN_ROUTING_TABLE_PRIO="220"
+  CONFIG_TR181_BGP_OSPF_RUN_AS_GROUP="tr181_app"
+  CONFIG_TR181_BGP_OSPF_RUN_AS_USER="tr181_app"
+  CONFIG_TR181_BGP_OSPF_START_ORDER=99
+  CONFIG_TR181_BGP_OSPF_STOP_ORDER=0
   CONFIG_USE_PRPLMESH_WHM=y
   CONFIG_VERSIONOPT=y
   CONFIG_VERSION_BUG_URL="https://jira.prplfoundation.org"
