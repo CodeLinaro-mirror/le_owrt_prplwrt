@@ -1,0 +1,1 @@
+../wifi/process-manager-smoke.t
