@@ -13,6 +13,23 @@
     - chmod 700 ~/.ssh
 
     - |
+      if [ -n "${PREBUILT_FIRMWARE_JOB_ID:-}" ]; then
+        echo "Fetching prebuilt build artifacts from job $PREBUILT_FIRMWARE_JOB_ID"
+        prebuilt_archive=$(mktemp "$CI_PROJECT_DIR/.prebuilt-artifacts.XXXXXX.zip") || exit 1
+        if ! curl -fsSL --max-time 1200 --header "JOB-TOKEN: $CI_JOB_TOKEN" \
+          -o "$prebuilt_archive" \
+          "$CI_API_V4_URL/projects/$CI_PROJECT_ID/jobs/$PREBUILT_FIRMWARE_JOB_ID/artifacts"; then
+          rm -f "$prebuilt_archive"
+          exit 1
+        fi
+        if ! python3 -m zipfile -e "$prebuilt_archive" "$CI_PROJECT_DIR"; then
+          rm -f "$prebuilt_archive"
+          exit 1
+        fi
+        rm -f "$prebuilt_archive" || exit 1
+      fi
+
+    - |
       for f in ${TFTP_IMAGE_FILENAMES:-$TFTP_IMAGE_FILENAME}; do
         echo "Using firmware image $TFTP_IMAGE_PATH/$f"
         cp "$TFTP_IMAGE_PATH/$f" "$TESTBED_TFTP_PATH"

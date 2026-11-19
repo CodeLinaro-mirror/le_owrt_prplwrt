@@ -447,11 +447,13 @@ cram Freedom [auto]:
       allow_failure: true
 
 cram Mozart [auto]:
-  needs: ["build test mtk_filogic prpl security"]
+  needs: []  # WIP: prebuilt image, no build dependency
   extends:
     - .arcadyan-mozart testbed
     - .cram_component_auto
   timeout: 85 minutes
+  variables:
+    PREBUILT_FIRMWARE_JOB_ID: "18156282850"  # WIP: build test mtk_filogic prpl security
   rules:
     - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
       when: never
