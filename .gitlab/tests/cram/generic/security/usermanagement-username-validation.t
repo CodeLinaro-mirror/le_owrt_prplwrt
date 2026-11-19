@@ -66,16 +66,17 @@ and the policy boundaries. For new accounts, strict validation requires 9 to 32
 characters. Each name states the property under test:
 
   $ repeat() { s=; i=0; while [ $i -lt $1 ]; do s="$s$2"; i=$((i+1)); done; printf %s "$s"; }
+  $ STRICT_MINLEN=9 STRICT_MAXLEN=32
   $ PASSWORD='Sec16.Passw0rd'
   $ NAME_LEADING_SPACE=' root'
   $ NAME_TRAILING_SPACE='root '
   $ NAME_32_SPACES_ROOT="$(repeat 32 ' ')root"
-  $ NAME_MIN_LENGTH=qaaaaaaaa
+  $ NAME_MIN_LENGTH=q$(repeat $((STRICT_MINLEN-1)) a)
   $ NAME_8_CHARS=sec16d08
-  $ NAME_9_CHARS=sec16d088
-  $ NAME_32_CHARS=sec16d$(repeat 26 a)
-  $ NAME_33_CHARS=sec16d$(repeat 27 a)
-  $ NAME_MAX_LENGTH=sec16d$(repeat 58 a)
+  $ NAME_9_CHARS=sec16d$(repeat $((STRICT_MINLEN-6)) a)
+  $ NAME_32_CHARS=sec16d$(repeat $((STRICT_MAXLEN-6)) a)
+  $ NAME_33_CHARS=sec16d$(repeat $((STRICT_MAXLEN-5)) a)
+  $ NAME_MAX_LENGTH=sec16d$(repeat $((MAXLEN-6)) a)
   $ NAME_TOO_LONG=${NAME_MAX_LENGTH}x
   $ NAME_WITH_UNDERSCORE=sec16d_under
   $ NAME_WITH_HYPHEN=sec16d-hyph
@@ -91,10 +92,10 @@ removes such a leftover of an older run:
 
   $ NAME_STRAY_BYTE_LEFTOVER=rootr
 
-The names have the intended lengths. For strict validation, new accounts require
-9 to 32 characters. Baseline validation allows 1 to 64 characters:
+The names have the intended lengths. Policy limits defined by MINLEN, MAXLEN,
+STRICT_MINLEN, and STRICT_MAXLEN:
 
-  $ [ ${#NAME_MIN_LENGTH} -eq 9 ] && [ ${#NAME_9_CHARS} -eq 9 ] && [ ${#NAME_32_CHARS} -eq 32 ] && [ ${#NAME_MAX_LENGTH} -eq 64 ] && [ ${#NAME_TOO_LONG} -eq 65 ] && [ ${#ALIAS_TOO_LONG} -eq 65 ] && echo lengths-ok
+  $ [ ${#NAME_MIN_LENGTH} -eq $STRICT_MINLEN ] && [ ${#NAME_9_CHARS} -eq $STRICT_MINLEN ] && [ ${#NAME_32_CHARS} -eq $STRICT_MAXLEN ] && [ ${#NAME_MAX_LENGTH} -eq $MAXLEN ] && [ ${#NAME_TOO_LONG} -eq $((MAXLEN+1)) ] && [ ${#ALIAS_TOO_LONG} -eq $((MAXLEN+1)) ] && echo lengths-ok
   lengths-ok
   $ for n in "$NAME_MIN_LENGTH" "$NAME_8_CHARS" "$NAME_9_CHARS" "$NAME_32_CHARS" "$NAME_33_CHARS" "$NAME_MAX_LENGTH" "$NAME_WITH_UNDERSCORE" "$NAME_WITH_HYPHEN" "$NAME_WITH_DOT"; do
   >   echo "$n" | grep -Eq "$REGEX" || echo "regex rejects valid name $n"
