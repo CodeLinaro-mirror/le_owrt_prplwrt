@@ -4008,6 +4008,7 @@ Device.Time.Server.{i}.TTL                                                      
 Device.Time.Server.{i}.Version                                                                       proto::time-manager
 Device.Time.ServerNumberOfEntries                                                                    proto::time-manager
 Device.Time.Status                                                                                   proto::time-manager
+Device.Time.X_PRPLWARE-COM_NTPServerSynchronized!                                                    proto::time-manager
 Device.Time.X_PRPLWARE-COM_SetTime()                                                                 proto::time-manager
 Device.Time.X_PRPLWARE-COM_SetTime() input:Time
 Device.Time.X_PRPLWARE-COM_SetTime() input:TimeZone
