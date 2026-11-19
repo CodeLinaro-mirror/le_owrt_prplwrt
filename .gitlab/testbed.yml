@@ -1,7 +1,7 @@
 .testbed:
   extends: .dut-lifecycle
   stage: run
-  image: "registry.gitlab.com/prpl-foundation/prplos/ci/containers/testbed/testbed:v1.7.0@sha256:91904f7814afffc7bf042a35b5c1038caf74de49d36ecc10f0e5f3d47ffcde04"
+  image: "registry.gitlab.com/prpl-foundation/prplos/ci/containers/testbed/testbed:v1.7.1@sha256:b1b2c5e1a69a1ba8dbd72809ef2d22f4e4e2fba357b2158cb4d3d85a1c6d8480"
   timeout: 91 minutes
   variables:
     DUT_WAN_INTERFACE: eth1
@@ -258,7 +258,7 @@
 
 lint cram component manifest:
   stage: run
-  image: "registry.gitlab.com/prpl-foundation/prplos/ci/containers/testbed/testbed:v1.7.0@sha256:91904f7814afffc7bf042a35b5c1038caf74de49d36ecc10f0e5f3d47ffcde04"
+  image: "registry.gitlab.com/prpl-foundation/prplos/ci/containers/testbed/testbed:v1.7.1@sha256:b1b2c5e1a69a1ba8dbd72809ef2d22f4e4e2fba357b2158cb4d3d85a1c6d8480"
   needs: []
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
@@ -290,7 +290,7 @@ lint cram component manifest:
 
 .report_cram_selection:
   stage: run
-  image: "registry.gitlab.com/prpl-foundation/prplos/ci/containers/testbed/testbed:v1.7.0@sha256:91904f7814afffc7bf042a35b5c1038caf74de49d36ecc10f0e5f3d47ffcde04"
+  image: "registry.gitlab.com/prpl-foundation/prplos/ci/containers/testbed/testbed:v1.7.1@sha256:b1b2c5e1a69a1ba8dbd72809ef2d22f4e4e2fba357b2158cb4d3d85a1c6d8480"
   script:
     - |
       export GIT_CONFIG_COUNT=1
