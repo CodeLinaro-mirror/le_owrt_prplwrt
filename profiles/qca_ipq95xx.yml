@@ -16,8 +16,8 @@ include:
 packages:
   - ipq95xx
   - wireless-regdb
-  - hostapd-qca-utils
-  - wpa-qca-cli
+  - hostapd-utils
+  - wpa-cli
   - ath12k-caldata
   - aq-fw-download
   - aq_phy
