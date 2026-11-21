@@ -183,6 +183,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_gmap-mod-upnp=y
   CONFIG_PACKAGE_gmap-server=y
   CONFIG_PACKAGE_hostapd-common=y
+  CONFIG_PACKAGE_hostapd-utils=y
   CONFIG_PACKAGE_hosts-manager=y
   CONFIG_PACKAGE_image-authentication=y
   CONFIG_PACKAGE_imagegenerator=y
@@ -806,6 +807,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_wireguard-tools=y
   CONFIG_PACKAGE_wireless-freedom=y
   CONFIG_PACKAGE_wireless-regdb=y
+  CONFIG_PACKAGE_wpa-cli=y
   CONFIG_PACKAGE_wpad-mesh-openssl=y
   CONFIG_PACKAGE_wwan=y
   CONFIG_PACKAGE_xtables-legacy=y
