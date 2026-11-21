@@ -89,7 +89,7 @@ Compare: same values => OK, else MISMATCH and show both:
 Get WiFi device-level MLD params (normalize to Param=value, sort):
 
   $ R "ba-cli 'WiFi.MaxNumMLDs?' ; ba-cli 'WiFi.bSTAMLDMaxLinks?' ; ba-cli 'WiFi.APMLDMaxLinks?'" 2>&1 | grep -E 'MaxNumMLDs=|bSTAMLDMaxLinks=|APMLDMaxLinks=' | sed 's/.*\.\(MaxNumMLDs\|bSTAMLDMaxLinks\|APMLDMaxLinks\)=/\1=/' | sort
-  APMLDMaxLinks=5
+  APMLDMaxLinks=3
   MaxNumMLDs=19
   bSTAMLDMaxLinks=3
 
@@ -100,7 +100,7 @@ Get DataElements Device.1 same params, same normalization:
   $ de_mld=$(R "ba-cli -l 'Device.WiFi.DataElements.Network.Device.1.MaxNumMLDs?' ; ba-cli -l 'Device.WiFi.DataElements.Network.Device.1.bSTAMLDMaxLinks?' ; ba-cli -l 'Device.WiFi.DataElements.Network.Device.1.APMLDMaxLinks?'" | grep -E 'MaxNumMLDs=|bSTAMLDMaxLinks=|APMLDMaxLinks=' | sed 's/.*\.\(MaxNumMLDs\|bSTAMLDMaxLinks\|APMLDMaxLinks\)=/\1=/' | sort)
 
   $ R "ba-cli 'Device.WiFi.DataElements.Network.Device.1.MaxNumMLDs?' ; ba-cli 'Device.WiFi.DataElements.Network.Device.1.bSTAMLDMaxLinks?' ; ba-cli 'Device.WiFi.DataElements.Network.Device.1.APMLDMaxLinks?'" | grep -E 'MaxNumMLDs=|bSTAMLDMaxLinks=|APMLDMaxLinks=' | sed 's/.*\.\(MaxNumMLDs\|bSTAMLDMaxLinks\|APMLDMaxLinks\)=/\1=/' | sort
-  APMLDMaxLinks=5
+  APMLDMaxLinks=3
   MaxNumMLDs=19
   bSTAMLDMaxLinks=3
 
