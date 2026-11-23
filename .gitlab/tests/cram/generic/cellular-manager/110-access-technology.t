@@ -35,7 +35,7 @@ Change AccessTechnology to 4G:
 Verify CurrentAccessTechnology:
 
   $ R "ba-cli -l -j Cellular.Interface.1.CurrentAccessTechnology\? | sed '/^$/d'"
-  [{"Cellular.Interface.1.":{"CurrentAccessTechnology":"LTE"}}]
+  ^\[\{"Cellular\.Interface\.1\.":\{"CurrentAccessTechnology":"((LTE|NR)(,(LTE|NR))?)"\}\}\]$
 
 Verify SupportedAccessTechnologies:
 
