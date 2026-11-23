@@ -96,6 +96,7 @@ strict checking: this is the assertion an unwanted host key change has to break.
 
   $ KNOWNHOSTS=$(mktemp)
   $ echo "[$TARGET_LAN_IP]:1922 ssh-ed25519 $DUTKEY" > "$KNOWNHOSTS"
+  $ chmod go-rwx ${CI_PROJECT_DIR}/.gitlab/certs/ssh-server/ed25519-ci
   $ ssh -i ${CI_PROJECT_DIR}/.gitlab/certs/ssh-server/ed25519-ci -o BatchMode=yes -o StrictHostKeyChecking=yes -o "GlobalKnownHostsFile=/dev/null" -o "UserKnownHostsFile=$KNOWNHOSTS" -p 1922 root@$TARGET_LAN_IP 'exit 0'
   $ rm -f "$KNOWNHOSTS"
 
