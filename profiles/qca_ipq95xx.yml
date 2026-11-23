@@ -14,9 +14,8 @@ include:
   - secure_boot_emmc
 
 packages:
-  - ipq95xx
   - wireless-regdb
-  - hostapd-qca-utils
+  - hostapd-utils
   - wpa-qca-cli
   - ath12k-caldata
   - aq-fw-download
@@ -37,13 +36,10 @@ packages:
   - kmod-leds-lp5562
   - freedom-lcm-partitioner
   - kmod-qca8084
-  - kmod-qca81xx
   - kmod-qca8xxx-phc
   - kmod-ppp
   - kmod-pppoe
   - kmod-ath11k
-  - kmod-qca-nss-pppoe-mgr
-  - kmod-qca-nss-gre-mgr
   - ppecfg
   - taskset
   - kmod-qca-nss-ppe-pppoe-mgr
