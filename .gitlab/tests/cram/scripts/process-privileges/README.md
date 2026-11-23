@@ -8,6 +8,9 @@ to make a plugin run as a non-root user.
 - [`verify.py`](./verify.py) copies
   [`target/process-privileges.lua`](./target/process-privileges.lua) to the DUT,
   runs it there, and compares the collected tree against `rules.yml`.
+- [`test/`](./test) holds cram tests for `verify.py`. They need no DUT:
+  [`test/fake-dut.sh`](./test/fake-dut.sh) stands in for `ssh` and `scp` and
+  serves canned process lists. Run them with `python3 -m cram test`.
 
 ## How it works at runtime
 
