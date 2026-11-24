@@ -3,64 +3,23 @@ Create R alias:
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
   $ . "${TESTDIR}/../scripts/wifi.sh"
 
-If test is running on a Valyrian, skip the test due to PCF-2669:
-  $ if echo "$CI_JOB_NAME" | grep -q -E "Valyrian"; then exit 80; fi
+  $ R logger -t cram "Starting $TESTFILE"
 
-  $ R "logger -t cram 'Starting PWHM test (step 1) ...'"
+  $ check_wifi_defaults
+  $ testbed_set_wifi_defaults
 
-Wait for Device.WiFi. datamodel availability:
+  $ prplmesh_stop
 
-  $ R "amx_wait_for Device.WiFi."
+PROVISORY (PPM-4273) - remove once the firmware supports it.
+MediaTek hostapd patch 0232 refuses to remove an MLO link from an MBSSID
+group, because the firmware cannot count down the Reconfiguration ML element
+in an MBSSID non-transmitted profile. pwhm turns MBSSID on for 6 GHz radios
+only, see wld_rad_getMbssidAdsMode(), so the teardown in step 2 fails on the
+6 GHz radio alone. Disable MBSSID there for the duration of the test.
+The parameter is not exposed in the TR-181 tree, hence WiFi./ba-cli:
 
-Stop prplMesh:
-
-  $ R "ba-cli -l X_PRPLWARE-COM_ProcessManager.PrplMesh.Enable=0" | tr -d '\n'
-  0 (no-eol)
-
-  $ sleep 2
-
-Set AutoChannelEnable=0 on all Device.WiFi.Radio. interfaces:
-
-  $ wifi_dm "Radio.*.AutoChannelEnable=0"
-  Device.WiFi.Radio.1.AutoChannelEnable=0
-  Device.WiFi.Radio.2.AutoChannelEnable=0
-  Device.WiFi.Radio.3.AutoChannelEnable=0
-
-Set channel to a non DFS one:
-
-  $ wifi_dm "Radio.2.Channel=36"
-  Device.WiFi.Radio.2.Channel=36 (re)
-
-Check default SSID status:
-
-  $ get_ap_status
-  Device.WiFi.AccessPoint.1.Status="Disabled"
-  Device.WiFi.AccessPoint.2.Status="Disabled"
-  Device.WiFi.AccessPoint.3.Status="Disabled"
-  Device.WiFi.AccessPoint.4.Status="Disabled"
-  Device.WiFi.AccessPoint.5.Status="Disabled"
-  Device.WiFi.AccessPoint.6.Status="Disabled"
-  Device.WiFi.AccessPoint.7.Status="Disabled"
-  Device.WiFi.AccessPoint.8.Status="Disabled"
-  Device.WiFi.AccessPoint.9.Status="Disabled"
-
-Check default SSID configuration of access points:
-
-  $ get_ap_ssid
-  Device.WiFi.SSID.1.SSID="prplOS"
-  Device.WiFi.SSID.3.SSID="prplOS-guest"
-  Device.WiFi.SSID.4.SSID="prplOS"
-  Device.WiFi.SSID.6.SSID="prplOS-guest"
-  Device.WiFi.SSID.7.SSID="prplOS"
-  Device.WiFi.SSID.9.SSID="prplOS-guest"
-  Device.WiFi.SSID.16.SSID="backhaul_6C:91:88:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}" (re)
-  Device.WiFi.SSID.17.SSID="backhaul_6C:91:88:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}" (re)
-  Device.WiFi.SSID.18.SSID="backhaul_6C:91:88:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}" (re)
-
-Check that no hostapd instance is running:
-
-  $ R "pgrep -f 'hostapd'"
-  [1]
+  $ wifi_dm_radio_band 6 "IEEE80211ax.MBSSIDAdvertisementMode=Off" "WiFi." "ba-cli"
+  WiFi.Radio.[0-9]+.IEEE80211ax.MBSSIDAdvertisementMode="Off" (re)
 
 Test activation of access point 1:
 
