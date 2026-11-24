@@ -1,0 +1,270 @@
+Create R alias:
+
+  $ alias R="${CRAM_REMOTE_COMMAND:-}"
+  $ . "${TESTDIR}/../scripts/wifi.sh"
+
+  $ R logger -t cram "Starting $TESTFILE"
+
+  $ check_wifi_defaults
+  $ testbed_set_wifi_defaults
+
+  $ prplmesh_stop
+
+Configure radio:
+
+  $ wifi_dm_radio_band 2 "OperatingChannelBandwidth=\"20MHz\""
+  Device.WiFi.Radio.\d+.OperatingChannelBandwidth="20MHz" (re)
+
+  $ wifi_dm_radio_band 5 "OperatingChannelBandwidth=\"80MHz\""
+  Device.WiFi.Radio.\d+.OperatingChannelBandwidth="80MHz" (re)
+
+  $ wifi_dm_radio_band 6 "OperatingChannelBandwidth=\"160MHz\""
+  Device.WiFi.Radio.\d+.OperatingChannelBandwidth="160MHz" (re)
+
+  $ wifi_dm_radio_band 2 "Channel=1"
+  Device.WiFi.Radio.\d+.Channel=1 (re)
+
+  $ wifi_dm_radio_band 5 "Channel=36"
+  Device.WiFi.Radio.\d+.Channel=36 (re)
+
+  $ wifi_dm_radio_band 6 "Channel=37"
+  Device.WiFi.Radio.\d+.Channel=37 (re)
+
+  $ wifi_dm "Radio.*.OperatingStandardsFormat=\"Legacy\"" "WiFi." "ba-cli"
+  WiFi.Radio.1.OperatingStandardsFormat="Legacy"
+  WiFi.Radio.2.OperatingStandardsFormat="Legacy"
+  WiFi.Radio.3.OperatingStandardsFormat="Legacy"
+
+  $ wifi_dm "Radio.*.OperatingStandards=\"be\"" "WiFi." "ba-cli"
+  WiFi.Radio.1.OperatingStandards="be"
+  WiFi.Radio.2.OperatingStandards="be"
+  WiFi.Radio.3.OperatingStandards="be"
+
+Enable private vaps radios:
+
+  $ wifi_dm "AccessPoint.1.Enable=1"
+  Device.WiFi.AccessPoint.1.Enable=1
+
+  $ wifi_dm "AccessPoint.3.Enable=1"
+  Device.WiFi.AccessPoint.3.Enable=1
+
+  $ wifi_dm "AccessPoint.5.Enable=1"
+  Device.WiFi.AccessPoint.5.Enable=1
+
+  $ sleep 10
+
+Force 5GHz channel to 36 as hostapd may internally change the primary channel after enabling the radio (PPW-2259):
+
+  $ R "ba-cli -j -l Device.WiFi.Radio.2.Channel=36 | sed '/^$/d'"
+  [{"Device.WiFi.Radio.2.":{"Channel":36}}]
+
+  $ sleep 5
+
+  $ wifi_dm "AccessPoint.1.Status?0"
+  Device.WiFi.AccessPoint.1.Status="Enabled"
+
+  $ wifi_dm "AccessPoint.3.Status?0"
+  Device.WiFi.AccessPoint.3.Status="Enabled"
+
+  $ wifi_dm "AccessPoint.5.Status?0"
+  Device.WiFi.AccessPoint.5.Status="Enabled"
+
+  $ wifi_dm_radio_band 2 "OperatingChannelBandwidth=\"40MHz\""
+  Device.WiFi.Radio.\d+.OperatingChannelBandwidth="40MHz" (re)
+
+  $ sleep 5
+
+#########################################
+#    test 2.4GHz getEHTOperations       #
+#########################################
+
+  $ R logger -t cram "Test getEHTOperations on 2.4GHz"
+
+Check ChannelsInUse:
+
+  $ wifi_dm_radio_band 2 "ChannelsInUse?"
+  Device.WiFi.Radio.\d+.ChannelsInUse="1,2,3,4,5" (re)
+
+Check EhtPhyCapabilities, EhtPhyCapabilitiesStr, CurrentEhtOperatingIE and getEHTOperations():
+
+  $ R logger -t cram "Check EHT Capabilities"
+
+  $ wifi_dm_radio_band 2 "EhtPhyCapabilities?"
+  Device.WiFi.Radio.\d+.EhtPhyCapabilities="6AEDfihgCBIA" (re)
+
+  $ wifi_dm_radio_band 2 "EhtPhyCapabilitiesStr?"
+  Device.WiFi.Radio.1.EhtPhyCapabilitiesStr="NDP_4XEHT_LTF,SU_BEAMFORMER,SU_BEAMFORMEE,BEAMFORMEE_SS_80MHZ,NB_SOUNDING_80MHZ,NG16_SU_FEEDBACK,NG16_MU_FEEDBACK,CBK_SU_FEEDBACK,CBK_MU_FEEDBACK,TGD_SU_BEAMFORMING_FEEDBACK,TGD_MU_BEAMFORMING_PARTIAL_BW,MUPPDU_4XEHT_LTF,MAX_NC,COMMON_NOMINAL_PACKET_PADDING,MAX_SUPPORTED_EHT_LTFS,EHT_MCS15_MRU,NON_OFDMA_ULMIMO_80MHZ,MU_BEAMFORMER_80MHZ"
+
+  $ wifi_dm_radio_band 2 "CurrentEhtOperatingIE?"
+  Device.WiFi.Radio.\d+.CurrentEhtOperatingIE="agFEREREAQMA" (re)
+
+  $ get_eht_ops 2.4
+  BasicEHT-MCSAndNssSet=1145324612
+  CCFS0=3
+  CCFS1=0
+  ControlChannelWidth=1
+  DisabledSubchannelBitmapPresent=0
+  EHTDefaultPEDuration=0
+  EHTOperationInformationPresent=1
+  GroupAddressedBUIndicationExponent=0
+  GroupAddressedBUIndicationLimit=0
+
+Downgrade to AX operating mode:
+
+  $ wifi_dm_radio_band 2 "OperatingChannelBandwidth=\"20MHz\""
+  Device.WiFi.Radio.\d+.OperatingChannelBandwidth="20MHz" (re)
+
+  $ wifi_dm_radio_band 2 "OperatingStandards=\"ax\""
+  Device.WiFi.Radio.\d+.OperatingStandards="ax" (re)
+
+  $ sleep 5
+
+  $ R logger -t cram "Checks after downgrade to AX"
+
+  $ wifi_dm_radio_band 2 "EhtPhyCapabilities?"
+  Device.WiFi.Radio.\d+.EhtPhyCapabilities="6AEDfihgCBIA" (re)
+
+  $ wifi_dm_radio_band 2 "EhtPhyCapabilitiesStr?"
+  Device.WiFi.Radio.\d+.EhtPhyCapabilitiesStr="NDP_4XEHT_LTF,SU_BEAMFORMER,SU_BEAMFORMEE,BEAMFORMEE_SS_80MHZ,NB_SOUNDING_80MHZ,NG16_SU_FEEDBACK,NG16_MU_FEEDBACK,CBK_SU_FEEDBACK,CBK_MU_FEEDBACK,TGD_SU_BEAMFORMING_FEEDBACK,TGD_MU_BEAMFORMING_PARTIAL_BW,MUPPDU_4XEHT_LTF,MAX_NC,COMMON_NOMINAL_PACKET_PADDING,MAX_SUPPORTED_EHT_LTFS,EHT_MCS15_MRU,NON_OFDMA_ULMIMO_80MHZ,MU_BEAMFORMER_80MHZ" (re)
+
+  $ wifi_dm_radio_band 2 "CurrentEhtOperatingIE?"
+  Device.WiFi.Radio.\d+.CurrentEhtOperatingIE="" (re)
+
+Check that get_eht_ops output is empty:
+
+  $ get_eht_ops 2.4
+
+Check that all radios and private vaps are still up:
+
+  $ sleep 5
+
+  $ wifi_dm_radio_band 2 "Status?"
+  Device.WiFi.Radio.\d+.Status="Up" (re)
+
+  $ wifi_dm_radio_band 5 "Status?"
+  Device.WiFi.Radio.\d+.Status="Up" (re)
+
+  $ wifi_dm_radio_band 6 "Status?"
+  Device.WiFi.Radio.\d+.Status="Up" (re)
+
+  $ wifi_dm "AccessPoint.1.Status?0"
+  Device.WiFi.AccessPoint.1.Status="Enabled"
+
+  $ wifi_dm "AccessPoint.3.Status?0"
+  Device.WiFi.AccessPoint.3.Status="Enabled"
+
+  $ wifi_dm "AccessPoint.5.Status?0"
+  Device.WiFi.AccessPoint.5.Status="Enabled"
+
+#########################################
+#    test 5GHz getEHTOperations         #
+#########################################
+
+  $ R logger -t cram "Test getEHTOperations on 5GHz"
+
+Check ChannelsInUse:
+
+  $ wifi_dm_radio_band 5 "ChannelsInUse?"
+  Device.WiFi.Radio.\d+.ChannelsInUse="36,40,44,48" (re)
+
+Check EhtPhyCapabilities, EhtPhyCapabilitiesStr, CurrentEhtOperatingIE and getEHTOperations():
+
+  $ R logger -t cram "Check EHT Capabilities"
+
+  $ wifi_dm_radio_band 5 "EhtPhyCapabilities?"
+  Device.WiFi.Radio.\d+.EhtPhyCapabilities="6A0bfihgODYA" (re)
+
+  $ wifi_dm_radio_band 5 "EhtPhyCapabilitiesStr?"
+  Device.WiFi.Radio.\d+.EhtPhyCapabilitiesStr="NDP_4XEHT_LTF,SU_BEAMFORMER,SU_BEAMFORMEE,BEAMFORMEE_SS_80MHZ,BEAMFORMEE_SS_160MHZ,NB_SOUNDING_80MHZ,NB_SOUNDING_160MHZ,NG16_SU_FEEDBACK,NG16_MU_FEEDBACK,CBK_SU_FEEDBACK,CBK_MU_FEEDBACK,TGD_SU_BEAMFORMING_FEEDBACK,TGD_MU_BEAMFORMING_PARTIAL_BW,MUPPDU_4XEHT_LTF,MAX_NC,COMMON_NOMINAL_PACKET_PADDING,MAX_SUPPORTED_EHT_LTFS,EHT_MCS15_MRU,NON_OFDMA_ULMIMO_80MHZ,NON_OFDMA_ULMIMO_160MHZ,MU_BEAMFORMER_80MHZ,MU_BEAMFORMER_160MHZ" (re)
+
+  $ wifi_dm_radio_band 5 "CurrentEhtOperatingIE?"
+  Device.WiFi.Radio.\d+.CurrentEhtOperatingIE="agFEREREAioA" (re)
+
+  $ get_eht_ops 5
+  BasicEHT-MCSAndNssSet=1145324612
+  CCFS0=42
+  CCFS1=0
+  ControlChannelWidth=2
+  DisabledSubchannelBitmapPresent=0
+  EHTDefaultPEDuration=0
+  EHTOperationInformationPresent=1
+  GroupAddressedBUIndicationExponent=0
+  GroupAddressedBUIndicationLimit=0
+
+Disable channels 40:
+
+  $ R logger -t cram "Disable channels 40"
+
+  $ wifi_dm_radio_band 5 "StaticPuncturing.DisabledSubChannels=\"40\"" "WiFi." "ba-cli"
+  WiFi.Radio.\d+.StaticPuncturing.DisabledSubChannels="40" (re)
+
+  $ sleep 5
+
+  $ get_eht_ops 5
+  BasicEHT-MCSAndNssSet=1145324612
+  CCFS0=42
+  CCFS1=0
+  ControlChannelWidth=2
+  DisabledSubchannelBitmap=2
+  DisabledSubchannelBitmapPresent=1
+  EHTDefaultPEDuration=0
+  EHTOperationInformationPresent=1
+  GroupAddressedBUIndicationExponent=0
+  GroupAddressedBUIndicationLimit=0
+
+Expecting the EHT Operations IE puncturing bitmap to be updated:
+
+  $ wifi_dm_radio_band 5 "CurrentEhtOperatingIE?"
+  Device.WiFi.Radio.\d+.CurrentEhtOperatingIE="agNEREREAioAAgA=" (re)
+
+Downgrade to AX operating mode:
+
+  $ wifi_dm_radio_band 5 "OperatingStandards=\"ax\""
+  Device.WiFi.Radio.\d+.OperatingStandards="ax" (re)
+
+  $ sleep 5
+
+  $ R logger -t cram "Checks after downgrade to AX"
+
+  $ wifi_dm_radio_band 5 "EhtPhyCapabilities?"
+  Device.WiFi.Radio.\d+.EhtPhyCapabilities="6A0bfihgODYA" (re)
+
+  $ wifi_dm_radio_band 5 "EhtPhyCapabilitiesStr?"
+  Device.WiFi.Radio.\d+.EhtPhyCapabilitiesStr="NDP_4XEHT_LTF,SU_BEAMFORMER,SU_BEAMFORMEE,BEAMFORMEE_SS_80MHZ,BEAMFORMEE_SS_160MHZ,NB_SOUNDING_80MHZ,NB_SOUNDING_160MHZ,NG16_SU_FEEDBACK,NG16_MU_FEEDBACK,CBK_SU_FEEDBACK,CBK_MU_FEEDBACK,TGD_SU_BEAMFORMING_FEEDBACK,TGD_MU_BEAMFORMING_PARTIAL_BW,MUPPDU_4XEHT_LTF,MAX_NC,COMMON_NOMINAL_PACKET_PADDING,MAX_SUPPORTED_EHT_LTFS,EHT_MCS15_MRU,NON_OFDMA_ULMIMO_80MHZ,NON_OFDMA_ULMIMO_160MHZ,MU_BEAMFORMER_80MHZ,MU_BEAMFORMER_160MHZ" (re)
+
+  $ wifi_dm_radio_band 5 "CurrentEhtOperatingIE?"
+  Device.WiFi.Radio.\d+.CurrentEhtOperatingIE="" (re)
+
+Check that get_eht_ops output is empty:
+
+  $ get_eht_ops 5
+
+
+Check if channels 40 is still configured in Radio.StaticPuncturing
+
+  $ wifi_dm_radio_band 5 "StaticPuncturing.DisabledSubChannels?" "WiFi." "ba-cli"
+  WiFi.Radio.\d+.StaticPuncturing.DisabledSubChannels="40" (re)
+
+Check that all radios and private vaps are still up:
+
+  $ sleep 5
+
+  $ wifi_dm_radio_band 2 "Status?"
+  Device.WiFi.Radio.\d+.Status="Up" (re)
+
+  $ wifi_dm_radio_band 5 "Status?"
+  Device.WiFi.Radio.\d+.Status="Up" (re)
+
+  $ wifi_dm_radio_band 6 "Status?"
+  Device.WiFi.Radio.\d+.Status="Up" (re)
+
+  $ wifi_dm "AccessPoint.1.Status?0"
+  Device.WiFi.AccessPoint.1.Status="Enabled"
+
+  $ wifi_dm "AccessPoint.3.Status?0"
+  Device.WiFi.AccessPoint.3.Status="Enabled"
+
+  $ wifi_dm "AccessPoint.5.Status?0"
+  Device.WiFi.AccessPoint.5.Status="Enabled"
+
+  $ R logger -t cram "$TESTFILE finished!"
