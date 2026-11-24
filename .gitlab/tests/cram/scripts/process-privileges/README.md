@@ -125,19 +125,28 @@ properties of the implementation are worth knowing.
   continues, so a typo silently grants nothing. The cram test below is what
   catches it.
 - An unknown **user or group** name is not ignored: `amxrt` refuses to start.
-- Capabilities are added to the effective, permitted, bounding and inheritable
-  sets, never to the **ambient** set.
+- `amxrt` adds capabilities to the effective, permitted, bounding and
+  inheritable sets of the plugin, never to its **ambient** set. What a child
+  process gets depends on how the plugin starts it, see below.
 - Supplementary groups are dropped when the user is switched, and there is no
   option to keep or add any.
 
 ## What capabilities do not solve
 
-Capabilities apply to the plugin process itself. They are **not inherited
-across `execve()`**, because the ambient set is never populated. Anything the
-plugin runs as a separate program (a helper binary, a shell script, a hotplug
-handler) starts with no capabilities at all, as the plugin user.
+Only capabilities in the **ambient** set survive an `execve()` into a program
+without file capabilities. What a helper the plugin runs (a binary, a shell
+script, a hotplug handler) ends up with therefore depends on how it is started:
 
-Two consequences bite in practice:
+| started with | capabilities of the child | example |
+| --- | --- | --- |
+| `amxp_subproc_start()` and friends | **all** capabilities of the plugin: libamxp raises every inheritable capability into the ambient set of the child before the exec | `tr181-dynamicdns > sh dynamic_dns_updater.sh` has `chown,dac_override,dac_read_search` |
+| `popen()`, `system()`, plain `fork()` + `exec()` | none, unless the plugin raised some into its own ambient set first | `tr181-sfp` raises only `CAP_NET_ADMIN` around its EEPROM reads, so `tr181-sfp > sh get_eeprom_info.sh` has `net_admin` |
+
+Whatever a child inherits, it passes on to its own children in the same way,
+for as long as none of them is setuid or carries file capabilities. The child
+always runs as the plugin user.
+
+Two consequences bite in practice for a child that runs without capabilities:
 
 - Every helper the plugin executes, and every script in the chain it triggers,
   must be executable by the plugin user. Install them `0755`. A helper
