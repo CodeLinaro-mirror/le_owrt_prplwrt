@@ -14,14 +14,23 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 
+DEFAULT_RULES = Path(__file__).resolve().parent / "rules.yml"
+
+# Fields of a process that a child entry with "match" can test.
+MATCH_FIELDS = ("name", "id", "exe", "cwd", "cmd")
+
+
 @dataclass
 class ProcessSpec:
+    # The process name, or for a child with "match" an arbitrary id used in reports and merges.
     name: str
     id: str
     caps: str
     optional: bool = False
     ignore_child: bool = False
     children: list["ProcessSpec"] = field(default_factory=list)
+    # Children with "match" only: field name -> pattern, see field_matches().
+    match: dict[str, str] | None = None
 
 
 @dataclass
@@ -87,24 +96,124 @@ def format_context(proc: ActualProcess) -> list[str]:
     return lines
 
 
-def parse_yaml_spec(yaml_path: str) -> dict[str, ProcessSpec]:
-    with open(yaml_path) as f:
-        data = yaml.safe_load(f)
+class RulesLoader(yaml.SafeLoader):
+    """SafeLoader that rejects a repeated key instead of silently keeping the last one."""
+
+
+def _construct_unique_mapping(loader: RulesLoader, node: yaml.MappingNode) -> dict:
+    seen: set[str] = set()
+    for key_node, _ in node.value:
+        if isinstance(key_node, yaml.ScalarNode):
+            if key_node.value in seen:
+                raise yaml.constructor.ConstructorError(
+                    "while constructing a mapping", node.start_mark,
+                    f"duplicate key '{key_node.value}'", key_node.start_mark)
+            seen.add(key_node.value)
+    return loader.construct_mapping(node, deep=True)
+
+
+RulesLoader.add_constructor(yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG, _construct_unique_mapping)
+
+
+def load_rules_file(path: str) -> dict:
+    try:
+        with open(path) as f:
+            return yaml.load(f, Loader=RulesLoader) or {}
+    except (OSError, yaml.YAMLError) as e:
+        raise SystemExit(f"ERROR: {path}: {e}")
+
+
+def merge_rules(base: dict, override: dict) -> dict:
+    """Merge override into base, in place.
+
+    Maps are merged key by key, any other value replaces the one in base. A null
+    value deletes the key from base, or adds an empty entry if base has none.
+    """
+    for key, value in override.items():
+        if value is None:
+            if key in base:
+                del base[key]
+            else:
+                base[key] = {}
+        elif isinstance(value, dict) and isinstance(base.get(key), dict):
+            merge_rules(base[key], value)
+        else:
+            base[key] = value
+    return base
+
+
+def parse_yaml_spec(yaml_paths: list[str]) -> dict[str, ProcessSpec]:
+    """Load the rules files in order, each one merged over the previous ones."""
+    data: dict = {}
+    for path in yaml_paths:
+        merge_rules(data, load_rules_file(path))
 
     def parse_entries(entries: dict | None) -> dict[str, ProcessSpec]:
         return {name: parse_entry(name, entry or {}) for name, entry in (entries or {}).items()}
 
-    def parse_entry(name: str, entry: dict) -> ProcessSpec:
+    def parse_children(entries: dict | None) -> list[ProcessSpec]:
+        children = []
+        for key, entry in (entries or {}).items():
+            entry = entry or {}
+            if "match" in entry:
+                children.append(parse_match_entry(key, entry))
+            else:
+                children.append(parse_entry(key, entry))
+        return children
+
+    def parse_match_entry(entry_id: str, entry: dict) -> ProcessSpec:
+        match = entry.get("match")
+        if not isinstance(match, dict) or not match:
+            raise SystemExit(f"ERROR: child '{entry_id}': 'match' must name at least one field")
+        for field_name, pattern in match.items():
+            if field_name not in MATCH_FIELDS:
+                raise SystemExit(f"ERROR: child '{entry_id}': unknown match field '{field_name}'")
+            if not isinstance(pattern, str) or not pattern:
+                raise SystemExit(f"ERROR: child '{entry_id}': '{field_name}' must be a non-empty string")
+            if pattern.startswith("~"):
+                try:
+                    re.compile(pattern[1:])
+                except re.error as e:
+                    raise SystemExit(f"ERROR: child '{entry_id}': bad regex '{pattern}': {e}")
+        return parse_entry(entry_id, entry, match=dict(match))
+
+    def parse_entry(name: str, entry: dict, match: dict[str, str] | None = None) -> ProcessSpec:
         return ProcessSpec(
             name=name,
             id=entry.get("id", ""),
             caps=entry.get("caps", ""),
             optional=entry.get("optional", False),
             ignore_child=entry.get("ignore_child", False),
-            children=list(parse_entries(entry.get("child")).values()),
+            children=parse_children(entry.get("child")),
+            match=match,
         )
 
     return parse_entries(data)
+
+
+def field_matches(pattern: str, value: str) -> bool:
+    """'~regex' matches if the regex is found in value, anything else must be equal."""
+    if pattern.startswith("~"):
+        return re.search(pattern[1:], value) is not None
+    return pattern == value
+
+
+def spec_matches(spec: ProcessSpec, actual: "ActualProcess") -> bool:
+    if spec.match is None:
+        return spec.name == actual.name
+    values = {"name": actual.name, "id": actual.id, "exe": actual.exe,
+              "cwd": actual.cwd, "cmd": actual.cmdline}
+    return all(field_matches(pattern, values[name]) for name, pattern in spec.match.items())
+
+
+def spec_label(spec: ProcessSpec) -> str:
+    if spec.match is None:
+        return spec.name
+    return f"{spec.name} ({', '.join(f'{k}={v}' for k, v in spec.match.items())})"
+
+
+def child_path_label(spec: ProcessSpec, actual: "ActualProcess") -> str:
+    return actual.name if spec.match is None else f"{actual.name}[{spec.name}]"
 
 
 def unescape_field(value: str) -> str:
@@ -176,28 +285,37 @@ def verify_process(
     if normalize_caps(spec.caps) != normalize_caps(actual.caps):
         errors.append(VerifyError(f"{path}: expected caps '{spec.caps}', got '{actual.caps}'"))
 
-    actual_children_by_name: dict[str, list[ActualProcess]] = {}
-    for child in actual.children:
-        actual_children_by_name.setdefault(child.name, []).append(child)
+    child_specs = spec.children
+    matched: list[list[ActualProcess]] = [[] for _ in child_specs]
+    unexpected: list[VerifyError] = []
+    for actual_child in actual.children:
+        hits = [i for i, child_spec in enumerate(child_specs) if spec_matches(child_spec, actual_child)]
+        if len(hits) > 1:
+            names = " and ".join(spec_label(child_specs[i]) for i in hits)
+            errors.append(VerifyError(
+                f"{path}: child process '{actual_child.name}' (id={actual_child.id}, "
+                f"caps={actual_child.caps}) matches more than one rule: {names}",
+                actual_child,
+            ))
+        elif hits:
+            matched[hits[0]].append(actual_child)
+        elif not spec.ignore_child:
+            unexpected.append(VerifyError(
+                f"{path}: unexpected child process '{actual_child.name}' "
+                f"(id={actual_child.id}, caps={actual_child.caps})",
+                actual_child,
+            ))
 
-    for child_spec in spec.children:
-        actual_matches = actual_children_by_name.get(child_spec.name, [])
+    for child_spec, actual_matches in zip(child_specs, matched):
         if not actual_matches:
             if not child_spec.optional:
-                errors.append(VerifyError(f"{path}: missing required child process '{child_spec.name}'"))
+                errors.append(VerifyError(f"{path}: missing required child process '{spec_label(child_spec)}'"))
         else:
             for actual_child in actual_matches:
-                verify_process(child_spec, actual_child, f"{path} > {child_spec.name}", errors)
+                verify_process(child_spec, actual_child,
+                               f"{path} > {child_path_label(child_spec, actual_child)}", errors)
 
-    if not spec.ignore_child:
-        spec_children_by_name: dict[str, ProcessSpec] = {c.name: c for c in spec.children}
-        for actual_child in actual.children:
-            if actual_child.name not in spec_children_by_name:
-                errors.append(VerifyError(
-                    f"{path}: unexpected child process '{actual_child.name}' "
-                    f"(id={actual_child.id}, caps={actual_child.caps})",
-                    actual_child,
-                ))
+    errors.extend(unexpected)
 
 
 def verify_all(
@@ -335,9 +453,9 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "rules",
-        nargs="?",
-        default=str(Path(__file__).resolve().parent / "rules.yml"),
-        help="expected process tree (default: rules.yml next to this script)",
+        nargs="*",
+        help="expected process tree: one or more files, merged in order so that later files "
+        "override earlier ones (default: rules.yml next to this script)",
     )
     parser.add_argument(
         "-c",
@@ -382,6 +500,7 @@ def parse_args() -> argparse.Namespace:
 
 def main():
     args = parse_args()
+    rule_files = args.rules or [str(DEFAULT_RULES)]
 
     def terminate(signum, frame):
         raise SystemExit(130)
@@ -390,7 +509,7 @@ def main():
     signal.signal(signal.SIGHUP, terminate)
 
     if args.input:
-        errors = verify_lines(parse_yaml_spec(args.rules), args.input.read().splitlines())
+        errors = verify_lines(parse_yaml_spec(rule_files), args.input.read().splitlines())
     else:
         remote = Remote(args.lua)
         try:
@@ -402,7 +521,7 @@ def main():
                 sys.stdout.write(result.stdout)
                 sys.stderr.write(result.stderr)
                 sys.exit(result.returncode)
-            errors = verify_remote(parse_yaml_spec(args.rules), remote, args.timeout, args.interval, args.verbose)
+            errors = verify_remote(parse_yaml_spec(rule_files), remote, args.timeout, args.interval, args.verbose)
         except KeyboardInterrupt:
             sys.exit(130)
         finally:

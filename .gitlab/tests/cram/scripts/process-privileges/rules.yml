@@ -381,7 +381,18 @@ procd:
       id: tr181_app:tr181_app
       caps: dac_override,net_admin
       child:
-        sh:
+        sfp-eeprom-script:
+          match:
+            name: sh
+            cmd: "~/lib/sfp/get_eeprom_info\\.sh "
+          id: tr181_app:tr181_app
+          caps: net_admin
+          optional: true
+          ignore_child: true
+        sfp-oper-state-script:
+          match:
+            name: sh
+            cmd: "~/lib/sfp/get_oper_state\\.sh "
           id: tr181_app:tr181_app
           caps: net_admin
           optional: true

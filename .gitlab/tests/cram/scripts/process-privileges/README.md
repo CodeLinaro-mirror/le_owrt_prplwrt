@@ -179,7 +179,7 @@ starts it, keyed by the process name as it appears on the DUT:
 | --- | --- |
 | `id` | expected `user:group` |
 | `caps` | expected capabilities |
-| `child` | expected child processes, same fields, nested |
+| `child` | expected child processes, same fields, nested. See below for how they are matched |
 | `optional` | the process may be absent |
 | `ignore_child` | do not check the children of this process |
 
@@ -191,6 +191,62 @@ process that has none.
 Mark an entry `optional` when the process only exists on some boards or only
 under some conditions. A required entry that is missing fails the test on every
 board.
+
+### How children are matched
+
+Every entry under `child` is either matched by its process name, or, if it has
+a `match` field, by the fields listed in `match`:
+
+```yaml
+  tr181-sfp:
+    id: tr181_app:tr181_app
+    caps: dac_override,net_admin
+    child:
+      tr181-usb:                    # no match: the key is the process name
+        id: tr181_app:tr181_app
+        caps: dac_override
+      sfp-eeprom-script:            # match: the key is only an id
+        match:
+          name: sh
+          cmd: "~/lib/sfp/get_eeprom_info\\.sh "
+        id: tr181_app:tr181_app
+        caps: net_admin
+        optional: true
+        ignore_child: true
+```
+
+A process can run several children with the same name but different
+privileges, such as two shell scripts. Give each one its own `match`.
+
+- `match` names one or more of `name`, `id`, `exe`, `cwd` and `cmd`. `cmd` is
+  the whole command line. All fields must match.
+- A value is compared for equality, unless it starts with `~`. Then the rest is
+  a regular expression, searched for anywhere in the field. Quote values that
+  contain YAML special characters, and escape backslashes.
+- A child that matches two entries is an error, `matches more than one rule`.
+  Nothing is picked by order.
+- Reports name a matched rule by its id, e.g. `sh[sfp-eeprom-script]`, and a
+  missing one as `missing required child process 'sfp-eeprom-script (name=sh,
+  cmd=~...)'`.
+- An entry with `match` takes the same fields as any other entry, and may nest
+  `child` itself.
+
+### Several rules files
+
+`verify.py` takes one or more rules files, and merges them in the order given,
+so later files override earlier ones. This is how a board adds or removes rules
+without copying `rules.yml`:
+
+```sh
+python3 verify.py rules.yml board-rules.yml
+```
+
+- Maps merge key by key. Any other value replaces the earlier one.
+- A `null` value deletes the key from the merged rules. For example
+  `sfp-oper-state-script: null` removes that rule for the board. A `null` for a
+  key that no earlier file defines adds an empty entry.
+- A key that is repeated within one file is an error. A YAML parser would
+  otherwise keep only the last one.
 
 Finally, add the two configuration options to the board fixtures in
 `.gitlab/tests/cram/<board>/005-build-config.t`, for every board that selects
