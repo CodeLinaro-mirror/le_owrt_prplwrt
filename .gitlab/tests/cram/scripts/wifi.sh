@@ -748,11 +748,17 @@ check_default_ap_status() {
         'Device.WiFi.AccessPoint.9.Status="Disabled"'
 }
 
-# Is the DUT a MediaTek platform (e.g. Arcadyan Mozart)?
+# Is the DUT the Nokia Valyrian (Airoha SoC with a MediaTek MT7996 radio)?
+# Out : exit status 0 if Valyrian
+is_valyrian_platform() {
+    R "cat /proc/device-tree/model 2>/dev/null" | tr -d '\0' | grep -q "Nokia Valyrian"
+}
+
+# Is the DUT a platform with a MediaTek radio (e.g. Arcadyan Mozart, Nokia Valyrian)?
 # Radio.*.ChipsetVendor is empty on MediaTek, so check the device tree model.
 # Out : exit status 0 if MediaTek
 is_mediatek_platform() {
-    R "cat /proc/device-tree/model 2>/dev/null" | tr -d '\0' | grep -q "MediaTek"
+    R "cat /proc/device-tree/model 2>/dev/null" | tr -d '\0' | grep -qE "MediaTek|Nokia Valyrian"
 }
 
 # Check default SSIDs
@@ -783,6 +789,17 @@ check_default_ap_ssid() {
             'Device.WiFi.SSID.17.SSID="backhaul_(4C:BA:7D|A8:C2:46|AC:9A:96):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}"' \
             'Device.WiFi.SSID.18.SSID="backhaul_(4C:BA:7D|A8:C2:46|AC:9A:96):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}"' \
             'Device.WiFi.SSID.19.SSID="backhaul_(4C:BA:7D|A8:C2:46|AC:9A:96):[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}"'
+    elif is_valyrian_platform; then
+        check_output get_ap_ssid -- \
+            'Device.WiFi.SSID.1.SSID="prplOS"' \
+            'Device.WiFi.SSID.3.SSID="prplOS-guest"' \
+            'Device.WiFi.SSID.4.SSID="prplOS"' \
+            'Device.WiFi.SSID.6.SSID="prplOS-guest"' \
+            'Device.WiFi.SSID.7.SSID="prplOS"' \
+            'Device.WiFi.SSID.9.SSID="prplOS-guest"' \
+            'Device.WiFi.SSID.15.SSID="backhaul_6C:91:88:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}"' \
+            'Device.WiFi.SSID.16.SSID="backhaul_6C:91:88:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}"' \
+            'Device.WiFi.SSID.17.SSID="backhaul_6C:91:88:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}"'
     elif is_mediatek_platform; then
         check_output get_ap_ssid -- \
             'Device.WiFi.SSID.1.SSID="prplOS"' \
