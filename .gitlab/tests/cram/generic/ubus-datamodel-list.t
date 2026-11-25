@@ -41,6 +41,7 @@ Check that ubus has expected datamodels available:
   Cthulhu
   Cthulhu.Config
   Cthulhu.Config.Debug
+  Cthulhu.Config.Devices
   Cthulhu.Config.LocalPolicyManager
   Cthulhu.Config.Syslog
   Cthulhu.Container
