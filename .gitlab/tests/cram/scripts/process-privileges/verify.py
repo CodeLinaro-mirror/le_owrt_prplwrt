@@ -10,11 +10,13 @@ import subprocess
 import sys
 import time
 import yaml
+from collections.abc import Mapping
 from dataclasses import dataclass, field
 from pathlib import Path
 
 
 DEFAULT_RULES = Path(__file__).resolve().parent / "rules.yml"
+PROFILES_DIR = Path(__file__).resolve().parent / "profiles"
 
 # Fields of a process that a child entry with "match" can test.
 MATCH_FIELDS = ("name", "id", "exe", "cwd", "cmd")
@@ -443,6 +445,142 @@ def verify_remote(specs: dict[str, ProcessSpec], remote: Remote, timeout: int, i
     return errors
 
 
+PROFILE_KEYS = {"file", "when", "optional"}
+MANIFEST_KEYS = {"version", "defaults", "profiles"}
+VARIABLE = re.compile(r"\$\{([A-Za-z_][A-Za-z0-9_]*)\}")
+
+
+@dataclass
+class ProfileEntry:
+    file: str
+    when: dict[str, list[str]]
+    optional: bool
+
+
+@dataclass
+class ProfileDecision:
+    source: str  # the file name as written in the manifest
+    path: Path | None  # the file to load, None when skipped
+    reason: str
+
+
+def scalar_text(value, where: str) -> str:
+    """A value as the environment would spell it. Booleans are rejected because YAML
+    would turn an unquoted true into "True", which no environment variable is."""
+    if value is None or isinstance(value, (dict, list)):
+        raise SystemExit(f"ERROR: {where}: expected a single value")
+    if isinstance(value, bool):
+        raise SystemExit(f"ERROR: {where}: quote the value, e.g. \"1\" or \"true\"")
+    return str(value)
+
+
+def load_profile_manifest(path: Path) -> tuple[dict[str, str], list[ProfileEntry]]:
+    """Read profiles.yml. A missing manifest means there are no profiles."""
+    if not path.is_file():
+        return {}, []
+
+    data = load_rules_file(str(path))
+    if data.get("version") != 1 or set(data) - MANIFEST_KEYS:
+        raise SystemExit(f"ERROR: {path}: needs 'version: 1' and only the keys "
+                         f"{', '.join(sorted(MANIFEST_KEYS))}")
+
+    defaults = data.get("defaults") or {}
+    if not isinstance(defaults, dict):
+        raise SystemExit(f"ERROR: {path}: 'defaults' must be a map")
+    defaults = {str(k): scalar_text(v, f"{path}: defaults.{k}") for k, v in defaults.items()}
+
+    profiles = data.get("profiles") or []
+    if not isinstance(profiles, list):
+        raise SystemExit(f"ERROR: {path}: 'profiles' must be a list")
+
+    entries = []
+    for i, item in enumerate(profiles):
+        where = f"{path}: profiles[{i}]"
+        if not isinstance(item, dict) or not isinstance(item.get("file"), str):
+            raise SystemExit(f"ERROR: {where}: 'file' is required")
+        if set(item) - PROFILE_KEYS:
+            raise SystemExit(f"ERROR: {where}: unknown key '{sorted(set(item) - PROFILE_KEYS)[0]}'")
+
+        when = item.get("when") or {}
+        if not isinstance(when, dict):
+            raise SystemExit(f"ERROR: {where}: 'when' must be a map")
+        conditions = {}
+        for var, value in when.items():
+            values = value if isinstance(value, list) else [value]
+            if not values:
+                raise SystemExit(f"ERROR: {where}: no value for '{var}' in 'when'")
+            conditions[str(var)] = [scalar_text(v, f"{where}: when.{var}") for v in values]
+            for pattern in conditions[str(var)]:
+                if pattern.startswith("~"):
+                    try:
+                        re.compile(pattern[1:])
+                    except re.error as e:
+                        raise SystemExit(f"ERROR: {where}: bad regex '{pattern}': {e}")
+
+        entries.append(ProfileEntry(item["file"], conditions, bool(item.get("optional", False))))
+    return defaults, entries
+
+
+def expand_variables(template: str, lookup) -> str | None:
+    """Replace ${VAR} in template, None if one of the variables is not set."""
+    missing = []
+
+    def replace(m: re.Match) -> str:
+        value = lookup(m.group(1))
+        if value is None:
+            missing.append(m.group(1))
+            return ""
+        return value
+
+    text = VARIABLE.sub(replace, template)
+    return None if missing else text
+
+
+def condition_failure(var: str, patterns: list[str], lookup) -> str | None:
+    value = lookup(var)
+    if value is None:
+        return f"skipped ({var} is not set)"
+    if not any(field_matches(p, value) for p in patterns):
+        return f"skipped ({var}={value} does not match)"
+    return None
+
+
+def select_profiles(profiles_dir: Path, env: Mapping[str, str]) -> list[ProfileDecision]:
+    """Decide which profile files load, in manifest order, for the given environment."""
+    defaults, entries = load_profile_manifest(profiles_dir / "profiles.yml")
+
+    def lookup(var: str) -> str | None:
+        # An empty variable counts as unset, as in the shell's ${VAR:-default}.
+        return env.get(var) or defaults.get(var) or None
+
+    decisions = []
+    for entry in entries:
+        reason = None
+        for var, patterns in entry.when.items():
+            reason = condition_failure(var, patterns, lookup)
+            if reason:
+                break
+        if reason:
+            decisions.append(ProfileDecision(entry.file, None, reason))
+            continue
+
+        name = expand_variables(entry.file, lookup)
+        if name is None:
+            decisions.append(ProfileDecision(entry.file, None, "skipped (a variable in the file name is not set)"))
+            continue
+        if not name or "/" in name or ".." in name:
+            raise SystemExit(f"ERROR: profile '{entry.file}' must name a file in the profiles directory")
+
+        path = profiles_dir / name
+        if path.is_file():
+            decisions.append(ProfileDecision(name, path, "loaded"))
+        elif entry.optional:
+            decisions.append(ProfileDecision(name, None, "skipped (not present)"))
+        else:
+            raise SystemExit(f"ERROR: profile file '{name}' is missing from the profiles directory")
+    return decisions
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Collect the process tree from the remote hgw and verify it against the rules, "
@@ -455,7 +593,24 @@ def parse_args() -> argparse.Namespace:
         "rules",
         nargs="*",
         help="expected process tree: one or more files, merged in order so that later files "
-        "override earlier ones (default: rules.yml next to this script)",
+        "override earlier ones (default: rules.yml next to this script). The profiles are "
+        "applied on top of them",
+    )
+    parser.add_argument(
+        "--profiles-dir",
+        type=Path,
+        default=PROFILES_DIR,
+        help="directory with profiles.yml and the profile files (default: profiles next to this script)",
+    )
+    parser.add_argument(
+        "--no-profiles",
+        action="store_true",
+        help="do not apply any profile",
+    )
+    parser.add_argument(
+        "--list-profiles",
+        action="store_true",
+        help="print to stderr which profiles load, and why the others are skipped",
     )
     parser.add_argument(
         "-c",
@@ -502,6 +657,12 @@ def main():
     args = parse_args()
     rule_files = args.rules or [str(DEFAULT_RULES)]
 
+    decisions = [] if args.no_profiles else select_profiles(args.profiles_dir, os.environ)
+    if args.list_profiles:
+        for decision in decisions:
+            print(f"profile {decision.source}: {decision.reason}", file=sys.stderr)
+    files = rule_files + [str(d.path) for d in decisions if d.path]
+
     def terminate(signum, frame):
         raise SystemExit(130)
 
@@ -509,7 +670,7 @@ def main():
     signal.signal(signal.SIGHUP, terminate)
 
     if args.input:
-        errors = verify_lines(parse_yaml_spec(rule_files), args.input.read().splitlines())
+        errors = verify_lines(parse_yaml_spec(files), args.input.read().splitlines())
     else:
         remote = Remote(args.lua)
         try:
@@ -521,7 +682,7 @@ def main():
                 sys.stdout.write(result.stdout)
                 sys.stderr.write(result.stderr)
                 sys.exit(result.returncode)
-            errors = verify_remote(parse_yaml_spec(rule_files), remote, args.timeout, args.interval, args.verbose)
+            errors = verify_remote(parse_yaml_spec(files), remote, args.timeout, args.interval, args.verbose)
         except KeyboardInterrupt:
             sys.exit(130)
         finally:

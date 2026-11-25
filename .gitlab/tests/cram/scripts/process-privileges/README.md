@@ -248,6 +248,44 @@ python3 verify.py rules.yml board-rules.yml
 - A key that is repeated within one file is an error. A YAML parser would
   otherwise keep only the last one.
 
+### Profiles
+
+Rules that depend on the situation, such as the board or whether it has a
+modem, go in `profiles/`. [`profiles/profiles.yml`](./profiles/profiles.yml)
+lists which files load, and under which conditions:
+
+```yaml
+version: 1
+defaults:                       # used when the environment does not set the variable
+  DUT_HAS_MODEM: "1"
+profiles:                       # loaded in this order, each merged over the previous
+  - file: has_modem.yml
+    when:
+      DUT_HAS_MODEM: "1"
+  - file: "${DUT_BOARD}.yml"    # ${VAR} is expanded in the file name
+    optional: true
+  - file: wan_ppp.yml
+    when:
+      DUT_WAN_INTERFACE: "~^ppp"
+    optional: true
+```
+
+- `when` lists variables that must all match. A value is compared for equality,
+  or is a regular expression with `~`. A list accepts any of its values. Write
+  values as strings: an unquoted `true` is an error, so it can't silently never
+  match.
+- A variable counts as set when it is non-empty in the environment, or in
+  `defaults`. The environment wins over `defaults`.
+- A profile whose `when` does not match, or whose file name uses an unset
+  variable, is skipped. A profile whose file is missing is an error, unless it is
+  `optional`.
+- A file name must stay inside `profiles/`. Names with `/` or `..` are an error.
+- Profiles are applied after the rules files given on the command line, so a
+  profile overrides them.
+- `--list-profiles` prints to stderr which profiles load and why the others are
+  skipped. `--no-profiles` applies none. `--profiles-dir` selects another
+  directory.
+
 Finally, add the two configuration options to the board fixtures in
 `.gitlab/tests/cram/<board>/005-build-config.t`, for every board that selects
 the component:

@@ -1,0 +1,18 @@
+# Situation specific rules, applied on top of rules.yml, or on top of the rules
+# files given on the command line. See "Profiles" in ../README.md.
+version: 1
+
+# Values used when the variable is not set in the environment.
+defaults: {}
+
+# Loaded in this order. Each entry names a file in this directory and may have:
+#   when:     variables that must match: a value, "~regex", or a list of either
+#   optional: no error when the file is missing
+profiles: []
+
+# Example:
+#  - file: has_modem.yml
+#    when:
+#      DUT_HAS_MODEM: "1"
+#  - file: "${DUT_BOARD}.yml"
+#    optional: true
