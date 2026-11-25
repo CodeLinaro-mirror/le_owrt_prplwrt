@@ -3,6 +3,12 @@ Create R alias:
   $ alias R="${CRAM_REMOTE_COMMAND:-}"
   $ VERIFY_PROCESS_PRIVILEGES="${TESTDIR}/../../scripts/process-privileges/verify.py"
 
+Run the unit tests of verify.py. They need no DUT, and the summary line shows
+whether all of them passed:
+
+  $ (cd "${TESTDIR}/../../scripts/process-privileges" && python3 -m cram test) | tail -n 1
+  # Ran * tests, 0 skipped, 0 failed. (glob)
+
 Verify that processes are running with reduced privileges. Services might
 still be starting, and short-lived helpers can show up in a single snapshot, so
 retry for up to 45 s:
