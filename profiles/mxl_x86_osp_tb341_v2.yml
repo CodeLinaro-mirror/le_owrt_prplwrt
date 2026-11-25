@@ -47,9 +47,9 @@ feeds:
     tracking_branch: updk_9.2.12
     revision: e7d4a7d576aff7ab3207f2f7261629542b7931a1
   - name: opensource_apps_prpl
-    uri: https://github.com/maxlinear/feed_opensource_apps_prpl.git
-    tracking_branch: updk_9.2.12
-    revision: 6ea0c4589bf65cf01e7355a7ecb3d2f5307e7c92
+    uri: https://gitlab.com/prpl-foundation/mirrors/maxlinear/feed_opensource_apps_prpl.git
+    tracking_branch: prpl/stable-9.2.12
+    revision: b5c8577c5ff14655d2e6dd60852ee43e0303e431
   - name: packet_learn
     uri: https://github.com/maxlinear/feed_packet_learn.git
     tracking_branch: updk_9.2.12
