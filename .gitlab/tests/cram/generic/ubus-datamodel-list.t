@@ -484,7 +484,9 @@ Check that ubus has expected datamodels available:
   X_PRPLWARE-COM_Agent.WPS
   X_PRPLWARE-COM_Controller
   X_PRPLWARE-COM_Controller.AgentConnectedEvent
+  X_PRPLWARE-COM_Controller.AgentConnectedEvent.AgentConnected
   X_PRPLWARE-COM_Controller.AgentDisconnectedEvent
+  X_PRPLWARE-COM_Controller.AgentDisconnectedEvent.AgentDisconnected
   X_PRPLWARE-COM_Controller.Configuration
   X_PRPLWARE-COM_Controller.Configuration.QoS
   X_PRPLWARE-COM_Controller.Configuration.TrafficSeparation
