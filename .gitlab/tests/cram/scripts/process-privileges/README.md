@@ -228,6 +228,8 @@ privileges, such as two shell scripts. Give each one its own `match`.
 - Reports name a matched rule by its id, e.g. `sh[sfp-eeprom-script]`, and a
   missing one as `missing required child process 'sfp-eeprom-script (name=sh,
   cmd=~...)'`.
+- `match` is only allowed under `child`. On a top-level process it is an error,
+  since such a process is always found by its name.
 - An entry with `match` takes the same fields as any other entry, and may nest
   `child` itself.
 
@@ -244,7 +246,11 @@ python3 verify.py rules.yml board-rules.yml
 - Maps merge key by key. Any other value replaces the earlier one.
 - A `null` value deletes the key from the merged rules. For example
   `sfp-oper-state-script: null` removes that rule for the board. A `null` for a
-  key that no earlier file defines adds an empty entry.
+  key that no earlier file defines is an error, since it is most likely a typo.
+- Each file is checked when it is read, on its own: `optional` and
+  `ignore_child` must be `true` or `false`, `id` and `caps` must be strings, and
+  `child` must be a map. An entry that is not a map is an error too. A partial
+  override, with only `caps` say, is still fine.
 - A key that is repeated within one file is an error. A YAML parser would
   otherwise keep only the last one.
 
@@ -399,6 +405,10 @@ later, or against modified rules, without touching the DUT again:
 python3 verify.py --collect list > processes.txt
 python3 verify.py --input processes.txt my-rules.yml
 ```
+
+`--collect` reads no rules and no profiles, so a rules file that is broken, or a
+profile that is missing, does not hide the process list. Only the verification
+loads them.
 
 `--lua <binary>` selects the lua interpreter on the DUT (default `lua`).
 

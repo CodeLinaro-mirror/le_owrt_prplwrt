@@ -125,30 +125,76 @@ def load_rules_file(path: str) -> dict:
         raise SystemExit(f"ERROR: {path}: {e}")
 
 
-def merge_rules(base: dict, override: dict) -> dict:
+def merge_rules(base: dict, override: dict, source: str, path: tuple[str, ...] = ()) -> dict:
     """Merge override into base, in place.
 
     Maps are merged key by key, any other value replaces the one in base. A null
-    value deletes the key from base, or adds an empty entry if base has none.
+    value deletes the key from base. Deleting a key that no earlier file defines is
+    an error, since it is most likely a typo.
     """
     for key, value in override.items():
+        # path holds process names only: "child" is a keyword, not a process name, so
+        # it is not added to the path.
+        where = " > ".join((*path, str(key))) if key != "child" else " > ".join(path) or "child"
         if value is None:
-            if key in base:
-                del base[key]
-            else:
-                base[key] = {}
+            if key not in base:
+                raise SystemExit(f"ERROR: {source}: {where}: null deletes a key that no earlier file defines")
+            del base[key]
         elif isinstance(value, dict) and isinstance(base.get(key), dict):
-            merge_rules(base[key], value)
+            child_path = path if key == "child" else (*path, str(key))
+            merge_rules(base[key], value, source, child_path)
         else:
             base[key] = value
     return base
 
 
+# The value type of each key of a rules entry. A null is allowed in any file, as it deletes the key.
+ENTRY_VALUE_TYPES = {
+    "id": str,
+    "caps": str,
+    "optional": bool,
+    "ignore_child": bool,
+    "child": dict,
+    "match": dict,
+}
+TYPE_DESCRIPTIONS = {str: "a string", bool: "true or false", dict: "a map"}
+
+
+def check_entry_types(entry, where: str, source: str, top_level: bool = False) -> None:
+    """Check one rules file on its own, so a partial override (only caps, say) is fine."""
+    if entry is None:
+        return
+    if not isinstance(entry, dict):
+        raise SystemExit(f"ERROR: {source}: {where}: expected a map")
+    if top_level and "match" in entry and entry["match"] is not None:
+        # Only children can be matched by fields. A top-level process is always found by name.
+        raise SystemExit(f"ERROR: {source}: {where}: 'match' is only allowed under 'child'")
+    for key, value in entry.items():
+        expected = ENTRY_VALUE_TYPES.get(key)
+        if expected is None or value is None:
+            continue  # unknown keys are not checked here, and null deletes the key
+        if not isinstance(value, expected):
+            raise SystemExit(
+                f"ERROR: {source}: {where}: '{key}' must be {TYPE_DESCRIPTIONS[expected]}, got {value!r}")
+        if key == "child":
+            for child_name, child in value.items():
+                check_entry_types(child, f"{where} > {child_name}", source)
+
+
+def check_rules_types(rules, source: str) -> None:
+    if not isinstance(rules, dict):
+        raise SystemExit(f"ERROR: {source}: expected a map of process names")
+    for name, entry in rules.items():
+        check_entry_types(entry, str(name), source, top_level=True)
+
+
 def parse_yaml_spec(yaml_paths: list[str]) -> dict[str, ProcessSpec]:
-    """Load the rules files in order, each one merged over the previous ones."""
+    """Load the rules files in order, each one checked and merged over the previous ones."""
     data: dict = {}
     for path in yaml_paths:
-        merge_rules(data, load_rules_file(path))
+        rules = load_rules_file(path)
+        check_rules_types(rules, path)
+        merge_rules(data, rules, path)
 
     def parse_entries(entries: dict | None) -> dict[str, ProcessSpec]:
         return {name: parse_entry(name, entry or {}) for name, entry in (entries or {}).items()}
@@ -653,15 +699,31 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def main():
-    args = parse_args()
-    rule_files = args.rules or [str(DEFAULT_RULES)]
+def collect_only(remote: Remote, collect_type: str) -> int:
+    """Print the collector's output as it is, without loading any rules."""
+    try:
+        result = remote.run(collect_type)
+    except CollectError as e:
+        raise SystemExit(str(e))
+    sys.stdout.write(result.stdout)
+    sys.stderr.write(result.stderr)
+    return result.returncode
 
-    decisions = [] if args.no_profiles else select_profiles(args.profiles_dir, os.environ)
+
+def rule_files_for(args: argparse.Namespace) -> list[str]:
+    """The rules files in merge order: the given ones (or rules.yml), then the profiles."""
+    files = args.rules or [str(DEFAULT_RULES)]
+    if args.no_profiles:
+        return files
+    decisions = select_profiles(args.profiles_dir, os.environ)
     if args.list_profiles:
         for decision in decisions:
             print(f"profile {decision.source}: {decision.reason}", file=sys.stderr)
-    files = rule_files + [str(d.path) for d in decisions if d.path]
+    return files + [str(d.path) for d in decisions if d.path]
+
+
+def main():
+    args = parse_args()
 
     def terminate(signum, frame):
         raise SystemExit(130)
@@ -669,19 +731,23 @@ def main():
     signal.signal(signal.SIGTERM, terminate)
     signal.signal(signal.SIGHUP, terminate)
 
+    if args.collect and not args.input:
+        # Collecting reads no rules, so a broken rules file or profile cannot hide the process list.
+        remote = Remote(args.lua)
+        try:
+            code = collect_only(remote, args.collect)
+        except KeyboardInterrupt:
+            code = 130
+        finally:
+            remote.cleanup()
+        sys.exit(code)
+
+    files = rule_files_for(args)
     if args.input:
         errors = verify_lines(parse_yaml_spec(files), args.input.read().splitlines())
     else:
         remote = Remote(args.lua)
         try:
-            if args.collect:
-                try:
-                    result = remote.run(args.collect)
-                except CollectError as e:
-                    raise SystemExit(str(e))
-                sys.stdout.write(result.stdout)
-                sys.stderr.write(result.stderr)
-                sys.exit(result.returncode)
             errors = verify_remote(parse_yaml_spec(files), remote, args.timeout, args.interval, args.verbose)
         except KeyboardInterrupt:
             sys.exit(130)
