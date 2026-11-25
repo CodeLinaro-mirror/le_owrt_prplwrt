@@ -1,7 +1,7 @@
-Check that REST API is working on non-protected parameters:
+Check that REST API properly restricts Device.DeviceInfo access without authentication:
 
-  $ curl --silent --max-time 3 "http://192.168.1.1/serviceElements/Device.DeviceInfo.FriendlyName"
-  [{"parameters":{"FriendlyName":"prplHGW"},"path":"Device.DeviceInfo."}] (no-eol)
+  $ curl -i --silent --max-time 3 "http://192.168.1.1/serviceElements/Device.DeviceInfo.FriendlyName" | grep Unauthorized
+  HTTP/1.1 401 Unauthorized\r (esc)
 
 Check we can get protected parameters:
 
