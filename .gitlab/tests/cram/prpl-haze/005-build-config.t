@@ -147,6 +147,7 @@ Assure expected build configuration (PCF-1413):
   # CONFIG_PACKAGE_iw is not set
   CONFIG_PACKAGE_iw-full=y
   CONFIG_PACKAGE_kmod-asn1-decoder=y
+  CONFIG_PACKAGE_kmod-crypto-acompress=y
   CONFIG_PACKAGE_kmod-crypto-md5=y
   CONFIG_PACKAGE_kmod-ebtables=y
   CONFIG_PACKAGE_kmod-ebtables-ipv4=y
@@ -171,7 +172,12 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-ipt-raw=y
   CONFIG_PACKAGE_kmod-ipt-raw6=y
   CONFIG_PACKAGE_kmod-iptunnel6=y
+  CONFIG_PACKAGE_kmod-lib-lz4=y
+  CONFIG_PACKAGE_kmod-lib-lz4-decompress=y
+  CONFIG_PACKAGE_kmod-lib-lzo=y
   CONFIG_PACKAGE_kmod-lib-textsearch=y
+  CONFIG_PACKAGE_kmod-lib-xxhash=y
+  CONFIG_PACKAGE_kmod-lib-zstd=y
   CONFIG_PACKAGE_kmod-loop=y
   CONFIG_PACKAGE_kmod-mcastd-core=y
   CONFIG_PACKAGE_kmod-nf-conncount=y
@@ -192,6 +198,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_kmod-sched-prio=y
   CONFIG_PACKAGE_kmod-slhc=y
   CONFIG_PACKAGE_kmod-veth=y
+  CONFIG_PACKAGE_kmod-zram=y
   CONFIG_PACKAGE_libacl=y
   CONFIG_PACKAGE_libamxa=y
   CONFIG_PACKAGE_libamxb=y
@@ -498,6 +505,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_PACKAGE_tr181-usb=y
   CONFIG_PACKAGE_tr181-usermanagement=y
   CONFIG_PACKAGE_tr181-xpon=y
+  CONFIG_PACKAGE_tr181-zram=y
   # CONFIG_PACKAGE_ucode-mod-uci is not set
   CONFIG_PACKAGE_umdns-prpl=y
   CONFIG_PACKAGE_unbound-daemon-prpl=y
@@ -688,6 +696,10 @@ Assure expected build configuration (PCF-1413):
   CONFIG_SAH_AMX_TR181_XPON=y
   CONFIG_SAH_AMX_TR181_XPON_MAX_ONUS=1
   CONFIG_SAH_AMX_TR181_XPON_ORDER=30
+  CONFIG_SAH_AMX_TR181_ZRAM=y
+  CONFIG_SAH_AMX_TR181_ZRAM_KMOD_LZ4=y
+  CONFIG_SAH_AMX_TR181_ZRAM_KMOD_ZSTD=y
+  CONFIG_SAH_AMX_TR181_ZRAM_ORDER=13
   CONFIG_SAH_AMX_USERMANAGEMENT=y
   CONFIG_SAH_AMX_USERMANAGEMENT_ORDER=15
   CONFIG_SAH_AMX_WAN_MANAGER=y
@@ -778,6 +790,7 @@ Assure expected build configuration (PCF-1413):
   CONFIG_VERSION_PRODUCT=""
   CONFIG_VERSION_REPO="https://downloads.openwrt.org/releases/23.05-SNAPSHOT"
   CONFIG_VERSION_SUPPORT_URL="https://jira.prplfoundation.org"
+  CONFIG_ZRAM_DEF_COMP_LZORLE=y
   CONFIG_shadow-all=y
   # CONFIG_VERSION_CODE_FILENAMES is not set
   # CONFIG_VERSION_FILENAMES is not set
