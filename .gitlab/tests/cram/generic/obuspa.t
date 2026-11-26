@@ -8,4 +8,6 @@ If test is running on a Valyrian, skip the test due to PCF-2669:
 
 Check that obuspa keeps the expected datamodel across restart (minus the platform specific WiFi Vendor extensions/cellular):
 
+The expected fixture documents the generic USP datamodel. Update it when a component intentionally adds or removes a USP registration.
+
   $ sh "${VERIFY_OBUSPA_DATAMODEL}" --mode generic --expected "${EXPECTED_OBUSPA_DATAMODEL}" --before-actual "${TESTDIR}/fixtures/obuspa.before-restart.actual" --before-diff "${TESTDIR}/fixtures/obuspa.before-restart.diff" --after-actual "${TESTDIR}/fixtures/obuspa.after-restart.actual" --after-diff "${TESTDIR}/fixtures/obuspa.after-restart.diff"
