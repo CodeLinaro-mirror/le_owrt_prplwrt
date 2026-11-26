@@ -146,6 +146,7 @@ prplWare-Smoke-Test-Suite Valyrian initramfs:
 .nokia_valyrian-certification-variables: &nokia_valyrian_certification_variables
   TEST_STALL_TIMEOUT: 2100  # need 18.833..30.833 min (1130..1850 s)
   CDROUTER_TEST_CONFIG: prplos-certification
+  PREBUILT_FIRMWARE_JOB_ID: "18244193940"
   DUT_INIT_SCRIPTS: |
     .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
     .gitlab/scripts/dut-init/cdrouter-dut-configure-cwmpd.sh
@@ -164,6 +165,7 @@ prplWare-Smoke-Test-Suite Valyrian initramfs:
 
 prpl-Certification-Mandatory-v1.4.0 Valyrian initramfs:
   <<: *nokia_valyrian_certification
+  needs: []
   timeout: 150 minutes  # CDRouter runner cap
   variables:
     <<: *nokia_valyrian_certification_variables
@@ -172,6 +174,7 @@ prpl-Certification-Mandatory-v1.4.0 Valyrian initramfs:
 
 prpl-Certification-Candidate-v1.4.0 Valyrian initramfs:
   <<: *nokia_valyrian_certification
+  needs: []
   timeout: 80 minutes  # need 61..78 min
   variables:
     <<: *nokia_valyrian_certification_variables

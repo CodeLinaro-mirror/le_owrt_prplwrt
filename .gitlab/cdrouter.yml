@@ -70,6 +70,16 @@
     - setup_step "Wait for the CDRouter interface on the device's local network side" 120 .gitlab/scripts/testbed-cdrouter.py wait_for_netif $CDROUTER_LAN_INTERFACE
     - setup_step "Wait for the CDRouter interface on the device's internet side" 120 .gitlab/scripts/testbed-cdrouter.py wait_for_netif $CDROUTER_WAN_INTERFACE
 
+    - |
+      if [ -n "${PREBUILT_FIRMWARE_JOB_ID:-}" ]; then
+        mkdir -p "$TFTP_IMAGE_PATH" || exit 1
+        for image in ${TFTP_IMAGE_FILENAMES:-$TFTP_IMAGE_FILENAME}; do
+          curl --fail --location --header "JOB-TOKEN: $CI_JOB_TOKEN" \
+            "$CI_API_V4_URL/projects/$CI_PROJECT_ID/jobs/$PREBUILT_FIRMWARE_JOB_ID/artifacts/$TFTP_IMAGE_PATH/$image" \
+            -o "$TFTP_IMAGE_PATH/$image" || exit 1
+        done
+      fi
+
     - !reference [.dut-lifecycle.setup, script]
 
     - !reference [.dut-lifecycle.boot, script]

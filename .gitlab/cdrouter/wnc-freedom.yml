@@ -145,6 +145,7 @@ prplWare-Smoke-Test-Suite Freedom eMMC:
 .wnc-freedom-certification-variables: &wnc_freedom_certification_variables
   TEST_STALL_TIMEOUT: 2100  # need 18.833..30.833 min (1130..1850 s)
   CDROUTER_TEST_CONFIG: prplos-certification
+  PREBUILT_FIRMWARE_JOB_ID: "18244193941"
   DUT_INIT_SCRIPTS: |
     .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
     .gitlab/scripts/dut-init/cdrouter-dut-configure-cwmpd.sh
@@ -163,6 +164,7 @@ prplWare-Smoke-Test-Suite Freedom eMMC:
 
 prpl-Certification-Mandatory-v1.4.0 Freedom eMMC:
   <<: *wnc_freedom_certification
+  needs: []
   timeout: 150 minutes  # CDRouter runner cap
   variables:
     <<: *wnc_freedom_certification_variables
@@ -171,6 +173,7 @@ prpl-Certification-Mandatory-v1.4.0 Freedom eMMC:
 
 prpl-Certification-Candidate-v1.4.0 Freedom eMMC:
   <<: *wnc_freedom_certification
+  needs: []
   timeout: 80 minutes  # need 61..78 min
   variables:
     <<: *wnc_freedom_certification_variables
