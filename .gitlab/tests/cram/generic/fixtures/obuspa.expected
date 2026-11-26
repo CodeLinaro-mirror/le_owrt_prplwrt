@@ -135,13 +135,13 @@ Device.BulkData.Profile.{i}.TimeReference                                       
 Device.BulkData.ProfileNumberOfEntries                                                               proto::tr181-bulkdata
 Device.BulkData.Protocols                                                                            proto::tr181-bulkdata
 Device.BulkData.Status                                                                               proto::tr181-bulkdata
+Device.CWMPManagementServer.
+Device.CWMPManagementServer.EnableCWMP                                                               proto::cwmp_plugin
 Device.CaptivePortal.                                                                                proto::tr181-captiveportal
 Device.CaptivePortal.AllowedList                                                                     proto::tr181-captiveportal
 Device.CaptivePortal.Enable                                                                          proto::tr181-captiveportal
 Device.CaptivePortal.Status                                                                          proto::tr181-captiveportal
 Device.CaptivePortal.URL                                                                             proto::tr181-captiveportal
-Device.CWMPManagementServer.
-Device.CWMPManagementServer.EnableCWMP                                                               proto::cwmp_plugin
 Device.DHCPv4.
 Device.DHCPv4.Client.{i}.                                                                            proto::tr181-dhcpv4client
 Device.DHCPv4.Client.{i}.Alias                                                                       proto::tr181-dhcpv4client
