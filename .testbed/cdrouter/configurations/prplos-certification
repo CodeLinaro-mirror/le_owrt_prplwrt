@@ -2603,6 +2603,8 @@ SECTION "CDRouter prpl Certification Expansion" {
 
     # testvar prplosCmdTimeout                 10
       testvar prplosLanInterfaceAlias          @CDROUTER_CONFIG_LAN_IFACE_ALIAS@
+      testvar prplWareVersion                  5.0.0
+      testvar prplVerifyAddedParametersUSP     yes
     # testvar prplosProtocol                   usp
 
 }

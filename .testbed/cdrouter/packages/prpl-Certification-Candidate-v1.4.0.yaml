@@ -1,5 +1,5 @@
-name: prplOS-Network-Test-Plan-Candidate-v1.2.0
-description: prplOS Network Functionality Test Plan v1.2.0 Candidate test set
+name: prpl-Certification-Candidate-v1.4.0
+description: 'prpl Certification Candidate test set: prplOS Network Functionality Test Plan v1.4.0 (prplOS 5.0 column, O and PE tests). The certification also covers the prpl HL-API Test Plan v1.4.0.'
 tests:
 - prplos.1.1.1
 - prplos.1.1.2
@@ -12,19 +12,15 @@ tests:
 - prplos.1.2.20
 - prplos.1.2.21
 - prplos.1.2.22
-- prplos.1.2.23
 - prplos.1.2.24
-- prplos.1.2.30
 - prplos.1.3.4
 - prplos.1.3.5
 - prplos.1.3.6
-- prplos.1.3.9
 - prplos.1.3.11
 - prplos.1.3.14
 - prplos.1.3.15
 - prplos.1.3.16
 - prplos.1.3.18
-- prplos.1.3.19
 - prplos.1.3.20
 - prplos.1.3.21
 - prplos.1.3.22
@@ -38,14 +34,14 @@ tests:
 - prplos.1.6.1
 - prplos.1.6.2
 - prplos.1.6.6
-- prplos.1.6.7
 - prplos.1.6.8
 - prplos.1.6.13
-- prplos.1.6.15
-- prplos.1.6.19
 - prplos.1.6.24
 - prplos.1.6.25
 - prplos.1.6.26
 - prplos.1.6.27
 - prplos.1.6.28
 - prplos.1.6.29
+- prplos.1.7.6
+- prplos.1.7.8
+- prplos.1.7.9
