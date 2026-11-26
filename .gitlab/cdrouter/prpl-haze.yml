@@ -93,22 +93,6 @@ CDRouter-IPv6-Top-100+mDNS Haze initramfs:
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
       .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
 
-prpl-Certification Haze initramfs:
-  timeout: 155 minutes  # need 142..151 min
-  <<: *prpl_haze_ipv6
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "schedule"'
-      when: never
-    - when: manual
-  variables:
-    TEST_STALL_TIMEOUT: 5400  # need 86.8..86.8 min (5208 s)
-    RUNNER_SCRIPT_TIMEOUT: 8700s  # need 142..151 min
-    CDROUTER_TEST_CONFIG: generic-ipv6
-    DUT_INIT_SCRIPTS: |
-      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
-      .gitlab/scripts/dut-init/cdrouter-dut-configure-cwmpd.sh
-      .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
-
 CDRouter-IPv6-Top-100+mDNS Haze VLAN WAN/LAN initramfs:
   <<: *prpl_haze_ipv6
   variables:
@@ -188,12 +172,12 @@ prplWare-Smoke-Test-Suite Haze initramfs:
   variables:
     <<: *prpl_haze_certification_variables
 
-prplOS-Network-Test-Plan-Mandatory-v1.2.0 Haze initramfs:
+prpl-Certification-Mandatory-v1.4.0 Haze initramfs:
   <<: *prpl_haze_certification
   variables:
     <<: *prpl_haze_certification_variables
 
-prplOS-Network-Test-Plan-Candidate-v1.2.0 Haze initramfs:
+prpl-Certification-Candidate-v1.4.0 Haze initramfs:
   <<: *prpl_haze_certification
   timeout: 80 minutes  # need 61..78 min
   variables:

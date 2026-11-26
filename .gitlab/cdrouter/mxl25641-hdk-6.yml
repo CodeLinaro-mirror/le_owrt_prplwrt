@@ -97,23 +97,6 @@ CDRouter-IPv6-Top-100+mDNS MXL25641-HDK-6 eMMC:
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
       .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
 
-prpl-Certification MXL25641-HDK-6 eMMC:
-  timeout: 155 minutes  # need 142..151 min
-  <<: *mxl25641_cdrouter_ipv6
-  allow_failure: true
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "schedule"'
-      when: never
-    - when: manual
-  variables:
-    TEST_STALL_TIMEOUT: 5400  # need 86.8..86.8 min (5208 s)
-    RUNNER_SCRIPT_TIMEOUT: 8700s  # need 142..151 min
-    CDROUTER_TEST_CONFIG: generic-ipv6
-    DUT_INIT_SCRIPTS: |
-      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
-      .gitlab/scripts/dut-init/cdrouter-dut-configure-cwmpd.sh
-      .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
-
 CDRouter-IPv6-Top-100+mDNS MXL25641-HDK-6 VLAN WAN/LAN eMMC:
   <<: *mxl25641_cdrouter_ipv6
   variables:
@@ -171,7 +154,6 @@ prplWare-Smoke-Test-Suite MXL25641-HDK-6 eMMC:
 
 .mxl25641-certification-variables: &mxl25641_certification_variables
   TEST_STALL_TIMEOUT: 2100  # need 18.833..30.833 min (1130..1850 s)
-  RUNNER_SCRIPT_TIMEOUT: 7200s  # need 125..129 min
   CDROUTER_TEST_CONFIG: prplos-certification
   DUT_INIT_SCRIPTS: |
     .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
@@ -181,7 +163,6 @@ prplWare-Smoke-Test-Suite MXL25641-HDK-6 eMMC:
 
 .mxl25641-certification: &mxl25641_certification
   <<: *mxl25641_cdrouter_ipv6
-  timeout: 130 minutes  # need 125..129 min
   stage: certification tests
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
@@ -190,10 +171,13 @@ prplWare-Smoke-Test-Suite MXL25641-HDK-6 eMMC:
   variables:
     <<: *mxl25641_certification_variables
 
-prplOS-Network-Test-Plan-Mandatory-v1.2.0 MXL25641-HDK-6 eMMC:
+prpl-Certification-Mandatory-v1.4.0 MXL25641-HDK-6 eMMC:
   <<: *mxl25641_certification
+  timeout: 150 minutes  # CDRouter runner cap
   variables:
     <<: *mxl25641_certification_variables
+    TEST_STALL_TIMEOUT: 3450  # 2870 s historical maximum + 20%, rounded up
+    RUNNER_SCRIPT_TIMEOUT: 8400s  # runner cap minus 600 s for after_script and upload
     # PROVISORY workaround for PPW-1837: obuspa's MQTTv5 client does not detect
     # a half-dead TCP socket after the WAN DHCP renewal in prplos.1.2.9, which
     # then cascades into 65 follow-up USP GET/SET timeouts. Switch this job to
@@ -202,7 +186,7 @@ prplOS-Network-Test-Plan-Mandatory-v1.2.0 MXL25641-HDK-6 eMMC:
     CDROUTER_CONFIG_USP_CONTROLLER_MTP: websocket
     CDROUTER_DUT_INIT_USP_MTP_SCRIPT: .gitlab/scripts/dut-init/cdrouter-dut-configure-usp-ws.sh
 
-prplOS-Network-Test-Plan-Candidate-v1.2.0 MXL25641-HDK-6 eMMC:
+prpl-Certification-Candidate-v1.4.0 MXL25641-HDK-6 eMMC:
   <<: *mxl25641_certification
   timeout: 80 minutes  # need 61..78 min
   variables:

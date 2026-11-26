@@ -86,23 +86,6 @@ CDRouter-IPv6-Top-100+mDNS Valyrian initramfs:
       .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
       .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
 
-prpl-Certification Valyrian initramfs:
-  timeout: 155 minutes  # need 142..151 min
-  <<: *nokia_valyrian_ipv6
-  allow_failure: true
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "schedule"'
-      when: never
-    - when: manual
-  variables:
-    TEST_STALL_TIMEOUT: 5400  # need 86.8..86.8 min (5208 s)
-    RUNNER_SCRIPT_TIMEOUT: 8700s  # need 142..151 min
-    CDROUTER_TEST_CONFIG: generic-ipv6
-    DUT_INIT_SCRIPTS: |
-      .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
-      .gitlab/scripts/dut-init/cdrouter-dut-configure-cwmpd.sh
-      .gitlab/scripts/dut-init/dut-change-fail-action-to-restart.sh
-
 CDRouter-IPv6-Top-100+mDNS Valyrian VLAN WAN/LAN initramfs:
   <<: *nokia_valyrian_ipv6
   variables:
@@ -162,7 +145,6 @@ prplWare-Smoke-Test-Suite Valyrian initramfs:
 
 .nokia_valyrian-certification-variables: &nokia_valyrian_certification_variables
   TEST_STALL_TIMEOUT: 2100  # need 18.833..30.833 min (1130..1850 s)
-  RUNNER_SCRIPT_TIMEOUT: 7200s  # need 125..129 min
   CDROUTER_TEST_CONFIG: prplos-certification
   DUT_INIT_SCRIPTS: |
     .gitlab/scripts/dut-init/cdrouter-dut-flush-dns-relay-cache.sh
@@ -173,7 +155,6 @@ prplWare-Smoke-Test-Suite Valyrian initramfs:
 .nokia-valyrian-certification: &nokia_valyrian_certification
   <<: *nokia_valyrian_ipv6
   stage: certification tests
-  timeout: 130 minutes  # need 125..129 min
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
       when: never
@@ -181,12 +162,15 @@ prplWare-Smoke-Test-Suite Valyrian initramfs:
   variables:
     <<: *nokia_valyrian_certification_variables
 
-prplOS-Network-Test-Plan-Mandatory-v1.2.0 Valyrian initramfs:
+prpl-Certification-Mandatory-v1.4.0 Valyrian initramfs:
   <<: *nokia_valyrian_certification
+  timeout: 150 minutes  # CDRouter runner cap
   variables:
     <<: *nokia_valyrian_certification_variables
+    TEST_STALL_TIMEOUT: 3450  # 2870 s historical maximum + 20%, rounded up
+    RUNNER_SCRIPT_TIMEOUT: 8400s  # runner cap minus 600 s for after_script and upload
 
-prplOS-Network-Test-Plan-Candidate-v1.2.0 Valyrian initramfs:
+prpl-Certification-Candidate-v1.4.0 Valyrian initramfs:
   <<: *nokia_valyrian_certification
   timeout: 80 minutes  # need 61..78 min
   variables:
