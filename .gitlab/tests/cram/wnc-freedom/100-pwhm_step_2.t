@@ -108,15 +108,9 @@ Check and save inodes (FEAT-389):
   $ ilist_new=$(read_hostapd_inodes)
 
 One link was removed, so there should be one less socket:
-Provisory: The output also includes all the currently enabled non-TX BSS related 6GHz links (*_link2).
-The non-TX bss links can't be dynamically reconfigured due to a limitation in hostapd requiring the links to be re-added. (PCF-2595).
 
   $ compare_list "$ilist_old" "$ilist_new"
-  R: .* /var/run/hostapd/wlan2.1_link2 (re)
-  R: .* /var/run/hostapd/wlan2.2_link2 (re)
   R: .* /var/run/hostapd/wlan2.3_link2 (re)
-  A: .* /var/run/hostapd/wlan2.1_link2 (re)
-  A: .* /var/run/hostapd/wlan2.2_link2 (re)
 
   $ ilist_old=$ilist_new
 
@@ -252,13 +246,9 @@ Check and save inodes (FEAT-389):
   $ ilist_new=$(read_hostapd_inodes)
 
 One link was removed, so there should be one less socket:
-Provisory: The output also includes all the currently enabled non-TX BSS related 6GHz links (*_link2).
-The non-TX bss links can't be dynamically reconfigured due to a limitation in hostapd requiring the links to be re-added (PCF-2595).
 
   $ compare_list "$ilist_old" "$ilist_new"
-  R: .* /var/run/hostapd/wlan2.1_link2 (re)
   R: .* /var/run/hostapd/wlan2.2_link2 (re)
-  A: .* /var/run/hostapd/wlan2.1_link2 (re)
 
   $ ilist_old=$ilist_new
 
