@@ -5439,7 +5439,7 @@ Device.WiFi.EndPoint.{i}.                                                       
 Device.WiFi.EndPoint.{i}.Alias                                                                       proto::prplmesh-dm-mapper
 Device.WiFi.EndPoint.{i}.AssocStats.                                                                 proto::prplmesh-dm-mapper
 Device.WiFi.EndPoint.{i}.Enable                                                                      proto::prplmesh-dm-mapper
-Device.WiFi.EndPoint.{i}.PeerAffiliatedMacAddress                                                    proto::prplmesh-dm-mapper
+Device.WiFi.EndPoint.{i}.PeerAffiliatedMACAddress                                                    proto::prplmesh-dm-mapper
 Device.WiFi.EndPoint.{i}.PeerMultiAPProfile                                                          proto::prplmesh-dm-mapper
 Device.WiFi.EndPoint.{i}.Profile.{i}.                                                                proto::prplmesh-dm-mapper
 Device.WiFi.EndPoint.{i}.Profile.{i}.Alias                                                           proto::prplmesh-dm-mapper
