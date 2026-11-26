@@ -472,6 +472,27 @@ ls_wpa_sockets () {
   R "ls /var/run/wpa_supplicant/ 2>/dev/null" | grep wlan | sort
 }
 
+# Wait until the wpa_supplicant ctrl sockets match the expected list, or timeout
+# In : expected interface names (none = no socket), timeout in seconds via WPA_SOCKETS_TIMEOUT (default 10)
+# Out : sorted list of wpa_supplicant socket names
+wait_wpa_sockets() {
+  local expected=$(printf '%s\n' "$@" | sed '/^$/d' | sort | tr '\n' ' ')
+  local timeout="${WPA_SOCKETS_TIMEOUT:-10}"
+
+  # poll on the board in a single remote call to avoid one ssh round trip per iteration
+  R "t0=\$(cut -d' ' -f1 /proc/uptime)
+    end=\$((\${t0%.*} + $timeout + 1))
+    while :; do
+      sleep 0.5 2>/dev/null || sleep 1
+      cur=\$(ls /var/run/wpa_supplicant/ 2>/dev/null | grep wlan | sort | tr '\n' ' ')
+      [ \"\$cur\" = '$expected' ] && break
+      now=\$(cut -d. -f1 /proc/uptime)
+      [ \$now -ge \$end ] && break
+    done
+    for s in \$cur; do echo \$s; done
+    logger -t cram \"wait_wpa_sockets: '\$(echo \$cur)' after \$(awk -v t0=\$t0 '{print \$1 - t0}' /proc/uptime)s\""
+}
+
 # Print sorted list of wpa_supplicant socket inodes and paths
 # In : no input
 # Out : list of socket inodes and paths

@@ -20,7 +20,10 @@ Enable all EndPoints
   Device.WiFi.EndPoint.2.Enable=1
   Device.WiFi.EndPoint.3.Enable=1
 
-  $ sleep 2
+  $ wait_wpa_sockets wlan0 wlan1 wlan2
+  wlan0
+  wlan1
+  wlan2
 
 Check one wpa_supplicant process is running:
 
@@ -50,13 +53,6 @@ Check one wpa_supplicant process is running:
   -c
   /tmp/wlan2_wpa_supplicant.conf
 
-Check wpaCtrl sockets in /var/run/wpa_supplicant:
-
-  $ ls_wpa_sockets
-  wlan0
-  wlan1
-  wlan2
-
 Disable all EndPoints:
 
   $ R logger -t cram "Disable all EndPoints"
@@ -66,14 +62,12 @@ Disable all EndPoints:
   Device.WiFi.EndPoint.2.Enable=0
   Device.WiFi.EndPoint.3.Enable=0
 
-  $ sleep 2
+  $ wait_wpa_sockets
 
 Check wpa_supplicant is stopped:
 
   $ R "pgrep -f 'wpa_supplicant'"
   [1]
-
-  $ ls_wpa_sockets
 
 #####################################
 #        Test Ep activation         #
@@ -86,7 +80,8 @@ Enable 2.4GHz endpoint:
   $ wifi_dm "EndPoint.1.Enable=1"
   Device.WiFi.EndPoint.1.Enable=1
 
-  $ sleep 2
+  $ wait_wpa_sockets wlan2
+  wlan2
 
 Check one wpa_supplicant process is running:
   $ R "pgrep wpa_supplicant"
@@ -108,9 +103,6 @@ Check one wpa_supplicant process is running:
 
 Check one wpaCtrl socket (wlan2) in /var/run/wpa_supplicant:
 
-  $ ls_wpa_sockets
-  wlan2
-
   $ ilist_wpa_old=
   $ ilist_wpa_new=$(read_wpa_inodes)
   $ compare_list "$ilist_wpa_old" "$ilist_wpa_new"
@@ -125,16 +117,14 @@ Enable 5GHz endpoint:
   $ wifi_dm "EndPoint.2.Enable=1"
   Device.WiFi.EndPoint.2.Enable=1
 
-  $ sleep 2
+  $ wait_wpa_sockets wlan1 wlan2
+  wlan1
+  wlan2
 
 Check same wpa_supplicant pid, two wpaCtrl sockets (wlan1 and wlan2):
 
   $ if [ "$(R pgrep -f 'wpa_supplicant')" = "$wpa_pid" ]; then echo "true"; else echo "wpa_supplicant restarted !"; fi
   true
-
-  $ ls_wpa_sockets
-  wlan1
-  wlan2
 
   $ ilist_wpa_new=$(read_wpa_inodes)
   $ compare_list "$ilist_wpa_old" "$ilist_wpa_new"
@@ -149,17 +139,15 @@ Enable 6GHz endpoint:
   $ wifi_dm "EndPoint.3.Enable=1"
   Device.WiFi.EndPoint.3.Enable=1
 
-  $ sleep 2
+  $ wait_wpa_sockets wlan0 wlan1 wlan2
+  wlan0
+  wlan1
+  wlan2
 
 Check same wpa_supplicant pid, three wpaCtrl sockets (wlan0, wlan1 and wlan2):
 
   $ if [ "$(R pgrep -f 'wpa_supplicant')" = "$wpa_pid" ]; then echo "true"; else echo "wpa_supplicant restarted !"; fi
   true
-
-  $ ls_wpa_sockets
-  wlan0
-  wlan1
-  wlan2
 
   $ ilist_wpa_new=$(read_wpa_inodes)
   $ compare_list "$ilist_wpa_old" "$ilist_wpa_new"
@@ -178,16 +166,14 @@ Disable 2.4GHz endpoint:
   $ wifi_dm "EndPoint.1.Enable=0"
   Device.WiFi.EndPoint.1.Enable=0
 
-  $ sleep 2
+  $ wait_wpa_sockets wlan0 wlan1
+  wlan0
+  wlan1
 
 Check same wpa_supplicant pid, two wpaCtrl sockets (wlan0 and wlan1):
 
   $ if [ "$(R pgrep -f 'wpa_supplicant')" = "$wpa_pid" ]; then echo "true"; else echo "wpa_supplicant restarted !"; fi
   true
-
-  $ ls_wpa_sockets
-  wlan0
-  wlan1
 
   $ ilist_wpa_new=$(read_wpa_inodes)
   $ compare_list "$ilist_wpa_old" "$ilist_wpa_new"
@@ -202,15 +188,13 @@ Disable 5GHz endpoint:
   $ wifi_dm "EndPoint.2.Enable=0"
   Device.WiFi.EndPoint.2.Enable=0
 
-  $ sleep 2
+  $ wait_wpa_sockets wlan0
+  wlan0
 
 Check same wpa_supplicant pid, one wpaCtrl sockets (wlan0):
 
   $ if [ "$(R pgrep -f 'wpa_supplicant')" = "$wpa_pid" ]; then echo "true"; else echo "wpa_supplicant restarted !"; fi
   true
-
-  $ ls_wpa_sockets
-  wlan0
 
   $ ilist_wpa_new=$(read_wpa_inodes)
   $ compare_list "$ilist_wpa_old" "$ilist_wpa_new"
@@ -225,14 +209,11 @@ Disable 6GHz endpoint:
   $ wifi_dm "EndPoint.3.Enable=0"
   Device.WiFi.EndPoint.3.Enable=0
 
-  $ sleep 2
+  $ wait_wpa_sockets
 
 Check wpa_supplicant is stopped
   $ R "pgrep -f 'wpa_supplicant'"
   [1]
-
-Check no wpaCtrl socket in /var/run/wpa_supplicant
-  $ ls_wpa_sockets
 
   $ ilist_wpa_new=$(read_wpa_inodes)
   $ compare_list "$ilist_wpa_old" "$ilist_wpa_new"
