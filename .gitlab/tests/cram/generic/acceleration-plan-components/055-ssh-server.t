@@ -82,12 +82,20 @@ Add public key:
   {}
   {"amxd-error-code":0}
 
+Git does not keep track of read and write permissions, and the key in the checkout
+may be accessible by other users. ssh refuses to use such a key, and the chmod on
+the checkout file may not be allowed. So copy the identity key to a private
+temporary file and set its permissions on the copy.
+
+  $ IDENTITY=$(mktemp)
+  $ install -m 600 ${CI_PROJECT_DIR}/.gitlab/certs/ssh-server/ed25519-ci "${IDENTITY}"
+
 Start two client connections using public key authentication:
 
-  $ ssh -i ${CI_PROJECT_DIR}/.gitlab/certs/ssh-server/ed25519-ci -o "UserKnownHostsFile=/dev/null" -o BatchMode=yes -o StrictHostKeyChecking=no -p 1922 root@$TARGET_LAN_IP 'sleep 5' > /dev/null 2>&1 &
+  $ ssh -i "$IDENTITY" -o "UserKnownHostsFile=/dev/null" -o BatchMode=yes -o StrictHostKeyChecking=no -p 1922 root@$TARGET_LAN_IP 'sleep 5' > /dev/null 2>&1 &
   $ sleep 1
 
-  $ ssh -i ${CI_PROJECT_DIR}/.gitlab/certs/ssh-server/ed25519-ci -o "UserKnownHostsFile=/dev/null" -o BatchMode=yes -o StrictHostKeyChecking=no -p 1922 root@$TARGET_LAN_IP 'sleep 5' > /dev/null 2>&1 &
+  $ ssh -i "$IDENTITY" -o "UserKnownHostsFile=/dev/null" -o BatchMode=yes -o StrictHostKeyChecking=no -p 1922 root@$TARGET_LAN_IP 'sleep 5' > /dev/null 2>&1 &
   $ sleep 1
 
 Every other login in this test disables host key checking, so none of them can
@@ -96,9 +104,9 @@ strict checking: this is the assertion an unwanted host key change has to break.
 
   $ KNOWNHOSTS=$(mktemp)
   $ echo "[$TARGET_LAN_IP]:1922 ssh-ed25519 $DUTKEY" > "$KNOWNHOSTS"
-  $ chmod go-rwx ${CI_PROJECT_DIR}/.gitlab/certs/ssh-server/ed25519-ci
-  $ ssh -i ${CI_PROJECT_DIR}/.gitlab/certs/ssh-server/ed25519-ci -o BatchMode=yes -o StrictHostKeyChecking=yes -o "GlobalKnownHostsFile=/dev/null" -o "UserKnownHostsFile=$KNOWNHOSTS" -p 1922 root@$TARGET_LAN_IP 'exit 0'
+  $ ssh -i "$IDENTITY" -o BatchMode=yes -o StrictHostKeyChecking=yes -o "GlobalKnownHostsFile=/dev/null" -o "UserKnownHostsFile=$KNOWNHOSTS" -p 1922 root@$TARGET_LAN_IP 'exit 0'
   $ rm -f "$KNOWNHOSTS"
+  $ rm -f "$IDENTITY"
 
 Remove the testing SSH server:
 
